@@ -87,7 +87,8 @@ present. Cite a decision by its title, "in `design-decisions.md`", not by line o
   the code when the owner says commit.
 - **Code** is anything that does something: source, config, build files. A comment or docstring the owner asked for
   counts as docs.
-- **One commit until it is pushed.** Amend into the last commit unless it is pushed or is the owner's. Check
+- **One commit per batch.** Later changes in the same batch are amended into its commit. Amending anything else,
+  such as an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended. Check
   `git status -sb` before every amend.
 - **The message is the record:** what changed, why, and what was run to check it, or that nothing was run.
 - **Cite an unmerged commit by its title,** since rebase merges change hashes.
