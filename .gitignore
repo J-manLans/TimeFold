@@ -1,0 +1,17 @@
+# Generated output: runs, logs, diagrams
+output/
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Environment and secrets
+.env
+.env.*
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Language-specific entries go below once the language is chosen.
