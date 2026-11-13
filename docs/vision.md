@@ -1,7 +1,8 @@
 # Vision
 
-Where the project is heading, written from a talk with the owner and changed rarely. Nothing here about what to build
-next or how far the project has come; that is the roadmap. Read before giving a design opinion.
+The project's north star: where it is heading, settled with the owner once the direction is clear, and changed
+rarely. No state: nothing about how things are today, what to build next or how far the project has come (that is
+the roadmap), and no details of how it works (those are decisions). Read before giving a design opinion.
 
 ## Who it is for
 
