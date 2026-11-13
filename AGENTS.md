@@ -111,11 +111,12 @@ present. Cite a decision by its title, "in `design-decisions.md`", not by line o
 - **Mention what is surprising; do not fix it unasked.**
 - **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no
   "until phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
-- **The docs sweep:** when the owner signals the session is ending, offer it once. Check, in order: the roadmap and
-  open questions against what was done, and each **Built by** (one naming a finished phase is stale); decisions from
-  the session missing from their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How
-  docs grow"; the ideas (built ones move to decisions, dropped ones go). Say what changed, and flag borderline calls
-  (decision or still open, idea or problem) instead of guessing.
+- **The docs sweep:** when the owner signals the session is ending ("see you tomorrow", "I need to think about this",
+  a question about where things stand), offer it once. Check, in order: the roadmap and open questions against what
+  was done, and each **Built by** (one naming a finished phase is stale); decisions from the session missing from
+  their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas (built
+  ones move to decisions, dropped ones go). Say what changed, and flag borderline calls (decision or still open, idea
+  or problem) instead of guessing.
 - **Add a rule only when its absence has cost something.**
 
 ## Commands, and what each kind of change runs
@@ -128,7 +129,10 @@ Rows are added when the project has tests, type checks, lint or probes.
 
 ## Verify before asserting
 
-- None yet. Each mistake that once cost a wrong conclusion gets a one-line warning here.
+Each mistake that once cost a wrong conclusion gets a one-line warning here.
+
+- **A changed decision touches every file that restates it.** After one, search the docs for its old words before
+  calling the batch done.
 
 ## Traps
 
