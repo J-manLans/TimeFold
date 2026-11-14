@@ -47,7 +47,8 @@ main screen sketch:
   the coloured drape, under the arrow. While the menu is open, the light leaves the buttons under its frost, which it
   would seem to shine through, and lies only on what is in the menu. The small text buttons in the menu ("Ändra", "OK",
   "Ny profil", "Använd default", "Arkivera") stay plain, without the light: it marks the main controls and the discs,
-  the theme disc among them. A disabled button reacts to nothing: no light, no hover, no press.
+  the theme disc among them. A disabled button reacts to nothing: no light, no hover, no press; and every unavailable
+  button fades by the same amount (to 40%), so "Lägg till paus" and the undo match side by side.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 - In code, these values are named variables in one place, so the look is tuned there.

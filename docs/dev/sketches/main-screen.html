@@ -49,6 +49,7 @@
   --undo-drape: 0.65;   /* how strong the coloured drape is when it appears (translucent, so the disc's sheen shows); it fades to nothing */
   --glow-r: 70px;      /* the pointer light on the buttons: its reach */
   --glow-disc: 0.7;    /* the light on the profile disc, against the faces' (0 none, 1 as strong); other discs get it in full */
+  --disabled-o: 0.4;    /* how faded an unavailable button is: "Lägg till paus", the undo */
   --speed-ui: 0.3s;     /* every transition in the interface: hover, press, fades, the menu, tabs, rows, theme */
   --speed-press: var(--speed-ui);  --speed-fade: var(--speed-ui);  --speed-menu: var(--speed-ui);
   --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
@@ -211,7 +212,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* The undo: a disc like the profile's, faded when there is nothing to undo; a ring drains over its minute */
 .undo-btn { --dot-size: 26px; --dent: 4px; position: relative; width: 36px; height: 36px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; color: var(--c-btn-fg); border-radius: 50%; }
 .undo-btn { transition: opacity var(--undo-dim) ease; }   /* waking and dimming ease instead of snapping */
-.undo-btn:disabled { opacity: 0.35; cursor: default; }
+.undo-btn:disabled { opacity: var(--disabled-o); cursor: default; }
 /* While the undo is available, a drape in the profile's over colour lies over the disc only (not the dent around it),
    starting strong and fading evenly to nothing over --undo-time; the arrow stays on top of it. */
 .undo-btn .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; z-index: 2; pointer-events: none;
@@ -221,7 +222,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .undo-btn .undo-icon { position: relative; z-index: 3; }
 @media (prefers-reduced-motion: reduce) { .undo-btn.live .dot::after { animation: none; opacity: var(--undo-drape); } }
 .pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
-.pause:disabled { opacity: 0.45; cursor: default; filter: none; transform: none; }
+.pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
 .pause-field input:focus, .pause-field input:focus-visible { outline: var(--focus-w) solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
 .pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: 12.5px; text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
@@ -467,12 +468,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         </div>
         <div class="status" id="status"></div>
         <div class="pause-area">
-          <button class="pause plastic" id="pauseBtn" type="button" disabled>Lägg till paus</button>
+          <button class="pause plastic" id="pauseBtn" type="button" disabled autocomplete="off">Lägg till paus</button>
           <form class="pause-field" id="pauseField" hidden>
             <input id="pauseInput" type="text" inputmode="numeric" placeholder="00:00" aria-label="Pausens längd, Enter lägger till, Esc avbryter" autocomplete="off">
             <span class="reading" id="pauseReading"></span>
           </form>
-          <button class="undo-btn" id="undoBtn" type="button" disabled aria-label="Ångra senaste klicket">
+          <button class="undo-btn" id="undoBtn" type="button" disabled autocomplete="off" aria-label="Ångra senaste klicket">
             <span class="dot"><svg class="undo-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></span>
           </button>
         </div>
@@ -820,11 +821,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return { running: running ? { profile: running.profile, start: running.start, brk: running.brk || 0 } : null,
              n: entries.length, balance: balance, used: used, pay: pay };
   }
-  function undoMs() { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--undo-time")) * 1000 || 30000; }
+  function undoMs() {
+    var v = getComputedStyle(document.documentElement).getPropertyValue("--undo-time").trim();
+    var n = parseFloat(v); if (!n) return 15000;
+    return /ms$/.test(v) ? n : n * 1000;   // "15s" and "15000ms" both work
+  }
   function offerUndo(label, snap) {
     if (undo) { clearTimeout(undo.timer); cancelAnimationFrame(undo.raf); }
     var b = $("undoBtn");
-    undo = { label: label, snap: snap, timer: setTimeout(clearUndo, undoMs()), raf: 0 };
+    // One clock: the deadline. The fade's end and a backup timer both end the undo, and a press checks the deadline,
+    // since a browser may delay timers in a hidden window.
+    var ms = undoMs();
+    undo = { label: label, snap: snap, deadline: performance.now() + ms, timer: setTimeout(clearUndo, ms + 50), raf: 0 };
     b.disabled = false; b.style.setProperty("--undo-fill", profColour(onScreen));
     b.classList.remove("live"); void b.offsetWidth; b.classList.add("live");   // restart the shrink
   }
@@ -833,8 +841,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var b = $("undoBtn"); b.disabled = true; b.classList.remove("live");
     if (tipFor === "undo") { tipPt = null; refreshTip(); }
   }
+  // A reload may bring the button back as the browser left it; the page sets its own state from the start.
+  $("undoBtn").disabled = true;
+  function undoExpired() { return !undo || performance.now() >= undo.deadline; }
+  $("undoBtn").addEventListener("animationend", function (e) { if (e.animationName === "undo-fade") clearUndo(); });
+  document.addEventListener("visibilitychange", function () { if (undo && undoExpired()) clearUndo(); });
   $("undoBtn").addEventListener("click", function () {
-    if (!undo) return;
+    if (undoExpired()) { clearUndo(); return; }
     var s = undo.snap;
     running = s.running;
     while (entries.length > s.n) entries.shift();
