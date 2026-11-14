@@ -83,7 +83,8 @@ wheel: it made the wheel the leader for no reason. A fixed owner, such as the ba
 from the wheel's settings, it would replace the colours being looked at. A warning for a large minus: the owner does not
 want one. One fixed width cut off at its end: past it, the length means nothing. A scale always fitted to the balance:
 the bar would always look full.
-**Revisit if:** a third figure gets colours of its own, and unify has to say which it joins.
+**Revisit if:** a third figure gets colours of its own, and unify has to say which it joins; or the scale changes
+feel jumpy in daily use (a compressed far end, linear near 0, was the alternative).
 **Cases:**
 - Balance 0: the dimmed marker sits centred on the 0 line.
 - Balance −3:00: a bar to the left in the base colour.
