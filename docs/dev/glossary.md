@@ -59,9 +59,6 @@ entries dated the first day.
 **Over colour.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, the 90%
 warning; suggested from the base colour, or picked.
 
-**Part.** A piece of the app named on the roadmap before the phases are agreed, such as Clocking or Handover.
-At the end of Phase 0 the parts are ordered into phases.
-
 **Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
 
 **Pay estimate.** A rough figure of the month's pay: salaries plus hours times rates, for the owner only; never in the

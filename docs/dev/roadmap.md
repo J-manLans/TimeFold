@@ -6,8 +6,8 @@ next, not the branch name.
 
 ## Next
 
-The owner reads this roadmap, written by the agent from Phase 0, and agrees it or says what to change. That ends
-Phase 0; Phase 1 starts with its **Settle first**.
+Phase 1: Clocking, starting with its **Settle first**: the project's layout and the code map, and the design tokens
+taken over from the main screen sketch.
 
 ## State
 
@@ -16,14 +16,6 @@ Phase 0; Phase 1 starts with its **Settle first**.
 | Part | State | Has it run |
 |---|---|---|
 | _none yet_ | | |
-
-## Phase 0: Questioning
-
-**Produces:** the owner's answers, written where they belong, the settled vision, and the roadmap.
-
-1. The owner agrees this roadmap.
-
-**Done when:** the owner agrees the roadmap.
 
 ## The phases
 
@@ -41,9 +33,17 @@ rules"), and tests animation on Linux early ("Tauri, desktop on Windows and Linu
 2. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
 3. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
 4. The main screen's control side: the button block, the warning label, the status line, the prune line's room.
-5. The figures side with the balance bar and the five recent entries; the theme setting.
-6. The first start (start fresh: the first profile's name and the opening balance) and the question for a running
-   entry from an earlier day.
+5. The figures side with the balance bar and the five recent entries; the theme button; the colour rule, which the
+   bar needs for its over colour.
+6. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on
+   a welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
+   Phase 5. "Starta nytt" then asks, one screen at a time:
+   1. the first profile's name: the profile with the balance, such as "Vaktmästare";
+   2. its colours: a base colour (soft orange offered), with the over colour suggested from it;
+   3. the balance brought over from the Excel file, as it stood the evening before the first day in the app.
+   Then the main screen opens with that balance on the bar. Phase 4 adds a step for the ceiling hours already used
+   this month, and Phase 5 makes the import choice work.
+7. The question for a running entry from an earlier day.
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
 matches the sketch in both themes on Windows and Linux.
 
@@ -74,7 +74,7 @@ balance follows.
 2. The ceiling, its carry into the next month, and the ceiling wheel in the profile on screen's colours.
 3. The menu: its fold-out, the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that
    change from a date; the theme button.
-4. The pay estimate; the opening ceiling hours at a fresh start; the first profile's colours asked at the first start.
+4. The pay estimate; the onboarding's step for the ceiling hours already used this month.
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
 every setting changes from a date as its cases say.
 
@@ -83,7 +83,7 @@ every setting changes from a date as its cases say.
 **Produces:** the record moving between the work and home machines.
 **Settle first:** nothing open.
 1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
-2. Import as a first start.
+2. The onboarding's "Importera från min andra dator": it reads a handover file and asks nothing more.
 **Done when:** a week worked on both machines, handed over each day, matches on both.
 
 ### Phase 6: Reports
