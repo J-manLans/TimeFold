@@ -67,6 +67,9 @@ At the end of Phase 0 the parts are ordered into phases.
 **Profile.** A label on an entry for the kind of work it is, such as janitor work or the development group. Profiles
 are isolated; only one with expected hours has a balance.
 
+**Prune.** Removing the record's oldest whole months, past three years, on the owner's yes; the balance and ceiling
+hours at the cut become opening figures.
+
 **Report.** A period's record, exported from the app for the owner to send to their boss.
 
 **Unify colours.** One switch, shown in both the ceiling wheel's and the balance bar's colour settings, that gives

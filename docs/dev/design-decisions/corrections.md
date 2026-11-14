@@ -1,25 +1,26 @@
 # Corrections
 
-How the record is put right afterwards, and how an entry remembers it. Each decision follows the template in `README.md`, and is cited by its title.
+How the record is put right afterwards, and how an entry remembers it. Each decision follows the template in
+`README.md`, and is cited by its title.
 
 ## Editing an entry on its line (2026-11-14)
 
 **Built by:** Corrections.
 
-**Decision:** an entry is chosen from the list under the bars (earlier days from the history) and opens as a line
-centred on the entry, with a handle at its start and its end and a little time either side. The view zooms out as a
-handle is dragged, so the whole entry, as it is being changed, always fits with some padding at both sides. The zoom
-grows the view only on the side being dragged: the other end stays where it is on screen, and the line does not
-re-centre; the only hard stops are another entry, of any profile, shown as blocked time when in view, and midnight.
-Moving one handle outward adds time at that end, and inward takes it away. Moving both outward adds at both ends;
-moving both the same way moves the entry, its length unchanged. Moving both inward does one of two things, and a click
-on the line switches between them: by default it cuts a gap, removing the middle and splitting the entry in two, the
-gap being a break; or it shortens the entry, removing both ends. Colour shows the change: green for time added, red
+**Decision:** an entry is chosen from the list under the balance bar and the ceiling wheel (earlier days from the
+history) and opens as a line centred on the entry, with a handle at its start and its end and a little time either side.
+The view zooms out as a handle is dragged, so the whole entry, as it is being changed, always fits with some padding at
+both sides. The zoom grows the view only on the side being dragged: the other end stays where it is on screen, and the
+line does not re-centre; the only hard stops are another entry, of any profile, shown as blocked time when in view, and
+midnight. Moving one handle outward adds time at that end, and inward takes it away. Moving both outward adds at both
+ends; moving both the same way moves the entry, its length unchanged. Moving both inward does one of two things, and a
+click on the line switches between them: by default it cuts a gap, removing the middle and splitting the entry in two,
+the gap being a break; or it shortens the entry, removing both ends. Colour shows the change: green for time added, red
 for time taken away; a gap shows a red middle, a shortening red ends, and green never appears there. No handle can be
-dragged into another entry, past now, or across midnight: midnight is a wall like a neighbour. An entry across
-midnight opens on the day chosen, showing its part of that day, and its other end is edited from the other day; an
-edit that would cross midnight is two edits, one per day. A running entry's end is now and does not move. The colours
-are a preview: nothing changes until the owner confirms, and a cancel leaves the entry as it was.
+dragged into another entry, past now, or across midnight: midnight is a wall like a neighbour. An entry across midnight
+opens on the day chosen, showing its part of that day, and its other end is edited from the other day; an edit that
+would cross midnight is two edits, one per day. A running entry's end is now and does not move. The colours are a
+preview: nothing changes until the owner confirms, and a cancel leaves the entry as it was.
 **Why:** the owner adds breaks during the day; one found after stop, a late start or an early end are all fixed in the
 same place, seeing the whole entry and the time around it. A handle that cannot reach a clash needs no error message.
 Centring on the entry keeps the view small when the nearest neighbour is days away; stopping at midnight matches how

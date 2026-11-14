@@ -7,12 +7,12 @@ the template in `README.md`, and is cited by its title.
 
 **Built by:** Clocking for the button; Profiles for the profile list.
 
-**Decision:** the main control is one button: "Start work", which becomes "Stop work" while an entry runs. Beside it
-is the list of profiles. Picking a profile changes only which profile is on screen; a running entry goes on. Pressing
-start on the profile on screen ends the running entry, if any, at that moment and starts one on that profile, so at
-most one entry runs at a time. While another profile's entry runs, the button says what it will do (such as "Start B
-(stops A)"), and the running profile is shown. A forgotten switch back is corrected by hand. The totals and bars
-update when an entry stops; nothing ticks while it runs, and the update at stop is the visual effect.
+**Decision:** the main control is one button: "Start work", which becomes "Stop work" while an entry runs. Beside it is
+the list of profiles. Picking a profile changes only which profile is on screen; a running entry goes on. Pressing start
+on the profile on screen ends the running entry, if any, at that moment and starts one on that profile, so at most one
+entry runs at a time. While another profile's entry runs, the button says what it will do (such as "Start B (stops A)"),
+and the running profile is shown. A forgotten switch back is corrected by hand. The totals, the balance bar and the
+ceiling wheel update when an entry stops; nothing ticks while it runs, and the update at stop is the visual effect.
 **Why:** one running entry is the simplest record, and it is how common time trackers work. A break needs no control
 of its own ("Time away is a gap or an added break").
 **Rejected:** four buttons per profile (start day, end day, start break, end break), with a profile left on a break
@@ -23,7 +23,7 @@ prefers the whole update at stop.
 - A running, B picked: A still runs, and nothing is recorded.
 - A running, start pressed on B at 13:00: A ends at 13:00, B starts at 13:00.
 - A on screen and running, stop pressed: A ends; nothing runs.
-- While an entry runs, the bars do not change; at stop they include it.
+- While an entry runs, the balance bar and the ceiling wheel do not change; at stop they include it.
 
 ## A running entry from an earlier day asks (2026-11-14)
 
@@ -57,8 +57,8 @@ on that day first, and any rest off the entry's time on the day before, since mi
 stretch. It goes to the running entry of the profile on screen. The control is always shown, so the app always shows
 what it can do; it is active only while that entry runs, and greyed out otherwise. A break found after the entry has
 stopped is an edit on the entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry.
-Today's entries are listed under the bars, with today's added breaks as small tags among them; clicking a tag opens
-the same length field with the number in it, to change or remove.
+Today's entries are listed under the balance bar and the ceiling wheel, with today's added breaks as small tags among
+them; clicking a tag opens the same length field with the number in it, to change or remove.
 **Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
 file today, so the day added places a break in the stretch it belongs to. An "add break" that stays active after stop
 would make the owner wonder whether work is still running. A hasty mistake must be fixed where it is seen, not dug out

@@ -51,7 +51,8 @@ agreed at the end of Phase 0. A part is added when a decision has none to build 
   and the pay estimate.
 - **Corrections.** Entries edited on their line (moved, lengthened, shortened, split by a gap), deleted or written
   by hand.
-- **Reports.** A period's report, with hours per profile, that the owner sends to the boss as it is.
+- **Reports.** A month's report, with the balance bar, the ceiling wheel and hours per profile, that the owner
+  sends to the boss as it is.
 - **Handover.** Export and import of the whole record between the two machines, and import as a first start.
 
 ## Not on this roadmap
