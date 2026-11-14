@@ -116,12 +116,15 @@ main screen sketch:
   and small buttons at about 2.2:1 and 2.0:1, as measured on the sketch.
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
   glassy.
-- **Buttons:** flat, in the theme's button colour (in the light theme a light cool grey, `#d3d8de`, 1.29:1 against the
-  page and the same as the profile popup, hovered a step darker, `#c3c9d1`; the text on buttons near-black, 13.3:1, and
-  11.4:1 hovered, and a little bolder on the smaller buttons), with no border and no shading: corners of 5 px and a
-  soft, quiet shadow offset down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter;
-  pressed, a faint shade from the top. Small controls and fields have 6 px corners, panels and popups 12 px.
-- **Profile circle:** a raised disc in the button's own colour, lit from the top, sitting in a soft dent 6 px wide
+- **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper, `#4f688e`,
+  with near-white text at 5.2:1, hovered `#40577b` at 6.8:1; in the dark theme a dark grey with light text; a little
+  bolder text on the smaller buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset
+  down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint shade from the
+  top. Small controls and fields have 6 px corners, panels and popups 12 px. Around them, the light theme's control side
+  is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; surfaces that hold
+  dark text are light: fields white, the profile popup `#e6ecf4`.
+- **Profile circle:** a raised disc, lit from the top, in the button's own colour in the dark theme and a pale blue
+  (`#e3e9f2`) in the light one, so a red profile letter still reads on it (4.5:1), sitting in a soft dent 6 px wide
   around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
   of the button's own colour, whatever that colour is.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
@@ -130,11 +133,12 @@ main screen sketch:
 **Why:** the owner likes the references' printed, technical feel, with something fresher and more modern for the big
 type. A mono for the rest ties the controls to the dashboard. Flat buttons with one soft shadow keep the surfaces
 calm; the indented disc gives the profile button a physical touch.
-**Rejected:** a flat saturated colour field for the figures side: the dark panel stays. Rounder condensed faces
-(Saira Extra Condensed, Big Shoulders Display, Teko): too round. Tektur, condensed: square and technical, but not
-fresh enough for the big type; tried for all text, it was too much. Matte plastic buttons with grain, edge highlights
-and a deeper shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile circle: the button's own
-colour reads better. Decorative micro labels: they say nothing.
+**Rejected:** a flat saturated colour field for the figures side: the dark panel stays. Rounder condensed faces (Saira
+Extra Condensed, Big Shoulders Display, Teko): too round. Tektur, condensed: square and technical, but not fresh enough
+for the big type; tried for all text, it was too much. Matte plastic buttons with grain, edge highlights and a deeper
+shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile circle: the button's own colour reads
+better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the page
+(1.08:1, later 1.29:1); the blue ties the control side to the dashboard.
 **Revisit if:** the mono is hard to read at small sizes, or the grain costs too much on WebKitGTK.
 
 ## A light or dark theme, following the system (2026-11-14)
