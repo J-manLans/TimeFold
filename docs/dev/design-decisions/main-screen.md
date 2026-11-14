@@ -24,15 +24,15 @@ shrinking back into the button; Esc or a click anywhere outside the menu closes 
 see-through, with the control side lightly blurred behind it, and in the light theme tinted a little darker than the
 control side so it stands out. The figures stay sharp and in view while settings change. New profiles are made from the
 menu. The right side is narrower, about two fifths of the window, and is the living one, changing at each stop, and
-looks like a modern terminal dashboard, not a retro one: a dark panel in every theme, numbers in a monospaced font with
-their digits lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new
-value, the arc sweeping). A profile's colour is the over colour of the figure it moves: the balance bar's for the
-profile with the balance, the ceiling wheel's for the others. While the profile on screen runs, a ring in its colour
-surrounds the start button. Every focus ring in the app takes the colour of the profile on screen. On the right side,
-from the top: the balance as a number, centred, with no label; the balance bar; the ceiling wheel, centred under it with
-nothing beside it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent
-entries and "Visa alla", which opens a popup centred on the whole window listing every entry, where entries are edited
-("Editing an entry on its line").
+looks like a modern terminal dashboard, not a retro one: a dark panel in the dark theme and a mid-grey one in the light
+theme (its entry rows stay dark), numbers in a monospaced font with their digits lined up, thin lines, small uppercase
+labels, and small, precise motion (numbers counting to their new value, the arc sweeping). A profile's colour is the
+over colour of the figure it moves: the balance bar's for the profile with the balance, the ceiling wheel's for the
+others. While the profile on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app
+takes the colour of the profile on screen. On the right side, from the top: the balance as a number, centred, with no
+label; the balance bar; the ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number
+under the wheel, with no label; then the five most recent entries and "Visa alla", which opens a popup centred on the
+whole window listing every entry, where entries are edited ("Editing an entry on its line").
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
 With the figures in view beside the menu, a colour changed in settings shows at once on the figures. The five most
@@ -40,16 +40,17 @@ recent entries show yesterday's work on a fresh morning, where today's alone wou
 sits with what runs and never moves; the status line's kept room sets it a little apart, marking it as secondary.
 Colouring a profile by the figure it moves ties the controls to what they change. The wheel tells its story alone, so
 nothing beside it is needed, and the side can be narrower. A dashboard look suits figures that are read at a glance, and
-a soft base colour with a neon-leaning over colour is how such dashboards use colour. A panel dark in every theme keeps
-that look in light mode, and gives the figures one known background.
+a soft base colour with a neon-leaning over colour is how such dashboards use colour. In the light theme a lighter,
+mid-grey panel sits better beside the light control side while its dark rows keep the dashboard reading.
 **Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures the
 owner reads every day. Figures beside the wheel (ceiling, used, left, carried): the wheel already shows them. A label on
 the balance: the number alone is clear. "Lägg till paus" at the bottom left: the prune line would push it up and down. A
 menu over the whole screen: it would hide the figures it changes. A drawer with a tab holding the icon: a fine picture,
 but more parts than the growing button. The icon riding to the panel's far corner as an ×: the close button would not be
 where the pointer is. A menu sliding in under a separate button: the icon would stay apart from the menu. A see-through
-menu always present: nothing needs it when closed. A figures side that follows the light theme: the dashboard look would
-be lost there. A retro terminal look (green on black, scan lines): the owner wants the direction, not the costume.
+menu always present: nothing needs it when closed. A fully light figures side in the light theme: the dashboard look
+would be lost. A panel dark in every theme: in the light theme it sat too heavily beside the light controls. A retro
+terminal look (green on black, scan lines): the owner wants the direction, not the costume.
 **Revisit if:** the window is too small for both sides, or the frosted blur is slow on WebKitGTK (then the panel is more
 opaque, without blur).
 **Cases:**
@@ -67,7 +68,8 @@ main screen sketch:
   letter, the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in
   normal case. The quiet lines, what runs and the offer to prune, share one small size (10.5 px) in the muted
   colour.
-- **Colour:** flat fields with one hot accent, which the over colour already is. The figures side stays a dark panel
+- **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with
+  its light and dark value side by side. The figures side is a dark panel, mid-grey in the light theme
   ("The main screen has a control side and a figures side").
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
   glassy.
@@ -93,9 +95,10 @@ colour reads better. Decorative micro labels: they say nothing.
 
 **Built by:** Clocking.
 
-**Decision:** the control side and the menu have a theme setting: "System" (the default, following the computer's
-light or dark mode), "Ljust" or "Mörkt". The figures side is dark in every theme ("The main screen has a control side
-and a figures side"). Like the colours, the theme belongs to each machine and is not carried by the handover.
+**Decision:** the control side and the menu have a theme setting: "System" (the default, following the computer's light
+or dark mode), "Ljust" or "Mörkt". The figures side follows it too, as a dark panel in the dark theme and a mid-grey one
+in the light theme ("The main screen has a control side and a figures side"). Like the colours, the theme belongs to
+each machine and is not carried by the handover.
 **Why:** the owner's two computers may be set differently, and following the system needs no choice at all; the
 setting is there for when the app should differ from the system.
 **Rejected:** one fixed theme: the control side should sit well beside the rest of the owner's desktop. The theme in
@@ -103,7 +106,7 @@ the handover: as with the colours, each machine is set up for its own screen.
 **Revisit if:** the figures side should follow the theme after all.
 **Cases:**
 - System in dark mode, theme "System": the control side is dark.
-- Theme "Ljust" on a dark system: the control side is light; the figures side stays dark.
+- Theme "Ljust" on a dark system: the control side is light, and the figures panel mid-grey with dark rows.
 
 ## The balance bar (2026-11-14)
 
@@ -114,15 +117,15 @@ the balance as a number above it. The bar is only its active part, with no track
 outer end, square against the 0 line. Minus (hours to work in) is in the bar's base colour; plus (hours to take out) in
 its over colour; exactly 0 is a marker centred on the 0 line, a little wider than a thin mark, in the base colour
 dimmed, slowly and slightly growing and shrinking; the motion stops when the system asks for reduced motion. The bar's
-full width is one of four scales, ±10, ±20, ±40 or ±80 h, with the scale's end labelled in small text: the smallest
-whose 90% holds the balance. Crossing into a larger scale changes it with a short animation; it goes back down only once
-the balance is within 80% of the smaller scale, so it does not flicker at a boundary. Beyond ±80 h the bar stays full at
-its end. The bar's colours work as the ceiling wheel's ("The ceiling wheel"): a base and an over colour, each with a
-picker, the dimmed colour worked out from the base and the over colour suggested from it, set per machine. One switch,
-"Unify colours", is shown in both the bar's and the wheel's colour settings and stored once, on by default. While it is
-on, the two share one set of colours, and a change in either place changes both. Turned on while they differ, the
-colours of the place it is turned on from go to both. Turned off, each keeps what it has, and they are set apart from
-then on. A large minus gets no warning.
+full width is one of four scales, ±10, ±20, ±40 or ±80 h, with ten small marks on each side from the 0 line to the
+scale's end, the end mark taller and labelled in small text: the smallest whose 90% holds the balance. Crossing into a
+larger scale changes it with a short animation; it goes back down only once the balance is within 80% of the smaller
+scale, so it does not flicker at a boundary. Beyond ±80 h the bar stays full at its end. The bar's colours work as the
+ceiling wheel's ("The ceiling wheel"): a base and an over colour, each with a picker, the dimmed colour worked out from
+the base and the over colour suggested from it, set per machine. One switch, "Unify colours", is shown in both the bar's
+and the wheel's colour settings and stored once, on by default. While it is on, the two share one set of colours, and a
+change in either place changes both. Turned on while they differ, the colours of the place it is turned on from go to
+both. Turned off, each keeps what it has, and they are set apart from then on. A large minus gets no warning.
 **Why:** one meaning per colour across both figures: the over colour is "more than expected", which a plus balance is;
 minus is work still to do, in the calm base colour; dimmed is "nothing either way". With no track, the dimmed marker at
 0 stands on its own, and its slow pulse reads as at rest. Fixed scales keep the bar's length meaningful (half the bar is
