@@ -85,6 +85,7 @@ checks and names the other by title.
 ### [Main screen](main-screen.md)
 
 - The main screen has a control side and a figures side
+- A light or dark theme, following the system
 - The balance bar
 - The ceiling wheel
 

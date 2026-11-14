@@ -34,6 +34,22 @@ wants the direction, not the costume.
 - Menu open: the figures are still in view, and a new base colour shows on them at once.
 - Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
 
+## A light or dark theme, following the system (2026-11-14)
+
+**Built by:** Clocking.
+
+**Decision:** the control side and the menu have a theme setting: "System" (the default, following the computer's
+light or dark mode), "Ljust" or "Mörkt". The figures side is dark in every theme ("The main screen has a control side
+and a figures side"). Like the colours, the theme belongs to each machine and is not carried by the handover.
+**Why:** the owner's two computers may be set differently, and following the system needs no choice at all; the
+setting is there for when the app should differ from the system.
+**Rejected:** one fixed theme: the control side should sit well beside the rest of the owner's desktop. The theme in
+the handover: as with the colours, each machine is set up for its own screen.
+**Revisit if:** the figures side should follow the theme after all.
+**Cases:**
+- System in dark mode, theme "System": the control side is dark.
+- Theme "Ljust" on a dark system: the control side is light; the figures side stays dark.
+
 ## The balance bar (2026-11-14)
 
 **Built by:** Clocking; its colour settings with the ceiling wheel's, in Profiles.

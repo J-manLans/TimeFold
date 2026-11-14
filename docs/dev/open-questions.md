@@ -11,8 +11,7 @@ leaves; its answer goes to `design-decisions/`. A question half answered stays w
 
 Known: the main screen ("The main screen has a control side and a figures side") and the figures' colours ("The
 ceiling wheel"; "The balance bar"). Open: whether there is also a small always-on widget or an icon in the system
-tray; how the settings menu and the slider that splits full time look; whether the left side is light, dark, or
-follows the system (the figures side is dark in every theme).
+tray; how the settings menu and the slider that splits full time look.
 **See:** What the app does.
 
 
