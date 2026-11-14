@@ -4,6 +4,18 @@ What is not decided, grouped under the phase that needs the answer, so a phase's
 Each entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question
 leaves; its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
+## Phase 1: Clocking
+
+### Code style (2026-11-14)
+
+How the code is written, settled before the first file. The agent's leans: standard tools with their defaults,
+changed as little as possible: Prettier with its Svelte plugin for TypeScript, Svelte and CSS, and rustfmt for Rust,
+run automatically; ESLint with the TypeScript and Svelte rules, and clippy for Rust; TypeScript in strict mode;
+each language's usual naming, English in code and comments, Swedish only in what the user sees; lines of 120, as in
+the docs; Vitest for TypeScript tests and Rust's own tests for the Rust side. Comments follow AGENTS.md (docstrings
+say what a thing is and does; work still to do is a TODO).
+**See:** Tests come first, from the owner's rules; Svelte with TypeScript for the interface.
+
 ## Phase 2: Breaks and flex days
 
 ### Where a flex day is marked (2026-11-14)

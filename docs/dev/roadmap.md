@@ -6,8 +6,8 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, starting with its **Settle first**: the project's layout and the code map, and the design tokens
-taken over from the main screen sketch.
+Phase 1: Clocking, starting with its **Settle first**: code style, the project's layout and the code map, and the
+design tokens taken over from the main screen sketch.
 
 ## State
 
@@ -28,7 +28,8 @@ rules"), and tests animation on Linux early ("Tauri, desktop on Windows and Linu
 ### Phase 1: Clocking
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
-**Settle first:** the project's layout and the code map; the design tokens taken over from the main screen sketch.
+**Settle first:** code style (`open-questions.md`); the project's layout and the code map; the design tokens taken
+over from the main screen sketch.
 1. The project: Tauri, Svelte with TypeScript, the test runner, the code map.
 2. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
 3. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
