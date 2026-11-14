@@ -12,19 +12,21 @@ on screen runs. Beside it is a profile button that opens the list of profiles. P
 profile is on screen; a running entry goes on. Pressing start on the profile on screen ends the running entry, if any,
 at that moment and starts one on that profile, so at most one entry runs at a time. While another profile's entry runs,
 a small line under "Starta jobb" says what pressing it will stop ("stoppar A"); the line is there only then, and the
-running profile is shown. A forgotten switch back is corrected by hand. The totals, the balance bar and the ceiling
+running profile is shown. The button never changes size: room for the line is always kept, and "Starta jobb" and "Stoppa
+jobb" fit the same width. A forgotten switch back is corrected by hand. The totals, the balance bar and the ceiling
 wheel update when an entry stops; nothing ticks while it runs, and the update at stop is the visual effect.
 **Why:** one running entry is the simplest record, and it is how common time trackers work. A break needs no control
 of its own ("Time away is a gap or an added break").
 **Rejected:** four buttons per profile (start day, end day, start break, end break), with a profile left on a break
 while another runs: each profile needed a paused day, and a date check to close it. A running clock: the owner prefers
 the whole update at stop. A hover tip saying what start will stop: it shows only if the owner hovers before clicking,
-which a one-click start skips.
+which a one-click start skips. A button that grows when the line shows: the click target would move under the pointer.
 **Revisit if:** the owner often needs two profiles running at once.
 **Cases:**
 - A running, B picked: A still runs, and nothing is recorded.
 - A running, start pressed on B at 13:00: A ends at 13:00, B starts at 13:00.
 - A on screen and running, stop pressed: A ends; nothing runs.
+- "Starta jobb" with and without "stoppar A" under it, and "Stoppa jobb": the button has the same size in all three.
 - While an entry runs, the balance bar and the ceiling wheel do not change; at stop they include it.
 
 ## A running entry from an earlier day asks (2026-11-14)

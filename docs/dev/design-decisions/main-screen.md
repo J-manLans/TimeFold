@@ -14,13 +14,20 @@ profile button beside it, a rectangle holding a circle with the profile's first 
 than one profile opens a popup of the profiles, centred on the left side; "Exportera" and "Importera" under it, the menu
 button at the top left, and at the bottom the line that offers pruning ("Old history is pruned on request"). The menu
 slides in from the left and stops at the divider, so the figures stay in view while settings change; new profiles are
-made from it. The right side is the living one, changing at each stop: the balance bar and the ceiling wheel at its top,
-both prominent; the pay estimate as a number close to them; under them the five most recent entries and "Visa alla".
+made from it. The right side is the living one, changing at each stop, and looks like a modern terminal dashboard, not a
+retro one: a dark panel in every theme, numbers in a monospaced font with their digits lined up, thin lines, small
+uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). On it are: the
+balance bar and the ceiling wheel at its top, both prominent; the pay estimate as a number close to them; under them the
+five most recent entries and "Visa alla".
 **Why:** what the owner presses and what the owner reads each have their place. With the figures in view beside the
-menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work
-on a fresh morning, where today's alone would be an empty list.
-**Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures
-the owner reads every day. A menu over the whole screen: it would hide the figures it changes.
+menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work on a
+fresh morning, where today's alone would be an empty list. A dashboard look suits figures that are read at a glance, and
+a soft base colour with a neon-leaning over colour is how such dashboards use colour. A panel dark in every theme keeps
+that look in light mode, and gives the figures one known background.
+**Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures the
+owner reads every day. A menu over the whole screen: it would hide the figures it changes. A figures side that follows
+the light theme: the dashboard look would be lost there. A retro terminal look (green on black, scan lines): the owner
+wants the direction, not the costume.
 **Revisit if:** the window is too small for both sides.
 **Cases:**
 - One profile: the profile button opens nothing. Three profiles: a popup of the three, centred on the left side.
