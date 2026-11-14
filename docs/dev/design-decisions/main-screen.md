@@ -71,11 +71,12 @@ Profiler is selected when the menu opens, and one tab's content shows at a time;
   on it ("6 h | 2 h"), and full time beside it.
 - **Månadsstart:** the day from 1 to 28 ("A month starts on a set day").
 - **Utseende:** the theme, the ceiling wheel's colours, the balance bar's colours, and "Förena färger".
-Values that change the counting (full time, the split, the month start, a salary or rate) are locked: each shows as
-text with "Ändra" beside it. "Ändra" opens it; Enter confirms and Esc aborts, as in "Entering a length of time";
-confirming asks "Gäller från", today unless the owner picks an earlier date ("Settings change from a date"). Under
-each, "Tidigare värden" with a count opens its earlier values and the dates they held from. Names, colours and the
-theme change at once.
+Values that change the counting (full time, the split, the month start, a salary or rate) are locked: each shows as text
+with "Ändra" beside it. "Ändra" opens it; Enter confirms and Esc aborts, as in "Entering a length of time"; confirming
+asks "Gäller från", today unless the owner picks an earlier date ("Settings change from a date"). Under each, "Tidigare
+värden" with a count opens its earlier values and the dates they held from. Only one value is open for editing at a
+time: "Ändra" on another aborts the open one, and saving one value never resets another or moves the focus away from
+where the owner is. Names, colours and the theme change at once.
 **Why:** tabs keep the four names in a fixed place while the content swaps calmly below them. A value that changes
 past and future counts should not move by a stray click, and Enter and Esc work as they do everywhere else. The
 earlier values let the owner check what was in force when a month looks odd.
@@ -87,6 +88,8 @@ to scroll. Counting values edited directly.
 - Split 6 | 2, "Ändra", moved to 5 | 3, Enter, "Gäller från" 1 September: from then on janitor owes 5 h a day.
 - "Ändra" on full time, a new value typed, Esc: full time is unchanged.
 - After that change, "Tidigare värden (1)": 6 | 2 until 31 August.
+- Split unlocked with "Ändra", then "Ändra" on full time: the split's edit is aborted; full time saved: the split
+  shows the new total, and nothing else changes.
 
 ## The look: a fresh display face, mono text, grain and soft buttons (2026-11-14)
 
