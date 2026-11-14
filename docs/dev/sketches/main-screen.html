@@ -4,14 +4,14 @@
 <title>Main Screen Sketch</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@600;700&family=Big+Shoulders+Display:wght@700;800&family=Teko:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Tektur:wdth,wght@75..100,400..900&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@600;700&family=Rajdhani:wght@600;700&family=Antonio:wght@600;700&family=League+Gothic&family=Share+Tech&display=swap">
 <style>
 /* Layout: a sketch toolbar, then the app window: controls on the left (follow the app theme), a dark dashboard on the right. */
 :root {
   --page-bg: #e9ebee; --page-fg: #1d2026; --page-muted: #5d6370; --page-line: #cfd3da;
   --ui: "Inter", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
-  --display: "Saira Extra Condensed", "Arial Narrow", sans-serif;
+  --display: "Tektur", "Arial Narrow", sans-serif; --display-stretch: 75%; --display-weight: 700;
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark) {
@@ -38,16 +38,16 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* The app window; control-side tokens follow the app's own theme setting */
 .app {
   --c-bg: #f3f3f1; --c-fg: #1f2227; --c-muted: #6a6f78; --c-line: #dedfe2; --c-btn: #e9eaea; --c-btn-line: #c9ccd2; --c-hover: #eef0f2; --c-scrim: rgba(20, 22, 26, 0.25);
-  --hl: rgba(255, 255, 255, 0.75); --lo: rgba(0, 0, 0, 0.10); --drop: rgba(0, 0, 0, 0.16); --grain-o: 0.09;
+  --hl: rgba(255, 255, 255, 0.75); --lo: rgba(0, 0, 0, 0.10); --drop: rgba(0, 0, 0, 0.16); --grain-o: 0.09; --shade-top: rgba(255, 255, 255, 0.45); --shade-bottom: rgba(0, 0, 0, 0.05); --soft: rgba(0, 0, 0, 0.06); --well: rgba(0, 0, 0, 0.28);
   --f-bg: #0d1014; --f-fg: #d9dee6; --f-muted: #7b8592; --f-line: #232a33; --f-row: #141920;
   position: relative; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   height: 620px; border-radius: 12px; overflow: hidden; border: 1px solid var(--page-line);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 @media (prefers-color-scheme: dark) {
-  .app[data-app-theme="system"] { --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #2a2d33; --c-scrim: rgba(0, 0, 0, 0.45); --hl: rgba(255, 255, 255, 0.09); --lo: rgba(0, 0, 0, 0.35); --drop: rgba(0, 0, 0, 0.45); --grain-o: 0.07; }
+  .app[data-app-theme="system"] { --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #2a2d33; --c-scrim: rgba(0, 0, 0, 0.45); --hl: rgba(255, 255, 255, 0.09); --lo: rgba(0, 0, 0, 0.35); --drop: rgba(0, 0, 0, 0.45); --grain-o: 0.07 --shade-top: rgba(255, 255, 255, 0.05); --shade-bottom: rgba(0, 0, 0, 0.18); --soft: rgba(0, 0, 0, 0.25); --well: rgba(0, 0, 0, 0.55); }
 }
-.app[data-app-theme="dark"] { --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #2a2d33; --c-scrim: rgba(0, 0, 0, 0.45); --hl: rgba(255, 255, 255, 0.09); --lo: rgba(0, 0, 0, 0.35); --drop: rgba(0, 0, 0, 0.45); --grain-o: 0.07; }
+.app[data-app-theme="dark"] { --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #2a2d33; --c-scrim: rgba(0, 0, 0, 0.45); --hl: rgba(255, 255, 255, 0.09); --lo: rgba(0, 0, 0, 0.35); --drop: rgba(0, 0, 0, 0.45); --grain-o: 0.07 --shade-top: rgba(255, 255, 255, 0.05); --shade-bottom: rgba(0, 0, 0, 0.18); --soft: rgba(0, 0, 0, 0.25); --well: rgba(0, 0, 0, 0.55); }
 @media (max-width: 760px) { .app { grid-template-columns: minmax(0, 1fr); height: auto; } }
 
 /* Control side */
@@ -65,21 +65,20 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .plastic {
   position: relative; border: 1px solid var(--c-btn-line); color: var(--c-fg); cursor: pointer;
   background-color: var(--c-btn);
-  background-image: var(--grain), linear-gradient(180deg, var(--hl) 0%, transparent 42%, transparent 62%, var(--lo) 100%);
-  background-blend-mode: overlay, normal;
-  box-shadow: inset 0 1px 0 var(--hl), inset 0 -1px 0 var(--lo), 0 1px 1px var(--drop), 0 3px 6px var(--drop);
-  transition: transform 0.08s ease, box-shadow 0.08s ease, background-image 0.08s ease;
+  background-image: linear-gradient(180deg, var(--shade-top) 0%, transparent 55%, var(--shade-bottom) 100%);
+  box-shadow: 0 1px 3px var(--soft);
+  transition: background-color 0.1s ease, box-shadow 0.1s ease;
 }
-.plastic:hover { filter: brightness(1.03); }
-.plastic:active, .plastic.pressed { transform: translateY(1px); box-shadow: inset 0 1px 2px var(--lo), 0 0 0 var(--drop); background-image: var(--grain), linear-gradient(180deg, transparent, var(--lo)); }
+.plastic:hover { background-color: var(--c-hover); }
+.plastic:active, .plastic.pressed { background-image: linear-gradient(180deg, var(--shade-bottom), transparent 70%); box-shadow: none; }
 
 /* The button block: Starta jobb over Exportera | Importera; the profile button spans both rows */
 .block { display: grid; grid-template-columns: 214px 76px; grid-template-rows: 64px 34px; gap: 8px; grid-template-areas: "start prof" "pair prof"; }
 .start { grid-area: start; border-radius: 10px; display: grid; place-items: center; padding: 0 6px; }
-.start .label { font-family: var(--display); font-size: 38px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; line-height: 1; }
-.start.running { box-shadow: inset 0 1px 0 var(--hl), inset 0 -1px 0 var(--lo), 0 1px 1px var(--drop), 0 3px 6px var(--drop), 0 0 0 2px var(--run, #e80003); }
+.start .label { font-family: var(--display); font-stretch: var(--display-stretch); font-size: 38px; font-weight: var(--display-weight); letter-spacing: 0.03em; text-transform: uppercase; line-height: 1; }
+.start.running { box-shadow: 0 0 0 2px var(--run, #e80003); }
 .profile-btn { grid-area: prof; border-radius: 12px; display: grid; place-items: center; }
-.profile-btn .dot { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.18), 0 1px 2px var(--drop); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1; }
+.profile-btn .dot { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; box-shadow: inset 0 2px 4px var(--well), inset 0 -1px 0 rgba(255, 255, 255, 0.9), 0 1px 0 var(--shade-top); display: grid; place-items: center; font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: 26px; line-height: 1; }
 .profile-btn[aria-disabled="true"] { cursor: default; }
 .pair { grid-area: pair; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .pair button { font: inherit; font-size: 13px; border-radius: 8px; }
@@ -140,7 +139,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .figures { background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); padding: 22px 26px 18px 30px; display: grid; gap: 18px; align-content: start; overflow-y: auto; }
 .flabel { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--f-muted); }
 .balance { display: grid; gap: 6px; }
-.balance .num { font-family: var(--display); font-size: 46px; font-weight: 700; letter-spacing: 0.02em; font-variant-numeric: tabular-nums; text-align: center; line-height: 1; }
+.balance .num { font-family: var(--display); font-stretch: var(--display-stretch); font-size: 46px; font-weight: var(--display-weight); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; text-align: center; line-height: 1; }
 .balance svg { width: 100%; height: 48px; display: block; overflow: visible; }
 .zero { transform-box: fill-box; transform-origin: center; animation: breathe 3.2s ease-in-out infinite; }
 @keyframes breathe { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(1.6); } }
@@ -180,13 +179,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       </span>
     </label>
     <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
-    <label for="simFont">Display face
-      <select id="simFont">
-        <option value='"Saira Extra Condensed", "Arial Narrow", sans-serif'>Saira Extra Condensed</option>
-        <option value='"Big Shoulders Display", "Arial Narrow", sans-serif'>Big Shoulders Display</option>
-        <option value='"Teko", "Arial Narrow", sans-serif'>Teko</option>
-      </select>
-    </label>
     <span>Each stop records 2 h 15 min.</span>
   </div>
 
@@ -450,7 +442,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (o > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.over, "stroke-width": w, "stroke-dasharray": (o * circ) + " " + circ }));
     svg.appendChild(g);
     for (var i = 0; i < 40; i++) { var a = i / 40 * 2 * Math.PI, r1 = 52, r2 = i % 10 === 0 ? 46 : 49; svg.appendChild(el("line", { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + r2 * Math.sin(a), y2: 100 - r2 * Math.cos(a), stroke: "#2c3440", "stroke-width": 1 })); }
-    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 26, "font-weight": 700, fill: shown.used >= CEILING * 0.9 ? c.over : "#d9dee6" });
+    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", "font-family": "Tektur, Arial Narrow, sans-serif", "font-stretch": "75%", style: "font-stretch: 75%", "font-size": 34, "font-weight": 700, fill: shown.used >= CEILING * 0.9 ? c.over : "#d9dee6" });
     t.textContent = hmPlain(shown.used); svg.appendChild(t);
     var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, fill: "#7b8592", "letter-spacing": "1.5" });
     s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);
@@ -614,7 +606,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
   $("divLine").addEventListener("click", function () { setDivider("line"); });
   $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
-  $("simFont").addEventListener("change", function () { document.documentElement.style.setProperty("--display", this.value); });
   $("simPrune").addEventListener("change", function () { $("prune").style.visibility = this.checked ? "visible" : "hidden"; });
 
   scale = pickScale(Math.abs(balance));

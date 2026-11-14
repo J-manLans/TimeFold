@@ -48,26 +48,27 @@ not the costume.
 - Menu open: the figures are still in view, and a new base colour shows on them at once.
 - Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
 
-## The look: condensed type, grain and matte plastic (2026-11-14)
+## The look: condensed type, grain and soft buttons (2026-11-14)
 
 **Built by:** Clocking, with the first screen.
 
 **Decision:** the app's look, taken from the owner's art direction references (kept locally, not in git):
-- **Type:** a condensed, square-shouldered display face in capitals for the few big things (the balance, "Starta
-  jobb"), and a monospaced face for small text and figures. The faces are chosen on the sketch.
+- **Type:** Tektur, narrowed to 75% width, in capitals for the few big things: "Starta jobb", the balance, the hours
+  inside the ceiling wheel and the profile letter. A monospaced face for small text and the other figures.
 - **Colour:** flat fields with one hot accent, which the over colour already is. The figures side stays a dark panel
   ("The main screen has a control side and a figures side").
 - **Grain:** a fine noise over the panels, so surfaces read as printed or moulded rather than glassy.
-- **Buttons:** matte moulded plastic: a soft gradient lighter at the top, a faint highlight along the top edge, a
-  short soft shadow under, the same grain, no gloss; pressed, the light flattens and the button sinks slightly. In
-  either theme, the plastic takes the theme's colour.
+- **Buttons:** plain surfaces with soft shading, a little lighter at the top, no texture, no edge highlights, and at
+  most a faint soft shadow; pressed, the shading turns the other way. In either theme, the button takes the theme's
+  colour. The profile button's white circle is set into it, as if indented, with a soft inner shadow.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 **Why:** the owner likes the references' printed, technical feel: big condensed type, flat colour with a hot accent,
-grain, and matte plastic lit softly. The dark panel keeps the dashboard reading of the figures; ornament without
-meaning would turn a tool into a poster.
-**Rejected:** a flat saturated colour field for the figures side, as in one reference: the dark panel stays. Glossy
-or flat buttons: the owner wants the matte, physical look. Decorative micro labels: they say nothing.
+grain, and soft light on plain surfaces. Square, chamfered letters suit the technical feel better than round ones. The
+dark panel keeps the dashboard reading of the figures; ornament without meaning would turn a tool into a poster.
+**Rejected:** a flat saturated colour field for the figures side, as in one reference: the dark panel stays. Rounder
+condensed faces (Saira Extra Condensed, Big Shoulders Display, Teko): too round. Matte plastic buttons with grain, edge
+highlights and a deeper shadow: they looked like 1990s 3D. Glossy buttons. Decorative micro labels: they say nothing.
 **Revisit if:** the condensed face is hard to read at small sizes, or the grain costs too much on WebKitGTK.
 
 ## A light or dark theme, following the system (2026-11-14)

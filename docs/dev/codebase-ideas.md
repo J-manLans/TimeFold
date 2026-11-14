@@ -14,6 +14,6 @@ which times were set afterwards. Not vital: the record keeps the mark either way
 ## A matte glow that follows the pointer
 
 **Returns when:** the buttons are built, or the owner says to try it on the sketch.
-On every button, the soft light of the matte plastic ("The look: condensed type, grain and matte plastic", in
-`design-decisions/`) could sit where the pointer is, moving with it across the face, as if a lamp were held over the
+On every button, the soft shading ("The look: condensed type, grain and soft buttons", in `design-decisions/`) could
+sit where the pointer is, moving with it across the face, as if a lamp were held over the
 part. To try as an experiment; the fixed light from the top is the baseline.
