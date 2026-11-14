@@ -56,6 +56,7 @@ checks and names the other by title.
 ### [Code](code.md)
 
 - Tests come first, from the owner's rules
+- Code style
 
 ### [Recording](recording.md)
 

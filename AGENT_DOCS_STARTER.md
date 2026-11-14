@@ -166,6 +166,17 @@ is hidden from exactly the design sessions that would decide it.
 names files and what to look for in them, not what the code says, so it goes stale only when a file moves. It does
 not keep a file tree; it gives the command that prints one. It is updated in the same change that moves a file.
 
+**Code style.** How the code is written, settled before the first file, as a decision of its own. What holds in any
+language: formatting and linting by tools with their defaults, run by one script that checks the same as CI; doc
+comments on what is public (purpose, inputs, return, side effects), clarifying comments enough for private helpers;
+comments only where they clarify, starting with a capital, one sentence without a period and several each with one;
+files with several parts grouped under short, fixed section banners. For tests: as few as cover the behaviour (a test
+earns its place only if breaking its code turns it red and no other test already does); unit tests mirror the source,
+one test file per source file; a test plays values the code would really see; a value passed through unchanged is a
+shared constant, a value the code works out is written out as the worked example; setup several tests share is
+written once. An owner's style from an earlier project is a good start: sort it into what carries over, what needs
+translating to the new languages, and what does not fit, with reasons.
+
 **Procedures.** How to do a job only some sessions need: writing tests, the test sweep, checking that a refactor kept
 behaviour, the docs sweep, running an old version. `AGENTS.md` says when to read each, and an agent reads it before
 starting that job.
