@@ -49,6 +49,7 @@ checks and names the other by title.
 ### [Stack](stack.md)
 
 - Tauri, desktop on Windows and Linux
+- Svelte with TypeScript for the interface
 - The record is one JSON file
 
 ### [Code](code.md)

@@ -17,6 +17,21 @@ Tkinter or Qt: custom animated controls are harder. A local web page in the brow
 which is risky for a record the boss relies on. A phone app: the owner clicks at a computer.
 **Revisit if:** WebKitGTK cannot show the interface acceptably on Linux.
 
+## Svelte with TypeScript for the interface (2026-11-14)
+
+**Built by:** Clocking.
+
+**Decision:** the interface inside Tauri is written in Svelte, with TypeScript for its logic and plain CSS in each
+component's own style block. No CSS framework.
+**Why:** the main screen is a few live figures that follow the data and animate as it changes; Svelte keeps the screen
+in step with the data and has tweened values and transitions built in (a number counting up, an element animating in
+or out), where plain TypeScript would need that wiring by hand. Its components are written in TypeScript, which the
+owner knows, and their CSS is ordinary CSS, scoped to the component, which the owner enjoys writing. It is a modern
+tool the owner wants to learn, and its idea, components that follow the data, carries over to other frameworks.
+**Rejected:** plain TypeScript: every update and animation would be wired by hand. React: more machinery than an app
+this size needs. A CSS framework such as Tailwind: the owner prefers writing the CSS.
+**Revisit if:** Svelte's animation does not run well on WebKitGTK, or the build step costs more than it gives.
+
 ## The record is one JSON file (2026-11-14)
 
 **Built by:** Clocking; the handover file in Handover.

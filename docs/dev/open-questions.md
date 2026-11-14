@@ -7,12 +7,6 @@ leaves; its answer goes to `design-decisions/`. A question half answered stays w
 
 ## Phase 0
 
-### Interface language (2026-11-14)
-
-What the Tauri interface is written in: plain TypeScript, or a small framework such as Svelte or React. Settled with
-the look and feel.
-**See:** Tauri, desktop on Windows and Linux.
-
 ### Look and feel (2026-11-14)
 
 Known: one start/stop button with the profile list beside it, the bars, and today's entries listed under them ("One
