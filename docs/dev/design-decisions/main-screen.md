@@ -14,17 +14,17 @@ left side holds the controls and stays still: the start/stop button ("One start/
 the two rows, a rectangle holding a raised disc set in a dent ("The look: a fresh display face, mono text, grain and
 soft buttons") with the profile's first letter, capitalised, in the profile's colour, which with more than one profile
 opens a popup of the profiles, centred on the left side; under the block, the status line naming what runs and since
-when, which keeps its room even when empty and for a minute after a click shows the undo ("The last click can be undone
-for a minute"); under that, centred and as wide as its text, "Lägg till paus" ("Time away is a gap or an added break"),
-a smaller, quieter button, greyed out unless the profile on screen runs, whose length field opens in its place, text
-starting at the left; the menu button at the top left, and at the bottom the line that offers pruning ("Old history is
-pruned on request"). The menu grows out of its own button: pressed, the button's rounded rectangle expands from the top
-left into a panel over the control side, stopping at the divider, and the menu's content fades in once it is open; the
-three lines of the button turn into an × in the same spot, where the menu closes, shrinking back into the button; Esc or
-a click anywhere outside the menu closes it too. The panel is frosted: slightly see-through, with the control side
-lightly blurred behind it, and in the light theme tinted a little darker than the control side so it stands out. The
-figures stay sharp and in view while settings change. New profiles are made from the menu. The right side is narrower,
-about two fifths of the window, and is the living one, changing at each stop, and looks like a modern terminal
+when, which keeps its room even when empty; under that, centred together, "Lägg till paus" (as wide as its text) and the
+round undo button ("The last click can be undone for a minute"); "Lägg till paus" ("Time away is a gap or an added
+break"), a smaller, quieter button, greyed out unless the profile on screen runs, whose length field opens in its place,
+text starting at the left; the menu button at the top left, and at the bottom the line that offers pruning ("Old history
+is pruned on request"). The menu grows out of its own button: pressed, the button's rounded rectangle expands from the
+top left into a panel over the control side, stopping at the divider, and the menu's content fades in once it is open;
+the three lines of the button turn into an × in the same spot, where the menu closes, shrinking back into the button;
+Esc or a click anywhere outside the menu closes it too. The panel is frosted: slightly see-through, with the control
+side lightly blurred behind it, and in the light theme tinted a little darker than the control side so it stands out.
+The figures stay sharp and in view while settings change. New profiles are made from the menu. The right side is
+narrower, about two fifths of the window, and is the living one, changing at each stop, and looks like a modern terminal
 dashboard, not a retro one: a near-black panel in the dark theme and a deep slate-blue one (#2c3e5c) in the light theme,
 its rows a step darker and its text light, numbers in a monospaced font with their digits lined up, thin lines, small
 uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). The colours come
