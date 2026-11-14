@@ -120,7 +120,8 @@ main screen sketch:
   hovered a step darker; the text on buttons near-black, 11.4:1, and 10.4:1 hovered, and a little bolder on the smaller
   buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset down and to the right (2 by 3
   px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint shade from the top. Small controls and fields
-  have 6 px corners, panels and popups 12 px.
+  have 6 px corners, panels and popups 12 px. The profile popup is a touch lighter than the buttons in the light theme
+  (`#d3d8de`, 1.33:1 against the dimmed page behind it).
 - **Profile circle:** a raised disc in the button's own colour, lit from the top, sitting in a soft dent 6 px wide
   around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
   of the button's own colour, whatever that colour is.
