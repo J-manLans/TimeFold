@@ -108,10 +108,11 @@ main screen sketch:
   letter, the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in
   normal case. The quiet lines, what runs, the offer to prune and the short messages after an action (such as
   "Rensar efter en kopia"), share one small size (10.5 px) in the muted colour.
-- **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with
-  its light and dark value side by side. The figures side is near-black in the dark theme and slate blue in the light
-  theme, each a tinted family of panel, rows, lines and text ("The main screen has a control side and a figures
-  side").
+- **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with its
+  light and dark value side by side. The figures side is near-black in the dark theme and slate blue in the light theme,
+  each a tinted family of panel, rows, lines and text ("The main screen has a control side and a figures side").
+  Contrast is matched across the themes: in the menu, lines stand at about 1.27:1 against its frost and the borders of
+  fields and small buttons at about 1.59:1, in both themes, as measured on the sketch.
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
   glassy.
 - **Buttons:** flat, in the theme's button colour (in the light theme a cool grey, `#c3c9d1`, 1.5:1 against the page,
