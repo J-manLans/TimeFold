@@ -11,23 +11,23 @@ ceiling wheel and the pay estimate; Handover for export and import.
 **Decision:** the main screen has two sides, split by a divider (a sharp line or a gradient, settled when built). The
 left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"),
 "Exportera" and "Importera" side by side under it, together as wide as it; the profile button beside both, as tall as
-the two rows, a rectangle holding a white circle with the profile's first letter, capitalised, in the profile's colour,
-which with more than one profile opens a popup of the profiles, centred on the left side; under the block, the status
-line naming what runs and since when, which keeps its room even when empty; under that, centred and as wide as its text,
-"Lägg till paus" ("Time away is a gap or an added break"), a smaller, quieter button, greyed out unless the profile on
-screen runs, whose length field opens in its place, text starting at the left; the menu button at the top left, and at
-the bottom the line that offers pruning ("Old history is pruned on request"). The menu slides in from the left and stops
-at the divider, so the figures stay in view while settings change; new profiles are made from it. The right side is
-narrower, about two fifths of the window, and is the living one, changing at each stop, and looks like a modern terminal
-dashboard, not a retro one: a dark panel in every theme, numbers in a monospaced font with their digits lined up, thin
-lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). A
-profile's colour is the over colour of the figure it moves: the balance bar's for the profile with the balance, the
-ceiling wheel's for the others. While the profile on screen runs, a ring in its colour surrounds the start button. Every
-focus ring in the app takes the colour of the profile on screen. On the right side, from the top: the balance as a
-number, centred, with no label; the balance bar; the ceiling wheel, centred under it with nothing beside it; the pay
-estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa alla", which
-opens a popup centred on the whole window listing every entry, where entries are edited ("Editing an entry on its
-line").
+the two rows, a rectangle holding a raised disc set in a dent ("The look: a fresh display face, mono text, grain and
+soft buttons") with the profile's first letter, capitalised, in the profile's colour, which with more than one profile
+opens a popup of the profiles, centred on the left side; under the block, the status line naming what runs and since
+when, which keeps its room even when empty; under that, centred and as wide as its text, "Lägg till paus" ("Time away is
+a gap or an added break"), a smaller, quieter button, greyed out unless the profile on screen runs, whose length field
+opens in its place, text starting at the left; the menu button at the top left, and at the bottom the line that offers
+pruning ("Old history is pruned on request"). The menu slides in from the left and stops at the divider, so the figures
+stay in view while settings change; new profiles are made from it. The right side is narrower, about two fifths of the
+window, and is the living one, changing at each stop, and looks like a modern terminal dashboard, not a retro one: a
+dark panel in every theme, numbers in a monospaced font with their digits lined up, thin lines, small uppercase labels,
+and small, precise motion (numbers counting to their new value, the arc sweeping). A profile's colour is the over colour
+of the figure it moves: the balance bar's for the profile with the balance, the ceiling wheel's for the others. While
+the profile on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app takes the
+colour of the profile on screen. On the right side, from the top: the balance as a number, centred, with no label; the
+balance bar; the ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the
+wheel, with no label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window
+listing every entry, where entries are edited ("Editing an entry on its line").
 **Why:** what the owner presses and what the owner reads each have their place. With the figures in view beside the
 menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work on a
 fresh morning, where today's alone would be an empty list. The break control sits with what runs and never moves; the
@@ -48,28 +48,36 @@ not the costume.
 - Menu open: the figures are still in view, and a new base colour shows on them at once.
 - Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
 
-## The look: condensed type, grain and soft buttons (2026-11-14)
+## The look: a fresh display face, mono text, grain and soft buttons (2026-11-14)
 
 **Built by:** Clocking, with the first screen.
 
-**Decision:** the app's look, taken from the owner's art direction references (kept locally, not in git):
-- **Type:** Tektur, narrowed to 75% width, in capitals for the few big things: "Starta jobb", the balance, the hours
-  inside the ceiling wheel and the profile letter. A monospaced face for small text and the other figures.
+**Decision:** the app's look, from the owner's art direction references (kept locally, not in git) and settled on the
+main screen sketch:
+- **Type:** Bricolage Grotesque, bold and at its narrowest width (75%), for the big things: "Starta jobb", the profile
+  letter, the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in
+  normal case.
 - **Colour:** flat fields with one hot accent, which the over colour already is. The figures side stays a dark panel
   ("The main screen has a control side and a figures side").
-- **Grain:** a fine noise over the panels, so surfaces read as printed or moulded rather than glassy.
-- **Buttons:** plain surfaces with soft shading, a little lighter at the top, no texture, no edge highlights, and at
-  most a faint soft shadow; pressed, the shading turns the other way. In either theme, the button takes the theme's
-  colour. The profile button's white circle is set into it, as if indented, with a soft inner shadow.
+- **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
+  glassy.
+- **Buttons:** flat, in the theme's button colour, with no border and no shading: corners of 5 px and a soft shadow
+  offset down and to the right (5 px, 20 px blur, 30% black). Hovered, a little lighter; pressed, a faint shade from
+  the top. Small controls and fields have 6 px corners, panels and popups 12 px.
+- **Profile circle:** a raised disc in the button's own colour, lit from the top, sitting in a soft dent 6 px wide
+  around it, after a CodePen pen (bthehuman, MIT); in the dark theme the dent is only a whisper darker than the button.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
-**Why:** the owner likes the references' printed, technical feel: big condensed type, flat colour with a hot accent,
-grain, and soft light on plain surfaces. Square, chamfered letters suit the technical feel better than round ones. The
-dark panel keeps the dashboard reading of the figures; ornament without meaning would turn a tool into a poster.
-**Rejected:** a flat saturated colour field for the figures side, as in one reference: the dark panel stays. Rounder
-condensed faces (Saira Extra Condensed, Big Shoulders Display, Teko): too round. Matte plastic buttons with grain, edge
-highlights and a deeper shadow: they looked like 1990s 3D. Glossy buttons. Decorative micro labels: they say nothing.
-**Revisit if:** the condensed face is hard to read at small sizes, or the grain costs too much on WebKitGTK.
+- In code, these values are named variables in one place, so the look is tuned there.
+**Why:** the owner likes the references' printed, technical feel, with something fresher and more modern for the big
+type. A mono for the rest ties the controls to the dashboard. Flat buttons with one soft shadow keep the surfaces
+calm; the indented disc gives the profile button a physical touch.
+**Rejected:** a flat saturated colour field for the figures side: the dark panel stays. Rounder condensed faces
+(Saira Extra Condensed, Big Shoulders Display, Teko): too round. Tektur, condensed: square and technical, but not
+fresh enough for the big type; tried for all text, it was too much. Matte plastic buttons with grain, edge highlights
+and a deeper shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile circle: the button's own
+colour reads better. Decorative micro labels: they say nothing.
+**Revisit if:** the mono is hard to read at small sizes, or the grain costs too much on WebKitGTK.
 
 ## A light or dark theme, following the system (2026-11-14)
 

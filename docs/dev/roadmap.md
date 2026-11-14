@@ -26,10 +26,9 @@ Phase 0: the agent questions the owner, one topic at a time, as a conversation. 
    day and the device, then the data (what one entry holds, errands, corrections, what the report needs), then stack,
    storage, look and feel.
 2. Once a topic is talked through, its answers go into the docs as one batch, and the agent asks what they raised.
-3. A sketch of the main screen, agreed with the owner.
-4. Once the direction is clear, the agent writes `vision.md` from the drafts in `design-draft.md` and what was
+3. Once the direction is clear, the agent writes `vision.md` from the drafts in `design-draft.md` and what was
    learned, and the owner agrees it. Until then the drafts stay as written, and batches do not add to them.
-5. Before Phase 0 ends, owner and agent agree the roadmap: the parts below ordered into phases, each with
+4. Before Phase 0 ends, owner and agent agree the roadmap: the parts below ordered into phases, each with
    **Produces**, **Settle first**, its steps and **Done when**.
 
 **Done when:** every question that shapes the stack or the stored data is answered, the main screen, the vision and

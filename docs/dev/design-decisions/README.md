@@ -85,7 +85,7 @@ checks and names the other by title.
 ### [Main screen](main-screen.md)
 
 - The main screen has a control side and a figures side
-- The look: condensed type, grain and soft buttons
+- The look: a fresh display face, mono text, grain and soft buttons
 - A light or dark theme, following the system
 - The balance bar
 - The ceiling wheel
