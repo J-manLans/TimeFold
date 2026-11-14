@@ -289,6 +289,10 @@ These shaped the docs as much as the files did:
   lists and churns the same lines. The agent judges the batch: a topic talked through, a decision made, a session
   ending, or the owner asking. What is said but not yet written must not be lost, so a long session writes before
   context runs short.
+- **While tuning a look on a sketch, just change the sketch.** Many small visual tweaks (a colour, a size, a speed)
+  each written into a decision and committed churn the docs for nothing: the sketch holds the numbers meanwhile, and
+  the conversation the reasons. The agent writes the batch when the owner settles it ("that feels good", "keep it"),
+  before switching topic, at a break, or when the conversation is getting long.
 - **Mention what is surprising; do not fix it unasked.**
 - **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no "until
   phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`, with a tag when several belong together.
