@@ -40,13 +40,13 @@ show the warning: the click target would move under the pointer.
 
 **Decision:** a round undo button sits beside "Lägg till paus", the two centred together under the button block, drawn
 like the profile button's disc in its dent with a turning-back arrow. It is faded out when there is nothing to undo.
-After a start or a stop it wakes for 15 seconds: a drape in the profile's over colour lies over the whole button, dent
-and disc, under the arrow, starting strong and fading evenly to nothing over that time; hovered, the pointer-following
-label says what it would undo ("Ångra: stopp 15:40"). Pressing it reverses exactly that click: an undone start removes
-the entry it created; an undone stop lets the entry run on as if never stopped; an undone switch ("Starta jobb" on one
-profile while another runs) reverses both halves, removing the new entry and letting the old one run on. Only the latest
-click can be undone, and only within its 15 seconds. An undone click leaves no mark in the record ("Entries remember how
-they were made"); after that, changes go through editing as usual.
+After a start or a stop it wakes for 15 seconds: a drape in the profile's over colour lies over the disc only, not the
+dent around it, under the arrow, starting strong and fading evenly to nothing over that time; hovered, the
+pointer-following label says what it would undo ("Ångra: stopp 15:40"). Pressing it reverses exactly that click: an
+undone start removes the entry it created; an undone stop lets the entry run on as if never stopped; an undone switch
+("Starta jobb" on one profile while another runs) reverses both halves, removing the new entry and letting the old one
+run on. Only the latest click can be undone, and only within its 15 seconds. An undone click leaves no mark in the
+record ("Entries remember how they were made"); after that, changes go through editing as usual.
 **Why:** one click makes a mis-click easy, and putting it right should be one click too, not a trip to the editor. A
 slip caught within seconds is not a correction of the record, so it leaves no trace; a later change is, and is marked.
 The time limit also keeps a stray click hours later from undoing something long forgotten. The fading drape shows that
