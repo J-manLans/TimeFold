@@ -59,7 +59,6 @@ checks and names the other by title.
 ### [Recording](recording.md)
 
 - One start/stop button and a profile list
-- The main screen has a control side and a figures side
 - A running entry from an earlier day asks
 - Time away is a gap or an added break
 - Entering a length of time
@@ -68,7 +67,6 @@ checks and names the other by title.
 
 - Profiles label the hours
 - The other profiles share a ceiling
-- The ceiling wheel
 - A pay estimate per profile
 - Settings change from a date
 
@@ -78,12 +76,17 @@ checks and names the other by title.
 - Time counts on the day it was worked
 - A day owes its expected hours only when work started on it
 - A month starts on a set day
-- The balance bar
 
 ### [Corrections](corrections.md)
 
 - Editing an entry on its line
 - Entries remember how they were made
+
+### [Main screen](main-screen.md)
+
+- The main screen has a control side and a figures side
+- The balance bar
+- The ceiling wheel
 
 ### [Reports](reports.md)
 

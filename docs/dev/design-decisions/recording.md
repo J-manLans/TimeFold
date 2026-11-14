@@ -46,28 +46,6 @@ not be running at midnight. Doing nothing until a correction: the mistake surfac
 - Answer "Still working": the entry runs on; the question comes again only at the next change of date.
 - Entry started today and running: no question.
 
-## The main screen has a control side and a figures side (2026-11-14)
-
-**Built by:** Clocking for the screen, the button, the balance bar and the list; Profiles for the profile button, the
-ceiling wheel and the pay estimate; Handover for export and import.
-
-**Decision:** the main screen has two sides, split by a divider (a sharp line or a gradient, settled when built). The
-left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"), the
-profile button beside it, "Exportera" and "Importera" under it, the menu button at the top left, and at the bottom the
-line that offers pruning ("Old history is pruned on request"). The menu slides in from the left and stops at the
-divider, so the figures stay in view while settings change; new profiles are made from it. The right side is the
-living one, changing at each stop: the balance bar and the ceiling wheel at its top, both prominent; the pay estimate
-as a number close to them; under them the five most recent entries and "Visa alla".
-**Why:** what the owner presses and what the owner reads each have their place. With the figures in view beside the
-menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work
-on a fresh morning, where today's alone would be an empty list.
-**Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures
-the owner reads every day. A menu over the whole screen: it would hide the figures it changes.
-**Revisit if:** the window is too small for both sides.
-**Cases:**
-- Menu open: the figures are still in view, and a new base colour shows on them at once.
-- Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
-
 ## Time away is a gap or an added break (2026-11-14)
 
 **Built by:** Clocking for the gap; Breaks and flex days for the added break.
