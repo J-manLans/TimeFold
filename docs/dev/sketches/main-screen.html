@@ -45,7 +45,7 @@
   --text-font: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
   --text-stretch: 75%;  --text-weight: 500;  --text-case: normal;  --text-tracking: 0.06em;
   /* Motion */
-  --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;  --speed-tab: 0.22s;
+  --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;  --speed-tab: 0.22s;  --speed-row: 0.3s;
   /* The menu panel */
   --menu-blur: 7px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
   /* Focus and grain */
@@ -74,6 +74,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .toolbar { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 12px 14px; border: 1px dashed var(--page-line); border-radius: 8px; font-size: 13px; color: var(--page-muted); }
 .toolbar label { display: flex; align-items: center; gap: 8px; }
 .toolbar input[type="range"] { width: 140px; }
+.toolbar .huering { display: inline-flex; align-items: center; gap: 6px; }
 .toolbar .val { font-family: var(--mono); color: var(--page-fg); min-width: 6ch; }
 .toolbar button { font: inherit; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--page-line); background: transparent; color: var(--page-fg); cursor: pointer; }
 
@@ -89,18 +90,24 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --c-line:      light-dark(#dedfe2, #2c2f35);
   --c-scrim:     light-dark(rgba(20, 22, 26, 0.25), rgba(0, 0, 0, 0.45));
   /* Buttons */
-  --c-btn:       light-dark(#e9eaea, #2a2d33);
+  --c-btn:       light-dark(#d3d8de, #2a2d33);   /* light: 1.29:1 against the page, the same as the popup; text 13.3:1 */
   --c-btn-line:  light-dark(#c9ccd2, #3a3e45);
-  --c-hover:     light-dark(#eef0f2, #343840);
+  --c-hover:     light-dark(#c3c9d1, #343840);   /* light: a step darker on hover; text 11.4:1 */
+  --c-btn-fg:    light-dark(#0e1013, #eef0f3);   /* text on buttons: 11.4:1 on the light button, 10.4:1 hovered */
+  --popup-bg:    var(--c-btn);                   /* the profile popup: the buttons' colour (1.33:1 to the dimmed page in light) */
   --press-shade: light-dark(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.18));
   /* Profile circle: the disc's shadow and its dent */
   --dot-drop:    light-dark(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.60));
-  --well-edge:   light-dark(#d6d6d6, rgba(0, 0, 0, 0.18));
-  --well-shade:  light-dark(#d0d0d0, rgba(0, 0, 0, 0.25));
-  --well-lip:    light-dark(transparent, rgba(255, 255, 255, 0.08));
+  --well-edge:   light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.18));   /* the dent is see-through in both themes, */
+  --well-shade:  light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.25));   /* so it is always a shade of the button */
+  --well-lip:    light-dark(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.08));
   /* Menu: the frosted panel (the last number is how solid it is) and its quiet text */
   --menu-frost:  light-dark(rgba(214, 216, 220, 0.50), rgba(26, 28, 32, 0.50));
   --menu-muted:  light-dark(#464b53, #8f949d);
+  /* Lines and borders in the menu, against its frost. Faint lines read weaker on light than on dark at the same
+     ratio, so the light theme's are a little stronger: lines 1.59:1 / 1.49:1, borders 2.2:1 / 2.0:1. */
+  --menu-line:      light-dark(#b5b8ba, #373a3c);
+  --menu-btn-line:  light-dark(#999c9e, #4a4d4f);
   /* Figures side. Light theme: a deep slate blue instead of black. Against the white control side it has about half
      the contrast black had (9.7:1 instead of 17:1), so it no longer glares, while its light text keeps a high
      contrast on it (9.6:1, where the grey panel gave 2.6:1). Blue is also the complement of the default orange, so
@@ -119,7 +126,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   /* Theme values that are not single colours (gradients, shadows, amounts): light here, dark in .app.dark */
   --dot-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0.05));
   --dot-inner: inset 0 2px 3px #ffffff;
-  --well-bg: #ffffff;
+  --well-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.01));
   --grain-o: 0.09;
 
   font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight);
@@ -150,7 +157,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* Matte moulded plastic: soft top light, faint edge highlight, short soft shadow, grain, no gloss */
 .plastic {
-  position: relative; border: var(--border-w) solid var(--c-btn-line); color: var(--c-fg); cursor: pointer;
+  position: relative; border: var(--border-w) solid var(--c-btn-line); color: var(--c-btn-fg); cursor: pointer;
   background-color: var(--c-btn); border-radius: var(--r-btn); box-shadow: var(--btn-shadow);
   transition: background-color var(--speed-press) ease, box-shadow var(--speed-press) ease;
 }
@@ -165,21 +172,21 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .profile-btn { grid-area: prof; display: grid; place-items: center; isolation: isolate; }
 /* The profile circle: a raised light disc sitting in a recessed well, after the CodePen pen
    "bthehuman/pen/zGKBvm" (MIT), scaled down and put on theme tokens. */
-.profile-btn .dot {
+.profile-btn .dot, .theme-btn .dot {
   position: relative; width: var(--dot-size); height: var(--dot-size); border-radius: 50%;
   background-color: var(--c-btn); background-image: var(--dot-bg);
   box-shadow: 0 2px 5px var(--dot-drop), var(--dot-inner);
   display: grid; place-items: center;
   font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--dot-letter); line-height: 1;
 }
-.profile-btn .dot::before {
+.profile-btn .dot::before, .theme-btn .dot::before {
   content: ""; position: absolute; inset: calc(-1 * var(--dent)); border-radius: 50%; z-index: -1;
   background: var(--well-bg); border-top: 1px solid var(--well-edge);
   box-shadow: inset 0 4px 14px var(--well-shade), 0 1px 0 var(--well-lip);
 }
 .profile-btn[aria-disabled="true"] { cursor: default; }
 .pair { grid-area: pair; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.pair button { font: inherit; font-size: 13px; }
+.pair button { font: inherit; font-size: 13px; font-weight: 600; }
 
 /* The warning label that follows the pointer over the start button */
 .tip { position: fixed; z-index: 50; pointer-events: none; padding: 4px 9px; border-radius: var(--r-small); font-size: 12px; background: rgba(13, 16, 20, 0.78); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); color: #e6eaf0; border: 1px solid var(--tipc, #e80003); white-space: nowrap; opacity: 0; transition: opacity var(--speed-fade) ease; }
@@ -187,7 +194,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
 .status { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; } /* keeps its room even when empty */
 .pause-area { height: 32px; display: grid; place-items: center; }
-.pause { font: inherit; font-size: 12.5px; padding: 0 14px; height: 30px; }
+.pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
 .pause:disabled { opacity: 0.45; cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
 .pause-field input:focus, .pause-field input:focus-visible { outline: var(--focus-w) solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
@@ -202,7 +209,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* Menu: slides in from the left and stops at the divider */
 /* In the menu, quiet text is darker in the light theme, so it holds up on the frost. */
-.menu { --c-muted: var(--menu-muted); }
+.menu { --c-muted: var(--menu-muted); --c-line: var(--menu-line); --c-btn-line: var(--menu-btn-line); }
 /* Menu: folded, it is the button in the top-left corner; open, it grows into a frosted panel up to the divider. */
 .menu {
   position: absolute; inset: 0; z-index: 5;
@@ -223,7 +230,11 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu.open .menu-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .menu.open .menu-toggle span:nth-child(2) { opacity: 0; }
 .menu.open .menu-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-.menu h2 { margin: 0 0 4px 52px; font-size: 16px; font-weight: 600; line-height: 32px; }
+.menu h2 { margin: 0; font-size: 16px; font-weight: 600; line-height: 32px; }
+.menu-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px 52px; min-height: 40px; }
+/* The theme button: drawn like the profile button's disc in its dent, smaller */
+.theme-btn { --dot-size: 26px; --dent: 4px; width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--c-fg); }
+.theme-label { font-size: var(--size-note); color: var(--c-muted); }
 .menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity 0.12s ease; }
 .menu.open .body { opacity: 1; transition: opacity 0.2s ease 0.14s; }
 .menu section { display: grid; gap: 10px; }
@@ -269,14 +280,20 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .prow-head .chev { margin-left: auto; color: var(--c-muted); transition: transform var(--speed-fade) ease; }
 .prow.open .chev { transform: rotate(90deg); }
 .prow.archived .prow-head { opacity: 0.55; }
+/* A row unfolds and folds: its body's height animates from 0 to its own size, and fades. */
+.prow-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--speed-row) cubic-bezier(.2, .7, .2, 1); }
+.prow.open .prow-wrap { grid-template-rows: 1fr; }
+.prow-clip { min-height: 0; overflow: hidden; opacity: 0; transition: opacity var(--speed-row) ease; }
+.prow.open .prow-clip { opacity: 1; }
 .prow-body { padding: 2px 12px 12px; display: grid; gap: 2px; }
+@media (prefers-reduced-motion: reduce) { .prow-wrap, .prow-clip { transition: none; } }
 .prow-body .field { display: flex; align-items: center; gap: 10px; min-height: 34px; }
 .prow-body .field > span:first-child { min-width: 110px; color: var(--c-muted); }
 @media (prefers-reduced-motion: reduce) { .tabpanel { animation: none; } }
 
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
-.popup { background: var(--c-btn); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.popup { background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
 .popup h3 { margin: 4px 8px 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
 .popup button { display: flex; gap: 10px; align-items: center; font: inherit; text-align: left; padding: 8px; border: 0; border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: pointer; }
 .popup button:hover, .popup button[aria-current="true"] { background: var(--c-hover); }
@@ -331,6 +348,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     </label>
     <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
     <span>Each stop records 2 h 15 min.</span>
+    <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
 
   <div class="app" id="app" data-app-theme="system" data-divider="line">
@@ -362,12 +380,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       <div class="menu" id="menu">
         <button class="menu-toggle" id="menuBtn" type="button" aria-label="Öppna menyn" aria-expanded="false"><span></span><span></span><span></span></button>
         <div class="body" id="menuBody" inert>
-          <h2>Meny</h2>
+          <div class="menu-head">
+            <h2>Meny</h2>
+            <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema: System"><span class="dot"><svg id="themeIcon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"></svg></span></button>
+            <span class="theme-label" id="themeLabel">System</span>
+          </div>
           <div class="tabs" role="tablist" aria-label="Menyns delar">
             <button class="tab" role="tab" type="button" data-tab="profiler" aria-selected="true">Profiler</button>
-            <button class="tab" role="tab" type="button" data-tab="arbetstid" aria-selected="false">Arbetstid</button>
-            <button class="tab" role="tab" type="button" data-tab="manadsstart" aria-selected="false">Månadsstart</button>
-            <button class="tab" role="tab" type="button" data-tab="utseende" aria-selected="false">Utseende</button>
+            <button class="tab" role="tab" type="button" data-tab="arbetstid" aria-selected="false">Tid</button>
           </div>
           <div class="tabpanel" role="tabpanel" data-panel="profiler">
             <ul class="prows" id="plist"></ul>
@@ -376,30 +396,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <div class="tabpanel" role="tabpanel" data-panel="arbetstid" hidden>
             <div id="workTime"></div>
             <p class="hint">Taket för de andra profilerna är heltid minus vaktmästartimmarna, per vardag.</p>
-          </div>
-          <div class="tabpanel" role="tabpanel" data-panel="manadsstart" hidden>
             <div id="monthStart"></div>
             <p class="hint">Dagen månaden börjar på, så som skolan räknar. Taket, rapporten och rensningen räknar med den.</p>
-          </div>
-          <div class="tabpanel" role="tabpanel" data-panel="utseende" hidden>
-          <section>
-            <h3>Tema</h3>
-            <div class="seg" id="themeSeg">
-              <button type="button" data-t="system" aria-pressed="true">System</button><button type="button" data-t="light" aria-pressed="false">Ljust</button><button type="button" data-t="dark" aria-pressed="false">Mörkt</button>
-            </div>
-          </section>
-          <section data-fig="wheel">
-            <h3>Takhjulet</h3>
-            <div class="line"><span>Grundfärg</span><input type="color" data-k="base" aria-label="Takhjulets grundfärg"></div>
-            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Takhjulets överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd default</button></div>
-            <label class="line"><input type="checkbox" data-k="unify"> Förena färger</label>
-          </section>
-          <section data-fig="bar">
-            <h3>Saldostapeln</h3>
-            <div class="line"><span>Grundfärg</span><input type="color" data-k="base" aria-label="Saldostapelns grundfärg"></div>
-            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Saldostapelns överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd default</button></div>
-            <label class="line"><input type="checkbox" data-k="unify"> Förena färger</label>
-          </section>
           </div>
         </div>
       </div>
@@ -509,11 +507,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var onScreen = "v", running = null; // running: { profile, start }
   var balance = 270, used = 2280, pay = 1739; // minutes, minutes, euro (1 700 salary + 1.5 h × 26)
   var shown = { balance: 270, used: 2280, pay: 1739 };
-  var colours = {
-    wheel: { base: "#d78951", over: null, chosen: false },
-    bar: { base: "#d78951", over: null, chosen: false },
-    unify: true
-  };
   var DAY = ["sön", "mån", "tis", "ons", "tor", "fre", "lör"];
   function mk(dayOffset, sh, sm, eh, em, p, brk) {
     var d = new Date(); d.setDate(d.getDate() - dayOffset);
@@ -530,34 +523,39 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function dur(e) { return Math.round((e.end - e.start) / 60000) - e.brk; }
   function prof(id) { for (var i = 0; i < profiles.length; i++) if (profiles[i].id === id) return profiles[i]; return profiles[0]; }
 
-  // ---- Colours ----
+  // ---- Colours: each profile carries a base and an over colour; the figures follow the profiles ----
+  var GREY = "#9aa3ae", GREY_OVER = "#e2e6eb";   // the wheel while the balance profile is on screen: grey, over it a light grey
+  function balanceProfile() { for (var i = 0; i < profiles.length; i++) if (profiles[i].balance) return profiles[i]; return profiles[0]; }
+  function pairFor(base, over) { var s = derive(base, panelBg()); return { base: base, dim: s.dim, over: over || s.over, suggested: s.over }; }
+  function profPair(q) { return pairFor(q.colour, q.over); }
+  // The bar is always the balance profile's; the wheel is the profile on screen's, or grey for the balance profile.
   function resolved(which) {
-    var c = colours[which], s = derive(c.base, panelBg());
-    return { base: c.base, dim: s.dim, over: c.chosen && c.over ? c.over : s.over, suggested: s.over };
+    if (which === "bar") return profPair(balanceProfile());
+    var q = prof(onScreen); return q.balance ? pairFor(GREY, GREY_OVER) : profPair(q);
   }
   function applyColours() {
     var w = resolved("wheel");
     app.style.setProperty("--wheel-base", w.base); app.style.setProperty("--wheel-over", w.over);
-    document.querySelectorAll(".menu section[data-fig]").forEach(function (sec) {
-      var which = sec.dataset.fig, r = resolved(which);
-      sec.querySelector('[data-k="base"]').value = r.base;
-      sec.querySelector('[data-k="over"]').value = r.over;
-      sec.querySelector('[data-k="tag"]').textContent = colours[which].chosen ? "Ditt val" : "Default";
-      sec.querySelector('[data-k="reset"]').hidden = !colours[which].chosen;
-      sec.querySelector('[data-k="unify"]').checked = colours.unify;
-    });
   }
-  // A profile's colour: the balance profile takes the bar's over colour, the others the wheel's.
-  function profColour(id) { return prof(id).balance ? resolved("bar").over : resolved("wheel").over; }
-  function setColour(which, key, value) {
-    var targets = colours.unify ? ["wheel", "bar"] : [which];
-    targets.forEach(function (t) {
-      if (key === "base") { colours[t].base = value; colours[t].chosen = false; colours[t].over = null; }
-      else if (key === "over") { colours[t].over = value; colours[t].chosen = true; }
-      else if (key === "reset") { colours[t].chosen = false; colours[t].over = null; }
-    });
-    applyColours(); drawFigures(); drawControls();
+  // A profile's colour on the control side: its over colour (the letter, the ring, the label, the focus rings).
+  function profColour(id) { return profPair(prof(id)).over; }
+  // A new profile's base: the OKLCH hue in the middle of the largest gap between the existing profiles' base hues
+  // (a random pick between equal gaps), at their average lightness and vividness.
+  function nextProfileColour(others) {
+    var lch = others.map(function (id) { return labToLch(rgbToOklab(hexToRgb(prof(id).colour))); });
+    if (!lch.length) return "#d78951";
+    var L = 0, C = 0; lch.forEach(function (c) { L += c[0]; C += c[1]; }); L /= lch.length; C /= lch.length;
+    var hues = lch.map(function (c) { return c[2]; }).sort(function (a, b) { return a - b; });
+    var best = [], bestGap = -1;
+    for (var i = 0; i < hues.length; i++) {
+      var a = hues[i], b = i + 1 < hues.length ? hues[i + 1] : hues[0] + 360, gap = b - a;
+      if (gap > bestGap + 0.5) { best = [a + gap / 2]; bestGap = gap; }
+      else if (Math.abs(gap - bestGap) <= 0.5) best.push(a + gap / 2);
+    }
+    var h = best[Math.floor(Math.random() * best.length)] % 360;
+    return rgbToHex(lchToRgb([L, C, h]));
   }
+  function recolour() { applyColours(); drawFigures(); drawControls(); }
 
   // ---- Drawing ----
   var NS = "http://www.w3.org/2000/svg";
@@ -651,7 +649,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function drawControls() {
     var p = prof(onScreen);
     $("profileDot").textContent = p.name.charAt(0).toUpperCase();
-    $("profileDot").style.color = profColour(onScreen);
+    $("profileDot").style.color = profColour(onScreen); drawHueRing();
     app.style.setProperty("--accent", profColour(onScreen));
     if (running) app.style.setProperty("--run", profColour(running.profile));
     $("profileBtn").setAttribute("aria-disabled", String(activeProfiles().length < 2));
@@ -723,7 +721,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var b = document.createElement("button"); b.type = "button"; if (q.id === onScreen) b.setAttribute("aria-current", "true");
       var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id);
       b.append(d, q.name + (running && running.profile === q.id ? "  ●" : ""));
-      b.addEventListener("click", function () { onScreen = q.id; $("scrim").hidden = true; drawControls(); });
+      b.addEventListener("click", function () { onScreen = q.id; $("scrim").hidden = true; recolour(); });
       list.appendChild(b);
     });
     $("scrim").hidden = false;
@@ -753,6 +751,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("addProfile").addEventListener("click", function () {
     var n = $("newName").value.trim(); if (!n) return;
     var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
+    q.colour = nextProfileColour(profiles.map(function (x) { return x.id; })); q.over = null;
     profiles.push(q); $("newName").value = ""; openRow = q.id; renderProfiles(); drawControls();
   });
 
@@ -784,6 +783,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     q.category = q.balance ? "Månadslön" : "Timlön"; q.archived = false;
   });
   function activeProfiles() { return profiles.filter(function (q) { return !q.archived; }); }
+  balanceProfile().colour = "#d78951"; balanceProfile().over = null;
+  profiles.forEach(function (q) { if (!q.colour) { q.colour = nextProfileColour(profiles.filter(function (x) { return x !== q && x.colour; }).map(function (x) { return x.id; })); q.over = null; } });
 
   // A locked counting value: text with "Ändra"; "Ändra" opens the editor; Enter confirms and asks "Gäller från"
   // (today unless moved); Esc aborts at any step. "Tidigare värden (n)" lists the earlier values.
@@ -858,7 +859,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); abort(); }
       else if (e.key === "Enter") {
         e.preventDefault();
-        if (stage === "edit") { var v = slider ? +slider.value : o.parse(input.value); if (v !== null && v !== undefined && !isNaN(v)) askDate(v); }
+        if (stage === "edit") {
+          var v = slider ? +slider.value : o.parse(input.value);
+          if (v === null || v === undefined || (typeof v === "number" && isNaN(v))) return;
+          if (o.undated) { o.save(v); show(); if (o.onCommit) o.onCommit(); btn.focus(); }
+          else askDate(v);
+        }
         else if (stage === "date") commit();
       }
     });
@@ -877,21 +883,35 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (q.balance) { var mk = document.createElement("span"); mk.className = "mark"; mk.textContent = "saldo"; head.appendChild(mk); }
       if (q.archived) { var ar = document.createElement("span"); ar.className = "mark"; ar.textContent = "arkiverad"; head.appendChild(ar); }
       var chev = document.createElement("span"); chev.className = "chev"; chev.textContent = "›"; head.appendChild(chev);
-      head.addEventListener("click", function () { openRow = openRow === q.id ? null : q.id; renderProfiles(); });
+      // Opening a row folds any other open row; both move with an animation, nothing is rebuilt.
+      head.addEventListener("click", function () {
+        var opening = openRow !== q.id;
+        document.querySelectorAll(".prow.open").forEach(function (r) {
+          r.classList.remove("open"); r.querySelector(".prow-head").setAttribute("aria-expanded", "false"); r.querySelector(".prow-wrap").inert = true;
+        });
+        if (opening && openEdit) openEdit.abort();
+        openRow = opening ? q.id : null;
+        if (opening) { li.classList.add("open"); head.setAttribute("aria-expanded", "true"); wrap.inert = false; }
+      });
       li.appendChild(head);
-      if (openRow === q.id) {
+      var wrap = document.createElement("div"); wrap.className = "prow-wrap"; wrap.inert = openRow !== q.id;
+      {
         var body = document.createElement("div"); body.className = "prow-body";
         // Name and pay category change at once: no count depends on them.
-        var f1 = document.createElement("label"); f1.className = "field";
-        var l1 = document.createElement("span"); l1.textContent = "Namn";
-        var in1 = document.createElement("input"); in1.type = "text"; in1.value = q.name;
-        in1.addEventListener("change", function () { if (in1.value.trim()) { q.name = in1.value.trim(); renderProfiles(); drawControls(); } });
-        f1.append(l1, in1);
-        var f2 = document.createElement("label"); f2.className = "field";
-        var l2 = document.createElement("span"); l2.textContent = "Lönekategori";
-        var in2 = document.createElement("input"); in2.type = "text"; in2.value = q.category;
-        in2.addEventListener("change", function () { q.category = in2.value; });
-        f2.append(l2, in2);
+        // Name and pay category: behind "Ändra" like every field; no "Gäller från", since no count depends on them.
+        var f1 = lockedValue({
+          label: "Namn", undated: true, hist: function () { return [{ v: q.name }]; },
+          show: function (v) { return v; }, toText: function (v) { return v; },
+          parse: function (s) { return s.trim() ? s.trim() : null; },
+          save: function (v) { q.name = v; },
+          onCommit: function () { nm.textContent = q.name; d.textContent = q.name.charAt(0).toUpperCase(); drawControls(); }
+        });
+        var f2 = lockedValue({
+          label: "Lönekategori", undated: true, hist: function () { return [{ v: q.category }]; },
+          show: function (v) { return v || "Ingen"; }, toText: function (v) { return v; },
+          parse: function (s) { return s.trim(); },
+          save: function (v) { q.category = v; }
+        });
         var pay = lockedValue({
           label: q.pay.kind === "salary" ? "Månadslön" : "Timpris",
           hist: function () { return q.pay.hist; },
@@ -899,7 +919,23 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           toText: function (v) { return String(v); },
           parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; }
         });
-        body.append(f1, pay, f2);
+        var fc = document.createElement("label"); fc.className = "field";
+        var lc = document.createElement("span"); lc.textContent = "Grundfärg";
+        var ic = document.createElement("input"); ic.type = "color"; ic.value = q.colour; ic.setAttribute("aria-label", "Profilens grundfärg");
+        fc.append(lc, ic);
+        var fo = document.createElement("div"); fo.className = "field";
+        var lo = document.createElement("span"); lo.textContent = "Överfärg";
+        var io = document.createElement("input"); io.type = "color"; io.setAttribute("aria-label", "Profilens överfärg");
+        var tag = document.createElement("span"); tag.className = "hint";
+        var reset = document.createElement("button"); reset.type = "button"; reset.className = "small"; reset.textContent = "Använd default";
+        fo.append(lo, io, tag, reset);
+        function syncOver() { io.value = profPair(q).over; tag.textContent = q.over ? "Ditt val" : "Default"; reset.hidden = !q.over; d.style.color = profColour(q.id); }
+        syncOver();
+        // A new base brings a new suggestion for the over colour.
+        ic.addEventListener("input", function () { q.colour = ic.value; q.over = null; syncOver(); recolour(); });
+        io.addEventListener("input", function () { q.over = io.value; syncOver(); recolour(); });
+        reset.addEventListener("click", function () { q.over = null; syncOver(); recolour(); });
+        body.append(f1, fc, fo, pay, f2);
         if (!q.balance) {
           var f3 = document.createElement("div"); f3.className = "field";
           var arch = document.createElement("button"); arch.type = "button"; arch.className = "small";
@@ -907,11 +943,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           arch.addEventListener("click", function () {
             q.archived = !q.archived;
             if (q.archived && onScreen === q.id) onScreen = activeProfiles()[0].id;
-            renderProfiles(); drawControls();
+            renderProfiles(); recolour();
           });
           var sp = document.createElement("span"); f3.append(sp, arch); body.appendChild(f3);
         }
-        li.appendChild(body);
+        var clip = document.createElement("div"); clip.className = "prow-clip";
+        clip.appendChild(body); wrap.appendChild(clip); li.appendChild(wrap);
       }
       ul.appendChild(li);
     });
@@ -944,6 +981,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     }));
   }
   function renderMenu() { renderProfiles(); renderSettings(); }
+  // Sketch only: where the profiles' hues sit on the colour circle.
+  function drawHueRing() {
+    var svg = $("hueRing"); if (!svg) return; clear(svg);
+    svg.appendChild(el("circle", { cx: 30, cy: 30, r: 22, fill: "none", stroke: "currentColor", "stroke-opacity": 0.25, "stroke-width": 1 }));
+    profiles.forEach(function (q) {
+      if (q.archived) return;
+      var hex = q.colour, h = labToLch(rgbToOklab(hexToRgb(hex)))[2] * Math.PI / 180;
+      svg.appendChild(el("circle", { cx: 30 + 22 * Math.sin(h), cy: 30 - 22 * Math.cos(h), r: 5, fill: hex }));
+    });
+  }
   // Theme: "system" follows the computer; the dark tokens live in one block, .app.dark.
   var darkMq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
   function applyTheme() {
@@ -952,24 +999,28 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", applyTheme);
   applyTheme();
-  document.querySelectorAll("#themeSeg button").forEach(function (b) {
-    b.addEventListener("click", function () {
-      app.dataset.appTheme = b.dataset.t; applyTheme();
-      document.querySelectorAll("#themeSeg button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
-    });
+  // The theme button: System (half-filled circle) → Ljust (sun) → Mörkt (moon) → System.
+  var THEMES = [["system", "System"], ["light", "Ljust"], ["dark", "Mörkt"]];
+  function drawThemeIcon() {
+    var th = app.dataset.appTheme, svg = $("themeIcon"); clear(svg);
+    var ink = "currentColor";
+    if (th === "light") {
+      svg.appendChild(el("circle", { cx: 12, cy: 12, r: 4, fill: "none", stroke: ink, "stroke-width": 1.8 }));
+      for (var k = 0; k < 8; k++) { var a = k * Math.PI / 4; svg.appendChild(el("line", { x1: 12 + 7 * Math.cos(a), y1: 12 + 7 * Math.sin(a), x2: 12 + 9.5 * Math.cos(a), y2: 12 + 9.5 * Math.sin(a), stroke: ink, "stroke-width": 1.8, "stroke-linecap": "round" })); }
+    } else if (th === "dark") {
+      svg.appendChild(el("path", { d: "M15.5 3.5a8.5 8.5 0 1 0 5 13.4A7 7 0 0 1 15.5 3.5z", fill: "none", stroke: ink, "stroke-width": 1.8, "stroke-linejoin": "round" }));
+    } else {
+      svg.appendChild(el("circle", { cx: 12, cy: 12, r: 8, fill: "none", stroke: ink, "stroke-width": 1.8 }));
+      svg.appendChild(el("path", { d: "M12 4a8 8 0 0 1 0 16z", fill: ink }));
+    }
+    var name = THEMES.filter(function (x) { return x[0] === th; })[0][1];
+    $("themeLabel").textContent = name; $("themeBtn").setAttribute("aria-label", "Tema: " + name + ". Klicka för nästa.");
+  }
+  $("themeBtn").addEventListener("click", function () {
+    var k = THEMES.map(function (x) { return x[0]; }).indexOf(app.dataset.appTheme);
+    app.dataset.appTheme = THEMES[(k + 1) % THEMES.length][0]; applyTheme(); drawThemeIcon();
   });
-  document.querySelectorAll(".menu section[data-fig]").forEach(function (sec) {
-    var which = sec.dataset.fig, other = which === "wheel" ? "bar" : "wheel";
-    sec.querySelector('[data-k="base"]').addEventListener("input", function () { setColour(which, "base", this.value); });
-    sec.querySelector('[data-k="over"]').addEventListener("input", function () { setColour(which, "over", this.value); });
-    sec.querySelector('[data-k="reset"]').addEventListener("click", function () { setColour(which, "reset"); });
-    sec.querySelector('[data-k="unify"]').addEventListener("change", function () {
-      colours.unify = this.checked;
-      // Turned on: the colours of the place it is turned on from go to both.
-      if (colours.unify) colours[other] = { base: colours[which].base, over: colours[which].over, chosen: colours[which].chosen };
-      applyColours(); drawFigures(); drawControls();
-    });
-  });
+  drawThemeIcon();
 
   // Sketch toolbar
   function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
