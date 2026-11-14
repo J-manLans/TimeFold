@@ -228,12 +228,13 @@ balance profile is on screen: the wheel would seem to belong to a profile that i
 
 **Decision:** each profile has a base colour and an over colour, set in its row in the menu, each with the app's own
 colour picker: a swatch that opens straight onto a colour map (saturation and lightness), with a hue strip and the
-colour's code, placed so it always fits inside the menu, changing the colour live and closing on Esc or a click outside;
-they change at once, not from a date, since no count depends on them, and they travel with the profile in the handover.
-The profile with the balance starts with the base `#d78951`, a soft orange; the first start asks for its colours ("A
-first install starts fresh or imports"). A new profile's base is the colour farthest from the others: in OKLCH, the hue
-in the middle of the largest gap between the existing profiles' base hues on the colour circle (a random pick between
-gaps of equal size), at their average lightness and vividness. The colours go to:
+colour's code, placed so it always fits inside the menu. Only the swatch opens it. Dragging and typing change only the
+picker's preview; "OK" saves the colour and closes it, while Esc or a click outside closes it without saving; they
+change at once, not from a date, since no count depends on them, and they travel with the profile in the handover. The
+profile with the balance starts with the base `#d78951`, a soft orange; the first start asks for its colours ("A first
+install starts fresh or imports"). A new profile's base is the colour farthest from the others: in OKLCH, the hue in the
+middle of the largest gap between the existing profiles' base hues on the colour circle (a random pick between gaps of
+equal size), at their average lightness and vividness. The colours go to:
 - the control side, for the profile on screen: its letter (in the over colour), the ring around the start button, the
   warning label, the focus rings, the status line's mark;
 - the balance bar, always the balance profile's ("The balance bar");
