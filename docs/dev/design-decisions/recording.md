@@ -34,6 +34,29 @@ show the warning: the click target would move under the pointer.
 - "Starta jobb" and "Stoppa jobb": the button has the same size in both.
 - While an entry runs, the balance bar and the ceiling wheel do not change; at stop they include it.
 
+## The last click can be undone for a minute (2026-11-14)
+
+**Built by:** Clocking.
+
+**Decision:** after a start or a stop, the status line's place under the button block shows a quiet line for one
+minute, such as "Stoppad 15:40 · Ångra" or "Startad 08:02 · Ångra"; then the status line comes back. "Ångra" reverses
+exactly that click: an undone start removes the entry it created; an undone stop lets the entry run on as if never
+stopped; an undone switch ("Starta jobb" on one profile while another runs) reverses both halves, removing the new
+entry and letting the old one run on. Only the latest click can be undone, and only within its minute. An undone
+click leaves no mark in the record ("Entries remember how they were made"); after the minute, changes go through
+editing as usual.
+**Why:** one click makes a mis-click easy, and putting it right should be one click too, not a trip to the editor. A
+slip caught within a minute is not a correction of the record, so it leaves no trace; a later change is, and is
+marked.
+**Rejected:** an undo history: the latest click is the one that slips. Asking to confirm each click: it would break
+"one click to start or stop". Undo without a time limit: an old click is a correction and belongs on the entry's line.
+**Revisit if:** a minute proves too short or too long in daily use.
+**Cases:**
+- Stop pressed by mistake at 15:40, "Ångra" at 15:40:30: the entry runs on, with no mark.
+- Start pressed at 08:02, "Ångra": no entry; nothing runs.
+- A running, "Starta jobb" on B at 13:00, "Ångra": B's entry is gone, A runs on.
+- Stop at 15:40, nothing done until 15:42: the undo line is gone; the stop stays.
+
 ## A running entry from an earlier day asks (2026-11-14)
 
 **Built by:** Clocking.

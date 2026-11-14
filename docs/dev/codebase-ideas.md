@@ -34,3 +34,11 @@ process; the app gains little ("A plain window app", in `design-decisions/`).
 Switching tabs in the menu ("The menu has two tabs, with every value locked behind "Ändra"", in `design-decisions/`)
 starts as a fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the
 menu grows out of its button. To try in the menu's coding session, against the fade.
+
+## Today's hours on the control side
+
+**Returns when:** the owner, using the app, keeps wondering how much is left of today.
+A quiet line under the button block: today's hours of the profile with the balance against the day's expected hours
+("Idag 3:52 av 6:00"), maybe as a slim bar, updated at stop like everything else. Only that profile has a daily
+target; the others have the month's ceiling, which the wheel shows. The day's total already exists for the balance
+("Day total" in the glossary), so the line is small to add.
