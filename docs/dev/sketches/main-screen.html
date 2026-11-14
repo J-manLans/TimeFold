@@ -45,7 +45,9 @@
   --text-font: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
   --text-stretch: 75%;  --text-weight: 500;  --text-case: normal;  --text-tracking: 0.06em;
   /* Motion */
-  --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.28s;
+  --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;
+  /* The menu panel */
+  --menu-blur: 7px;    --menu-solid: 72%;   /* how solid the panel is; lower shows more of the control side */
   /* Focus and grain */
   --focus-w: 2px;  --grain-figures: 0.12;
   /* ======================================================================== */
@@ -86,6 +88,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --dot-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0.05));
   --dot-inner: inset 0 2px 3px #ffffff;  --dot-drop: rgba(0, 0, 0, 0.30);
   --well-bg: #ffffff;  --well-edge: #d6d6d6;  --well-shade: #d0d0d0;  --well-lip: transparent;
+  --menu-tint: #d6d8dc;
+  --menu-muted: #464b53;  /* quieter text in the menu: darker than elsewhere, for contrast on the frost */   /* the frost's colour: a little darker than the control side, so the panel stands out */
+  --menu-frost: color-mix(in srgb, var(--menu-tint) var(--menu-solid), transparent);
   /* Grain on the control side */
   --grain-o: 0.09;
   /* Figures side, every theme */
@@ -97,6 +102,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 .app.dark {
+  --menu-tint: #1a1c20;  --menu-muted: #8f949d;
   --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-scrim: rgba(0, 0, 0, 0.45);
   --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #343840; --press-shade: rgba(0, 0, 0, 0.18);
   --dot-bg: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
@@ -115,7 +121,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .controls > .menu, .controls > .scrim { position: absolute; }
 .icon-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: transparent; color: var(--c-fg); border-radius: var(--r-small); cursor: pointer; }
 .icon-btn:hover { background: var(--c-hover); }
-.top { padding: 12px; }
+.top { height: 64px; }
 .center { display: grid; place-content: center; gap: 14px; justify-items: center; padding: 0 16px; }
 
 /* Matte moulded plastic: soft top light, faint edge highlight, short soft shadow, grain, no gloss */
@@ -171,11 +177,31 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .toast { font-size: 12px; color: var(--c-muted); height: 16px; text-align: center; }
 
 /* Menu: slides in from the left and stops at the divider */
-.menu { position: absolute; inset: 0; background: var(--c-bg); border-right: 1px solid var(--c-line); transform: translateX(-102%); transition: transform var(--speed-menu) cubic-bezier(.2, .7, .2, 1); z-index: 5; display: grid; grid-template-rows: auto 1fr; }
-.menu.open { transform: translateX(0); }
-.menu header { display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 6px 18px; }
-.menu h2 { margin: 0; font-size: 16px; font-weight: 600; }
-.menu .body { overflow-y: auto; padding: 4px 18px 24px; display: grid; gap: 20px; align-content: start; }
+/* In the menu, quiet text is darker in the light theme, so it holds up on the frost. */
+.menu { --c-muted: var(--menu-muted); }
+/* Menu: folded, it is the button in the top-left corner; open, it grows into a frosted panel up to the divider. */
+.menu {
+  position: absolute; inset: 0; z-index: 5;
+  background-color: var(--c-btn);
+  clip-path: inset(12px calc(100% - 52px) calc(100% - 52px) 12px round var(--r-small));
+  transition: clip-path var(--speed-menu) cubic-bezier(.2, .7, .2, 1), background-color var(--speed-menu) ease;
+}
+.menu.open {
+  clip-path: inset(0 0 0 0 round 0);
+  background-color: var(--menu-frost);
+  -webkit-backdrop-filter: blur(var(--menu-blur)); backdrop-filter: blur(var(--menu-blur));
+}
+.menu-toggle { position: absolute; top: 12px; left: 12px; width: 40px; height: 40px; border: 0; padding: 0; background: transparent; cursor: pointer; z-index: 2; border-radius: var(--r-small); }
+.menu-toggle span { position: absolute; left: 10px; width: 20px; height: 2px; border-radius: 1px; background: var(--c-fg); transition: transform var(--speed-menu) ease, opacity var(--speed-menu) ease; }
+.menu-toggle span:nth-child(1) { top: 13px; }
+.menu-toggle span:nth-child(2) { top: 19px; }
+.menu-toggle span:nth-child(3) { top: 25px; }
+.menu.open .menu-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu.open .menu-toggle span:nth-child(2) { opacity: 0; }
+.menu.open .menu-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.menu h2 { margin: 0 0 4px 52px; font-size: 16px; font-weight: 600; line-height: 32px; }
+.menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity 0.12s ease; }
+.menu.open .body { opacity: 1; transition: opacity 0.2s ease 0.14s; }
 .menu section { display: grid; gap: 10px; }
 .menu h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); font-weight: 600; }
 .menu .line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -231,7 +257,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
 /* Inside the app, every focus ring takes the colour of the profile on screen. */
 .app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--accent, #4b8bff); }
-@media (prefers-reduced-motion: reduce) { .menu { transition: none; } .entries li.new, .zero { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .menu, .menu .body, .menu.open .body, .menu-toggle span { transition: none; } .entries li.new, .zero { animation: none; } }
 </style>
 
 <div class="page">
@@ -252,11 +278,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   <div class="app" id="app" data-app-theme="system" data-divider="line">
     <div class="controls">
-      <div class="top">
-        <button class="icon-btn" id="menuBtn" type="button" aria-label="Meny" aria-expanded="false">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
-      </div>
+      <div class="top"></div>
       <div class="center">
         <div class="block">
           <button class="start plastic" id="startBtn" type="button" aria-describedby="tip"><span class="label" id="startLabel">Starta jobb</span></button>
@@ -279,13 +301,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         <button type="button" id="pruneYes">Rensa</button><button type="button" id="pruneNo">Inte nu</button>
       </div>
 
-      <div class="menu" id="menu" aria-hidden="true">
-        <header><h2>Meny</h2>
-          <button class="icon-btn" id="menuClose" type="button" aria-label="Stäng menyn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-          </button>
-        </header>
-        <div class="body">
+      <!-- The menu is its own button, folded: open, it grows from the top-left corner into a frosted panel. -->
+      <div class="menu" id="menu">
+        <button class="menu-toggle" id="menuBtn" type="button" aria-label="Öppna menyn" aria-expanded="false"><span></span><span></span><span></span></button>
+        <div class="body" id="menuBody" inert>
+          <h2>Meny</h2>
           <section>
             <h3>Profiler</h3>
             <ul class="plist" id="plist"></ul>
@@ -640,9 +660,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("allPop").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
 
   // Menu
-  function setMenu(open) { $("menu").classList.toggle("open", open); $("menu").setAttribute("aria-hidden", String(!open)); $("menuBtn").setAttribute("aria-expanded", String(open)); }
-  $("menuBtn").addEventListener("click", function () { setMenu(true); });
-  $("menuClose").addEventListener("click", function () { setMenu(false); });
+  function setMenu(open) {
+    $("menu").classList.toggle("open", open); $("menuBody").inert = !open;
+    $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
+  }
+  $("menuBtn").addEventListener("click", function () { setMenu(!$("menu").classList.contains("open")); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
   $("addProfile").addEventListener("click", function () {
     var n = $("newName").value.trim(); if (!n) return;
