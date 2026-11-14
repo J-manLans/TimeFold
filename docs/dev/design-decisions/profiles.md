@@ -63,21 +63,21 @@ full ring is the month's ceiling. Two colours are settings of each machine, not 
 and the over colour, each chosen with a colour picker alone (the system's own dialog). Every first install asks for them
 ("A first install starts fresh or imports"), offering a soft orange, `#d78951`, as the base; after that they change in
 the settings menu, at once rather than from a date, since no count depends on them. A report draws the wheel in the
-colours of the machine that exports it. Used hours fill the ring clockwise from 12 o'clock in the base colour; the
-unused rest is the base colour mixed 70% toward the background, in OKLab. When that leaves it within 0.15 lightness of
-the base, as black on a dark background or white on a light one, the unused rest sits 0.15 past the background instead,
-on the side away from the base, in the base's hue at 30% of its chroma, if that lands between lightness 0.05 and 0.98.
-Hours over the ceiling are in the over colour: a second lap from 12 o'clock, drawn over the base colour on the same
-ring. That lap is what carries into the next month, where those hours show in the base colour. From 90% of the ceiling
-the centre number takes the over colour; the ring keeps its colours. The over colour starts as a suggestion worked out
-from the base colour, and a new base colour brings a new suggestion; the owner may pick another, and go back to the
-suggestion with one click. Nothing warns when a picked over colour is close to the base: it is the owner's choice. The
-suggestion, in OKLCH: the base's hue turned 55° toward red (hue 29°), stopping at red, going down through yellow for
-hues up to 170° and up through violet above; a grey base (chroma under 0.04) turns to red. The turned hue is taken at
-the lightness where it is most vivid (the most chroma sRGB allows, sought between lightness 0.2 and 0.98), and as vivid
-as sRGB allows at that lightness, but at least 0.15 lighter or darker than the base: lighter only when the hue turned at
-least 10°, its most vivid lightness is at least 0.15 above the base and the base is at most 0.75, or when darker would
-fall under 0.3.
+colours of the machine that exports it. The balance bar shares these colours while "Unify colours" is on ("The balance
+bar"). Used hours fill the ring clockwise from 12 o'clock in the base colour; the unused rest is the base colour mixed
+70% toward the background, in OKLab. When that leaves it within 0.15 lightness of the base, as black on a dark
+background or white on a light one, the unused rest sits 0.15 past the background instead, on the side away from the
+base, in the base's hue at 30% of its chroma, if that lands between lightness 0.05 and 0.98. Hours over the ceiling are
+in the over colour: a second lap from 12 o'clock, drawn over the base colour on the same ring. That lap is what carries
+into the next month, where those hours show in the base colour. From 90% of the ceiling the centre number takes the over
+colour; the ring keeps its colours. The over colour starts as a suggestion worked out from the base colour, and a new
+base colour brings a new suggestion; the owner may pick another, and go back to the suggestion with one click. Nothing
+warns when a picked over colour is close to the base: it is the owner's choice. The suggestion, in OKLCH: the base's hue
+turned 55° toward red (hue 29°), stopping at red, going down through yellow for hues up to 170° and up through violet
+above; a grey base (chroma under 0.04) turns to red. The turned hue is taken at the lightness where it is most vivid
+(the most chroma sRGB allows, sought between lightness 0.2 and 0.98), and as vivid as sRGB allows at that lightness, but
+at least 0.15 lighter or darker than the base: lighter only when the hue turned at least 10°, its most vivid lightness
+is at least 0.15 above the base and the base is at most 0.75, or when darker would fall under 0.3.
 **Why:** one base colour keeps the ring one family, and turning toward red reads as "too much" in any family. Where two
 colours meet edge to edge the eye parts them by lightness, and two strong colours of equal lightness flicker, hence the
 gap; the unused rest keeps it from the base too, framing a base that is close to the background. No formula suits every

@@ -1,6 +1,6 @@
 # Time
 
-How hours count: on which day, against expected hours, and which days owe them. Each decision follows the template in
+How hours count: on which day, against expected hours, which days owe them, and how the balance shows. Each decision follows the template in
 `README.md`, and is cited by its title.
 
 ## Expected hours: 6 a day, Monday to Friday (2026-11-14)
@@ -54,3 +54,35 @@ after midnight would charge the next day's expected hours, even a day of leave.
 - Janitor, Sunday 22:00 to Monday 01:00, then Monday 11:00–17:00: Monday adds 1 + 6 − 6 = +1.
 - An empty weekday: adds nothing.
 - A flex day: −6.
+
+## The balance bar (2026-11-14)
+
+**Built by:** Clocking; its colour settings with the ceiling wheel's, in Profiles.
+
+**Decision:** the janitor balance shows as a horizontal bar from a 0 line, minus to the left and plus to the right, with
+the balance as a number. The bar is only its active part, with no track behind it. Minus (hours to work in) is in the
+bar's base colour; plus (hours to take out) in its over colour; exactly 0 is a small marker centred on the 0 line, in
+the base colour dimmed. The bar's colours work as the ceiling wheel's ("The ceiling wheel"): a base and an over colour,
+each with a picker, the dimmed colour worked out from the base and the over colour suggested from it, set per machine.
+One switch, "Unify colours", is shown in both the bar's and the wheel's colour settings and stored once, on by default.
+While it is on, the two share one set of colours, and a change in either place changes both. Turned on while they
+differ, the colours of the place it is turned on from go to both. Turned off, each keeps what it has, and they are set
+apart from then on. A large minus gets no warning.
+**Why:** one meaning per colour across both figures: the over colour is "more than expected", which a plus balance is;
+minus is work still to do, in the calm base colour; dimmed is "nothing either way". With no track, the dimmed marker at
+0 stands on its own. Turning unify on, the owner is looking at the colours they want, so those win; one switch stored
+once cannot disagree with itself.
+**Rejected:** a track behind the bar in the dimmed colour: the 0 marker would vanish into it. Minus in the over colour:
+the over colour means hours beyond what is owed, which minus is not. A switch on the bar alone that makes it follow the
+wheel: it made the wheel the leader for no reason. A fixed owner, such as the bar, when unify is turned on: turned on
+from the wheel's settings, it would replace the colours being looked at. A warning for a large minus: the owner does not
+want one.
+**Revisit if:** a third figure gets colours of its own, and unify has to say which it joins.
+**Cases:**
+- Balance 0: the dimmed marker sits centred on the 0 line.
+- Balance −3:00: a bar to the left in the base colour.
+- Balance +5:00: a bar to the right in the over colour.
+- Unify on, the wheel's base changed to blue: the bar's base turns blue too, and both over colours follow the
+  suggestion.
+- Unify off, then the bar's over colour picked by hand: a later change to the wheel leaves the bar as it is.
+- Wheel orange and bar green, unify turned on from the bar's settings: both turn green.

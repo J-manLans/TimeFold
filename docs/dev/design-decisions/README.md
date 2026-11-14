@@ -72,6 +72,7 @@ checks and names the other by title.
 - Expected hours: 6 a day, Monday to Friday
 - Time counts on the day it was worked
 - A day owes its expected hours only when work started on it
+- The balance bar
 
 ### [Corrections](corrections.md)
 
