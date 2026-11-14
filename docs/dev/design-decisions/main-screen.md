@@ -56,7 +56,8 @@ not the costume.
 main screen sketch:
 - **Type:** Bricolage Grotesque, bold and at its narrowest width (75%), for the big things: "Starta jobb", the profile
   letter, the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in
-  normal case.
+  normal case. The quiet lines, what runs and the offer to prune, share one small size (10.5 px) in the muted
+  colour.
 - **Colour:** flat fields with one hot accent, which the over colour already is. The figures side stays a dark panel
   ("The main screen has a control side and a figures side").
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
