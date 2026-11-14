@@ -70,11 +70,11 @@ balance follows.
 
 **Produces:** every kind of work counted apart, the ceiling wheel, and the menu.
 **Settle first:** how the full-time slider is drawn.
-1. Profiles: the profile button and its popup, profile colours, "Ny profil", archiving.
-2. The ceiling, its carry into the next month, and the ceiling wheel with the colour rule.
-3. The menu: its fold-out, the four tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that
-   change from a date; the colour settings and "Förena färger".
-4. The pay estimate; the opening ceiling hours at a fresh start; the colours asked at the first start.
+1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving.
+2. The ceiling, its carry into the next month, and the ceiling wheel in the profile on screen's colours.
+3. The menu: its fold-out, the three tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that
+   change from a date; the theme button.
+4. The pay estimate; the opening ceiling hours at a fresh start; the first profile's colours asked at the first start.
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
 every setting changes from a date as its cases say.
 
@@ -82,7 +82,7 @@ every setting changes from a date as its cases say.
 
 **Produces:** the record moving between the work and home machines.
 **Settle first:** nothing open.
-1. Export and import of the record, asking before it replaces anything; the colours and theme stay on each machine.
+1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
 2. Import as a first start.
 **Done when:** a week worked on both machines, handed over each day, matches on both.
 

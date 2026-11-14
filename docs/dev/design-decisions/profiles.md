@@ -11,11 +11,11 @@ decision follows the template in `README.md`, and is cited by its title.
 in "One start/stop button and a profile list". A day can mix profiles, and the owner adds profiles as new kinds of work
 come up. Profiles are isolated: each counts its own days and hours, and work in one never changes another. A profile
 holds: a short name (what is tapped when switching); optional expected hours, and only a profile with them has a
-balance; a colour or icon; active or archived (an archived profile leaves the switch list but keeps its hours in the
-history and reports); a pay category, a label only, so reports can group hours by how they are paid; and an optional
-monthly salary or rate per hour for the pay estimate ("A pay estimate per profile"). Reports show hours per profile.
-Where the work is done is not recorded: the owner works from wherever suits, and a place matters to the app only if it
-is paid differently, when it is a profile of its own.
+balance; a base and an over colour ("Each profile carries its colours", in `design-decisions/`); active or archived (an
+archived profile leaves the switch list but keeps its hours in the history and reports); a pay category, a label only,
+so reports can group hours by how they are paid; and an optional monthly salary or rate per hour for the pay estimate
+("A pay estimate per profile"). Reports show hours per profile. Where the work is done is not recorded: the owner works
+from wherever suits, and a place matters to the app only if it is paid differently, when it is a profile of its own.
 **Why:** the owner's work is paid differently depending on the task and where it is done. Keeping profiles apart
 means a Saturday of development group work cannot touch the janitor balance, with no special rule for it.
 **Rejected:** the app calculating pay as payroll does: salary rules belong to payroll, and would make the app wrong

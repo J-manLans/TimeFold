@@ -13,7 +13,7 @@ Positive: hours to take out. Negative: hours to work in.
 **Balance bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
 balance as a number ("The balance bar", in `design-decisions/`).
 
-**Base colour.** The ceiling wheel's colour for hours used, a setting of each machine.
+**Base colour.** A profile's main colour: the figures' colour for hours used and for minus; set in the profile's row.
 
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
 becomes a test.
@@ -21,8 +21,9 @@ becomes a test.
 **Ceiling.** The hours all profiles without expected hours may add up to together, over a month: full time minus
 janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
 
-**Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills in the base colour as the month's
-hours are used, with hours over it in the over colour ("The ceiling wheel", in `design-decisions/`).
+**Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills as the month's hours are used, in the
+colours of the profile on screen (grey for the balance profile), with hours over it in the over colour ("The ceiling
+wheel", in `design-decisions/`).
 
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
@@ -55,7 +56,8 @@ next month; the ceiling, reports and pruning count by it.
 **Opening figures.** The janitor balance and the ceiling hours used, typed in when the app starts fresh; kept as
 entries dated the first day.
 
-**Over colour.** The ceiling wheel's colour for hours over the ceiling; suggested from the base colour, or picked.
+**Over colour.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, the 90%
+warning; suggested from the base colour, or picked.
 
 **Part.** A piece of the app named on the roadmap before the phases are agreed, such as Clocking or Handover.
 At the end of Phase 0 the parts are ordered into phases.
@@ -72,6 +74,3 @@ are isolated; only one with expected hours has a balance.
 hours at the cut become opening figures.
 
 **Report.** A period's record, exported from the app for the owner to send to their boss.
-
-**Unify colours.** One switch, shown in both the ceiling wheel's and the balance bar's colour settings, that gives
-both one set of colours.

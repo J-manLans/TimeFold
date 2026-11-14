@@ -86,11 +86,12 @@ checks and names the other by title.
 ### [Main screen](main-screen.md)
 
 - The main screen has a control side and a figures side
-- The menu has four tabs, with counting values locked
+- The menu has three tabs, with counting values locked
 - The look: a fresh display face, mono text, grain and soft buttons
 - A light or dark theme, following the system
 - The balance bar
 - The ceiling wheel
+- Each profile carries its colours
 
 ### [Reports](reports.md)
 
