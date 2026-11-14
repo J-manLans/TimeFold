@@ -6,17 +6,11 @@ leaves; its answer goes to `design-decisions.md`. A question half answered stays
 
 ## Phase 0
 
-### Tech stack (2026-11-14)
+### Interface language (2026-11-14)
 
-A desktop app that runs on Windows and Linux ("One user, offline, on the owner's machines", in
-`design-decisions.md`), with animation and custom controls in its interface. Options:
-- Tauri: a web-style interface on the system's webview, a Rust backend, a small single program. On Linux the webview is
-  WebKitGTK, which can lag on newer CSS and animation, so animations are tested on Linux early.
-- Electron: the same Chromium on both systems, so it looks the same everywhere, but a program of about 100 MB.
-- Python with Tkinter or Qt: simple, but custom animated controls are harder.
-The owner wants to try Tauri, and the agent leans the same way; not yet confirmed. Also open: plain TypeScript or a
-small framework (Svelte, React) for the interface, settled with the look and feel.
-**See:** One user, offline, on the owner's machines.
+What the Tauri interface is written in: plain TypeScript, or a small framework such as Svelte or React. Settled with
+the look and feel.
+**See:** Tauri, desktop on Windows and Linux.
 
 ### Where the data is kept (2026-11-14)
 
@@ -107,9 +101,3 @@ Hours Act, KVTES, or another), what counts as full time, so the ceiling's amount
 balance has a cap; and how the other profiles are paid, for their pay categories. They are settings, so they do not
 block the build.
 **See:** The other profiles share a ceiling.
-
-## Phase 5
-
-### Report format (2026-11-14)
-
-What the boss receives: PDF, a spreadsheet (CSV or Excel), or text pasted into an email.

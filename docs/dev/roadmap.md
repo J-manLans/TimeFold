@@ -83,7 +83,7 @@ the right use of the ceiling.
 ### Phase 5: Reports
 
 **Produces:** a report of a chosen period, with hours per profile, that the owner can send to the boss as it is.
-**Settle first:** under "Phase 5": Report format.
+**Settle first:** nothing; what it needs is settled in Phase 0.
 
 **Done when:** the owner has sent a real report.
 
