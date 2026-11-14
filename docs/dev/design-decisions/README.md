@@ -86,7 +86,7 @@ checks and names the other by title.
 ### [Main screen](main-screen.md)
 
 - The main screen has a control side and a figures side
-- The menu has three tabs, with counting values locked
+- The menu has two tabs, with every value locked behind "Ändra"
 - The look: a fresh display face, mono text, grain and soft buttons
 - A light or dark theme, following the system
 - The balance bar

@@ -31,6 +31,6 @@ process; the app gains little ("A plain window app", in `design-decisions/`).
 ## Tab content growing out of its tab
 
 **Returns when:** the menu is built.
-Switching tabs in the menu ("The menu has three tabs, with counting values locked", in `design-decisions/`) starts as a
-fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the menu grows out
-of its button. To try in the menu's coding session, against the fade.
+Switching tabs in the menu ("The menu has two tabs, with every value locked behind "Ändra"", in `design-decisions/`)
+starts as a fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the
+menu grows out of its button. To try in the menu's coding session, against the fade.
