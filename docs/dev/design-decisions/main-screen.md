@@ -27,8 +27,12 @@ menu. The right side is narrower, about two fifths of the window, and is the liv
 looks like a modern terminal dashboard, not a retro one: a near-black panel in the dark theme and a deep slate-blue one
 (#2c3e5c) in the light theme, its rows a step darker and its text light, numbers in a monospaced font with their digits
 lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc
-sweeping). A profile's colour is the over colour of the figure it moves: the balance bar's for the profile with the
-balance, the ceiling wheel's for the others. While the profile on screen runs, a ring in its colour surrounds the start
+sweeping). Each profile has a colour of its own, a setting in its row in the menu. The profile with the balance starts
+with the balance bar's over colour. A new profile gets the colour farthest from the others: in OKLCH, the hue in the
+middle of the largest gap between the existing profiles' hues on the colour circle (a random pick between gaps of equal
+size), at the lightness and vividness of the other profiles. The profile's colour goes to the control side only: its
+letter, the ring around the start button, the warning label, the focus rings, the status line's mark. The balance bar
+and the ceiling wheel keep their own colours. While the profile on screen runs, a ring in its colour surrounds the start
 button. Every focus ring in the app takes the colour of the profile on screen. On the right side, from the top: the
 balance as a number, centred, with no label; the balance bar; the ceiling wheel, centred under it with nothing beside
 it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa
@@ -38,27 +42,35 @@ on its line").
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
 With the figures in view beside the menu, a colour changed in settings shows at once on the figures. The five most
 recent entries show yesterday's work on a fresh morning, where today's alone would be an empty list. The break control
-sits with what runs and never moves; the status line's kept room sets it a little apart, marking it as secondary.
-Colouring a profile by the figure it moves ties the controls to what they change. The wheel tells its story alone, so
-nothing beside it is needed, and the side can be narrower. A dashboard look suits figures that are read at a glance, and
-a soft base colour with a neon-leaning over colour is how such dashboards use colour. In the light theme the slate blue
-has about half the contrast black had against the white control side (9.7:1 against 17:1), so it does not glare, while
-its light text stays sharp on it (9.6:1); blue is also the complement of the default orange, so the figures stand out.
+sits with what runs and never moves; the status line's kept room sets it a little apart, marking it as secondary. A
+colour per profile tells the profiles apart where they are chosen and run; the largest gap keeps every new colour as far
+as possible from its neighbours, so the colours fill the circle evenly as profiles are added. The figures do not show
+the profile on screen (the bar is always janitor work, the wheel always the others), so they keep their own colours. The
+wheel tells its story alone, so nothing beside it is needed, and the side can be narrower. A dashboard look suits
+figures that are read at a glance, and a soft base colour with a neon-leaning over colour is how such dashboards use
+colour. In the light theme the slate blue has about half the contrast black had against the white control side (9.7:1
+against 17:1), so it does not glare, while its light text stays sharp on it (9.6:1); blue is also the complement of the
+default orange, so the figures stand out.
 **Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures the
 owner reads every day. Figures beside the wheel (ceiling, used, left, carried): the wheel already shows them. A label on
-the balance: the number alone is clear. "Lägg till paus" at the bottom left: the prune line would push it up and down. A
-menu over the whole screen: it would hide the figures it changes. A drawer with a tab holding the icon: a fine picture,
-but more parts than the growing button. The icon riding to the panel's far corner as an ×: the close button would not be
-where the pointer is. A menu sliding in under a separate button: the icon would stay apart from the menu. A see-through
-menu always present: nothing needs it when closed. A fully light figures side in the light theme: the dashboard look
-would be lost. A near-black panel in the light theme: it glared against the white controls. A mid-grey panel: its light
-text had too little contrast (2.6:1). A violet panel: also good, kept as the alternative. A retro terminal look (green
-on black, scan lines): the owner wants the direction, not the costume.
+the balance: the number alone is clear. "Lägg till paus" at the bottom left: the prune line would push it up and down.
+Profile colours derived from the figures: every profile but the balance one shared the wheel's colour. The profile on
+screen colouring the figures too: the bar and the wheel would change colour without their numbers changing. Random
+colours for new profiles: two could land side by side. A menu over the whole screen: it would hide the figures it
+changes. A drawer with a tab holding the icon: a fine picture, but more parts than the growing button. The icon riding
+to the panel's far corner as an ×: the close button would not be where the pointer is. A menu sliding in under a
+separate button: the icon would stay apart from the menu. A see-through menu always present: nothing needs it when
+closed. A fully light figures side in the light theme: the dashboard look would be lost. A near-black panel in the light
+theme: it glared against the white controls. A mid-grey panel: its light text had too little contrast (2.6:1). A violet
+panel: also good, kept as the alternative. A retro terminal look (green on black, scan lines): the owner wants the
+direction, not the costume.
 **Revisit if:** the window is too small for both sides, or the frosted blur is slow on WebKitGTK (then the panel is more
 opaque, without blur).
 **Cases:**
 - One profile: the profile button opens nothing. Three profiles: a popup of the three, centred on the left side.
 - Menu open: the figures are still in view, and a new base colour shows on them at once.
+- Profiles at hues 29° and 210°: the gaps are 181° and 179°, so a new profile gets about 120°.
+- A third profile added to two opposite ones: it lands in the middle of one of the two equal gaps.
 - Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
 
 ## The menu has four tabs, with counting values locked (2026-11-14)
@@ -68,8 +80,8 @@ opaque, without blur).
 **Decision:** the menu has four tabs across its top: **Profiler**, **Arbetstid**, **Månadsstart** and **Utseende**.
 Profiler is selected when the menu opens, and one tab's content shows at a time; switching fades from one to the next.
 - **Profiler:** each profile is a row (its disc and letter, its name, a mark on the profile with the balance). A row
-  opens in place to edit its name, pay (a monthly salary or a rate per hour), pay category, and "Arkivera". "Ny
-  profil" is at the bottom.
+  opens in place to edit its name, its colour ("The main screen has a control side and a figures side"), pay (a monthly
+  salary or a rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
 - **Arbetstid:** the slider that splits full time between janitor's expected hours and the ceiling, with the numbers
   on it ("6 h | 2 h"), and full time beside it.
 - **Månadsstart:** the day from 1 to 28 ("A month starts on a set day").

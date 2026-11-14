@@ -33,20 +33,3 @@ free time, with the same stops at other entries and midnight.
 Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock for
 precision. The draft's clock picker was meant for editing; the line may replace it there, or work beside it.
 **See:** Editing an entry on its line.
-
-## Phase 4: Profiles
-
-### Each profile with its own colours (2026-11-14)
-
-The owner is considering colours per profile instead of per figure, so that switching profile changes the colours of
-the whole screen. What the owner's ideas share: the figures have no colours of their own. Ideas so far:
-1. The profile on screen colours everything: the balance bar, the ceiling wheel, the profile button, the start
-   button's ring, the warning label, the focus rings. The simplest; switching profile recolours it all.
-2. Only the profile button and its letter take the profile's colours, while the bar and the wheel share one setting.
-3. Each profile showing only its own figure: dropped by the owner, who likes having both figures in view.
-Also raised by the agent: the wheel in segments, each profile's hours in its own colour. Open: which of these. To
-weigh: with idea 1 the figures change colour when only the profile on screen changes, not their numbers, which sits
-against the vision's question of one meaning per colour; with the over colour suggested from each profile's base,
-every profile would still read clearly. The owner is still thinking.
-**See:** The ceiling wheel; The balance bar; Profiles label the hours; The menu has four tabs, with counting values
-locked.
