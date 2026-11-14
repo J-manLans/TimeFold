@@ -37,9 +37,9 @@ Added when there is something to put in them, each opening with what it holds an
   about its subject, or when the owner says to; otherwise name the idea and ask.
 - `docs/dev/procedures/`, when a job is done a second time: one file per job only some sessions need, and a line
   here saying when to read it.
-- `docs/dev/sketches/`, when a look is worth trying before it is decided: one HTML page per sketch, opening with what
-  it tries. The decision it serves holds every number the sketch settles, so the sketch holds nothing the docs need.
-  It is deleted once the code it previews is built; `git log` keeps it.
+- `docs/dev/sketches/`, when a look is worth trying before it is decided: a page or a drawing per sketch, a page opening
+  with what it tries. The decision it serves holds every number the sketch settles, so the sketch holds nothing the docs
+  need. It is deleted once the code it previews is built; `git log` keeps it.
 - `docs/dev/archive/`, when an investigation closes or an idea is dropped, and both are true: it is likely to come up
   again, and reaching the conclusion cost something. Each entry says what it was, why it ended, and what would change
   the verdict. Otherwise delete it and let `git log` keep it.

@@ -55,7 +55,7 @@ docs/
     ├── procedures/
     │   └── <job>.md             how to do a job only some sessions need
     ├── sketches/
-    │   └── <look>.html          a page for trying a look before it is decided; deleted once built
+    │   └── <look>.html          a page or drawing for trying a look before it is decided; deleted once built
     └── archive/
         ├── README.md            the index, and what is worth keeping
         └── <topic>.md           closed investigations, dropped ideas worth not suggesting again

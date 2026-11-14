@@ -7,17 +7,19 @@ the template in `README.md`, and is cited by its title.
 
 **Built by:** Clocking for the button; Profiles for the profile list.
 
-**Decision:** the main control is one button: "Start work", which becomes "Stop work" while an entry runs. Beside it is
-the list of profiles. Picking a profile changes only which profile is on screen; a running entry goes on. Pressing start
-on the profile on screen ends the running entry, if any, at that moment and starts one on that profile, so at most one
-entry runs at a time. While another profile's entry runs, the button says what it will do (such as "Start B (stops A)"),
-and the running profile is shown. A forgotten switch back is corrected by hand. The totals, the balance bar and the
-ceiling wheel update when an entry stops; nothing ticks while it runs, and the update at stop is the visual effect.
+**Decision:** the main control is one button: "Starta jobb", which becomes "Stoppa jobb" while an entry of the profile
+on screen runs. Beside it is a profile button that opens the list of profiles. Picking a profile changes only which
+profile is on screen; a running entry goes on. Pressing start on the profile on screen ends the running entry, if any,
+at that moment and starts one on that profile, so at most one entry runs at a time. While another profile's entry runs,
+a small line under "Starta jobb" says what pressing it will stop ("stoppar A"); the line is there only then, and the
+running profile is shown. A forgotten switch back is corrected by hand. The totals, the balance bar and the ceiling
+wheel update when an entry stops; nothing ticks while it runs, and the update at stop is the visual effect.
 **Why:** one running entry is the simplest record, and it is how common time trackers work. A break needs no control
 of its own ("Time away is a gap or an added break").
 **Rejected:** four buttons per profile (start day, end day, start break, end break), with a profile left on a break
-while another runs: each profile needed a paused day, and a date check to close it. A running clock: the owner
-prefers the whole update at stop.
+while another runs: each profile needed a paused day, and a date check to close it. A running clock: the owner prefers
+the whole update at stop. A hover tip saying what start will stop: it shows only if the owner hovers before clicking,
+which a one-click start skips.
 **Revisit if:** the owner often needs two profiles running at once.
 **Cases:**
 - A running, B picked: A still runs, and nothing is recorded.
@@ -44,21 +46,44 @@ not be running at midnight. Doing nothing until a correction: the mistake surfac
 - Answer "Still working": the entry runs on; the question comes again only at the next change of date.
 - Entry started today and running: no question.
 
+## The main screen has a control side and a figures side (2026-11-14)
+
+**Built by:** Clocking for the screen, the button, the balance bar and the list; Profiles for the profile button, the
+ceiling wheel and the pay estimate; Handover for export and import.
+
+**Decision:** the main screen has two sides, split by a divider (a sharp line or a gradient, settled when built). The
+left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"), the
+profile button beside it, "Exportera" and "Importera" under it, the menu button at the top left, and at the bottom the
+line that offers pruning ("Old history is pruned on request"). The menu slides in from the left and stops at the
+divider, so the figures stay in view while settings change; new profiles are made from it. The right side is the
+living one, changing at each stop: the balance bar and the ceiling wheel at its top, both prominent; the pay estimate
+as a number close to them; under them the five most recent entries and "Visa alla".
+**Why:** what the owner presses and what the owner reads each have their place. With the figures in view beside the
+menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work
+on a fresh morning, where today's alone would be an empty list.
+**Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures
+the owner reads every day. A menu over the whole screen: it would hide the figures it changes.
+**Revisit if:** the window is too small for both sides.
+**Cases:**
+- Menu open: the figures are still in view, and a new base colour shows on them at once.
+- Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
+
 ## Time away is a gap or an added break (2026-11-14)
 
 **Built by:** Clocking for the gap; Breaks and flex days for the added break.
 
-**Decision:** time away is recorded in one of two ways, and both count on the day it happens ("Time counts on the day
-it was worked"). A planned break is a stop and a later start: the gap between them is not work, and falls on whichever
-day it falls on. Time away that happens during a running entry, unplanned (such as own errands slipped into a work
-errand), is an **added break**: a length of time taken off an entry, added when back, with a quiet "add break"
-control. An added break holds its length and the day it was added, not when it happened. It comes off its entry's time
-on that day first, and any rest off the entry's time on the day before, since midnight only cuts the counting, not the
-stretch. It goes to the running entry of the profile on screen. The control is always shown, so the app always shows
-what it can do; it is active only while that entry runs, and greyed out otherwise. A break found after the entry has
-stopped is an edit on the entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry.
-Today's entries are listed under the balance bar and the ceiling wheel, with today's added breaks as small tags among
-them; clicking a tag opens the same length field with the number in it, to change or remove.
+**Decision:** time away is recorded in one of two ways, and both count on the day it happens ("Time counts on the day it
+was worked"). A planned break is a stop and a later start: the gap between them is not work, and falls on whichever day
+it falls on. Time away that happens during a running entry, unplanned (such as own errands slipped into a work errand),
+is an **added break**: a length of time taken off an entry, added when back, with a quiet "add break" control. An added
+break holds its length and the day it was added, not when it happened. It comes off its entry's time on that day first,
+and any rest off the entry's time on the day before, since midnight only cuts the counting, not the stretch. It goes to
+the running entry of the profile on screen. The control is always shown, so the app always shows what it can do; it is
+active only while that entry runs, and greyed out otherwise. A break found after the entry has stopped is an edit on the
+entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry. The five most recent entries,
+whatever their day, are listed under the balance bar and the ceiling wheel, with their added breaks as small tags among
+them, and "Visa alla" under the list opens the history; clicking a tag opens the same length field with the number in
+it, to change or remove.
 **Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
 file today, so the day added places a break in the stretch it belongs to. An "add break" that stays active after stop
 would make the owner wonder whether work is still running. A hasty mistake must be fixed where it is seen, not dug out

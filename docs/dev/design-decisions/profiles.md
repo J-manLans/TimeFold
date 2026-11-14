@@ -118,9 +118,9 @@ overridden; or the system colour dialog is awkward on one of the machines.
 **Built by:** Profiles.
 
 **Decision:** each profile may have a rate per hour, a setting that changes from a date ("Settings change from a date").
-A profile without one is left out of the estimate. The main screen can show the estimate: a total of hours times rate,
-updated when an entry stops or an added break changes a stopped entry, like the balance bar and the ceiling wheel. It is
-for the owner only, and stays out of the report to the boss.
+A profile without one is left out of the estimate. The main screen shows the estimate as a number close to the balance
+bar and the ceiling wheel: a total of hours times rate, updated when an entry stops or an added break changes a stopped
+entry, like the balance bar and the ceiling wheel. It is for the owner only, and stays out of the report to the boss.
 **Why:** the owner wants a rough idea of what the work is worth as it builds up, and pay can rise over time. It need
 not match payroll, so no salary rules are needed.
 **Rejected:** matching payroll: salary rules change, and the app would be wrong whenever they do.

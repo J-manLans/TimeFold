@@ -9,12 +9,9 @@ leaves; its answer goes to `design-decisions/`. A question half answered stays w
 
 ### Look and feel (2026-11-14)
 
-Known: one start/stop button with the profile list beside it, the balance bar and the ceiling wheel, and today's entries
-listed under them ("One start/stop button and a profile list"; "Time away is a gap or an added break"); editing opens
-from that list ("Editing an entry on its line"); the figures' colours, chosen at the first start and in settings ("The
-ceiling wheel"; "The balance bar"). Open: whether there is also a small always-on widget or an icon in the system tray,
-how the settings menu and the slider that splits full time look, where the pay estimate shows, how much earlier history
-the main screen shows. Light, dark, or following the system. To be settled with a sketch.
+Known: the main screen ("The main screen has a control side and a figures side") and the figures' colours ("The
+ceiling wheel"; "The balance bar"). Open: whether there is also a small always-on widget or an icon in the system
+tray; how the settings menu and the slider that splits full time look; light, dark, or following the system.
 **See:** What the app does.
 
 

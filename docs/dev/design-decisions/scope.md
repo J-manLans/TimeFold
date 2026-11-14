@@ -37,15 +37,17 @@ asking every time is simpler and always checked.
 **Built by:** Clocking for the first start and the opening balance; Profiles for the opening ceiling hours and the
 wheel's colours; Handover for importing.
 
-**Decision:** an app with no data asks once how to start. **Start fresh** asks for two opening figures: the janitor
-balance and the hours of the current month's ceiling already used (any carried from the month before included), both as
-they stood at the end of the day before the first day in the app. Each is kept as an entry dated that first day, which
-the handover carries, the reports show ("brought over: +12:30") and a correction can change like any entry. From then on
-the app records every entry with its day. **Import from my other machine** reads a handover file instead, as in
-"Handover between machines". Either way it then asks for the ceiling wheel's colours, the base and the over colour
-suggested from it ("The ceiling wheel"), so the first start doubles as a short onboarding; the colours belong to the
-machine, and later change in the settings menu. The owner switches from the Excel file on a day not yet worked, with the
-file closed the evening before; the Excel history before that stays in the file and is not brought in.
+**Decision:** an app with no data asks once how to start. **Start fresh** asks for the name of the first profile, the
+one with the balance (janitor work), then for two opening figures: the janitor balance and the hours of the current
+month's ceiling already used (any carried from the month before included), both as they stood at the end of the day
+before the first day in the app. Each is kept as an entry dated that first day, which the handover carries, the reports
+show ("brought over: +12:30") and a correction can change like any entry. From then on the app records every entry with
+its day. **Import from my other machine** reads a handover file instead, as in "Handover between machines", and asks
+nothing more of what the file brings: profiles, settings and opening figures. Either way it then asks for the ceiling
+wheel's colours, the base and the over colour suggested from it ("The ceiling wheel"), so the first start doubles as a
+short onboarding; the colours belong to the machine, and later change in the settings menu. The owner switches from the
+Excel file on a day not yet worked, with the file closed the evening before; the Excel history before that stays in the
+file and is not brought in.
 **Why:** the Excel history is not needed by anything the app does, and the boss has not asked for it; parsing the
 file's layout would cost much for it. Figures as of the end of the day before mean the app counts every day from its
 first, so none is counted twice or missed. Asking at first start keeps a second machine from getting opening figures

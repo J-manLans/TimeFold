@@ -59,6 +59,7 @@ checks and names the other by title.
 ### [Recording](recording.md)
 
 - One start/stop button and a profile list
+- The main screen has a control side and a figures side
 - A running entry from an earlier day asks
 - Time away is a gap or an added break
 - Entering a length of time
