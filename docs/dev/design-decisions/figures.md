@@ -83,6 +83,8 @@ middle of the largest gap between the existing profiles' base hues on the colour
 equal size), at their average lightness and vividness. The colours go to:
 - the control side, for the profile on screen: its letter (in the over colour), the ring around the
   start button, the warning label, the focus rings, the status line's mark;
+- the small profile circles in the menu and the profile popup: the letter in the over colour, ringed in the base
+  colour, the same pair the figures show;
 - the balance bar, always the balance profile's ("The balance bar");
 - the ceiling wheel, the profile on screen's when it is one of the others ("The ceiling wheel").
 The over colour starts as a suggestion worked out from the base, and a new base brings a new suggestion; the owner may

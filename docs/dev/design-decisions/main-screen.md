@@ -69,10 +69,10 @@ opaque, without blur).
 **Decision:** the menu has two tabs across its top: **Profiler** and **Tid**. Profiler is selected when the menu opens,
 and one tab's content shows at a time; switching fades from one to the next. Beside the "Meny" heading sits the theme
 button ("A light or dark theme, following the system").
-- **Profiler:** each profile is a row (its disc and letter, its name, a mark on the profile with the balance). A row
-  unfolds in place, its height growing and its content fading in, and folds back the same way; opening one folds any
-  other. It shows its name, its base and over colour ("Each profile carries its colours"), pay (a monthly salary or a
-  rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
+- **Profiler:** each profile is a row (a small circle with its letter in its over colour, ringed in its base colour, and
+  its name). A row unfolds in place, its height growing and its content fading in, and folds back the same way; opening
+  one folds any other. It shows its name, its base and over colour ("Each profile carries its colours"), pay (a monthly
+  salary or a rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
 - **Tid:** the slider that splits full time between janitor's expected hours and the ceiling, with the numbers on it
   ("6 | 2"); full time beside it; and the day the month starts, from 1 to 28 ("A month starts on a set day").
 Every value is locked: it shows as text with "Ändra" beside it. "Ändra" opens it; Enter confirms and Esc aborts, as in
@@ -88,7 +88,8 @@ let the owner check what was in force when a month looks odd.
 **Rejected:** a tab for colours and the theme: the colours went to the profiles and the theme to the heading. The month
 start in a tab of its own: it belongs with the working time. Name and pay category edited directly: every field behaves
 the same. Headings that expand: opening one pushes the others down, and one is always open anyway. One long menu to
-scroll. Counting values edited directly.
+scroll. Counting values edited directly. A "saldo" tag on the profile with the balance: it named a concept without
+showing it, and even the owner did not read it right; the colour ring ties every profile to its figures instead.
 **Revisit if:** the menu needs more than three or four sections.
 **Cases:**
 - Menu opened: the Profiler tab shows.
