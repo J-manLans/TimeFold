@@ -41,6 +41,11 @@ main screen sketch:
   label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
   within that time. Animations that tell something over longer, such as the numbers counting at stop or the undo's fade,
   keep their own length.
+- **Light:** a soft, matte light follows the pointer over the control side: one light shared by all buttons, so it lies
+  only on button surfaces and flows across them, faint and tinted (stronger on the light theme's blue than on the dark
+  grey), fading in and out with the pointer. The discs catch it at half strength, which keeps the profile button a
+  little apart; on the undo disc it lies over the coloured drape, under the arrow. A disabled button reacts to nothing:
+  no light, no hover, no press.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 - In code, these values are named variables in one place, so the look is tuned there.
@@ -53,8 +58,9 @@ for the big type; tried for all text, it was too much. Matte plastic buttons wit
 shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile circle: the button's own colour reads
 better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the page
 (1.08:1, later 1.29:1); the blue ties the control side to the dashboard. An outline around the profile letter: it looked
-silly.
-**Revisit if:** the mono is hard to read at small sizes, or the grain costs too much on WebKitGTK.
+silly. No light on the discs: it set them apart, but less naturally; half strength keeps a little of both.
+**Revisit if:** the mono is hard to read at small sizes, or the grain costs too much on WebKitGTK, or the pointer light
+repaints too slowly there.
 
 ## A light or dark theme, following the system (2026-11-14)
 
