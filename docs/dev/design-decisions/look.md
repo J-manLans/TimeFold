@@ -34,8 +34,8 @@ main screen sketch:
   a profile's colour reads poorly on the button, the owner changes it with the picker), sitting in a soft dent 6 px wide
   around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
   of the button's own colour, whatever that colour is. In the light theme its highlights and shadows are tinted blue,
-  not white or black, so they sit with the blue button. The theme button's disc is near white (`#e3e9f2`) in the light
-  theme.
+  not white or black, so they sit with the blue button. The theme button's disc is in the buttons' own colour too, with
+  a light icon; it catches the pointer light like the other discs.
 - **Motion:** every transition in the interface takes the same 0.3 seconds, one setting for all: hover and press, the
   start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
   label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
@@ -60,7 +60,7 @@ shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile cir
 better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the page
 (1.08:1, later 1.29:1); the blue ties the control side to the dashboard. An outline around the profile letter: it looked
 silly. No light on the discs: it set them apart, but less naturally; the profile disc's half strength keeps a little of
-both.
+both. A near-white theme disc in the light theme: the blue one sits better with the other buttons.
 **Revisit if:** the mono is hard to read at small sizes, or the grain costs too much on WebKitGTK, or the pointer light
 repaints too slowly there.
 
