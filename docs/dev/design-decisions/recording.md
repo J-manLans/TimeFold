@@ -11,11 +11,12 @@ the template in `README.md`, and is cited by its title.
 on screen runs. Beside it is a profile button that opens the list of profiles. Picking a profile changes only which
 profile is on screen; a running entry goes on. Pressing start on the profile on screen ends the running entry, if any,
 at that moment and starts one on that profile, so at most one entry runs at a time. While another profile's entry runs,
-a small custom label says what pressing it will stop ("stoppar A"): it appears at once when the pointer enters the
-button, follows the pointer while it is over it, and goes when it leaves; with keyboard focus it shows under the button.
-The running profile is shown. The button never changes size: "Starta jobb" and "Stoppa jobb" fit the same width. A
-forgotten switch back is corrected by hand. The totals, the balance bar and the ceiling wheel update when an entry
-stops; nothing ticks while it runs, and the update at stop is the visual effect.
+a small custom label says what pressing it will stop ("stoppar A"), on a slightly see-through dark background edged in
+that profile's colour: it fades in at once when the pointer enters the button, follows the pointer while it is over it,
+and fades out when it leaves; with keyboard focus it shows under the button. The running profile is shown. The button
+never changes size: "Starta jobb" and "Stoppa jobb" fit the same width. A forgotten switch back is corrected by hand.
+The totals, the balance bar and the ceiling wheel update when an entry stops; nothing ticks while it runs, and the
+update at stop is the visual effect.
 **Why:** one running entry is the simplest record, and it is how common time trackers work. A break needs no control
 of its own ("Time away is a gap or an added break").
 **Rejected:** four buttons per profile (start day, end day, start break, end break), with a profile left on a break
