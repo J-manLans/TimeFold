@@ -95,11 +95,13 @@ work is running, and the entry's line does it better.
 **Built by:** Breaks and flex days.
 
 **Decision:** a length of time, such as an added break, is typed into one field: a plain number is minutes ("45"), and
-hours and minutes are written "1:20". While typing, the field shows how it reads the input ("1 h 20 min"). The clock
-picker is for times of day only.
+hours and minutes are written "1:20". The empty field shows "00:00". While typing, the field shows how it reads the
+input ("1 h 20 min"). Enter confirms; Esc, or clicking away, cancels. The field has no buttons. The clock picker is for
+times of day only.
 **Why:** one short field is the least fuss, and "1:20" is how the owner writes a length in Excel. Showing the reading
 catches a hasty mistake before it is saved.
-**Rejected:** separate hour and minute fields: more to fill in. The clock picker: it picks a time of day, not a length.
+**Rejected:** separate hour and minute fields: more to fill in. "Lägg till" and "Avbryt" buttons beside the field: Enter
+and Esc do the same with less on screen. The clock picker: it picks a time of day, not a length.
 **Revisit if:** typed lengths are often misread.
 **Cases:**
 - "45": 45 min.
