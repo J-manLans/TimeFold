@@ -9,18 +9,19 @@ are drawn and coloured. Each decision follows the template in `README.md`, and i
 ceiling wheel and the pay estimate; Handover for export and import.
 
 **Decision:** the main screen has two sides, split by a divider (a sharp line or a gradient, settled when built). The
-left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"), the
-profile button beside it, a rectangle holding a circle with the profile's first letter, capitalised, which with more
-than one profile opens a popup of the profiles, centred on the left side; "Exportera" and "Importera" under it, the menu
-button at the top left, and at the bottom the line that offers pruning ("Old history is pruned on request"). The menu
-slides in from the left and stops at the divider, so the figures stay in view while settings change; new profiles are
-made from it. The right side is narrower, about two fifths of the window, and is the living one, changing at each stop,
-and looks like a modern terminal dashboard, not a retro one: a dark panel in every theme, numbers in a monospaced font
-with their digits lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new
-value, the arc sweeping). On it, from the top: the balance as a number, centred, with no label; the balance bar; the
-ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the wheel, with no
-label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window listing every
-entry, where entries are edited ("Editing an entry on its line").
+left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"),
+"Exportera" and "Importera" side by side under it, together as wide as it; the profile button beside both, as tall as
+the two rows, a rectangle holding a circle with the profile's first letter, capitalised, which with more than one
+profile opens a popup of the profiles, centred on the left side; the menu button at the top left, and at the bottom the
+line that offers pruning ("Old history is pruned on request"). The menu slides in from the left and stops at the
+divider, so the figures stay in view while settings change; new profiles are made from it. The right side is narrower,
+about two fifths of the window, and is the living one, changing at each stop, and looks like a modern terminal
+dashboard, not a retro one: a dark panel in every theme, numbers in a monospaced font with their digits lined up, thin
+lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). On it,
+from the top: the balance as a number, centred, with no label; the balance bar; the ceiling wheel, centred under it with
+nothing beside it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent
+entries and "Visa alla", which opens a popup centred on the whole window listing every entry, where entries are edited
+("Editing an entry on its line").
 **Why:** what the owner presses and what the owner reads each have their place. With the figures in view beside the
 menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work on a
 fresh morning, where today's alone would be an empty list. The wheel tells its story alone, so nothing beside it is
