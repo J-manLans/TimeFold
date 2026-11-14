@@ -83,31 +83,39 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   color-scheme: light;   /* the script sets .dark from the theme setting and the system */
 
   /* ================= THEME COLOURS: light-dark(light theme, dark theme) ================= */
-  /* Control side: surfaces and text */
-  --c-bg:        light-dark(#f3f3f1, #1a1c20);
+  /* Control side: surfaces and text. Light theme: cool greys, so they sit with the blue buttons and the dashboard. */
+  --c-bg:        light-dark(#f2f4f7, #1a1c20);
   --c-fg:        light-dark(#1f2227, #e4e6ea);
-  --c-muted:     light-dark(#6a6f78, #8f949d);
-  --c-line:      light-dark(#dedfe2, #2c2f35);
-  --c-scrim:     light-dark(rgba(20, 22, 26, 0.25), rgba(0, 0, 0, 0.45));
-  /* Buttons */
-  --c-btn:       light-dark(#d3d8de, #2a2d33);   /* light: 1.29:1 against the page, the same as the popup; text 13.3:1 */
-  --c-btn-line:  light-dark(#c9ccd2, #3a3e45);
-  --c-hover:     light-dark(#c3c9d1, #343840);   /* light: a step darker on hover; text 11.4:1 */
-  --c-btn-fg:    light-dark(#0e1013, #eef0f3);   /* text on buttons: 11.4:1 on the light button, 10.4:1 hovered */
-  --popup-bg:    var(--c-btn);                   /* the profile popup: the buttons' colour (1.33:1 to the dimmed page in light) */
-  --press-shade: light-dark(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.18));
+  --c-muted:     light-dark(#556070, #8f949d);   /* light: 5.8:1 on the page */
+  --c-line:      light-dark(#d9dfe8, #2c2f35);
+  --c-scrim:     light-dark(rgba(20, 26, 36, 0.25), rgba(0, 0, 0, 0.45));
+  /* Buttons. Light theme: the dashboard's blue, a step deeper so light text reads well. */
+  --c-btn:       light-dark(#4f688e, #2a2d33);   /* light: text 5.2:1 on it */
+  --c-btn-line:  light-dark(#3f5578, #3a3e45);
+  --c-hover:     light-dark(#40577b, #343840);   /* light: a step darker on hover; text 6.8:1 */
+  --c-btn-fg:    light-dark(#f4f6fa, #eef0f3);   /* text and lines on buttons */
+  --press-shade: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.18));
+  /* Surfaces that hold dark text: fields in the menu, the profile popup, the profile disc */
+  --c-field:     light-dark(#ffffff, #2a2d33);   /* fields: text 16:1 */
+  --popup-bg:    var(--c-btn);                   /* the profile popup: the buttons' colour, as in the dark theme */
+  --popup-fg:    var(--c-btn-fg);
+  --popup-pick:  light-dark(#5f789e, #343840);   /* the chosen or hovered profile in the popup: a lighter step, as in dark */
+  --sheet-bg:    light-dark(#e6ecf4, #2a2d33);   /* light surfaces holding dark text: the colour picker */
+  --theme-face:  light-dark(#e3e9f2, #2a2d33);   /* the theme button's disc: near white in the light theme */
+  --dot-face:    var(--c-btn);                   /* the profile disc: the button's own colour */
   /* Profile circle: the disc's shadow and its dent */
-  --dot-drop:    light-dark(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.60));
-  --well-edge:   light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.18));   /* the dent is see-through in both themes, */
-  --well-shade:  light-dark(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.25));   /* so it is always a shade of the button */
-  --well-lip:    light-dark(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.08));
+  --dot-drop:    light-dark(rgba(10, 25, 55, 0.45), rgba(0, 0, 0, 0.60));
+  --well-edge:   light-dark(rgba(10, 25, 55, 0.30), rgba(0, 0, 0, 0.18));   /* the dent is see-through in both themes, */
+  --well-shade:  light-dark(rgba(10, 25, 55, 0.35), rgba(0, 0, 0, 0.25));   /* so it is always a shade of the button */
+  --well-lip:    light-dark(rgba(190, 210, 240, 0.35), rgba(255, 255, 255, 0.08));   /* light: a blue sheen, not white */
   /* Menu: the frosted panel (the last number is how solid it is) and its quiet text */
-  --menu-frost:  light-dark(rgba(214, 216, 220, 0.50), rgba(26, 28, 32, 0.50));
-  --menu-muted:  light-dark(#464b53, #8f949d);
+  --menu-frost:  light-dark(rgba(208, 216, 230, 0.55), rgba(26, 28, 32, 0.50));
+  --menu-muted:  light-dark(#333c4b, #8f949d);   /* light: 8.8:1 on the frost */
+  --menu-fg:     light-dark(#141a24, #e4e6ea);   /* light: 13.8:1 on the frost */
   /* Lines and borders in the menu, against its frost. Faint lines read weaker on light than on dark at the same
      ratio, so the light theme's are a little stronger: lines 1.59:1 / 1.49:1, borders 2.2:1 / 2.0:1. */
-  --menu-line:      light-dark(#b5b8ba, #373a3c);
-  --menu-btn-line:  light-dark(#999c9e, #4a4d4f);
+  --menu-line:      light-dark(#9aa6b8, #373a3c);   /* light: 1.95:1 */
+  --menu-btn-line:  light-dark(#7d8ba1, #4a4d4f);   /* light: 2.7:1 */
   /* Figures side. Light theme: a deep slate blue instead of black. Against the white control side it has about half
      the contrast black had (9.7:1 instead of 17:1), so it no longer glares, while its light text keeps a high
      contrast on it (9.6:1, where the grey panel gave 2.6:1). Blue is also the complement of the default orange, so
@@ -124,9 +132,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   /* ======================================================================================== */
 
   /* Theme values that are not single colours (gradients, shadows, amounts): light here, dark in .app.dark */
-  --dot-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0.05));
-  --dot-inner: inset 0 2px 3px #ffffff;
-  --well-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.01));
+  --dot-bg: linear-gradient(180deg, rgba(190, 210, 240, 0.35), rgba(190, 210, 240, 0) 60%, rgba(10, 25, 55, 0.12));
+  --dot-inner: inset 0 1px 1px rgba(200, 218, 245, 0.55), inset 0 -2px 4px rgba(10, 25, 55, 0.25);
+  --well-bg: linear-gradient(180deg, rgba(10, 25, 55, 0.22), rgba(10, 25, 55, 0.04));
   --grain-o: 0.09;
 
   font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight);
@@ -174,7 +182,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
    "bthehuman/pen/zGKBvm" (MIT), scaled down and put on theme tokens. */
 .profile-btn .dot, .theme-btn .dot {
   position: relative; width: var(--dot-size); height: var(--dot-size); border-radius: 50%;
-  background-color: var(--c-btn); background-image: var(--dot-bg);
+  background-color: var(--dot-face); background-image: var(--dot-bg);
   box-shadow: 0 2px 5px var(--dot-drop), var(--dot-inner);
   display: grid; place-items: center;
   font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--dot-letter); line-height: 1;
@@ -198,7 +206,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pause:disabled { opacity: 0.45; cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
 .pause-field input:focus, .pause-field input:focus-visible { outline: var(--focus-w) solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
-.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: 12.5px; text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-btn); color: var(--c-fg); }
+.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: 12.5px; text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
 .pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: 12px; color: var(--c-muted); white-space: nowrap; pointer-events: none; }
 .pause-field button { font: inherit; font-size: 12px; height: 28px; padding: 0 10px; border-radius: var(--r-small); }
 .status .live { color: var(--run, #e80003); }
@@ -209,7 +217,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* Menu: slides in from the left and stops at the divider */
 /* In the menu, quiet text is darker in the light theme, so it holds up on the frost. */
-.menu { --c-muted: var(--menu-muted); --c-line: var(--menu-line); --c-btn-line: var(--menu-btn-line); }
+.menu { --c-muted: var(--menu-muted); --c-fg: var(--menu-fg); --c-line: var(--menu-line); --c-btn-line: var(--menu-btn-line); }
 /* Menu: folded, it is the button in the top-left corner; open, it grows into a frosted panel up to the divider. */
 .menu {
   position: absolute; inset: 0; z-index: 5;
@@ -223,17 +231,18 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   -webkit-backdrop-filter: blur(var(--menu-blur)); backdrop-filter: blur(var(--menu-blur));
 }
 .menu-toggle { position: absolute; top: 12px; left: 12px; width: 40px; height: 40px; border: 0; padding: 0; background: transparent; cursor: pointer; z-index: 2; border-radius: var(--r-small); }
-.menu-toggle span { position: absolute; left: 10px; width: 20px; height: 2px; border-radius: 1px; background: var(--c-fg); transition: transform var(--speed-menu) ease, opacity var(--speed-menu) ease; }
+.menu-toggle span { position: absolute; left: 10px; width: 20px; height: 2px; border-radius: 1px; background: var(--c-btn-fg); transition: transform var(--speed-menu) ease, opacity var(--speed-menu) ease; }
 .menu-toggle span:nth-child(1) { top: 13px; }
 .menu-toggle span:nth-child(2) { top: 19px; }
 .menu-toggle span:nth-child(3) { top: 25px; }
+.menu.open .menu-toggle span { background: var(--c-fg); }
 .menu.open .menu-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .menu.open .menu-toggle span:nth-child(2) { opacity: 0; }
 .menu.open .menu-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 .menu h2 { margin: 0; font-size: 16px; font-weight: 600; line-height: 32px; }
 .menu-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px 52px; min-height: 40px; }
 /* The theme button: drawn like the profile button's disc in its dent, smaller */
-.theme-btn { --dot-size: 26px; --dent: 4px; width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--c-fg); }
+.theme-btn { --dot-size: 26px; --dent: 4px; --dot-face: var(--theme-face); width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--c-fg); }
 .theme-label { font-size: var(--size-note); color: var(--c-muted); }
 .menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity 0.12s ease; }
 .menu.open .body { opacity: 1; transition: opacity 0.2s ease 0.14s; }
@@ -247,7 +256,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .seg { display: inline-flex; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); overflow: hidden; }
 .seg button { font: inherit; font-size: 13px; padding: 5px 12px; border: 0; background: var(--c-btn); color: var(--c-fg); cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--c-fg); color: var(--c-bg); }
-.menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-btn); color: var(--c-fg); width: 150px; }
+.menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); width: 150px; }
 .plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .plist li { display: flex; align-items: center; gap: 10px; }
 .mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 1.2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; }
@@ -263,7 +272,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .lv-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 30px; }
 .lv-label { min-width: 110px; color: var(--c-muted); }
 .lv-val { font-variant-numeric: tabular-nums; }
-.lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-btn); color: var(--c-fg); }
+.lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
 .lv input[type="date"] { width: auto; }
 .lv .keys { font-size: 11px; color: var(--c-muted); }
 .lv-hist-btn { justify-self: start; font: inherit; font-size: 11.5px; background: none; border: 0; padding: 0; color: var(--c-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
@@ -293,22 +302,22 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* The app's own colour picker */
 .swatch { width: 44px; height: 26px; padding: 0; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); cursor: pointer; }
-.cpick { position: absolute; z-index: 20; width: 236px; padding: 10px; display: grid; gap: 10px; background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+.cpick { position: absolute; z-index: 20; width: 236px; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
 .cpick canvas { width: 100%; height: 140px; border-radius: 4px; cursor: crosshair; touch-action: none; display: block; }
 .cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; height: 12px; margin: 0; border-radius: 6px; background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); }
 .cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid #222; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
 .cpick .hue::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #222; }
 .cpick .cp-row { display: flex; align-items: center; gap: 8px; }
 .cpick .cp-now { width: 26px; height: 26px; border-radius: 4px; border: 1px solid var(--c-btn-line); flex: none; }
-.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-bg); color: var(--c-fg); }
+.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
 .cpick .cp-ok { margin-left: auto; font-weight: 600; padding: 4px 14px; }
 
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
-.popup { background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
 .popup h3 { margin: 4px 8px 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
 .popup button { display: flex; gap: 10px; align-items: center; font: inherit; text-align: left; padding: 8px; border: 0; border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: pointer; }
-.popup button:hover, .popup button[aria-current="true"] { background: var(--c-hover); }
+.popup button:hover, .popup button[aria-current="true"] { background: var(--popup-pick); }
 
 /* Divider */
 .figures { position: relative; }
