@@ -41,7 +41,7 @@ their phase.
 What the app is made of, from the decisions so far. They have no order, steps or **Done when** until the roadmap is
 agreed at the end of Phase 0. A part is added when a decision has none to build it.
 
-- **Clocking.** The project set up, the start/stop button, stored entries, today's total and the balance, and the
+- **Clocking.** The project set up, the start/stop button, stored entries and the balance, and the
   question for a running entry from an earlier day.
 - **Breaks and flex days.** Added breaks taken off the day's total and fixed from the main screen; flex days for a
   day or a range, taken off the balance.

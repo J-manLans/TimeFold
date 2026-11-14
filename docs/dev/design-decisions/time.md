@@ -1,7 +1,7 @@
 # Time
 
-How hours count: expected hours, and which days count. Each decision follows the template in `README.md`, and is cited
-by its title.
+How hours count: on which day, against expected hours, and which days owe them. Each decision follows the template in
+`README.md`, and is cited by its title.
 
 ## Expected hours: 6 a day, Monday to Friday (2026-11-14)
 
@@ -13,17 +13,43 @@ day's janitor hours minus 6, added up over time.
 **Rejected:** none yet.
 **Revisit if:** the owner's working time changes, or differs over the year.
 
-## A day counts only when filled in (2026-11-14)
+## Time counts on the day it was worked (2026-11-14)
+
+**Built by:** Clocking.
+
+**Decision:** an entry is stored as one stretch, from its start to its stop, but its time is counted on the calendar
+day it was worked: an entry across midnight is split there when counting. This holds for every profile. A profile
+without a balance adds each day's hours to the shared ceiling over its period; a profile with a balance adds them as
+in "A day owes its expected hours only when work started on it".
+**Why:** the report and any working time limits go by calendar days, and an hour after midnight belongs to the next
+day, and to the next month at a month's end. Storing one entry keeps corrections simple.
+**Rejected:** counting all of an entry's time on the day it started: simpler, but the record would not match the
+calendar, and a period's edge would take hours from the wrong side.
+**Revisit if:** the employer counts late work on the day it began.
+**Cases:**
+- Tuesday 22:00 to Wednesday 01:00: Tuesday 2 h, Wednesday 1 h.
+- An entry of a profile without a balance, 31 March 23:00 to 1 April 01:00: 1 h in March's ceiling, 1 h in April's.
+
+## A day owes its expected hours only when work started on it (2026-11-14)
 
 **Built by:** Clocking for worked days; Breaks and flex days for flex days.
 
-**Decision:** for a profile with a balance, a day counts only if something is recorded for that profile: one of its
-entries, or a flex day. A worked day adds the profile's hours minus its expected hours. A flex day, marked with one
-action for a day or a range of days, takes off the full expected hours. An empty day counts for nothing: weekends,
-public holidays, annual leave and sick days are simply left empty. Hours taken out within a day need nothing special: a
-short day lowers the balance by itself.
+**Decision:** for a profile with a balance, each day adds the hours worked on it. A day is also charged its expected
+hours only if one of the profile's entries started on it, or it is a flex day. A flex day, marked with one action for
+a day or a range of days, takes off the full expected hours. Any other day owes nothing: weekends, public holidays,
+annual leave and sick days are simply left empty, and the app never needs to know why. Hours that run past midnight
+into such a day are added to it, and charge nothing. Hours taken out within a day need nothing special: a short day
+lowers the balance by itself.
 **Why:** it is how the owner's Excel file works today, proven in daily use, and it needs no calendar of holidays to
 keep up to date. The flex day replaces the one thing that is awkward in Excel: typing a zero day for each day off.
+Counting only days work started on keeps a late night from charging a day of leave.
 **Rejected:** a calendar of expected working days (holidays, leave) that charges the expected hours unless a day is
-excused: more to maintain, and wrong whenever the calendar is.
+excused: more to maintain, and wrong whenever the calendar is. Charging any day with something recorded on it: an hour
+after midnight would charge the next day's expected hours, even a day of leave.
 **Revisit if:** the employer requires absences to be recorded by type.
+**Cases:**
+- Janitor, Friday 22:00 to Saturday 01:00: Saturday adds +1 (a weekend has no expected hours).
+- Janitor, Thursday 22:00 to Friday 01:00, Friday on leave: Friday adds +1, not 1 − 6.
+- Janitor, Sunday 22:00 to Monday 01:00, then Monday 11:00–17:00: Monday adds 1 + 6 − 6 = +1.
+- An empty weekday: adds nothing.
+- A flex day: −6.

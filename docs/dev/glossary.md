@@ -15,7 +15,8 @@ becomes a test.
 
 **Ceiling.** The hours all profiles without expected hours may add up to together, over a period. Never owed.
 
-**Day total.** The time worked in one day: the length of the entries started that day, minus their added breaks.
+**Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
+balance, and what the day's result shows at stop.
 
 **Entry.** One stretch of work, from a start to a stop. Clicked in the app, or written by hand.
 

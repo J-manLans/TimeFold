@@ -55,7 +55,6 @@ checks and names the other by title.
 
 - One start/stop button and a profile list
 - A running entry from an earlier day asks
-- An entry belongs to the day it started
 - Time away is a gap or an added break
 - Entering a length of time
 
@@ -67,7 +66,8 @@ checks and names the other by title.
 ### [Time](time.md)
 
 - Expected hours: 6 a day, Monday to Friday
-- A day counts only when filled in
+- Time counts on the day it was worked
+- A day owes its expected hours only when work started on it
 
 ### [Reports](reports.md)
 

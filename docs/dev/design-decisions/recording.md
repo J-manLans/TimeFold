@@ -1,6 +1,6 @@
 # Recording
 
-How work and time away are recorded: the controls, breaks, and which day an entry belongs to. Each decision follows
+How work and time away are recorded: the controls and breaks. Each decision follows
 the template in `README.md`, and is cited by its title.
 
 ## One start/stop button and a profile list (2026-11-14)
@@ -23,7 +23,7 @@ prefers the whole update at stop.
 - A running, B picked: A still runs, and nothing is recorded.
 - A running, start pressed on B at 13:00: A ends at 13:00, B starts at 13:00.
 - A on screen and running, stop pressed: A ends; nothing runs.
-- While an entry runs, the day total and bars do not change; at stop they include it.
+- While an entry runs, the bars do not change; at stop they include it.
 
 ## A running entry from an earlier day asks (2026-11-14)
 
@@ -43,22 +43,6 @@ not be running at midnight. Doing nothing until a correction: the mistake surfac
 - Answer "I stopped at 23:10": the entry ends yesterday at 23:10.
 - Answer "Still working": the entry runs on; the question comes again only at the next change of date.
 - Entry started today and running: no question.
-
-## An entry belongs to the day it started (2026-11-14)
-
-**Built by:** Clocking.
-
-**Decision:** all of an entry's time counts on the day it started, including any part after midnight. The date comes
-with every recorded timestamp.
-**Why:** the balance is counted per filled-in day ("A day counts only when filled in"). Splitting at midnight would
-make the next day filled in with a few hours, and charge its expected hours against them. Only the profiles without
-expected hours are likely to run past midnight.
-**Rejected:** splitting an entry at midnight between two days.
-**Revisit if:** a profile with expected hours is worked across midnight.
-**Cases:**
-- Tuesday 22:00 to Wednesday 01:00: Tuesday gets 3 h; Wednesday gets nothing.
-- The same on a profile with a balance: Wednesday is not filled in, so it does not count 0 or 1 h minus the expected
-  hours.
 
 ## Time away is a gap or an added break (2026-11-14)
 
