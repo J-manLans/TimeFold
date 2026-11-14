@@ -18,6 +18,9 @@ The owner's preference: files grouped into sections with a banner comment, a lin
 section name, in each language's comment style. The agent's leans for it: banners in files with several parts (the
 design tokens, a logic module, a longer component), none in a small component with one job; one fixed width, to the line
 length, and one level only.
+Next: the owner brings the code style from another project; the agent sorts it into what carries over, what needs
+translating to Svelte, TypeScript and Rust, and what does not fit here (with reasons), and the agreed result becomes the
+decision.
 **See:** Tests come first, from the owner's rules; Svelte with TypeScript for the interface.
 
 ## Phase 2: Breaks and flex days
