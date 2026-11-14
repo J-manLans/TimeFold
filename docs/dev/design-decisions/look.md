@@ -3,7 +3,7 @@
 How the app looks: type, colour, surfaces and buttons, and the light or dark theme. Each decision follows the template
 in `README.md`, and is cited by its title.
 
-## The look: a fresh display face, mono text, grain and soft buttons (2026-11-14)
+## The look: a fresh display face, mono text and soft buttons (2026-11-14)
 
 **Built by:** Clocking, with the first screen.
 
@@ -20,8 +20,6 @@ main screen sketch:
   ratio, and stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1
   (light), lines at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons
   at about 2.7:1 and 2.0:1, as measured on the sketch.
-- **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
-  glassy.
 - **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper, `#4f688e`,
   with near-white text at 5.2:1, hovered `#40577b` at 6.8:1; in the dark theme a dark grey with light text; a little
   bolder text on the smaller buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset
@@ -62,9 +60,10 @@ shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile cir
 better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the page
 (1.08:1, later 1.29:1); the blue ties the control side to the dashboard. An outline around the profile letter: it looked
 silly. No light on the discs: it set them apart, but less naturally; the profile disc's half strength keeps a little of
-both. A near-white theme disc in the light theme: the blue one sits better with the other buttons.
-**Revisit if:** the mono is hard to read at small sizes, or the grain costs too much on WebKitGTK, or the pointer light
-repaints too slowly there.
+both. A fine grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the blue one
+sits better with the other buttons.
+**Revisit if:** the mono is hard to read at small sizes, or the pointer light repaints too slowly there.
+
 
 ## A light or dark theme, following the system (2026-11-14)
 

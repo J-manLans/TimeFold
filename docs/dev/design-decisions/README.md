@@ -91,7 +91,7 @@ checks and names the other by title.
 
 ### [Look](look.md)
 
-- The look: a fresh display face, mono text, grain and soft buttons
+- The look: a fresh display face, mono text and soft buttons
 - A light or dark theme, following the system
 
 ### [Figures](figures.md)

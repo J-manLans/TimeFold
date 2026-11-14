@@ -11,11 +11,11 @@ ceiling wheel and the pay estimate; Handover for export and import.
 **Decision:** the main screen has two sides, split by a divider (a sharp line or a gradient, settled when built). The
 left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"),
 "Exportera" and "Importera" side by side under it, together as wide as it; the profile button beside both, as tall as
-the two rows, a rectangle holding a raised disc set in a dent ("The look: a fresh display face, mono text, grain and
-soft buttons") with the profile's first letter, capitalised, in the profile's colour, which with more than one profile
-opens a popup of the profiles, centred on the left side; under the block, the status line naming what runs and since
-when, which keeps its room even when empty; under that, centred together, "Lägg till paus" (as wide as its text) and the
-round undo button ("The last click can be undone for a few seconds"); "Lägg till paus" ("Time away is a gap or an added
+the two rows, a rectangle holding a raised disc set in a dent ("The look: a fresh display face, mono text and soft
+buttons") with the profile's first letter, capitalised, in the profile's colour, which with more than one profile opens
+a popup of the profiles, centred on the left side; under the block, the status line naming what runs and since when,
+which keeps its room even when empty; under that, centred together, "Lägg till paus" (as wide as its text) and the round
+undo button ("The last click can be undone for a few seconds"); "Lägg till paus" ("Time away is a gap or an added
 break"), a smaller, quieter button, greyed out unless the profile on screen runs, whose length field opens in its place,
 text starting at the left; the menu button at the top left, and at the bottom the line that offers pruning ("Old history
 is pruned on request"). The menu grows out of its own button: pressed, the button's rounded rectangle expands from the
