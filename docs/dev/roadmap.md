@@ -41,16 +41,17 @@ their phase.
 What the app is made of, from the decisions so far. They have no order, steps or **Done when** until the roadmap is
 agreed at the end of Phase 0. A part is added when a decision has none to build it.
 
-- **Clocking.** The project set up, the start/stop button, stored entries and the balance, and the
-  question for a running entry from an earlier day.
+- **Clocking.** The project set up, the start/stop button, stored entries and the balance, the
+  first start with the opening balance, and the question for a running entry from an earlier day.
 - **Breaks and flex days.** Added breaks taken off the day's total and fixed from the main screen; flex days for a
   day or a range, taken off the balance.
 - **Profiles.** Profiles the owner sets up, the profile list beside the start button, hours per profile, the
-  ceiling shared by the profiles without a balance, settings from a date, and the pay estimate.
+  ceiling shared by the profiles without a balance and its opening hours, the ceiling wheel, settings from a date,
+  and the pay estimate.
 - **Corrections.** Entries edited on their line (moved, lengthened, shortened, split by a gap), deleted or written
   by hand.
 - **Reports.** A period's report, with hours per profile, that the owner sends to the boss as it is.
-- **Handover.** Export and import of the whole record between the two machines.
+- **Handover.** Export and import of the whole record between the two machines, and import as a first start.
 
 ## Not on this roadmap
 

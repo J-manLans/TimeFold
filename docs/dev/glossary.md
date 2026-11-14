@@ -49,6 +49,9 @@ no day.
 **Handover.** Moving the record from one of the owner's machines to the other: export one file on the first, import
 it on the second, replacing everything there.
 
+**Opening figures.** The janitor balance and the ceiling hours used, typed in when the app starts fresh; kept as
+entries dated the first day.
+
 **Over colour.** The ceiling wheel's colour for hours over the ceiling; suggested from the base colour, or picked.
 
 **Part.** A piece of the app named on the roadmap before the phases are agreed, such as Clocking or Handover.

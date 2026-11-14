@@ -32,6 +32,31 @@ a handover) the owner takes responsibility for avoiding. Warning only when the f
 asking every time is simpler and always checked.
 **Revisit if:** the owner often ends up with new entries on both machines for the same day.
 
+## A first install starts fresh or imports (2026-11-14)
+
+**Built by:** Clocking for the first start and the opening balance; Profiles for the opening ceiling hours; Handover
+for importing.
+
+**Decision:** an app with no data asks once how to start. **Start fresh** asks for two opening figures: the janitor
+balance and the hours of the current month's ceiling already used (any carried from the month before included), both
+as they stood at the end of the day before the first day in the app. Each is kept as an entry dated that first day,
+which the handover carries, the reports show ("brought over: +12:30") and a correction can change like any entry.
+From then on the app records every entry with its day. **Import from my other machine** reads a handover file
+instead, as in "Handover between machines". The owner switches from the Excel file on a day not yet worked, with the
+file closed the evening before; the Excel history before that stays in the file and is not brought in.
+**Why:** the Excel history is not needed by anything the app does, and the boss has not asked for it; parsing the
+file's layout would cost much for it. Figures as of the end of the day before mean the app counts every day from its
+first, so none is counted twice or missed. Asking at first start keeps a second machine from getting opening figures
+of its own.
+**Rejected:** importing the past days from the Excel file: far more work for history no one reads. The opening
+figures as settings: settings here change from a date and apply forward, and a setting typed on one machine could be
+left out of the other. Switching in the middle of a worked day: it happens once, and a fresh day needs nothing built.
+**Revisit if:** the boss or payroll asks for days from before the app.
+**Cases:**
+- First install on Monday, Excel balance +12:30 and 18 h of the ceiling used at Friday's close: the balance starts at
+  +12:30 and the ceiling wheel at 18 h; Monday's work adds to both.
+- Second machine, first start: "Import from my other machine" brings the whole record, opening figures included.
+
 ## What the app does (2026-11-14)
 
 **Built by:** Clocking, Breaks and flex days, Profiles, Corrections and Reports.

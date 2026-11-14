@@ -41,6 +41,7 @@ checks and names the other by title.
 
 - One user, offline, on the owner's machines
 - Handover between machines
+- A first install starts fresh or imports
 - What the app does
 
 ### [Stack](stack.md)

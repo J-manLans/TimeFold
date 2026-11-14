@@ -39,12 +39,6 @@ Whether the record and the report show that an entry was written by hand or edit
 more trustworthy to the boss; hiding it keeps the report clean.
 **See:** What the app does.
 
-### Bringing over the Excel history (2026-11-14)
-
-Where the balance starts. Options: the app starts empty with the Excel balance carried over as one figure, or it
-imports the past days from the file. Importing keeps the history in one place; carrying over is far simpler.
-**See:** What the app does.
-
 ### Is "from home" a profile (2026-11-14)
 
 Work from home is paid differently, but the owner may also do a task, such as development group work, from home.
