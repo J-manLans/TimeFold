@@ -24,15 +24,16 @@ shrinking back into the button; Esc or a click anywhere outside the menu closes 
 see-through, with the control side lightly blurred behind it, and in the light theme tinted a little darker than the
 control side so it stands out. The figures stay sharp and in view while settings change. New profiles are made from the
 menu. The right side is narrower, about two fifths of the window, and is the living one, changing at each stop, and
-looks like a modern terminal dashboard, not a retro one: a dark panel in the dark theme and a mid-grey one in the light
-theme (its entry rows stay dark), numbers in a monospaced font with their digits lined up, thin lines, small uppercase
-labels, and small, precise motion (numbers counting to their new value, the arc sweeping). A profile's colour is the
-over colour of the figure it moves: the balance bar's for the profile with the balance, the ceiling wheel's for the
-others. While the profile on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app
-takes the colour of the profile on screen. On the right side, from the top: the balance as a number, centred, with no
-label; the balance bar; the ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number
-under the wheel, with no label; then the five most recent entries and "Visa alla", which opens a popup centred on the
-whole window listing every entry, where entries are edited ("Editing an entry on its line").
+looks like a modern terminal dashboard, not a retro one: a near-black panel in the dark theme and a deep slate-blue one
+(#2c3e5c) in the light theme, its rows a step darker and its text light, numbers in a monospaced font with their digits
+lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc
+sweeping). A profile's colour is the over colour of the figure it moves: the balance bar's for the profile with the
+balance, the ceiling wheel's for the others. While the profile on screen runs, a ring in its colour surrounds the start
+button. Every focus ring in the app takes the colour of the profile on screen. On the right side, from the top: the
+balance as a number, centred, with no label; the balance bar; the ceiling wheel, centred under it with nothing beside
+it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa
+alla", which opens a popup centred on the whole window listing every entry, where entries are edited ("Editing an entry
+on its line").
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
 With the figures in view beside the menu, a colour changed in settings shows at once on the figures. The five most
@@ -40,8 +41,9 @@ recent entries show yesterday's work on a fresh morning, where today's alone wou
 sits with what runs and never moves; the status line's kept room sets it a little apart, marking it as secondary.
 Colouring a profile by the figure it moves ties the controls to what they change. The wheel tells its story alone, so
 nothing beside it is needed, and the side can be narrower. A dashboard look suits figures that are read at a glance, and
-a soft base colour with a neon-leaning over colour is how such dashboards use colour. In the light theme a lighter,
-mid-grey panel sits better beside the light control side while its dark rows keep the dashboard reading.
+a soft base colour with a neon-leaning over colour is how such dashboards use colour. In the light theme the slate blue
+has about half the contrast black had against the white control side (9.7:1 against 17:1), so it does not glare, while
+its light text stays sharp on it (9.6:1); blue is also the complement of the default orange, so the figures stand out.
 **Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures the
 owner reads every day. Figures beside the wheel (ceiling, used, left, carried): the wheel already shows them. A label on
 the balance: the number alone is clear. "Lägg till paus" at the bottom left: the prune line would push it up and down. A
@@ -49,8 +51,9 @@ menu over the whole screen: it would hide the figures it changes. A drawer with 
 but more parts than the growing button. The icon riding to the panel's far corner as an ×: the close button would not be
 where the pointer is. A menu sliding in under a separate button: the icon would stay apart from the menu. A see-through
 menu always present: nothing needs it when closed. A fully light figures side in the light theme: the dashboard look
-would be lost. A panel dark in every theme: in the light theme it sat too heavily beside the light controls. A retro
-terminal look (green on black, scan lines): the owner wants the direction, not the costume.
+would be lost. A near-black panel in the light theme: it glared against the white controls. A mid-grey panel: its light
+text had too little contrast (2.6:1). A violet panel: also good, kept as the alternative. A retro terminal look (green
+on black, scan lines): the owner wants the direction, not the costume.
 **Revisit if:** the window is too small for both sides, or the frosted blur is slow on WebKitGTK (then the panel is more
 opaque, without blur).
 **Cases:**
@@ -102,13 +105,14 @@ main screen sketch:
   normal case. The quiet lines, what runs, the offer to prune and the short messages after an action (such as
   "Rensar efter en kopia"), share one small size (10.5 px) in the muted colour.
 - **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with
-  its light and dark value side by side. The figures side is a dark panel, mid-grey in the light theme
-  ("The main screen has a control side and a figures side").
+  its light and dark value side by side. The figures side is near-black in the dark theme and slate blue in the light
+  theme, each a tinted family of panel, rows, lines and text ("The main screen has a control side and a figures
+  side").
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
   glassy.
-- **Buttons:** flat, in the theme's button colour, with no border and no shading: corners of 5 px and a soft shadow
-  offset down and to the right (5 px, 20 px blur, 30% black). Hovered, a little lighter; pressed, a faint shade from
-  the top. Small controls and fields have 6 px corners, panels and popups 12 px.
+- **Buttons:** flat, in the theme's button colour, with no border and no shading: corners of 5 px and a soft, quiet
+shadow offset down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint
+shade from the top. Small controls and fields have 6 px corners, panels and popups 12 px.
 - **Profile circle:** a raised disc in the button's own colour, lit from the top, sitting in a soft dent 6 px wide
   around it, after a CodePen pen (bthehuman, MIT); in the dark theme the dent is only a whisper darker than the button.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
@@ -129,9 +133,9 @@ colour reads better. Decorative micro labels: they say nothing.
 **Built by:** Clocking.
 
 **Decision:** the control side and the menu have a theme setting: "System" (the default, following the computer's light
-or dark mode), "Ljust" or "Mörkt". The figures side follows it too, as a dark panel in the dark theme and a mid-grey one
-in the light theme ("The main screen has a control side and a figures side"). Like the colours, the theme belongs to
-each machine and is not carried by the handover.
+or dark mode), "Ljust" or "Mörkt". The figures side follows it too, as a near-black panel in the dark theme and a
+slate-blue one in the light theme ("The main screen has a control side and a figures side"). Like the colours, the theme
+belongs to each machine and is not carried by the handover.
 **Why:** the owner's two computers may be set differently, and following the system needs no choice at all; the
 setting is there for when the app should differ from the system.
 **Rejected:** one fixed theme: the control side should sit well beside the rest of the owner's desktop. The theme in
@@ -139,7 +143,7 @@ the handover: as with the colours, each machine is set up for its own screen.
 **Revisit if:** the figures side should follow the theme after all.
 **Cases:**
 - System in dark mode, theme "System": the control side is dark.
-- Theme "Ljust" on a dark system: the control side is light, and the figures panel mid-grey with dark rows.
+- Theme "Ljust" on a dark system: the control side is light, and the figures panel slate blue.
 
 ## The balance bar (2026-11-14)
 

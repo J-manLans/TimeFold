@@ -21,7 +21,7 @@
   --r-panel: 12px;       /* the app window, popups, cards */
   --border-w: 0px;       /* borders on buttons and fields */
   /* Buttons */
-  --btn-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.3);    /* try: 0 1px 3px rgba(0, 0, 0, 0.08) */
+  --btn-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.14);   /* was 5px 5px 20px 0.3; flatter: 0 1px 3px rgba(0, 0, 0, 0.08) */
   /* The button block */
   --start-w: 214px;  --start-h: 64px;  --pair-h: 34px;  --profile-w: 76px;  --block-gap: 8px;
   /* The profile circle */
@@ -45,7 +45,7 @@
   --text-font: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
   --text-stretch: 75%;  --text-weight: 500;  --text-case: normal;  --text-tracking: 0.06em;
   /* Motion */
-  --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;
+  --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;  --speed-tab: 0.22s;
   /* The menu panel */
   --menu-blur: 7px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
   /* Focus and grain */
@@ -101,15 +101,19 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   /* Menu: the frosted panel (the last number is how solid it is) and its quiet text */
   --menu-frost:  light-dark(rgba(214, 216, 220, 0.50), rgba(26, 28, 32, 0.50));
   --menu-muted:  light-dark(#464b53, #8f949d);
-  /* Figures side */
-  --f-bg:        light-dark(#d8d8d8, #0d1014);   /* the panel */
-  --f-row:       light-dark(#5a5e65, #141920);   /* the entry rows */
-  --f-line:      light-dark(#232a33, #232a33);   /* thin lines and borders */
-  --f-fg:        light-dark(#d9dee6, #d9dee6);   /* main text: entries, the balance */
-  --f-muted:     light-dark(#232a33, #7b8592);   /* grey text: the pay estimate, "Senaste", the "paus" tags */
-  --f-ink:       light-dark(#232a33, #7b8592);   /* small marks: the bar's scale, "AV 42:00 H" */
-  --f-tick:      light-dark(#2c3440, #2c3440);   /* the wheel's tick marks */
-  --f-zero:      light-dark(#232a33, #c9d1db);   /* the bar's 0 line */
+  /* Figures side. Light theme: a deep slate blue instead of black. Against the white control side it has about half
+     the contrast black had (9.7:1 instead of 17:1), so it no longer glares, while its light text keeps a high
+     contrast on it (9.6:1, where the grey panel gave 2.6:1). Blue is also the complement of the default orange, so
+     the figures' colours stand out on it.
+     To try a violet panel instead, swap in the second value of each comment. */
+  --f-bg:        light-dark(#2c3e5c, #0d1014);   /* the panel                                   violet: #37345f */
+  --f-row:       light-dark(#233350, #141920);   /* the entry rows, a step darker              violet: #2d2a52 */
+  --f-line:      light-dark(#4a6185, #232a33);   /* thin lines and borders                     violet: #57528a */
+  --f-fg:        light-dark(#eef2f8, #d9dee6);   /* main text: entries, the balance            violet: #f0eef8 */
+  --f-muted:     light-dark(#a9b8cf, #7b8592);   /* grey text: pay estimate, "Senaste", tags   violet: #b7b1d6 */
+  --f-ink:       light-dark(#b8c5d9, #7b8592);   /* small marks: the bar's scale, "AV 42:00 H" violet: #c6c1e2 */
+  --f-tick:      light-dark(#6a82a8, #2c3440);   /* the wheel's tick marks                     violet: #736ea6 */
+  --f-zero:      light-dark(#e6ecf5, #c9d1db);   /* the bar's 0 line                           violet: #ebe8f5 */
   /* ======================================================================================== */
 
   /* Theme values that are not single colours (gradients, shadows, amounts): light here, dark in .app.dark */
@@ -194,7 +198,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
 .prune .spacer { flex: 1; }
-.toast { font-size: 12px; color: var(--c-muted); height: 16px; text-align: center; }
+.toast { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; text-align: center; }
 
 /* Menu: slides in from the left and stops at the divider */
 /* In the menu, quiet text is darker in the light theme, so it holds up on the frost. */
@@ -233,9 +237,42 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .seg button { font: inherit; font-size: 13px; padding: 5px 12px; border: 0; background: var(--c-btn); color: var(--c-fg); cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--c-fg); color: var(--c-bg); }
 .menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-btn); color: var(--c-fg); width: 150px; }
-.plist { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .plist li { display: flex; align-items: center; gap: 10px; }
 .mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 1.2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; }
+
+/* Menu tabs */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--c-line); }
+.tab { font: inherit; font-size: 13px; padding: 7px 10px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--c-muted); cursor: pointer; }
+.tab[aria-selected="true"] { color: var(--c-fg); border-bottom-color: var(--accent, var(--c-fg)); }
+.tabpanel { display: grid; gap: 14px; align-content: start; animation: tabfade var(--speed-tab) ease; }
+@keyframes tabfade { from { opacity: 0; } to { opacity: 1; } }
+/* A counting value: locked as text until "Ändra"; Enter confirms, Esc aborts, then "Gäller från" */
+.lv { display: grid; gap: 6px; padding: 10px 0; border-bottom: 1px dashed var(--c-line); }
+.lv-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 30px; }
+.lv-label { min-width: 110px; color: var(--c-muted); }
+.lv-val { font-variant-numeric: tabular-nums; }
+.lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-btn); color: var(--c-fg); }
+.lv input[type="date"] { width: auto; }
+.lv .keys { font-size: 11px; color: var(--c-muted); }
+.lv-hist-btn { justify-self: start; font: inherit; font-size: 11.5px; background: none; border: 0; padding: 0; color: var(--c-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.lv-hist { list-style: none; margin: 0; padding: 0 0 0 2px; display: grid; gap: 3px; font-size: 12px; color: var(--c-muted); }
+.split { display: grid; gap: 6px; }
+.split input[type="range"] { width: 100%; accent-color: var(--accent, var(--c-fg)); }
+.split input[type="range"]:disabled { opacity: 0.55; }
+.split-legend { display: flex; justify-content: space-between; font-size: 12px; font-variant-numeric: tabular-nums; }
+/* Profile rows: open in place */
+.prows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.prow { border: 1px solid var(--c-line); border-radius: var(--r-small); }
+.prow-head { width: 100%; display: flex; align-items: center; gap: 10px; font: inherit; text-align: left; padding: 8px 10px; background: none; border: 0; color: var(--c-fg); cursor: pointer; }
+.prow-head .mark { font-size: 11px; color: var(--c-muted); border: 1px solid var(--c-line); border-radius: 4px; padding: 0 5px; }
+.prow-head .chev { margin-left: auto; color: var(--c-muted); transition: transform var(--speed-fade) ease; }
+.prow.open .chev { transform: rotate(90deg); }
+.prow.archived .prow-head { opacity: 0.55; }
+.prow-body { padding: 2px 12px 12px; display: grid; gap: 2px; }
+.prow-body .field { display: flex; align-items: center; gap: 10px; min-height: 34px; }
+.prow-body .field > span:first-child { min-width: 110px; color: var(--c-muted); }
+@media (prefers-reduced-motion: reduce) { .tabpanel { animation: none; } }
 
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
@@ -326,11 +363,25 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         <button class="menu-toggle" id="menuBtn" type="button" aria-label="Öppna menyn" aria-expanded="false"><span></span><span></span><span></span></button>
         <div class="body" id="menuBody" inert>
           <h2>Meny</h2>
-          <section>
-            <h3>Profiler</h3>
-            <ul class="plist" id="plist"></ul>
+          <div class="tabs" role="tablist" aria-label="Menyns delar">
+            <button class="tab" role="tab" type="button" data-tab="profiler" aria-selected="true">Profiler</button>
+            <button class="tab" role="tab" type="button" data-tab="arbetstid" aria-selected="false">Arbetstid</button>
+            <button class="tab" role="tab" type="button" data-tab="manadsstart" aria-selected="false">Månadsstart</button>
+            <button class="tab" role="tab" type="button" data-tab="utseende" aria-selected="false">Utseende</button>
+          </div>
+          <div class="tabpanel" role="tabpanel" data-panel="profiler">
+            <ul class="prows" id="plist"></ul>
             <div class="line"><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil"><button class="small" id="addProfile" type="button">Ny profil</button></div>
-          </section>
+          </div>
+          <div class="tabpanel" role="tabpanel" data-panel="arbetstid" hidden>
+            <div id="workTime"></div>
+            <p class="hint">Taket för de andra profilerna är heltid minus vaktmästartimmarna, per vardag.</p>
+          </div>
+          <div class="tabpanel" role="tabpanel" data-panel="manadsstart" hidden>
+            <div id="monthStart"></div>
+            <p class="hint">Dagen månaden börjar på, så som skolan räknar. Taket, rapporten och rensningen räknar med den.</p>
+          </div>
+          <div class="tabpanel" role="tabpanel" data-panel="utseende" hidden>
           <section>
             <h3>Tema</h3>
             <div class="seg" id="themeSeg">
@@ -340,16 +391,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <section data-fig="wheel">
             <h3>Takhjulet</h3>
             <div class="line"><span>Grundfärg</span><input type="color" data-k="base" aria-label="Takhjulets grundfärg"></div>
-            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Takhjulets överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd förslaget</button></div>
+            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Takhjulets överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd default</button></div>
             <label class="line"><input type="checkbox" data-k="unify"> Förena färger</label>
           </section>
           <section data-fig="bar">
             <h3>Saldostapeln</h3>
             <div class="line"><span>Grundfärg</span><input type="color" data-k="base" aria-label="Saldostapelns grundfärg"></div>
-            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Saldostapelns överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd förslaget</button></div>
+            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Saldostapelns överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd default</button></div>
             <label class="line"><input type="checkbox" data-k="unify"> Förena färger</label>
           </section>
-          <p class="hint">Arbetstid, månadsstart och timpris kommer också hit; hur de ser ut är inte bestämt.</p>
+          </div>
         </div>
       </div>
 
@@ -491,7 +542,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var which = sec.dataset.fig, r = resolved(which);
       sec.querySelector('[data-k="base"]').value = r.base;
       sec.querySelector('[data-k="over"]').value = r.over;
-      sec.querySelector('[data-k="tag"]').textContent = colours[which].chosen ? "Ditt val" : "Förslag";
+      sec.querySelector('[data-k="tag"]').textContent = colours[which].chosen ? "Ditt val" : "Default";
       sec.querySelector('[data-k="reset"]').hidden = !colours[which].chosen;
       sec.querySelector('[data-k="unify"]').checked = colours.unify;
     });
@@ -603,7 +654,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     $("profileDot").style.color = profColour(onScreen);
     app.style.setProperty("--accent", profColour(onScreen));
     if (running) app.style.setProperty("--run", profColour(running.profile));
-    $("profileBtn").setAttribute("aria-disabled", String(profiles.length < 2));
+    $("profileBtn").setAttribute("aria-disabled", String(activeProfiles().length < 2));
     var mine = running && running.profile === onScreen;
     $("startLabel").textContent = mine ? "Stoppa jobb" : "Starta jobb";
     $("startBtn").classList.toggle("running", !!mine);
@@ -612,8 +663,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     refreshTip();
     var st = $("status"); st.textContent = "";
     if (running) { var dot = document.createElement("span"); dot.className = "live"; dot.textContent = "● "; st.append(dot, prof(running.profile).name + " pågår sedan " + clock(running.start)); }
-    var pl = $("plist"); clear(pl);
-    profiles.forEach(function (q) { var li = document.createElement("li"); var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); li.append(d, q.name + (q.balance ? " (saldo)" : "")); pl.appendChild(li); });
   }
   function stopRunning() {
     var r = running, end = new Date(), start = new Date(end.getTime() - 135 * 60000);
@@ -668,11 +717,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   });
 
   $("profileBtn").addEventListener("click", function () {
-    if (profiles.length < 2) return;
+    if (activeProfiles().length < 2) return;
     var list = $("popupList"); clear(list);
-    profiles.forEach(function (q) {
+    activeProfiles().forEach(function (q) {
       var b = document.createElement("button"); b.type = "button"; if (q.id === onScreen) b.setAttribute("aria-current", "true");
-      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase();
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id);
       b.append(d, q.name + (running && running.profile === q.id ? "  ●" : ""));
       b.addEventListener("click", function () { onScreen = q.id; $("scrim").hidden = true; drawControls(); });
       list.appendChild(b);
@@ -691,6 +740,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   // Menu
   function setMenu(open) {
+    if (open) { selectTab("profiler"); renderMenu(); }
     $("menu").classList.toggle("open", open); $("menuBody").inert = !open;
     $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
   }
@@ -702,8 +752,198 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
   $("addProfile").addEventListener("click", function () {
     var n = $("newName").value.trim(); if (!n) return;
-    profiles.push({ id: "p" + profiles.length + Date.now(), name: n, rate: 0 }); $("newName").value = ""; drawControls();
+    var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
+    profiles.push(q); $("newName").value = ""; openRow = q.id; renderProfiles(); drawControls();
   });
+
+  // ---- Menu: tabs, counting values locked behind "Ändra", profile rows that open in place ----
+  function selectTab(name) {
+    document.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tab === name)); });
+    document.querySelectorAll(".tabpanel").forEach(function (pnl) {
+      var on = pnl.dataset.panel === name;
+      if (on && pnl.hidden) { pnl.hidden = false; pnl.style.animation = "none"; void pnl.offsetWidth; pnl.style.animation = ""; }
+      else if (!on) pnl.hidden = true;
+    });
+  }
+  document.querySelectorAll(".tab").forEach(function (b) { b.addEventListener("click", function () { selectTab(b.dataset.tab); }); });
+
+  var MONTHS = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+  function isoDay(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function fmtDay(s) { var x = s.split("-"); return (+x[2]) + " " + MONTHS[+x[1] - 1] + " " + x[0]; }
+  function hLen(m) { return Math.floor(m / 60) + (m % 60 ? ":" + String(m % 60).padStart(2, "0") : "") + " h"; }
+  function readHours(s) { s = s.trim(); var m = /^(\d{1,2}):(\d{2})$/.exec(s); if (m) return +m[1] * 60 + +m[2]; if (/^\d{1,2}$/.test(s)) return +s * 60; return null; }
+  function now(h) { return h[h.length - 1].v; }
+  // Counting settings change from a date; each keeps its history.
+  var settings = {
+    fullTime: [{ from: "2026-01-01", v: 480 }],
+    split: [{ from: "2026-01-01", v: 360 }],      // janitor's expected minutes a day; the ceiling gets the rest
+    monthStart: [{ from: "2026-01-01", v: 1 }]
+  };
+  profiles.forEach(function (q) {
+    q.pay = q.salary ? { kind: "salary", hist: [{ from: "2026-01-01", v: q.salary }] } : { kind: "rate", hist: q.rate ? [{ from: "2026-01-01", v: q.rate }] : [] };
+    q.category = q.balance ? "Månadslön" : "Timlön"; q.archived = false;
+  });
+  function activeProfiles() { return profiles.filter(function (q) { return !q.archived; }); }
+
+  // A locked counting value: text with "Ändra"; "Ändra" opens the editor; Enter confirms and asks "Gäller från"
+  // (today unless moved); Esc aborts at any step. "Tidigare värden (n)" lists the earlier values.
+  // Only one value is open for editing at a time: "Ändra" on another aborts the open one.
+  var openEdit = null;
+  function lockedValue(o) {
+    var wrap = document.createElement("div"); wrap.className = "lv";
+    var row = document.createElement("div"); row.className = "lv-row";
+    var lab = document.createElement("span"); lab.className = "lv-label"; lab.textContent = o.label;
+    var val = document.createElement("span"); val.className = "lv-val";
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
+    var keys = document.createElement("span"); keys.className = "keys"; keys.hidden = true;
+    row.append(lab, val, btn, keys); wrap.appendChild(row);
+    var slider = null, legend = null, input = null, date = null, stage = "locked", pending = null;
+    if (o.slider) {
+      var box = document.createElement("div"); box.className = "split";
+      slider = document.createElement("input"); slider.type = "range"; slider.min = 0; slider.max = o.slider.max(); slider.step = 15; slider.disabled = true;
+      slider.setAttribute("aria-label", o.label);
+      legend = document.createElement("div"); legend.className = "split-legend";
+      box.append(slider, legend); wrap.appendChild(box);
+      slider.addEventListener("input", function () { legend.textContent = ""; o.slider.legend(+slider.value, legend); });
+    }
+    var histBtn = document.createElement("button"); histBtn.type = "button"; histBtn.className = "lv-hist-btn";
+    var hist = document.createElement("ul"); hist.className = "lv-hist"; hist.hidden = true;
+    wrap.append(histBtn, hist);
+    histBtn.addEventListener("click", function () { hist.hidden = !hist.hidden; });
+    function show() {
+      var h = o.hist(); val.textContent = h.length ? o.show(now(h)) : "Inget satt"; keys.hidden = true; btn.hidden = false;
+      if (input) { input.remove(); input = null; } if (date) { date.remove(); date = null; }
+      val.hidden = false;
+      if (slider) { slider.max = o.slider.max(); slider.value = h.length ? now(h) : 0; slider.disabled = true; legend.textContent = ""; o.slider.legend(+slider.value, legend); }
+      var older = h.slice(0, -1).reverse();
+      histBtn.textContent = "Tidigare värden (" + older.length + ")"; histBtn.hidden = !older.length;
+      clear(hist);
+      older.forEach(function (e, k) {
+        var until = h[h.length - 1 - k].from, li = document.createElement("li");
+        li.textContent = o.show(e.v) + ", från " + fmtDay(e.from) + " till " + fmtDay(isoDay(new Date(new Date(until).getTime() - 864e5)));
+        hist.appendChild(li);
+      });
+      stage = "locked"; if (openEdit === me) openEdit = null;
+    }
+    function abort() { show(); btn.focus(); }
+    var me = { abort: function () { show(); } };
+    function askDate(v) {
+      pending = v; stage = "date";
+      if (input) { input.remove(); input = null; }
+      if (slider) slider.disabled = true;
+      val.hidden = false; val.textContent = o.show(v) + "  ·  Gäller från";
+      date = document.createElement("input"); date.type = "date"; date.value = isoDay(new Date());
+      date.setAttribute("aria-label", "Gäller från");
+      row.insertBefore(date, btn); btn.hidden = true;
+      keys.textContent = "Enter sparar · Esc avbryter"; keys.hidden = false; date.focus();
+    }
+    function commit() {
+      if (!date || !date.value) return;
+      var h = o.hist(), from = date.value;
+      for (var k = h.length - 1; k >= 0; k--) if (h[k].from === from) h.splice(k, 1);
+      h.push({ from: from, v: pending }); h.sort(function (a, b) { return a.from < b.from ? -1 : 1; });
+      show(); if (o.onCommit) o.onCommit(); btn.focus();
+    }
+    btn.addEventListener("click", function () {
+      if (openEdit && openEdit !== me) openEdit.abort();
+      openEdit = me;
+      stage = "edit"; btn.hidden = true; keys.textContent = "Enter fortsätter · Esc avbryter"; keys.hidden = false;
+      if (slider) { slider.disabled = false; slider.focus(); return; }
+      val.hidden = true;
+      input = document.createElement("input"); input.type = "text"; input.value = o.hist().length ? o.toText(now(o.hist())) : "";
+      input.setAttribute("aria-label", o.label); row.insertBefore(input, btn); input.focus(); input.select();
+    });
+    wrap.addEventListener("keydown", function (e) {
+      if (stage === "locked") return;
+      if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); abort(); }
+      else if (e.key === "Enter") {
+        e.preventDefault();
+        if (stage === "edit") { var v = slider ? +slider.value : o.parse(input.value); if (v !== null && v !== undefined && !isNaN(v)) askDate(v); }
+        else if (stage === "date") commit();
+      }
+    });
+    show(); wrap.refresh = function () { if (stage === "locked") show(); }; return wrap;
+  }
+
+  var openRow = null;
+  function renderProfiles() {
+    var ul = $("plist"); clear(ul);
+    profiles.forEach(function (q) {
+      var li = document.createElement("li"); li.className = "prow" + (openRow === q.id ? " open" : "") + (q.archived ? " archived" : "");
+      var head = document.createElement("button"); head.type = "button"; head.className = "prow-head"; head.setAttribute("aria-expanded", String(openRow === q.id));
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id);
+      var nm = document.createElement("span"); nm.textContent = q.name;
+      head.append(d, nm);
+      if (q.balance) { var mk = document.createElement("span"); mk.className = "mark"; mk.textContent = "saldo"; head.appendChild(mk); }
+      if (q.archived) { var ar = document.createElement("span"); ar.className = "mark"; ar.textContent = "arkiverad"; head.appendChild(ar); }
+      var chev = document.createElement("span"); chev.className = "chev"; chev.textContent = "›"; head.appendChild(chev);
+      head.addEventListener("click", function () { openRow = openRow === q.id ? null : q.id; renderProfiles(); });
+      li.appendChild(head);
+      if (openRow === q.id) {
+        var body = document.createElement("div"); body.className = "prow-body";
+        // Name and pay category change at once: no count depends on them.
+        var f1 = document.createElement("label"); f1.className = "field";
+        var l1 = document.createElement("span"); l1.textContent = "Namn";
+        var in1 = document.createElement("input"); in1.type = "text"; in1.value = q.name;
+        in1.addEventListener("change", function () { if (in1.value.trim()) { q.name = in1.value.trim(); renderProfiles(); drawControls(); } });
+        f1.append(l1, in1);
+        var f2 = document.createElement("label"); f2.className = "field";
+        var l2 = document.createElement("span"); l2.textContent = "Lönekategori";
+        var in2 = document.createElement("input"); in2.type = "text"; in2.value = q.category;
+        in2.addEventListener("change", function () { q.category = in2.value; });
+        f2.append(l2, in2);
+        var pay = lockedValue({
+          label: q.pay.kind === "salary" ? "Månadslön" : "Timpris",
+          hist: function () { return q.pay.hist; },
+          show: function (v) { return v.toLocaleString("sv-SE") + (q.pay.kind === "salary" ? " € / månad" : " € / h"); },
+          toText: function (v) { return String(v); },
+          parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; }
+        });
+        body.append(f1, pay, f2);
+        if (!q.balance) {
+          var f3 = document.createElement("div"); f3.className = "field";
+          var arch = document.createElement("button"); arch.type = "button"; arch.className = "small";
+          arch.textContent = q.archived ? "Återställ" : "Arkivera";
+          arch.addEventListener("click", function () {
+            q.archived = !q.archived;
+            if (q.archived && onScreen === q.id) onScreen = activeProfiles()[0].id;
+            renderProfiles(); drawControls();
+          });
+          var sp = document.createElement("span"); f3.append(sp, arch); body.appendChild(f3);
+        }
+        li.appendChild(body);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function renderSettings() {
+    var wt = $("workTime"); clear(wt); var splitCtl;
+    wt.appendChild(lockedValue({
+      label: "Heltid", hist: function () { return settings.fullTime; }, show: hLen,
+      toText: function (v) { return hLen(v).replace(" h", ""); }, parse: readHours,
+      // A new full time only refreshes the split beside it; nothing is rebuilt, so no other edit or focus is lost.
+      onCommit: function () { if (splitCtl) splitCtl.refresh(); }
+    }));
+    wt.appendChild(splitCtl = lockedValue({
+      label: "Fördelning", hist: function () { return settings.split; },
+      show: function (v) { return hLen(v) + " | " + hLen(now(settings.fullTime) - v); },
+      slider: {
+        max: function () { return now(settings.fullTime); },
+        legend: function (v, el) {
+          var a = document.createElement("span"); a.textContent = profiles[0].name + " " + hLen(v);
+          var b = document.createElement("span"); b.textContent = "Tak " + hLen(now(settings.fullTime) - v) + " / vardag";
+          el.append(a, b);
+        }
+      }
+    }));
+    var ms = $("monthStart"); clear(ms);
+    ms.appendChild(lockedValue({
+      label: "Månaden börjar", hist: function () { return settings.monthStart; },
+      show: function (v) { return "den " + v + ":e"; }, toText: function (v) { return String(v); },
+      parse: function (s) { var n = +s.trim(); return /^\d{1,2}$/.test(s.trim()) && n >= 1 && n <= 28 ? n : null; }
+    }));
+  }
+  function renderMenu() { renderProfiles(); renderSettings(); }
   // Theme: "system" follows the computer; the dark tokens live in one block, .app.dark.
   var darkMq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
   function applyTheme() {
