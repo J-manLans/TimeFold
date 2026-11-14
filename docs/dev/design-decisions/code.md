@@ -48,6 +48,12 @@ well-named test already says its rule.
   **API** and **Helpers**, the helpers sub-headed by the section they serve (`=== Init ===`, `=== API ===`,
   `=== Global ===`). A Svelte component's script uses **Props**, **State**, **Logic** and **Helpers**, and its style
   **Tokens**, **Layout** and **States**. A small file with one job needs no banner.
+- **CSS:** every raw value (colour, size, radius, time, strength) lives in one tokens file, `src/styles/tokens.css`,
+  carried over from the main screen sketch's knobs, with each theme colour written once as `light-dark(light, dark)`;
+  components use only `var(--…)`. A small `src/styles/base.css` holds the reset, fonts and body. Inside a component,
+  class names are short and plain (`.label`, `.dot`), since Svelte scopes each component's styles; states are shown
+  with `class:` directives, `:disabled` and `aria-` attributes, not in class names. Every transition takes
+  `--speed-ui`, and `prefers-reduced-motion` is always respected.
 - **Tests,** with Vitest for TypeScript and Rust's own tests for Rust ("Tests come first, from the owner's rules"):
   - as few tests as cover the behaviour: a test earns its place only if breaking the code it guards turns it red and
     no other test already does; no tests of the language or a library; asserts on one behaviour share one test;
@@ -65,8 +71,9 @@ well-named test already says its rule.
 match every example a learner finds. Strict types and few, sharp tests suit tests-first: each test guards a rule from a
 decision, and its worked examples are the decisions' cases.
 **Rejected:** an underscore for private things: in TypeScript, not exporting says it, and the norm is without one.
-Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright,
-`conftest.py`, reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines:
-they suit a simulation; here the decisions' cases cover it.
+Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright, `conftest.py`,
+reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines: they suit a
+simulation; here the decisions' cases cover it. BEM class names: Svelte's scoped styles already prevent the collisions
+BEM exists to avoid, and the long names would only add noise.
 **Revisit if:** a tool's default fights the owner's banners or comment style, or a third language joins.
 

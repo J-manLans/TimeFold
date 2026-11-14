@@ -109,6 +109,21 @@ Default section names, adjusted per project:
   **Layout**, **States**.
 - **A test file:** see "Tests" below.
 
+## CSS
+
+- **Raw values live in one tokens file.** Colours, sizes, radii, times and strengths are variables, defined once, and
+  each theme colour once with its variants side by side (`light-dark(light, dark)`). Components use only the
+  variables; a raw value inside a component is a bug waiting for the next theme or tweak.
+- **A small base file** holds the reset, fonts and body, and nothing component-specific.
+- **States are states,** not names: a disabled button is `:disabled` or `aria-disabled`, a running one a state class
+  or attribute set by the code, and a disabled thing reacts to nothing (no hover, no press).
+- **One speed for interface transitions,** a variable, and `prefers-reduced-motion` always respected. Longer
+  animations that tell something over time keep their own length.
+- **Class names depend on scoping.** Where the framework scopes styles per component (Svelte, Vue, CSS modules),
+  short plain names are safe and enough. Where all styles share one global sheet, a naming scheme such as BEM
+  (`.block__element--modifier`) prevents collisions.
+- **The same section banners** as the code: Tokens, Layout, States.
+
 ## Tests
 
 How tests are written; when they are written (first, from the owner's rules, or after) is a decision of the project.
