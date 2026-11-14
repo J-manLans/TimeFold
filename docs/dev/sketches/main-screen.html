@@ -47,7 +47,7 @@
   /* Motion */
   --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;
   /* The menu panel */
-  --menu-blur: 7px;    --menu-solid: 72%;   /* how solid the panel is; lower shows more of the control side */
+  --menu-blur: 7px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
   /* Focus and grain */
   --focus-w: 2px;  --grain-figures: 0.12;
   /* ======================================================================== */
@@ -77,24 +77,47 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .toolbar .val { font-family: var(--mono); color: var(--page-fg); min-width: 6ch; }
 .toolbar button { font: inherit; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--page-line); background: transparent; color: var(--page-fg); cursor: pointer; }
 
-/* The app window. Theme tokens for the control side: light here, dark in .app.dark (set by the script from the
-   theme setting and the system). The figures side is dark in every theme. */
+/* The app window. */
 .app {
-  /* Surfaces and text */
-  --c-bg: #f3f3f1; --c-fg: #1f2227; --c-muted: #6a6f78; --c-line: #dedfe2; --c-scrim: rgba(20, 22, 26, 0.25);
+  color-scheme: light;   /* the script sets .dark from the theme setting and the system */
+
+  /* ================= THEME COLOURS: light-dark(light theme, dark theme) ================= */
+  /* Control side: surfaces and text */
+  --c-bg:        light-dark(#f3f3f1, #1a1c20);
+  --c-fg:        light-dark(#1f2227, #e4e6ea);
+  --c-muted:     light-dark(#6a6f78, #8f949d);
+  --c-line:      light-dark(#dedfe2, #2c2f35);
+  --c-scrim:     light-dark(rgba(20, 22, 26, 0.25), rgba(0, 0, 0, 0.45));
   /* Buttons */
-  --c-btn: #e9eaea; --c-btn-line: #c9ccd2; --c-hover: #eef0f2; --press-shade: rgba(0, 0, 0, 0.05);
-  /* Profile circle: the disc and its dent */
+  --c-btn:       light-dark(#e9eaea, #2a2d33);
+  --c-btn-line:  light-dark(#c9ccd2, #3a3e45);
+  --c-hover:     light-dark(#eef0f2, #343840);
+  --press-shade: light-dark(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.18));
+  /* Profile circle: the disc's shadow and its dent */
+  --dot-drop:    light-dark(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.60));
+  --well-edge:   light-dark(#d6d6d6, rgba(0, 0, 0, 0.18));
+  --well-shade:  light-dark(#d0d0d0, rgba(0, 0, 0, 0.25));
+  --well-lip:    light-dark(transparent, rgba(255, 255, 255, 0.08));
+  /* Menu: the frosted panel (the last number is how solid it is) and its quiet text */
+  --menu-frost:  light-dark(rgba(214, 216, 220, 0.50), rgba(26, 28, 32, 0.50));
+  --menu-muted:  light-dark(#464b53, #8f949d);
+  /* Figures side */
+  --f-bg:        light-dark(#d8d8d8, #0d1014);   /* the panel */
+  --f-row:       light-dark(#5a5e65, #141920);   /* the entry rows */
+  --f-line:      light-dark(#232a33, #232a33);   /* thin lines and borders */
+  --f-fg:        light-dark(#d9dee6, #d9dee6);   /* main text: entries, the balance */
+  --f-muted:     light-dark(#232a33, #7b8592);   /* grey text: the pay estimate, "Senaste", the "paus" tags */
+  --f-ink:       light-dark(#232a33, #7b8592);   /* small marks: the bar's scale, "AV 42:00 H" */
+  --f-tick:      light-dark(#2c3440, #2c3440);   /* the wheel's tick marks */
+  --f-zero:      light-dark(#232a33, #c9d1db);   /* the bar's 0 line */
+  /* ======================================================================================== */
+
+  /* Theme values that are not single colours (gradients, shadows, amounts): light here, dark in .app.dark */
   --dot-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0.05));
-  --dot-inner: inset 0 2px 3px #ffffff;  --dot-drop: rgba(0, 0, 0, 0.30);
-  --well-bg: #ffffff;  --well-edge: #d6d6d6;  --well-shade: #d0d0d0;  --well-lip: transparent;
-  --menu-tint: #d6d8dc;
-  --menu-muted: #464b53;  /* quieter text in the menu: darker than elsewhere, for contrast on the frost */   /* the frost's colour: a little darker than the control side, so the panel stands out */
-  --menu-frost: color-mix(in srgb, var(--menu-tint) var(--menu-solid), transparent);
-  /* Grain on the control side */
+  --dot-inner: inset 0 2px 3px #ffffff;
+  --well-bg: #ffffff;
   --grain-o: 0.09;
-  /* Figures side, every theme */
-  --f-bg: #0d1014; --f-fg: #d9dee6; --f-muted: #7b8592; --f-line: #232a33; --f-row: #141920;
+
   font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight);
   text-transform: var(--text-case); letter-spacing: var(--text-tracking);
   position: relative; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
@@ -102,13 +125,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 .app.dark {
-  --menu-tint: #1a1c20;  --menu-muted: #8f949d;
-  --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-scrim: rgba(0, 0, 0, 0.45);
-  --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #343840; --press-shade: rgba(0, 0, 0, 0.18);
+  color-scheme: dark;
   --dot-bg: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
-  --dot-inner: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.30);  --dot-drop: rgba(0, 0, 0, 0.6);
+  --dot-inner: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.30);
   --well-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.02));
-  --well-edge: rgba(0, 0, 0, 0.18);  --well-shade: rgba(0, 0, 0, 0.25);  --well-lip: rgba(255, 255, 255, 0.08);
   --grain-o: 0.07;
 }
 @media (max-width: 760px) { .app { grid-template-columns: minmax(0, 1fr); height: auto; } }
@@ -249,9 +269,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .entries li { display: grid; grid-template-columns: 7ch 11ch 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
 .entries li.new { animation: flash 1.2s ease-out; }
 @keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
-.entries .tag { font-size: 11px; color: var(--f-muted); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; justify-self: start; }
+.entries .tag { font-size: 11px; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; justify-self: start; }
 .entries .dur { text-align: right; }
-.entries .more { justify-self: start; font: inherit; font-size: 12px; color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 4px 10px; cursor: pointer; }
+.entries .more { justify-self: start; font: inherit; font-size: 12px; color: var(--f-muted); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 4px 10px; cursor: pointer; }
 .entries .more:hover { border-color: var(--f-muted); }
 
 button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
@@ -373,7 +393,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 <script>
 (function () {
   "use strict";
-  var RED_HUE = 29, CEILING = 42 * 60, PANEL_BG = [13 / 255, 16 / 255, 20 / 255];
+  var RED_HUE = 29, CEILING = 42 * 60;
+  // The figures panel's actual background, as the colour rule's "background" (it changes with the theme).
+  function panelBg() {
+    var s = getComputedStyle(document.getElementById("figures")).backgroundColor, m;
+    if ((m = s.match(/^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/))) return [+m[1], +m[2], +m[3]];
+    if ((m = s.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/))) return [m[1] / 255, m[2] / 255, m[3] / 255];
+    return [13 / 255, 16 / 255, 20 / 255];
+  }
   var RULE = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
 
   // ---- Colour rule (as in "The ceiling wheel"; same code as ceiling-wheel.html) ----
@@ -454,7 +481,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   // ---- Colours ----
   function resolved(which) {
-    var c = colours[which], s = derive(c.base, PANEL_BG);
+    var c = colours[which], s = derive(c.base, panelBg());
     return { base: c.base, dim: s.dim, over: c.chosen && c.over ? c.over : s.over, suggested: s.over };
   }
   function applyColours() {
@@ -512,10 +539,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         " L" + x1 + "," + (y + h - r) + " A" + r + "," + r + " 0 0 " + (sd > 0 ? 1 : 0) + " " + (x1 - sd * r) + "," + (y + h) + " L" + x0 + "," + (y + h) + " Z";
       svg.appendChild(el("path", { d: d, fill: v > 0 ? c.over : c.base }));
     }
-    svg.appendChild(el("line", { x1: 200, x2: 200, y1: 2, y2: 36, stroke: "#c9d1db", "stroke-width": 1.5 }));
+    svg.appendChild(el("line", { x1: 200, x2: 200, y1: 2, y2: 36, style: "stroke: var(--f-zero)", "stroke-width": 1.5 }));
     [-1, 1].forEach(function (sd) {
-      svg.appendChild(el("line", { x1: 200 + sd * half, x2: 200 + sd * half, y1: 30, y2: 36, stroke: "#3a4450", "stroke-width": 1 }));
-      var lab = el("text", { x: 200 + sd * half, y: 47, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 9, fill: "#7b8592" });
+      // Ten marks on each side, from the 0 line out to the scale's end; the end mark a little taller.
+      for (var k = 1; k <= 10; k++) {
+        svg.appendChild(el("line", { x1: 200 + sd * half * k / 10, x2: 200 + sd * half * k / 10, y1: k === 10 ? 30 : 32, y2: 36, style: "stroke: var(--f-ink)", "stroke-width": 1 }));
+      }
+      var lab = el("text", { x: 200 + sd * half, y: 47, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 9, style: "fill: var(--f-ink)" });
       lab.textContent = (sd < 0 ? "−" : "+") + Math.round(scale / 60) + " h"; svg.appendChild(lab);
     });
     var n = $("balNum"); n.textContent = hm(v);
@@ -529,10 +559,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (u > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.base, "stroke-width": w, "stroke-dasharray": (u * circ) + " " + circ }));
     if (o > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.over, "stroke-width": w, "stroke-dasharray": (o * circ) + " " + circ }));
     svg.appendChild(g);
-    for (var i = 0; i < 40; i++) { var a = i / 40 * 2 * Math.PI, r1 = 52, r2 = i % 10 === 0 ? 46 : 49; svg.appendChild(el("line", { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + r2 * Math.sin(a), y2: 100 - r2 * Math.cos(a), stroke: "#2c3440", "stroke-width": 1 })); }
-    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", style: "font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-wheel)", fill: shown.used >= CEILING * 0.9 ? c.over : "#d9dee6" });
+    for (var i = 0; i < 40; i++) { var a = i / 40 * 2 * Math.PI, r1 = 52, r2 = i % 10 === 0 ? 46 : 49; svg.appendChild(el("line", { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + r2 * Math.sin(a), y2: 100 - r2 * Math.cos(a), style: "stroke: var(--f-tick)", "stroke-width": 1 })); }
+    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", style: "font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-wheel)", fill: shown.used >= CEILING * 0.9 ? c.over : "#d9dee6", class: "wheel-num" });
     t.textContent = hmPlain(shown.used); svg.appendChild(t);
-    var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, fill: "#7b8592", "letter-spacing": "1.5" });
+    var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, style: "fill: var(--f-ink)", "letter-spacing": "1.5" });
     s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);
     $("payNum").textContent = "≈ " + Math.round(shown.pay).toLocaleString("sv-SE") + " €";
   }
@@ -665,6 +695,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
   }
   $("menuBtn").addEventListener("click", function () { setMenu(!$("menu").classList.contains("open")); });
+  // A click anywhere outside the open menu closes it, as Esc does.
+  document.addEventListener("pointerdown", function (e) {
+    if ($("menu").classList.contains("open") && !$("menu").contains(e.target)) setMenu(false);
+  });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
   $("addProfile").addEventListener("click", function () {
     var n = $("newName").value.trim(); if (!n) return;
@@ -672,7 +706,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   });
   // Theme: "system" follows the computer; the dark tokens live in one block, .app.dark.
   var darkMq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
-  function applyTheme() { var th = app.dataset.appTheme; app.classList.toggle("dark", th === "dark" || (th === "system" && !!darkMq && darkMq.matches)); }
+  function applyTheme() {
+    var th = app.dataset.appTheme; app.classList.toggle("dark", th === "dark" || (th === "system" && !!darkMq && darkMq.matches));
+    if (typeof drawFigures === "function") { applyColours(); drawFigures(); }
+  }
   if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", applyTheme);
   applyTheme();
   document.querySelectorAll("#themeSeg button").forEach(function (b) {
