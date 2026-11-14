@@ -68,6 +68,8 @@ controls.
 - A running, "Starta jobb" on B at 13:00, the undo within 15 seconds: B's entry is gone, A runs on.
 - Stop at 15:40, nothing done until 15:40:30: the undo button is faded again; the stop stays.
 - Nothing clicked since the app opened: the undo button is faded.
+- Stop at 15:40, the window hidden at once and shown again at 15:41: the undo is faded and a press does nothing;
+  the undo's time is a deadline, not a timer the system may delay.
 
 ## A running entry from an earlier day asks (2026-11-14)
 
