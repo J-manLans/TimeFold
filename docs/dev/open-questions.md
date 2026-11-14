@@ -21,32 +21,15 @@ either choice can write. Also: is there a backup, and where? The handover file m
 
 ### Look and feel (2026-11-14)
 
-What the main screen is: one big start/stop button with today's total; a small always-on widget; an icon in the
-system tray or menu bar. How much of the history is on the main screen, and where editing lives. Light, dark, or
-following the system. To be settled with a sketch.
+Known: one start/stop button with the profile list beside it, the bars, and today's entries listed under them
+("One start/stop button and a profile list"; "Time away is a gap or an added break"). Open: whether there is also a
+small always-on widget or an icon in the system tray, how much earlier history the main screen shows, and where
+editing lives. Light, dark, or following the system. To be settled with a sketch.
 **See:** What the app does.
 
 ### Language of the app (2026-11-14)
 
 English, Swedish, or the language the boss reads the report in. The school is Swedish-language, in Finland.
-
-### How an errand is recorded (2026-11-14)
-
-Today the owner writes errand time into Excel at the end of the day, not as it happens. Options: an "away" click and a
-"back" click while an entry runs, or a stop and a new start (two entries, the gap between them being the errand). The
-first keeps a day as one entry; the second needs no new control.
-**See:** What the app does.
-
-### The four buttons and switching profile (2026-11-14)
-
-The owner's design draft has four buttons for the running profile: start day, end day, start break, end break. The
-owner's first thought, not yet settled: profiles are self-contained, so switching to another profile puts the running
-one on a break, and it goes on when the owner switches back. "End day" ends only the profile on screen. A profile
-left on a break is closed by a date check: the next click on it on a later date ends the old day where its break
-began, and starts a new one; on the same day it simply goes on. The agent's lean: the check covers a paused day only,
-since its end is known; a day left running has no known end, which is "A forgotten stop". Open: whether a break is
-the same as an errand, and lunch a break. It may change how "Profiles label the hours" words the switch.
-**See:** Profiles label the hours; How an errand is recorded.
 
 ### Marking corrected entries (2026-11-14)
 
@@ -83,25 +66,6 @@ The owner's first answer (2026-11-14), not yet settled: a month, shown with the 
 the balance bar and the ceiling circle, each with its numbers, so the month can be read at a glance. For janitor work
 the boss only needs to see that the balance is not too far over or under; for the other profiles, the exact hours per
 profile, since their pay may differ.
-
-## Phase 1
-
-### A forgotten stop (2026-11-14)
-
-If the owner forgets to stop, the entry runs on. Options: nothing (fix it by hand in Phase 4), a reminder after a
-set time, or asking at the next start.
-**See:** What the app does.
-
-### Entries across midnight (2026-11-14)
-
-Whether an entry that crosses midnight is split between the two days, or counted on the day it started. Rare, but it
-changes the day totals.
-
-## Phase 2
-
-### Is lunch an errand (2026-11-14)
-
-Whether lunch and other unpaid breaks are recorded the same way as errands, or kept apart in the report.
 
 ## Phase 3
 

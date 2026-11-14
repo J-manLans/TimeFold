@@ -45,28 +45,28 @@ phase.
 ### Phase 1: Clock in and out
 
 **Produces:** an app that starts and stops an entry with one click and shows today's total and the balance.
-**Settle first:** under "Phase 1": A forgotten stop; Entries across midnight.
+**Settle first:** nothing; what it needs is settled in Phase 0.
 
-1. Set up the project: `.gitignore` entries, the commands table in `AGENTS.md`.
+1. Set up the project: `.gitignore` entries, a test runner, the commands table in `AGENTS.md`.
 2. Store entries in the chosen storage, each with a profile (one default profile until Phase 3).
 3. The start/stop control, showing whether work is running.
 4. Today's total, and the balance.
-5. Tests for the totals.
+5. The question for a running entry from an earlier day.
 
 **Done when:** a day of real clicking gives the right total, and the data is still there after a restart.
 
 ### Phase 2: Errands and flex days
 
-**Produces:** errands recorded during the day and taken off the day's total; flex days marked for a day or a range,
-taken off the balance.
-**Settle first:** under "Phase 2": Is lunch an errand.
+**Produces:** added breaks taken off the day's total and fixed from the main screen; flex days marked for a day or a
+range, taken off the balance.
+**Settle first:** nothing; what it needs is settled in Phase 0.
 
 **Done when:** a day with errands gives the right total, and a week of flex days gives the right balance.
 
 ### Phase 3: Profiles
 
-**Produces:** profiles the owner sets up, a one-action switch between them (ending one entry and starting the
-next), hours shown per profile, and the ceiling shared by the profiles without a balance, with how much of it is
+**Produces:** profiles the owner sets up, the profile list beside the start button (start on another profile ends
+the running entry), hours shown per profile, and the ceiling shared by the profiles without a balance, with how much of it is
 used.
 **Settle first:** under "Phase 3": Working time limits. It does not block the build: the answers are settings.
 
@@ -75,7 +75,7 @@ the right use of the ceiling.
 
 ### Phase 4: Correcting the record
 
-**Produces:** entries and errands written by hand, and clicked ones edited or deleted.
+**Produces:** entries written by hand, and clicked entries and added breaks edited or deleted.
 **Settle first:** nothing; what it needs is settled in Phase 0.
 
 **Done when:** any day can be made to match what really happened.

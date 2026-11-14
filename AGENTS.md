@@ -70,6 +70,8 @@ Scaled to the task:
 | A decision is made | `docs/dev/design-decisions.md`, under its area, in the present tense, with **Built by** until built |
 | A question is answered | remove it from `open-questions.md`; the answer goes to `design-decisions.md` |
 | A question comes up | `open-questions.md`, under the phase that needs it |
+| A concrete case is agreed | the **Cases** line of the decision it mainly checks |
+| A case becomes a test | remove it from its decision's **Cases** |
 | A roadmap step is done | remove it from the roadmap, update the state table, remove or shorten each **Built by** it built |
 | Code is first run | the "has it run" cell in the state table |
 | A word is coined | `docs/dev/glossary.md` |
