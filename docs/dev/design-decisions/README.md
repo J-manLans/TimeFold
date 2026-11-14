@@ -44,6 +44,7 @@ checks and names the other by title.
 - A first install starts fresh or imports
 - The app is in Swedish
 - Old history is pruned on request
+- A plain window app
 - What the app does
 
 ### [Stack](stack.md)

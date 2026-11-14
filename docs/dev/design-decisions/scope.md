@@ -96,6 +96,21 @@ without a word. Cutting mid-month: that month's report and ceiling would be spli
   January's entries are deleted.
 - "Not now" on 3 February 2030: the line returns on 1 March 2030, offering two months.
 
+## A plain window app (2026-11-14)
+
+**Built by:** Clocking.
+
+**Decision:** the app is an ordinary window: the owner opens it, clicks, and minimises or closes it, and closing it
+quits it. It has no tray icon, no always-on widget and no autostart. Timing does not depend on the app running: an
+entry stores the moments of its start and stop, so a start clicked in the morning is counted correctly however long
+the app stays closed ("A running entry from an earlier day asks").
+**Why:** the owner clicks at a computer at the start and end of work, and opening the app for that is one click.
+Nothing in the counting needs a process in the background.
+**Rejected:** an always-on widget: nothing needs it on screen all day. Autostart with the window opening minimised:
+the owner does not want a window at login. A tray icon now: it adds nothing the app needs; it waits as an idea, with
+autostart ("A tray icon, with autostart", in `codebase-ideas.md`).
+**Revisit if:** the owner opens the app many times a day just to see what runs.
+
 ## What the app does (2026-11-14)
 
 **Built by:** Clocking, Breaks and flex days, Profiles, Corrections and Reports.
