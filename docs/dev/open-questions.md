@@ -22,10 +22,11 @@ either choice can write. Also: is there a backup, and where? The handover file m
 
 ### Look and feel (2026-11-14)
 
-Known: one start/stop button with the profile list beside it, the bars, and today's entries listed under them
-("One start/stop button and a profile list"; "Time away is a gap or an added break"). Open: whether there is also a
-small always-on widget or an icon in the system tray, how much earlier history the main screen shows, and where
-editing lives. Light, dark, or following the system. To be settled with a sketch.
+Known: one start/stop button with the profile list beside it, the bars, and today's entries listed under them ("One
+start/stop button and a profile list"; "Time away is a gap or an added break"). Open: whether there is also a small
+always-on widget or an icon in the system tray, how the settings menu and the slider that splits full time look, how
+much earlier history the main screen shows, and where editing lives. Light, dark, or following the system. To be
+settled with a sketch.
 **See:** What the app does.
 
 ### Language of the app (2026-11-14)
@@ -52,13 +53,6 @@ a mark on any entry beside its profile (two choices per entry). One list is ligh
 profile for every task and place. The agent's lean: one list, since the owner adds profiles as they come up.
 **See:** Profiles label the hours.
 
-### Profile settings that change (2026-11-14)
-
-If a profile's setting changes (say, its expected hours, or the ceiling), past days must not change with it. The agent's
-lean: a change applies from a date onward, and each past day keeps the settings it was worked under. It shapes how
-profiles are stored.
-**See:** Profiles label the hours.
-
 ### Report period and content (2026-11-14)
 
 Which period a report covers (a week, a month, any range), and what it shows: each day's start, stop, errands and
@@ -73,7 +67,7 @@ profile, since their pay may differ.
 ### Working time limits (2026-11-14)
 
 The figures for the ceiling, which the owner is asking the principal: which agreement covers the owner (the Working
-Hours Act, KVTES, or another), what counts as full time, so the ceiling's amount and its period; whether the janitor
-balance has a cap; and how the other profiles are paid, for their pay categories. They are settings, so they do not
-block the build.
+Hours Act, KVTES, or another), what counts as full time (the setting the ceiling follows) and the ceiling's period;
+whether the janitor balance has a cap; and how the other profiles are paid, for their pay categories. They are
+settings, so they do not block the build.
 **See:** The other profiles share a ceiling.

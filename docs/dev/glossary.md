@@ -13,7 +13,8 @@ Positive: hours to take out. Negative: hours to work in.
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
 becomes a test.
 
-**Ceiling.** The hours all profiles without expected hours may add up to together, over a period. Never owed.
+**Ceiling.** The hours all profiles without expected hours may add up to together, over a period: full time minus
+janitor's expected hours, for each weekday of the period. Never owed.
 
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
@@ -28,6 +29,8 @@ Friday", in `design-decisions/`).
 
 **Flex day.** A whole day off paid for with the balance: it takes the expected hours off the balance. Not annual
 leave, which is left empty.
+
+**Full time.** The hours of a full working day (8), a setting; janitor's expected hours and the ceiling divide it.
 
 **Handover.** Moving the record from one of the owner's machines to the other: export one file on the first, import
 it on the second, replacing everything there.

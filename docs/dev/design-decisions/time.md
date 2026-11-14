@@ -8,7 +8,7 @@ How hours count: on which day, against expected hours, and which days owe them. 
 **Built by:** Clocking.
 
 **Decision:** the owner's janitor work is expected to be 6 hours a day, Monday to Friday. The janitor balance is each
-day's janitor hours minus 6, added up over time.
+day's janitor hours minus 6, added up over time. The 6 is a setting, changed as in "Settings change from a date".
 **Why:** it is the owner's working time as a janitor, and what the Excel file counts against today.
 **Rejected:** none yet.
 **Revisit if:** the owner's working time changes, or differs over the year.

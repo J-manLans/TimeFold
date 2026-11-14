@@ -1,7 +1,7 @@
 # Profiles
 
-What a profile is, and the ceiling the profiles without a balance share. Each decision follows the template in
-`README.md`, and is cited by its title.
+What a profile is, the ceiling the profiles without a balance share, and how their settings change. Each decision
+follows the template in `README.md`, and is cited by its title.
 
 ## Profiles label the hours (2026-11-14)
 
@@ -23,15 +23,40 @@ let work in one profile change another's balance. A "reported to" field on each 
 
 ## The other profiles share a ceiling (2026-11-14)
 
-**Built by:** Profiles; the figures wait on "Working time limits", in `open-questions.md`.
+**Built by:** Profiles; full time and the period wait on "Working time limits", in `open-questions.md`.
 
 **Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles
-together share one ceiling: the hours up to full time, such as full time minus the janitor's 6. The ceiling is never
-owed: working under it costs nothing. It has an amount and a period, both settings, and the front page shows how
-much of it is used beside the balance, warning when it nears the ceiling. It never blocks a click.
-**Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow. Showing
-what is left of an allowance reads more easily than a total of all hours against full time.
+together share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but
+follows from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 h), added up over the weekdays of
+its period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the
+same whenever they are worked: night or day, weekday or weekend. Full time and janitor's expected hours are set
+together with one slider that splits full time between them (6 | 2); how it looks is settled with the look and feel.
+The ceiling's period is a setting. The ceiling is never owed: working under it costs nothing. The front page shows
+how much of it is used beside the balance, warning when it nears the ceiling. It never blocks a click.
+**Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
+balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree.
+Showing what is left of an allowance reads more easily than a total of all hours against full time.
 **Rejected:** expected hours for the other profiles (such as 2 a day): every day without that work would put the
-owner in minus. A fixed daily ceiling chosen by the app: the period comes with the limit, from the contract or law.
+owner in minus. The ceiling's amount as a setting of its own: it could be left behind when janitor hours change.
+Counting the ceiling per calendar day: a month would allow more than full time, which is a weekday measure.
 **Revisit if:** another profile gets hours of its own to work, or the limits apply to all hours together in a way
 the ceiling does not show.
+**Cases:**
+- Janitor 6, full time 8, a month with 21 weekdays: the ceiling is 42 h.
+- The slider moved to 5 | 3 from the 15th, 10 weekdays before it and 11 from it: 10 × 2 + 11 × 3 = 53 h.
+- Two hours of development group work on a Sunday: 2 h of the ceiling used.
+
+## Settings change from a date (2026-11-14)
+
+**Built by:** Profiles.
+
+**Decision:** settings that counting depends on, such as janitor's expected hours and full time, are changed in a
+small settings menu. Each change takes effect from a date, today unless the owner picks another, which may be in the
+past. Every day is counted with the settings in force on it, so past days keep the settings they were worked under.
+**Why:** the owner's work may shift toward the other profiles. A change that rewrote the past would alter balances
+already settled with the boss; a contract change often starts on a date before the app is updated.
+**Rejected:** one current value per setting: changing it would recount every past day.
+**Revisit if:** a setting ever needs to change the past on purpose.
+**Cases:**
+- Janitor set from 6 to 5 from 1 September: an August weekday with 6 h worked adds 0; a September one adds +1.
+- The same change entered on 10 September, dated 1 September: 1–9 September are recounted against 5.
