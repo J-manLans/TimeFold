@@ -116,12 +116,11 @@ main screen sketch:
   and small buttons at about 2.2:1 and 2.0:1, as measured on the sketch.
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
   glassy.
-- **Buttons:** flat, in the theme's button colour (in the light theme a cool grey, `#c3c9d1`, 1.5:1 against the page,
-  hovered a step darker; the text on buttons near-black, 11.4:1, and 10.4:1 hovered, and a little bolder on the smaller
-  buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset down and to the right (2 by 3
-  px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint shade from the top. Small controls and fields
-  have 6 px corners, panels and popups 12 px. The profile popup is a touch lighter than the buttons in the light theme
-  (`#d3d8de`, 1.33:1 against the dimmed page behind it).
+- **Buttons:** flat, in the theme's button colour (in the light theme a light cool grey, `#d3d8de`, 1.29:1 against the
+  page and the same as the profile popup, hovered a step darker, `#c3c9d1`; the text on buttons near-black, 13.3:1, and
+  11.4:1 hovered, and a little bolder on the smaller buttons), with no border and no shading: corners of 5 px and a
+  soft, quiet shadow offset down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter;
+  pressed, a faint shade from the top. Small controls and fields have 6 px corners, panels and popups 12 px.
 - **Profile circle:** a raised disc in the button's own colour, lit from the top, sitting in a soft dent 6 px wide
   around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
   of the button's own colour, whatever that colour is.
@@ -198,15 +197,17 @@ the bar would always look full.
 
 **Decision:** the ceiling shows as a ring, the ceiling wheel, with the month's used hours as a number in its centre. A
 full ring is the month's ceiling. It takes the colours of the profile on screen when that is one of the other profiles,
-and a neutral grey (base `#9aa3ae`, its over colour suggested as for any base) while the profile with the balance is on
-screen ("Each profile carries its colours"); a report draws it in the grey. Used hours fill the ring clockwise from 12
-o'clock in the base colour; the unused rest is dimmed. Hours over the ceiling are in the over colour: a second lap from
-12 o'clock, drawn over the base colour on the same ring. That lap is what carries into the next month, where those
-hours show in the base colour. From 90% of the ceiling the centre number takes the over colour; the ring keeps its
-colours. The wheel's numbers never depend on its colours: switching profile changes only how it looks.
+and greys while the profile with the balance is on screen: base `#9aa3ae`, over a light grey `#e2e6eb` (not the red the
+colour rule would suggest), so the dimmed rest, the base and the over lap are three clearly different greys, dark,
+middle and light, ("Each profile carries its colours"); a report draws it in the grey. Used hours fill the ring
+clockwise from 12 o'clock in the base colour; the unused rest is dimmed. Hours over the ceiling are in the over colour:
+a second lap from 12 o'clock, drawn over the base colour on the same ring. That lap is what carries into the next month,
+where those hours show in the base colour. From 90% of the ceiling the centre number takes the over colour; the ring
+keeps its colours. The wheel's numbers never depend on its colours: switching profile changes only how it looks.
 **Why:** the over lap shows the excess the moment it happens, and a full ring always means the ceiling; one ring reads
 at a glance. The number warns in the colour that is coming. The wheel sums all the other profiles, so its colour says
-which of them is on screen; with the balance profile on screen, none is, hence a grey that sits on both themes' panels.
+which of them is on screen; with the balance profile on screen, none is, hence greys that sit on both themes' panels;
+the light grey keeps "over" readable without a colour that belongs to no profile.
 **Rejected:** the excess as a thinner second ring inside: two rings to read for one figure. Shrinking the ring so the
 used and the excess share it: a full ring would stop meaning the ceiling. An amber number at 90%: the over colour says
 the same and needs no third colour. Colours of the wheel's own, set per machine: the colours belong to the profiles.
@@ -218,8 +219,8 @@ balance profile is on screen: the wheel would seem to belong to a profile that i
 - Ceiling 42 h, 38 h used: the number in the over colour (90% is 37.8 h); the ring has no over lap.
 - Ceiling 42 h, 46 h used: the ring full, with the over colour over 4/42 of it from 12 o'clock; the next month starts
   with 4 h in the base colour.
-- Utveckling (blue) on screen: the wheel is blue; Vaktmästare on screen: the wheel is grey `#9aa3ae` with over colour
-  `#dc0002`; the hours are the same in both.
+- Utveckling (blue) on screen: the wheel is blue; Vaktmästare on screen: the wheel is grey `#9aa3ae` with a light grey
+  `#e2e6eb` over the ceiling; the hours are the same in both.
 
 ## Each profile carries its colours (2026-11-14)
 
