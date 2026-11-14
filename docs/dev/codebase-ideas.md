@@ -10,3 +10,10 @@ Problems in what is built go to `open-questions.md` instead.
 The record marks each entry clicked, written by hand or edited ("Entries remember how they were made", in
 `design-decisions/`). The report could show the mark, such as a small sign beside a hand-set time, so the boss sees
 which times were set afterwards. Not vital: the record keeps the mark either way, and a clean report may read better.
+
+## A matte glow that follows the pointer
+
+**Returns when:** the buttons are built, or the owner says to try it on the sketch.
+On every button, the soft light of the matte plastic ("The look: condensed type, grain and matte plastic", in
+`design-decisions/`) could sit where the pointer is, moving with it across the face, as if a lamp were held over the
+part. To try as an experiment; the fixed light from the top is the baseline.
