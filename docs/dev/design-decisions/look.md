@@ -39,14 +39,15 @@ main screen sketch:
   label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
   within that time. Animations that tell something over longer, such as the numbers counting at stop or the undo's fade,
   keep their own length.
-- **Light:** a soft, matte light follows the pointer over the control side: one light shared by all buttons, so it lies
-  only on button surfaces and flows across them, faint and tinted (stronger on the light theme's blue than on the dark
-  grey), fading in and out with the pointer. The discs catch it too, at full strength, except the profile disc, which
-  catches it at half strength and so stays a little apart; on the undo disc it lies over the coloured drape, under the
-  arrow. While the menu is open, the light leaves the buttons under its frost, which it would seem to shine through, and
-  lies only on what is in the menu. The small text buttons in the menu ("Ändra", "OK", "Ny profil", "Använd default",
-  "Arkivera") stay plain, without the light: it marks the main controls and the discs, the theme disc among them. A
-  disabled button reacts to nothing: no light, no hover, no press.
+- **Light:** a soft, matte light follows the pointer over the control side: one light shared by all buttons, reaching
+  about 70 px from the pointer (far enough to flow across buttons, near enough that a button visibly lights up as the
+  pointer enters it), so it lies only on button surfaces and flows across them, faint and tinted (stronger on the light
+  theme's blue than on the dark grey), fading in and out with the pointer. The discs catch it too, at full strength,
+  except the profile disc, which catches it at half strength and so stays a little apart; on the undo disc it lies over
+  the coloured drape, under the arrow. While the menu is open, the light leaves the buttons under its frost, which it
+  would seem to shine through, and lies only on what is in the menu. The small text buttons in the menu ("Ändra", "OK",
+  "Ny profil", "Använd default", "Arkivera") stay plain, without the light: it marks the main controls and the discs,
+  the theme disc among them. A disabled button reacts to nothing: no light, no hover, no press.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 - In code, these values are named variables in one place, so the look is tuned there.
