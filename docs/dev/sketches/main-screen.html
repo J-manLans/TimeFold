@@ -49,7 +49,7 @@
   --undo-drape: 0.65;   /* how strong the coloured drape is when it appears (translucent, so the disc's sheen shows); it fades to nothing */
   --glow-r: 70px;      /* the pointer light on the buttons: its reach */
   --glow-disc: 0.7;    /* the light on the profile disc, against the faces' (0 none, 1 as strong); other discs get it in full */
-  --disabled-o: 0.4;    /* how faded an unavailable button is: "Lägg till paus", the undo */
+  --disabled-o: 0.4;    /* how faded an unavailable button is: "Lägg till paus", the undo, Exportera/Importera */
   --speed-ui: 0.3s;     /* every transition in the interface: hover, press, fades, the menu, tabs, rows, theme */
   --speed-press: var(--speed-ui);  --speed-fade: var(--speed-ui);  --speed-menu: var(--speed-ui);
   --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
@@ -222,6 +222,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .undo-btn .undo-icon { position: relative; z-index: 3; }
 @media (prefers-reduced-motion: reduce) { .undo-btn.live .dot::after { animation: none; opacity: var(--undo-drape); } }
 .pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
+.pair .plastic:disabled { opacity: var(--disabled-o); cursor: default; }
 .pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
 .pause-field input:focus, .pause-field input:focus-visible { outline: var(--focus-w) solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
@@ -771,6 +772,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     swapText($("startLabel"), function (el) { el.textContent = mine ? "Stoppa jobb" : "Starta jobb"; });
     $("startBtn").classList.toggle("running", !!mine);
     $("pauseBtn").disabled = !mine;
+    $("exportBtn").disabled = $("importBtn").disabled = !!running; // no handover while any job runs
     if (!mine) closePause();
     refreshTip();
     swapText($("status"), function (st) {
