@@ -13,8 +13,8 @@ Positive: hours to take out. Negative: hours to work in.
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
 becomes a test.
 
-**Ceiling.** The hours all profiles without expected hours may add up to together, over a period: full time minus
-janitor's expected hours, for each weekday of the period. Never owed.
+**Ceiling.** The hours all profiles without expected hours may add up to together, over a month: full time minus
+janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
 
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
@@ -38,8 +38,9 @@ it on the second, replacing everything there.
 **Part.** A piece of the app named on the roadmap before the phases are agreed, such as Clocking or Handover.
 At the end of Phase 0 the parts are ordered into phases.
 
-**Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only: the app
-never counts money.
+**Pay estimate.** A rough total of hours times each profile's rate, for the owner only; never in the report.
+
+**Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
 
 **Profile.** A label on an entry for the kind of work it is, such as janitor work or the development group. Profiles
 are isolated; only one with expected hours has a balance.

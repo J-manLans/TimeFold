@@ -1,41 +1,47 @@
 # Profiles
 
-What a profile is, the ceiling the profiles without a balance share, and how their settings change. Each decision
-follows the template in `README.md`, and is cited by its title.
+What a profile is, the ceiling the profiles without a balance share, the pay estimate, and how settings change. Each
+decision follows the template in `README.md`, and is cited by its title.
 
 ## Profiles label the hours (2026-11-14)
 
 **Built by:** Profiles; entries carry a profile from Clocking.
 
 **Decision:** every entry belongs to one profile (such as janitor work, the development group, work from home).
-Switching is done as in "One start/stop button and a profile list". A day can mix profiles, and the
-owner adds profiles as new kinds of work come up. Profiles are isolated: each counts its own days and hours, and work
-in one never changes another. A profile holds: a short name (what is tapped when switching); optional expected
-hours, and only a profile with them has a balance; a colour or icon; active or archived (an archived profile leaves
-the switch list but keeps its hours in the history and reports); and a pay category, a label only, so reports can
-group hours by how they are paid. Reports show hours per profile.
+Switching is done as in "One start/stop button and a profile list". A day can mix profiles, and the owner adds
+profiles as new kinds of work come up. Profiles are isolated: each counts its own days and hours, and work in one
+never changes another. A profile holds: a short name (what is tapped when switching); optional expected hours, and
+only a profile with them has a balance; a colour or icon; active or archived (an archived profile leaves the switch
+list but keeps its hours in the history and reports); a pay category, a label only, so reports can group hours by how
+they are paid; and an optional rate for the pay estimate ("A pay estimate per profile"). Reports show hours per
+profile.
 **Why:** the owner's work is paid differently depending on the task and where it is done. Keeping profiles apart
 means a Saturday of development group work cannot touch the janitor balance, with no special rule for it.
-**Rejected:** the app calculating pay from a rate per profile: salary rules belong to payroll, and would make the app
-wrong whenever they change. A yes/no "counts toward the balance" setting per profile, with one shared balance: it
-let work in one profile change another's balance. A "reported to" field on each profile: the owner does not need it.
-**Revisit if:** the owner needs the app to show money.
+**Rejected:** the app calculating pay as payroll does: salary rules belong to payroll, and would make the app wrong
+whenever they change; the pay estimate is a rough figure for the owner only. A yes/no "counts toward the balance"
+setting per profile, with one shared balance: it let work in one profile change another's balance. A "reported to"
+field on each profile: the owner does not need it.
+**Revisit if:** the owner needs the app's figures to match payroll.
 
 ## The other profiles share a ceiling (2026-11-14)
 
-**Built by:** Profiles; full time and the period wait on "Working time limits", in `open-questions.md`.
+**Built by:** Profiles.
 
 **Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles
 together share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but
-follows from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 h), added up over the weekdays of
-its period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the
+follows from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 h), added up over the weekdays
+of its period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the
 same whenever they are worked: night or day, weekday or weekend. Full time and janitor's expected hours are set
 together with one slider that splits full time between them (6 | 2); how it looks is settled with the look and feel.
-The ceiling's period is a setting. The ceiling is never owed: working under it costs nothing. The front page shows
-how much of it is used beside the balance, warning when it nears the ceiling. It never blocks a click.
+The ceiling's period is the calendar month. Hours over a month's ceiling carry into the next month, which starts with
+them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is never owed:
+working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of it is used
+beside the balance, warning when it nears the ceiling. It never blocks a click.
 **Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
-balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree.
-Showing what is left of an allowance reads more easily than a total of all hours against full time.
+balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree. Showing
+what is left of an allowance reads more easily than a total of all hours against full time. These hours are additions,
+not a balance: what matters is seeing when the owner works too much, which is a reason to talk with the boss about the
+split between janitor and other work; carrying the excess keeps that visible.
 **Rejected:** expected hours for the other profiles (such as 2 a day): every day without that work would put the
 owner in minus. The ceiling's amount as a setting of its own: it could be left behind when janitor hours change.
 Counting the ceiling per calendar day: a month would allow more than full time, which is a weekday measure.
@@ -45,6 +51,26 @@ the ceiling does not show.
 - Janitor 6, full time 8, a month with 21 weekdays: the ceiling is 42 h.
 - The slider moved to 5 | 3 from the 15th, 10 weekdays before it and 11 from it: 10 × 2 + 11 × 3 = 53 h.
 - Two hours of development group work on a Sunday: 2 h of the ceiling used.
+- March ceiling 42 h, 30 h worked: April starts at 0 used.
+- March ceiling 42 h, 46 h worked: April starts at 4 h used.
+
+## A pay estimate per profile (2026-11-14)
+
+**Built by:** Profiles.
+
+**Decision:** each profile may have a rate per hour, a setting that changes from a date ("Settings change from a
+date"). A profile without one is left out of the estimate. The main screen can show the estimate: a total of hours
+times rate, updated when an entry stops or an added break changes a stopped entry, like the bars. It is for the owner
+only, and stays out of the report to the boss.
+**Why:** the owner wants a rough idea of what the work is worth as it builds up, and pay can rise over time. It need
+not match payroll, so no salary rules are needed.
+**Rejected:** matching payroll: salary rules change, and the app would be wrong whenever they do.
+**Revisit if:** the estimate is used for anything that has to be exact.
+**Cases:**
+- Rate 20 €/h, an entry of 3 h stopped: the estimate grows by 60 €.
+- A 30 min break added afterwards to that entry: the estimate falls by 10 €.
+- A profile with no rate: its hours add nothing to the estimate.
+- Rate raised from 20 to 22 from 1 March: February's hours stay at 20.
 
 ## Settings change from a date (2026-11-14)
 

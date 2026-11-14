@@ -61,13 +61,3 @@ The owner's first answer (2026-11-14), not yet settled: a month, shown with the 
 the balance bar and the ceiling circle, each with its numbers, so the month can be read at a glance. For janitor work
 the boss only needs to see that the balance is not too far over or under; for the other profiles, the exact hours per
 profile, since their pay may differ.
-
-## Part: Profiles
-
-### Working time limits (2026-11-14)
-
-The figures for the ceiling, which the owner is asking the principal: which agreement covers the owner (the Working
-Hours Act, KVTES, or another), what counts as full time (the setting the ceiling follows) and the ceiling's period;
-whether the janitor balance has a cap; and how the other profiles are paid, for their pay categories. They are
-settings, so they do not block the build.
-**See:** The other profiles share a ceiling.

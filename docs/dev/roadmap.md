@@ -45,8 +45,8 @@ agreed at the end of Phase 0. A part is added when a decision has none to build 
   question for a running entry from an earlier day.
 - **Breaks and flex days.** Added breaks taken off the day's total and fixed from the main screen; flex days for a
   day or a range, taken off the balance.
-- **Profiles.** Profiles the owner sets up, the profile list beside the start button, hours per profile, and the
-  ceiling shared by the profiles without a balance.
+- **Profiles.** Profiles the owner sets up, the profile list beside the start button, hours per profile, the
+  ceiling shared by the profiles without a balance, settings from a date, and the pay estimate.
 - **Corrections.** Entries written by hand, and clicked entries and added breaks edited or deleted.
 - **Reports.** A period's report, with hours per profile, that the owner sends to the boss as it is.
 - **Handover.** Export and import of the whole record between the two machines.
@@ -55,4 +55,5 @@ agreed at the end of Phase 0. A part is added when a decision has none to build 
 
 - More than one user, accounts, or sync between machines beyond the handover file.
 - Tracking tasks finer than profiles: no projects, task lists or clients.
-- Calculating pay, overtime rules or invoicing: the app counts hours per profile; pay is worked out outside it.
+- Calculating pay as payroll does, overtime rules or invoicing: the app counts hours per profile and shows a rough pay
+  estimate; real pay is worked out outside it.

@@ -62,6 +62,7 @@ checks and names the other by title.
 
 - Profiles label the hours
 - The other profiles share a ceiling
+- A pay estimate per profile
 - Settings change from a date
 
 ### [Time](time.md)
