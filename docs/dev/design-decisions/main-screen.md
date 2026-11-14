@@ -59,18 +59,19 @@ the handover: as with the colours, each machine is set up for its own screen.
 **Built by:** Clocking; its colour settings with the ceiling wheel's, in Profiles.
 
 **Decision:** the janitor balance shows as a horizontal bar from a 0 line, minus to the left and plus to the right, with
-the balance as a number above it. The bar is only its active part, with no track behind it, and has rounded corners.
-Minus (hours to work in) is in the bar's base colour; plus (hours to take out) in its over colour; exactly 0 is a marker
-centred on the 0 line, a little wider than a thin mark, in the base colour dimmed, slowly and slightly growing and
-shrinking; the motion stops when the system asks for reduced motion. The bar's full width is one of four scales, ±10,
-±20, ±40 or ±80 h, with the scale's end labelled in small text: the smallest whose 90% holds the balance. Crossing into
-a larger scale changes it with a short animation; it goes back down only once the balance is within 80% of the smaller
-scale, so it does not flicker at a boundary. Beyond ±80 h the bar stays full at its end. The bar's colours work as the
-ceiling wheel's ("The ceiling wheel"): a base and an over colour, each with a picker, the dimmed colour worked out from
-the base and the over colour suggested from it, set per machine. One switch, "Unify colours", is shown in both the bar's
-and the wheel's colour settings and stored once, on by default. While it is on, the two share one set of colours, and a
-change in either place changes both. Turned on while they differ, the colours of the place it is turned on from go to
-both. Turned off, each keeps what it has, and they are set apart from then on. A large minus gets no warning.
+the balance as a number above it. The bar is only its active part, with no track behind it, and is rounded only at its
+outer end, square against the 0 line. Minus (hours to work in) is in the bar's base colour; plus (hours to take out) in
+its over colour; exactly 0 is a marker centred on the 0 line, a little wider than a thin mark, in the base colour
+dimmed, slowly and slightly growing and shrinking; the motion stops when the system asks for reduced motion. The bar's
+full width is one of four scales, ±10, ±20, ±40 or ±80 h, with the scale's end labelled in small text: the smallest
+whose 90% holds the balance. Crossing into a larger scale changes it with a short animation; it goes back down only once
+the balance is within 80% of the smaller scale, so it does not flicker at a boundary. Beyond ±80 h the bar stays full at
+its end. The bar's colours work as the ceiling wheel's ("The ceiling wheel"): a base and an over colour, each with a
+picker, the dimmed colour worked out from the base and the over colour suggested from it, set per machine. One switch,
+"Unify colours", is shown in both the bar's and the wheel's colour settings and stored once, on by default. While it is
+on, the two share one set of colours, and a change in either place changes both. Turned on while they differ, the
+colours of the place it is turned on from go to both. Turned off, each keeps what it has, and they are set apart from
+then on. A large minus gets no warning.
 **Why:** one meaning per colour across both figures: the over colour is "more than expected", which a plus balance is;
 minus is work still to do, in the calm base colour; dimmed is "nothing either way". With no track, the dimmed marker at
 0 stands on its own, and its slow pulse reads as at rest. Fixed scales keep the bar's length meaningful (half the bar is
