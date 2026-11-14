@@ -46,9 +46,12 @@
   --text-stretch: 75%;  --text-weight: 500;  --text-case: normal;  --text-tracking: 0.06em;
   /* Motion */
   --undo-time: 15s;     /* how long a click can be undone */
-  --undo-drape: 0.85;   /* how strong the coloured drape is when it appears; it fades to nothing */
-  --undo-dim: 0.3s;     /* how fast the undo button dims when its time is up, and wakes after a click */
-  --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;  --speed-tab: 0.22s;  --speed-row: 0.3s;
+  --undo-drape: 0.65;   /* how strong the coloured drape is when it appears (translucent, so the disc's sheen shows); it fades to nothing */
+  --glow-r: 80px;      /* the pointer light on the buttons: its reach */
+  --glow-disc: 0.5;    /* the light on the profile disc, against the faces' (0 none, 1 as strong); other discs get it in full */
+  --speed-ui: 0.3s;     /* every transition in the interface: hover, press, fades, the menu, tabs, rows, theme */
+  --speed-press: var(--speed-ui);  --speed-fade: var(--speed-ui);  --speed-menu: var(--speed-ui);
+  --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
   /* The menu panel */
   --menu-blur: 7px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
   /* Focus and grain */
@@ -104,7 +107,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --popup-fg:    var(--c-btn-fg);
   --popup-pick:  light-dark(#5f789e, #343840);   /* the chosen or hovered profile in the popup: a lighter step, as in dark */
   --sheet-bg:    light-dark(#e6ecf4, #2a2d33);   /* light surfaces holding dark text: the colour picker */
-  --theme-face:  light-dark(#e3e9f2, #2a2d33);   /* the theme button's disc: near white in the light theme */
+  /* The theme button's disc and icon. Trying the buttons' blue; to go back to near white, use
+     --theme-face: light-dark(#e3e9f2, #2a2d33) and --theme-ink: var(--c-fg). */
+  --theme-face:  var(--c-btn);
+  --theme-ink:   var(--c-btn-fg);
   --dot-face:    var(--c-btn);                   /* the profile disc: the button's own colour */
   /* Profile circle: the disc's shadow and its dent */
   --dot-drop:    light-dark(rgba(10, 25, 55, 0.45), rgba(0, 0, 0, 0.60));
@@ -113,6 +119,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --well-lip:    light-dark(rgba(190, 210, 240, 0.35), rgba(255, 255, 255, 0.08));   /* light: a blue sheen, not white */
   /* Menu: the frosted panel (the last number is how solid it is) and its quiet text */
   --menu-frost:  light-dark(rgba(208, 216, 230, 0.55), rgba(26, 28, 32, 0.50));
+  --glow-c:      light-dark(rgba(225, 235, 252, 0.20), rgba(255, 255, 255, 0.08));   /* the pointer light's colour and strength */
   --menu-muted:  light-dark(#333c4b, #8f949d);   /* light: 8.8:1 on the frost */
   --menu-fg:     light-dark(#141a24, #e4e6ea);   /* light: 13.8:1 on the frost */
   /* Lines and borders in the menu, against its frost. Faint lines read weaker on light than on dark at the same
@@ -170,10 +177,11 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .plastic {
   position: relative; border: var(--border-w) solid var(--c-btn-line); color: var(--c-btn-fg); cursor: pointer;
   background-color: var(--c-btn); border-radius: var(--r-btn); box-shadow: var(--btn-shadow);
-  transition: background-color var(--speed-press) ease, box-shadow var(--speed-press) ease;
+  transition: background-color var(--speed-ui) ease, box-shadow var(--speed-ui) ease, color var(--speed-ui) ease, opacity var(--speed-ui) ease;
 }
-.plastic:hover { background-color: var(--c-hover); }
-.plastic:active, .plastic.pressed { background-image: linear-gradient(180deg, var(--press-shade), transparent 70%); box-shadow: none; }
+/* Hover and press only on buttons that can be used: a disabled button stays as it is */
+.plastic:not(:disabled):not([aria-disabled="true"]):hover { background-color: var(--c-hover); }
+.plastic:not(:disabled):not([aria-disabled="true"]):active, .plastic.pressed { background-image: linear-gradient(180deg, var(--press-shade), transparent 70%); box-shadow: none; }
 
 /* The button block: Starta jobb over Exportera | Importera; the profile button spans both rows */
 .block { display: grid; grid-template-columns: var(--start-w) var(--profile-w); grid-template-rows: var(--start-h) var(--pair-h); gap: var(--block-gap); grid-template-areas: "start prof" "pair prof"; }
@@ -257,10 +265,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu h2 { margin: 0; font-size: 16px; font-weight: 600; line-height: 32px; }
 .menu-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px 52px; min-height: 40px; }
 /* The theme button: drawn like the profile button's disc in its dent, smaller */
-.theme-btn { --dot-size: 26px; --dent: 4px; --dot-face: var(--theme-face); width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--c-fg); }
+.theme-btn { --dot-size: 26px; --dent: 4px; --dot-face: var(--theme-face); width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--theme-ink); }
 .theme-label { font-size: var(--size-note); color: var(--c-muted); }
-.menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity 0.12s ease; }
-.menu.open .body { opacity: 1; transition: opacity 0.2s ease 0.14s; }
+.menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity var(--speed-ui) ease; }
+.menu.open .body { opacity: 1; transition: opacity var(--speed-ui) ease calc(var(--speed-ui) / 2); }
 .menu section { display: grid; gap: 10px; }
 .menu h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); font-weight: 600; }
 .menu .line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -274,7 +282,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); width: 150px; }
 .plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .plist li { display: flex; align-items: center; gap: 10px; }
-.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 1.2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; }
+.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; }
 
 /* Menu tabs */
 .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--c-line); }
@@ -368,6 +376,66 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 /* Inside the app, every focus ring takes the colour of the profile on screen. */
 .app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--accent, #4b8bff); }
 @media (prefers-reduced-motion: reduce) { .menu, .menu .body, .menu.open .body, .menu-toggle span { transition: none; } .entries li.new, .zero { animation: none; } }
+
+/* Everything else that changes state eases over --speed-ui too: theme colours, the start label and the status
+   line swapping text, the profile letter's colour, tabs, rows, swatches, the popup. */
+.controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more {
+  transition: background-color var(--speed-ui) ease, color var(--speed-ui) ease, border-color var(--speed-ui) ease;
+}
+.start .label, .status { transition: opacity var(--speed-ui) ease; }
+.profile-btn .dot, .theme-btn .dot, .undo-btn .dot { transition: color var(--speed-ui) ease, background-color var(--speed-ui) ease; }
+.swap-out { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more, .start .label, .status,
+  .profile-btn .dot, .theme-btn .dot, .undo-btn .dot, .plastic, .undo-btn { transition: none; }
+}
+
+
+/* A soft, matte light follows the pointer over the control side. One light for all buttons: each active button face
+   paints its own slice of the same gradient, fixed to the window, so the light lies only on button surfaces and flows
+   across them. The discs keep their own light (they sit on top of the face); disabled buttons catch none.
+   --glow-a fades the light in and out with the pointer, over --speed-ui. */
+@property --glow-a { syntax: "<number>"; inherits: true; initial-value: 0; }
+.controls { --mx: -999px; --my: -999px; transition: --glow-a var(--speed-ui) ease, background-color var(--speed-ui) ease, color var(--speed-ui) ease; }
+.controls.lit { --glow-a: 1; }
+.controls .plastic:not(:disabled):not([aria-disabled="true"]) {
+  background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
+    color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);
+  background-attachment: fixed;
+}
+/* Pressed: the press shade on top of the light */
+.controls .plastic:not(:disabled):not([aria-disabled="true"]):active {
+  background-image: linear-gradient(180deg, var(--press-shade), transparent 70%),
+    radial-gradient(circle var(--glow-r) at var(--mx) var(--my), color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);
+  background-attachment: scroll, fixed;
+}
+@media (prefers-reduced-motion: reduce) { .controls .plastic { background-image: none !important; } }
+
+/* TRIAL, easy to revert: with .glow-discs on the app (the "Light on discs" box in the sketch bar), the discs of active
+   buttons catch the pointer light too, on top of their own sheen. Remove this block to drop it. */
+.app.glow-discs .profile-btn:not([aria-disabled="true"]) .dot,
+.app.glow-discs .undo-btn:not(:disabled) .dot,
+.app.glow-discs .theme-btn .dot {
+  background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
+      color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * var(--disc-glow, 1) * 100%), transparent), transparent),
+    var(--dot-bg);
+  background-attachment: fixed, scroll;
+}
+/* Only the profile disc catches the light more weakly, which keeps the profile button a little apart. */
+.app.glow-discs .profile-btn .dot { --disc-glow: var(--glow-disc); }
+/* The undo disc's drape would hide the light, so while the drape is there the light is laid on top of it too, under
+   the arrow. Part of the same trial. */
+.app.glow-discs .undo-btn:not(:disabled)::after {
+  content: ""; position: absolute; inset: 5px; border-radius: 50%; z-index: 2; pointer-events: none;
+  background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
+    color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);
+  background-attachment: fixed;
+}
+
+/* With the menu open, the light leaves the buttons under the frost (it would seem to shine through the glass); it
+   still lies on what is in the menu. It fades out and back in over --speed-ui. */
+.controls > :not(.menu) { transition: --glow-a var(--speed-ui) ease; }
+.controls.menu-open > :not(.menu) { --glow-a: 0; }
 </style>
 
 <div class="page">
@@ -383,6 +451,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       </span>
     </label>
     <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
+    <label for="simDiscGlow"><input type="checkbox" id="simDiscGlow" checked> Light on discs</label>
     <span>Each stop records 2 h 15 min.</span>
     <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
@@ -693,14 +762,35 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (running) app.style.setProperty("--run", profColour(running.profile));
     $("profileBtn").setAttribute("aria-disabled", String(activeProfiles().length < 2));
     var mine = running && running.profile === onScreen;
-    $("startLabel").textContent = mine ? "Stoppa jobb" : "Starta jobb";
+    swapText($("startLabel"), function (el) { el.textContent = mine ? "Stoppa jobb" : "Starta jobb"; });
     $("startBtn").classList.toggle("running", !!mine);
     $("pauseBtn").disabled = !mine;
     if (!mine) closePause();
     refreshTip();
-    var st = $("status"); st.textContent = "";
-    if (running) { var dot = document.createElement("span"); dot.className = "live"; dot.textContent = "● "; st.append(dot, prof(running.profile).name + " pågår sedan " + clock(running.start)); }
+    swapText($("status"), function (st) {
+      st.textContent = "";
+      if (running) { var dot = document.createElement("span"); dot.className = "live"; dot.textContent = "● "; st.append(dot, prof(running.profile).name + " pågår sedan " + clock(running.start)); }
+    });
   }
+  // A text that changes fades out, swaps, and fades back in, within --speed-ui; an unchanged text is left alone.
+  function uiMs() { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed-ui")) * 1000 || 300; }
+  function swapText(el, fill) {
+    var probe = el.cloneNode(true); fill(probe);
+    if (probe.innerHTML === el.innerHTML) return;
+    if (reduce) { fill(el); return; }
+    clearTimeout(el._swap); el.classList.add("swap-out");
+    el._swap = setTimeout(function () { fill(el); el.classList.remove("swap-out"); }, uiMs() / 2);
+  }
+  // The pointer light: the position goes into two CSS variables, at most once a frame.
+  (function () {
+    var c = document.querySelector(".controls"), x = 0, y = 0, queued = false;
+    c.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      x = e.clientX; y = e.clientY; c.classList.add("lit");
+      if (!queued) { queued = true; requestAnimationFrame(function () { queued = false; c.style.setProperty("--mx", x + "px"); c.style.setProperty("--my", y + "px"); }); }
+    });
+    c.addEventListener("pointerleave", function () { c.classList.remove("lit"); });
+  })();
   function stopRunning() {
     var r = running, end = new Date(), start = new Date(end.getTime() - 135 * 60000);
     entries.unshift({ start: start, end: end, profile: r.profile, brk: r.brk || 0 });
@@ -748,14 +838,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     clearUndo(); drawControls();
   });
   // The warning label: appears at once on pointer enter, follows the pointer, shows under the button on keyboard focus.
-  var tipPt = null, tipFocus = false, tipFor = "start";
+  var tipPt = null, tipFocus = null, tipFor = "start";   // tipFocus: which button has keyboard focus, if any
   function tipText() {
     if (tipFor === "undo") return undo ? "Ångra: " + undo.label : "";
     return running && running.profile !== onScreen ? "stoppar " + prof(running.profile).name : "";
   }
   function refreshTip() {
     var tip = $("tip"), txt = tipText();
-    if (!txt || (!tipPt && !tipFocus)) { tip.classList.remove("show"); return; }
+    // With the pointer gone, the label belongs to the button with keyboard focus, if there is one.
+    if (!tipPt) { if (tipFocus) { tipFor = tipFocus; txt = tipText(); } else txt = ""; }
+    if (!txt) { tip.classList.remove("show"); return; }
     tip.textContent = txt; tip.style.setProperty("--tipc", tipFor === "undo" ? profColour(onScreen) : profColour(running.profile)); tip.classList.add("show");
     if (tipPt) { tip.style.left = (tipPt.x + 14) + "px"; tip.style.top = (tipPt.y + 18) + "px"; }
     else { var r = $(tipFor === "undo" ? "undoBtn" : "startBtn").getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = (r.bottom + 6) + "px"; }
@@ -766,8 +858,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       b.addEventListener(ev, function (e) { if (e.pointerType === "touch") return; tipFor = pair[1]; tipPt = { x: e.clientX, y: e.clientY }; refreshTip(); });
     });
     b.addEventListener("pointerleave", function () { tipPt = null; refreshTip(); });
-    b.addEventListener("focus", function () { tipFor = pair[1]; tipFocus = true; refreshTip(); });
-    b.addEventListener("blur", function () { tipFocus = false; refreshTip(); });
+    // Only keyboard focus anchors the label under a button; a mouse click does not.
+    b.addEventListener("focus", function () { if (b.matches(":focus-visible")) { tipFocus = pair[1]; refreshTip(); } });
+    b.addEventListener("blur", function () { if (tipFocus === pair[1]) tipFocus = null; refreshTip(); });
   });
   window.addEventListener("scroll", function () { if (!tipPt) refreshTip(); }, { passive: true });
 
@@ -796,7 +889,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var list = $("popupList"); clear(list);
     activeProfiles().forEach(function (q) {
       var b = document.createElement("button"); b.type = "button"; if (q.id === onScreen) b.setAttribute("aria-current", "true");
-      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id);
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id); d.style.borderColor = q.colour;
       b.append(d, q.name + (running && running.profile === q.id ? "  ●" : ""));
       b.addEventListener("click", function () { onScreen = q.id; $("scrim").hidden = true; recolour(); });
       list.appendChild(b);
@@ -818,6 +911,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (!open && typeof closePicker === "function") closePicker(false);
     if (open) { selectTab("profiler"); renderMenu(); }
     $("menu").classList.toggle("open", open); $("menuBody").inert = !open;
+    document.querySelector(".controls").classList.toggle("menu-open", open);
     $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
   }
   $("menuBtn").addEventListener("click", function () { setMenu(!$("menu").classList.contains("open")); });
@@ -1037,10 +1131,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     profiles.forEach(function (q) {
       var li = document.createElement("li"); li.className = "prow" + (openRow === q.id ? " open" : "") + (q.archived ? " archived" : "");
       var head = document.createElement("button"); head.type = "button"; head.className = "prow-head"; head.setAttribute("aria-expanded", String(openRow === q.id));
-      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id);
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id); d.style.borderColor = q.colour;
       var nm = document.createElement("span"); nm.textContent = q.name;
       head.append(d, nm);
-      if (q.balance) { var mk = document.createElement("span"); mk.className = "mark"; mk.textContent = "saldo"; head.appendChild(mk); }
       if (q.archived) { var ar = document.createElement("span"); ar.className = "mark"; ar.textContent = "arkiverad"; head.appendChild(ar); }
       var chev = document.createElement("span"); chev.className = "chev"; chev.textContent = "›"; head.appendChild(chev);
       // Opening a row folds any other open row; both move with an animation, nothing is rebuilt.
@@ -1089,7 +1182,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         var tag = document.createElement("span"); tag.className = "hint";
         var reset = document.createElement("button"); reset.type = "button"; reset.className = "small"; reset.textContent = "Använd default";
         fo.append(lo, io, tag, reset);
-        function syncOver() { ic.style.background = q.colour; io.style.background = profPair(q).over; tag.textContent = q.over ? "Ditt val" : "Default"; reset.hidden = !q.over; d.style.color = profColour(q.id); }
+        function syncOver() { ic.style.background = q.colour; io.style.background = profPair(q).over; d.style.borderColor = q.colour; tag.textContent = q.over ? "Ditt val" : "Default"; reset.hidden = !q.over; d.style.color = profColour(q.id); }
         syncOver();
         // A new base brings a new suggestion for the over colour.
         reset.addEventListener("click", function () { q.over = null; syncOver(); recolour(); });
@@ -1187,6 +1280,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
   $("divLine").addEventListener("click", function () { setDivider("line"); });
   $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
+  app.classList.toggle("glow-discs", $("simDiscGlow").checked);
+  $("simDiscGlow").addEventListener("change", function () { app.classList.toggle("glow-discs", this.checked); });
   $("simPrune").addEventListener("change", function () { $("prune").style.visibility = this.checked ? "visible" : "hidden"; });
 
   scale = pickScale(Math.abs(balance));
