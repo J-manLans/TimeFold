@@ -47,6 +47,7 @@
   /* Motion */
   --undo-time: 15s;     /* how long a click can be undone */
   --undo-drape: 0.85;   /* how strong the coloured drape is when it appears; it fades to nothing */
+  --undo-dim: 0.3s;     /* how fast the undo button dims when its time is up, and wakes after a click */
   --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;  --speed-tab: 0.22s;  --speed-row: 0.3s;
   /* The menu panel */
   --menu-blur: 7px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
@@ -206,6 +207,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pause-area { height: 36px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 /* The undo: a disc like the profile's, faded when there is nothing to undo; a ring drains over its minute */
 .undo-btn { --dot-size: 26px; --dent: 4px; position: relative; width: 36px; height: 36px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; color: var(--c-btn-fg); border-radius: 50%; }
+.undo-btn { transition: opacity var(--undo-dim) ease; }   /* waking and dimming ease instead of snapping */
 .undo-btn:disabled { opacity: 0.35; cursor: default; }
 /* While the undo is available, a drape in the profile's over colour lies over the disc only (not the dent around it),
    starting strong and fading evenly to nothing over --undo-time; the arrow stays on top of it. */
