@@ -14,6 +14,10 @@ run automatically; ESLint with the TypeScript and Svelte rules, and clippy for R
 each language's usual naming, English in code and comments, Swedish only in what the user sees; lines of 120, as in
 the docs; Vitest for TypeScript tests and Rust's own tests for the Rust side. Comments follow AGENTS.md (docstrings
 say what a thing is and does; work still to do is a TODO).
+The owner's preference: files grouped into sections with a banner comment, a line of `=` above and below a centred
+section name, in each language's comment style. The agent's leans for it: banners in files with several parts (the
+design tokens, a logic module, a longer component), none in a small component with one job; one fixed width, to the line
+length, and one level only.
 **See:** Tests come first, from the owner's rules; Svelte with TypeScript for the interface.
 
 ## Phase 2: Breaks and flex days
