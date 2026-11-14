@@ -76,6 +76,7 @@ checks and names the other by title.
 - Expected hours: 6 a day, Monday to Friday
 - Time counts on the day it was worked
 - A day owes its expected hours only when work started on it
+- A month starts on a set day
 - The balance bar
 
 ### [Corrections](corrections.md)
@@ -86,3 +87,4 @@ checks and names the other by title.
 ### [Reports](reports.md)
 
 - The report is a PDF
+- A report covers one month

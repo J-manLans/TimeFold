@@ -16,14 +16,6 @@ small always-on widget or an icon in the system tray, how the settings menu and 
 where the pay estimate shows, how much earlier history the main screen shows. Light, dark, or following the system. To be settled with a sketch.
 **See:** What the app does.
 
-### Report period and content (2026-11-14)
-
-Which period a report covers (a week, a month, any range), and what it shows: each day's start, stop, errands and
-total, or only day totals and the period's total.
-The owner's first answer (2026-11-14), not yet settled: a month, shown with the same two figures as the main screen,
-the balance bar and the ceiling wheel, each with its numbers, so the month can be read at a glance. For janitor work
-the boss only needs to see that the balance is not too far over or under; for the other profiles, the exact hours per
-profile, since their pay may differ.
 
 ## Part: Corrections
 

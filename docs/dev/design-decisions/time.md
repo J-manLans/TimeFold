@@ -1,6 +1,7 @@
 # Time
 
-How hours count: on which day, against expected hours, which days owe them, and how the balance shows. Each decision follows the template in
+How hours count: on which day, against expected hours, which days owe them, what a month is, and how the balance
+shows. Each decision follows the template in
 `README.md`, and is cited by its title.
 
 ## Expected hours: 6 a day, Monday to Friday (2026-11-14)
@@ -54,6 +55,25 @@ after midnight would charge the next day's expected hours, even a day of leave.
 - Janitor, Sunday 22:00 to Monday 01:00, then Monday 11:00–17:00: Monday adds 1 + 6 − 6 = +1.
 - An empty weekday: adds nothing.
 - A flex day: −6.
+
+## A month starts on a set day (2026-11-14)
+
+**Built by:** Profiles, with the ceiling.
+
+**Decision:** the app's month runs from a set day to the day before it in the next month, to match how the school
+counts. The month start is a global setting, a day from 1 to 28, default the 1st, and changes from a date like the
+other settings ("Settings change from a date"). The ceiling, the report and pruning all count this month. A change
+makes the month it falls in run from the old start to the day before the new one, once shorter or longer; its ceiling
+follows its weekdays as any month's does.
+**Why:** the report and the ceiling have to count the same month, or a report's wheel would match neither of its
+ceilings; one global setting keeps them together. Days up to 28 exist in every month.
+**Rejected:** a month start for the report alone: its wheel would cover parts of two ceilings. The calendar month
+only: the school may count from another day.
+**Revisit if:** the school counts in weeks or terms rather than months.
+**Cases:**
+- Month start 16: the month of 16 March to 15 April has its ceiling from the weekdays in that span.
+- Month start changed from 1 to 16, from 16 March: 1–15 March is one short month, then 16 March–15 April.
+- Default month start: a month is the calendar month.
 
 ## The balance bar (2026-11-14)
 

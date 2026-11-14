@@ -29,16 +29,16 @@ work is done has no bearing on the counts.
 
 **Built by:** Profiles.
 
-**Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles
-together share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but
-follows from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 h), added up over the weekdays
-of its period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the
-same whenever they are worked: night or day, weekday or weekend. Full time and janitor's expected hours are set
-together with one slider that splits full time between them (6 | 2); how it looks is settled with the look and feel.
-The ceiling's period is the calendar month. Hours over a month's ceiling carry into the next month, which starts with
-them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is never owed:
-working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of it is used
-on the ceiling wheel, beside the balance bar ("The ceiling wheel"). It never blocks a click.
+**Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles together
+share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but follows
+from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 h), added up over the weekdays of its
+period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the same
+whenever they are worked: night or day, weekday or weekend. Full time and janitor's expected hours are set together with
+one slider that splits full time between them (6 | 2); how it looks is settled with the look and feel. The ceiling's
+period is the month ("A month starts on a set day"). Hours over a month's ceiling carry into the next month, which
+starts with them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is never
+owed: working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of it is
+used on the ceiling wheel, beside the balance bar ("The ceiling wheel"). It never blocks a click.
 **Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
 balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree. Showing
 what is left of an allowance reads more easily than a total of all hours against full time. These hours are additions,

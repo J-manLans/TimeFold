@@ -49,6 +49,9 @@ no day.
 **Handover.** Moving the record from one of the owner's machines to the other: export one file on the first, import
 it on the second, replacing everything there.
 
+**Month.** The app's counting month, from the set month start day (default the 1st) to the day before it in the
+next month; the ceiling, reports and pruning count by it.
+
 **Opening figures.** The janitor balance and the ceiling hours used, typed in when the app starts fresh; kept as
 entries dated the first day.
 
