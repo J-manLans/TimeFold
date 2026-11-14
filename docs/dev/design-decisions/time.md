@@ -22,7 +22,8 @@ day it was worked: an entry across midnight is split there when counting. This h
 without a balance adds each day's hours to the shared ceiling over its period; a profile with a balance adds them as
 in "A day owes its expected hours only when work started on it".
 **Why:** the report and any working time limits go by calendar days, and an hour after midnight belongs to the next
-day, and to the next month at a month's end. Storing one entry keeps corrections simple.
+day, and to the next month at a month's end. Storing one entry keeps corrections simple, and an added break still
+lands on its day ("Time away is a gap or an added break").
 **Rejected:** counting all of an entry's time on the day it started: simpler, but the record would not match the
 calendar, and a period's edge would take hours from the wrong side.
 **Revisit if:** the employer counts late work on the day it began.

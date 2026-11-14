@@ -3,8 +3,8 @@
 The project's terms, in alphabetical order. Use them as written here, and add a term when it is coined. Reasons stay
 out (they are decisions), and so does state.
 
-**Added break.** A length of time taken off an entry afterwards, for unplanned time away during it. It holds only
-its length.
+**Added break.** A length of time taken off an entry afterwards, for unplanned time away during it. It holds its
+length and the day it was added, and comes off the entry's time on that day first, then the day before.
 
 **Balance.** For a profile with expected hours (only janitor work), the running sum of each day's hours minus the
 expected hours.
