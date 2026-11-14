@@ -1,0 +1,394 @@
+<!-- Sketch: the ceiling wheel's colours. Tries the rule in "The ceiling wheel" (design-decisions/), which holds
+     every number settled here; the sliders were for tuning. Delete once the ceiling wheel is built. -->
+<title>Ceiling Wheel Colours</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: a working bench. The live wheel and the rule's controls side by side, the agreed cases and other base colours below. */
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --fg: #22211f;
+  --muted: #6b6862;
+  --line: #e2dfd8;
+  --focus: #2f6fdd;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #181817; --surface: #222220; --fg: #ecebe7; --muted: #9c9991; --line: #34332f; --focus: #7aa7ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #181817; --surface: #222220; --fg: #ecebe7; --muted: #9c9991; --line: #34332f; --focus: #7aa7ff;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+}
+.wrap {
+  max-width: 1040px; margin: 0 auto;
+  padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 28px;
+}
+h1, h2 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.15rem; font-weight: 500; }
+p { margin: 0; max-width: 65ch; }
+.lede { color: var(--muted); margin-top: 6px; }
+.label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+
+.bench { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+@media (max-width: 760px) { .bench { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 18px; min-width: 0; }
+
+.live { justify-items: center; align-content: start; }
+.live svg { width: min(300px, 100%); height: auto; }
+.field { display: grid; gap: 6px; width: 100%; }
+.field-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.val { font-variant-numeric: tabular-nums; font-weight: 600; }
+input[type="range"] { width: 100%; accent-color: var(--fg); }
+input:focus-visible, button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.picker { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+input[type="color"] { width: 52px; height: 40px; border: 1px solid var(--line); border-radius: 8px; padding: 2px; background: var(--surface); cursor: pointer; }
+.presets { display: flex; flex-wrap: wrap; gap: 8px; }
+.preset { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line); cursor: pointer; padding: 0; }
+.preset[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--fg); }
+
+.tag { font-size: 0.8rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.chip { display: grid; gap: 6px; font-size: 0.82rem; min-width: 0; }
+.chip .sw { height: 40px; border-radius: 6px; border: 1px solid var(--line); }
+.chip code { font-size: 0.78rem; color: var(--muted); overflow-wrap: anywhere; }
+.readout { font-size: 0.88rem; color: var(--muted); }
+.readout strong { color: var(--fg); font-weight: 600; }
+.reset { justify-self: start; font: inherit; font-size: 0.85rem; background: none; border: 1px solid var(--line); color: var(--fg); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+
+.cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.others { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .cases { grid-template-columns: minmax(0, 1fr); } .others { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; justify-items: center; text-align: center; min-width: 0; }
+.card svg { width: min(170px, 100%); height: auto; }
+.card p { font-size: 0.85rem; color: var(--muted); }
+button.card { font: inherit; color: inherit; cursor: pointer; }
+section { display: grid; gap: 12px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Ceiling Wheel Colours</h1>
+    <p class="lede">Pick one base colour. The app works out the rest: the dimmed colour for unused hours, and the colour for hours over the ceiling, made by turning the base toward red and taking that hue at its most vivid. From 90% of the ceiling, the number takes the over colour.</p>
+  </header>
+
+  <div class="bench">
+    <div class="panel live">
+      <svg id="liveWheel" viewBox="0 0 200 200" role="img" aria-label="Ceiling wheel"></svg>
+      <div class="field">
+        <div class="field-row"><label for="hours" class="label">Hours used this month</label><span class="val" id="hoursVal"></span></div>
+        <input type="range" id="hours" min="0" max="60" step="0.5" value="46">
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="field">
+        <span class="label">Base colour</span>
+        <div class="picker">
+          <input type="color" id="base" value="#f28c28" aria-label="Base colour">
+          <div class="presets" id="presets"></div>
+        </div>
+      </div>
+      <div class="field">
+        <span class="label">Over colour</span>
+        <div class="picker">
+          <input type="color" id="over" value="#e80003" aria-label="Over colour">
+          <span class="tag" id="overTag">Suggested</span>
+          <button class="reset" id="useSuggestion" type="button" hidden>Use the suggestion</button>
+        </div>
+      </div>
+
+      <div class="trio" id="trio"></div>
+      <p class="readout" id="readout"></p>
+
+      <div class="field">
+        <div class="field-row"><label for="turn" class="label">Turn toward red (stops at red)</label><span class="val" id="turnVal"></span></div>
+        <input type="range" id="turn" min="0" max="90" step="1" value="55">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="split" class="label">Hues above this go round via violet</label><span class="val" id="splitVal"></span></div>
+        <input type="range" id="split" min="110" max="260" step="5" value="170">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="strength" class="label">More vivid (share of what the screen can show)</label><span class="val" id="strengthVal"></span></div>
+        <input type="range" id="strength" min="0" max="1" step="0.05" value="1">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="darken" class="label">Lightness: base's ↔ the new hue's own</label><span class="val" id="darkenVal"></span></div>
+        <input type="range" id="darken" min="0" max="1" step="0.05" value="1">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="minDiff" class="label">Least lightness gap from the base</label><span class="val" id="minDiffVal"></span></div>
+        <input type="range" id="minDiff" min="0" max="0.3" step="0.01" value="0.15">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="dim" class="label">Dimmed (toward the background)</label><span class="val" id="dimVal"></span></div>
+        <input type="range" id="dim" min="0.4" max="0.9" step="0.05" value="0.7">
+      </div>
+      <button class="reset" id="reset" type="button">Reset the rule</button>
+    </div>
+  </div>
+
+  <section>
+    <h2>The three agreed cases, ceiling 42 h</h2>
+    <div class="cases" id="cases"></div>
+  </section>
+
+  <section>
+    <h2>Other base colours, 46 h of 42</h2>
+    <p class="lede">Click one to load it above.</p>
+    <div class="others" id="others"></div>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var CEILING = 42;
+  var RED_HUE = 29; // OKLCH hue of a pure red
+  var DEFAULTS = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
+  var PRESETS = [
+    ["Orange", "#f28c28"], ["Green", "#3aa655"], ["Purple", "#8e5bd6"], ["Blue", "#3b7be0"],
+    ["Cyan", "#1fb5c4"], ["Yellow", "#e8c22a"], ["Pink", "#e35d9c"], ["Red", "#d93a3a"],
+    ["Black", "#000000"], ["Grey", "#8a8a8a"], ["White", "#ffffff"]
+  ];
+
+  // sRGB <-> OKLab <-> OKLCH (Björn Ottosson's matrices)
+  function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function fromLin(c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
+  function rgbToOklab(rgb) {
+    var r = toLin(rgb[0]), g = toLin(rgb[1]), b = toLin(rgb[2]);
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    var s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+            1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+            0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+  }
+  function oklabToLinRgb(lab) {
+    var l = lab[0] + 0.3963377774 * lab[1] + 0.2158037573 * lab[2];
+    var m = lab[0] - 0.1055613458 * lab[1] - 0.0638541728 * lab[2];
+    var s = lab[0] - 0.0894841775 * lab[1] - 1.2914855480 * lab[2];
+    l = l * l * l; m = m * m * m; s = s * s * s;
+    return [4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+           -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+           -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s];
+  }
+  function lchToLab(c) { var h = c[2] * Math.PI / 180; return [c[0], c[1] * Math.cos(h), c[1] * Math.sin(h)]; }
+  function labToLch(l) { var h = Math.atan2(l[2], l[1]) * 180 / Math.PI; return [l[0], Math.hypot(l[1], l[2]), (h + 360) % 360]; }
+  function inGamut(rgb) { return rgb.every(function (v) { return v >= -0.0005 && v <= 1.0005; }); }
+  // The most chroma the screen can show at this lightness and hue.
+  function maxChroma(L, h) {
+    var lo = 0, hi = 0.4;
+    for (var i = 0; i < 24; i++) { var mid = (lo + hi) / 2; if (inGamut(oklabToLinRgb(lchToLab([L, mid, h])))) lo = mid; else hi = mid; }
+    return lo;
+  }
+  // Keeps lightness and hue; lowers chroma until the colour fits in sRGB.
+  function lchToRgb(c) {
+    var L = Math.min(1, Math.max(0, c[0]));
+    var C = Math.min(c[1], maxChroma(L, c[2]));
+    return oklabToLinRgb(lchToLab([L, C, c[2]])).map(function (v) { return fromLin(Math.min(1, Math.max(0, v))); });
+  }
+  // The lightness at which a hue is at its most vivid: light for yellow and lime, dark for blue.
+  function cuspL(h) {
+    var best = 0.5, bestC = -1;
+    for (var L = 0.2; L < 0.985; L += 0.01) { var c = maxChroma(L, h); if (c > bestC) { bestC = c; best = L; } }
+    return best;
+  }
+  function labDist(a, b) { return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]); }
+  function hexToRgb(hex) { var n = parseInt(hex.slice(1), 16); return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255]; }
+  function rgbToHex(rgb) { return "#" + rgb.map(function (v) { return Math.round(v * 255).toString(16).padStart(2, "0"); }).join(""); }
+  function cssRgb(str) { var m = str.match(/[\d.]+/g); return m ? [m[0] / 255, m[1] / 255, m[2] / 255] : [1, 1, 1]; }
+
+  // The rule: one base colour in, the wheel's colours out.
+  function derive(hex, rule, bgRgb) {
+    var baseLab = rgbToOklab(hexToRgb(hex));
+    var base = labToLch(baseLab);
+    var grey = base[1] < 0.04;
+    // Hues from red up to the split go down to red through yellow; the rest go up through violet and pink.
+    var up = (base[2] - RED_HUE + 360) % 360;          // degrees above red, going up
+    var d = up <= rule.split - RED_HUE ? -up : 360 - up;
+    var step = grey ? 0 : Math.sign(d) * Math.min(Math.abs(d), rule.turn);
+    var overHue = grey ? RED_HUE : (base[2] + step + 360) % 360;
+    // Lightness moves toward where the new hue is most vivid: orange to a full red, green up to a light lime.
+    var L = base[0] + (cuspL(overHue) - base[0]) * rule.darken;
+    // Vividness is measured against what the screen can show, so it always has room to act.
+    var rel = grey ? 0.6 : Math.min(1, base[1] / Math.max(1e-6, maxChroma(base[0], base[2])));
+    var target = rel + (1 - rel) * rule.strength;
+    // Edge to edge, colours part by lightness: keep at least the gap. Lighter only when the new hue is
+    // clearly lighter at its most vivid (green to lime) and there is room; otherwise darker.
+    var gap = rule.minDiff;
+    // Backstop: where darker would come out near black, go lighter instead.
+    var darkerL = base[0] - Math.max(base[0] - L, gap);
+    var lighter = (Math.abs(step) >= 10 && L - base[0] >= gap && base[0] + gap <= 0.9) || darkerL < 0.3;
+    var newL = lighter ? base[0] + Math.max(L - base[0], gap) : darkerL;
+    var extra = Math.abs(newL - L);
+    var over = [newL, target * maxChroma(newL, overHue), overHue];
+    // Dimmed: the base mixed toward the page background in OKLab.
+    var a = rgbToOklab(hexToRgb(hex)), b = rgbToOklab(bgRgb), t = rule.dim;
+    var dimLab = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+    // Base too close to the background for a dimmed colour between them: put the unused part past the
+    // background instead, on the side away from the base, in the base's hue with little colour.
+    var dimFlip = false;
+    if (Math.abs(dimLab[0] - a[0]) < gap) {
+      var away = b[0] > a[0] ? 1 : b[0] < a[0] ? -1 : (b[0] < 0.5 ? 1 : -1);
+      var tL = b[0] + away * gap;
+      if (tL >= 0.05 && tL <= 0.98 && Math.abs(tL - a[0]) >= gap) {
+        dimLab = [tL, a[1] * (1 - t), a[2] * (1 - t)];
+        dimFlip = true;
+      }
+    }
+    var dimRgb = oklabToLinRgb(dimLab).map(function (v) { return fromLin(Math.min(1, Math.max(0, v))); });
+    var overRgb = lchToRgb(over);
+    return {
+      base: hex, dim: rgbToHex(dimRgb), over: rgbToHex(overRgb),
+      baseHue: base[2], overHue: overHue, turned: grey ? null : step,
+      vivid: [rel, target], extra: extra, dimFlip: dimFlip, diff: labDist(rgbToOklab(overRgb), baseLab), dL: over[0] - base[0]
+    };
+  }
+
+  var NS = "http://www.w3.org/2000/svg";
+  function el(name, attrs) { var e = document.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  // Ring from 12 o'clock clockwise; over-the-ceiling hours as a second lap drawn on top.
+  function drawWheel(svg, hours, cols) {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var r = 80, w = 22, circ = 2 * Math.PI * r;
+    var used = Math.min(hours, CEILING) / CEILING;
+    var overFrac = Math.min(Math.max(hours - CEILING, 0), CEILING) / CEILING;
+    var g = el("g", { transform: "rotate(-90 100 100)" });
+    g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: cols.dim, "stroke-width": w }));
+    if (used > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: cols.base, "stroke-width": w,
+      "stroke-dasharray": (used * circ) + " " + circ }));
+    if (overFrac > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: cols.over, "stroke-width": w,
+      "stroke-dasharray": (overFrac * circ) + " " + circ }));
+    svg.appendChild(g);
+    var warn = hours >= CEILING * 0.9;
+    var num = el("text", { x: 100, y: 104, "text-anchor": "middle", "font-family": "Space Grotesk, system-ui, sans-serif",
+      "font-size": 38, "font-weight": 700, fill: warn ? cols.over : cols.base });
+    num.textContent = fmt(hours) + " h";
+    svg.appendChild(num);
+    var sub = el("text", { x: 100, y: 128, "text-anchor": "middle", "font-family": "Inter, system-ui, sans-serif",
+      "font-size": 12, fill: "currentColor", opacity: 0.6 });
+    sub.textContent = "of " + CEILING + " h";
+    svg.appendChild(sub);
+  }
+  function fmt(n) { return (Math.round(n * 10) / 10).toString().replace(/\.0$/, ""); }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var inputs = { turn: $("turn"), split: $("split"), strength: $("strength"), darken: $("darken"), minDiff: $("minDiff"), dim: $("dim") };
+  function rule() { var r = {}; for (var k in inputs) r[k] = +inputs[k].value; return r; }
+  function bg() { return cssRgb(getComputedStyle(document.body).backgroundColor); }
+
+  PRESETS.forEach(function (p) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "preset"; b.style.background = p[1];
+    b.title = p[0]; b.setAttribute("aria-label", p[0]); b.dataset.hex = p[1];
+    b.addEventListener("click", function () { setBase(p[1]); });
+    $("presets").appendChild(b);
+  });
+
+  var CASES = [[21, "21 h used: half the ring filled, the number in the base colour."],
+               [38, "38 h used: past 90% (37.8 h), so the number takes the over colour."],
+               [46, "46 h used: 4 h over, a lap in the over colour from 12 o'clock. Those 4 h carry into next month."]];
+
+  // The over colour follows the suggestion until the owner picks one; a new base colour brings a new suggestion.
+  var overChosen = false;
+  function setBase(hex) { $("base").value = hex; overChosen = false; render(); }
+
+  function render() {
+    var hex = $("base").value, rl = rule(), back = bg();
+    var cols = derive(hex, rl, back);
+    var suggested = cols.over;
+    if (overChosen) cols.over = $("over").value; else $("over").value = suggested;
+    $("overTag").textContent = overChosen ? "Your choice (suggestion " + suggested + ")" : "Suggested";
+    $("useSuggestion").hidden = !overChosen;
+    var hours = +$("hours").value;
+    $("hoursVal").textContent = fmt(hours) + " h";
+    $("turnVal").textContent = rl.turn + "°";
+    $("splitVal").textContent = rl.split + "°";
+    $("strengthVal").textContent = Math.round(rl.strength * 100) + "%";
+    $("darkenVal").textContent = Math.round(rl.darken * 100) + "%";
+    $("minDiffVal").textContent = rl.minDiff.toFixed(2);
+    $("dimVal").textContent = Math.round(rl.dim * 100) + "%";
+    drawWheel($("liveWheel"), hours, cols);
+
+    $("trio").innerHTML = "";
+    [["Used", cols.base], ["Unused", cols.dim], ["Over", cols.over]].forEach(function (c) {
+      var d = document.createElement("div"); d.className = "chip";
+      d.innerHTML = '<div class="sw"></div><span class="label"></span><code></code>';
+      d.querySelector(".sw").style.background = c[1];
+      d.querySelector(".label").textContent = c[0];
+      d.querySelector("code").textContent = c[1];
+      $("trio").appendChild(d);
+    });
+    var ro = $("readout");
+    ro.innerHTML = "";
+    var s = document.createElement("strong");
+    if (cols.turned === null) {
+      s.textContent = "A grey base has no hue to turn,";
+      ro.append(s, " so the over colour falls back to red.");
+    } else {
+      s.textContent = "Hue " + Math.round(cols.baseHue) + "° → " + Math.round(cols.overHue) + "°";
+      ro.append(s, " (" + Math.abs(Math.round(cols.turned)) + "° " + (cols.turned < 0 ? "down through yellow" : "up through violet") + ")");
+    }
+    ro.append(". Vivid " + Math.round(cols.vivid[0] * 100) + "% → " + Math.round(cols.vivid[1] * 100) + "%. ");
+    var dd = document.createElement("strong");
+    dd.textContent = "Lightness " + (cols.dL > 0 ? "+" : "−") + Math.abs(cols.dL).toFixed(2);
+    ro.append(dd, cols.extra > 0.005 ? " (moved " + cols.extra.toFixed(2) + " to keep the gap)" : "",
+      ", difference " + cols.diff.toFixed(2) + ".",
+      cols.dimFlip ? " The base is close to the background, so the unused part sits past the background instead." : "");
+
+    document.querySelectorAll(".preset").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.hex === hex)); });
+
+    $("cases").innerHTML = "";
+    CASES.forEach(function (c) {
+      var card = document.createElement("div"); card.className = "card";
+      var svg = el("svg", { viewBox: "0 0 200 200", role: "img", "aria-label": c[0] + " hours of " + CEILING });
+      drawWheel(svg, c[0], cols);
+      var p = document.createElement("p"); p.textContent = c[1];
+      card.append(svg, p);
+      $("cases").appendChild(card);
+    });
+
+    $("others").innerHTML = "";
+    PRESETS.forEach(function (pr) {
+      var pc = derive(pr[1], rl, back);
+      var card = document.createElement("button"); card.type = "button"; card.className = "card";
+      card.setAttribute("aria-label", "Use " + pr[0]);
+      var svg = el("svg", { viewBox: "0 0 200 200", "aria-hidden": "true" });
+      drawWheel(svg, 46, pc);
+      var p = document.createElement("p"); p.textContent = pr[0];
+      card.append(svg, p);
+      card.addEventListener("click", function () { setBase(pr[1]); window.scrollTo({ top: 0, behavior: "smooth" }); });
+      $("others").appendChild(card);
+    });
+  }
+
+  ["hours", "turn", "split", "strength", "darken", "minDiff", "dim"].forEach(function (id) { $(id).addEventListener("input", render); });
+  $("base").addEventListener("input", function () { setBase($("base").value); });
+  $("over").addEventListener("input", function () { overChosen = true; render(); });
+  $("useSuggestion").addEventListener("click", function () { overChosen = false; render(); });
+  $("reset").addEventListener("click", function () {
+    for (var k in DEFAULTS) inputs[k].value = DEFAULTS[k];
+    render();
+  });
+  // The dimmed colour mixes toward the background, so it follows the theme.
+  try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { setTimeout(render, 0); }); } catch (e) {}
+  new MutationObserver(function () { setTimeout(render, 0); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  render();
+})();
+</script>

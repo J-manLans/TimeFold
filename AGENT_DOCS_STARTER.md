@@ -54,6 +54,8 @@ docs/
     ├── code-map.md              where the code lives, and the path a run takes through it
     ├── procedures/
     │   └── <job>.md             how to do a job only some sessions need
+    ├── sketches/
+    │   └── <look>.html          a page for trying a look before it is decided; deleted once built
     └── archive/
         ├── README.md            the index, and what is worth keeping
         └── <topic>.md           closed investigations, dropped ideas worth not suggesting again
@@ -337,8 +339,9 @@ Then create only:
 - `docs/dev/open-questions.md`.
 
 Add the others when there is something to put in them: the glossary with the first coined word, the code map when the
-code has more than a few files, procedures when a job is done a second time, the archive when something closed cost to
-learn. Split a file only as "How a doc grows" says, not before.
+code has more than a few files, procedures when a job is done a second time, sketches when a look is worth trying
+before it is decided (the decision keeps every number a sketch settles, so the sketch can go once the code is built),
+the archive when something closed cost to learn. Split a file only as "How a doc grows" says, not before.
 
 ### From the idea to the first phase: onboarding the agent
 
