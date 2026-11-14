@@ -37,6 +37,17 @@ Today the owner writes errand time into Excel at the end of the day, not as it h
 first keeps a day as one entry; the second needs no new control.
 **See:** What the app does.
 
+### The four buttons and switching profile (2026-11-14)
+
+The owner's design draft has four buttons for the running profile: start day, end day, start break, end break. The
+owner's first thought, not yet settled: profiles are self-contained, so switching to another profile puts the running
+one on a break, and it goes on when the owner switches back. "End day" ends only the profile on screen. A profile
+left on a break is closed by a date check: the next click on it on a later date ends the old day where its break
+began, and starts a new one; on the same day it simply goes on. The agent's lean: the check covers a paused day only,
+since its end is known; a day left running has no known end, which is "A forgotten stop". Open: whether a break is
+the same as an errand, and lunch a break. It may change how "Profiles label the hours" words the switch.
+**See:** Profiles label the hours; How an errand is recorded.
+
 ### Marking corrected entries (2026-11-14)
 
 Whether the record and the report show that an entry was written by hand or edited. Showing it may make the report
