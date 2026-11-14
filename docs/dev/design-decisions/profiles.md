@@ -13,9 +13,9 @@ come up. Profiles are isolated: each counts its own days and hours, and work in 
 holds: a short name (what is tapped when switching); optional expected hours, and only a profile with them has a
 balance; a colour or icon; active or archived (an archived profile leaves the switch list but keeps its hours in the
 history and reports); a pay category, a label only, so reports can group hours by how they are paid; and an optional
-rate for the pay estimate ("A pay estimate per profile"). Reports show hours per profile. Where the work is done is not
-recorded: the owner works from wherever suits, and a place matters to the app only if it is paid differently, when it is
-a profile of its own.
+monthly salary or rate per hour for the pay estimate ("A pay estimate per profile"). Reports show hours per profile.
+Where the work is done is not recorded: the owner works from wherever suits, and a place matters to the app only if it
+is paid differently, when it is a profile of its own.
 **Why:** the owner's work is paid differently depending on the task and where it is done. Keeping profiles apart
 means a Saturday of development group work cannot touch the janitor balance, with no special rule for it.
 **Rejected:** the app calculating pay as payroll does: salary rules belong to payroll, and would make the app wrong
@@ -60,18 +60,24 @@ the ceiling does not show.
 
 **Built by:** Profiles.
 
-**Decision:** each profile may have a rate per hour, a setting that changes from a date ("Settings change from a date").
-A profile without one is left out of the estimate. The main screen shows the estimate as a number close to the balance
-bar and the ceiling wheel: a total of hours times rate, updated when an entry stops or an added break changes a stopped
-entry, like the balance bar and the ceiling wheel. It is for the owner only, and stays out of the report to the boss.
-**Why:** the owner wants a rough idea of what the work is worth as it builds up, and pay can rise over time. It need
-not match payroll, so no salary rules are needed.
-**Rejected:** matching payroll: salary rules change, and the app would be wrong whenever they do.
+**Decision:** each profile may have a monthly salary or a rate per hour, settings that change from a date ("Settings
+change from a date"). A salary counts once per month whatever the hours; janitor work has one (such as 1 700 €), since
+its hours move the balance, not the pay. A rate counts the profile's hours that month. A profile with neither is left
+out. The estimate is the month's salaries plus its hours times rates ("A month starts on a set day"), shown as one
+number with no label under the ceiling wheel ("The main screen has a control side and a figures side"), and updated
+when an entry stops or an added break changes a stopped entry, like the figures. It is for the owner only, and stays
+out of the report to the boss.
+**Why:** the owner wants a rough idea of what the month is worth as it builds up, and pay can rise over time. The
+janitor job is salaried with flexible hours, so its pay is the base the other work sits on. It need not match
+payroll, so no salary rules are needed.
+**Rejected:** matching payroll: salary rules change, and the app would be wrong whenever they do. A rate on janitor
+hours: working more or less there changes the balance, not the pay.
 **Revisit if:** the estimate is used for anything that has to be exact.
 **Cases:**
-- Rate 20 €/h, an entry of 3 h stopped: the estimate grows by 60 €.
-- 30 min cut from that entry on its line: the estimate falls by 10 €.
-- A profile with no rate: its hours add nothing to the estimate.
+- Janitor salary 1 700 €, nothing else this month: the estimate is 1 700 €.
+- Then 10 h of development at 26 €/h: 1 960 €.
+- An 8 h janitor day: the estimate does not change.
+- Rate 20 €/h, an entry of 3 h stopped: the estimate grows by 60 €; 30 min then cut from it: it falls by 10 €.
 - Rate raised from 20 to 22 from 1 March: February's hours stay at 20.
 
 ## Settings change from a date (2026-11-14)

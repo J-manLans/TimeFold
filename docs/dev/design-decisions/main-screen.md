@@ -14,20 +14,24 @@ profile button beside it, a rectangle holding a circle with the profile's first 
 than one profile opens a popup of the profiles, centred on the left side; "Exportera" and "Importera" under it, the menu
 button at the top left, and at the bottom the line that offers pruning ("Old history is pruned on request"). The menu
 slides in from the left and stops at the divider, so the figures stay in view while settings change; new profiles are
-made from it. The right side is the living one, changing at each stop, and looks like a modern terminal dashboard, not a
-retro one: a dark panel in every theme, numbers in a monospaced font with their digits lined up, thin lines, small
-uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). On it are: the
-balance bar and the ceiling wheel at its top, both prominent; the pay estimate as a number close to them; under them the
-five most recent entries and "Visa alla".
+made from it. The right side is narrower, about two fifths of the window, and is the living one, changing at each stop,
+and looks like a modern terminal dashboard, not a retro one: a dark panel in every theme, numbers in a monospaced font
+with their digits lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new
+value, the arc sweeping). On it, from the top: the balance as a number, centred, with no label; the balance bar; the
+ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the wheel, with no
+label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window listing every
+entry, where entries are edited ("Editing an entry on its line").
 **Why:** what the owner presses and what the owner reads each have their place. With the figures in view beside the
 menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work on a
-fresh morning, where today's alone would be an empty list. A dashboard look suits figures that are read at a glance, and
-a soft base colour with a neon-leaning over colour is how such dashboards use colour. A panel dark in every theme keeps
-that look in light mode, and gives the figures one known background.
+fresh morning, where today's alone would be an empty list. The wheel tells its story alone, so nothing beside it is
+needed, and the side can be narrower. A dashboard look suits figures that are read at a glance, and a soft base colour
+with a neon-leaning over colour is how such dashboards use colour. A panel dark in every theme keeps that look in light
+mode, and gives the figures one known background.
 **Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures the
-owner reads every day. A menu over the whole screen: it would hide the figures it changes. A figures side that follows
-the light theme: the dashboard look would be lost there. A retro terminal look (green on black, scan lines): the owner
-wants the direction, not the costume.
+owner reads every day. Figures beside the wheel (ceiling, used, left, carried): the wheel already shows them. A label on
+the balance: the number alone is clear. A menu over the whole screen: it would hide the figures it changes. A figures
+side that follows the light theme: the dashboard look would be lost there. A retro terminal look (green on black, scan
+lines): the owner wants the direction, not the costume.
 **Revisit if:** the window is too small for both sides.
 **Cases:**
 - One profile: the profile button opens nothing. Three profiles: a popup of the three, centred on the left side.
@@ -55,28 +59,37 @@ the handover: as with the colours, each machine is set up for its own screen.
 **Built by:** Clocking; its colour settings with the ceiling wheel's, in Profiles.
 
 **Decision:** the janitor balance shows as a horizontal bar from a 0 line, minus to the left and plus to the right, with
-the balance as a number. The bar is only its active part, with no track behind it. Minus (hours to work in) is in the
-bar's base colour; plus (hours to take out) in its over colour; exactly 0 is a small marker centred on the 0 line, in
-the base colour dimmed. The bar's colours work as the ceiling wheel's ("The ceiling wheel"): a base and an over colour,
-each with a picker, the dimmed colour worked out from the base and the over colour suggested from it, set per machine.
-One switch, "Unify colours", is shown in both the bar's and the wheel's colour settings and stored once, on by default.
-While it is on, the two share one set of colours, and a change in either place changes both. Turned on while they
-differ, the colours of the place it is turned on from go to both. Turned off, each keeps what it has, and they are set
-apart from then on. A large minus gets no warning.
+the balance as a number above it. The bar is only its active part, with no track behind it, and has rounded corners.
+Minus (hours to work in) is in the bar's base colour; plus (hours to take out) in its over colour; exactly 0 is a marker
+centred on the 0 line, a little wider than a thin mark, in the base colour dimmed, slowly and slightly growing and
+shrinking; the motion stops when the system asks for reduced motion. The bar's full width is one of four scales, ±10,
+±20, ±40 or ±80 h, with the scale's end labelled in small text: the smallest whose 90% holds the balance. Crossing into
+a larger scale changes it with a short animation; it goes back down only once the balance is within 80% of the smaller
+scale, so it does not flicker at a boundary. Beyond ±80 h the bar stays full at its end. The bar's colours work as the
+ceiling wheel's ("The ceiling wheel"): a base and an over colour, each with a picker, the dimmed colour worked out from
+the base and the over colour suggested from it, set per machine. One switch, "Unify colours", is shown in both the bar's
+and the wheel's colour settings and stored once, on by default. While it is on, the two share one set of colours, and a
+change in either place changes both. Turned on while they differ, the colours of the place it is turned on from go to
+both. Turned off, each keeps what it has, and they are set apart from then on. A large minus gets no warning.
 **Why:** one meaning per colour across both figures: the over colour is "more than expected", which a plus balance is;
 minus is work still to do, in the calm base colour; dimmed is "nothing either way". With no track, the dimmed marker at
-0 stands on its own. Turning unify on, the owner is looking at the colours they want, so those win; one switch stored
-once cannot disagree with itself.
+0 stands on its own, and its slow pulse reads as at rest. Fixed scales keep the bar's length meaningful (half the bar is
+half the labelled amount) while a balance saved up for a holiday week still fits. Turning unify on, the owner is looking
+at the colours they want, so those win; one switch stored once cannot disagree with itself.
 **Rejected:** a track behind the bar in the dimmed colour: the 0 marker would vanish into it. Minus in the over colour:
 the over colour means hours beyond what is owed, which minus is not. A switch on the bar alone that makes it follow the
 wheel: it made the wheel the leader for no reason. A fixed owner, such as the bar, when unify is turned on: turned on
 from the wheel's settings, it would replace the colours being looked at. A warning for a large minus: the owner does not
-want one.
+want one. One fixed width cut off at its end: past it, the length means nothing. A scale always fitted to the balance:
+the bar would always look full.
 **Revisit if:** a third figure gets colours of its own, and unify has to say which it joins.
 **Cases:**
 - Balance 0: the dimmed marker sits centred on the 0 line.
 - Balance −3:00: a bar to the left in the base colour.
 - Balance +5:00: a bar to the right in the over colour.
+- Balance +12:00: the scale is ±20 h, and the bar reaches 60% of its side.
+- Balance +21:00: the scale grows to ±40 h with a short animation; back at +17:00 it stays ±40 h; at +15:00 (within
+  80% of 20) it returns to ±20 h.
 - Unify on, the wheel's base changed to blue: the bar's base turns blue too, and both over colours follow the
   suggestion.
 - Unify off, then the bar's over colour picked by hand: a later change to the wheel leaves the bar as it is.

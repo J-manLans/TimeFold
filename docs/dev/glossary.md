@@ -62,7 +62,8 @@ At the end of Phase 0 the parts are ordered into phases.
 
 **Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
 
-**Pay estimate.** A rough total of hours times each profile's rate, for the owner only; never in the report.
+**Pay estimate.** A rough figure of the month's pay: salaries plus hours times rates, for the owner only; never in the
+report.
 
 **Profile.** A label on an entry for the kind of work it is, such as janitor work or the development group. Profiles
 are isolated; only one with expected hours has a balance.
