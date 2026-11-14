@@ -73,7 +73,7 @@ balance follows.
 1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving.
 2. The ceiling, its carry into the next month, and the ceiling wheel in the profile on screen's colours.
 3. The menu: its fold-out, the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that
-   change from a date; the theme button.
+   change from a date.
 4. The pay estimate; the onboarding's step for the ceiling hours already used this month.
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
 every setting changes from a date as its cases say.
