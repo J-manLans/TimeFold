@@ -17,32 +17,40 @@ opens a popup of the profiles, centred on the left side; under the block, the st
 when, which keeps its room even when empty; under that, centred and as wide as its text, "Lägg till paus" ("Time away is
 a gap or an added break"), a smaller, quieter button, greyed out unless the profile on screen runs, whose length field
 opens in its place, text starting at the left; the menu button at the top left, and at the bottom the line that offers
-pruning ("Old history is pruned on request"). The menu slides in from the left and stops at the divider, so the figures
-stay in view while settings change; new profiles are made from it. The right side is narrower, about two fifths of the
-window, and is the living one, changing at each stop, and looks like a modern terminal dashboard, not a retro one: a
-dark panel in every theme, numbers in a monospaced font with their digits lined up, thin lines, small uppercase labels,
-and small, precise motion (numbers counting to their new value, the arc sweeping). A profile's colour is the over colour
-of the figure it moves: the balance bar's for the profile with the balance, the ceiling wheel's for the others. While
-the profile on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app takes the
-colour of the profile on screen. On the right side, from the top: the balance as a number, centred, with no label; the
-balance bar; the ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the
-wheel, with no label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window
-listing every entry, where entries are edited ("Editing an entry on its line").
-**Why:** what the owner presses and what the owner reads each have their place. With the figures in view beside the
-menu, a colour changed in settings shows at once on the figures. The five most recent entries show yesterday's work on a
-fresh morning, where today's alone would be an empty list. The break control sits with what runs and never moves; the
-status line's kept room sets it a little apart, marking it as secondary. Colouring a profile by the figure it moves ties
-the controls to what they change. The wheel tells its story alone, so nothing beside it is needed, and the side can be
-narrower. A dashboard look suits figures that are read at a glance, and a soft base colour with a neon-leaning over
-colour is how such dashboards use colour. A panel dark in every theme keeps that look in light mode, and gives the
-figures one known background.
+pruning ("Old history is pruned on request"). The menu grows out of its own button: pressed, the button's rounded
+rectangle expands from the top left into a panel over the control side, stopping at the divider, and the menu's content
+fades in once it is open; the three lines of the button turn into an × in the same spot, where the menu closes,
+shrinking back into the button. The panel is frosted: slightly see-through, with the control side blurred behind it. The
+figures stay sharp and in view while settings change. New profiles are made from the menu. The right side is narrower,
+about two fifths of the window, and is the living one, changing at each stop, and looks like a modern terminal
+dashboard, not a retro one: a dark panel in every theme, numbers in a monospaced font with their digits lined up, thin
+lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). A
+profile's colour is the over colour of the figure it moves: the balance bar's for the profile with the balance, the
+ceiling wheel's for the others. While the profile on screen runs, a ring in its colour surrounds the start button. Every
+focus ring in the app takes the colour of the profile on screen. On the right side, from the top: the balance as a
+number, centred, with no label; the balance bar; the ceiling wheel, centred under it with nothing beside it; the pay
+estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa alla", which
+opens a popup centred on the whole window listing every entry, where entries are edited ("Editing an entry on its
+line").
+**Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
+the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
+With the figures in view beside the menu, a colour changed in settings shows at once on the figures. The five most
+recent entries show yesterday's work on a fresh morning, where today's alone would be an empty list. The break control
+sits with what runs and never moves; the status line's kept room sets it a little apart, marking it as secondary.
+Colouring a profile by the figure it moves ties the controls to what they change. The wheel tells its story alone, so
+nothing beside it is needed, and the side can be narrower. A dashboard look suits figures that are read at a glance, and
+a soft base colour with a neon-leaning over colour is how such dashboards use colour. A panel dark in every theme keeps
+that look in light mode, and gives the figures one known background.
 **Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures the
 owner reads every day. Figures beside the wheel (ceiling, used, left, carried): the wheel already shows them. A label on
 the balance: the number alone is clear. "Lägg till paus" at the bottom left: the prune line would push it up and down. A
-menu over the whole screen: it would hide the figures it changes. A figures side that follows the light theme: the
-dashboard look would be lost there. A retro terminal look (green on black, scan lines): the owner wants the direction,
-not the costume.
-**Revisit if:** the window is too small for both sides.
+menu over the whole screen: it would hide the figures it changes. A drawer with a tab holding the icon: a fine picture,
+but more parts than the growing button. The icon riding to the panel's far corner as an ×: the close button would not be
+where the pointer is. A menu sliding in under a separate button: the icon would stay apart from the menu. A see-through
+menu always present: nothing needs it when closed. A figures side that follows the light theme: the dashboard look would
+be lost there. A retro terminal look (green on black, scan lines): the owner wants the direction, not the costume.
+**Revisit if:** the window is too small for both sides, or the frosted blur is slow on WebKitGTK (then the panel is more
+opaque, without blur).
 **Cases:**
 - One profile: the profile button opens nothing. Three profiles: a popup of the three, centred on the left side.
 - Menu open: the figures are still in view, and a new base colour shows on them at once.
