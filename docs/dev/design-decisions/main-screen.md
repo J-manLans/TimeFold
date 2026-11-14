@@ -119,7 +119,8 @@ main screen sketch:
   shadow offset down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint
   shade from the top. Small controls and fields have 6 px corners, panels and popups 12 px.
 - **Profile circle:** a raised disc in the button's own colour, lit from the top, sitting in a soft dent 6 px wide
-  around it, after a CodePen pen (bthehuman, MIT); in the dark theme the dent is only a whisper darker than the button.
+  around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
+  of the button's own colour, whatever that colour is.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 - In code, these values are named variables in one place, so the look is tuned there.
