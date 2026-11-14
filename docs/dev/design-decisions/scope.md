@@ -5,7 +5,7 @@ by its title.
 
 ## One user, offline, on the owner's machines (2026-11-14)
 
-**Built by:** Clocking, with the storage chosen in Phase 0.
+**Built by:** Clocking.
 
 **Decision:** the app has one user, the owner. It needs no network connection, has no account or login, and keeps
 its data only on the owner's own machines: a desktop app on the work computer (Windows; the owner may install
@@ -18,7 +18,7 @@ can leak. A phone app: the owner clicks at a computer, as with the Excel file to
 
 ## Handover between machines (2026-11-14)
 
-**Built by:** Handover; it needs the storage chosen in Phase 0.
+**Built by:** Handover.
 
 **Decision:** the record moves between the two machines by handover. Export writes one file holding everything:
 profiles, settings, entries and balances; only the ceiling wheel's colours stay behind, as each machine's own. Import
@@ -69,12 +69,37 @@ left out of the other. Switching in the middle of a worked day: it happens once,
 **Rejected:** English: neither the owner nor the boss needs it. A language setting: one user, one language.
 **Revisit if:** the report goes to someone who does not read Swedish.
 
+## Old history is pruned on request (2026-11-14)
+
+**Built by:** nothing on the roadmap yet; it matters three years after the first install, and needs the opening
+figures from Clocking and Profiles.
+
+**Decision:** the record keeps a rolling window of three years. When the oldest whole month is more than three years
+old, a quiet line at the bottom of the main screen offers to prune ("Du har över tre års historik. Vill du rensa den
+äldsta?"), saying how many months it would remove. Nothing is pruned without the owner's yes; "not now" hides the line
+until the next month. A prune cuts at the start of a month: the balance and the ceiling hours carried into that month
+are frozen as opening figures dated the 1st, as at a first install ("A first install starts fresh or imports"), and
+every entry before it is deleted. A copy of the record is saved first.
+**Why:** the owner does not want the record to grow forever, and the opening figures already carry a balance over a
+cut, so pruning reuses them. Cutting at a month's start keeps every remaining month whole, so its report can still be
+made, and leaves only the excess carried from the month before as a ceiling figure. Asking first, since a prune
+cannot be undone except from the copy.
+**Rejected:** keeping every entry forever: the owner prefers a window. Pruning automatically: it deletes the record
+without a word. Cutting mid-month: that month's report and ceiling would be split.
+**Revisit if:** the boss or payroll asks for months older than the window.
+**Cases:**
+- First install 1 January 2027; on 1 February 2030 the line offers to prune January 2027. Yes: the balance at the end of
+  31 January 2027 and the ceiling hours carried into February become opening figures dated 1 February 2027, and
+  January's entries are deleted.
+- "Not now" on 3 February 2030: the line returns on 1 March 2030, offering two months.
+
 ## What the app does (2026-11-14)
 
 **Built by:** Clocking, Breaks and flex days, Profiles, Corrections and Reports.
 
 **Decision:** the app starts and stops an entry with one click; records errands, taken off the day's total; lets the
-owner write entries by hand and edit clicked ones; keeps every past entry; and exports a report to send to the boss.
+owner write entries by hand and edit clicked ones; keeps past entries, at least the last three years ("Old history is
+pruned on request"); and exports a report to send to the boss.
 **Why:** this is what the owner asked for; everything else is outside the vision.
 **Rejected:** none yet.
 **Revisit if:** the owner's work changes what has to be reported.

@@ -43,11 +43,13 @@ checks and names the other by title.
 - Handover between machines
 - A first install starts fresh or imports
 - The app is in Swedish
+- Old history is pruned on request
 - What the app does
 
 ### [Stack](stack.md)
 
 - Tauri, desktop on Windows and Linux
+- The record is one JSON file
 
 ### [Code](code.md)
 

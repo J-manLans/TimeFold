@@ -13,13 +13,6 @@ What the Tauri interface is written in: plain TypeScript, or a small framework s
 the look and feel.
 **See:** Tauri, desktop on Windows and Linux.
 
-### Where the data is kept (2026-11-14)
-
-A file on each machine in any case. Options: SQLite (sturdy, easy queries, not readable by hand), or a plain CSV or
-JSON file (readable and easy to back up, but easier to break). The handover file holds everything in one file, which
-either choice can write. Also: is there a backup, and where? The handover file may serve as one.
-**See:** One user, offline, on the owner's machines; Handover between machines.
-
 ### Look and feel (2026-11-14)
 
 Known: one start/stop button with the profile list beside it, the bars, and today's entries listed under them ("One
