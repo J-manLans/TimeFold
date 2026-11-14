@@ -99,7 +99,8 @@ before a design opinion, not every session.
   run" is one of *written* (never run), *run* (executed by a script, a person or the system) or whatever stronger
   level the project has, such as *learned* or *in production*. "Written is not run" is the warning this column exists
   for: an agent checks it before saying something works.
-- **The phases,** in order, one line each, linking to the phase files.
+- **The phases,** in order, one line each, linking to the phase files. Until the roadmap is agreed at the end of
+  Phase 0, only Phase 0 and an unordered list of **parts**: what the app is made of, one line each.
 
 And a short "Not on this roadmap" list, for what is known and deliberately left out.
 
@@ -114,8 +115,9 @@ every decision by title, grouped by area with a link to the area's file. The dec
 ```
 ## Title (date last settled)
 
-**Built by:** only while some of it is not built: the phase that builds it, and which part when the rest is built,
-or "nothing on the roadmap yet" and what it waits on. The line goes when it is built.
+**Built by:** only while some of it is not built: the phase that builds it (before the roadmap is agreed, the part),
+and which piece when the rest is built, or "nothing on the roadmap yet" and what it waits on. The line goes when it is
+built.
 
 **Decision:** what is true.
 **Why:** the reason.
@@ -137,11 +139,11 @@ a reason it cannot see. One line under Rejected stops it.
 scratch. They sit under the decision they check, not under a module, since the modules do not exist yet, and they
 change with it. A case that checks two decisions goes under the one it mainly checks and names the other by title.
 
-**Open questions.** What is not decided yet, grouped under the phase that needs the answer, so the phase's "Settle
-first" can point at them. Each entry is what is known and the options, with the date raised, and "See:" pointing at
-the decisions it touches. When a question is answered it leaves, and the answer goes to its area's decision file. A
-question half answered stays with what is left of it. Not treating an open question as decided is one of the rules an
-agent most needs.
+**Open questions.** What is not decided yet, grouped under the phase that needs the answer (before the roadmap is
+agreed, the part), so the phase's "Settle first" can point at them. Each entry is what is known and the options, with
+the date raised, and "See:" pointing at the decisions it touches. When a question is answered it leaves, and the
+answer goes to its area's decision file. A question half answered stays with what is left of it. Not treating an open
+question as decided is one of the rules an agent most needs.
 
 **Glossary.** One file per area, and a `README.md` that names every term and the file it is in. Use its terms, and
 add a term when it is coined. `two-senses.md` lists the words used in two senses or not yet settled: the traps of
@@ -330,7 +332,7 @@ Then create only:
   a session, not `AGENTS.md`. Other tools have their own file name; check which one yours loads.
 - `docs/vision.md`, a first draft from the owner's opening idea: where the project is heading and the questions to
   ask of a new idea. It is left alone during the questioning (below) and settled once the direction is clear.
-- `docs/dev/roadmap.md`: **Next**, the state table and the first phases, as one file.
+- `docs/dev/roadmap.md`: **Next**, the state table, Phase 0 and the parts, as one file.
 - `docs/dev/design-decisions.md`: the template, and decisions as they are made, in one file.
 - `docs/dev/open-questions.md`.
 
@@ -346,7 +348,8 @@ sessions close that gap, in this order:
 1. **The owner opens with the overarching idea.** Told once, in their own words: what it is, who it is for, what it
    must do. Not a spec; the owner should not have to think of everything up front.
 2. **The agent writes the first docs from it.** The vision, the first decisions (only what the owner actually said),
-   a rough roadmap, and every open question the idea raises. This is a first start, not a design. It shows the owner
+   a roadmap holding only Phase 0 and an unordered list of the parts the idea names, and every open question the
+   idea raises. This is a first start, not a design. It shows the owner
    what the agent understood, and gives the questions a place to live.
 3. **Then a discussion, in which the agent is onboarded.** This is the roadmap's first phase, Phase 0, and no code is
    written until it is done. The agent asks; the owner answers and tells more. Questions the owner never thought to
@@ -364,10 +367,15 @@ How the discussion runs:
 - **The vision waits until the direction is clear.** It is not built on with each batch: the details live in the
   decisions, and a vision that repeats them must change with every one. Near the end of the questioning, the agent
   rewrites it once from what was learned, the owner agrees it, and from then on it changes rarely.
+- **The roadmap is agreed, not guessed.** After the pitch it holds Phase 0 and the parts, with no order, steps or
+  **Done when**: phases drawn from a first pitch anchor the talk, and their details are guesses to correct later.
+  During Phase 0 the parts are refined, and a part is added whenever a decision has none to build it. Before Phase 1
+  starts, owner and agent order the parts into phases, each with its **Produces**, **Settle first**, steps and
+  **Done when**.
 - **Settle early what is hard to change later.** A question filed under a later phase that shapes the stored data or
   the stack is asked now. Only questions local to one feature wait for their phase's **Settle first**.
 - **Done when** every question that shapes the stack or the stored data is answered, a sketch of the main screen (or
-  its equivalent) and the settled vision are agreed, and the owner has nothing more to tell for now.
+  its equivalent), the settled vision and the roadmap are agreed, and the owner has nothing more to tell for now.
 
 ### Before this guide is removed
 

@@ -19,9 +19,9 @@ No state, progress, decisions or history here; each has its own home (see "Where
 |---|---|
 | `AGENTS.md` | How an agent works here (this file) |
 | `docs/vision.md` | Where the project is heading, and the questions to ask of a new idea; written at the end of Phase 0 |
-| `docs/dev/roadmap.md` | **Next**, the state table, the phases, what is not on the roadmap |
-| `docs/dev/design-decisions.md` | The decision template, the principles, and every decision by area |
-| `docs/dev/open-questions.md` | What is not decided, grouped by the phase that needs the answer |
+| `docs/dev/roadmap.md` | **Next**, the state table, the phases (until agreed, Phase 0 and the parts), what is not on the roadmap |
+| `docs/dev/design-decisions/README.md` | The decision template, the principles, and every decision's title by area, linking its file |
+| `docs/dev/open-questions.md` | What is not decided, grouped by the phase (or part) that needs the answer |
 | `docs/dev/glossary.md` | The project's terms; read before writing about the app |
 | `docs/dev/design-draft.md` | The owner's first draft of the app, emptied into the files above as it is talked through |
 
@@ -59,7 +59,7 @@ Scaled to the task:
 
 1. Always: this file and `docs/dev/roadmap.md`. **Next** in the roadmap says what comes next, not the branch name.
 2. Before a design opinion: `docs/vision.md` (until it is written, `docs/dev/design-draft.md`),
-   `docs/dev/design-decisions.md` and `docs/dev/open-questions.md`.
+   `docs/dev/design-decisions/README.md` and the area files the opinion touches, and `docs/dev/open-questions.md`.
 3. Before reading code: the code map, once it exists.
 4. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 
@@ -67,9 +67,9 @@ Scaled to the task:
 
 | When | Update |
 |---|---|
-| A decision is made | `docs/dev/design-decisions.md`, under its area, in the present tense, with **Built by** until built |
-| A question is answered | remove it from `open-questions.md`; the answer goes to `design-decisions.md` |
-| A question comes up | `open-questions.md`, under the phase that needs it |
+| A decision is made | its area's file in `docs/dev/design-decisions/`, in the present tense, with **Built by** until built; its title in the index |
+| A question is answered | remove it from `open-questions.md`; the answer goes to its area's file in `design-decisions/` |
+| A question comes up | `open-questions.md`, under the phase (or part) that needs it |
 | A concrete case is agreed | the **Cases** line of the decision it mainly checks |
 | A case becomes a test | remove it from its decision's **Cases** |
 | A roadmap step is done | remove it from the roadmap, update the state table, remove or shorten each **Built by** it built |
@@ -82,7 +82,7 @@ Scaled to the task:
 | What was done, and what was run | the commit message |
 
 Docs say what is true now. A doc that tells its own story ("we used to…", "as of Tuesday") is rewritten to the
-present. Cite a decision by its title, "in `design-decisions.md`", not by line or path.
+present. Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## Commits
 
@@ -117,10 +117,10 @@ present. Cite a decision by its title, "in `design-decisions.md`", not by line o
   "until phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
 - **The docs sweep:** when the owner signals the session is ending ("see you tomorrow", "I need to think about this",
   a question about where things stand), offer it once. Check, in order: the roadmap and open questions against what
-  was done, and each **Built by** (one naming a finished phase is stale); decisions from the session missing from
-  their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas (built
-  ones move to decisions, dropped ones go). Say what changed, and flag borderline calls (decision or still open, idea
-  or problem) instead of guessing.
+  was done, and each **Built by** (one naming a finished phase or part is stale); decisions from the session missing
+  from their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas
+  (built ones move to decisions, dropped ones go). Say what changed, and flag borderline calls (decision or still
+  open, idea or problem) instead of guessing.
 - **Add a rule only when its absence has cost something.**
 
 ## Commands, and what each kind of change runs

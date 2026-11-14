@@ -1,8 +1,9 @@
 # Open questions
 
-What is not decided, grouped under the phase that needs the answer, so a phase's **Settle first** can point here.
+What is not decided, grouped under the phase that needs the answer (before the roadmap is agreed, the part), so a
+phase's **Settle first** can point here.
 Each entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question
-leaves; its answer goes to `design-decisions.md`. A question half answered stays with what is left of it.
+leaves; its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
 ## Phase 0
 
@@ -67,7 +68,7 @@ the balance bar and the ceiling circle, each with its numbers, so the month can 
 the boss only needs to see that the balance is not too far over or under; for the other profiles, the exact hours per
 profile, since their pay may differ.
 
-## Phase 3
+## Part: Profiles
 
 ### Working time limits (2026-11-14)
 
