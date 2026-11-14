@@ -30,12 +30,12 @@ main screen sketch:
   is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; fields are white and
   the colour picker `#e6ecf4`. The profile popup takes the button colour, with the chosen or hovered profile a lighter
   step (`#5f789e` in the light theme), as in the dark theme.
-- **Profile circle:** a raised disc in the button's own colour, lit from the top, its letter in the profile's colour (if
-  a profile's colour reads poorly on the button, the owner changes it with the picker), sitting in a soft dent 6 px wide
-  around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
-  of the button's own colour, whatever that colour is. In the light theme its highlights and shadows are tinted blue,
-  not white or black, so they sit with the blue button. The theme button's disc is near white (`#e3e9f2`) in the light
-  theme.
+- **Profile circle:** a raised disc in the button's own colour, lit from the top, its letter in the profile's colour
+  with a thin white outline, so a colour close to the button's still reads (and the owner can change a colour that reads
+  poorly with the picker), sitting in a soft dent 6 px wide around it, after a CodePen pen (bthehuman, MIT); the dent is
+  see-through in both themes, so it is always a soft shade of the button's own colour, whatever that colour is. In the
+  light theme its highlights and shadows are tinted blue, not white or black, so they sit with the blue button. The
+  theme button's disc is near white (`#e3e9f2`) in the light theme.
 - **Motion:** every transition in the interface takes the same 0.3 seconds, one setting for all: hover and press, the
   start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
   label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
