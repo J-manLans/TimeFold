@@ -173,9 +173,10 @@ comments only where they clarify, starting with a capital, one sentence without 
 files with several parts grouped under short, fixed section banners. For tests: as few as cover the behaviour (a test
 earns its place only if breaking its code turns it red and no other test already does); unit tests mirror the source,
 one test file per source file; a test plays values the code would really see; a value passed through unchanged is a
-shared constant, a value the code works out is written out as the worked example; setup several tests share is
-written once. An owner's style from an earlier project is a good start: sort it into what carries over, what needs
-translating to the new languages, and what does not fit, with reasons.
+shared constant, a value the code works out is written out as the worked example; setup several tests share is written
+once. An owner's style from an earlier project is a good start: sort it into what carries over, what needs translating
+to the new languages, and what does not fit, with reasons. `CODE_STYLE_STARTER.md` holds the defaults in full, with
+how each is spelled in Python, TypeScript and Rust.
 
 **Procedures.** How to do a job only some sessions need: writing tests, the test sweep, checking that a refactor kept
 behaviour, the docs sweep, running an old version. `AGENTS.md` says when to read each, and an agent reads it before
