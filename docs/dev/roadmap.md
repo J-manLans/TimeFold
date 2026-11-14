@@ -89,6 +89,6 @@ the right use of the ceiling.
 
 ## Not on this roadmap
 
-- More than one user, accounts or sync between devices.
+- More than one user, accounts, or sync between machines beyond the handover file.
 - Tracking tasks finer than profiles: no projects, task lists or clients.
 - Calculating pay, overtime rules or invoicing: the app counts hours per profile; pay is worked out outside it.

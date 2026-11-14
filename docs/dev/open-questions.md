@@ -6,30 +6,24 @@ leaves; its answer goes to `design-decisions.md`. A question half answered stays
 
 ## Phase 0
 
-### Which device it runs on (2026-11-14)
-
-Today the owner turns on the work computer on arrival and types the start time into Excel there, so the work computer is
-the natural candidate. Not known: its system, whether installing programs is allowed, and whether the owner, moving
-around the school, needs to record things away from it. Where the owner clicks: the work computer, their own computer
-(Linux), or their phone. A work computer may run another system, or forbid installing software. Everything else in Phase
-0 depends on this.
-**See:** One user, offline, on the owner's device.
-
 ### Tech stack (2026-11-14)
 
-Follows from the device. Options, roughly:
-- a desktop app in Python (Tkinter or Qt): simple, but needs Python on the machine;
-- a desktop app with Tauri or Electron: a web-style interface, packaged as one program;
-- a phone app (Flutter, or native);
-- a local web page in the browser: nothing to install, but browser storage can be wiped, so it is risky for a record
-  the boss relies on.
-**See:** One user, offline, on the owner's device.
+A desktop app that runs on Windows and Linux ("One user, offline, on the owner's machines", in
+`design-decisions.md`), with animation and custom controls in its interface. Options:
+- Tauri: a web-style interface on the system's webview, a Rust backend, a small single program. On Linux the webview is
+  WebKitGTK, which can lag on newer CSS and animation, so animations are tested on Linux early.
+- Electron: the same Chromium on both systems, so it looks the same everywhere, but a program of about 100 MB.
+- Python with Tkinter or Qt: simple, but custom animated controls are harder.
+The owner wants to try Tauri, and the agent leans the same way; not yet confirmed. Also open: plain TypeScript or a
+small framework (Svelte, React) for the interface, settled with the look and feel.
+**See:** One user, offline, on the owner's machines.
 
 ### Where the data is kept (2026-11-14)
 
-A file on the device in any case. Options: SQLite (sturdy, easy queries, not readable by hand), or a plain CSV or
-JSON file (readable and easy to back up, but easier to break). Also: is there a backup, and where?
-**See:** One user, offline, on the owner's device.
+A file on each machine in any case. Options: SQLite (sturdy, easy queries, not readable by hand), or a plain CSV or
+JSON file (readable and easy to back up, but easier to break). The handover file holds everything in one file, which
+either choice can write. Also: is there a backup, and where? The handover file may serve as one.
+**See:** One user, offline, on the owner's machines; Handover between machines.
 
 ### Look and feel (2026-11-14)
 

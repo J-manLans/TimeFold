@@ -22,6 +22,9 @@ Friday", in `design-decisions.md`).
 **Flex day.** A whole day off paid for with the balance: it takes the expected hours off the balance. Not annual
 leave, which is left empty.
 
+**Handover.** Moving the record from one of the owner's machines to the other: export one file on the first, import
+it on the second, replacing everything there.
+
 **Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only: the app
 never counts money.
 
