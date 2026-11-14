@@ -29,24 +29,6 @@ small always-on widget or an icon in the system tray, how the settings menu and 
 where the pay estimate shows, how much earlier history the main screen shows. Light, dark, or following the system. To be settled with a sketch.
 **See:** What the app does.
 
-### Language of the app (2026-11-14)
-
-English, Swedish, or the language the boss reads the report in. The school is Swedish-language, in Finland.
-
-### Marking corrected entries (2026-11-14)
-
-Whether the record and the report show that an entry was written by hand or edited. Showing it may make the report
-more trustworthy to the boss; hiding it keeps the report clean.
-**See:** What the app does.
-
-### Is "from home" a profile (2026-11-14)
-
-Work from home is paid differently, but the owner may also do a task, such as development group work, from home.
-Options: "from home" is a profile of its own (one list, one choice per entry, maybe "Dev from home" as a profile), or
-a mark on any entry beside its profile (two choices per entry). One list is lighter to switch; a mark avoids a
-profile for every task and place. The agent's lean: one list, since the owner adds profiles as they come up.
-**See:** Profiles label the hours.
-
 ### Report period and content (2026-11-14)
 
 Which period a report covers (a week, a month, any range), and what it shows: each day's start, stop, errands and

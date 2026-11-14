@@ -42,6 +42,7 @@ checks and names the other by title.
 - One user, offline, on the owner's machines
 - Handover between machines
 - A first install starts fresh or imports
+- The app is in Swedish
 - What the app does
 
 ### [Stack](stack.md)
@@ -77,6 +78,7 @@ checks and names the other by title.
 ### [Corrections](corrections.md)
 
 - Editing an entry on its line
+- Entries remember how they were made
 
 ### [Reports](reports.md)
 

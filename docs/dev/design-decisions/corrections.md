@@ -1,6 +1,6 @@
 # Corrections
 
-How the record is put right afterwards. Each decision follows the template in `README.md`, and is cited by its title.
+How the record is put right afterwards, and how an entry remembers it. Each decision follows the template in `README.md`, and is cited by its title.
 
 ## Editing an entry on its line (2026-11-14)
 
@@ -44,3 +44,20 @@ and the entry is small in it.
   start handle moves.
 - Running entry: the right handle is now and does not move.
 - Cancel after dragging: the entry is unchanged.
+
+## Entries remember how they were made (2026-11-14)
+
+**Built by:** Clocking for clicked entries; Corrections for written and edited ones.
+
+**Decision:** every entry keeps one mark of how it was made: clicked, written by hand, or edited after it was
+recorded. The mark is stored from the first entry. Showing it in the report is not decided; see "Corrected entries in
+the report", in `codebase-ideas.md`.
+**Why:** honesty in reporting: the boss can trust that a time set by hand is known to be one. Stored from the start,
+the mark is right for every entry; added later, it would be missing on all entries before it.
+**Rejected:** no mark: the record could not tell a click from a guess. Keeping every edit's old times: more than
+honesty needs, for a report the boss reads at a glance.
+**Revisit if:** the boss asks to see what an edit changed.
+**Cases:**
+- Start and stop clicked: the entry is marked clicked.
+- An entry's start dragged on its line and confirmed: it is marked edited.
+- A forgotten entry written afterwards: it is marked written by hand.

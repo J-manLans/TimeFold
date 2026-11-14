@@ -7,20 +7,22 @@ decision follows the template in `README.md`, and is cited by its title.
 
 **Built by:** Profiles; entries carry a profile from Clocking.
 
-**Decision:** every entry belongs to one profile (such as janitor work, the development group, work from home).
-Switching is done as in "One start/stop button and a profile list". A day can mix profiles, and the owner adds
-profiles as new kinds of work come up. Profiles are isolated: each counts its own days and hours, and work in one
-never changes another. A profile holds: a short name (what is tapped when switching); optional expected hours, and
-only a profile with them has a balance; a colour or icon; active or archived (an archived profile leaves the switch
-list but keeps its hours in the history and reports); a pay category, a label only, so reports can group hours by how
-they are paid; and an optional rate for the pay estimate ("A pay estimate per profile"). Reports show hours per
-profile.
+**Decision:** every entry belongs to one profile (such as janitor work or the development group). Switching is done as
+in "One start/stop button and a profile list". A day can mix profiles, and the owner adds profiles as new kinds of work
+come up. Profiles are isolated: each counts its own days and hours, and work in one never changes another. A profile
+holds: a short name (what is tapped when switching); optional expected hours, and only a profile with them has a
+balance; a colour or icon; active or archived (an archived profile leaves the switch list but keeps its hours in the
+history and reports); a pay category, a label only, so reports can group hours by how they are paid; and an optional
+rate for the pay estimate ("A pay estimate per profile"). Reports show hours per profile. Where the work is done is not
+recorded: the owner works from wherever suits, and a place matters to the app only if it is paid differently, when it is
+a profile of its own.
 **Why:** the owner's work is paid differently depending on the task and where it is done. Keeping profiles apart
 means a Saturday of development group work cannot touch the janitor balance, with no special rule for it.
 **Rejected:** the app calculating pay as payroll does: salary rules belong to payroll, and would make the app wrong
 whenever they change; the pay estimate is a rough figure for the owner only. A yes/no "counts toward the balance"
-setting per profile, with one shared balance: it let work in one profile change another's balance. A "reported to"
-field on each profile: the owner does not need it.
+setting per profile, with one shared balance: it let work in one profile change another's balance. A "reported to" field
+on each profile: the owner does not need it. A place mark on entries, such as "from home", beside the profile: where the
+work is done has no bearing on the counts.
 **Revisit if:** the owner needs the app's figures to match payroll.
 
 ## The other profiles share a ceiling (2026-11-14)

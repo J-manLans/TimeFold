@@ -60,6 +60,15 @@ left out of the other. Switching in the middle of a worked day: it happens once,
 - Second machine, first start: "Import from my other machine" brings the whole record, opening figures included, then
   asks for this machine's colours.
 
+## The app is in Swedish (2026-11-14)
+
+**Built by:** Clocking, for the first screen; each part for its own words.
+
+**Decision:** the app's interface and the report are in Swedish.
+**Why:** the owner works at a Swedish-language school in Finland, and the boss reads the report.
+**Rejected:** English: neither the owner nor the boss needs it. A language setting: one user, one language.
+**Revisit if:** the report goes to someone who does not read Swedish.
+
 ## What the app does (2026-11-14)
 
 **Built by:** Clocking, Breaks and flex days, Profiles, Corrections and Reports.
