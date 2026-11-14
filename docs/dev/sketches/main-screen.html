@@ -45,6 +45,8 @@
   --text-font: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
   --text-stretch: 75%;  --text-weight: 500;  --text-case: normal;  --text-tracking: 0.06em;
   /* Motion */
+  --undo-time: 15s;     /* how long a click can be undone */
+  --undo-drape: 0.85;   /* how strong the coloured drape is when it appears; it fades to nothing */
   --speed-press: 0.1s;  --speed-fade: 0.18s;  --speed-menu: 0.34s;  --speed-tab: 0.22s;  --speed-row: 0.3s;
   /* The menu panel */
   --menu-blur: 7px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
@@ -180,14 +182,14 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .profile-btn { grid-area: prof; display: grid; place-items: center; isolation: isolate; }
 /* The profile circle: a raised light disc sitting in a recessed well, after the CodePen pen
    "bthehuman/pen/zGKBvm" (MIT), scaled down and put on theme tokens. */
-.profile-btn .dot, .theme-btn .dot {
+.profile-btn .dot, .theme-btn .dot, .undo-btn .dot {
   position: relative; width: var(--dot-size); height: var(--dot-size); border-radius: 50%;
   background-color: var(--dot-face); background-image: var(--dot-bg);
   box-shadow: 0 2px 5px var(--dot-drop), var(--dot-inner);
   display: grid; place-items: center;
   font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--dot-letter); line-height: 1;
 }
-.profile-btn .dot::before, .theme-btn .dot::before {
+.profile-btn .dot::before, .theme-btn .dot::before, .undo-btn .dot::before {
   content: ""; position: absolute; inset: calc(-1 * var(--dent)); border-radius: 50%; z-index: -1;
   background: var(--well-bg); border-top: 1px solid var(--well-edge);
   box-shadow: inset 0 4px 14px var(--well-shade), 0 1px 0 var(--well-lip);
@@ -201,7 +203,18 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .tip.show { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
 .status { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; } /* keeps its room even when empty */
-.pause-area { height: 32px; display: grid; place-items: center; }
+.pause-area { height: 36px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+/* The undo: a disc like the profile's, faded when there is nothing to undo; a ring drains over its minute */
+.undo-btn { --dot-size: 26px; --dent: 4px; position: relative; width: 36px; height: 36px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; color: var(--c-btn-fg); border-radius: 50%; }
+.undo-btn:disabled { opacity: 0.35; cursor: default; }
+/* While the undo is available, a drape in the profile's over colour lies over the disc only (not the dent around it),
+   starting strong and fading evenly to nothing over --undo-time; the arrow stays on top of it. */
+.undo-btn .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; z-index: 2; pointer-events: none;
+  background: var(--undo-fill, transparent); opacity: 0; }
+.undo-btn.live .dot::after { animation: undo-fade var(--undo-time) linear forwards; }
+@keyframes undo-fade { from { opacity: var(--undo-drape); } to { opacity: 0; } }
+.undo-btn .undo-icon { position: relative; z-index: 3; }
+@media (prefers-reduced-motion: reduce) { .undo-btn.live .dot::after { animation: none; opacity: var(--undo-drape); } }
 .pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
 .pause:disabled { opacity: 0.45; cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
@@ -388,6 +401,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
             <input id="pauseInput" type="text" inputmode="numeric" placeholder="00:00" aria-label="Pausens längd, Enter lägger till, Esc avbryter" autocomplete="off">
             <span class="reading" id="pauseReading"></span>
           </form>
+          <button class="undo-btn" id="undoBtn" type="button" disabled aria-label="Ångra senaste klicket">
+            <span class="dot"><svg class="undo-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></span>
+          </button>
         </div>
         <div class="toast" id="toast"></div>
         <div class="tip" id="tip" role="tooltip"></div>
@@ -693,26 +709,64 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     drawEntries(true); settleScale(Math.abs(t.balance), true); tweenTo(t);
   }
   $("startBtn").addEventListener("click", function () {
-    if (running && running.profile === onScreen) stopRunning();
-    else { if (running) stopRunning(); running = { profile: onScreen, start: new Date() }; }
+    var snap = snapshot(), at = clock(new Date()), label;
+    if (running && running.profile === onScreen) { stopRunning(); label = "stopp " + at; }
+    else if (running) { var was = prof(running.profile).name; stopRunning(); running = { profile: onScreen, start: new Date() }; label = "byte " + at + " (" + was + " → " + prof(onScreen).name + ")"; }
+    else { running = { profile: onScreen, start: new Date() }; label = "start " + at; }
+    offerUndo(label, snap);
     drawControls();
   });
+
+  // ---- Undo: only the latest click, only within its minute ----
+  var undo = null;   // { label, snap, timer }
+  function snapshot() {
+    return { running: running ? { profile: running.profile, start: running.start, brk: running.brk || 0 } : null,
+             n: entries.length, balance: balance, used: used, pay: pay };
+  }
+  function undoMs() { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--undo-time")) * 1000 || 30000; }
+  function offerUndo(label, snap) {
+    if (undo) { clearTimeout(undo.timer); cancelAnimationFrame(undo.raf); }
+    var b = $("undoBtn");
+    undo = { label: label, snap: snap, timer: setTimeout(clearUndo, undoMs()), raf: 0 };
+    b.disabled = false; b.style.setProperty("--undo-fill", profColour(onScreen));
+    b.classList.remove("live"); void b.offsetWidth; b.classList.add("live");   // restart the shrink
+  }
+  function clearUndo() {
+    if (undo) { clearTimeout(undo.timer); cancelAnimationFrame(undo.raf); } undo = null;
+    var b = $("undoBtn"); b.disabled = true; b.classList.remove("live");
+    if (tipFor === "undo") { tipPt = null; refreshTip(); }
+  }
+  $("undoBtn").addEventListener("click", function () {
+    if (!undo) return;
+    var s = undo.snap;
+    running = s.running;
+    while (entries.length > s.n) entries.shift();
+    balance = s.balance; used = s.used; pay = s.pay; syncSim();
+    drawEntries(false); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay });
+    clearUndo(); drawControls();
+  });
   // The warning label: appears at once on pointer enter, follows the pointer, shows under the button on keyboard focus.
-  var tipPt = null, tipFocus = false;
-  function tipText() { return running && running.profile !== onScreen ? "stoppar " + prof(running.profile).name : ""; }
+  var tipPt = null, tipFocus = false, tipFor = "start";
+  function tipText() {
+    if (tipFor === "undo") return undo ? "Ångra: " + undo.label : "";
+    return running && running.profile !== onScreen ? "stoppar " + prof(running.profile).name : "";
+  }
   function refreshTip() {
     var tip = $("tip"), txt = tipText();
     if (!txt || (!tipPt && !tipFocus)) { tip.classList.remove("show"); return; }
-    tip.textContent = txt; tip.style.setProperty("--tipc", profColour(running.profile)); tip.classList.add("show");
+    tip.textContent = txt; tip.style.setProperty("--tipc", tipFor === "undo" ? profColour(onScreen) : profColour(running.profile)); tip.classList.add("show");
     if (tipPt) { tip.style.left = (tipPt.x + 14) + "px"; tip.style.top = (tipPt.y + 18) + "px"; }
-    else { var r = $("startBtn").getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = (r.bottom + 6) + "px"; }
+    else { var r = $(tipFor === "undo" ? "undoBtn" : "startBtn").getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = (r.bottom + 6) + "px"; }
   }
-  ["pointerenter", "pointermove"].forEach(function (ev) {
-    $("startBtn").addEventListener(ev, function (e) { if (e.pointerType === "touch") return; tipPt = { x: e.clientX, y: e.clientY }; refreshTip(); });
+  [["startBtn", "start"], ["undoBtn", "undo"]].forEach(function (pair) {
+    var b = $(pair[0]);
+    ["pointerenter", "pointermove"].forEach(function (ev) {
+      b.addEventListener(ev, function (e) { if (e.pointerType === "touch") return; tipFor = pair[1]; tipPt = { x: e.clientX, y: e.clientY }; refreshTip(); });
+    });
+    b.addEventListener("pointerleave", function () { tipPt = null; refreshTip(); });
+    b.addEventListener("focus", function () { tipFor = pair[1]; tipFocus = true; refreshTip(); });
+    b.addEventListener("blur", function () { tipFocus = false; refreshTip(); });
   });
-  $("startBtn").addEventListener("pointerleave", function () { tipPt = null; refreshTip(); });
-  $("startBtn").addEventListener("focus", function () { tipFocus = true; refreshTip(); });
-  $("startBtn").addEventListener("blur", function () { tipFocus = false; refreshTip(); });
   window.addEventListener("scroll", function () { if (!tipPt) refreshTip(); }, { passive: true });
 
   // "Lägg till paus": a length typed in place ("45" is minutes, "1:20" is hours and minutes).
