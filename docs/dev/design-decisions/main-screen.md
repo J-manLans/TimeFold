@@ -69,8 +69,9 @@ opaque, without blur).
 and one tab's content shows at a time; switching fades from one to the next. Beside the "Meny" heading sits the theme
 button ("A light or dark theme, following the system").
 - **Profiler:** each profile is a row (its disc and letter, its name, a mark on the profile with the balance). A row
-  opens in place to show its name, its base and over colour ("Each profile carries its colours"), pay (a monthly
-  salary or a rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
+  unfolds in place, its height growing and its content fading in, and folds back the same way; opening one folds any
+  other. It shows its name, its base and over colour ("Each profile carries its colours"), pay (a monthly salary or a
+  rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
 - **Tid:** the slider that splits full time between janitor's expected hours and the ceiling, with the numbers on it
   ("6 | 2"); full time beside it; and the day the month starts, from 1 to 28 ("A month starts on a set day").
 Every value is locked: it shows as text with "Ändra" beside it. "Ändra" opens it; Enter confirms and Esc aborts, as in
