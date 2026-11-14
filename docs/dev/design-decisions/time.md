@@ -1,7 +1,7 @@
 # Time
 
-How hours count: on which day, against expected hours, which days owe them, and what a month is. Each decision follows the template in
-`README.md`, and is cited by its title.
+How hours count: on which day, against expected hours, which days owe them, and what a month is. Each decision follows
+the template in `README.md`, and is cited by its title.
 
 ## Expected hours: 6 a day, Monday to Friday (2026-11-14)
 
