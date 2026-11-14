@@ -117,9 +117,10 @@ present. Cite a decision by its title, "in `design-decisions/`", not by line or 
   with each message.
 - **Write to the docs in batches,** not after every answer. Judge the batch: a topic talked through, a decision
   made, a session ending, or the owner asking. Write before context runs short, so nothing said is lost.
-- **While tuning a look on a sketch, just change the sketch.** The sketch holds the numbers and the conversation the
-  reasons, so no decision edits or commits between tweaks. Write the batch when the owner settles it ("that feels
-  good", "keep it"), before switching topic, at a break, or when the conversation is getting long.
+- **While tuning, just change the code.** When the owner fine-tunes how something looks or feels, on a sketch or in
+  the app, the code holds the values meanwhile and the conversation the reasons, so no decision edits or commits
+  between tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching topic,
+  at a break, or when the conversation is getting long.
 - **Mention what is surprising; do not fix it unasked.**
 - **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no
   "until phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
