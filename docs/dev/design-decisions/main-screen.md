@@ -226,12 +226,14 @@ balance profile is on screen: the wheel would seem to belong to a profile that i
 
 **Built by:** Profiles.
 
-**Decision:** each profile has a base colour and an over colour, set in its row in the menu, each with the system's
-colour picker; they change at once, not from a date, since no count depends on them, and they travel with the profile
-in the handover. The profile with the balance starts with the base `#d78951`, a soft orange; the first start asks for
-its colours ("A first install starts fresh or imports"). A new profile's base is the colour farthest from the others:
-in OKLCH, the hue in the middle of the largest gap between the existing profiles' base hues on the colour circle (a
-random pick between gaps of equal size), at their average lightness and vividness. The colours go to:
+**Decision:** each profile has a base colour and an over colour, set in its row in the menu, each with the app's own
+colour picker: a swatch that opens straight onto a colour map (saturation and lightness), with a hue strip and the
+colour's code, placed so it always fits inside the menu, changing the colour live and closing on Esc or a click outside;
+they change at once, not from a date, since no count depends on them, and they travel with the profile in the handover.
+The profile with the balance starts with the base `#d78951`, a soft orange; the first start asks for its colours ("A
+first install starts fresh or imports"). A new profile's base is the colour farthest from the others: in OKLCH, the hue
+in the middle of the largest gap between the existing profiles' base hues on the colour circle (a random pick between
+gaps of equal size), at their average lightness and vividness. The colours go to:
 - the control side, for the profile on screen: its letter (in the over colour), the ring around the start button, the
   warning label, the focus rings, the status line's mark;
 - the balance bar, always the balance profile's ("The balance bar");
@@ -254,11 +256,12 @@ overridden. A profile's colours are part of the profile, so they look the same o
 **Rejected:** colours of the figures' own, with a switch to unify them: the profiles now carry them. Colours derived
 from the figures: every profile but the balance one shared the wheel's colour. Random colours for new profiles: two
 could land side by side. Colours per machine, out of the handover: a profile would look different at work and at home.
-The over colour always red: a red base would hide it. Turning 30°: blue, cyan, yellow and pink stayed too close to
-their base. Always darker: green went olive and orange brown. The rule's numbers as settings: they could undo the
-contrast; they are tuned once, by eye, on a sketch. Example swatches, or a grid of options for the over colour: the
-owner picks once and knows what they want. A picker built into the app: the system dialog costs nothing.
-**Revisit if:** the suggestion is often overridden, or the system colour dialog is awkward on one of the machines.
+The over colour always red: a red base would hide it. Turning 30°: blue, cyan, yellow and pink stayed too close to their
+base. Always darker: green went olive and orange brown. The rule's numbers as settings: they could undo the contrast;
+they are tuned once, by eye, on a sketch. Example swatches, or a grid of options for the over colour: the owner picks
+once and knows what they want. The system's colour dialog: on Linux it opened on a palette first, not the colour map,
+and did not draw fully.
+**Revisit if:** the suggestion is often overridden.
 **Cases:**
 - Profiles at base hues 29° and 210°: the gaps are 181° and 179°, so a new profile gets about 120°.
 - A third profile added to two opposite ones: it lands in the middle of one of the two equal gaps.
