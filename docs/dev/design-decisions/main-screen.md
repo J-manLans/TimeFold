@@ -20,18 +20,19 @@ opens in its place, text starting at the left; the menu button at the top left, 
 pruning ("Old history is pruned on request"). The menu grows out of its own button: pressed, the button's rounded
 rectangle expands from the top left into a panel over the control side, stopping at the divider, and the menu's content
 fades in once it is open; the three lines of the button turn into an × in the same spot, where the menu closes,
-shrinking back into the button. The panel is frosted: slightly see-through, with the control side lightly blurred behind
-it, and in the light theme tinted a little darker than the control side so it stands out. The figures stay sharp and in
-view while settings change. New profiles are made from the menu. The right side is narrower, about two fifths of the
-window, and is the living one, changing at each stop, and looks like a modern terminal dashboard, not a retro one: a
-dark panel in every theme, numbers in a monospaced font with their digits lined up, thin lines, small uppercase labels,
-and small, precise motion (numbers counting to their new value, the arc sweeping). A profile's colour is the over colour
-of the figure it moves: the balance bar's for the profile with the balance, the ceiling wheel's for the others. While
-the profile on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app takes the
-colour of the profile on screen. On the right side, from the top: the balance as a number, centred, with no label; the
-balance bar; the ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the
-wheel, with no label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window
-listing every entry, where entries are edited ("Editing an entry on its line").
+shrinking back into the button; Esc or a click anywhere outside the menu closes it too. The panel is frosted: slightly
+see-through, with the control side lightly blurred behind it, and in the light theme tinted a little darker than the
+control side so it stands out. The figures stay sharp and in view while settings change. New profiles are made from the
+menu. The right side is narrower, about two fifths of the window, and is the living one, changing at each stop, and
+looks like a modern terminal dashboard, not a retro one: a dark panel in every theme, numbers in a monospaced font with
+their digits lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new
+value, the arc sweeping). A profile's colour is the over colour of the figure it moves: the balance bar's for the
+profile with the balance, the ceiling wheel's for the others. While the profile on screen runs, a ring in its colour
+surrounds the start button. Every focus ring in the app takes the colour of the profile on screen. On the right side,
+from the top: the balance as a number, centred, with no label; the balance bar; the ceiling wheel, centred under it with
+nothing beside it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent
+entries and "Visa alla", which opens a popup centred on the whole window listing every entry, where entries are edited
+("Editing an entry on its line").
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
 With the figures in view beside the menu, a colour changed in settings shows at once on the figures. The five most
