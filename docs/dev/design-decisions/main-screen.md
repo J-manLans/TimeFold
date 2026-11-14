@@ -111,14 +111,16 @@ main screen sketch:
 - **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with its
   light and dark value side by side. The figures side is near-black in the dark theme and slate blue in the light theme,
   each a tinted family of panel, rows, lines and text ("The main screen has a control side and a figures side").
-  Contrast is matched across the themes: in the menu, lines stand at about 1.27:1 against its frost and the borders of
-  fields and small buttons at about 1.59:1, in both themes, as measured on the sketch.
+  Contrast is balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same
+  ratio: in the menu, lines stand at about 1.6:1 (light) and 1.5:1 (dark) against its frost, and the borders of fields
+  and small buttons at about 2.2:1 and 2.0:1, as measured on the sketch.
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
   glassy.
 - **Buttons:** flat, in the theme's button colour (in the light theme a cool grey, `#c3c9d1`, 1.5:1 against the page,
-  with text on it at 9.6:1; hovered a step darker), with no border and no shading: corners of 5 px and a soft, quiet
-  shadow offset down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint
-  shade from the top. Small controls and fields have 6 px corners, panels and popups 12 px.
+  hovered a step darker; the text on buttons near-black, 11.4:1, and 10.4:1 hovered, and a little bolder on the smaller
+  buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset down and to the right (2 by 3
+  px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint shade from the top. Small controls and fields
+  have 6 px corners, panels and popups 12 px.
 - **Profile circle:** a raised disc in the button's own colour, lit from the top, sitting in a soft dent 6 px wide
   around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
   of the button's own colour, whatever that colour is.
