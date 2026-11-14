@@ -74,6 +74,10 @@ profiles are stored.
 
 Which period a report covers (a week, a month, any range), and what it shows: each day's start, stop, errands and
 total, or only day totals and the period's total.
+The owner's first answer (2026-11-14), not yet settled: a month, shown with the same two figures as the main screen,
+the balance bar and the ceiling circle, each with its numbers, so the month can be read at a glance. For janitor work
+the boss only needs to see that the balance is not too far over or under; for the other profiles, the exact hours per
+profile, since their pay may differ.
 
 ## Phase 1
 

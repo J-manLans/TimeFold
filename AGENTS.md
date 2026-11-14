@@ -18,11 +18,12 @@ No state, progress, decisions or history here; each has its own home (see "Where
 | Doc | For |
 |---|---|
 | `AGENTS.md` | How an agent works here (this file) |
-| `docs/vision.md` | Where the project is heading, and the questions to ask of a new idea |
+| `docs/vision.md` | Where the project is heading, and the questions to ask of a new idea; written at the end of Phase 0 |
 | `docs/dev/roadmap.md` | **Next**, the state table, the phases, what is not on the roadmap |
 | `docs/dev/design-decisions.md` | The decision template, the principles, and every decision by area |
 | `docs/dev/open-questions.md` | What is not decided, grouped by the phase that needs the answer |
 | `docs/dev/glossary.md` | The project's terms; read before writing about the app |
+| `docs/dev/design-draft.md` | The owner's first draft of the app, emptied into the files above as it is talked through |
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 
@@ -57,7 +58,8 @@ at a part: a decision by its title, a term by its name. A split then changes onl
 Scaled to the task:
 
 1. Always: this file and `docs/dev/roadmap.md`. **Next** in the roadmap says what comes next, not the branch name.
-2. Before a design opinion: `docs/vision.md`, `docs/dev/design-decisions.md` and `docs/dev/open-questions.md`.
+2. Before a design opinion: `docs/vision.md` (until it is written, `docs/dev/design-draft.md`),
+   `docs/dev/design-decisions.md` and `docs/dev/open-questions.md`.
 3. Before reading code: the code map, once it exists.
 4. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 

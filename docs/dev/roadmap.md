@@ -35,8 +35,8 @@ Phase 0: the agent questions the owner, one topic at a time, as a conversation. 
    storage, look and feel.
 2. Once a topic is talked through, its answers go into the docs as one batch, and the agent asks what they raised.
 3. A sketch of the main screen, agreed with the owner.
-4. Once the direction is clear, the agent rewrites `vision.md` from what was learned, and the owner agrees it. Until
-   then it stays the first draft, and batches do not add to it.
+4. Once the direction is clear, the agent writes `vision.md` from the drafts in `design-draft.md` and what was
+   learned, and the owner agrees it. Until then the drafts stay as written, and batches do not add to them.
 
 **Done when:** every question that shapes the stack or the stored data is answered, the main screen and the vision
 are agreed, and the owner has nothing more to tell for now. Questions local to one feature may stay under their
