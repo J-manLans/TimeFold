@@ -218,8 +218,10 @@ do with a doc that has got too big without a rule for each one:
    rules for adding to it) and the bodies move into files beside it, one per area, item or phase. The index is read
    always; a body is opened when the work needs it. The README also says who reads what: which parts are read every
    session, which only before a design opinion, and which only at a sweep.
-3. **A part splits again.** A body that passes its size limit (below) is cut. The docs sweep proposes the cut and
-   makes it once the owner agrees. A part that is a topic of its own becomes a file beside it. Where no cut by topic
+3. **A part splits again.** A body that passes its size limit (below) is cut. The agent makes the cut as soon as it
+   notices a file past its limit, at a docs sweep or in passing, without asking the owner, and reports the new files
+   and their sizes: it is a structural fix, not a design choice. A part that is a topic of its own becomes a file
+   beside it. Where no cut by topic
    is clean, the part becomes a folder with its name, cut by sub-topic inside; the index keeps one line for it, and
    "read it in full" means reading the folder.
 
@@ -228,10 +230,10 @@ term by its name, an area by its folder. A split then changes the index and noth
 The same holds for `AGENTS.md`: what only some sessions need moves out to a procedure, and `AGENTS.md` keeps one line
 saying when to read it, so the file every session reads stays small.
 
-**Size limits.** Set a limit per kind of file and check it with `wc -w` at the docs sweep: around 4,000 words for a
-general doc, flagged only; around 2,500 for a decisions file; around 1,000 for a glossary area file. Past its limit, a
-file splits as in step 3 of "How a doc grows". The one exception is a glossary area: it is cut by letter range at the
-term counts, so the parts stay even, and only the index changes.
+**Size limits.** Set a limit per kind of file and check it with `wc -w` at the docs sweep and whenever a file looks
+long: around 4,000 words for a general doc, flagged only; around 2,500 for a decisions file; around 1,000 for a
+glossary area file. Past its limit, a file splits as in step 3 of "How a doc grows". The one exception is a glossary
+area: it is cut by letter range at the term counts, so the parts stay even, and only the index changes.
 
 **The docs sweep.** A pass at the end of a session that ties the docs back together. When the owner signals the
 session is ending, the agent offers it once. The signal is rarely "we're done": it is a "see you tomorrow", an "I

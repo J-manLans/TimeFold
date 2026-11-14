@@ -87,8 +87,14 @@ checks and names the other by title.
 
 - The main screen has a control side and a figures side
 - The menu has two tabs, with every value locked behind "Ändra"
+
+### [Look](look.md)
+
 - The look: a fresh display face, mono text, grain and soft buttons
 - A light or dark theme, following the system
+
+### [Figures](figures.md)
+
 - The balance bar
 - The ceiling wheel
 - Each profile carries its colours

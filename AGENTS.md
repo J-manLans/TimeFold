@@ -50,11 +50,12 @@ Added when there is something to put in them, each opening with what it holds an
 2. **A folder with a `README.md` index,** when a file is read every session and has grown past what a session should
    pay for. The README keeps what every session needs and says who reads what; the bodies move into files beside it.
 3. **A part splits again** when it passes its limit: by topic into a file beside it, or into a folder of its own when
-   no cut is clean. The docs sweep proposes the cut; it is made once the owner agrees.
+   no cut is clean. The agent makes the cut as soon as it notices a file past its limit, at a sweep or in passing,
+   without asking, and reports the new files and their sizes. It is a structural fix, the agent's to make.
 
-Limits, checked with `wc -w` at the sweep: ~4,000 words for a general doc (flagged only), ~2,500 for a decisions
-file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point at the collection, never
-at a part: a decision by its title, a term by its name. A split then changes only the index.
+Limits, checked with `wc -w` at the sweep and whenever a file looks long: ~4,000 words for a general doc (flagged only),
+~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point at the
+collection, never at a part: a decision by its title, a term by its name. A split then changes only the index.
 
 ## Starting a session
 
