@@ -12,28 +12,29 @@ ceiling wheel and the pay estimate; Handover for export and import.
 left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"),
 "Exportera" and "Importera" side by side under it, together as wide as it; the profile button beside both, as tall as
 the two rows, a rectangle holding a raised disc set in a dent ("The look: a fresh display face, mono text, grain and
-soft buttons") with the profile's first letter, capitalised, in the profile's colour, which with more than one profile
-opens a popup of the profiles, centred on the left side; under the block, the status line naming what runs and since
-when, which keeps its room even when empty; under that, centred and as wide as its text, "Lägg till paus" ("Time away is
-a gap or an added break"), a smaller, quieter button, greyed out unless the profile on screen runs, whose length field
-opens in its place, text starting at the left; the menu button at the top left, and at the bottom the line that offers
-pruning ("Old history is pruned on request"). The menu grows out of its own button: pressed, the button's rounded
-rectangle expands from the top left into a panel over the control side, stopping at the divider, and the menu's content
-fades in once it is open; the three lines of the button turn into an × in the same spot, where the menu closes,
-shrinking back into the button; Esc or a click anywhere outside the menu closes it too. The panel is frosted: slightly
-see-through, with the control side lightly blurred behind it, and in the light theme tinted a little darker than the
-control side so it stands out. The figures stay sharp and in view while settings change. New profiles are made from the
-menu. The right side is narrower, about two fifths of the window, and is the living one, changing at each stop, and
-looks like a modern terminal dashboard, not a retro one: a near-black panel in the dark theme and a deep slate-blue one
-(#2c3e5c) in the light theme, its rows a step darker and its text light, numbers in a monospaced font with their digits
-lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc
-sweeping). The colours come from the profiles ("Each profile carries its colours"): the profile on screen colours the
-control side and, when it is one of the others, the ceiling wheel; the balance bar always wears the balance profile's.
-While the profile on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app takes the
-colour of the profile on screen. On the right side, from the top: the balance as a number, centred, with no label; the
-balance bar; the ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the
-wheel, with no label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window
-listing every entry, where entries are edited ("Editing an entry on its line").
+soft buttons") with the profile's first letter, capitalised, in the button's text colour, ringed in the profile's
+colour, which with more than one profile opens a popup of the profiles, centred on the left side; under the block, the
+status line naming what runs and since when, which keeps its room even when empty; under that, centred and as wide as
+its text, "Lägg till paus" ("Time away is a gap or an added break"), a smaller, quieter button, greyed out unless the
+profile on screen runs, whose length field opens in its place, text starting at the left; the menu button at the top
+left, and at the bottom the line that offers pruning ("Old history is pruned on request"). The menu grows out of its own
+button: pressed, the button's rounded rectangle expands from the top left into a panel over the control side, stopping
+at the divider, and the menu's content fades in once it is open; the three lines of the button turn into an × in the
+same spot, where the menu closes, shrinking back into the button; Esc or a click anywhere outside the menu closes it
+too. The panel is frosted: slightly see-through, with the control side lightly blurred behind it, and in the light theme
+tinted a little darker than the control side so it stands out. The figures stay sharp and in view while settings change.
+New profiles are made from the menu. The right side is narrower, about two fifths of the window, and is the living one,
+changing at each stop, and looks like a modern terminal dashboard, not a retro one: a near-black panel in the dark theme
+and a deep slate-blue one (#2c3e5c) in the light theme, its rows a step darker and its text light, numbers in a
+monospaced font with their digits lined up, thin lines, small uppercase labels, and small, precise motion (numbers
+counting to their new value, the arc sweeping). The colours come from the profiles ("Each profile carries its colours"):
+the profile on screen colours the control side and, when it is one of the others, the ceiling wheel; the balance bar
+always wears the balance profile's. While the profile on screen runs, a ring in its colour surrounds the start button.
+Every focus ring in the app takes the colour of the profile on screen. On the right side, from the top: the balance as a
+number, centred, with no label; the balance bar; the ceiling wheel, centred under it with nothing beside it; the pay
+estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa alla", which
+opens a popup centred on the whole window listing every entry, where entries are edited ("Editing an entry on its
+line").
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
 With the figures in view beside the menu, a colour changed in settings shows at once on the figures. The five most
@@ -112,8 +113,9 @@ main screen sketch:
   light and dark value side by side. The figures side is near-black in the dark theme and slate blue in the light theme,
   each a tinted family of panel, rows, lines and text ("The main screen has a control side and a figures side").
   Contrast is balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same
-  ratio: in the menu, lines stand at about 1.6:1 (light) and 1.5:1 (dark) against its frost, and the borders of fields
-  and small buttons at about 2.2:1 and 2.0:1, as measured on the sketch.
+  ratio, and stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1
+  (light), lines at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons
+  at about 2.7:1 and 2.0:1, as measured on the sketch.
 - **Grain:** a fine noise over both panels, stronger on the figures side, so surfaces read as printed rather than
   glassy.
 - **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper, `#4f688e`,
@@ -123,10 +125,11 @@ main screen sketch:
   top. Small controls and fields have 6 px corners, panels and popups 12 px. Around them, the light theme's control side
   is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; surfaces that hold
   dark text are light: fields white, the profile popup `#e6ecf4`.
-- **Profile circle:** a raised disc, lit from the top, in the button's own colour in the dark theme and a pale blue
-  (`#e3e9f2`) in the light one, so a red profile letter still reads on it (4.5:1), sitting in a soft dent 6 px wide
-  around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
-  of the button's own colour, whatever that colour is.
+- **Profile circle:** a raised disc in the button's own colour, lit from the top, its letter in the button's text colour
+  and a thin ring around it in the profile's colour (a red letter on the blue button read at only 1.04:1), sitting in a
+  soft dent 6 px wide around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is
+  always a soft shade of the button's own colour, whatever that colour is. In the light theme its highlights and shadows
+  are tinted blue, not white or black, so they sit with the blue button.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 - In code, these values are named variables in one place, so the look is tuned there.
@@ -239,8 +242,8 @@ profile with the balance starts with the base `#d78951`, a soft orange; the firs
 install starts fresh or imports"). A new profile's base is the colour farthest from the others: in OKLCH, the hue in the
 middle of the largest gap between the existing profiles' base hues on the colour circle (a random pick between gaps of
 equal size), at their average lightness and vividness. The colours go to:
-- the control side, for the profile on screen: its letter (in the over colour), the ring around the start button, the
-  warning label, the focus rings, the status line's mark;
+- the control side, for the profile on screen: the ring around its letter (in the over colour), the ring around the
+  start button, the warning label, the focus rings, the status line's mark;
 - the balance bar, always the balance profile's ("The balance bar");
 - the ceiling wheel, the profile on screen's when it is one of the others ("The ceiling wheel").
 The over colour starts as a suggestion worked out from the base, and a new base brings a new suggestion; the owner may
