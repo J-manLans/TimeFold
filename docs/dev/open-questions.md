@@ -7,13 +7,6 @@ leaves; its answer goes to `design-decisions/`. A question half answered stays w
 
 ## Phase 0
 
-### Look and feel (2026-11-14)
-
-Known: the main screen ("The main screen has a control side and a figures side") and the figures' colours ("The
-ceiling wheel"; "The balance bar"), and that it is a plain window ("A plain window app"). Open: how the settings menu
-and the slider that splits full time look.
-**See:** What the app does.
-
 
 ## Part: Corrections
 

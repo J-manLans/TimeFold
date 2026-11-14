@@ -58,6 +58,36 @@ opaque, without blur).
 - Menu open: the figures are still in view, and a new base colour shows on them at once.
 - Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
 
+## The menu has four tabs, with counting values locked (2026-11-14)
+
+**Built by:** Profiles for the profiles, the working time and the month start; Clocking for the look.
+
+**Decision:** the menu has four tabs across its top: **Profiler**, **Arbetstid**, **Månadsstart** and **Utseende**.
+Profiler is selected when the menu opens, and one tab's content shows at a time; switching fades from one to the next.
+- **Profiler:** each profile is a row (its disc and letter, its name, a mark on the profile with the balance). A row
+  opens in place to edit its name, pay (a monthly salary or a rate per hour), pay category, and "Arkivera". "Ny
+  profil" is at the bottom.
+- **Arbetstid:** the slider that splits full time between janitor's expected hours and the ceiling, with the numbers
+  on it ("6 h | 2 h"), and full time beside it.
+- **Månadsstart:** the day from 1 to 28 ("A month starts on a set day").
+- **Utseende:** the theme, the ceiling wheel's colours, the balance bar's colours, and "Förena färger".
+Values that change the counting (full time, the split, the month start, a salary or rate) are locked: each shows as
+text with "Ändra" beside it. "Ändra" opens it; Enter confirms and Esc aborts, as in "Entering a length of time";
+confirming asks "Gäller från", today unless the owner picks an earlier date ("Settings change from a date"). Under
+each, "Tidigare värden" with a count opens its earlier values and the dates they held from. Names, colours and the
+theme change at once.
+**Why:** tabs keep the four names in a fixed place while the content swaps calmly below them. A value that changes
+past and future counts should not move by a stray click, and Enter and Esc work as they do everywhere else. The
+earlier values let the owner check what was in force when a month looks odd.
+**Rejected:** headings that expand: opening one pushes the others down, and one is always open anyway. One long menu
+to scroll. Counting values edited directly.
+**Revisit if:** the menu needs more than four sections.
+**Cases:**
+- Menu opened: the Profiler tab shows.
+- Split 6 | 2, "Ändra", moved to 5 | 3, Enter, "Gäller från" 1 September: from then on janitor owes 5 h a day.
+- "Ändra" on full time, a new value typed, Esc: full time is unchanged.
+- After that change, "Tidigare värden (1)": 6 | 2 until 31 August.
+
 ## The look: a fresh display face, mono text, grain and soft buttons (2026-11-14)
 
 **Built by:** Clocking, with the first screen.

@@ -27,3 +27,10 @@ menu offers start and stop; the icon could take the running profile's colour. Wi
 the app starting at login into the tray only, through Tauri's autostart plugin (the Windows run-at-login entry, a file
 in `~/.config/autostart/` on Linux). On GNOME, tray icons need an extension. Mainly a way for the owner to learn the
 process; the app gains little ("A plain window app", in `design-decisions/`).
+
+## Tab content growing out of its tab
+
+**Returns when:** the menu is built.
+Switching tabs in the menu ("The menu has four tabs, with counting values locked", in `design-decisions/`) starts as a
+fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the menu grows
+out of its button. To try in the menu's coding session, against the fade.
