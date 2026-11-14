@@ -36,6 +36,11 @@ main screen sketch:
   of the button's own colour, whatever that colour is. In the light theme its highlights and shadows are tinted blue,
   not white or black, so they sit with the blue button. The theme button's disc is near white (`#e3e9f2`) in the light
   theme.
+- **Motion:** every transition in the interface takes the same 0.3 seconds, one setting for all: hover and press, the
+  start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
+  label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
+  within that time. Animations that tell something over longer, such as the numbers counting at stop or the undo's fade,
+  keep their own length.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 - In code, these values are named variables in one place, so the look is tuned there.
