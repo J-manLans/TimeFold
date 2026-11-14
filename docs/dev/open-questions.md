@@ -23,10 +23,10 @@ either choice can write. Also: is there a backup, and where? The handover file m
 ### Look and feel (2026-11-14)
 
 Known: one start/stop button with the profile list beside it, the bars, and today's entries listed under them ("One
-start/stop button and a profile list"; "Time away is a gap or an added break"). Open: whether there is also a small
-always-on widget or an icon in the system tray, how the settings menu and the slider that splits full time look, how
-much earlier history the main screen shows, and where editing lives. Light, dark, or following the system. To be
-settled with a sketch.
+start/stop button and a profile list"; "Time away is a gap or an added break"); editing opens from that list ("Editing
+an entry on its line"). Open: whether there is also a small always-on widget or an icon in the system tray, how the
+settings menu and the slider that splits full time look, where the pay estimate shows, how much earlier history the
+main screen shows. Light, dark, or following the system. To be settled with a sketch.
 **See:** What the app does.
 
 ### Language of the app (2026-11-14)
