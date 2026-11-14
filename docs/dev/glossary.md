@@ -13,14 +13,16 @@ Positive: hours to take out. Negative: hours to work in.
 **Balance bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
 balance as a number.
 
+**Base colour.** The ceiling wheel's colour for hours used, a setting.
+
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
 becomes a test.
 
 **Ceiling.** The hours all profiles without expected hours may add up to together, over a month: full time minus
 janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
 
-**Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills as the month's hours are used, red
-for hours over it ("The ceiling wheel", in `design-decisions/`).
+**Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills in the base colour as the month's
+hours are used, with hours over it in the over colour ("The ceiling wheel", in `design-decisions/`).
 
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
@@ -46,6 +48,8 @@ no day.
 
 **Handover.** Moving the record from one of the owner's machines to the other: export one file on the first, import
 it on the second, replacing everything there.
+
+**Over colour.** The ceiling wheel's colour for hours over the ceiling; suggested from the base colour, or picked.
 
 **Part.** A piece of the app named on the roadmap before the phases are agreed, such as Clocking or Handover.
 At the end of Phase 0 the parts are ordered into phases.
