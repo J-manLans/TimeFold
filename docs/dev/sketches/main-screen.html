@@ -1,0 +1,623 @@
+<!-- Sketch: the main screen, built from app-sketch.excalidraw.md and the decisions in design-decisions/
+     main-screen.md, recording.md and scope.md. The toolbar above the app is for the sketch only. Delete once the main
+     screen is built. -->
+<title>Main Screen Sketch</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@600;700&family=Big+Shoulders+Display:wght@700;800&family=Teko:wght@500;600&display=swap">
+<style>
+/* Layout: a sketch toolbar, then the app window: controls on the left (follow the app theme), a dark dashboard on the right. */
+:root {
+  --page-bg: #e9ebee; --page-fg: #1d2026; --page-muted: #5d6370; --page-line: #cfd3da;
+  --ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
+  --display: "Saira Extra Condensed", "Arial Narrow", sans-serif;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --page-bg: #111317; --page-fg: #e3e6eb; --page-muted: #8b919c; --page-line: #2a2e35; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --page-bg: #111317; --page-fg: #e3e6eb; --page-muted: #8b919c; --page-line: #2a2e35; color-scheme: dark; }
+body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui); font-size: 14px; }
+.page {
+  max-width: 1100px; margin: 0 auto; display: grid; gap: 16px;
+  padding-block: 20px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.page h1 { font-size: 1.2rem; margin: 0; font-weight: 600; }
+.page > p { margin: 0; color: var(--page-muted); max-width: 70ch; }
+
+/* Sketch toolbar */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 12px 14px; border: 1px dashed var(--page-line); border-radius: 8px; font-size: 13px; color: var(--page-muted); }
+.toolbar label { display: flex; align-items: center; gap: 8px; }
+.toolbar input[type="range"] { width: 140px; }
+.toolbar .val { font-family: var(--mono); color: var(--page-fg); min-width: 6ch; }
+.toolbar button { font: inherit; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--page-line); background: transparent; color: var(--page-fg); cursor: pointer; }
+
+/* The app window; control-side tokens follow the app's own theme setting */
+.app {
+  --c-bg: #f3f3f1; --c-fg: #1f2227; --c-muted: #6a6f78; --c-line: #dedfe2; --c-btn: #e9eaea; --c-btn-line: #c9ccd2; --c-hover: #eef0f2; --c-scrim: rgba(20, 22, 26, 0.25);
+  --hl: rgba(255, 255, 255, 0.75); --lo: rgba(0, 0, 0, 0.10); --drop: rgba(0, 0, 0, 0.16); --grain-o: 0.09;
+  --f-bg: #0d1014; --f-fg: #d9dee6; --f-muted: #7b8592; --f-line: #232a33; --f-row: #141920;
+  position: relative; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  height: 620px; border-radius: 12px; overflow: hidden; border: 1px solid var(--page-line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+@media (prefers-color-scheme: dark) {
+  .app[data-app-theme="system"] { --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #2a2d33; --c-scrim: rgba(0, 0, 0, 0.45); --hl: rgba(255, 255, 255, 0.09); --lo: rgba(0, 0, 0, 0.35); --drop: rgba(0, 0, 0, 0.45); --grain-o: 0.07; }
+}
+.app[data-app-theme="dark"] { --c-bg: #1a1c20; --c-fg: #e4e6ea; --c-muted: #8f949d; --c-line: #2c2f35; --c-btn: #2a2d33; --c-btn-line: #3a3e45; --c-hover: #2a2d33; --c-scrim: rgba(0, 0, 0, 0.45); --hl: rgba(255, 255, 255, 0.09); --lo: rgba(0, 0, 0, 0.35); --drop: rgba(0, 0, 0, 0.45); --grain-o: 0.07; }
+@media (max-width: 760px) { .app { grid-template-columns: minmax(0, 1fr); height: auto; } }
+
+/* Control side */
+.controls { position: relative; background: var(--c-bg); color: var(--c-fg); display: grid; grid-template-rows: auto 1fr auto; min-height: 420px; overflow: hidden; }
+.controls::after, .figures::after { content: ""; position: absolute; inset: 0; background-image: var(--grain); opacity: var(--grain-o, 0.08); mix-blend-mode: overlay; pointer-events: none; z-index: 0; }
+.figures { --grain-o: 0.12; }
+.controls > *, .figures > * { position: relative; z-index: 1; }
+.controls > .menu, .controls > .scrim { position: absolute; }
+.icon-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: transparent; color: var(--c-fg); border-radius: 8px; cursor: pointer; }
+.icon-btn:hover { background: var(--c-hover); }
+.top { padding: 12px; }
+.center { display: grid; place-content: center; gap: 14px; justify-items: center; padding: 0 16px; }
+
+/* Matte moulded plastic: soft top light, faint edge highlight, short soft shadow, grain, no gloss */
+.plastic {
+  position: relative; border: 1px solid var(--c-btn-line); color: var(--c-fg); cursor: pointer;
+  background-color: var(--c-btn);
+  background-image: var(--grain), linear-gradient(180deg, var(--hl) 0%, transparent 42%, transparent 62%, var(--lo) 100%);
+  background-blend-mode: overlay, normal;
+  box-shadow: inset 0 1px 0 var(--hl), inset 0 -1px 0 var(--lo), 0 1px 1px var(--drop), 0 3px 6px var(--drop);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background-image 0.08s ease;
+}
+.plastic:hover { filter: brightness(1.03); }
+.plastic:active, .plastic.pressed { transform: translateY(1px); box-shadow: inset 0 1px 2px var(--lo), 0 0 0 var(--drop); background-image: var(--grain), linear-gradient(180deg, transparent, var(--lo)); }
+
+/* The button block: Starta jobb over Exportera | Importera; the profile button spans both rows */
+.block { display: grid; grid-template-columns: 214px 76px; grid-template-rows: 64px 34px; gap: 8px; grid-template-areas: "start prof" "pair prof"; }
+.start { grid-area: start; border-radius: 10px; display: grid; place-items: center; padding: 0 6px; }
+.start .label { font-family: var(--display); font-size: 38px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; line-height: 1; }
+.start.running { box-shadow: inset 0 1px 0 var(--hl), inset 0 -1px 0 var(--lo), 0 1px 1px var(--drop), 0 3px 6px var(--drop), 0 0 0 2px var(--run, #e80003); }
+.profile-btn { grid-area: prof; border-radius: 12px; display: grid; place-items: center; }
+.profile-btn .dot { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.18), 0 1px 2px var(--drop); display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1; }
+.profile-btn[aria-disabled="true"] { cursor: default; }
+.pair { grid-area: pair; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pair button { font: inherit; font-size: 13px; border-radius: 8px; }
+
+/* The warning label that follows the pointer over the start button */
+.tip { position: fixed; z-index: 50; pointer-events: none; padding: 4px 9px; border-radius: 6px; font-family: var(--mono); font-size: 12px; background: rgba(13, 16, 20, 0.78); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); color: #e6eaf0; border: 1px solid var(--tipc, #e80003); white-space: nowrap; opacity: 0; transition: opacity 0.18s ease; }
+.tip.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+.status { font-size: 12px; color: var(--c-muted); height: 16px; } /* keeps its room even when empty */
+.pause-area { height: 32px; display: grid; place-items: center; }
+.pause { font: inherit; font-size: 12.5px; padding: 0 14px; height: 30px; border-radius: 8px; }
+.pause:disabled { opacity: 0.45; cursor: default; filter: none; transform: none; }
+.pause-field { position: relative; display: grid; place-items: center; height: 30px; }
+.pause-field input:focus, .pause-field input:focus-visible { outline: 2px solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
+.pause-field input { font: inherit; font-family: var(--mono); font-size: 12.5px; text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: 6px; background: var(--c-btn); color: var(--c-fg); }
+.pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: 12px; color: var(--c-muted); white-space: nowrap; pointer-events: none; }
+.pause-field button { font: inherit; font-size: 12px; height: 28px; padding: 0 10px; border-radius: 6px; }
+.status .live { color: var(--run, #e80003); }
+.prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: 12.5px; color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.prune button { font: inherit; font-size: 12px; background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: 6px; padding: 3px 8px; cursor: pointer; }
+.prune .spacer { flex: 1; }
+.toast { font-size: 12px; color: var(--c-muted); height: 16px; text-align: center; }
+
+/* Menu: slides in from the left and stops at the divider */
+.menu { position: absolute; inset: 0; background: var(--c-bg); border-right: 1px solid var(--c-line); transform: translateX(-102%); transition: transform 0.28s cubic-bezier(.2, .7, .2, 1); z-index: 5; display: grid; grid-template-rows: auto 1fr; }
+.menu.open { transform: translateX(0); }
+.menu header { display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 6px 18px; }
+.menu h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.menu .body { overflow-y: auto; padding: 4px 18px 24px; display: grid; gap: 20px; align-content: start; }
+.menu section { display: grid; gap: 10px; }
+.menu h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); font-weight: 600; }
+.menu .line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.menu .line > span:first-child { min-width: 86px; }
+.menu input[type="color"] { width: 40px; height: 30px; border: 1px solid var(--c-btn-line); border-radius: 6px; padding: 2px; background: var(--c-btn); cursor: pointer; }
+.menu .hint { font-size: 12px; color: var(--c-muted); }
+.menu .small { font: inherit; font-size: 12px; background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: 6px; padding: 3px 8px; cursor: pointer; }
+.seg { display: inline-flex; border: 1px solid var(--c-btn-line); border-radius: 8px; overflow: hidden; }
+.seg button { font: inherit; font-size: 13px; padding: 5px 12px; border: 0; background: var(--c-btn); color: var(--c-fg); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--c-fg); color: var(--c-bg); }
+.menu input[type="text"] { font: inherit; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: 6px; background: var(--c-btn); color: var(--c-fg); width: 150px; }
+.plist { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.plist li { display: flex; align-items: center; gap: 10px; }
+.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 1.2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; }
+
+/* Profile popup: centred on the control side */
+.scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
+.popup { background: var(--c-btn); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: 12px; padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.popup h3 { margin: 4px 8px 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
+.popup button { display: flex; gap: 10px; align-items: center; font: inherit; text-align: left; padding: 8px; border: 0; border-radius: 8px; background: transparent; color: var(--c-fg); cursor: pointer; }
+.popup button:hover, .popup button[aria-current="true"] { background: var(--c-hover); }
+
+/* Divider */
+.figures { position: relative; }
+.divider { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--f-line); z-index: 1; pointer-events: none; }
+.app[data-divider="gradient"] .divider { width: 56px; background: linear-gradient(to right, var(--c-bg), transparent); }
+
+/* Figures side: dark in every theme */
+.figures { background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); padding: 22px 26px 18px 30px; display: grid; gap: 18px; align-content: start; overflow-y: auto; }
+.flabel { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--f-muted); }
+.balance { display: grid; gap: 6px; }
+.balance .num { font-family: var(--display); font-size: 46px; font-weight: 700; letter-spacing: 0.02em; font-variant-numeric: tabular-nums; text-align: center; line-height: 1; }
+.balance svg { width: 100%; height: 48px; display: block; overflow: visible; }
+.zero { transform-box: fill-box; transform-origin: center; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(1.6); } }
+.wheelbox { display: grid; justify-items: center; gap: 6px; }
+.wheelbox svg { width: 200px; height: 200px; display: block; }
+.pay { font-size: 13px; color: var(--f-muted); font-variant-numeric: tabular-nums; }
+.allpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 8; }
+.allpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); border: 1px solid var(--f-line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 10px; }
+.allpop .card header { display: flex; justify-content: space-between; align-items: center; }
+.allpop .note { font-size: 12px; color: var(--f-muted); border: 1px dashed var(--f-line); border-radius: 8px; padding: 8px 10px; }
+.entries { display: grid; gap: 6px; }
+.entries ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.entries li { display: grid; grid-template-columns: 7ch 11ch 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
+.entries li.new { animation: flash 1.2s ease-out; }
+@keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
+.entries .tag { font-size: 11px; color: var(--f-muted); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; justify-self: start; }
+.entries .dur { text-align: right; }
+.entries .more { justify-self: start; font: inherit; font-size: 12px; color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.entries .more:hover { border-color: var(--f-muted); }
+
+button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
+/* Inside the app, every focus ring takes the colour of the profile on screen. */
+.app button:focus-visible, .app input:focus-visible { outline-color: var(--accent, #4b8bff); }
+@media (prefers-reduced-motion: reduce) { .menu { transition: none; } .entries li.new, .zero { animation: none; } }
+</style>
+
+<div class="page">
+  <h1>Main Screen Sketch</h1>
+  <p>Built from the owner's drawing and the decisions so far. The app window below works: start and stop, switch profile, open the menu, change theme and colours. The dashed bar above it is for the sketch only.</p>
+
+  <div class="toolbar" aria-label="Sketch controls">
+    <label for="simBal">Balance <input type="range" id="simBal" min="-6000" max="6000" step="15" value="270"><span class="val" id="simBalVal"></span></label>
+    <label for="simUsed">Ceiling hours used <input type="range" id="simUsed" min="0" max="3600" step="30" value="2280"><span class="val" id="simUsedVal"></span></label>
+    <label>Divider
+      <span class="seg" style="--c-btn: transparent; --c-btn-line: var(--page-line); --c-fg: var(--page-fg); --c-bg: var(--page-bg);">
+        <button type="button" id="divLine" aria-pressed="true">Line</button><button type="button" id="divGrad" aria-pressed="false">Gradient</button>
+      </span>
+    </label>
+    <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
+    <label for="simFont">Display face
+      <select id="simFont">
+        <option value='"Saira Extra Condensed", "Arial Narrow", sans-serif'>Saira Extra Condensed</option>
+        <option value='"Big Shoulders Display", "Arial Narrow", sans-serif'>Big Shoulders Display</option>
+        <option value='"Teko", "Arial Narrow", sans-serif'>Teko</option>
+      </select>
+    </label>
+    <span>Each stop records 2 h 15 min.</span>
+  </div>
+
+  <div class="app" id="app" data-app-theme="system" data-divider="line">
+    <div class="controls">
+      <div class="top">
+        <button class="icon-btn" id="menuBtn" type="button" aria-label="Meny" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+      <div class="center">
+        <div class="block">
+          <button class="start plastic" id="startBtn" type="button" aria-describedby="tip"><span class="label" id="startLabel">Starta jobb</span></button>
+          <div class="pair"><button class="plastic" type="button" id="exportBtn">Exportera</button><button class="plastic" type="button" id="importBtn">Importera</button></div>
+          <button class="profile-btn plastic" id="profileBtn" type="button" aria-label="Byt profil"><span class="dot" id="profileDot">V</span></button>
+        </div>
+        <div class="status" id="status"></div>
+        <div class="pause-area">
+          <button class="pause plastic" id="pauseBtn" type="button" disabled>Lägg till paus</button>
+          <form class="pause-field" id="pauseField" hidden>
+            <input id="pauseInput" type="text" inputmode="numeric" placeholder="00:00" aria-label="Pausens längd, Enter lägger till, Esc avbryter" autocomplete="off">
+            <span class="reading" id="pauseReading"></span>
+          </form>
+        </div>
+        <div class="toast" id="toast"></div>
+        <div class="tip" id="tip" role="tooltip"></div>
+      </div>
+      <div class="prune" id="prune">
+        <span>Du har över tre års historik. Rensa de äldsta 2 månaderna?</span><span class="spacer"></span>
+        <button type="button" id="pruneYes">Rensa</button><button type="button" id="pruneNo">Inte nu</button>
+      </div>
+
+      <div class="menu" id="menu" aria-hidden="true">
+        <header><h2>Meny</h2>
+          <button class="icon-btn" id="menuClose" type="button" aria-label="Stäng menyn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </header>
+        <div class="body">
+          <section>
+            <h3>Profiler</h3>
+            <ul class="plist" id="plist"></ul>
+            <div class="line"><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil"><button class="small" id="addProfile" type="button">Ny profil</button></div>
+          </section>
+          <section>
+            <h3>Tema</h3>
+            <div class="seg" id="themeSeg">
+              <button type="button" data-t="system" aria-pressed="true">System</button><button type="button" data-t="light" aria-pressed="false">Ljust</button><button type="button" data-t="dark" aria-pressed="false">Mörkt</button>
+            </div>
+          </section>
+          <section data-fig="wheel">
+            <h3>Takhjulet</h3>
+            <div class="line"><span>Grundfärg</span><input type="color" data-k="base" aria-label="Takhjulets grundfärg"></div>
+            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Takhjulets överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd förslaget</button></div>
+            <label class="line"><input type="checkbox" data-k="unify"> Förena färger</label>
+          </section>
+          <section data-fig="bar">
+            <h3>Saldostapeln</h3>
+            <div class="line"><span>Grundfärg</span><input type="color" data-k="base" aria-label="Saldostapelns grundfärg"></div>
+            <div class="line"><span>Överfärg</span><input type="color" data-k="over" aria-label="Saldostapelns överfärg"><span class="hint" data-k="tag"></span><button class="small" type="button" data-k="reset" hidden>Använd förslaget</button></div>
+            <label class="line"><input type="checkbox" data-k="unify"> Förena färger</label>
+          </section>
+          <p class="hint">Arbetstid, månadsstart och timpris kommer också hit; hur de ser ut är inte bestämt.</p>
+        </div>
+      </div>
+
+      <div class="scrim" id="scrim" hidden>
+        <div class="popup" role="dialog" aria-label="Välj profil">
+          <h3>Profil</h3>
+          <div id="popupList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="figures" id="figures">
+      <div class="divider"></div>
+      <div class="balance">
+        <div class="num" id="balNum"></div>
+        <svg id="balSvg" viewBox="0 0 400 48" role="img" aria-label="Saldostapel"></svg>
+      </div>
+      <div class="wheelbox">
+        <svg id="wheelSvg" viewBox="0 0 200 200" role="img" aria-label="Takhjul"></svg>
+        <div class="pay" id="payNum"></div>
+      </div>
+      <div class="entries">
+        <span class="flabel">Senaste</span>
+        <ol id="entryList"></ol>
+        <button class="more" id="moreBtn" type="button">Visa alla</button>
+      </div>
+    </div>
+
+    <div class="allpop" id="allPop" hidden>
+      <div class="card" role="dialog" aria-label="Alla poster">
+        <header><span class="flabel">Alla poster</span>
+          <button class="more" id="allClose" type="button">Stäng</button>
+        </header>
+        <p class="note">Här redigeras posterna: en post öppnas på sin linje med handtag i båda ändar. Inte byggt i skissen.</p>
+        <div class="entries"><ol id="allList"></ol></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var RED_HUE = 29, CEILING = 42 * 60, PANEL_BG = [13 / 255, 16 / 255, 20 / 255];
+  var RULE = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
+
+  // ---- Colour rule (as in "The ceiling wheel"; same code as ceiling-wheel.html) ----
+  function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function fromLin(c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
+  function rgbToOklab(rgb) {
+    var r = toLin(rgb[0]), g = toLin(rgb[1]), b = toLin(rgb[2]);
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    var s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s, 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+  }
+  function oklabToLinRgb(lab) {
+    var l = lab[0] + 0.3963377774 * lab[1] + 0.2158037573 * lab[2];
+    var m = lab[0] - 0.1055613458 * lab[1] - 0.0638541728 * lab[2];
+    var s = lab[0] - 0.0894841775 * lab[1] - 1.2914855480 * lab[2];
+    l = l * l * l; m = m * m * m; s = s * s * s;
+    return [4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s, -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s, -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s];
+  }
+  function lchToLab(c) { var h = c[2] * Math.PI / 180; return [c[0], c[1] * Math.cos(h), c[1] * Math.sin(h)]; }
+  function labToLch(l) { var h = Math.atan2(l[2], l[1]) * 180 / Math.PI; return [l[0], Math.hypot(l[1], l[2]), (h + 360) % 360]; }
+  function inGamut(rgb) { return rgb.every(function (v) { return v >= -0.0005 && v <= 1.0005; }); }
+  function maxChroma(L, h) { var lo = 0, hi = 0.4; for (var i = 0; i < 24; i++) { var mid = (lo + hi) / 2; if (inGamut(oklabToLinRgb(lchToLab([L, mid, h])))) lo = mid; else hi = mid; } return lo; }
+  function lchToRgb(c) { var L = Math.min(1, Math.max(0, c[0])); var C = Math.min(c[1], maxChroma(L, c[2])); return oklabToLinRgb(lchToLab([L, C, c[2]])).map(function (v) { return fromLin(Math.min(1, Math.max(0, v))); }); }
+  function cuspL(h) { var best = 0.5, bestC = -1; for (var L = 0.2; L < 0.985; L += 0.01) { var c = maxChroma(L, h); if (c > bestC) { bestC = c; best = L; } } return best; }
+  function hexToRgb(hex) { var n = parseInt(hex.slice(1), 16); return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255]; }
+  function rgbToHex(rgb) { return "#" + rgb.map(function (v) { return Math.round(v * 255).toString(16).padStart(2, "0"); }).join(""); }
+  function derive(hex, bgRgb) {
+    var baseLab = rgbToOklab(hexToRgb(hex)), base = labToLch(baseLab), grey = base[1] < 0.04;
+    var up = (base[2] - RED_HUE + 360) % 360, d = up <= RULE.split - RED_HUE ? -up : 360 - up;
+    var step = grey ? 0 : Math.sign(d) * Math.min(Math.abs(d), RULE.turn);
+    var overHue = grey ? RED_HUE : (base[2] + step + 360) % 360;
+    var L = base[0] + (cuspL(overHue) - base[0]) * RULE.darken;
+    var rel = grey ? 0.6 : Math.min(1, base[1] / Math.max(1e-6, maxChroma(base[0], base[2])));
+    var target = rel + (1 - rel) * RULE.strength, gap = RULE.minDiff;
+    var darkerL = base[0] - Math.max(base[0] - L, gap);
+    var lighter = (Math.abs(step) >= 10 && L - base[0] >= gap && base[0] + gap <= 0.9) || darkerL < 0.3;
+    var newL = lighter ? base[0] + Math.max(L - base[0], gap) : darkerL;
+    var over = lchToRgb([newL, target * maxChroma(newL, overHue), overHue]);
+    var a = baseLab, b = rgbToOklab(bgRgb), t = RULE.dim;
+    var dimLab = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+    if (Math.abs(dimLab[0] - a[0]) < gap) {
+      var away = b[0] > a[0] ? 1 : b[0] < a[0] ? -1 : (b[0] < 0.5 ? 1 : -1), tL = b[0] + away * gap;
+      if (tL >= 0.05 && tL <= 0.98 && Math.abs(tL - a[0]) >= gap) dimLab = [tL, a[1] * (1 - t), a[2] * (1 - t)];
+    }
+    var dim = oklabToLinRgb(dimLab).map(function (v) { return fromLin(Math.min(1, Math.max(0, v))); });
+    return { dim: rgbToHex(dim), over: rgbToHex(over) };
+  }
+
+  // ---- State ----
+  var $ = function (id) { return document.getElementById(id); };
+  var app = $("app");
+  // Janitor work has a monthly salary (its hours move the balance, not the pay); the others a rate per hour.
+  var profiles = [{ id: "v", name: "Vaktmästare", balance: true, salary: 1700 }, { id: "u", name: "Utveckling", rate: 26 }];
+  var onScreen = "v", running = null; // running: { profile, start }
+  var balance = 270, used = 2280, pay = 1739; // minutes, minutes, euro (1 700 salary + 1.5 h × 26)
+  var shown = { balance: 270, used: 2280, pay: 1739 };
+  var colours = {
+    wheel: { base: "#d78951", over: null, chosen: false },
+    bar: { base: "#d78951", over: null, chosen: false },
+    unify: true
+  };
+  var DAY = ["sön", "mån", "tis", "ons", "tor", "fre", "lör"];
+  function mk(dayOffset, sh, sm, eh, em, p, brk) {
+    var d = new Date(); d.setDate(d.getDate() - dayOffset);
+    var s = new Date(d); s.setHours(sh, sm, 0, 0); var e = new Date(d); e.setHours(eh, em, 0, 0);
+    return { start: s, end: e, profile: p, brk: brk || 0 };
+  }
+  var entries = [mk(1, 13, 5, 15, 40, "v"), mk(1, 7, 58, 12, 10, "v", 20), mk(2, 17, 30, 19, 0, "u"), mk(2, 12, 45, 15, 20, "v"),
+                 mk(2, 8, 2, 12, 0, "v"), mk(3, 13, 0, 16, 5, "v", 15), mk(3, 8, 10, 12, 5, "v")];
+
+  // ---- Formatting ----
+  function hm(mins) { var s = mins < 0 ? "−" : mins > 0 ? "+" : ""; mins = Math.abs(Math.round(mins)); return s + Math.floor(mins / 60) + ":" + String(mins % 60).padStart(2, "0"); }
+  function hmPlain(mins) { mins = Math.max(0, Math.round(mins)); return Math.floor(mins / 60) + ":" + String(mins % 60).padStart(2, "0"); }
+  function clock(d) { return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); }
+  function dur(e) { return Math.round((e.end - e.start) / 60000) - e.brk; }
+  function prof(id) { for (var i = 0; i < profiles.length; i++) if (profiles[i].id === id) return profiles[i]; return profiles[0]; }
+
+  // ---- Colours ----
+  function resolved(which) {
+    var c = colours[which], s = derive(c.base, PANEL_BG);
+    return { base: c.base, dim: s.dim, over: c.chosen && c.over ? c.over : s.over, suggested: s.over };
+  }
+  function applyColours() {
+    var w = resolved("wheel");
+    app.style.setProperty("--wheel-base", w.base); app.style.setProperty("--wheel-over", w.over);
+    document.querySelectorAll(".menu section[data-fig]").forEach(function (sec) {
+      var which = sec.dataset.fig, r = resolved(which);
+      sec.querySelector('[data-k="base"]').value = r.base;
+      sec.querySelector('[data-k="over"]').value = r.over;
+      sec.querySelector('[data-k="tag"]').textContent = colours[which].chosen ? "Ditt val" : "Förslag";
+      sec.querySelector('[data-k="reset"]').hidden = !colours[which].chosen;
+      sec.querySelector('[data-k="unify"]').checked = colours.unify;
+    });
+  }
+  // A profile's colour: the balance profile takes the bar's over colour, the others the wheel's.
+  function profColour(id) { return prof(id).balance ? resolved("bar").over : resolved("wheel").over; }
+  function setColour(which, key, value) {
+    var targets = colours.unify ? ["wheel", "bar"] : [which];
+    targets.forEach(function (t) {
+      if (key === "base") { colours[t].base = value; colours[t].chosen = false; colours[t].over = null; }
+      else if (key === "over") { colours[t].over = value; colours[t].chosen = true; }
+      else if (key === "reset") { colours[t].chosen = false; colours[t].over = null; }
+    });
+    applyColours(); drawFigures(); drawControls();
+  }
+
+  // ---- Drawing ----
+  var NS = "http://www.w3.org/2000/svg";
+  function el(name, attrs) { var e = document.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+  // Stepped scales: the smallest whose 90% holds the balance; back down only within 80% of the smaller one.
+  var STEPS = [600, 1200, 2400, 4800], scale = 1200;
+  function pickScale(abs) {
+    var fit = STEPS[STEPS.length - 1];
+    for (var i = 0; i < STEPS.length; i++) if (abs <= 0.9 * STEPS[i]) { fit = STEPS[i]; break; }
+    if (fit > scale) return fit;
+    var s = scale;
+    while (STEPS.indexOf(s) > 0 && abs <= 0.8 * STEPS[STEPS.indexOf(s) - 1]) s = STEPS[STEPS.indexOf(s) - 1];
+    return s;
+  }
+  function settleScale(abs, animate) {
+    var next = pickScale(abs); if (next === scale) return;
+    var from = shown.scale || scale, t0 = performance.now(), D = animate && !reduce ? 500 : 0; scale = next;
+    (function frame(now) { var k = D ? Math.min(1, (now - t0) / D) : 1; shown.scale = from + (next - from) * (1 - Math.pow(1 - k, 3)); drawBar(); if (k < 1) requestAnimationFrame(frame); })(performance.now());
+  }
+  function drawBar() {
+    var svg = $("balSvg"), c = resolved("bar"), S = shown.scale || scale; clear(svg);
+    var half = 180, y = 8, h = 22, v = shown.balance, a = Math.abs(v);
+    var w = Math.min(a, S) / S * half;
+    if (Math.round(v) === 0) svg.appendChild(el("rect", { class: "zero", x: 192, y: y, width: 16, height: h, rx: 8, fill: c.dim }));
+    else {
+      // Rounded only at the outer end; square against the 0 line.
+      var len = Math.max(w, 2), r = Math.min(9, len, h / 2), sd = v > 0 ? 1 : -1, x0 = 200, x1 = 200 + sd * len;
+      var d = "M" + x0 + "," + y + " L" + (x1 - sd * r) + "," + y + " A" + r + "," + r + " 0 0 " + (sd > 0 ? 1 : 0) + " " + x1 + "," + (y + r) +
+        " L" + x1 + "," + (y + h - r) + " A" + r + "," + r + " 0 0 " + (sd > 0 ? 1 : 0) + " " + (x1 - sd * r) + "," + (y + h) + " L" + x0 + "," + (y + h) + " Z";
+      svg.appendChild(el("path", { d: d, fill: v > 0 ? c.over : c.base }));
+    }
+    svg.appendChild(el("line", { x1: 200, x2: 200, y1: 2, y2: 36, stroke: "#c9d1db", "stroke-width": 1.5 }));
+    [-1, 1].forEach(function (sd) {
+      svg.appendChild(el("line", { x1: 200 + sd * half, x2: 200 + sd * half, y1: 30, y2: 36, stroke: "#3a4450", "stroke-width": 1 }));
+      var lab = el("text", { x: 200 + sd * half, y: 47, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 9, fill: "#7b8592" });
+      lab.textContent = (sd < 0 ? "−" : "+") + Math.round(scale / 60) + " h"; svg.appendChild(lab);
+    });
+    var n = $("balNum"); n.textContent = hm(v);
+    n.style.color = Math.round(v) === 0 ? "var(--f-fg)" : v > 0 ? c.over : c.base;
+  }
+  function drawWheel() {
+    var svg = $("wheelSvg"), c = resolved("wheel"), r = 78, w = 20, circ = 2 * Math.PI * r; clear(svg);
+    var u = Math.min(shown.used, CEILING) / CEILING, o = Math.min(Math.max(shown.used - CEILING, 0), CEILING) / CEILING;
+    var g = el("g", { transform: "rotate(-90 100 100)" });
+    g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.dim, "stroke-width": w }));
+    if (u > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.base, "stroke-width": w, "stroke-dasharray": (u * circ) + " " + circ }));
+    if (o > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.over, "stroke-width": w, "stroke-dasharray": (o * circ) + " " + circ }));
+    svg.appendChild(g);
+    for (var i = 0; i < 40; i++) { var a = i / 40 * 2 * Math.PI, r1 = 52, r2 = i % 10 === 0 ? 46 : 49; svg.appendChild(el("line", { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + r2 * Math.sin(a), y2: 100 - r2 * Math.cos(a), stroke: "#2c3440", "stroke-width": 1 })); }
+    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 26, "font-weight": 700, fill: shown.used >= CEILING * 0.9 ? c.over : "#d9dee6" });
+    t.textContent = hmPlain(shown.used); svg.appendChild(t);
+    var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, fill: "#7b8592", "letter-spacing": "1.5" });
+    s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);
+    $("payNum").textContent = "≈ " + Math.round(shown.pay).toLocaleString("sv-SE") + " €";
+  }
+  function drawFigures() { drawBar(); drawWheel(); }
+  function drawEntries(fresh) { fillList($("entryList"), entries.slice(0, 5), fresh); fillList($("allList"), entries, false); }
+  function fillList(ol, list, fresh) {
+    clear(ol);
+    list.forEach(function (e, i) {
+      var li = document.createElement("li"); if (fresh && i === 0) li.className = "new";
+      var p = prof(e.profile);
+      var cells = [DAY[e.start.getDay()] + " " + e.start.getDate(), clock(e.start) + "–" + clock(e.end), p.name.charAt(0).toUpperCase()];
+      cells.forEach(function (txt) { var s = document.createElement("span"); s.textContent = txt; li.appendChild(s); });
+      var tag = document.createElement("span");
+      if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + e.brk + " min"; }
+      li.appendChild(tag);
+      var d = document.createElement("span"); d.className = "dur"; d.textContent = hmPlain(dur(e)); li.appendChild(d);
+      ol.appendChild(li);
+    });
+  }
+
+  // ---- Motion: numbers count to their new value ----
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function tweenTo(target) {
+    var from = { balance: shown.balance, used: shown.used, pay: shown.pay }, t0 = performance.now(), D = reduce ? 0 : 900;
+    function frame(now) {
+      var k = D ? Math.min(1, (now - t0) / D) : 1, e = 1 - Math.pow(1 - k, 3);
+      for (var key in target) shown[key] = from[key] + (target[key] - from[key]) * e;
+      drawFigures();
+      if (k < 1) requestAnimationFrame(frame); else { for (var key2 in target) shown[key2] = target[key2]; drawFigures(); }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // ---- Controls ----
+  function drawControls() {
+    var p = prof(onScreen);
+    $("profileDot").textContent = p.name.charAt(0).toUpperCase();
+    $("profileDot").style.color = profColour(onScreen);
+    app.style.setProperty("--accent", profColour(onScreen));
+    if (running) app.style.setProperty("--run", profColour(running.profile));
+    $("profileBtn").setAttribute("aria-disabled", String(profiles.length < 2));
+    var mine = running && running.profile === onScreen;
+    $("startLabel").textContent = mine ? "Stoppa jobb" : "Starta jobb";
+    $("startBtn").classList.toggle("running", !!mine);
+    $("pauseBtn").disabled = !mine;
+    if (!mine) closePause();
+    refreshTip();
+    var st = $("status"); st.textContent = "";
+    if (running) { var dot = document.createElement("span"); dot.className = "live"; dot.textContent = "● "; st.append(dot, prof(running.profile).name + " pågår sedan " + clock(running.start)); }
+    var pl = $("plist"); clear(pl);
+    profiles.forEach(function (q) { var li = document.createElement("li"); var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); li.append(d, q.name + (q.balance ? " (saldo)" : "")); pl.appendChild(li); });
+  }
+  function stopRunning() {
+    var r = running, end = new Date(), start = new Date(end.getTime() - 135 * 60000);
+    entries.unshift({ start: start, end: end, profile: r.profile, brk: r.brk || 0 });
+    running = null;
+    var p = prof(r.profile), t = { balance: balance, used: used, pay: pay + 135 / 60 * (p.rate || 0) };
+    if (p.balance) t.balance = balance + 15; else t.used = used + 135;
+    balance = t.balance; used = t.used; pay = t.pay; syncSim();
+    drawEntries(true); settleScale(Math.abs(t.balance), true); tweenTo(t);
+  }
+  $("startBtn").addEventListener("click", function () {
+    if (running && running.profile === onScreen) stopRunning();
+    else { if (running) stopRunning(); running = { profile: onScreen, start: new Date() }; }
+    drawControls();
+  });
+  // The warning label: appears at once on pointer enter, follows the pointer, shows under the button on keyboard focus.
+  var tipPt = null, tipFocus = false;
+  function tipText() { return running && running.profile !== onScreen ? "stoppar " + prof(running.profile).name : ""; }
+  function refreshTip() {
+    var tip = $("tip"), txt = tipText();
+    if (!txt || (!tipPt && !tipFocus)) { tip.classList.remove("show"); return; }
+    tip.textContent = txt; tip.style.setProperty("--tipc", profColour(running.profile)); tip.classList.add("show");
+    if (tipPt) { tip.style.left = (tipPt.x + 14) + "px"; tip.style.top = (tipPt.y + 18) + "px"; }
+    else { var r = $("startBtn").getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = (r.bottom + 6) + "px"; }
+  }
+  ["pointerenter", "pointermove"].forEach(function (ev) {
+    $("startBtn").addEventListener(ev, function (e) { if (e.pointerType === "touch") return; tipPt = { x: e.clientX, y: e.clientY }; refreshTip(); });
+  });
+  $("startBtn").addEventListener("pointerleave", function () { tipPt = null; refreshTip(); });
+  $("startBtn").addEventListener("focus", function () { tipFocus = true; refreshTip(); });
+  $("startBtn").addEventListener("blur", function () { tipFocus = false; refreshTip(); });
+  window.addEventListener("scroll", function () { if (!tipPt) refreshTip(); }, { passive: true });
+
+  // "Lägg till paus": a length typed in place ("45" is minutes, "1:20" is hours and minutes).
+  function readLength(s) {
+    s = s.trim(); var m = /^(\d{1,2}):(\d{1,2})$/.exec(s), n = /^\d{1,3}$/.exec(s);
+    if (m) return +m[1] * 60 + +m[2]; if (n) return +s; return null;
+  }
+  function closePause() { $("pauseField").hidden = true; $("pauseBtn").hidden = false; $("pauseInput").value = ""; $("pauseReading").textContent = ""; }
+  $("pauseBtn").addEventListener("click", function () { $("pauseBtn").hidden = true; $("pauseField").hidden = false; $("pauseInput").focus(); });
+  // Enter adds the break (the form's submit); Esc, or clicking away, cancels.
+  $("pauseInput").addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closePause(); } });
+  $("pauseInput").addEventListener("blur", function () { setTimeout(closePause, 0); });
+  $("pauseInput").addEventListener("input", function () {
+    var v = readLength(this.value); $("pauseReading").textContent = v === null ? "" : (v >= 60 ? Math.floor(v / 60) + " h " : "") + (v % 60) + " min";
+  });
+  $("pauseField").addEventListener("submit", function (e) {
+    e.preventDefault(); var v = readLength($("pauseInput").value);
+    if (!v || !running) return;
+    if ((running.brk || 0) + v >= 135) { $("pauseReading").textContent = "längre än posten"; return; }
+    running.brk = (running.brk || 0) + v; closePause(); toast("Paus " + hmPlain(v) + " tillagd");
+  });
+
+  $("profileBtn").addEventListener("click", function () {
+    if (profiles.length < 2) return;
+    var list = $("popupList"); clear(list);
+    profiles.forEach(function (q) {
+      var b = document.createElement("button"); b.type = "button"; if (q.id === onScreen) b.setAttribute("aria-current", "true");
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase();
+      b.append(d, q.name + (running && running.profile === q.id ? "  ●" : ""));
+      b.addEventListener("click", function () { onScreen = q.id; $("scrim").hidden = true; drawControls(); });
+      list.appendChild(b);
+    });
+    $("scrim").hidden = false;
+  });
+  $("scrim").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
+  function toast(msg) { $("toast").textContent = msg; clearTimeout(toast.t); toast.t = setTimeout(function () { $("toast").textContent = ""; }, 2200); }
+  $("exportBtn").addEventListener("click", function () { toast("Exporterar överlämningsfilen (skiss)"); });
+  $("importBtn").addEventListener("click", function () { toast("Importerar och frågar först (skiss)"); });
+  $("pruneYes").addEventListener("click", function () { toast("Rensar efter en kopia (skiss)"); $("prune").style.visibility = "hidden"; });
+  $("pruneNo").addEventListener("click", function () { $("prune").style.visibility = "hidden"; });
+  $("moreBtn").addEventListener("click", function () { $("allPop").hidden = false; });
+  $("allClose").addEventListener("click", function () { $("allPop").hidden = true; });
+  $("allPop").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
+
+  // Menu
+  function setMenu(open) { $("menu").classList.toggle("open", open); $("menu").setAttribute("aria-hidden", String(!open)); $("menuBtn").setAttribute("aria-expanded", String(open)); }
+  $("menuBtn").addEventListener("click", function () { setMenu(true); });
+  $("menuClose").addEventListener("click", function () { setMenu(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
+  $("addProfile").addEventListener("click", function () {
+    var n = $("newName").value.trim(); if (!n) return;
+    profiles.push({ id: "p" + profiles.length + Date.now(), name: n, rate: 0 }); $("newName").value = ""; drawControls();
+  });
+  document.querySelectorAll("#themeSeg button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      app.dataset.appTheme = b.dataset.t;
+      document.querySelectorAll("#themeSeg button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    });
+  });
+  document.querySelectorAll(".menu section[data-fig]").forEach(function (sec) {
+    var which = sec.dataset.fig, other = which === "wheel" ? "bar" : "wheel";
+    sec.querySelector('[data-k="base"]').addEventListener("input", function () { setColour(which, "base", this.value); });
+    sec.querySelector('[data-k="over"]').addEventListener("input", function () { setColour(which, "over", this.value); });
+    sec.querySelector('[data-k="reset"]').addEventListener("click", function () { setColour(which, "reset"); });
+    sec.querySelector('[data-k="unify"]').addEventListener("change", function () {
+      colours.unify = this.checked;
+      // Turned on: the colours of the place it is turned on from go to both.
+      if (colours.unify) colours[other] = { base: colours[which].base, over: colours[which].over, chosen: colours[which].chosen };
+      applyColours(); drawFigures(); drawControls();
+    });
+  });
+
+  // Sketch toolbar
+  function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
+  $("simBal").addEventListener("input", function () { balance = +this.value; shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); });
+  $("simUsed").addEventListener("input", function () { used = +this.value; shown.used = used; syncSim(); drawFigures(); });
+  function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
+  $("divLine").addEventListener("click", function () { setDivider("line"); });
+  $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
+  $("simFont").addEventListener("change", function () { document.documentElement.style.setProperty("--display", this.value); });
+  $("simPrune").addEventListener("change", function () { $("prune").style.visibility = this.checked ? "visible" : "hidden"; });
+
+  scale = pickScale(Math.abs(balance));
+  applyColours(); syncSim(); drawControls(); drawEntries(false); drawFigures();
+})();
+</script>

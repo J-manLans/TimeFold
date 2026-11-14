@@ -15,3 +15,6 @@ output/
 .claude/settings.local.json
 
 # Language-specific entries go below once the language is chosen.
+
+# Art direction references: third-party images, kept local
+docs/dev/art-direction/
