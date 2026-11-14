@@ -39,9 +39,9 @@ show the warning: the click target would move under the pointer.
 **Built by:** Clocking.
 
 **Decision:** nothing stops an entry by itself. During the day, the stop click is the only signal of when work ended.
-When the app is opened or clicked on a later date than a still-running entry started, it says so ("Work has been
-running since yesterday 21:30") and asks: **Still working**, and the entry goes on, or **I stopped at…**, and the
-clock sets its end.
+When the app is opened or clicked on a later date than a still-running entry started, it says so ("Work has been running
+since yesterday 21:30") and asks, in a popup centred on the control side so the figures stay in view: **Still working**,
+and the entry goes on, or **I stopped at…**, and the clock sets its end.
 **Why:** late work from home can cross midnight, so a running entry is not always a mistake; but usually it is, and
 the owner should hear of it at once, not find it in the report. It is also a reminder to go to bed.
 **Rejected:** stopping the entry at midnight: it records an end that is false but looks believable, and the app may
