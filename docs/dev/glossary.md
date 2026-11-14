@@ -10,6 +10,9 @@ its length.
 expected hours.
 Positive: hours to take out. Negative: hours to work in.
 
+**Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
+becomes a test.
+
 **Ceiling.** The hours all profiles without expected hours may add up to together, over a period. Never owed.
 
 **Day total.** The time worked in one day: the length of the entries started that day, minus their added breaks.
