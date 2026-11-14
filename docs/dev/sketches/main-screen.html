@@ -54,10 +54,9 @@
   --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
   /* The menu panel */
   --menu-blur: 7px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
-  /* Focus and grain */
-  --focus-w: 2px;  --grain-figures: 0.12;
+  /* Focus */
+  --focus-w: 2px;
   /* ======================================================================== */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --page-bg: #111317; --page-fg: #e3e6eb; --page-muted: #8b919c; --page-line: #2a2e35; color-scheme: dark; }
@@ -145,7 +144,6 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --dot-bg: linear-gradient(180deg, rgba(190, 210, 240, 0.35), rgba(190, 210, 240, 0) 60%, rgba(10, 25, 55, 0.12));
   --dot-inner: inset 0 1px 1px rgba(200, 218, 245, 0.55), inset 0 -2px 4px rgba(10, 25, 55, 0.25);
   --well-bg: linear-gradient(180deg, rgba(10, 25, 55, 0.22), rgba(10, 25, 55, 0.04));
-  --grain-o: 0.09;
 
   font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight);
   text-transform: var(--text-case); letter-spacing: var(--text-tracking);
@@ -158,14 +156,11 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --dot-bg: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
   --dot-inner: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.30);
   --well-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.02));
-  --grain-o: 0.07;
 }
 @media (max-width: 760px) { .app { grid-template-columns: minmax(0, 1fr); height: auto; } }
 
 /* Control side */
 .controls { position: relative; background: var(--c-bg); color: var(--c-fg); display: grid; grid-template-rows: auto 1fr auto; min-height: 420px; overflow: hidden; }
-.controls::after, .figures::after { content: ""; position: absolute; inset: 0; background-image: var(--grain); opacity: var(--grain-o, 0.08); mix-blend-mode: overlay; pointer-events: none; z-index: 0; }
-.figures { --grain-o: var(--grain-figures); }
 .controls > *, .figures > * { position: relative; z-index: 1; }
 .controls > .menu, .controls > .scrim { position: absolute; }
 .icon-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: transparent; color: var(--c-fg); border-radius: var(--r-small); cursor: pointer; }
@@ -173,7 +168,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .top { height: 64px; }
 .center { display: grid; place-content: center; gap: 14px; justify-items: center; padding: 0 16px; }
 
-/* Matte moulded plastic: soft top light, faint edge highlight, short soft shadow, grain, no gloss */
+/* Buttons: flat surfaces in the theme's button colour */
 .plastic {
   position: relative; border: var(--border-w) solid var(--c-btn-line); color: var(--c-btn-fg); cursor: pointer;
   background-color: var(--c-btn); border-radius: var(--r-btn); box-shadow: var(--btn-shadow);
@@ -436,6 +431,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
    still lies on what is in the menu. It fades out and back in over --speed-ui. */
 .controls > :not(.menu) { transition: --glow-a var(--speed-ui) ease; }
 .controls.menu-open > :not(.menu) { --glow-a: 0; }
+
+/* The recent entries are clickable: a step lighter on hover, a hand pointer; the picked one is marked in the popup. */
+.entries li[role="button"] { cursor: pointer; transition: background-color var(--speed-ui) ease; }
+.entries li[role="button"]:hover, .entries li[role="button"]:focus-visible { background: color-mix(in srgb, var(--f-row), var(--f-fg) 10%); outline: none; }
+.entries li.picked { box-shadow: inset 0 0 0 1px var(--f-muted); }
 </style>
 
 <div class="page">
@@ -540,7 +540,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         <header><span class="flabel">Alla poster</span>
           <button class="more" id="allClose" type="button">Stäng</button>
         </header>
-        <p class="note">Här redigeras posterna: en post öppnas på sin linje med handtag i båda ändar. Inte byggt i skissen.</p>
+        <p class="note">Här redigeras posterna: den valda posten öppnas på sin linje med handtag i båda ändar. Inte byggt i skissen; den markerade raden är den du klickade på.</p>
         <div class="entries"><ol id="allList"></ol></div>
       </div>
     </div>
@@ -736,6 +736,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + e.brk + " min"; }
       li.appendChild(tag);
       var d = document.createElement("span"); d.className = "dur"; d.textContent = hmPlain(dur(e)); li.appendChild(d);
+      // Placeholder: a row opens the entries popup on that entry, where it will be edited on its line.
+      li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Öppna posten " + cells[0] + " " + cells[1]);
+      li.addEventListener("click", function () { openEntry(e); });
+      li.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openEntry(e); } });
+      li._entry = e;
       ol.appendChild(li);
     });
   }
@@ -902,7 +907,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("importBtn").addEventListener("click", function () { toast("Importerar och frågar först (skiss)"); });
   $("pruneYes").addEventListener("click", function () { toast("Rensar efter en kopia (skiss)"); $("prune").style.visibility = "hidden"; });
   $("pruneNo").addEventListener("click", function () { $("prune").style.visibility = "hidden"; });
-  $("moreBtn").addEventListener("click", function () { $("allPop").hidden = false; });
+  $("moreBtn").addEventListener("click", function () { openEntry(null); });
+  // Opens the entries popup; with an entry, that row is marked and scrolled into view.
+  function openEntry(e) {
+    $("allPop").hidden = false;
+    Array.prototype.forEach.call($("allList").children, function (li) {
+      var on = !!e && li._entry === e; li.classList.toggle("picked", on);
+      if (on) li.scrollIntoView({ block: "nearest" });
+    });
+  }
   $("allClose").addEventListener("click", function () { $("allPop").hidden = true; });
   $("allPop").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
 
