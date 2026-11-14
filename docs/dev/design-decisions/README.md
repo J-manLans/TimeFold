@@ -71,6 +71,10 @@ checks and names the other by title.
 - Time counts on the day it was worked
 - A day owes its expected hours only when work started on it
 
+### [Corrections](corrections.md)
+
+- Editing an entry on its line
+
 ### [Reports](reports.md)
 
 - The report is a PDF

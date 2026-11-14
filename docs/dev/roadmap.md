@@ -47,7 +47,8 @@ agreed at the end of Phase 0. A part is added when a decision has none to build 
   day or a range, taken off the balance.
 - **Profiles.** Profiles the owner sets up, the profile list beside the start button, hours per profile, the
   ceiling shared by the profiles without a balance, settings from a date, and the pay estimate.
-- **Corrections.** Entries written by hand, and clicked entries and added breaks edited or deleted.
+- **Corrections.** Entries edited on their line (moved, lengthened, shortened, split by a gap), deleted or written
+  by hand.
 - **Reports.** A period's report, with hours per profile, that the owner sends to the boss as it is.
 - **Handover.** Export and import of the whole record between the two machines.
 

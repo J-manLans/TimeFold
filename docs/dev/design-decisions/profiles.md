@@ -68,7 +68,7 @@ not match payroll, so no salary rules are needed.
 **Revisit if:** the estimate is used for anything that has to be exact.
 **Cases:**
 - Rate 20 €/h, an entry of 3 h stopped: the estimate grows by 60 €.
-- A 30 min break added afterwards to that entry: the estimate falls by 10 €.
+- 30 min cut from that entry on its line: the estimate falls by 10 €.
 - A profile with no rate: its hours add nothing to the estimate.
 - Rate raised from 20 to 22 from 1 March: February's hours stay at 20.
 

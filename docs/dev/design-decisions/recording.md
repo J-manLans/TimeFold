@@ -51,30 +51,31 @@ not be running at midnight. Doing nothing until a correction: the mistake surfac
 **Decision:** time away is recorded in one of two ways, and both count on the day it happens ("Time counts on the day
 it was worked"). A planned break is a stop and a later start: the gap between them is not work, and falls on whichever
 day it falls on. Time away that happens during a running entry, unplanned (such as own errands slipped into a work
-errand), is an **added break**: a length of time taken off an entry, added afterwards with a quiet "add break"
+errand), is an **added break**: a length of time taken off an entry, added when back, with a quiet "add break"
 control. An added break holds its length and the day it was added, not when it happened. It comes off its entry's time
 on that day first, and any rest off the entry's time on the day before, since midnight only cuts the counting, not the
-stretch. It goes to the running entry of the profile on screen, or else to that profile's last entry worked on today;
-when there is none, the control is greyed out. It cannot be longer than its whole entry. Today's entries are listed
-under the bars, with today's added breaks as small tags among them; clicking a tag opens the same length field with
-the number in it, to change or remove.
-**Why:** the owner's errands are often unplanned and noted afterwards, as in the Excel file today, nearly always on
-the day they happened, so the day added places a break in the stretch it belongs to. A hasty mistake must be fixed
-where it is seen, not dug out of an editor.
+stretch. It goes to the running entry of the profile on screen. The control is always shown, so the app always shows
+what it can do; it is active only while that entry runs, and greyed out otherwise. A break found after the entry has
+stopped is an edit on the entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry.
+Today's entries are listed under the bars, with today's added breaks as small tags among them; clicking a tag opens
+the same length field with the number in it, to change or remove.
+**Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
+file today, so the day added places a break in the stretch it belongs to. An "add break" that stays active after stop
+would make the owner wonder whether work is still running. A hasty mistake must be fixed where it is seen, not dug out
+of an editor.
 **Rejected:** start-break and end-break clicks: a stop and a start do the same with no new control, and an unplanned
 break cannot be clicked as it happens. Recording when an added break happened: the day is enough. Splitting a running
 entry into two stored entries at midnight: the running entry would restart each day, and the question for a running
-entry from an earlier day would never be asked. Adding a break to an earlier day from this control: that is a
-correction.
+entry from an earlier day would never be asked. Adding a break to a stopped entry from this control: it blurs whether
+work is running, and the entry's line does it better.
 **Revisit if:** the report needs breaks shown by time or kind.
 **Cases:**
 - Entry 08:00–12:00 with a 45 min added break: 3 h 15 min.
-- Profile on screen has no running entry and none worked on today: "add break" is greyed out.
-- A running, B on screen with a stopped entry from today: the break goes to B's entry.
-- A 5 h break on a 2 h entry: refused.
+- Nothing running on the profile on screen: "add break" is shown, greyed out.
+- A running, B on screen: "add break" is greyed out.
+- A 5 h break on an entry that has run 2 h: refused.
 - Entry Tuesday 22:00 to Wednesday 01:00, 30 min break added at 00:30 while it runs: Tuesday 2 h, Wednesday 30 min.
-- Entry Tuesday 22:00 to Wednesday 00:30, 45 min break added at 00:40: Wednesday 0, Tuesday 1 h 45; the entry
-  counts 1 h 45.
+- Entry running since Tuesday 22:00, 45 min break added at Wednesday 00:20: Wednesday 0, Tuesday 1 h 35.
 - Stop Tuesday 23:30, start Wednesday 00:15: the gap counts on neither day, with no special rule; Tuesday ends at
   23:30, Wednesday starts at 00:15.
 - A break changed from 45 to 35 min: the entry's worked time grows by 10 min.

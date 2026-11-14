@@ -61,3 +61,24 @@ The owner's first answer (2026-11-14), not yet settled: a month, shown with the 
 the balance bar and the ceiling circle, each with its numbers, so the month can be read at a glance. For janitor work
 the boss only needs to see that the balance is not too far over or under; for the other profiles, the exact hours per
 profile, since their pay may differ.
+
+## Part: Corrections
+
+### Joining two entries (2026-11-14)
+
+Removing a gap between two entries, such as after a stop and start by mistake. Options: dragging one entry's handle
+to meet the other on the line, which then join; or a "join" action on two neighbouring entries of the same profile.
+**See:** Editing an entry on its line.
+
+### Deleting an entry, and writing a forgotten one (2026-11-14)
+
+How an entry is removed, and how a whole forgotten entry is written by hand. A new entry could be drawn on a line in
+free time, with the same stops at other entries and midnight.
+**See:** Editing an entry on its line.
+
+### Exact minutes on the line (2026-11-14)
+
+Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock for
+precision. The draft's clock picker was meant for editing; the line may replace it there, or work beside it.
+**See:** Editing an entry on its line.
+
