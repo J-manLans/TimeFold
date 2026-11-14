@@ -21,10 +21,10 @@ can leak. A phone app: the owner clicks at a computer, as with the Excel file to
 **Built by:** Handover; it needs the storage chosen in Phase 0.
 
 **Decision:** the record moves between the two machines by handover. Export writes one file holding everything:
-profiles, settings, entries and balances. Import reads such a file and replaces everything on that machine. Every
-import asks first, showing when the file was made and when this machine's data last changed, and the owner confirms
-or cancels. The owner carries the file (for example by email to themselves) and is responsible for importing before
-clicking on the other machine.
+profiles, settings, entries and balances; only the ceiling wheel's colours stay behind, as each machine's own. Import
+reads such a file and replaces everything on that machine. Every import asks first, showing when the file was made and
+when this machine's data last changed, and the owner confirms or cancels. The owner carries the file (for example by
+email to themselves) and is responsible for importing before clicking on the other machine.
 **Why:** the owner works at school and sometimes at home, and uses one machine at a time. A full replace is simple and
 cannot double hours; showing both dates makes a wrong or stale file obvious before it overwrites anything.
 **Rejected:** merging two copies: the hardest part of the design, to cover a case (clicking on both machines without
@@ -34,15 +34,17 @@ asking every time is simpler and always checked.
 
 ## A first install starts fresh or imports (2026-11-14)
 
-**Built by:** Clocking for the first start and the opening balance; Profiles for the opening ceiling hours; Handover
-for importing.
+**Built by:** Clocking for the first start and the opening balance; Profiles for the opening ceiling hours and the
+wheel's colours; Handover for importing.
 
 **Decision:** an app with no data asks once how to start. **Start fresh** asks for two opening figures: the janitor
-balance and the hours of the current month's ceiling already used (any carried from the month before included), both
-as they stood at the end of the day before the first day in the app. Each is kept as an entry dated that first day,
-which the handover carries, the reports show ("brought over: +12:30") and a correction can change like any entry.
-From then on the app records every entry with its day. **Import from my other machine** reads a handover file
-instead, as in "Handover between machines". The owner switches from the Excel file on a day not yet worked, with the
+balance and the hours of the current month's ceiling already used (any carried from the month before included), both as
+they stood at the end of the day before the first day in the app. Each is kept as an entry dated that first day, which
+the handover carries, the reports show ("brought over: +12:30") and a correction can change like any entry. From then on
+the app records every entry with its day. **Import from my other machine** reads a handover file instead, as in
+"Handover between machines". Either way it then asks for the ceiling wheel's colours, the base and the over colour
+suggested from it ("The ceiling wheel"), so the first start doubles as a short onboarding; the colours belong to the
+machine, and later change in the settings menu. The owner switches from the Excel file on a day not yet worked, with the
 file closed the evening before; the Excel history before that stays in the file and is not brought in.
 **Why:** the Excel history is not needed by anything the app does, and the boss has not asked for it; parsing the
 file's layout would cost much for it. Figures as of the end of the day before mean the app counts every day from its
@@ -55,7 +57,8 @@ left out of the other. Switching in the middle of a worked day: it happens once,
 **Cases:**
 - First install on Monday, Excel balance +12:30 and 18 h of the ceiling used at Friday's close: the balance starts at
   +12:30 and the ceiling wheel at 18 h; Monday's work adds to both.
-- Second machine, first start: "Import from my other machine" brings the whole record, opening figures included.
+- Second machine, first start: "Import from my other machine" brings the whole record, opening figures included, then
+  asks for this machine's colours.
 
 ## What the app does (2026-11-14)
 

@@ -13,7 +13,7 @@ Positive: hours to take out. Negative: hours to work in.
 **Balance bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
 balance as a number.
 
-**Base colour.** The ceiling wheel's colour for hours used, a setting.
+**Base colour.** The ceiling wheel's colour for hours used, a setting of each machine.
 
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
 becomes a test.
