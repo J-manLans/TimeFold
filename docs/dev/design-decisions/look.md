@@ -45,7 +45,8 @@ main screen sketch:
   only on button surfaces and flows across them, faint and tinted (stronger on the light theme's blue than on the dark
   grey), fading in and out with the pointer. The discs catch it too, at full strength, except the profile disc, which
   catches it at half strength and so stays a little apart; on the undo disc it lies over the coloured drape, under the
-  arrow. A disabled button reacts to nothing: no light, no hover, no press.
+  arrow. While the menu is open, the light leaves the buttons under its frost, which it would seem to shine through, and
+  lies only on what is in the menu. A disabled button reacts to nothing: no light, no hover, no press.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for
   decoration alone.
 - In code, these values are named variables in one place, so the look is tuned there.
