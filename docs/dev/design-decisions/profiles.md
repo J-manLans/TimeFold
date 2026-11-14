@@ -36,7 +36,7 @@ together with one slider that splits full time between them (6 | 2); how it look
 The ceiling's period is the calendar month. Hours over a month's ceiling carry into the next month, which starts with
 them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is never owed:
 working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of it is used
-beside the balance, warning when it nears the ceiling. It never blocks a click.
+on the ceiling wheel, beside the balance bar ("The ceiling wheel"). It never blocks a click.
 **Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
 balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree. Showing
 what is left of an allowance reads more easily than a total of all hours against full time. These hours are additions,
@@ -53,6 +53,28 @@ the ceiling does not show.
 - Two hours of development group work on a Sunday: 2 h of the ceiling used.
 - March ceiling 42 h, 30 h worked: April starts at 0 used.
 - March ceiling 42 h, 46 h worked: April starts at 4 h used.
+
+## The ceiling wheel (2026-11-14)
+
+**Built by:** Profiles.
+
+**Decision:** the ceiling shows as a ring, the ceiling wheel, with the month's used hours as a number in its centre. A
+full ring is the month's ceiling. The wheel's colour is a setting (orange in the cases). Used hours fill the ring
+clockwise from 12 o'clock in that colour, bright; the unused rest is the same colour dimmed. Hours over the ceiling are
+red: a second lap from 12 o'clock, drawn over the colour on the same ring. The red is what carries into the next
+month, where those hours show in the ordinary bright colour. At 90% of the ceiling the centre number turns amber; the
+ring keeps its colours.
+**Why:** red appears only once the colour is full, so a full ring always means the ceiling, and one ring reads at a
+glance. The excess shows the moment it happens, which is what the owner takes to the boss. The amber number warns
+before the ceiling without changing the ring.
+**Rejected:** the red as a thinner second ring inside the colour: two rings to read for one figure. Shrinking the
+ring so the used and the excess share it: a full ring would stop meaning the ceiling.
+**Revisit if:** a month goes more than a whole ceiling over, which one red lap cannot show.
+**Cases:**
+- Ceiling 42 h, 21 h used: half the ring bright orange, half dimmed; the number reads 21 h, not amber.
+- Ceiling 42 h, 38 h used: the number is amber (90% is 37.8 h); the ring is orange and dimmed orange.
+- Ceiling 42 h, 46 h used: the ring is full orange, with red over 4/42 of it from 12 o'clock; the next month starts
+  with 4 h in bright orange.
 
 ## A pay estimate per profile (2026-11-14)
 

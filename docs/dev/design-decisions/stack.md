@@ -9,7 +9,7 @@ What the app is built with. Each decision follows the template in `README.md`, a
 **Decision:** the app is built with Tauri: a web-style interface on the system's webview, with a Rust backend,
 packaged as one small program for Windows and Linux.
 **Why:** the app runs on the owner's Windows work computer and Linux home computer, and its interface has animation and
-custom controls (the balance bar, the ceiling circle, the clock picker) that a web-style interface makes easy. Tauri
+custom controls (the balance bar, the ceiling wheel, the clock picker) that a web-style interface makes easy. Tauri
 gives a small program that starts fast, and the owner wants to try it. On Linux the webview is WebKitGTK, which can lag
 on newer CSS and animation, so animations are tested on Linux early.
 **Rejected:** Electron: the same Chromium everywhere, but a program of about 100 MB for a small tool. Python with

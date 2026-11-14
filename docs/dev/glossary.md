@@ -10,11 +10,17 @@ It holds its length and the day it was added, and comes off the entry's time on 
 expected hours.
 Positive: hours to take out. Negative: hours to work in.
 
+**Balance bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
+balance as a number.
+
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
 becomes a test.
 
 **Ceiling.** The hours all profiles without expected hours may add up to together, over a month: full time minus
 janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
+
+**Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills as the month's hours are used, red
+for hours over it ("The ceiling wheel", in `design-decisions/`).
 
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.

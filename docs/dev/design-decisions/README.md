@@ -62,6 +62,7 @@ checks and names the other by title.
 
 - Profiles label the hours
 - The other profiles share a ceiling
+- The ceiling wheel
 - A pay estimate per profile
 - Settings change from a date
 

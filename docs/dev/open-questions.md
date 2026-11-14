@@ -24,9 +24,9 @@ either choice can write. Also: is there a backup, and where? The handover file m
 
 Known: one start/stop button with the profile list beside it, the bars, and today's entries listed under them ("One
 start/stop button and a profile list"; "Time away is a gap or an added break"); editing opens from that list ("Editing
-an entry on its line"). Open: whether there is also a small always-on widget or an icon in the system tray, how the
-settings menu and the slider that splits full time look, where the pay estimate shows, how much earlier history the
-main screen shows. Light, dark, or following the system. To be settled with a sketch.
+an entry on its line"); the balance bar and the ceiling wheel ("The ceiling wheel"). Open: whether there is also a
+small always-on widget or an icon in the system tray, how the settings menu and the slider that splits full time look,
+where the pay estimate shows, how much earlier history the main screen shows. Light, dark, or following the system. To be settled with a sketch.
 **See:** What the app does.
 
 ### Language of the app (2026-11-14)
@@ -58,7 +58,7 @@ profile for every task and place. The agent's lean: one list, since the owner ad
 Which period a report covers (a week, a month, any range), and what it shows: each day's start, stop, errands and
 total, or only day totals and the period's total.
 The owner's first answer (2026-11-14), not yet settled: a month, shown with the same two figures as the main screen,
-the balance bar and the ceiling circle, each with its numbers, so the month can be read at a glance. For janitor work
+the balance bar and the ceiling wheel, each with its numbers, so the month can be read at a glance. For janitor work
 the boss only needs to see that the balance is not too far over or under; for the other profiles, the exact hours per
 profile, since their pay may differ.
 
