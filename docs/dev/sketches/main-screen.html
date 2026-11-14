@@ -291,6 +291,18 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .prow-body .field > span:first-child { min-width: 110px; color: var(--c-muted); }
 @media (prefers-reduced-motion: reduce) { .tabpanel { animation: none; } }
 
+/* The app's own colour picker */
+.swatch { width: 44px; height: 26px; padding: 0; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); cursor: pointer; }
+.cpick { position: absolute; z-index: 20; width: 236px; padding: 10px; display: grid; gap: 10px; background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+.cpick canvas { width: 100%; height: 140px; border-radius: 4px; cursor: crosshair; touch-action: none; display: block; }
+.cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; height: 12px; margin: 0; border-radius: 6px; background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); }
+.cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid #222; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
+.cpick .hue::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #222; }
+.cpick .cp-row { display: flex; align-items: center; gap: 8px; }
+.cpick .cp-now { width: 26px; height: 26px; border-radius: 4px; border: 1px solid var(--c-btn-line); flex: none; }
+.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-bg); color: var(--c-fg); }
+.cpick .cp-ok { margin-left: auto; font-weight: 600; padding: 4px 14px; }
+
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
 .popup { background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
@@ -738,6 +750,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   // Menu
   function setMenu(open) {
+    if (!open && typeof closePicker === "function") closePicker(false);
     if (open) { selectTab("profiler"); renderMenu(); }
     $("menu").classList.toggle("open", open); $("menuBody").inert = !open;
     $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
@@ -871,6 +884,88 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     show(); wrap.refresh = function () { if (stage === "locked") show(); }; return wrap;
   }
 
+  // ---- The app's own colour picker: opens straight onto the colour map, and always fits inside the menu ----
+  function hsvToRgb(h, s, v) {
+    var f = function (n) { var k = (n + h / 60) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); };
+    return [f(5), f(3), f(1)];
+  }
+  function rgbToHsv(r, g, b) {
+    var max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min, h = 0;
+    if (d) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    return [(h * 60 + 360) % 360, max ? d / max : 0, max];
+  }
+  var pick = null;   // { el, anchor, h, s, v, onChange }
+  function buildPicker() {
+    var el = document.createElement("div"); el.className = "cpick"; el.hidden = true; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Välj färg");
+    el.innerHTML = '<canvas width="400" height="260" tabindex="0" aria-label="Mättnad och ljushet"></canvas>' +
+      '<input class="hue" type="range" min="0" max="360" step="1" aria-label="Kulör">' +
+      '<div class="cp-row"><span class="cp-now"></span><input class="cp-hex" type="text" maxlength="7" aria-label="Färgkod" spellcheck="false"><button class="cp-ok small" type="button">OK</button></div>';
+    $("menu").appendChild(el);
+    var cv = el.querySelector("canvas"), hue = el.querySelector(".hue"), hexIn = el.querySelector(".cp-hex");
+    function fromXY(e) {
+      var r = cv.getBoundingClientRect();
+      pick.s = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+      pick.v = 1 - Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+      emit();
+    }
+    cv.addEventListener("pointerdown", function (e) { cv.setPointerCapture(e.pointerId); fromXY(e); });
+    cv.addEventListener("pointermove", function (e) { if (cv.hasPointerCapture(e.pointerId)) fromXY(e); });
+    hue.addEventListener("input", function () { pick.h = +hue.value; emit(); });
+    hexIn.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return; e.preventDefault();
+      var m = /^#?([0-9a-f]{6})$/i.exec(hexIn.value.trim()); if (!m) return;
+      var c = hexToRgb("#" + m[1]); var hsv = rgbToHsv(c[0], c[1], c[2]); pick.h = hsv[0]; pick.s = hsv[1]; pick.v = hsv[2]; emit();
+    });
+    el.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); closePicker(true); } });
+    el.querySelector(".cp-ok").addEventListener("click", function () {
+      pick.onChange(rgbToHex(hsvToRgb(pick.h, pick.s, pick.v))); closePicker(true);
+    });
+    return el;
+  }
+  function drawPicker() {
+    var el = pick.el, cv = el.querySelector("canvas"), x = cv.getContext("2d"), W = cv.width, H = cv.height;
+    var top = hsvToRgb(pick.h, 1, 1);
+    x.fillStyle = rgbToHex(top); x.fillRect(0, 0, W, H);
+    var g1 = x.createLinearGradient(0, 0, W, 0); g1.addColorStop(0, "#ffffff"); g1.addColorStop(1, "rgba(255,255,255,0)"); x.fillStyle = g1; x.fillRect(0, 0, W, H);
+    var g2 = x.createLinearGradient(0, 0, 0, H); g2.addColorStop(0, "rgba(0,0,0,0)"); g2.addColorStop(1, "#000000"); x.fillStyle = g2; x.fillRect(0, 0, W, H);
+    var mx = pick.s * W, my = (1 - pick.v) * H;
+    x.lineWidth = 3; x.strokeStyle = pick.v > 0.55 ? "#000000" : "#ffffff"; x.beginPath(); x.arc(mx, my, 9, 0, 2 * Math.PI); x.stroke();
+    var hex = rgbToHex(hsvToRgb(pick.h, pick.s, pick.v));
+    el.querySelector(".hue").value = Math.round(pick.h);
+    el.querySelector(".cp-now").style.background = hex;
+    if (document.activeElement !== el.querySelector(".cp-hex")) el.querySelector(".cp-hex").value = hex;
+  }
+  // Dragging and typing only change the preview; "OK" saves the colour and closes.
+  function emit() { drawPicker(); }
+  function openPicker(anchor, hex, onChange) {
+    var el = (pick && pick.el) || buildPicker();
+    var c = hexToRgb(hex), hsv = rgbToHsv(c[0], c[1], c[2]);
+    pick = { el: el, anchor: anchor, h: hsv[0], s: hsv[1], v: hsv[2], onChange: onChange };
+    el.hidden = false;
+    // Place it under the swatch, kept inside the menu on every side.
+    var m = $("menu").getBoundingClientRect(), a = anchor.getBoundingClientRect(), w = el.offsetWidth, h = el.offsetHeight;
+    var left = Math.min(Math.max(8, a.left - m.left), m.width - w - 8);
+    var topPos = a.bottom - m.top + 6; if (topPos + h > m.height - 8) topPos = Math.max(8, a.top - m.top - h - 6);
+    el.style.left = left + "px"; el.style.top = topPos + "px";
+    drawPicker(); el.querySelector("canvas").focus();
+  }
+  function closePicker(refocus) { if (!pick || pick.el.hidden) return; pick.el.hidden = true; if (refocus) pick.anchor.focus(); }
+  // A click outside the picker (and outside its swatch) closes it.
+  document.addEventListener("pointerdown", function (e) {
+    if (pick && !pick.el.hidden && !pick.el.contains(e.target) && e.target !== pick.anchor) closePicker(false);
+  }, true);
+  $("menuBody").addEventListener("scroll", function () { closePicker(false); });
+  // A colour field: a swatch that opens the picker straight away.
+  function swatch(label, get, set) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "swatch"; b.setAttribute("aria-label", label);
+    b.style.background = get();
+    b.addEventListener("click", function () {
+      if (pick && !pick.el.hidden && pick.anchor === b) { closePicker(true); return; }
+      openPicker(b, get(), function (hex) { set(hex); b.style.background = get(); });
+    });
+    return b;
+  }
+
   var openRow = null;
   function renderProfiles() {
     var ul = $("plist"); clear(ul);
@@ -919,21 +1014,19 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           toText: function (v) { return String(v); },
           parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; }
         });
-        var fc = document.createElement("label"); fc.className = "field";
+        var fc = document.createElement("div"); fc.className = "field";
         var lc = document.createElement("span"); lc.textContent = "Grundfärg";
-        var ic = document.createElement("input"); ic.type = "color"; ic.value = q.colour; ic.setAttribute("aria-label", "Profilens grundfärg");
+        var ic = swatch("Profilens grundfärg", function () { return q.colour; }, function (hex) { q.colour = hex; q.over = null; syncOver(); recolour(); });
         fc.append(lc, ic);
         var fo = document.createElement("div"); fo.className = "field";
         var lo = document.createElement("span"); lo.textContent = "Överfärg";
-        var io = document.createElement("input"); io.type = "color"; io.setAttribute("aria-label", "Profilens överfärg");
+        var io = swatch("Profilens överfärg", function () { return profPair(q).over; }, function (hex) { q.over = hex; syncOver(); recolour(); });
         var tag = document.createElement("span"); tag.className = "hint";
         var reset = document.createElement("button"); reset.type = "button"; reset.className = "small"; reset.textContent = "Använd default";
         fo.append(lo, io, tag, reset);
-        function syncOver() { io.value = profPair(q).over; tag.textContent = q.over ? "Ditt val" : "Default"; reset.hidden = !q.over; d.style.color = profColour(q.id); }
+        function syncOver() { ic.style.background = q.colour; io.style.background = profPair(q).over; tag.textContent = q.over ? "Ditt val" : "Default"; reset.hidden = !q.over; d.style.color = profColour(q.id); }
         syncOver();
         // A new base brings a new suggestion for the over colour.
-        ic.addEventListener("input", function () { q.colour = ic.value; q.over = null; syncOver(); recolour(); });
-        io.addEventListener("input", function () { q.over = io.value; syncOver(); recolour(); });
         reset.addEventListener("click", function () { q.over = null; syncOver(); recolour(); });
         body.append(f1, fc, fo, pay, f2);
         if (!q.balance) {
