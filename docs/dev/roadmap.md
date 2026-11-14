@@ -6,8 +6,8 @@ next, not the branch name.
 
 ## Next
 
-The owner reads `docs/vision.md` and this roadmap, written by the agent from Phase 0, and agrees them or says what to
-change. That ends Phase 0; Phase 1 starts with its **Settle first**.
+The owner reads this roadmap, written by the agent from Phase 0, and agrees it or says what to change. That ends
+Phase 0; Phase 1 starts with its **Settle first**.
 
 ## State
 
@@ -19,11 +19,11 @@ change. That ends Phase 0; Phase 1 starts with its **Settle first**.
 
 ## Phase 0: Questioning
 
-**Produces:** the owner's answers, written where they belong, and the settled vision and roadmap.
+**Produces:** the owner's answers, written where they belong, the settled vision, and the roadmap.
 
-1. The owner agrees `vision.md` and this roadmap.
+1. The owner agrees this roadmap.
 
-**Done when:** the owner agrees the vision and the roadmap.
+**Done when:** the owner agrees the roadmap.
 
 ## The phases
 

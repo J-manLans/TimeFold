@@ -38,12 +38,15 @@ precision. The draft's clock picker was meant for editing; the line may replace 
 
 ### Each profile with its own colours (2026-11-14)
 
-The owner is considering moving the colours from the figures to the profiles: each profile with a base and an over
-colour (the over suggested from the base), the balance bar taking the balance profile's colours, and "Förena färger"
-meaning all profiles share one set (the default, so nothing changes until a profile gets its own). Open: how the
-ceiling wheel, which sums all the other profiles, takes their colours. Options: in segments, each profile's hours of
-the month as its own arc in its colour and the over lap in the colour of the profile that crossed the ceiling (the
-agent's lean: it shows who used the room, as the report does); or the whole wheel in the colours of the profile on
-screen (simpler, but the wheel changes colour without its numbers changing). The owner wants to think about it.
+The owner is considering colours per profile instead of per figure, so that switching profile changes the colours of
+the whole screen. What the owner's ideas share: the figures have no colours of their own. Ideas so far:
+1. The profile on screen colours everything: the balance bar, the ceiling wheel, the profile button, the start
+   button's ring, the warning label, the focus rings. The simplest; switching profile recolours it all.
+2. Only the profile button and its letter take the profile's colours, while the bar and the wheel share one setting.
+3. Each profile showing only its own figure: dropped by the owner, who likes having both figures in view.
+Also raised by the agent: the wheel in segments, each profile's hours in its own colour. Open: which of these. To
+weigh: with idea 1 the figures change colour when only the profile on screen changes, not their numbers, which sits
+against the vision's question of one meaning per colour; with the over colour suggested from each profile's base,
+every profile would still read clearly. The owner is still thinking.
 **See:** The ceiling wheel; The balance bar; Profiles label the hours; The menu has four tabs, with counting values
 locked.
