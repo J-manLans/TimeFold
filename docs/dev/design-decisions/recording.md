@@ -34,32 +34,32 @@ show the warning: the click target would move under the pointer.
 - "Starta jobb" and "Stoppa jobb": the button has the same size in both.
 - While an entry runs, the balance bar and the ceiling wheel do not change; at stop they include it.
 
-## The last click can be undone for a minute (2026-11-14)
+## The last click can be undone for half a minute (2026-11-14)
 
 **Built by:** Clocking.
 
 **Decision:** a round undo button sits beside "Lägg till paus", the two centred together under the button block, drawn
 like the profile button's disc in its dent with a turning-back arrow. It is faded out when there is nothing to undo.
-After a start or a stop it wakes for one minute, a thin ring around it draining over that minute; hovered, the
-pointer-following label says what it would undo ("Ångra: stopp 15:40"). Pressing it reverses exactly that click: an
-undone start removes the entry it created; an undone stop lets the entry run on as if never stopped; an undone switch
-("Starta jobb" on one profile while another runs) reverses both halves, removing the new entry and letting the old one
-run on. Only the latest click can be undone, and only within its minute. An undone click leaves no mark in the record
-("Entries remember how they were made"); after the minute, changes go through editing as usual.
+After a start or a stop it wakes for 30 seconds, a thin ring around it, set a little apart so a gap shows, draining over
+that time; hovered, the pointer-following label says what it would undo ("Ångra: stopp 15:40"). Pressing it reverses
+exactly that click: an undone start removes the entry it created; an undone stop lets the entry run on as if never
+stopped; an undone switch ("Starta jobb" on one profile while another runs) reverses both halves, removing the new entry
+and letting the old one run on. Only the latest click can be undone, and only within its 30 seconds. An undone click
+leaves no mark in the record ("Entries remember how they were made"); after that, changes go through editing as usual.
 **Why:** one click makes a mis-click easy, and putting it right should be one click too, not a trip to the editor. A
-slip caught within a minute is not a correction of the record, so it leaves no trace; a later change is, and is marked.
-The minute also keeps a stray click hours later from undoing something long forgotten. The draining ring shows that the
-undo is there and how long it lasts, without text.
+slip caught within seconds is not a correction of the record, so it leaves no trace; a later change is, and is marked.
+The time limit also keeps a stray click hours later from undoing something long forgotten. The draining ring shows that
+the undo is there and how long it lasts, without text.
 **Rejected:** an undo history: the latest click is the one that slips. Asking to confirm each click: it would break "one
 click to start or stop". Undo without a time limit: an old click is a correction and belongs on the entry's line. An
 undo line in the status line's place: a disc beside "Lägg till paus" keeps the status line for what runs, and pairs the
 two quiet controls.
-**Revisit if:** a minute proves too short or too long in daily use.
+**Revisit if:** 30 seconds proves too short or too long in daily use.
 **Cases:**
-- Stop pressed by mistake at 15:40, "Ångra" at 15:40:30: the entry runs on, with no mark.
-- Start pressed at 08:02, "Ångra": no entry; nothing runs.
-- A running, "Starta jobb" on B at 13:00, "Ångra": B's entry is gone, A runs on.
-- Stop at 15:40, nothing done until 15:42: the undo button is faded again; the stop stays.
+- Stop pressed by mistake at 15:40, the undo at 15:40:20: the entry runs on, with no mark.
+- Start pressed at 08:02, the undo within 30 seconds: no entry; nothing runs.
+- A running, "Starta jobb" on B at 13:00, the undo within 30 seconds: B's entry is gone, A runs on.
+- Stop at 15:40, nothing done until 15:41: the undo button is faded again; the stop stays.
 - Nothing clicked since the app opened: the undo button is faded.
 
 ## A running entry from an earlier day asks (2026-11-14)

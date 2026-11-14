@@ -60,7 +60,7 @@ checks and names the other by title.
 ### [Recording](recording.md)
 
 - One start/stop button and a profile list
-- The last click can be undone for a minute
+- The last click can be undone for half a minute
 - A running entry from an earlier day asks
 - Time away is a gap or an added break
 - Entering a length of time
