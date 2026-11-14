@@ -1,12 +1,13 @@
 # Roadmap
 
-What comes next, the state of what is built, Phase 0, and the parts still to be ordered into phases. Read every
-session. Nothing done stays here: a finished step is removed, and what was done goes in the commit message. **Next**
-says what comes next, not the branch name.
+What comes next, the state of what is built, the phases, and what is not on the roadmap. Read every session. Nothing
+done stays here: a finished step is removed, and what was done goes in the commit message. **Next** says what comes
+next, not the branch name.
 
 ## Next
 
-Phase 0: the agent questions the owner, one topic at a time, as a conversation. No code before it is done.
+The owner reads `docs/vision.md` and this roadmap, written by the agent from Phase 0, and agrees them or says what to
+change. That ends Phase 0; Phase 1 starts with its **Settle first**.
 
 ## State
 
@@ -18,41 +19,87 @@ Phase 0: the agent questions the owner, one topic at a time, as a conversation. 
 
 ## Phase 0: Questioning
 
-**Produces:** the owner's answers, written where they belong: decisions in `design-decisions/`, new questions in
-`open-questions.md`, new terms in the glossary; and at the end, the settled vision.
-**Settle first:** nothing; this phase is the settling.
+**Produces:** the owner's answers, written where they belong, and the settled vision and roadmap.
 
-1. The agent and owner spitball one topic at a time, starting with what everything else depends on: the owner's work
-   day and the device, then the data (what one entry holds, errands, corrections, what the report needs), then stack,
-   storage, look and feel.
-2. Once a topic is talked through, its answers go into the docs as one batch, and the agent asks what they raised.
-3. Once the direction is clear, the agent writes `vision.md` from the drafts in `design-draft.md` and what was
-   learned, and the owner agrees it. Until then the drafts stay as written, and batches do not add to them.
-4. Before Phase 0 ends, owner and agent agree the roadmap: the parts below ordered into phases, each with
-   **Produces**, **Settle first**, its steps and **Done when**.
+1. The owner agrees `vision.md` and this roadmap.
 
-**Done when:** every question that shapes the stack or the stored data is answered, the main screen, the vision and
-the roadmap are agreed, and the owner has nothing more to tell for now. Questions local to one feature may stay under
-their phase.
+**Done when:** the owner agrees the vision and the roadmap.
 
-## Parts, not yet in order
+## The phases
 
-What the app is made of, from the decisions so far. They have no order, steps or **Done when** until the roadmap is
-agreed at the end of Phase 0. A part is added when a decision has none to build it.
+In this order because each builds on the one before, and so the app can be tried on real days early: clocking first,
+then what a real day needs (breaks, then putting mistakes right), then the other work, then the second machine, then
+the report. The owner keeps the Excel file until the switch after Phase 6 ("A first install starts fresh or imports",
+in `design-decisions/`). Every phase starts its code from the owner's cases ("Tests come first, from the owner's
+rules"), and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
-- **Clocking.** The project set up, the record file with its safe save and daily copies, the start/stop button,
-  stored entries, the balance and the balance bar, the first start with the opening balance, and the question for
-  a running entry from an earlier day.
-- **Breaks and flex days.** Added breaks taken off the day's total and fixed from the main screen; flex days for a
-  day or a range, taken off the balance.
-- **Profiles.** Profiles the owner sets up, the profile list beside the start button, hours per profile, the
-  ceiling shared by the profiles without a balance and its opening hours, the ceiling wheel, settings from a date,
-  and the pay estimate.
-- **Corrections.** Entries edited on their line (moved, lengthened, shortened, split by a gap), deleted or written
-  by hand.
-- **Reports.** A month's report, with the balance bar, the ceiling wheel and hours per profile, that the owner
-  sends to the boss as it is.
-- **Handover.** Export and import of the whole record between the two machines, and import as a first start.
+### Phase 1: Clocking
+
+**Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
+**Settle first:** the project's layout and the code map; the design tokens taken over from the main screen sketch.
+1. The project: Tauri, Svelte with TypeScript, the test runner, the code map.
+2. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
+3. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
+4. The main screen's control side: the button block, the warning label, the status line, the prune line's room.
+5. The figures side with the balance bar and the five recent entries; the theme setting.
+6. The first start (start fresh: the first profile's name and the opening balance) and the question for a running
+   entry from an earlier day.
+**Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
+matches the sketch in both themes on Windows and Linux.
+
+### Phase 2: Breaks and flex days
+
+**Produces:** time away taken off the day, and days off paid for with the balance.
+**Settle first:** where a flex day is marked (`open-questions.md`).
+1. "Lägg till paus" with its length field, and the break tags in the entry list.
+2. Flex days, for a day or a range, taken off the balance.
+**Done when:** a day with errands and a flex day count as agreed in their cases, checked against the owner's Excel.
+
+### Phase 3: Corrections
+
+**Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
+**Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line
+(`open-questions.md`).
+1. The "Visa alla" popup with every entry.
+2. Editing an entry on its line: handles, the zoom, gaps and shortening, the confirm.
+3. Deleting, and writing a forgotten entry; each entry's mark of how it was made.
+**Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, and the
+balance follows.
+
+### Phase 4: Profiles
+
+**Produces:** every kind of work counted apart, the ceiling wheel, and the menu.
+**Settle first:** how the full-time slider is drawn.
+1. Profiles: the profile button and its popup, profile colours, "Ny profil", archiving.
+2. The ceiling, its carry into the next month, and the ceiling wheel with the colour rule.
+3. The menu: its fold-out, the four tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that
+   change from a date; the colour settings and "Förena färger".
+4. The pay estimate; the opening ceiling hours at a fresh start; the colours asked at the first start.
+**Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
+every setting changes from a date as its cases say.
+
+### Phase 5: Handover
+
+**Produces:** the record moving between the work and home machines.
+**Settle first:** nothing open.
+1. Export and import of the record, asking before it replaces anything; the colours and theme stay on each machine.
+2. Import as a first start.
+**Done when:** a week worked on both machines, handed over each day, matches on both.
+
+### Phase 6: Reports
+
+**Produces:** the monthly report to the boss, as a PDF.
+**Settle first:** how the PDF is made in Tauri.
+1. The month's report: name and month, the balance bar and the ceiling wheel with their carried amounts, hours per
+   profile by pay category.
+2. The export option for each day's hours.
+**Done when:** the owner sends a real month's report and it reads without explanation. Then the owner switches from
+Excel: a fresh start with the opening figures, on a day not yet worked.
+
+## Later
+
+Decided, but needed only once the app has been in use for years:
+- Pruning old history on request ("Old history is pruned on request"), three years after the first install.
 
 ## Not on this roadmap
 

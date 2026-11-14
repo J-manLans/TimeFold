@@ -1,14 +1,20 @@
 # Open questions
 
-What is not decided, grouped under the phase that needs the answer (before the roadmap is agreed, the part), so a
-phase's **Settle first** can point here.
+What is not decided, grouped under the phase that needs the answer, so a phase's **Settle first** can point here.
 Each entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question
 leaves; its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
-## Phase 0
+## Phase 2: Breaks and flex days
 
+### Where a flex day is marked (2026-11-14)
 
-## Part: Corrections
+A flex day, for one day or a range, takes the expected hours off the balance with one action ("A day owes its
+expected hours only when work started on it"). Where that action lives is open: in the menu, from the "Visa alla"
+popup on a chosen day, or beside "Lägg till paus". Not drawn in the main screen sketch.
+**See:** A day owes its expected hours only when work started on it; The main screen has a control side and a
+figures side.
+
+## Phase 3: Corrections
 
 ### Joining two entries (2026-11-14)
 
