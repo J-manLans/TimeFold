@@ -55,6 +55,8 @@
   --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
   /* The menu panel */
   --menu-blur: 12px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
+  /* The figures */
+  --bar-share: 0.5;     /* the flex bar's thickness, as a share of the ceiling wheel's band (0.5 a half, 0.333 a third); centred on the 0 line, which keeps its height */
   /* Focus */
   --focus-w: 2px;
   /* ======================================================================== */
@@ -561,6 +563,24 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return [13 / 255, 16 / 255, 20 / 255];
   }
   var RULE = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
+  // The neon pair rule ("Each profile carries its colours", in design-decisions/; as in ceiling-wheel.html). A profile has one hue, the one its picker's
+  // strip sits on. The strip's colour is that hue's neon; the base is any nuance of it, picked in the map (a new
+  // profile starts on a muted one); the over colour is the opposite hue at its most vivid, so it moves only with the
+  // strip, and is never picked by hand. The app takes a picked colour when the pointer is released, not while it drags.
+  var NEON = {
+    start: 195,   // the balance profile's hue: cyan
+    keep: 0.55,   // base: share of the neon's colour kept
+    pull: 0.4,    // base lightness: 0 the hue's own most vivid lightness, 1 the shared middle
+    mid: 0.7,     // the shared middle lightness
+    over: 1       // over colour: share of full neon
+  };
+  var WHEEL = {
+    r: 75, w: 28,   // the ceiling wheel's ring: radius to the middle of the band, and the band's width (of 200)
+    fadeC: 0.45,    // faded, for the other profiles' hours: the share of the colour's strength taken away (the hue stays)
+    fadeL: 0.2,     // faded: how far its lightness moves toward the panel's background
+    peek: 300,      // ms for the over lap to wind back while the pointer is on the wheel, and to return
+    lap: 3          // minutes each piece of the ring starts early, tucked under the one before it
+  };
 
   // ---- Colour rule (as in "The ceiling wheel"; same code as ceiling-wheel.html) ----
   function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
@@ -617,6 +637,36 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var onScreen = "v", running = null; // running: { profile, start }
   var balance = 270, used = 2280, pay = 1739; // minutes, minutes, euro (1 700 salary + 1.5 h × 26)
   var shown = { balance: 270, used: 2280, pay: 1739 };
+  // The ceiling's hours in the order they were worked, each piece with its profile; `used` is their sum.
+  var usedLog = [{ p: "u", mins: 2280 }];
+  function addUsed(id, mins) {
+    var last = usedLog[usedLog.length - 1];
+    if (last && last.p === id) last.mins += mins; else usedLog.push({ p: id, mins: mins });
+  }
+  // Sketch only: the toolbar's slider adds hours as the profile on screen (the first other profile when the balance
+  // profile is on screen), and takes them away from the latest worked.
+  function setUsed(total) {
+    var diff = total - used, q = prof(onScreen);
+    if (q.balance) q = activeProfiles().filter(function (x) { return !x.balance; })[0] || prof("u");
+    if (diff > 0) addUsed(q.id, diff);
+    while (diff < 0 && usedLog.length) {
+      var last = usedLog[usedLog.length - 1], cut = Math.min(last.mins, -diff);
+      last.mins -= cut; diff += cut; if (!last.mins) usedLog.pop();
+    }
+    used = total;
+  }
+  // The ceiling's minutes up to `upTo`, in the order worked, as runs that are lit (worked by profile `id`) or faded
+  // (worked by any other): [{ from, to, lit }]. Neighbouring pieces of the same kind are one run.
+  function wheelRuns(id, upTo) {
+    var at = 0, runs = [];
+    usedLog.forEach(function (e) {
+      var from = at, to = Math.min(at + e.mins, upTo), lit = e.p === id, last = runs[runs.length - 1];
+      at += e.mins;
+      if (to <= from) return;
+      if (last && last.lit === lit) last.to = to; else runs.push({ from: from, to: to, lit: lit });
+    });
+    return runs;
+  }
   var DAY = ["sön", "mån", "tis", "ons", "tor", "fre", "lör"];
   function mk(dayOffset, sh, sm, eh, em, p, brk) {
     var d = new Date(); d.setDate(d.getDate() - dayOffset);
@@ -637,11 +687,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var GREY = "#9aa3ae", GREY_OVER = "#e2e6eb";   // the wheel while the balance profile is on screen: grey, over it a light grey
   function balanceProfile() { for (var i = 0; i < profiles.length; i++) if (profiles[i].balance) return profiles[i]; return profiles[0]; }
   function pairFor(base, over) { var s = derive(base, panelBg()); return { base: base, dim: s.dim, over: over || s.over, suggested: s.over }; }
-  function profPair(q) { return pairFor(q.colour, q.over); }
+  function neonBase(h) { var L = cuspL(h); return rgbToHex(lchToRgb([L + (NEON.mid - L) * NEON.pull, maxChroma(L, h) * NEON.keep, h])); }
+  function neonOver(h) { var o = (h + 180) % 360, L = cuspL(o); return rgbToHex(lchToRgb([L, maxChroma(L, o) * NEON.over, o])); }
+  // The OKLCH hue of the colour at a place on the picker's strip, and the place on the strip of an OKLCH hue's neon.
+  function stripHue(strip) { return labToLch(rgbToOklab(hsvToRgb(strip, 1, 1)))[2]; }
+  function stripOf(h) { var L = cuspL(h), c = lchToRgb([L, maxChroma(L, h), h]); return rgbToHsv(c[0], c[1], c[2])[0]; }
+  function setHue(q, h) { q.hue = h; q.strip = stripOf(h); q.colour = neonBase(h); }
+  function profPair(q) { return pairFor(q.colour, neonOver(q.hue)); }
   // The bar is always the balance profile's; the wheel is the profile on screen's, or grey for the balance profile.
+  // While a profile's colour picker is open, the wheel is that profile's instead.
   function resolved(which) {
     if (which === "bar") return profPair(balanceProfile());
-    var q = prof(onScreen); return q.balance ? pairFor(GREY, GREY_OVER) : profPair(q);
+    var q = prof(pick && !pick.el.hidden && pick.owner ? pick.owner : onScreen); return q.balance ? pairFor(GREY, GREY_OVER) : profPair(q);
   }
   function applyColours() {
     var w = resolved("wheel");
@@ -649,21 +706,20 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   // A profile's colour on the control side: its over colour (the letter, the ring, the label, the focus rings).
   function profColour(id) { return profPair(prof(id)).over; }
-  // A new profile's base: the OKLCH hue in the middle of the largest gap between the existing profiles' base hues
-  // (a random pick between equal gaps), at their average lightness and vividness.
-  function nextProfileColour(others) {
-    var lch = others.map(function (id) { return labToLch(rgbToOklab(hexToRgb(prof(id).colour))); });
-    if (!lch.length) return "#d78951";
-    var L = 0, C = 0; lch.forEach(function (c) { L += c[0]; C += c[1]; }); L /= lch.length; C /= lch.length;
-    var hues = lch.map(function (c) { return c[2]; }).sort(function (a, b) { return a - b; });
+  // A new profile's hue: the middle of the largest gap between the hues in use, each profile using two, its own and
+  // the opposite one its over colour has (a random pick between equal gaps).
+  function nextProfileHue(others) {
+    if (!others.length) return NEON.start;
+    var hues = [];
+    others.forEach(function (id) { var h = prof(id).hue; hues.push(h, (h + 180) % 360); });
+    hues.sort(function (a, b) { return a - b; });
     var best = [], bestGap = -1;
     for (var i = 0; i < hues.length; i++) {
       var a = hues[i], b = i + 1 < hues.length ? hues[i + 1] : hues[0] + 360, gap = b - a;
       if (gap > bestGap + 0.5) { best = [a + gap / 2]; bestGap = gap; }
       else if (Math.abs(gap - bestGap) <= 0.5) best.push(a + gap / 2);
     }
-    var h = best[Math.floor(Math.random() * best.length)] % 360;
-    return rgbToHex(lchToRgb([L, C, h]));
+    return best[Math.floor(Math.random() * best.length)] % 360;
   }
   function recolour() { applyColours(); drawFigures(); drawControls(); }
 
@@ -688,9 +744,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   function drawBar() {
     var svg = $("balSvg"), c = resolved("bar"), S = shown.scale || scale; clear(svg);
-    var half = 180, y = 8, h = 22, v = shown.balance, a = Math.abs(v);
+    // The bar is centred on the 0 line (y 2 to 36), its thickness a share of the wheel's band.
+    var share = parseFloat(getComputedStyle(app).getPropertyValue("--bar-share")) || 0.5;
+    var half = 180, h = WHEEL.w * share, y = 19 - h / 2, v = shown.balance, a = Math.abs(v);
     var w = Math.min(a, S) / S * half;
-    if (Math.round(v) === 0) svg.appendChild(el("rect", { class: "zero", x: 192, y: y, width: 16, height: h, rx: 8, fill: c.dim }));
+    if (Math.round(v) === 0) svg.appendChild(el("rect", { class: "zero", x: 192, y: y, width: 16, height: h, rx: Math.min(8, h / 2), fill: c.dim }));
     else {
       // Rounded only at the outer end; square against the 0 line.
       var len = Math.max(w, 2), r = Math.min(9, len, h / 2), sd = v > 0 ? 1 : -1, x0 = 200, x1 = 200 + sd * len;
@@ -711,21 +769,70 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     n.style.color = Math.round(v) === 0 ? "var(--f-fg)" : v > 0 ? c.over : c.base;
   }
   function drawWheel() {
-    var svg = $("wheelSvg"), c = resolved("wheel"), r = 78, w = 20, circ = 2 * Math.PI * r; clear(svg);
+    var svg = $("wheelSvg"), c = resolved("wheel"), r = WHEEL.r, w = WHEEL.w, circ = 2 * Math.PI * r; clear(svg);
     var u = Math.min(shown.used, CEILING) / CEILING, o = Math.min(Math.max(shown.used - CEILING, 0), CEILING) / CEILING;
     var g = el("g", { transform: "rotate(-90 100 100)" });
-    g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.dim, "stroke-width": w }));
-    if (u > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.base, "stroke-width": w, "stroke-dasharray": (u * circ) + " " + circ }));
-    if (o > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: c.over, "stroke-width": w, "stroke-dasharray": (o * circ) + " " + circ }));
+    // The ring is a timeline: every piece stays where it was worked. The wheel's profile's pieces are lit, the
+    // others' faded; past the ceiling the same order goes on in the over lap. The balance profile's grey wheel is
+    // not sliced.
+    var who = prof(pick && !pick.el.hidden && pick.owner ? pick.owner : onScreen), bg = panelBg();
+    var top = Math.min(shown.used, 2 * CEILING), lapEnd = Math.min(top, CEILING), overEnd = Math.max(top - CEILING, 0);
+    var runs = who.balance ? [{ from: 0, to: top, lit: true }] : wheelRuns(who.id, top);
+    var fadedBase = faded(c.base, bg), fadedOver = faded(c.over, bg);
+    // While the pointer is on the wheel the over lap winds back to 12 o'clock, showing the first lap whole.
+    overEnd *= 1 - peekAmt;
+    // What shows at each place round the ring, as pieces that do not overlap: the over lap, then what is left of the
+    // first lap, then the unused part. Nothing lies under another colour, so no colour shows along another's rim.
+    var segs = [];
+    function seg(from, to, colour) {
+      var last = segs[segs.length - 1];
+      if (to <= from) return;
+      if (last && last.colour === colour) last.to = to; else segs.push({ from: from, to: to, colour: colour });
+    }
+    runs.forEach(function (n) { seg(Math.max(n.from, CEILING) - CEILING, Math.min(n.to - CEILING, overEnd), n.lit ? c.over : fadedOver); });
+    runs.forEach(function (n) { seg(Math.max(n.from, overEnd), Math.min(n.to, CEILING), n.lit ? c.base : fadedBase); });
+    seg(lapEnd, CEILING, c.dim);
+    if (segs.length === 1) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: segs[0].colour, "stroke-width": w }));
+    // Each piece starts a hair early, under the end of the one before it (the first under the last), so no gap shows where two meet.
+    else segs.forEach(function (n) {
+      var from = n.from - WHEEL.lap;
+      g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: n.colour, "stroke-width": w, "stroke-dasharray": ((n.to - from) / CEILING * circ) + " " + circ, "stroke-dashoffset": -from / CEILING * circ }));
+    });
     svg.appendChild(g);
     for (var i = 0; i < 40; i++) { var a = i / 40 * 2 * Math.PI, r1 = 52, r2 = i % 10 === 0 ? 46 : 49; svg.appendChild(el("line", { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + r2 * Math.sin(a), y2: 100 - r2 * Math.cos(a), style: "stroke: var(--f-tick)", "stroke-width": 1 })); }
-    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", style: "font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-wheel)", fill: shown.used >= CEILING * 0.9 ? c.over : "#d9dee6", class: "wheel-num" });
+    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", style: "font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-wheel)", fill: shown.used >= CEILING * 0.9 && !peekTo ? c.over : c.base, class: "wheel-num" });
     t.textContent = hmPlain(shown.used); svg.appendChild(t);
     var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, style: "fill: var(--f-ink)", "letter-spacing": "1.5" });
     s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);
     $("payNum").textContent = "≈ " + Math.round(shown.pay).toLocaleString("sv-SE") + " €";
   }
+  // A colour faded: the same hue, with less strength and its lightness a little toward the background's.
+  function faded(hex, bgRgb) {
+    var c = labToLch(rgbToOklab(hexToRgb(hex))), bgL = rgbToOklab(bgRgb)[0];
+    return rgbToHex(lchToRgb([c[0] + (bgL - c[0]) * WHEEL.fadeL, c[1] * (1 - WHEEL.fadeC), c[2]]));
+  }
+  // The peek: 0 the wheel as it is, 1 the over lap wound all the way back.
+  var peekAmt = 0, peekTo = 0, peekRaf = 0;
+  function peek(on) {
+    peekTo = on ? 1 : 0;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { peekAmt = peekTo; drawWheel(); return; }
+    cancelAnimationFrame(peekRaf);
+    var from = peekAmt, t0 = performance.now();
+    (function step(now) {
+      var t = Math.min(1, (now - t0) / WHEEL.peek), e = 1 - Math.pow(1 - t, 3);
+      peekAmt = from + (peekTo - from) * e; drawWheel();
+      if (t < 1) peekRaf = requestAnimationFrame(step);
+    })(t0);
+  }
   function drawFigures() { drawBar(); drawWheel(); }
+  // The peek starts only on the ring's band, not its corners or its middle. While peeking, the number takes the base
+  // colour, the sample for the first lap that now shows whole.
+  $("wheelSvg").addEventListener("pointermove", function (e) {
+    var b = this.getBoundingClientRect(), x = (e.clientX - b.left) / b.width * 200 - 100, y = (e.clientY - b.top) / b.height * 200 - 100;
+    var on = Math.abs(Math.hypot(x, y) - WHEEL.r) <= WHEEL.w / 2;
+    if (on !== !!peekTo) peek(on);
+  });
+  $("wheelSvg").addEventListener("pointerleave", function () { if (peekTo) peek(false); });
   function drawEntries(fresh) { fillList($("entryList"), entries.slice(0, 5), fresh); fillList($("allList"), entries, false); }
   function fillList(ol, list, fresh) {
     clear(ol);
@@ -804,7 +911,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     entries.unshift({ start: start, end: end, profile: r.profile, brk: r.brk || 0 });
     running = null;
     var p = prof(r.profile), t = { balance: balance, used: used, pay: pay + 135 / 60 * (p.rate || 0) };
-    if (p.balance) t.balance = balance + 15; else t.used = used + 135;
+    if (p.balance) t.balance = balance + 15; else { t.used = used + 135; addUsed(p.id, 135); }
     balance = t.balance; used = t.used; pay = t.pay; syncSim();
     drawEntries(true); settleScale(Math.abs(t.balance), true); tweenTo(t);
   }
@@ -821,7 +928,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var undo = null;   // { label, snap, timer }
   function snapshot() {
     return { running: running ? { profile: running.profile, start: running.start, brk: running.brk || 0 } : null,
-             n: entries.length, balance: balance, used: used, pay: pay };
+             n: entries.length, balance: balance, used: used, pay: pay, log: JSON.stringify(usedLog) };
   }
   function undoMs() {
     var v = getComputedStyle(document.documentElement).getPropertyValue("--undo-time").trim();
@@ -853,7 +960,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var s = undo.snap;
     running = s.running;
     while (entries.length > s.n) entries.shift();
-    balance = s.balance; used = s.used; pay = s.pay; syncSim();
+    balance = s.balance; used = s.used; pay = s.pay; usedLog = JSON.parse(s.log); syncSim();
     drawEntries(false); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay });
     clearUndo(); drawControls();
   });
@@ -951,7 +1058,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("addProfile").addEventListener("click", function () {
     var n = $("newName").value.trim(); if (!n) return;
     var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
-    q.colour = nextProfileColour(profiles.map(function (x) { return x.id; })); q.over = null;
+    setHue(q, nextProfileHue(profiles.map(function (x) { return x.id; })));
     profiles.push(q); $("newName").value = ""; openRow = q.id; renderProfiles(); drawControls();
   });
 
@@ -983,8 +1090,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     q.category = q.balance ? "Månadslön" : "Timlön"; q.archived = false;
   });
   function activeProfiles() { return profiles.filter(function (q) { return !q.archived; }); }
-  balanceProfile().colour = "#d78951"; balanceProfile().over = null;
-  profiles.forEach(function (q) { if (!q.colour) { q.colour = nextProfileColour(profiles.filter(function (x) { return x !== q && x.colour; }).map(function (x) { return x.id; })); q.over = null; } });
+  setHue(balanceProfile(), NEON.start);
+  profiles.forEach(function (q) { if (!q.colour) setHue(q, nextProfileHue(profiles.filter(function (x) { return x !== q && x.colour; }).map(function (x) { return x.id; }))); });
 
   // A locked counting value: text with "Ändra"; "Ändra" opens the editor; Enter confirms and asks "Gäller från"
   // (today unless moved); Esc aborts at any step. "Tidigare värden (n)" lists the earlier values.
@@ -1081,7 +1188,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (d) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
     return [(h * 60 + 360) % 360, max ? d / max : 0, max];
   }
-  var pick = null;   // { el, anchor, h, s, v, onChange }
+  var pick = null;   // { el, anchor, h, s, v, onChange, orig, owner }
   function buildPicker() {
     var el = document.createElement("div"); el.className = "cpick"; el.hidden = true; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Välj färg");
     el.innerHTML = '<canvas width="400" height="260" tabindex="0" aria-label="Mättnad och ljushet"></canvas>' +
@@ -1097,16 +1204,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     }
     cv.addEventListener("pointerdown", function (e) { cv.setPointerCapture(e.pointerId); fromXY(e); });
     cv.addEventListener("pointermove", function (e) { if (cv.hasPointerCapture(e.pointerId)) fromXY(e); });
+    cv.addEventListener("pointerup", apply);
     hue.addEventListener("input", function () { pick.h = +hue.value; emit(); });
+    hue.addEventListener("change", apply);
     hexIn.addEventListener("keydown", function (e) {
       if (e.key !== "Enter") return; e.preventDefault();
       var m = /^#?([0-9a-f]{6})$/i.exec(hexIn.value.trim()); if (!m) return;
-      var c = hexToRgb("#" + m[1]); var hsv = rgbToHsv(c[0], c[1], c[2]); pick.h = hsv[0]; pick.s = hsv[1]; pick.v = hsv[2]; emit();
+      var c = hexToRgb("#" + m[1]); var hsv = rgbToHsv(c[0], c[1], c[2]);
+      if (hsv[1] > 0 && hsv[2] > 0) pick.h = hsv[0];   // a grey, black or white leaves the strip where it is
+      pick.s = hsv[1]; pick.v = hsv[2]; emit(); apply();
     });
     el.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); closePicker(true); } });
-    el.querySelector(".cp-ok").addEventListener("click", function () {
-      pick.onChange(rgbToHex(hsvToRgb(pick.h, pick.s, pick.v))); closePicker(true);
-    });
+    el.querySelector(".cp-ok").addEventListener("click", function () { apply(); closePicker(true, true); });
     return el;
   }
   function drawPicker() {
@@ -1122,33 +1231,41 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     el.querySelector(".cp-now").style.background = hex;
     if (document.activeElement !== el.querySelector(".cp-hex")) el.querySelector(".cp-hex").value = hex;
   }
-  // Dragging and typing only change the preview; "OK" saves the colour and closes.
+  // Dragging and typing only change the picker's preview. The app takes the colour when the pointer is released (or
+  // Enter is pressed in the code field); "OK" keeps it and closes; Esc or a click outside puts the old colour back.
   function emit() { drawPicker(); }
-  function openPicker(anchor, hex, onChange) {
+  function apply() { pick.onChange(rgbToHex(hsvToRgb(pick.h, pick.s, pick.v)), pick.h); }
+  // strip: where the hue strip starts, for a colour that remembers it; otherwise read from the colour.
+  // owner: the profile whose colour is picked; it gets the wheel while the picker is open.
+  function openPicker(anchor, hex, onChange, strip, owner) {
     var el = (pick && pick.el) || buildPicker();
-    var c = hexToRgb(hex), hsv = rgbToHsv(c[0], c[1], c[2]);
-    pick = { el: el, anchor: anchor, h: hsv[0], s: hsv[1], v: hsv[2], onChange: onChange };
+    var c = hexToRgb(hex), hsv = rgbToHsv(c[0], c[1], c[2]), h = strip === undefined ? hsv[0] : strip;
+    pick = { el: el, anchor: anchor, h: h, s: hsv[1], v: hsv[2], onChange: onChange, orig: { hex: hex, h: h }, owner: owner };
     el.hidden = false;
     // Place it under the swatch, kept inside the menu on every side.
     var m = $("menu").getBoundingClientRect(), a = anchor.getBoundingClientRect(), w = el.offsetWidth, h = el.offsetHeight;
     var left = Math.min(Math.max(8, a.left - m.left), m.width - w - 8);
     var topPos = a.bottom - m.top + 6; if (topPos + h > m.height - 8) topPos = Math.max(8, a.top - m.top - h - 6);
     el.style.left = left + "px"; el.style.top = topPos + "px";
-    drawPicker(); el.querySelector("canvas").focus();
+    drawPicker(); recolour(); el.querySelector("canvas").focus();
   }
-  function closePicker(refocus) { if (!pick || pick.el.hidden) return; pick.el.hidden = true; if (refocus) pick.anchor.focus(); }
+  function closePicker(refocus, keep) {
+    if (!pick || pick.el.hidden) return;
+    if (!keep) pick.onChange(pick.orig.hex, pick.orig.h);
+    pick.el.hidden = true; recolour(); if (refocus) pick.anchor.focus();
+  }
   // A click outside the picker (and outside its swatch) closes it.
   document.addEventListener("pointerdown", function (e) {
     if (pick && !pick.el.hidden && !pick.el.contains(e.target) && e.target !== pick.anchor) closePicker(false);
   }, true);
   $("menuBody").addEventListener("scroll", function () { closePicker(false); });
   // A colour field: a swatch that opens the picker straight away.
-  function swatch(label, get, set) {
+  function swatch(label, get, set, getStrip, owner) {
     var b = document.createElement("button"); b.type = "button"; b.className = "swatch"; b.setAttribute("aria-label", label);
     b.style.background = get();
     b.addEventListener("click", function () {
       if (pick && !pick.el.hidden && pick.anchor === b) { closePicker(true); return; }
-      openPicker(b, get(), function (hex) { set(hex); b.style.background = get(); });
+      openPicker(b, get(), function (hex, h) { set(hex, h); b.style.background = get(); }, getStrip ? getStrip() : undefined, owner);
     });
     return b;
   }
@@ -1201,20 +1318,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; }
         });
         var fc = document.createElement("div"); fc.className = "field";
-        var lc = document.createElement("span"); lc.textContent = "Grundfärg";
-        var ic = swatch("Profilens grundfärg", function () { return q.colour; }, function (hex) { q.colour = hex; q.over = null; syncOver(); recolour(); });
+        var lc = document.createElement("span"); lc.textContent = "Färg";
+        var ic = swatch("Profilens färg", function () { return q.colour; }, function (hex, h) { q.colour = hex; q.strip = h; q.hue = stripHue(h); syncOver(); recolour(); }, function () { return q.strip; }, q.id);
         fc.append(lc, ic);
-        var fo = document.createElement("div"); fo.className = "field";
-        var lo = document.createElement("span"); lo.textContent = "Överfärg";
-        var io = swatch("Profilens överfärg", function () { return profPair(q).over; }, function (hex) { q.over = hex; syncOver(); recolour(); });
-        var tag = document.createElement("span"); tag.className = "hint";
-        var reset = document.createElement("button"); reset.type = "button"; reset.className = "small"; reset.textContent = "Använd default";
-        fo.append(lo, io, tag, reset);
-        function syncOver() { ic.style.background = q.colour; io.style.background = profPair(q).over; d.style.borderColor = q.colour; tag.textContent = q.over ? "Ditt val" : "Default"; reset.hidden = !q.over; d.style.color = profColour(q.id); }
+        function syncOver() { ic.style.background = q.colour; d.style.borderColor = q.colour; d.style.color = profColour(q.id); }
         syncOver();
-        // A new base brings a new suggestion for the over colour.
-        reset.addEventListener("click", function () { q.over = null; syncOver(); recolour(); });
-        body.append(f1, fc, fo, pay, f2);
+        body.append(f1, fc, pay, f2);
         if (!q.balance) {
           var f3 = document.createElement("div"); f3.className = "field";
           var arch = document.createElement("button"); arch.type = "button"; arch.className = "small";
@@ -1304,7 +1413,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // Sketch toolbar
   function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
   $("simBal").addEventListener("input", function () { balance = +this.value; shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); });
-  $("simUsed").addEventListener("input", function () { used = +this.value; shown.used = used; syncSim(); drawFigures(); });
+  $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); drawFigures(); });
   function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
   $("divLine").addEventListener("click", function () { setDivider("line"); });
   $("divGrad").addEventListener("click", function () { setDivider("gradient"); });

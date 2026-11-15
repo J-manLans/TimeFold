@@ -1,5 +1,8 @@
-<!-- Sketch: the ceiling wheel's colours. Tries the rule in "The ceiling wheel" (design-decisions/), which holds
-     every number settled here; the sliders were for tuning. Delete once the ceiling wheel is built. -->
+<!-- Sketch: the ceiling wheel's colours. Compares two rules for a profile's colours. "Neon pair" is the rule in
+     "Each profile carries its colours" (design-decisions/), which holds every number settled here: one hue, its most
+     vivid version muted for the base, the opposite hue at its most vivid for the over colour, and new profiles placed
+     in the largest gap between the hues in use. "Turn toward red" is the rule it replaced, kept to compare. Delete
+     once the ceiling wheel is built. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ceiling Wheel Colours</title>
@@ -70,6 +73,10 @@ input[type="color"] { width: 52px; height: 40px; border: 1px solid var(--line); 
 .chip code { font-size: 0.78rem; color: var(--muted); overflow-wrap: anywhere; }
 .readout { font-size: 0.88rem; color: var(--muted); }
 .readout strong { color: var(--fg); font-weight: 600; }
+.knobs { display: grid; gap: 18px; }
+.choice { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.88rem; }
+.choice label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+[hidden] { display: none !important; }
 .reset { justify-self: start; font: inherit; font-size: 0.85rem; background: none; border: 1px solid var(--line); color: var(--fg); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
 
 .cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -85,7 +92,7 @@ section { display: grid; gap: 12px; }
 <div class="wrap">
   <header>
     <h1>Ceiling Wheel Colours</h1>
-    <p class="lede">Pick one base colour. The app works out the rest: the dimmed colour for unused hours, and the colour for hours over the ceiling, made by turning the base toward red and taking that hue at its most vivid. From 90% of the ceiling, the number takes the over colour.</p>
+    <p class="lede">Two rules to compare. <strong>Neon pair:</strong> only a hue is picked; the base is that hue's most vivid version muted, the over colour is the opposite hue at its most vivid. <strong>Turn toward red:</strong> a base colour is picked, and the over colour is the base turned toward red. Both dim the base for unused hours, and from 90% of the ceiling the number takes the over colour.</p>
   </header>
 
   <div class="bench">
@@ -99,9 +106,17 @@ section { display: grid; gap: 12px; }
 
     <div class="panel">
       <div class="field">
-        <span class="label">Base colour</span>
+        <span class="label">Rule</span>
+        <div class="choice">
+          <label><input type="radio" name="mode" value="neon" checked> Neon pair (decided)</label>
+          <label><input type="radio" name="mode" value="turn"> Turn toward red (replaced)</label>
+        </div>
+      </div>
+      <div class="field">
+        <span class="label" id="baseLabel">Base colour</span>
         <div class="picker">
           <input type="color" id="base" value="#f28c28" aria-label="Base colour">
+          <button class="reset" id="roll" type="button">Roll a hue</button>
           <div class="presets" id="presets"></div>
         </div>
       </div>
@@ -117,6 +132,25 @@ section { display: grid; gap: 12px; }
       <div class="trio" id="trio"></div>
       <p class="readout" id="readout"></p>
 
+      <div class="knobs" id="neonKnobs">
+        <div class="field">
+          <div class="field-row"><label for="keep" class="label">Base: share of the neon's colour kept</label><span class="val" id="keepVal"></span></div>
+          <input type="range" id="keep" min="0.1" max="1" step="0.05" value="0.55">
+        </div>
+        <div class="field">
+          <div class="field-row"><label for="pull" class="label">Base lightness: the hue's own ↔ a shared middle</label><span class="val" id="pullVal"></span></div>
+          <input type="range" id="pull" min="0" max="1" step="0.05" value="0.4">
+        </div>
+        <div class="field">
+          <div class="field-row"><label for="mid" class="label">The shared middle lightness</label><span class="val" id="midVal"></span></div>
+          <input type="range" id="mid" min="0.4" max="0.9" step="0.01" value="0.7">
+        </div>
+        <div class="field">
+          <div class="field-row"><label for="overNeon" class="label">Over: share of full neon</label><span class="val" id="overNeonVal"></span></div>
+          <input type="range" id="overNeon" min="0.3" max="1" step="0.05" value="1">
+        </div>
+      </div>
+      <div class="knobs" id="turnKnobs" hidden>
       <div class="field">
         <div class="field-row"><label for="turn" class="label">Turn toward red (stops at red)</label><span class="val" id="turnVal"></span></div>
         <input type="range" id="turn" min="0" max="90" step="1" value="55">
@@ -137,6 +171,7 @@ section { display: grid; gap: 12px; }
         <div class="field-row"><label for="minDiff" class="label">Least lightness gap from the base</label><span class="val" id="minDiffVal"></span></div>
         <input type="range" id="minDiff" min="0" max="0.3" step="0.01" value="0.15">
       </div>
+      </div>
       <div class="field">
         <div class="field-row"><label for="dim" class="label">Dimmed (toward the background)</label><span class="val" id="dimVal"></span></div>
         <input type="range" id="dim" min="0.4" max="0.9" step="0.05" value="0.7">
@@ -144,6 +179,20 @@ section { display: grid; gap: 12px; }
       <button class="reset" id="reset" type="button">Reset the rule</button>
     </div>
   </div>
+
+  <section id="profilesSection">
+    <h2>Profiles added one by one, 46 h of 42</h2>
+    <p class="lede">Profile 1 is the hue loaded above. Each new profile takes the hue in the middle of the largest gap between the hues already in use.</p>
+    <div class="choice">
+      <label><input type="radio" name="gap" value="both" checked> Farthest from the bases and the over colours</label>
+      <label><input type="radio" name="gap" value="base"> Farthest from the bases only</label>
+    </div>
+    <div class="picker">
+      <button class="reset" id="addProfile" type="button">Add a profile</button>
+      <button class="reset" id="removeProfile" type="button">Remove one</button>
+    </div>
+    <div class="others" id="profiles"></div>
+  </section>
 
   <section>
     <h2>The three agreed cases, ceiling 42 h</h2>
@@ -162,7 +211,8 @@ section { display: grid; gap: 12px; }
   "use strict";
   var CEILING = 42;
   var RED_HUE = 29; // OKLCH hue of a pure red
-  var DEFAULTS = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
+  var DEFAULTS = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7, keep: 0.55, pull: 0.4, mid: 0.7, overNeon: 1 };
+  var MAX_PROFILES = 8;
   var PRESETS = [
     ["Orange", "#f28c28"], ["Green", "#3aa655"], ["Purple", "#8e5bd6"], ["Blue", "#3b7be0"],
     ["Cyan", "#1fb5c4"], ["Yellow", "#e8c22a"], ["Pink", "#e35d9c"], ["Red", "#d93a3a"],
@@ -240,7 +290,18 @@ section { display: grid; gap: 12px; }
     var newL = lighter ? base[0] + Math.max(L - base[0], gap) : darkerL;
     var extra = Math.abs(newL - L);
     var over = [newL, target * maxChroma(newL, overHue), overHue];
-    // Dimmed: the base mixed toward the page background in OKLab.
+    var dimmed = dimFor(hex, rule, bgRgb);
+    var overRgb = lchToRgb(over);
+    return {
+      base: hex, dim: dimmed.hex, over: rgbToHex(overRgb),
+      baseHue: base[2], overHue: overHue, turned: grey ? null : step,
+      vivid: [rel, target], extra: extra, dimFlip: dimmed.flip, diff: labDist(rgbToOklab(overRgb), baseLab), dL: over[0] - base[0]
+    };
+  }
+
+  // Dimmed: the base mixed toward the page background in OKLab.
+  function dimFor(hex, rule, bgRgb) {
+    var gap = rule.minDiff;
     var a = rgbToOklab(hexToRgb(hex)), b = rgbToOklab(bgRgb), t = rule.dim;
     var dimLab = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
     // Base too close to the background for a dimmed colour between them: put the unused part past the
@@ -255,12 +316,44 @@ section { display: grid; gap: 12px; }
       }
     }
     var dimRgb = oklabToLinRgb(dimLab).map(function (v) { return fromLin(Math.min(1, Math.max(0, v))); });
-    var overRgb = lchToRgb(over);
+    return { hex: rgbToHex(dimRgb), flip: dimFlip };
+  }
+
+  // The neon pair rule: one hue in, the wheel's colours out.
+  function neonPair(hue, rule, bgRgb) {
+    // The neon: the hue at the lightness where it is most vivid, with all the colour the screen can show.
+    var neonL = cuspL(hue), neonC = maxChroma(neonL, hue);
+    // The base: the neon with part of its colour taken away, its lightness pulled toward a shared middle.
+    var baseL = neonL + (rule.mid - neonL) * rule.pull;
+    var baseRgb = lchToRgb([baseL, neonC * rule.keep, hue]);
+    // The over colour: the opposite hue, at its own most vivid lightness.
+    var overHue = (hue + 180) % 360, overL = cuspL(overHue);
+    var overRgb = lchToRgb([overL, maxChroma(overL, overHue) * rule.overNeon, overHue]);
+    var baseHex = rgbToHex(baseRgb), dimmed = dimFor(baseHex, rule, bgRgb);
     return {
-      base: hex, dim: rgbToHex(dimRgb), over: rgbToHex(overRgb),
-      baseHue: base[2], overHue: overHue, turned: grey ? null : step,
-      vivid: [rel, target], extra: extra, dimFlip: dimFlip, diff: labDist(rgbToOklab(overRgb), baseLab), dL: over[0] - base[0]
+      base: baseHex, dim: dimmed.hex, over: rgbToHex(overRgb), neon: rgbToHex(lchToRgb([neonL, neonC, hue])),
+      baseHue: hue, overHue: overHue, dimFlip: dimmed.flip,
+      diff: labDist(rgbToOklab(overRgb), rgbToOklab(baseRgb)), dL: overL - baseL
     };
+  }
+  // A picked colour counts by its hue only; a grey has none, so red stands in.
+  function hueOf(hex) { var c = labToLch(rgbToOklab(hexToRgb(hex))); return c[1] < 0.04 ? null : c[2]; }
+  function deriveNeon(hex, rule, bgRgb) {
+    var h = hueOf(hex), cols = neonPair(h === null ? RED_HUE : h, rule, bgRgb);
+    cols.grey = h === null;
+    return cols;
+  }
+  // A new profile's hue: the middle of the largest gap between the hues in use, the first such gap going up from 0°.
+  function nextHue(hues, countOver) {
+    var used = [];
+    hues.forEach(function (h) { used.push(h); if (countOver) used.push((h + 180) % 360); });
+    used.sort(function (a, b) { return a - b; });
+    var best = -1, start = 0;
+    used.forEach(function (a, i) {
+      var gap = used.length === 1 ? 360 : (used[(i + 1) % used.length] - a + 360) % 360;
+      if (gap > best + 1e-6) { best = gap; start = a; }
+    });
+    return (start + best / 2) % 360;
   }
 
   var NS = "http://www.w3.org/2000/svg";
@@ -291,7 +384,10 @@ section { display: grid; gap: 12px; }
   function fmt(n) { return (Math.round(n * 10) / 10).toString().replace(/\.0$/, ""); }
 
   var $ = function (id) { return document.getElementById(id); };
-  var inputs = { turn: $("turn"), split: $("split"), strength: $("strength"), darken: $("darken"), minDiff: $("minDiff"), dim: $("dim") };
+  var inputs = { turn: $("turn"), split: $("split"), strength: $("strength"), darken: $("darken"), minDiff: $("minDiff"), dim: $("dim"),
+                 keep: $("keep"), pull: $("pull"), mid: $("mid"), overNeon: $("overNeon") };
+  function picked(name) { return document.querySelector('input[name="' + name + '"]:checked').value; }
+  var extraProfiles = 2;
   function rule() { var r = {}; for (var k in inputs) r[k] = +inputs[k].value; return r; }
   function bg() { return cssRgb(getComputedStyle(document.body).backgroundColor); }
 
@@ -313,7 +409,15 @@ section { display: grid; gap: 12px; }
 
   function render() {
     var hex = $("base").value, rl = rule(), back = bg();
-    var cols = derive(hex, rl, back);
+    var neon = picked("mode") === "neon";
+    var deriveBy = neon ? deriveNeon : derive;
+    var cols = deriveBy(hex, rl, back);
+    $("neonKnobs").hidden = !neon; $("turnKnobs").hidden = neon; $("profilesSection").hidden = !neon;
+    $("baseLabel").textContent = neon ? "Pick a colour: only its hue is used" : "Base colour";
+    $("keepVal").textContent = Math.round(rl.keep * 100) + "%";
+    $("pullVal").textContent = Math.round(rl.pull * 100) + "%";
+    $("midVal").textContent = rl.mid.toFixed(2);
+    $("overNeonVal").textContent = Math.round(rl.overNeon * 100) + "%";
     var suggested = cols.over;
     if (overChosen) cols.over = $("over").value; else $("over").value = suggested;
     $("overTag").textContent = overChosen ? "Your choice (suggestion " + suggested + ")" : "Suggested";
@@ -340,17 +444,20 @@ section { display: grid; gap: 12px; }
     var ro = $("readout");
     ro.innerHTML = "";
     var s = document.createElement("strong");
-    if (cols.turned === null) {
+    if (neon) {
+      s.textContent = "Hue " + Math.round(cols.baseHue) + "° → " + Math.round(cols.overHue) + "°";
+      ro.append(s, cols.grey ? " (a grey has no hue, so red stands in)" : "", ". Neon " + cols.neon + ", muted to " + cols.base + ". ");
+    } else if (cols.turned === null) {
       s.textContent = "A grey base has no hue to turn,";
       ro.append(s, " so the over colour falls back to red.");
     } else {
       s.textContent = "Hue " + Math.round(cols.baseHue) + "° → " + Math.round(cols.overHue) + "°";
       ro.append(s, " (" + Math.abs(Math.round(cols.turned)) + "° " + (cols.turned < 0 ? "down through yellow" : "up through violet") + ")");
     }
-    ro.append(". Vivid " + Math.round(cols.vivid[0] * 100) + "% → " + Math.round(cols.vivid[1] * 100) + "%. ");
+    if (!neon) ro.append(". Vivid " + Math.round(cols.vivid[0] * 100) + "% → " + Math.round(cols.vivid[1] * 100) + "%. ");
     var dd = document.createElement("strong");
     dd.textContent = "Lightness " + (cols.dL > 0 ? "+" : "−") + Math.abs(cols.dL).toFixed(2);
-    ro.append(dd, cols.extra > 0.005 ? " (moved " + cols.extra.toFixed(2) + " to keep the gap)" : "",
+    ro.append(dd, !neon && cols.extra > 0.005 ? " (moved " + cols.extra.toFixed(2) + " to keep the gap)" : "",
       ", difference " + cols.diff.toFixed(2) + ".",
       cols.dimFlip ? " The base is close to the background, so the unused part sits past the background instead." : "");
 
@@ -368,7 +475,7 @@ section { display: grid; gap: 12px; }
 
     $("others").innerHTML = "";
     PRESETS.forEach(function (pr) {
-      var pc = derive(pr[1], rl, back);
+      var pc = deriveBy(pr[1], rl, back);
       var card = document.createElement("button"); card.type = "button"; card.className = "card";
       card.setAttribute("aria-label", "Use " + pr[0]);
       var svg = el("svg", { viewBox: "0 0 200 200", "aria-hidden": "true" });
@@ -378,9 +485,32 @@ section { display: grid; gap: 12px; }
       card.addEventListener("click", function () { setBase(pr[1]); window.scrollTo({ top: 0, behavior: "smooth" }); });
       $("others").appendChild(card);
     });
+
+    $("profiles").innerHTML = "";
+    if (neon) {
+      var first = hueOf(hex), hues = [first === null ? RED_HUE : first];
+      for (var i = 0; i < extraProfiles; i++) hues.push(nextHue(hues, picked("gap") === "both"));
+      hues.forEach(function (h, n) {
+        var pc = neonPair(h, rl, back);
+        var card = document.createElement("div"); card.className = "card";
+        var svg = el("svg", { viewBox: "0 0 200 200", role: "img", "aria-label": "Profile " + (n + 1) });
+        drawWheel(svg, 46, pc);
+        var p = document.createElement("p");
+        p.textContent = "Profile " + (n + 1) + ": " + Math.round(h) + "° and " + Math.round(pc.overHue) + "°";
+        var code = document.createElement("p"); code.textContent = pc.base + " / " + pc.over;
+        card.append(svg, p, code);
+        $("profiles").appendChild(card);
+      });
+    }
+    $("addProfile").disabled = extraProfiles >= MAX_PROFILES - 1;
+    $("removeProfile").disabled = extraProfiles <= 0;
   }
 
-  ["hours", "turn", "split", "strength", "darken", "minDiff", "dim"].forEach(function (id) { $(id).addEventListener("input", render); });
+  ["hours", "turn", "split", "strength", "darken", "minDiff", "dim", "keep", "pull", "mid", "overNeon"].forEach(function (id) { $(id).addEventListener("input", render); });
+  document.querySelectorAll('input[name="mode"], input[name="gap"]').forEach(function (r) { r.addEventListener("change", function () { overChosen = false; render(); }); });
+  $("roll").addEventListener("click", function () { setBase(neonPair(Math.random() * 360, rule(), bg()).neon); });
+  $("addProfile").addEventListener("click", function () { extraProfiles = Math.min(MAX_PROFILES - 1, extraProfiles + 1); render(); });
+  $("removeProfile").addEventListener("click", function () { extraProfiles = Math.max(0, extraProfiles - 1); render(); });
   $("base").addEventListener("input", function () { setBase($("base").value); });
   $("over").addEventListener("input", function () { overChosen = true; render(); });
   $("useSuggestion").addEventListener("click", function () { overChosen = false; render(); });
