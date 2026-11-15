@@ -3,7 +3,7 @@
 How the app looks: type, colour, surfaces and buttons, and the light or dark theme. Each decision follows the template
 in `../README.md`, and is cited by its title.
 
-## The look: a fresh display face, mono text and soft buttons (2026-11-14)
+## The look: a fresh display face, mono text and soft buttons (2026-11-16)
 
 **Built by:** Clocking, with the first screen.
 
@@ -34,7 +34,7 @@ main screen sketch:
   of the button's own colour, whatever that colour is. In the light theme its highlights and shadows are tinted blue,
   not white or black, so they sit with the blue button. The theme button's disc is in the buttons' own colour too, with
   a light icon; it catches the pointer light like the other discs.
-- **Motion:** every transition in the interface takes the same 0.3 seconds, one setting for all: hover and press, the
+- **Motion:** every transition in the interface takes the same 0.2 seconds, one setting for all: hover and press, the
   start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
   label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
   within that time. Animations that tell something over longer, such as the numbers counting at stop or the undo's fade,

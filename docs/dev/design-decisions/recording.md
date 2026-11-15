@@ -34,13 +34,13 @@ show the warning: the click target would move under the pointer.
 - "Starta jobb" and "Stoppa jobb": the button has the same size in both.
 - While an entry runs, the flex bar and the ceiling wheel do not change; at stop they include it.
 
-## The last click can be undone for a few seconds (2026-11-14)
+## The last click can be undone for a few seconds (2026-11-16)
 
 **Built by:** Clocking.
 
 **Decision:** a round undo button sits beside "Lägg till paus", the two centred together under the button block, drawn
 like the profile button's disc in its dent with a turning-back arrow. It is faded out when there is nothing to undo, and
-eases between faded and awake in 0.3 seconds rather than snapping. After a start or a stop it wakes for 15 seconds: a
+eases between faded and awake in 0.2 seconds rather than snapping. After a start or a stop it wakes for 15 seconds: a
 drape in the profile's over colour lies over the disc only, not the dent around it, under the arrow, starting at about
 two thirds strength, so the disc's own sheen shows through, and fading evenly to nothing over that time; hovered, the
 pointer-following label says what it would undo ("Ångra: stopp 15:40"). Pressing it reverses exactly that click: an
