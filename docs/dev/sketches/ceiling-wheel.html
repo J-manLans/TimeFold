@@ -92,7 +92,7 @@ section { display: grid; gap: 12px; }
 <div class="wrap">
   <header>
     <h1>Ceiling Wheel Colours</h1>
-    <p class="lede">Two rules to compare. <strong>Neon pair:</strong> only a hue is picked; the base is that hue's most vivid version muted, the over colour is the opposite hue at its most vivid. <strong>Turn toward red:</strong> a base colour is picked, and the over colour is the base turned toward red. Both dim the base for unused hours, and from 90% of the ceiling the number takes the over colour.</p>
+    <p class="lede">Two rules to compare. <strong>Neon pair:</strong> only a hue is picked; the base is that hue's most vivid version muted, the over colour is the opposite hue at its most vivid. <strong>Turn toward red:</strong> a base colour is picked, and the over colour is the base turned toward red. Both dim the base for unused hours, and past the ceiling the number takes the over colour.</p>
   </header>
 
   <div class="bench">
@@ -371,9 +371,9 @@ section { display: grid; gap: 12px; }
     if (overFrac > 0) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: cols.over, "stroke-width": w,
       "stroke-dasharray": (overFrac * circ) + " " + circ }));
     svg.appendChild(g);
-    var warn = hours >= CEILING * 0.9;
+    var past = hours > CEILING;
     var num = el("text", { x: 100, y: 104, "text-anchor": "middle", "font-family": "Space Grotesk, system-ui, sans-serif",
-      "font-size": 38, "font-weight": 700, fill: warn ? cols.over : cols.base });
+      "font-size": 38, "font-weight": 700, fill: past ? cols.over : cols.base });
     num.textContent = fmt(hours) + " h";
     svg.appendChild(num);
     var sub = el("text", { x: 100, y: 128, "text-anchor": "middle", "font-family": "Inter, system-ui, sans-serif",
@@ -400,7 +400,7 @@ section { display: grid; gap: 12px; }
   });
 
   var CASES = [[21, "21 h used: half the ring filled, the number in the base colour."],
-               [38, "38 h used: past 90% (37.8 h), so the number takes the over colour."],
+               [38, "38 h used: under the ceiling, so the number stays in the base colour."],
                [46, "46 h used: 4 h over, a lap in the over colour from 12 o'clock. Those 4 h carry into next month."]];
 
   // The over colour follows the suggestion until the owner picks one; a new base colour brings a new suggestion.

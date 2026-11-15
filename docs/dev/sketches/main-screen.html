@@ -802,7 +802,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     });
     svg.appendChild(g);
     for (var i = 0; i < 40; i++) { var a = i / 40 * 2 * Math.PI, r1 = 52, r2 = i % 10 === 0 ? 46 : 49; svg.appendChild(el("line", { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + r2 * Math.sin(a), y2: 100 - r2 * Math.cos(a), style: "stroke: var(--f-tick)", "stroke-width": 1 })); }
-    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", style: "font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-wheel)", fill: shown.used >= CEILING * 0.9 && !peekTo ? c.over : c.base, class: "wheel-num" });
+    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", style: "font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-wheel)", fill: shown.used > CEILING && !peekTo ? c.over : c.base, class: "wheel-num" });
     t.textContent = hmPlain(shown.used); svg.appendChild(t);
     var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, style: "fill: var(--f-ink)", "letter-spacing": "1.5" });
     s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);

@@ -69,8 +69,8 @@ next month; the ceiling, reports and pruning count by it.
 **Opening figures.** The janitor balance and the ceiling hours used, typed in when the app starts fresh; kept as
 entries dated the first day.
 
-**Over colour.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, the 90%
-warning; the opposite of the profile's hue at its most vivid, never picked.
+**Over colour.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, and the
+numbers that show them; the opposite of the profile's hue at its most vivid, never picked.
 
 **Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
 
