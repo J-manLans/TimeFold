@@ -24,14 +24,12 @@ No state, progress, decisions or history here; each has its own home (see "Where
 | `docs/dev/open-questions.md` | What is not decided, grouped by the phase (or part) that needs the answer |
 | `docs/dev/glossary.md` | The project's terms; read before writing about the app |
 | `docs/dev/design-draft.md` | The owner's first draft of the app, emptied into the files above as it is talked through |
+| `docs/dev/code-map.md` | Where the code lives and the path a run takes through it |
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 
 Added when there is something to put in them, each opening with what it holds and what stays out:
 
-- `docs/dev/code-map.md`, when the code has more than a few files: where the code lives and the path a run takes
-  through it. It names files and what to look for in them, not what the code says, and gives the command that prints
-  the tree instead of keeping one.
 - `docs/dev/codebase-ideas.md`, with the first idea that is not a problem now: one entry per idea, each opening with
   **Returns when:** (the phase, feature or code that would make it matter). Read at a docs sweep, when the owner asks
   about its subject, or when the owner says to; otherwise name the idea and ask.
@@ -141,6 +139,7 @@ present. Cite a decision by its title, "in `design-decisions/`", not by line or 
 | Change | Run |
 |---|---|
 | Docs only | nothing |
+| The interface (`src/`, its config) | `npm run check` |
 
 Rows are added when the project has tests, type checks, lint or probes.
 

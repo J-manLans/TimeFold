@@ -60,6 +60,7 @@ checks and names the other by title.
 
 - Tests come first, from the owner's rules
 - Code style
+- Design tokens hold every value of the look
 
 ### [Recording](recording.md)
 
@@ -92,7 +93,7 @@ checks and names the other by title.
 
 **[Layout](main-screen/layout.md)**
 
-- The main screen has a control side and a figures side
+- The main screen has a controls side and a dashboard
 - The menu has two tabs, with every value locked behind "Ändra"
 
 **[Look](main-screen/look.md)**

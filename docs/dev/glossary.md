@@ -23,8 +23,17 @@ janitor's expected hours, for each weekday of the month. Hours over it carry int
 colours of the profile on screen (grey for the balance profile), with hours over it in the over colour; a timeline of the month's hours,
 the profile on screen's lit and the others' faded ("The ceiling wheel", in `design-decisions/`).
 
+**Controls side.** The left side of the main screen: the start/stop button, the profile button, the status line,
+"Lägg till paus" and the menu. What the owner presses.
+
+**Dashboard.** The right side of the main screen, a dark or slate-blue panel: the balance, the flex bar, the ceiling
+wheel, the pay estimate and the recent entries. What the owner reads.
+
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
+
+**Design token.** A named value of the look, such as a colour, size or time, kept in one file and used by name
+("Design tokens hold every value of the look").
 
 **Entry.** One stretch of work, from a start to a stop. Clicked in the app, or written by hand.
 

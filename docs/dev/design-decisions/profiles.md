@@ -65,7 +65,7 @@ the ceiling does not show.
 change from a date"). A salary counts once per month whatever the hours; janitor work has one (such as 1 700 €), since
 its hours move the balance, not the pay. A rate counts the profile's hours that month. A profile with neither is left
 out. The estimate is the month's salaries plus its hours times rates ("A month starts on a set day"), shown as one
-number with no label under the ceiling wheel ("The main screen has a control side and a figures side"), and updated
+number with no label under the ceiling wheel ("The main screen has a controls side and a dashboard"), and updated
 when an entry stops or an added break changes a stopped entry, like the figures. It is for the owner only, and stays
 out of the report to the boss.
 **Why:** the owner wants a rough idea of what the month is worth as it builds up, and pay can rise over time. The

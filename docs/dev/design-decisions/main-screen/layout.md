@@ -1,14 +1,14 @@
-# Main screen: layout
- How the main screen is laid out and what its menu holds. How it looks is in `look.md`; the two figures are in
-`figures.md` and the profiles' colours in `colours.md`. Each decision follows the template in `../README.md`, and is
-cited by its title.
+# Main screen: layout How the main screen is laid out and what its menu holds. How it looks is in `look.md`; the two
+figures are in `figures.md` and the profiles' colours in `colours.md`. Each decision follows the template in
+`../README.md`, and is cited by its title.
 
-## The main screen has a control side and a figures side (2026-11-14)
+## The main screen has a controls side and a dashboard (2026-11-14)
 
 **Built by:** Clocking for the screen, the button, the flex bar and the list; Profiles for the profile button, the
 ceiling wheel and the pay estimate; Handover for export and import.
 
-**Decision:** the main screen has two sides, split by a divider (a sharp line or a gradient, settled when built). The
+**Decision:** the main screen has two sides, the controls side on the left and the dashboard on the right, split by a
+divider (a sharp line or a gradient, settled when built). The
 left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile list"),
 "Exportera" and "Importera" side by side under it, together as wide as it, greyed out while any profile runs; the
 profile button beside both, as tall as the two rows, a rectangle holding a raised disc set in a dent ("The look: a fresh
@@ -19,17 +19,17 @@ naming what runs and since when, which keeps its room even when empty; under tha
 ("Time away is a gap or an added break"), a smaller, quieter button, greyed out unless the profile on screen runs, whose
 length field opens in its place, text starting at the left; the menu button at the top left, and at the bottom the line
 that offers pruning ("Old history is pruned on request"). The menu grows out of its own button: pressed, the button's
-rounded rectangle expands from the top left into a panel over the control side, stopping at the divider, and the menu's
+rounded rectangle expands from the top left into a panel over the controls side, stopping at the divider, and the menu's
 content fades in once it is open; the three lines of the button turn into an × in the same spot, where the menu closes,
 shrinking back into the button; Esc or a click anywhere outside the menu closes it too. The panel is frosted: slightly
-see-through, with the control side lightly blurred behind it, and in the light theme tinted a little darker than the
-control side so it stands out. The figures stay sharp and in view while settings change. New profiles are made from the
+see-through, with the controls side lightly blurred behind it, and in the light theme tinted a little darker than the
+controls side so it stands out. The figures stay sharp and in view while settings change. New profiles are made from the
 menu. The right side is narrower, about two fifths of the window, and is the living one, changing at each stop, and
 looks like a modern terminal dashboard, not a retro one: a near-black panel in the dark theme and a deep slate-blue one
 (#2c3e5c) in the light theme, its rows a step darker and its text light, numbers in a monospaced font with their digits
 lined up, thin lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc
 sweeping). The colours come from the profiles ("Each profile carries its colours"): the profile on screen colours the
-control side and, when it is one of the others, the ceiling wheel; the flex bar always wears the balance profile's.
+controls side and, when it is one of the others, the ceiling wheel; the flex bar always wears the balance profile's.
 While the profile on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app takes the
 colour of the profile on screen. On the right side, from the top: the balance as a number, centred, with no label; the
 flex bar; the ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the
@@ -42,7 +42,7 @@ recent entries show yesterday's work on a fresh morning, where today's alone wou
 sits with what runs and never moves; the status line's kept room sets it a little apart, marking it as secondary.  The
 wheel tells its story alone, so nothing beside it is needed, and the side can be narrower. A dashboard look suits
 figures that are read at a glance, and a soft base colour with a neon-leaning over colour is how such dashboards use
-colour. In the light theme the slate blue has about half the contrast black had against the white control side (9.7:1
+colour. In the light theme the slate blue has about half the contrast black had against the white controls side (9.7:1
 against 17:1), so it does not glare, while its light text stays sharp on it (9.6:1); blue is also the complement of the
 default orange, so the figures stand out.
 **Rejected:** today's entries only: empty every morning. A small flex bar beside a large wheel: both are figures the
@@ -51,7 +51,7 @@ the balance: the number alone is clear. "Lägg till paus" at the bottom left: th
 menu over the whole screen: it would hide the figures it changes. A drawer with a tab holding the icon: a fine picture,
 but more parts than the growing button. The icon riding to the panel's far corner as an ×: the close button would not be
 where the pointer is. A menu sliding in under a separate button: the icon would stay apart from the menu. A see-through
-menu always present: nothing needs it when closed. A fully light figures side in the light theme: the dashboard look
+menu always present: nothing needs it when closed. A fully light dashboard in the light theme: the dashboard look
 would be lost. A near-black panel in the light theme: it glared against the white controls. A mid-grey panel: its light
 text had too little contrast (2.6:1). A violet panel: also good, kept as the alternative. A retro terminal look (green
 on black, scan lines): the owner wants the direction, not the costume.

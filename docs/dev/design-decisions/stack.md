@@ -1,6 +1,5 @@
 # Stack
-
-What the app is built with. Each decision follows the template in `README.md`, and is cited by its title.
+ What the app is built with. Each decision follows the template in `README.md`, and is cited by its title.
 
 ## Tauri, desktop on Windows and Linux (2026-11-14)
 
@@ -22,14 +21,17 @@ which is risky for a record the boss relies on. A phone app: the owner clicks at
 **Built by:** Clocking.
 
 **Decision:** the interface inside Tauri is written in Svelte, with TypeScript for its logic and plain CSS in each
-component's own style block. No CSS framework.
+component's own style block. No CSS framework. It is plain Svelte
+built by Vite, one page mounted from `src/main.ts`, not SvelteKit.
 **Why:** the main screen is a few live figures that follow the data and animate as it changes; Svelte keeps the screen
 in step with the data and has tweened values and transitions built in (a number counting up, an element animating in
 or out), where plain TypeScript would need that wiring by hand. Its components are written in TypeScript, which the
 owner knows, and their CSS is ordinary CSS, scoped to the component, which the owner enjoys writing. It is a modern
 tool the owner wants to learn, and its idea, components that follow the data, carries over to other frameworks.
 **Rejected:** plain TypeScript: every update and animation would be wired by hand. React: more machinery than an app
-this size needs. A CSS framework such as Tailwind: the owner prefers writing the CSS.
+this size needs. A CSS framework such as Tailwind: the owner prefers writing the CSS. SvelteKit:
+its routing and server rendering are for websites; one window uses neither, and Tauri's SvelteKit template spends its
+config turning them off (`ssr = false`, a static adapter).
 **Revisit if:** Svelte's animation does not run well on WebKitGTK, or the build step costs more than it gives.
 
 ## The record is one JSON file (2026-11-14)

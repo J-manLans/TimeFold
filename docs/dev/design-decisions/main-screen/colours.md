@@ -34,7 +34,7 @@ No colour is asked for. The profile with the balance starts on the OKLCH hue 195
 profile using two, its own and the opposite one its over colour has (a random pick between gaps of equal size). Its
 strip is set to that hue's neon, and its base is the neon muted: 55% of the neon's chroma, at a lightness 40% of the
 way from the neon's own toward 0.70. The colours go to:
-- the control side, for the profile on screen: its letter (in the over colour), the ring around the
+- the controls side, for the profile on screen: its letter (in the over colour), the ring around the
   start button, the warning label, the focus rings, the status line's mark;
 - the small profile circles in the menu and the profile popup: the letter in the over colour, ringed in the base
   colour, the same pair the figures show;

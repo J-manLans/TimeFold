@@ -11,8 +11,8 @@ leaves; its answer goes to `design-decisions/`. A question half answered stays w
 A flex day, for one day or a range, takes the expected hours off the balance with one action ("A day owes its
 expected hours only when work started on it"). Where that action lives is open: in the menu, from the "Visa alla"
 popup on a chosen day, or beside "Lägg till paus". Not drawn in the main screen sketch.
-**See:** A day owes its expected hours only when work started on it; The main screen has a control side and a
-figures side.
+**See:** A day owes its expected hours only when work started on it; The main screen has a controls side and a
+dashboard.
 
 ## Phase 3: Corrections
 

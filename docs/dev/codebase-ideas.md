@@ -28,7 +28,7 @@ Switching tabs in the menu ("The menu has two tabs, with every value locked behi
 starts as a fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the
 menu grows out of its button. To try in the menu's coding session, against the fade.
 
-## Today's hours on the control side
+## Today's hours on the controls side
 
 **Returns when:** the owner, using the app, keeps wondering how much is left of today.
 A quiet line under the button block: today's hours of the profile with the balance against the day's expected hours

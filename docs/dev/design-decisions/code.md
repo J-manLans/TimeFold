@@ -50,16 +50,14 @@ well-named test already says its rule.
   line of `=` above and below a centred name; a subsection is one line, `=== Name ===`. Logic modules use **Init**,
   **API** and **Helpers**, the helpers sub-headed by the section they serve (`=== Init ===`, `=== API ===`,
   `=== Global ===`). A Svelte component's script uses **Props**, **State**, **Logic** and **Helpers**, and its style
-  **Tokens**, **Layout** and **States**. A small file with one job needs no banner.
-- **CSS:** every raw value (colour, size, radius, time, strength) lives in one tokens file, `src/styles/tokens.css`,
-  carried over from the main screen sketch's knobs, with each theme colour written once as `light-dark(light, dark)`;
-  components use only `var(--…)`. A small `src/styles/base.css` holds the reset, fonts and body. Inside a component,
+  **Layout** and **States**. A small file with one job needs no banner.
+- **CSS:** every raw value is a design token ("Design tokens hold every value of the look"); components use only
+  `var(--…)`. Inside a component,
   class names are short and plain (`.label`, `.dot`), since Svelte scopes each component's styles; states are shown with
   `class:` directives, `:disabled` and `aria-` attributes, not in class names. **Colours by role:** one function takes a
   profile and the situation (the theme, the profile on screen, whether its figure is past its line, the peek) and
   returns its colour roles: `base`, `dimmed`, `over`, `faded` and `number`; the figures read them as CSS variables
-  (`var(--wheel-number)`) and never pick a colour themselves. The balance profile's greys are theme tokens. Every
-  transition takes `--speed-ui`, and `prefers-reduced-motion` is always respected.
+  (`var(--wheel-number)`) and never pick a colour themselves. The balance profile's greys are theme tokens.
 - **Tests,** with Vitest for TypeScript and Rust's own tests for Rust ("Tests come first, from the owner's rules"):
   - as few tests as cover the behaviour: a test earns its place only if breaking the code it guards turns it red and
     no other test already does; no tests of the language or a library; asserts on one behaviour share one test;
@@ -86,3 +84,35 @@ suit a simulation; here the decisions' cases cover it. BEM class names: Svelte's
 collisions BEM exists to avoid, and the long names would only add noise.
 **Revisit if:** a tool's default fights the owner's banners or comment style, or a third language joins.
 
+## Design tokens hold every value of the look (2026-11-15)
+
+**Built by:** Clocking, starting with the tokens taken over from the main screen sketch.
+
+**Decision:** a design token is a named value standing for a design decision, written as a CSS custom property. Every
+raw value of the look (colour, font, size, spacing, radius, time, shadow) is a token in one file,
+`src/styles/design-tokens.css`, which `src/main.ts` imports once, beside `src/styles/base.css` (the reset, the fonts and
+the body). Components never import it and use only `var(--…)`. Styles (selectors, layout, states) stay in each
+component; only the values are central.
+- **Names** say the intent, not the value: `--color-background`, `--wheel-diameter`, `--speed-ui`, never `--dark-grey`
+  or `--size-200`. A value only one component uses is still a token, under that component. A decision shared by
+  several parts is one token; two values that happen to be equal but mean different things are two.
+- **Order:** the file runs Global, Controls (the controls side), Dashboard, then Overlays and popups, the popups grouped
+  by the side that owns them, or Global. Inside each component, and in Global, values go in this order: colours,
+  typography, dimensions, spacing, radii, motion, shadows and effects. The sections use the banners of "Code style".
+- **Theming:** `:root` sets `color-scheme: light dark`. The theme button's "System" leaves it so; "Ljust" and "Mörkt"
+  set it to `light` or `dark` ("A light or dark theme, following the system"). A value that differs between the themes
+  is written once as `light-dark(light, dark)`; one that does not is a single value. While the look is tuned, a pair
+  may hold the same value on both sides; once the design settles, such a pair is merged into one value. The profiles'
+  colours are not tokens: the colour roles in "Code style" work them out. The balance profile's greys are tokens.
+- **Motion:** times are written in seconds. `--speed-ui: 0.2s` is every small transition's ("The look: a fresh display
+  face, mono text and soft buttons"); a longer animation that tells something has its own token, such as the peek's
+  0.3s ("The ceiling wheel"). `prefers-reduced-motion` is always respected.
+**Why:** one file is the tuning panel for the whole look, as the sketch's knobs were, and the look is tuned far more
+often than a component is read; a token's name and go-to-definition make the second file cheap. Custom properties
+inherit through Svelte's scoped styles, so one import on `:root` reaches every component with no wiring. Names by
+intent survive a change of value. `light-dark()` keeps a theme's pair on one line with no second set of tokens, and the
+theme button is one property on one element. Tokens describe the design as it is, not hypothetical needs.
+**Rejected:** a component's own values in its style block: tuning the look would mean opening every component, and
+each value would need a call on shared or local. Every colour paired for both themes from the start: a pair says the
+themes differ, and an identical pair says it falsely. Times in milliseconds: the owner reads seconds.
+**Revisit if:** the file grows past what is comfortable to tune in one place.

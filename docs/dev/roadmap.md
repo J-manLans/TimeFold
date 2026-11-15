@@ -6,8 +6,7 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, starting with its **Settle first**: the project's layout and the code map, and the design tokens
-taken over from the main screen sketch.
+Phase 1: Clocking, starting with its **Settle first**: the design tokens taken over from the main screen sketch.
 
 ## State
 
@@ -15,7 +14,7 @@ taken over from the main screen sketch.
 
 | Part | State | Has it run |
 |---|---|---|
-| _none yet_ | | |
+| The project: Tauri, Svelte and Vite, with an empty main screen | written | run: the window opens on Linux |
 
 ## The phases
 
@@ -28,12 +27,12 @@ rules"), and tests animation on Linux early ("Tauri, desktop on Windows and Linu
 ### Phase 1: Clocking
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
-**Settle first:** the project's layout and the code map; the design tokens taken over from the main screen sketch.
-1. The project: Tauri, Svelte with TypeScript, the test runner, the code map.
+**Settle first:** the design tokens taken over from the main screen sketch.
+1. The project's tools: the test runner, and the formatters, linters and `tidy` script of "Code style".
 2. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
 3. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
-4. The main screen's control side: the button block, the warning label, the status line, the prune line's room.
-5. The figures side with the flex bar and the five recent entries; the theme button; the colour rule, which the
+4. The main screen's controls side: the button block, the warning label, the status line, the prune line's room.
+5. The dashboard with the flex bar and the five recent entries; the theme button; the colour rule, which the
    bar needs for its over colour.
 6. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on
    a welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until

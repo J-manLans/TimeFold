@@ -1,6 +1,5 @@
 # Main screen: look
-
-How the app looks: type, colour, surfaces and buttons, and the light or dark theme. Each decision follows the template
+ How the app looks: type, colour, surfaces and buttons, and the light or dark theme. Each decision follows the template
 in `../README.md`, and is cited by its title.
 
 ## The look: a fresh display face, mono text and soft buttons (2026-11-15)
@@ -14,8 +13,8 @@ main screen sketch:
   normal case. The quiet lines, what runs, the offer to prune and the short messages after an action (such as
   "Rensar efter en kopia"), share one small size (10.5 px) in the muted colour.
 - **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with its
-  light and dark value side by side. The figures side is near-black in the dark theme and slate blue in the light theme,
-  each a tinted family of panel, rows, lines and text ("The main screen has a control side and a figures side").
+  light and dark value side by side. The dashboard is near-black in the dark theme and slate blue in the light theme,
+  each a tinted family of panel, rows, lines and text ("The main screen has a controls side and a dashboard").
   Contrast is balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same
   ratio, and stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1
   (light), lines at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons
@@ -24,10 +23,10 @@ main screen sketch:
   with near-white text at 5.2:1, hovered `#40577b` at 6.8:1; in the dark theme a dark grey with light text; a little
   bolder text on the smaller buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset
   down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint shade from the
-  top. Small controls and fields have 6 px corners, panels and popups 12 px. Around them, the light theme's control side
-  is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; fields are white and
-  the colour picker `#e6ecf4`. The profile popup takes the button colour, with the chosen or hovered profile a lighter
-  step (`#5f789e` in the light theme), as in the dark theme.
+  top. Small controls and fields have 6 px corners, panels and popups 12 px. Around them, the light theme's controls
+  side is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; fields are white
+  and the colour picker `#e6ecf4`. The profile popup takes the button colour, with the chosen or hovered profile a
+  lighter step (`#5f789e` in the light theme), as in the dark theme.
 - **Profile circle:** a raised disc in the button's own colour, lit from the top, its letter in the profile's colour (if
   a profile's colour reads poorly on the button, the owner changes it with the picker), sitting in a soft dent 6 px wide
   around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
@@ -39,7 +38,7 @@ main screen sketch:
   label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
   within that time. Animations that tell something over longer, such as the numbers counting at stop or the undo's fade,
   keep their own length.
-- **Light:** a soft, matte light follows the pointer over the control side: one light shared by all buttons, reaching
+- **Light:** a soft, matte light follows the pointer over the controls side: one light shared by all buttons, reaching
   about 70 px from the pointer (far enough to flow across buttons, near enough that a button visibly lights up as the
   pointer enters it), so it lies only on button surfaces and flows across them, faint and tinted (stronger on the light
   theme's blue than on the dark grey), fading in and out with the pointer. The discs catch it too, at full strength,
@@ -55,15 +54,15 @@ main screen sketch:
 **Why:** the owner likes the references' printed, technical feel, with something fresher and more modern for the big
 type. A mono for the rest ties the controls to the dashboard. Flat buttons with one soft shadow keep the surfaces
 calm; the indented disc gives the profile button a physical touch.
-**Rejected:** a flat saturated colour field for the figures side: the dark panel stays. Rounder condensed faces (Saira
+**Rejected:** a flat saturated colour field for the dashboard: the dark panel stays. Rounder condensed faces (Saira
 Extra Condensed, Big Shoulders Display, Teko): too round. Tektur, condensed: square and technical, but not fresh enough
 for the big type; tried for all text, it was too much. Matte plastic buttons with grain, edge highlights and a deeper
 shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile circle: the button's own colour reads
 better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the page
-(1.08:1, later 1.29:1); the blue ties the control side to the dashboard. An outline around the profile letter: it looked
-silly. No light on the discs: it set them apart, but less naturally; the profile disc's half strength keeps a little of
-both. A fine grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the blue one
-sits better with the other buttons.
+(1.08:1, later 1.29:1); the blue ties the controls side to the dashboard. An outline around the profile letter: it
+looked silly. No light on the discs: it set them apart, but less naturally; the profile disc's half strength keeps a
+little of both. A fine grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the
+blue one sits better with the other buttons.
 **Revisit if:** the mono is hard to read at small sizes, or the pointer light repaints too slowly there.
 
 
@@ -74,15 +73,15 @@ sits better with the other buttons.
 **Decision:** the app has a theme setting: "System" (the default, following the computer's light or dark mode), "Ljust"
 or "Mörkt". It is a round button beside the menu's heading, drawn like the profile button's disc in its dent: a sun for
 Ljust, a moon for Mörkt, a half-filled circle for System; each click moves to the next, and a label names the one in
-force. The figures side follows it too, as a near-black panel in the dark theme and a slate-blue one in the light theme
-("The main screen has a control side and a figures side"). Like the colours, the theme belongs to each machine and is
+force. The dashboard follows it too, as a near-black panel in the dark theme and a slate-blue one in the light theme
+("The main screen has a controls side and a dashboard"). The theme belongs to each machine and is
 not carried by the handover.
 **Why:** the owner's two computers may be set differently, and following the system needs no choice at all; the
 setting is there for when the app should differ from the system.
 **Rejected:** three buttons in a tab of their own: one round button in the heading is enough. One fixed theme: the
-control side should sit well beside the rest of the owner's desktop. The theme in the handover: each machine is set up
+controls side should sit well beside the rest of the owner's desktop. The theme in the handover: each machine is set up
 for its own screen and room.
-**Revisit if:** the figures side should follow the theme after all.
+**Revisit if:** the dashboard should follow the theme after all.
 **Cases:**
-- System in dark mode, theme "System": the control side is dark.
-- Theme "Ljust" on a dark system: the control side is light, and the figures panel slate blue.
+- System in dark mode, theme "System": the controls side is dark.
+- Theme "Ljust" on a dark system: the controls side is light, and the dashboard slate blue.
