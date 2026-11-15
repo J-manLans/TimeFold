@@ -29,9 +29,11 @@ well-named test already says its rule.
 - **Structure:** a better structure that comes easily is built from the start, in the app's first version of the part;
   one that needs hoops jumped through waits until a problem asks for it. When two designs serve the owner equally, the
   one with fewer rules and less code wins. The sketches are throwaway and are not restructured.
-- **Tools, with their defaults:** Prettier with its Svelte plugin for TypeScript, Svelte and CSS, and rustfmt for
-  Rust, formatting automatically; ESLint with the TypeScript and Svelte rules, and clippy for Rust. One `tidy` script
-  formats and lints everything, and checks the same as CI. Lines are at most 120 characters, as in the docs.
+- **Tools, with their defaults:** Prettier with its Svelte plugin for TypeScript, Svelte, CSS and the docs' markdown,
+  and rustfmt for Rust, formatting automatically; ESLint with the TypeScript and Svelte rules, and clippy for Rust.
+  Prettier is pinned to an exact version, since a new one may format the same code differently. `npm run tidy` formats
+  and lints everything; `npm run tidy:check` changes nothing and fails on anything `tidy` would fix. Lines are at most
+  120 characters, code and docs alike, and Prettier wraps the docs' prose to fit.
 - **Types:** TypeScript in strict mode. Exported functions state their parameter and return types; a variable states
   its type when it is not obvious. A method that replaces an inherited one is marked `override`, and
   `noImplicitOverride` makes a missing mark an error. A class that matches an interface says `implements` and does not
