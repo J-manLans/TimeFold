@@ -58,6 +58,7 @@ title.
 
 - Tauri, desktop on Windows and Linux
 - Svelte with TypeScript for the interface
+- Rust touches the disk; TypeScript knows the record
 - The record is one JSON file
 
 ### [Code](code.md)
