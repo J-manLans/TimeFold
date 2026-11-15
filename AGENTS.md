@@ -1,7 +1,7 @@
 # AGENTS.md
 
-How an agent works in this repo: rules, the doc map, where things go, commands and traps. Read in full every session.
-No state, progress, decisions or history here; each has its own home (see "Where things go").
+How an agent works in this repo: rules, the doc map, where things go, commands and traps. Read in full every session. No
+state, progress, decisions or history here; each has its own home (see "Where things go").
 
 ## Hard rules
 
@@ -15,17 +15,17 @@ No state, progress, decisions or history here; each has its own home (see "Where
 
 ## Doc map
 
-| Doc | For |
-|---|---|
-| `AGENTS.md` | How an agent works here (this file) |
-| `docs/vision.md` | Where the project is heading, and the questions to ask of a new idea |
-| `docs/dev/roadmap.md` | **Next**, the state table, the phases, what is not on the roadmap |
-| `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area |
-| `docs/dev/open-questions.md` | What is not decided, grouped by the phase (or part) that needs the answer |
-| `docs/dev/glossary.md` | The project's terms; read before writing about the app |
-| `docs/dev/code-map.md` | Where the code lives and the path a run takes through it |
-| `docs/dev/codebase-ideas.md` | Ideas that are not a problem now, each opening with **Returns when:** |
-| `docs/dev/sketches/` | Looks tried before they are decided, a page or a drawing each |
+| Doc                                   | For                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------- |
+| `AGENTS.md`                           | How an agent works here (this file)                                       |
+| `docs/vision.md`                      | Where the project is heading, and the questions to ask of a new idea      |
+| `docs/dev/roadmap.md`                 | **Next**, the state table, the phases, what is not on the roadmap         |
+| `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area     |
+| `docs/dev/open-questions.md`          | What is not decided, grouped by the phase (or part) that needs the answer |
+| `docs/dev/glossary.md`                | The project's terms; read before writing about the app                    |
+| `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                  |
+| `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**     |
+| `docs/dev/sketches/`                  | Looks tried before they are decided, a page or a drawing each             |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. A sketch holds nothing the docs need: the decision it serves holds every number it
@@ -33,11 +33,11 @@ settles, and it is deleted once the code it previews is built; `git log` keeps i
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 
-Added when there is something to put in them, each opening with what it holds and what stays out, and moved into the
-doc map once it exists:
+Added when there is something to put in them, each opening with what it holds and what stays out, and moved into the doc
+map once it exists:
 
-- `docs/dev/procedures/`, when a job is done a second time: one file per job only some sessions need, and a line
-  here saying when to read it.
+- `docs/dev/procedures/`, when a job is done a second time: one file per job only some sessions need, and a line here
+  saying when to read it.
 - `docs/dev/archive/`, when an investigation closes or an idea is dropped, and both are true: it is likely to come up
   again, and reaching the conclusion cost something. Each entry says what it was, why it ended, and what would change
   the verdict. Otherwise delete it and let `git log` keep it.
@@ -45,12 +45,12 @@ doc map once it exists:
 ## How docs grow
 
 1. **One file.** Every collection (decisions, terms, ideas, the roadmap) starts as a single file.
-2. **A folder with a `README.md` index,** when a file is read every session and has grown past what a session should
-   pay for. The README keeps what every session needs and says who reads what; the bodies move into files beside it.
-3. **A part splits again** when it passes its limit: into a folder with its name, holding the pieces cut by topic.
-   The folder has no index of its own; the collection's README groups the pieces under the folder's name and still
-   lists every title. The agent makes the cut as soon as it notices a file past its limit, at a sweep or in passing,
-   without asking, and reports the new files and their sizes. It is a structural fix, the agent's to make.
+2. **A folder with a `README.md` index,** when a file is read every session and has grown past what a session should pay
+   for. The README keeps what every session needs and says who reads what; the bodies move into files beside it.
+3. **A part splits again** when it passes its limit: into a folder with its name, holding the pieces cut by topic. The
+   folder has no index of its own; the collection's README groups the pieces under the folder's name and still lists
+   every title. The agent makes the cut as soon as it notices a file past its limit, at a sweep or in passing, without
+   asking, and reports the new files and their sizes. It is a structural fix, the agent's to make.
 
 Limits, checked with `wc -w` at the sweep and whenever a file looks long: ~4,000 words for a general doc (flagged only),
 ~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point at the
@@ -68,25 +68,25 @@ Scaled to the task:
 
 ## Where things go
 
-| When | Update |
-|---|---|
-| A decision is made | its area's file in `design-decisions/`, present tense, **Built by** until built; index title |
-| A question is answered | remove it from `open-questions.md`; the answer goes to its area's `design-decisions/` file |
-| A question comes up | `open-questions.md`, under the phase (or part) that needs it |
-| A concrete case is agreed | the **Cases** line of the decision it mainly checks |
-| A case becomes a test | remove it from its decision's **Cases** |
-| A roadmap step is done | remove it from the roadmap; update the state table; trim each **Built by** it built |
-| Code is first run | the "has it run" cell in the state table |
-| A word is coined | `docs/dev/glossary.md` |
-| A file is added, moved or renamed | the code map, in the same change (once it exists) |
-| A look to try before deciding it | a page in `docs/dev/sketches/`; what it settles goes to its decision |
-| An idea that is not a problem now | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead |
-| How an occasional job is done | its file in `docs/dev/procedures/` |
-| An investigation closes, and would cost to redo | `docs/dev/archive/`; otherwise delete it |
-| What was done, and what was run | the commit message |
+| When                                            | Update                                                                                       |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| A decision is made                              | its area's file in `design-decisions/`, present tense, **Built by** until built; index title |
+| A question is answered                          | remove it from `open-questions.md`; the answer goes to its area's `design-decisions/` file   |
+| A question comes up                             | `open-questions.md`, under the phase (or part) that needs it                                 |
+| A concrete case is agreed                       | the **Cases** line of the decision it mainly checks                                          |
+| A case becomes a test                           | remove it from its decision's **Cases**                                                      |
+| A roadmap step is done                          | remove it from the roadmap; update the state table; trim each **Built by** it built          |
+| Code is first run                               | the "has it run" cell in the state table                                                     |
+| A word is coined                                | `docs/dev/glossary.md`                                                                       |
+| A file is added, moved or renamed               | the code map, in the same change (once it exists)                                            |
+| A look to try before deciding it                | a page in `docs/dev/sketches/`; what it settles goes to its decision                         |
+| An idea that is not a problem now               | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                |
+| How an occasional job is done                   | its file in `docs/dev/procedures/`                                                           |
+| An investigation closes, and would cost to redo | `docs/dev/archive/`; otherwise delete it                                                     |
+| What was done, and what was run                 | the commit message                                                                           |
 
-Docs say what is true now. A doc that tells its own story ("we used to…", "as of Tuesday") is rewritten to the
-present. Cite a decision by its title, "in `design-decisions/`", not by line or file.
+Docs say what is true now. A doc that tells its own story ("we used to…", "as of Tuesday") is rewritten to the present.
+Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## Commits
 
@@ -95,51 +95,51 @@ present. Cite a decision by its title, "in `design-decisions/`", not by line or 
   the code when the owner says commit.
 - **Code** is anything that does something: source, config, build files. A comment or docstring the owner asked for
   counts as docs.
-- **One commit per batch.** Later changes in the same batch are amended into its commit. Amending anything else,
-  such as an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended. Check
-  `git status -sb` before every amend.
+- **One commit per batch.** Later changes in the same batch are amended into its commit. Amending anything else, such as
+  an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended. Check `git status -sb`
+  before every amend.
 - **The message is the record:** what changed, why, and what was run to check it, or that nothing was run.
 - **Cite an unmerged commit by its title,** since rebase merges change hashes.
 - Once there is a remote: each phase on a small branch off `main`, merged back by pull request with rebase.
 
 ## How to work with the owner
 
-- **Design together; who writes the code shifts.** The owner decides. The owner may steer while the agent writes,
-  review what the agent wrote, or work alongside; when it is unclear, ask. Alongside, the owner writes the parts they
-  want to learn by doing and the agent does the rest, the tedious parts first (installs, config, moving code, removing
-  files); the agent explains the why, gives one step at a time and waits for the owner before the next, and reviews
-  what the owner wrote. The docs are the agent's to write.
-- **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are
-  thinking and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A
-  restated option is not a decision.
+- **Design together; who writes the code shifts.** The owner decides. The owner may steer while the agent writes, review
+  what the agent wrote, or work alongside; when it is unclear, ask. Alongside, the owner writes the parts they want to
+  learn by doing and the agent does the rest, the tedious parts first (installs, config, moving code, removing files);
+  the agent explains the why, gives one step at a time and waits for the owner before the next, and reviews what the
+  owner wrote. The docs are the agent's to write.
+- **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are thinking
+  and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A restated option
+  is not a decision.
 - **Argue for the owner's hunch** before defending the proposal.
 - **Make the work reviewable.** List each file touched and what changed, what was run and what was only read, and
   anything written against code that does not exist yet.
-- **Number what the owner must answer.** Once a topic is talked through, the concrete questions, borderline calls
-  and choices left are a numbered list, never bullets, so the owner can reply "1. yes, 2. no". Numbering restarts
-  with each message.
-- **Write to the docs in batches,** not after every answer. Judge the batch: a topic talked through, a decision
-  made, a session ending, or the owner asking. Write before context runs short, so nothing said is lost.
-- **While tuning, just change the code.** When the owner fine-tunes how something looks or feels, on a sketch or in
-  the app, the code holds the values meanwhile and the conversation the reasons, so no decision edits or commits
-  between tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching topic,
-  at a break, or when the conversation is getting long.
+- **Number what the owner must answer.** Once a topic is talked through, the concrete questions, borderline calls and
+  choices left are a numbered list, never bullets, so the owner can reply "1. yes, 2. no". Numbering restarts with each
+  message.
+- **Write to the docs in batches,** not after every answer. Judge the batch: a topic talked through, a decision made, a
+  session ending, or the owner asking. Write before context runs short, so nothing said is lost.
+- **While tuning, just change the code.** When the owner fine-tunes how something looks or feels, on a sketch or in the
+  app, the code holds the values meanwhile and the conversation the reasons, so no decision edits or commits between
+  tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching topic, at a break,
+  or when the conversation is getting long.
 - **Mention what is surprising; do not fix it unasked.**
-- **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no
-  "until phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
-- **The docs sweep:** when the owner signals the session is ending ("see you tomorrow", "I need to think about this",
-  a question about where things stand), offer it once. Check, in order: the roadmap and open questions against what
-  was done, and each **Built by** (one naming a finished phase or part is stale); decisions from the session missing
-  from their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas
-  (built ones move to decisions, dropped ones go). Say what changed, and flag borderline calls (decision or still
-  open, idea or problem) instead of guessing.
+- **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no "until
+  phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
+- **The docs sweep:** when the owner signals the session is ending ("see you tomorrow", "I need to think about this", a
+  question about where things stand), offer it once. Check, in order: the roadmap and open questions against what was
+  done, and each **Built by** (one naming a finished phase or part is stale); decisions from the session missing from
+  their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas (built
+  ones move to decisions, dropped ones go). Say what changed, and flag borderline calls (decision or still open, idea or
+  problem) instead of guessing.
 - **Add a rule only when its absence has cost something.**
 
 ## Commands, and what each kind of change runs
 
-| Change | Run |
-|---|---|
-| Docs only | nothing |
+| Change                             | Run             |
+| ---------------------------------- | --------------- |
+| Docs only                          | nothing         |
 | The interface (`src/`, its config) | `npm run check` |
 
 Rows are added when the project has tests, type checks, lint or probes.

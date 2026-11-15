@@ -1,9 +1,9 @@
 # Design decisions
 
-The template, the principles most decisions follow, and every decision's title by area, each area linking the file
-that holds its decisions. Read this index before a design opinion, and the area files the opinion touches. Present
-tense: what is true now. Open questions stay out (`../open-questions.md`); so does state (`../roadmap.md`). Cite a
-decision by its title, "in `design-decisions/`"; a split then changes only this index.
+The template, the principles most decisions follow, and every decision's title by area, each area linking the file that
+holds its decisions. Read this index before a design opinion, and the area files the opinion touches. Present tense:
+what is true now. Open questions stay out (`../open-questions.md`); so does state (`../roadmap.md`). Cite a decision by
+its title, "in `design-decisions/`"; a split then changes only this index.
 
 ## Template
 
@@ -15,19 +15,23 @@ or "nothing on the roadmap yet" and what it waits on. The line goes when it is b
 built.
 
 **Decision:** what is true.
+
 **Why:** the reason.
+
 **Rejected:** alternatives worth not suggesting again, each with its reason.
+
 **Revisit if:** the condition that would reopen it.
+
 **Cases:** only while some are not yet tests: concrete examples, given this, expect that. Each case leaves when its
 test is written.
 ```
 
-When a decision changes, rewrite the entry to say what is true now; a reversal that still matters becomes a
-rejected alternative. **Rejected** pays off most: an agent will suggest the elegant alternative that was turned down
-for a reason it cannot see, and one line there stops it. **Built by** exists because a present-tense decision
-written before its code reads as a description of the code. **Cases** keeps what was agreed in talk until its part
-is built ("Tests come first, from the owner's rules"); a case that checks two decisions goes under the one it mainly
-checks and names the other by title.
+When a decision changes, rewrite the entry to say what is true now; a reversal that still matters becomes a rejected
+alternative. **Rejected** pays off most: an agent will suggest the elegant alternative that was turned down for a reason
+it cannot see, and one line there stops it. **Built by** exists because a present-tense decision written before its code
+reads as a description of the code. **Cases** keeps what was agreed in talk until its part is built ("Tests come first,
+from the owner's rules"); a case that checks two decisions goes under the one it mainly checks and names the other by
+title.
 
 ## Principles
 
@@ -35,8 +39,8 @@ checks and names the other by title.
 - **The record is the owner's and stays on their own machines.**
 - **Work time is time present minus errands.** Every total in the app and in reports is counted this way.
 - **A signal tells the owner something they can act on.** An effect for its own sake is left out.
-- **Figures that mean alike behave alike.** The flex bar's number and the ceiling wheel's turn to the over colour by
-  one rule: past their line.
+- **Figures that mean alike behave alike.** The flex bar's number and the ceiling wheel's turn to the over colour by one
+  rule: past their line.
 
 ## Decisions by area
 

@@ -21,16 +21,21 @@ appears there. No handle can be dragged into another entry, past now, or across 
 neighbour. An entry across midnight opens on the day chosen, showing its part of that day, and its other end is edited
 from the other day; an edit that would cross midnight is two edits, one per day. A running entry's end is now and does
 not move. The colours are a preview: nothing changes until the owner confirms, and a cancel leaves the entry as it was.
+
 **Why:** the owner adds breaks during the day; one found after stop, a late start or an early end are all fixed in the
 same place, seeing the whole entry and the time around it. A handle that cannot reach a clash needs no error message.
 Centring on the entry keeps the view small when the nearest neighbour is days away; stopping at midnight matches how
 time is counted ("Time counts on the day it was worked").
-**Rejected:** a separate "add break" for stopped entries: see "Time away is a gap or an added break". Editing start
-and end with the clock alone: it shows one time, not the entry and its neighbours. A break typed as a length on a
-stopped entry: a from–to on the line places it where it happened. A line showing the whole day: most of it is empty,
-and the entry is small in it.
+
+**Rejected:** a separate "add break" for stopped entries: see "Time away is a gap or an added break". Editing start and
+end with the clock alone: it shows one time, not the entry and its neighbours. A break typed as a length on a stopped
+entry: a from–to on the line places it where it happened. A line showing the whole day: most of it is empty, and the
+entry is small in it.
+
 **Revisit if:** dragging proves too imprecise; see "Exact minutes on the line", in `open-questions.md`.
+
 **Cases:**
+
 - 08:00–12:00, left handle to 08:20: 08:20–12:00.
 - 08:00–12:00, right handle dragged toward 16:00 with nothing else that day: the view zooms out as it goes, the whole
   entry always in view; 08:00–16:00.
@@ -39,10 +44,10 @@ and the entry is small in it.
 - The same, switched to shorten: 10:00–10:40.
 - 08:00–12:00, both handles moved 30 min later, nothing else that day: 08:30–12:30.
 - Previous entry ends 07:30: the left handle stops at 07:30.
-- 22:00–23:30, right handle dragged toward 00:30: it stops at midnight; the half hour after is a new entry on the
-  next day.
-- Entry Tuesday 22:00 to Wednesday 01:00, opened on Tuesday: the line shows its part up to midnight, and only the
-  start handle moves.
+- 22:00–23:30, right handle dragged toward 00:30: it stops at midnight; the half hour after is a new entry on the next
+  day.
+- Entry Tuesday 22:00 to Wednesday 01:00, opened on Tuesday: the line shows its part up to midnight, and only the start
+  handle moves.
 - Running entry: the right handle is now and does not move.
 - Cancel after dragging: the entry is unchanged.
 
@@ -50,15 +55,20 @@ and the entry is small in it.
 
 **Built by:** Clocking for clicked entries; Corrections for written and edited ones.
 
-**Decision:** every entry keeps one mark of how it was made: clicked, written by hand, or edited after it was
-recorded. The mark is stored from the first entry. Showing it in the report is not decided; see "Corrected entries in
-the report", in `codebase-ideas.md`.
-**Why:** honesty in reporting: the boss can trust that a time set by hand is known to be one. Stored from the start,
-the mark is right for every entry; added later, it would be missing on all entries before it.
-**Rejected:** no mark: the record could not tell a click from a guess. Keeping every edit's old times: more than
-honesty needs, for a report the boss reads at a glance.
+**Decision:** every entry keeps one mark of how it was made: clicked, written by hand, or edited after it was recorded.
+The mark is stored from the first entry. Showing it in the report is not decided; see "Corrected entries in the report",
+in `codebase-ideas.md`.
+
+**Why:** honesty in reporting: the boss can trust that a time set by hand is known to be one. Stored from the start, the
+mark is right for every entry; added later, it would be missing on all entries before it.
+
+**Rejected:** no mark: the record could not tell a click from a guess. Keeping every edit's old times: more than honesty
+needs, for a report the boss reads at a glance.
+
 **Revisit if:** the boss asks to see what an edit changed.
+
 **Cases:**
+
 - Start and stop clicked: the entry is marked clicked.
 - An entry's start dragged on its line and confirmed: it is marked edited.
 - A forgotten entry written afterwards: it is marked written by hand.

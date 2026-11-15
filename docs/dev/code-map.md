@@ -1,15 +1,15 @@
 # Code map
 
-Where the code lives and the path a run takes through it. It names files and what to look for in them, not what the
-code says; why the code is as it is lives in `design-decisions/`. Print the tree with
+Where the code lives and the path a run takes through it. It names files and what to look for in them, not what the code
+says; why the code is as it is lives in `design-decisions/`. Print the tree with
 `git ls-files -- src src-tauri tests ':!src-tauri/icons'`.
 
 ## A run, from the command to the screen
 
 1. `npm run tauri dev` starts Tauri's CLI, which first runs `beforeDevCommand` from `src-tauri/tauri.conf.json`:
    `npm run dev`, Vite serving the interface on port 5173 (`vite.config.ts`).
-2. The CLI compiles the Rust half and starts it: `src-tauri/src/main.rs` calls `run()` in `src-tauri/src/lib.rs`,
-   which builds the Tauri app and opens the window from `tauri.conf.json`, pointed at `devUrl`.
+2. The CLI compiles the Rust half and starts it: `src-tauri/src/main.rs` calls `run()` in `src-tauri/src/lib.rs`, which
+   builds the Tauri app and opens the window from `tauri.conf.json`, pointed at `devUrl`.
 3. The window loads `index.html`, which holds only `#app` and loads `src/main.ts`.
 4. `src/main.ts` imports the styles and mounts `src/App.svelte` into `#app`.
 
@@ -21,8 +21,8 @@ code says; why the code is as it is lives in `design-decisions/`. Print the tree
 - `App.svelte`: the root component, the main screen.
 - `lib/components/`: the Svelte components; `lib/modules/`: the logic in TypeScript, such as the record and the
   counting. Both start with their first file.
-- `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look");
-  `styles/base.css`: the reset, the fonts and the body.
+- `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
+  the reset, the fonts and the body.
 
 ## The Rust half: `src-tauri/`
 
