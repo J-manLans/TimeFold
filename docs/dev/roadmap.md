@@ -33,7 +33,7 @@ rules"), and tests animation on Linux early ("Tauri, desktop on Windows and Linu
 2. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
 3. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
 4. The main screen's control side: the button block, the warning label, the status line, the prune line's room.
-5. The figures side with the balance bar and the five recent entries; the theme button; the colour rule, which the
+5. The figures side with the flex bar and the five recent entries; the theme button; the colour rule, which the
    bar needs for its over colour.
 6. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on
    a welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
@@ -89,7 +89,7 @@ every setting changes from a date as its cases say.
 
 **Produces:** the monthly report to the boss, as a PDF.
 **Settle first:** how the PDF is made in Tauri.
-1. The month's report: name and month, the balance bar and the ceiling wheel with their carried amounts, hours per
+1. The month's report: name and month, the flex bar and the ceiling wheel with their carried amounts, hours per
    profile by pay category.
 2. The export option for each day's hours.
 **Done when:** the owner sends a real month's report and it reads without explanation. Then the owner switches from

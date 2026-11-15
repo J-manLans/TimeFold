@@ -39,7 +39,7 @@ one slider that splits full time between them (6 | 2); how it looks is settled w
 period is the month ("A month starts on a set day"). Hours over a month's ceiling carry into the next month, which
 starts with them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is never
 owed: working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of it is
-used on the ceiling wheel, beside the balance bar ("The ceiling wheel"). It never blocks a click.
+used on the ceiling wheel, beside the flex bar ("The ceiling wheel"). It never blocks a click.
 **Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
 balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree. Showing
 what is left of an allowance reads more easily than a total of all hours against full time. These hours are additions,

@@ -99,7 +99,7 @@ checks and names the other by title.
 
 **[Figures](main-screen/figures.md)**
 
-- The balance bar
+- The flex bar
 - The ceiling wheel
 
 **[Colours](main-screen/colours.md)**

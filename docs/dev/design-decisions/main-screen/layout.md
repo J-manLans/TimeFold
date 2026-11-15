@@ -6,7 +6,7 @@ title.
 
 ## The main screen has a control side and a figures side (2026-11-14)
 
-**Built by:** Clocking for the screen, the button, the balance bar and the list; Profiles for the profile button, the
+**Built by:** Clocking for the screen, the button, the flex bar and the list; Profiles for the profile button, the
 ceiling wheel and the pay estimate; Handover for export and import.
 
 **Decision:** the main screen has two sides, split by a divider (a sharp line or a gradient, settled when built). The
@@ -30,9 +30,9 @@ dashboard, not a retro one: a near-black panel in the dark theme and a deep slat
 its rows a step darker and its text light, numbers in a monospaced font with their digits lined up, thin lines, small
 uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). The colours come
 from the profiles ("Each profile carries its colours"): the profile on screen colours the control side and, when it is
-one of the others, the ceiling wheel; the balance bar always wears the balance profile's. While the profile on screen
+one of the others, the ceiling wheel; the flex bar always wears the balance profile's. While the profile on screen
 runs, a ring in its colour surrounds the start button. Every focus ring in the app takes the colour of the profile on
-screen. On the right side, from the top: the balance as a number, centred, with no label; the balance bar; the ceiling
+screen. On the right side, from the top: the balance as a number, centred, with no label; the flex bar; the ceiling
 wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the wheel, with no label;
 then the five most recent entries and "Visa alla", which opens a popup centred on the whole window listing every entry,
 where entries are edited ("Editing an entry on its line").
@@ -46,7 +46,7 @@ figures that are read at a glance, and a soft base colour with a neon-leaning ov
 colour. In the light theme the slate blue has about half the contrast black had against the white control side (9.7:1
 against 17:1), so it does not glare, while its light text stays sharp on it (9.6:1); blue is also the complement of the
 default orange, so the figures stand out.
-**Rejected:** today's entries only: empty every morning. A small balance bar beside a large wheel: both are figures the
+**Rejected:** today's entries only: empty every morning. A small flex bar beside a large wheel: both are figures the
 owner reads every day. Figures beside the wheel (ceiling, used, left, carried): the wheel already shows them. A label on
 the balance: the number alone is clear. "Lägg till paus" at the bottom left: the prune line would push it up and down. A
 menu over the whole screen: it would hide the figures it changes. A drawer with a tab holding the icon: a fine picture,

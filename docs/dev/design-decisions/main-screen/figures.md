@@ -1,15 +1,16 @@
 # Main screen: figures
 
-The two figures on the main screen, the balance bar and the ceiling wheel. The colours they and the profiles carry
+The two figures on the main screen, the flex bar and the ceiling wheel. The colours they and the profiles carry
 are in `colours.md`. Each decision follows the template in `../README.md`, and is cited by its title.
 
-## The balance bar (2026-11-14)
+## The flex bar (2026-11-15)
 
 **Built by:** Clocking; its colours from the balance profile in Profiles.
 
 **Decision:** the janitor balance shows as a horizontal bar from a 0 line, minus to the left and plus to the right, with
 the balance as a number above it. The bar is only its active part, with no track behind it, and is rounded only at its
-outer end, square against the 0 line. It takes the colours of the profile with the balance ("Each profile carries its
+outer end, square against the 0 line. It is half as thick as the ceiling wheel's band, centred on the 0 line, which
+keeps its full height and stands out above and below it. It takes the colours of the profile with the balance ("Each profile carries its
 colours"): minus (hours to work in) in its base colour; plus (hours to take out) in its over colour; exactly 0 a marker
 centred on the 0 line, a little wider than a thin mark, in the base colour dimmed, slowly and slightly growing and
 shrinking; the motion stops when the system asks for reduced motion. The bar's full width is one of four scales, ±10,
@@ -22,7 +23,7 @@ to do, in the calm base colour; dimmed is "nothing either way". The bar is alway
 balance profile's colours. With no track, the dimmed marker at 0 stands on its own, and its slow pulse reads as at
 rest. Fixed scales keep the bar's length meaningful (half the bar is half the labelled amount) while a balance saved up
 for a holiday week still fits.
-**Rejected:** a track behind the bar in the dimmed colour: the 0 marker would vanish into it. Minus in the over colour:
+**Rejected:** the name "balance bar": the bar measures flex time. A track behind the bar in the dimmed colour: the 0 marker would vanish into it. Minus in the over colour:
 the over colour means hours beyond what is owed, which minus is not. Colours of the bar's own, shared with the wheel
 through a "Förena färger" switch: the colours belong to the profiles. A warning for a large minus: the owner does not
 want one. One fixed width cut off at its end: past it, the length means nothing. A scale always fitted to the balance:

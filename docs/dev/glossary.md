@@ -10,9 +10,6 @@ It holds its length and the day it was added, and comes off the entry's time on 
 expected hours.
 Positive: hours to take out. Negative: hours to work in.
 
-**Balance bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
-balance as a number ("The balance bar", in `design-decisions/`).
-
 **Base colour.** A profile's main colour: the figures' colour for hours used and for minus; a nuance of the profile's
 hue, picked in the profile's row.
 
@@ -43,6 +40,9 @@ Friday", in `design-decisions/`).
 **Faded.** On the ceiling wheel, the tone of hours worked by another profile than the one on screen: the base or over
 colour in the same hue, weaker and a little toward the panel's background. Not the dimmed colour, which is the unused part ("The ceiling wheel", in
 `design-decisions/`). See **Lit**.
+
+**Flex bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
+balance as a number ("The flex bar", in `design-decisions/`).
 
 **Flex day.** A whole day off paid for with the balance: it takes the expected hours off the balance. Not annual
 leave, which is left empty.

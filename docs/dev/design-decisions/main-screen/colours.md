@@ -5,7 +5,7 @@ that wear them are in `figures.md`. Each decision follows the template in `../RE
 
 ## Each profile carries its colours (2026-11-15)
 
-**Built by:** Profiles; Clocking for the balance profile's colours on the balance bar.
+**Built by:** Profiles; Clocking for the balance profile's colours on the flex bar.
 
 **Decision:** each profile has a hue, a base colour and an over colour. The hue and the base are set in the profile's
 row in the menu with one swatch and the app's own colour picker; the over colour follows from the hue and is never
@@ -26,7 +26,7 @@ Dragging and typing change only the picker's preview. The app takes the colour w
 Enter is pressed in the code field; "OK" keeps it and closes the picker; Esc, a click outside or scrolling the menu
 closes it and puts back the colours from before it opened. While a profile's picker is open, the ceiling wheel is that
 profile's, with its pieces lit, and returns to the profile on screen when the picker closes; the balance profile's
-picker leaves the wheel grey, since its colours show on the balance bar. Colours change at once, not from a date,
+picker leaves the wheel grey, since its colours show on the flex bar. Colours change at once, not from a date,
 since no count depends on them, and they travel with the profile in the handover.
 
 No colour is asked for. The profile with the balance starts on the OKLCH hue 195°, a cyan: base `#7ed6d5`, over
@@ -38,7 +38,7 @@ way from the neon's own toward 0.70. The colours go to:
   start button, the warning label, the focus rings, the status line's mark;
 - the small profile circles in the menu and the profile popup: the letter in the over colour, ringed in the base
   colour, the same pair the figures show;
-- the balance bar, always the balance profile's ("The balance bar");
+- the flex bar, always the balance profile's ("The flex bar");
 - the ceiling wheel, the profile on screen's when it is one of the others ("The ceiling wheel").
 **Why:** a colour per profile tells the profiles apart where they are chosen and run, and the figures follow the
 profile they belong to. A muted base with the opposite hue at full neon makes the over colour the one hot accent by

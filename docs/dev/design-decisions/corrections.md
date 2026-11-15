@@ -7,7 +7,7 @@ How the record is put right afterwards, and how an entry remembers it. Each deci
 
 **Built by:** Corrections.
 
-**Decision:** an entry is chosen from the list under the balance bar and the ceiling wheel (earlier days from the popup
+**Decision:** an entry is chosen from the list under the flex bar and the ceiling wheel (earlier days from the popup
 "Visa alla" opens) and opens as a line centred on the entry, with a handle at its start and its end and a little time
 either side. The view zooms out as a handle is dragged, so the whole entry, as it is being changed, always fits with
 some padding at both sides. The zoom grows the view only on the side being dragged: the other end stays where it is on

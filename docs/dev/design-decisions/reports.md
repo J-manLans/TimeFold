@@ -7,7 +7,7 @@ What leaves the app for the boss. Each decision follows the template in `README.
 **Built by:** Reports.
 
 **Decision:** the report the owner sends to the boss is a PDF file.
-**Why:** it is sent as it is and looks the same wherever it is opened, and it can carry the balance bar and ceiling
+**Why:** it is sent as it is and looks the same wherever it is opened, and it can carry the flex bar and ceiling
 wheel figures that make a month readable at a glance.
 **Rejected:** a spreadsheet (CSV or Excel): no figures, and easy to change by mistake. Text pasted into an email: no
 figures, and its layout depends on the mail program.
@@ -18,7 +18,7 @@ figures, and its layout depends on the mail program.
 **Built by:** Reports.
 
 **Decision:** a report covers one month ("A month starts on a set day"); any month can be exported, the current one
-partway through included. It shows: the month, the year and the owner's name; janitor work as the balance bar, with
+partway through included. It shows: the month, the year and the owner's name; janitor work as the flex bar, with
 the balance brought in, the month's change and the balance carried out; the other work as the ceiling wheel, with the
 ceiling, the hours used, and the hours carried in and out; and each profile's hours for the month, grouped by pay
 category where categories are set. An option at export, off by default, adds each day's hours per profile, without

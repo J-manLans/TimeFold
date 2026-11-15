@@ -15,7 +15,7 @@ a small custom label says what pressing it will stop ("stoppar A"), on a slightl
 that profile's colour: it fades in at once when the pointer enters the button, follows the pointer while it is over it,
 and fades out when it leaves; with keyboard focus it shows under the button. The running profile is shown. The button
 never changes size: "Starta jobb" and "Stoppa jobb" fit the same width. A forgotten switch back is corrected by hand.
-The totals, the balance bar and the ceiling wheel update when an entry stops; nothing ticks while it runs, and the
+The totals, the flex bar and the ceiling wheel update when an entry stops; nothing ticks while it runs, and the
 update at stop is the visual effect.
 **Why:** one running entry is the simplest record, and it is how common time trackers work. A break needs no control
 of its own ("Time away is a gap or an added break").
@@ -32,7 +32,7 @@ show the warning: the click target would move under the pointer.
 - A running, B on screen, pointer enters the button: "stoppar A" shows at once by the pointer and follows it; the
   pointer leaves: it goes.
 - "Starta jobb" and "Stoppa jobb": the button has the same size in both.
-- While an entry runs, the balance bar and the ceiling wheel do not change; at stop they include it.
+- While an entry runs, the flex bar and the ceiling wheel do not change; at stop they include it.
 
 ## The last click can be undone for a few seconds (2026-11-14)
 
@@ -103,7 +103,7 @@ and any rest off the entry's time on the day before, since midnight only cuts th
 the running entry of the profile on screen. The control is always shown, so the app always shows what it can do; it is
 active only while that entry runs, and greyed out otherwise. A break found after the entry has stopped is an edit on the
 entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry. The five most recent entries,
-whatever their day, are listed under the balance bar and the ceiling wheel, with their added breaks as small tags among
+whatever their day, are listed under the flex bar and the ceiling wheel, with their added breaks as small tags among
 them, and "Visa alla" under the list opens the history; clicking a tag opens the same length field with the number in
 it, to change or remove.
 **Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
