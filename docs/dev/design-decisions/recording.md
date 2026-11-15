@@ -5,7 +5,7 @@ cited by its title.
 
 ## One start/stop button and a profile list (2026-11-14)
 
-**Built by:** Clocking for the button; Profiles for the profile list.
+**Built by:** Clocking for the button; Profiles for the profile list and the warning label.
 
 **Decision:** the main control is one button: "Starta jobb", which becomes "Stoppa jobb" while an entry of the profile
 on screen runs. Beside it is a profile button that opens the list of profiles. Picking a profile changes only which

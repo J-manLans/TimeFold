@@ -92,7 +92,8 @@ would be cramped while the height went unused.
 
 ## The menu has two tabs, with every value locked behind "Ändra" (2026-11-14)
 
-**Built by:** Profiles for the profiles and the working time; Clocking for the theme.
+**Built by:** Clocking for the menu's fold-out and the theme button; Profiles for the tabs, the profiles and the working
+time.
 
 **Decision:** the menu has two tabs across its top: **Profiler** and **Tid**. Profiler is selected when the menu opens,
 and one tab's content shows at a time; switching fades from one to the next. Beside the "Meny" heading sits the theme

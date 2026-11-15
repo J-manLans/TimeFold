@@ -32,9 +32,10 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-1. The main screen's controls side: the button block, the warning label, the status line, the prune line's room.
-2. The dashboard with the flex bar and the five recent entries; the theme button; the colour rule, which the bar needs
-   for its over colour.
+1. The main screen's controls side: the rules of start, stop and undo as tested functions; the button block (export and
+   import greyed out), the status line, the undo, the prune line's room; a test record in dev mode until the onboarding.
+2. The dashboard with the flex bar and the five recent entries; the menu button with a menu holding its heading and the
+   theme button; the colour rule, which the bar needs for its over colour.
 3. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
@@ -81,10 +82,11 @@ balance follows.
 
 **Settle first:** how the full-time slider is drawn.
 
-1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving.
+1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving; the
+   warning label on the start button while another profile runs.
 2. The ceiling, its carry into the next month, and the ceiling wheel in the profile on screen's colours.
-3. The menu: its fold-out, the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that
-   change from a date.
+3. The menu: the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that change from a
+   date.
 4. The pay estimate; the onboarding's step for the ceiling hours already used this month.
 
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
