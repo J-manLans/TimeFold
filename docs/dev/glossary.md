@@ -74,8 +74,8 @@ month; the ceiling, reports and pruning count by it.
 
 **Neon.** A hue at its most vivid: the colour on the picker's hue strip.
 
-**Opening figures.** The janitor balance and the ceiling hours used, typed in when the app starts fresh; kept as entries
-dated the first day.
+**Opening figures.** The janitor balance and the ceiling hours used, typed in when the app starts fresh; kept in the
+record apart from the entries, dated the first day, as the start the balance and the ceiling count from.
 
 **Over colour.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, and the numbers
 that show them; the opposite of the profile's hue at its most vivid, never picked.
