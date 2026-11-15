@@ -16,8 +16,8 @@
     "allowJs": true,
     "checkJs": true,
     "moduleDetection": "force",
-    /* $lib is src/lib, as in vite.config.ts */
-    "paths": { "$lib/*": ["./src/lib/*"] }
+    /* $lib is src/lib and $tests is tests, as in vite.config.ts */
+    "paths": { "$lib/*": ["./src/lib/*"], "$tests/*": ["./tests/*"] }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "tests/**/*.ts"]
 }

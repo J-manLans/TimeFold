@@ -5,8 +5,13 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/ and https://v2.tauri.app/start/frontend/vite/
 export default defineConfig({
   plugins: [svelte()],
-  // $lib is src/lib from anywhere, as in SvelteKit; tsconfig.app.json says the same for TypeScript
-  resolve: { alias: { $lib: fileURLToPath(new URL('./src/lib', import.meta.url)) } },
+  // $lib is src/lib and $tests is tests, from anywhere; tsconfig.app.json says the same for TypeScript
+  resolve: {
+    alias: {
+      $lib: fileURLToPath(new URL('./src/lib', import.meta.url)),
+      $tests: fileURLToPath(new URL('./tests', import.meta.url)),
+    },
+  },
   // Keep Rust's compile errors on screen when Vite starts
   clearScreen: false,
   server: {
