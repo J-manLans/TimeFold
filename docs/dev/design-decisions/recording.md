@@ -80,6 +80,8 @@ controls.
 - Nothing clicked since the app opened: the undo button is faded.
 - Stop at 15:40, the window hidden at once and shown again at 15:41: the undo is faded and a press does nothing; the
   undo's time is a deadline, not a timer the system may delay.
+- Stop at 15:40, the app closed and opened again at 15:40:05: the undo is faded; the last click lives only in the
+  running app, never in the record.
 
 ## A running entry from an earlier day asks (2026-11-14)
 
