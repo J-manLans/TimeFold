@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests && cargo test --manifest-path src-tauri/Cargo.toml",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
     "tidy": "prettier --write . && eslint --fix . && cargo fmt --manifest-path src-tauri/Cargo.toml && cargo clippy --manifest-path src-tauri/Cargo.toml --fix --allow-dirty --allow-staged && cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings && npm run check"
   },

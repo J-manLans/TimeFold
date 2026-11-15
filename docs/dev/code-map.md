@@ -32,7 +32,10 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 
 ## The Rust half: `src-tauri/`
 
-- `src/main.rs`: starts the app; `src/lib.rs`: builds it in `run()`, where commands and plugins are registered.
+- `src/main.rs`: starts the app; `src/lib.rs`: builds it in `run()`, where commands and plugins are registered, and
+  holds the commands the interface invokes: `load_record` and `save_record` (the daily copy, then the safe save).
+- `src/disk.rs`: the file work, with no Tauri in it: reading a file, the safe save, the daily copies; its tests at the
+  bottom. The record and its `copies/` folder live in the app's data folder.
 - `tauri.conf.json`: the app's name, its identifier (which names the folder the record lives in), the window, and the
   commands that build the interface.
 - `capabilities/`: what the interface may ask of the Rust half.

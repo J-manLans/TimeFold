@@ -56,8 +56,9 @@ already says its rule.
   line of `=` above and below a centred name, the closing line starting where the comment opens (in CSS: `/* =====…`,
   the name centred under it, then `=====… */` flush with the `/*`); a subsection is one line, `=== Name ===`, in every
   section alike. Logic modules use **Init**, **API** and **Helpers**, the helpers sub-headed by the section they serve
-  (`=== Init ===`, `=== API ===`, `=== Global ===`). A Svelte component's script uses **Props**, **State**, **Logic**
-  and **Helpers**, and its style **Layout** and **States**. A small file with one job needs no banner.
+  (`=== Init ===`, `=== API ===`, `=== Global ===`). A Rust module's tests, at the bottom of its file, follow under a
+  **Tests** banner. A Svelte component's script uses **Props**, **State**, **Logic** and **Helpers**, and its style
+  **Layout** and **States**. A small file with one job needs no banner.
 - **CSS:** every raw value is a design token ("Design tokens hold every value of the look"); components use only
   `var(--…)`. Inside a component, class names are short and plain (`.label`, `.dot`), since Svelte scopes each
   component's styles; states are shown with `class:` directives, `:disabled` and `aria-` attributes, not in class names.
