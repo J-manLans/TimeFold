@@ -36,9 +36,9 @@ already says its rule.
 - **Tools, close to their defaults:** Prettier with its Svelte plugin for TypeScript, Svelte, CSS and the docs'
   markdown, and rustfmt for Rust, formatting automatically; ESLint with the TypeScript and Svelte rules, and clippy for
   Rust. Prettier is pinned to an exact version, since a new one may format the same code differently. `npm run tidy`
-  formats and lints everything; `npm run tidy:check` changes nothing and fails on anything `tidy` would fix. Lines are
-  at most 120 characters, code and docs alike, and Prettier wraps the docs' prose to fit. The few settings that differ
-  from the defaults live in the tools' own config files, not here.
+  formats, applies the linters' safe fixes, and fails on anything left: a lint, a clippy warning or a type error. Lines
+  are at most 120 characters, code and docs alike, and Prettier wraps the docs' prose to fit. The few settings that
+  differ from the defaults live in the tools' own config files, not here.
 - **Types:** TypeScript in strict mode. Exported functions state their parameter and return types; a variable states its
   type when it is not obvious. A method that replaces an inherited one is marked `override`, and `noImplicitOverride`
   makes a missing mark an error. A class that matches an interface says `implements` and does not inherit to get it.
@@ -90,7 +90,9 @@ session meant finding every spot. An underscore for private things: in TypeScrip
 is without one. Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright,
 `conftest.py`, reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines: they
 suit a simulation; here the decisions' cases cover it. BEM class names: Svelte's scoped styles already prevent the
-collisions BEM exists to avoid, and the long names would only add noise.
+collisions BEM exists to avoid, and the long names would only add noise. A second, check-only `tidy:check`: every change
+`tidy` makes is safe and shows in `git diff`, and a second command needs a rule for which to use when; a check-only mode
+is for a CI server, which the project does not have.
 
 **Revisit if:** a tool's default fights the owner's banners or comment style, or a third language joins.
 

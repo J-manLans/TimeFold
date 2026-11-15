@@ -6,16 +6,17 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, starting with step 1, the project's tools, so everything after is formatted and checked from its
-first line; then its **Settle first**, the design tokens taken over from the main screen sketch.
+Phase 1: Clocking, starting with its **Settle first**, the design tokens taken over from the main screen sketch; then
+step 1, the record.
 
 ## State
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                           | State   | Has it run                     |
-| -------------------------------------------------------------- | ------- | ------------------------------ |
-| The project: Tauri, Svelte and Vite, with an empty main screen | written | run: the window opens on Linux |
+| Part                                                                              | State   | Has it run                                               |
+| --------------------------------------------------------------------------------- | ------- | -------------------------------------------------------- |
+| The project: Tauri, Svelte and Vite, with an empty main screen                    | written | run: the window opens on Linux                           |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test` | written | run: `tidy` passes; `test` ran a throwaway pass and fail |
 
 ## The phases
 
@@ -31,13 +32,12 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** the design tokens taken over from the main screen sketch.
 
-1. The project's tools: the test runner, and the formatters, linters and `tidy` script of "Code style".
-2. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
-3. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
-4. The main screen's controls side: the button block, the warning label, the status line, the prune line's room.
-5. The dashboard with the flex bar and the five recent entries; the theme button; the colour rule, which the bar needs
+1. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
+2. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
+3. The main screen's controls side: the button block, the warning label, the status line, the prune line's room.
+4. The dashboard with the flex bar and the five recent entries; the theme button; the colour rule, which the bar needs
    for its over colour.
-6. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
+5. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
    1. the first profile's name: the profile with the balance, such as "Vaktmästare";
@@ -46,7 +46,7 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
    Then the main screen opens with that balance on the bar. Phase 4 adds a step for the ceiling hours already used this
    month, and Phase 5 makes the import choice work.
 
-7. The question for a running entry from an earlier day.
+6. The question for a running entry from an earlier day.
 
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
 matches the sketch in both themes on Windows and Linux.

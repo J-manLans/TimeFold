@@ -137,10 +137,15 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## Commands, and what each kind of change runs
 
-| Change                             | Run             |
-| ---------------------------------- | --------------- |
-| Docs only                          | nothing         |
-| The interface (`src/`, its config) | `npm run check` |
+| Change                                         | Run                                         |
+| ---------------------------------------------- | ------------------------------------------- |
+| Docs only                                      | `npx prettier --write` on the changed files |
+| The interface (`src/`, `tests/`, their config) | `npm run tidy`, then `npm test`             |
+| The Rust half (`src-tauri/`)                   | `npm run tidy`                              |
+| Before a commit with code                      | `npm run tidy` and `npm test`, both passing |
+
+`tidy` is safe to run at any time: it formats, applies only fixes that cannot change behaviour, and fails on anything
+left. Save open files first.
 
 Rows are added when the project has tests, type checks, lint or probes.
 
