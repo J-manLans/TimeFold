@@ -52,3 +52,12 @@ full on release. It would replace the hover peek on the same wheel, and adds the
 
 `design-decisions/`). The interface and the report in English beside Swedish, chosen per machine like the theme. The
 name, TimeFold, is English already.
+
+## Coverage and mutation testing, as one sweep
+
+**Returns when:** a bug slips past the tests and is hard to find, or before the last phase is called done.
+
+Install the tools then and sweep the whole codebase once: `@vitest/coverage-v8` (lines and branches reached) and
+StrykerJS with its Vitest runner (whether breaking the code turns a test red) for TypeScript, `cargo-mutants` for Rust.
+Mutation testing measures the rule in "Code style" that a test earns its place only if breaking its code turns it red.
+Until then the owner's cases, written first and seen red, and the hand count in Phase 1's **Done when** carry it.
