@@ -21,11 +21,14 @@ A sign-off checklist for cases: the workflow must not become a bottleneck. Every
 well-named test already says its rule.
 **Revisit if:** writing the cases first slows the work more than it saves.
 
-## Code style (2026-11-14)
+## Code style (2026-11-16)
 
 **Built by:** Clocking, from its first file.
 
 **Decision:** the code follows the owner's style from an earlier project, translated to Svelte, TypeScript and Rust.
+- **Structure:** a better structure that comes easily is built from the start, in the app's first version of the
+  part; one that needs hoops jumped through waits until a problem asks for it. The sketches are throwaway and are not
+  restructured.
 - **Tools, with their defaults:** Prettier with its Svelte plugin for TypeScript, Svelte and CSS, and rustfmt for
   Rust, formatting automatically; ESLint with the TypeScript and Svelte rules, and clippy for Rust. One `tidy` script
   formats and lints everything, and checks the same as CI. Lines are at most 120 characters, as in the docs.
@@ -52,7 +55,10 @@ well-named test already says its rule.
   carried over from the main screen sketch's knobs, with each theme colour written once as `light-dark(light, dark)`;
   components use only `var(--…)`. A small `src/styles/base.css` holds the reset, fonts and body. Inside a component,
   class names are short and plain (`.label`, `.dot`), since Svelte scopes each component's styles; states are shown
-  with `class:` directives, `:disabled` and `aria-` attributes, not in class names. Every transition takes
+  with `class:` directives, `:disabled` and `aria-` attributes, not in class names. **Colours by role:** one
+  function takes a profile and the situation (the theme, the profile on screen, the 90% mark, the peek) and returns
+  its colour roles: `base`, `dimmed`, `over`, `faded` and `number`; the figures read them as CSS variables
+  (`var(--wheel-number)`) and never pick a colour themselves. The balance profile's greys are theme tokens. Every transition takes
   `--speed-ui`, and `prefers-reduced-motion` is always respected.
 - **Tests,** with Vitest for TypeScript and Rust's own tests for Rust ("Tests come first, from the owner's rules"):
   - as few tests as cover the behaviour: a test earns its place only if breaking the code it guards turns it red and
@@ -67,10 +73,13 @@ well-named test already says its rule.
     two tests of one file stays in that file;
   - a test file's top level is in sections, each only when used, in this order: **Constants**, **Stand-ins**,
     **Helpers**, **Fixtures**, **Tests**.
-**Why:** the owner has worked this way and wants the same feel here. Tools with defaults keep style out of reviews and
+**Why:** the owner has worked this way and wants the same feel here. Easy structure pays back at once, and building
+it later means doing the part twice. With colour roles, a change to a colour rule is one edit, the greys can be tuned
+with the other tokens, and a test checks a role without drawing anything. Tools with defaults keep style out of reviews and
 match every example a learner finds. Strict types and few, sharp tests suit tests-first: each test guards a rule from a
 decision, and its worked examples are the decisions' cases.
-**Rejected:** an underscore for private things: in TypeScript, not exporting says it, and the norm is without one.
+**Rejected:** each figure working out its own colours, as the main screen sketch does: a rule changed twice in one
+session meant finding every spot. An underscore for private things: in TypeScript, not exporting says it, and the norm is without one.
 Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright, `conftest.py`,
 reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines: they suit a
 simulation; here the decisions' cases cover it. BEM class names: Svelte's scoped styles already prevent the collisions
