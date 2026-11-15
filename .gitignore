@@ -18,3 +18,7 @@ output/
 
 # Art direction references: third-party images, kept local
 docs/dev/art-direction/
+
+# Starter templates: kept local, not part of this project
+AGENT_DOCS_STARTER.md
+CODE_STYLE_STARTER.md
