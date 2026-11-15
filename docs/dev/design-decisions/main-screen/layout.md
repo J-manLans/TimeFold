@@ -83,9 +83,10 @@ full height but little of its width. There it is mostly looked at, and the figur
 first; the app is also something the owner likes to see, as one would a diploma on the wall. The minimum size keeps "One
 click to start or stop" in a cramped window.
 
-**Rejected:** the controls on top when stacked, as the main screen sketch does it: it puts what is pressed over what is
-read. A minimum width that never lets the sides stack: the strip beside another window is how the app is used. Shrinking
-side by side instead of stacking: in a tall, thin window both sides would be cramped while the height went unused.
+**Rejected:** the controls on top when stacked, as the main screen sketch first had it; tried against the dashboard on
+top: it puts what is pressed over what is read. A minimum width that never lets the sides stack: the strip beside
+another window is how the app is used. Shrinking side by side instead of stacking: in a tall, thin window both sides
+would be cramped while the height went unused.
 
 **Revisit if:** the stacked screen does not fit the minimum height, or the strip is used wider than the stacking width.
 

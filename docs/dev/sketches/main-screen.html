@@ -59,6 +59,8 @@
   --bar-share: 0.5;     /* the flex bar's thickness, as a share of the ceiling wheel's band (0.5 a half, 0.333 a third); centred on the 0 line, which keeps its height */
   /* Focus */
   --focus-w: 2px;
+  /* The narrow window ("Narrow window" in the sketch bar) */
+  --narrow-w: 400px;
   /* ======================================================================== */
 }
 @media (prefers-color-scheme: dark) {
@@ -160,7 +162,12 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --dot-inner: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.30);
   --well-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.02));
 }
-@media (max-width: 760px) { .app { grid-template-columns: minmax(0, 1fr); height: auto; } }
+/* A narrow window: the sides stack, the dashboard on top ("A narrow window stacks the dashboard over the controls").
+   The "Narrow window" box in the sketch bar sets .narrow; a narrow page sets it too. */
+.app.narrow { grid-template-columns: minmax(0, 1fr); height: auto; width: var(--narrow-w); margin-inline: auto; }
+.app.narrow .figures { order: -1; }
+.app.narrow .divider { top: auto; bottom: 0; left: 0; right: 0; width: auto; height: 1px; }
+.app.narrow[data-divider="gradient"] .divider { width: auto; height: 56px; background: linear-gradient(to top, var(--c-bg), transparent); }
 
 /* Control side */
 .controls { position: relative; background: var(--c-bg); color: var(--c-fg); display: grid; grid-template-rows: auto 1fr auto; min-height: 420px; overflow: hidden; }
@@ -456,6 +463,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     </label>
     <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
     <label for="simDiscGlow"><input type="checkbox" id="simDiscGlow" checked> Light on discs</label>
+    <label for="simNarrow"><input type="checkbox" id="simNarrow"> Narrow window</label>
     <span>Each stop records 2 h 15 min.</span>
     <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
@@ -1421,6 +1429,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
   app.classList.toggle("glow-discs", $("simDiscGlow").checked);
   $("simDiscGlow").addEventListener("change", function () { app.classList.toggle("glow-discs", this.checked); });
+  // Narrow: the box, or a page too narrow for the two sides
+  var narrowPage = window.matchMedia("(max-width: 760px)");
+  function setNarrow() { app.classList.toggle("narrow", $("simNarrow").checked || narrowPage.matches); }
+  $("simNarrow").addEventListener("change", setNarrow);
+  narrowPage.addEventListener("change", setNarrow);
+  setNarrow();
   $("simPrune").addEventListener("change", function () { $("prune").style.visibility = this.checked ? "visible" : "hidden"; });
 
   scale = pickScale(Math.abs(balance));
