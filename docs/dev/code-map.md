@@ -21,8 +21,9 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `App.svelte`: the root component, the main screen.
 - `lib/components/`: the Svelte components, starting with their first file.
 - `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
-  opening that turns a file's text into a record or names what is wrong with it. `counting.ts`: the balance, each day's
-  result, expected hours and the app's month, worked out in seconds from the record. `storage.ts`: `loadRecord` and
+  opening that turns a file's text into a record or names what is wrong with it. `clock.ts`: what a click on start/stop
+  does to the record (`press`) and the undo of the last click (`undo`). `counting.ts`: the balance, each day's result,
+  expected hours and the app's month, worked out in seconds from the record. `storage.ts`: `loadRecord` and
   `saveRecord`, the only place that invokes the record's commands; it adds the local date that names a day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts and the body.
@@ -30,8 +31,9 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 ## The tests: `tests/`
 
 - `unit/`, mirroring `src/` with one test file per source file; `integration/`, the hand-offs between parts; `helpers/`,
-  setup several test files share ("Code style"), such as `records.ts` with a sound record. Each starts with its first
-  file. Vitest finds every `*.test.ts`; Rust's tests sit beside their code.
+  setup several test files share ("Code style"), such as `records.ts` with a sound record and `at` and `entry` for
+  building moments and entries. Each starts with its first file. Vitest finds every `*.test.ts`; Rust's tests sit beside
+  their code.
 
 ## The Rust half: `src-tauri/`
 

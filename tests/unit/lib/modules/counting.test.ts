@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { at, entry } from '$tests/helpers/records'
 import { balance, dayResult, expectedSecondsOn, monthOf, secondsByDay, shownMinutes } from '$lib/modules/counting'
 import { RECORD_FORMAT, RECORD_VERSION, type Entry, type Profile, type TimeRecord } from '$lib/modules/record'
 
@@ -16,30 +17,6 @@ const JANITOR: Profile = {
 }
 
 // === Helpers ===
-
-/**
- * A moment on this machine's clock, written as the app writes it: with the local offset. Used for every entry's
- * start and stop: at('2026-11-17', '22:00')
- */
-function at(day: string, time: string): string {
-  const [y, mo, d] = day.split('-').map(Number)
-  const [h, mi, s = 0] = time.split(':').map(Number)
-  const local = new Date(y, mo - 1, d, h, mi, s)
-  const offset = -local.getTimezoneOffset()
-  const sign = offset >= 0 ? '+' : '-'
-  const two = (n: number): string => String(Math.floor(Math.abs(n))).padStart(2, '0')
-  return `${day}T${two(h)}:${two(mi)}:${two(s)}${sign}${two(offset / 60)}:${two(offset % 60)}`
-}
-
-let ids = 0
-/**
- * A clicked entry of `profile`, running when there is no stop. Used by every test that needs work:
- * entry(at('2026-11-16', '08:00'), null) is still running
- */
-function entry(start: string, stop: string | null, profile = JANITOR.id): Entry {
-  ids += 1
-  return { id: `e${ids}`, profile, start, stop, made: 'clicked' }
-}
 
 /** A record of the janitor alone, with an opening on its first day. Used by the balance tests */
 function record(entries: Entry[], openingMinutes = 0): TimeRecord {
@@ -128,7 +105,7 @@ describe('a day owes its expected hours only when work started on it', () => {
   })
 
   it('leaves out another profile’s work', () => {
-    const entries = [entry(at('2026-11-16', '08:00'), at('2026-11-16', '10:00'), 'p2')]
+    const entries = [entry(at('2026-11-16', '08:00'), at('2026-11-16', '10:00'), { profile: 'p2' })]
 
     expect(dayResult('2026-11-16', JANITOR, entries)).toBe(0)
   })
