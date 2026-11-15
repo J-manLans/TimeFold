@@ -62,13 +62,16 @@ left out of the other. Switching in the middle of a worked day: it happens once,
 - Second machine, first start: "Import from my other machine" brings the whole record, opening figures and profile
   colours included, and asks nothing more.
 
-## The app is in Swedish (2026-11-14)
+## The app is in Swedish (2026-11-16)
 
 **Built by:** Clocking, for the first screen; each part for its own words.
 
-**Decision:** the app's interface and the report are in Swedish.
-**Why:** the owner works at a Swedish-language school in Finland, and the boss reads the report.
-**Rejected:** English: neither the owner nor the boss needs it. A language setting: one user, one language.
+**Decision:** the app's interface and the report are in Swedish. The app is called TimeFold, in English, as its
+repository is.
+**Why:** the owner works at a Swedish-language school in Finland, and the boss reads the report. The name is the
+owner's: the over lap folds over the start of the ceiling wheel, and the flex bar folds hours either side of zero.
+**Rejected:** English: neither the owner nor the boss needs it. A language setting: one user, one language. A Swedish
+name ("Varv", "Flexa", "Stämpla"): the owner likes TimeFold, and an English translation can follow if the app spreads.
 **Revisit if:** the report goes to someone who does not read Swedish.
 
 ## Old history is pruned on request (2026-11-14)

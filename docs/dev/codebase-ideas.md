@@ -41,3 +41,10 @@ target; the others have the month's ceiling, which the wheel shows. The day's to
 **Returns when:** the peek on the ceiling wheel proves unclear in use ("The ceiling wheel", in `design-decisions/`).
 Grab the wheel and drag backwards: the ring unwinds as far as the drag goes, down to an empty wheel, and springs back
 to full on release. It would replace the hover peek on the same wheel, and adds the month building up as it winds.
+
+## An English translation
+
+**Returns when:** someone who does not read Swedish wants to use the app ("The app is in Swedish", in
+`design-decisions/`).
+The interface and the report in English beside Swedish, chosen per machine like the theme. The name, TimeFold, is
+English already.
