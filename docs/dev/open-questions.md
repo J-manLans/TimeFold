@@ -30,8 +30,10 @@ free time, with the same stops at other entries and midnight.
 
 ### Exact minutes on the line (2026-11-14)
 
-Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock for
-precision. The draft's clock picker was meant for editing; the line may replace it there, or work beside it.
+Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock picker
+for precision. The clock picker, from the owner's first draft, is an analogue 24-hour dial: the hours on an inner and
+an outer ring, the minutes picked in a second step, with no AM/PM and no digital fields. It was meant for editing; the
+line may replace it there, or work beside it.
 **See:** Editing an entry on its line.
 
 ## Phase 4: Profiles

@@ -23,7 +23,6 @@ No state, progress, decisions or history here; each has its own home (see "Where
 | `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area |
 | `docs/dev/open-questions.md` | What is not decided, grouped by the phase (or part) that needs the answer |
 | `docs/dev/glossary.md` | The project's terms; read before writing about the app |
-| `docs/dev/design-draft.md` | The owner's first draft, emptied into the files above as it is talked through |
 | `docs/dev/code-map.md` | Where the code lives and the path a run takes through it |
 | `docs/dev/codebase-ideas.md` | Ideas that are not a problem now, each opening with **Returns when:** |
 | `docs/dev/sketches/` | Looks tried before they are decided, a page or a drawing each |
@@ -62,8 +61,8 @@ collection, never at a part: a decision by its title, a term by its name. A spli
 Scaled to the task:
 
 1. Always: this file and `docs/dev/roadmap.md`. **Next** in the roadmap says what comes next, not the branch name.
-2. Before a design opinion: `docs/vision.md` (until it is written, `docs/dev/design-draft.md`),
-   `docs/dev/design-decisions/README.md` and the area files the opinion touches, and `docs/dev/open-questions.md`.
+2. Before a design opinion: `docs/vision.md`, `docs/dev/design-decisions/README.md` and the area files the opinion
+   touches, and `docs/dev/open-questions.md`.
 3. Before reading code: the code map, once it exists.
 4. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 
