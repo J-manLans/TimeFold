@@ -11,7 +11,8 @@ decision follows the template in `README.md`, and is cited by its title.
 in "One start/stop button and a profile list". A day can mix profiles, and the owner adds profiles as new kinds of work
 come up. Profiles are isolated: each counts its own days and hours, and work in one never changes another. A profile
 holds: a short name (what is tapped when switching); optional expected hours, and only a profile with them has a
-balance; a base and an over colour ("Each profile carries its colours", in `design-decisions/`); active or archived (an
+balance; a hue and a base colour, with an over colour that follows from the hue ("Each profile carries its colours", in
+`design-decisions/`); active or archived (an
 archived profile leaves the switch list but keeps its hours in the history and reports); a pay category, a label only,
 so reports can group hours by how they are paid; and an optional monthly salary or rate per hour for the pay estimate
 ("A pay estimate per profile"). Reports show hours per profile. Where the work is done is not recorded: the owner works

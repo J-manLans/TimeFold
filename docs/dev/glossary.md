@@ -13,7 +13,8 @@ Positive: hours to take out. Negative: hours to work in.
 **Balance bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
 balance as a number ("The balance bar", in `design-decisions/`).
 
-**Base colour.** A profile's main colour: the figures' colour for hours used and for minus; set in the profile's row.
+**Base colour.** A profile's main colour: the figures' colour for hours used and for minus; a nuance of the profile's
+hue, picked in the profile's row.
 
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it
 becomes a test.
@@ -22,8 +23,8 @@ becomes a test.
 janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
 
 **Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills as the month's hours are used, in the
-colours of the profile on screen (grey for the balance profile), with hours over it in the over colour ("The ceiling
-wheel", in `design-decisions/`).
+colours of the profile on screen (grey for the balance profile), with hours over it in the over colour; a timeline of the month's hours,
+the profile on screen's lit and the others' faded ("The ceiling wheel", in `design-decisions/`).
 
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
@@ -39,6 +40,10 @@ an added break, or afterwards as a gap cut on the entry line.
 **Expected hours.** The hours the owner is expected to work on a given day ("Expected hours: 6 a day, Monday to
 Friday", in `design-decisions/`).
 
+**Faded.** On the ceiling wheel, the tone of hours worked by another profile than the one on screen: the base or over
+colour in the same hue, weaker and a little toward the panel's background. Not the dimmed colour, which is the unused part ("The ceiling wheel", in
+`design-decisions/`). See **Lit**.
+
 **Flex day.** A whole day off paid for with the balance: it takes the expected hours off the balance. Not annual
 leave, which is left empty.
 
@@ -50,19 +55,29 @@ no day.
 **Handover.** Moving the record from one of the owner's machines to the other: export one file on the first, import
 it on the second, replacing everything there.
 
+**Hue (a profile's).** Where the hue strip of the profile's colour picker sits; the base colour is a nuance of it and
+the over colour its opposite ("Each profile carries its colours", in `design-decisions/`).
+
+**Lit.** On the ceiling wheel, hours worked by the profile on screen, in its base or over colour at full strength.
+See **Faded**.
+
 **Month.** The app's counting month, from the set month start day (default the 1st) to the day before it in the
 next month; the ceiling, reports and pruning count by it.
+
+**Neon.** A hue at its most vivid: the colour on the picker's hue strip.
 
 **Opening figures.** The janitor balance and the ceiling hours used, typed in when the app starts fresh; kept as
 entries dated the first day.
 
 **Over colour.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, the 90%
-warning; suggested from the base colour, or picked.
+warning; the opposite of the profile's hue at its most vivid, never picked.
 
 **Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
 
 **Pay estimate.** A rough figure of the month's pay: salaries plus hours times rates, for the owner only; never in the
 report.
+
+**Peek.** Resting the pointer on the ceiling wheel's band, which winds the over lap back so the first lap shows whole.
 
 **Profile.** A label on an entry for the kind of work it is, such as janitor work or the development group. Profiles
 are isolated; only one with expected hours has a balance.

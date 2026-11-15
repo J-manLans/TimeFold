@@ -1,7 +1,7 @@
 # Main screen: figures
 
-The two figures on the main screen, the balance bar and the ceiling wheel, and the colours they and the profiles
-carry. Each decision follows the template in `../README.md`, and is cited by its title.
+The two figures on the main screen, the balance bar and the ceiling wheel. The colours they and the profiles carry
+are in `colours.md`. Each decision follows the template in `../README.md`, and is cited by its title.
 
 ## The balance bar (2026-11-14)
 
@@ -37,27 +37,50 @@ the bar would always look full.
   80% of 20) it returns to ±20 h.
 - Utveckling on screen: the bar keeps Vaktmästare's colours.
 
-## The ceiling wheel (2026-11-14)
+## The ceiling wheel (2026-11-15)
 
 **Built by:** Profiles.
 
 **Decision:** the ceiling shows as a ring, the ceiling wheel, with the month's used hours as a number in its centre. A
-full ring is the month's ceiling. It takes the colours of the profile on screen when that is one of the other profiles,
-and greys while the profile with the balance is on screen: base `#9aa3ae`, over a light grey `#e2e6eb` (not the red the
-colour rule would suggest), so the dimmed rest, the base and the over lap are three clearly different greys, dark,
+full ring is the month's ceiling; its band is 28 wide on a wheel 200 across. It takes the colours of the profile on screen when that is one of the other profiles,
+and greys while the profile with the balance is on screen: base `#9aa3ae`, over a light grey `#e2e6eb` (not a colour the
+colour rule would give), so the dimmed rest, the base and the over lap are three clearly different greys, dark,
 middle and light, ("Each profile carries its colours"); a report draws it in the grey. Used hours fill the ring
 clockwise from 12 o'clock in the base colour; the unused rest is dimmed. Hours over the ceiling are in the over colour:
 a second lap from 12 o'clock, drawn over the base colour on the same ring. That lap is what carries into the next month,
-where those hours show in the base colour. From 90% of the ceiling the centre number takes the over colour; the ring
-keeps its colours. The wheel's numbers never depend on its colours: switching profile changes only how it looks.
+where those hours come first, from 12 o'clock, in the base colour. The ring is a timeline: the month's hours sit on it
+in the order they were worked (by when the work happened, not when it was entered), and every piece stays where it
+was worked. The pieces worked by the profile on screen are lit, in its base colour; all the others are faded, whoever worked
+them: the same hue with 45% of its chroma taken away and its lightness moved 20% of the way toward the panel's
+background, in OKLCH, so neighbouring pieces by different other
+profiles read as one faded stretch. Switching profile moves nothing: it changes the colours and which pieces are lit.
+A new session grows at the end of the used part; an entry written or corrected for an earlier day lands at its place
+in time. Past the ceiling the same order goes on in the over lap, lit pieces in the over colour and the rest in the
+over colour faded; an entry that crosses the ceiling splits there. Carried hours are lit for the profile that worked
+them. The grey wheel is one grey, with nothing lit or faded. While the pointer rests on the ring's band (not its corners or its
+middle), the over lap winds back to 12 o'clock in 0.3 s and the first lap shows whole; when the pointer leaves, it winds forward again (both
+at once when the system asks for reduced motion). Below 90% of the ceiling the centre number is in the base colour; from 90% it takes the over colour. Either way it is at
+full strength whoever worked the hours. While the over lap is wound back the number is in the base colour, and takes
+the over colour again when the lap returns; the ring keeps its colours. The wheel's numbers never depend on its colours: switching profile changes only how it looks.
 **Why:** the over lap shows the excess the moment it happens, and a full ring always means the ceiling; one ring reads
-at a glance. The number warns in the colour that is coming. The wheel sums all the other profiles, so its colour says
-which of them is on screen; with the balance profile on screen, none is, hence greys that sit on both themes' panels;
+at a glance. The number warns in the colour that is coming, and being always at full strength it is the sample to read the
+ring against: pieces paler than the number were worked by another profile, in the base colour as in the over lap. The wheel sums all the other profiles, so its colour says
+which of them is on screen, and the lit pieces say which of the hours are its own, since the profiles may have
+different rates; a timeline keeps every hour in one place, so nothing jumps when the profile changes. The wheel could be modelled
+without the pieces; they add a glance at which profile did the work, and distract little. Fading inside the colour's
+own hue reads as the same colour, quieter. The over lap hides the first hours of the ring, and winding it back shows
+them with no control added to the screen; the number follows to the base colour, so it stays the sample for what the
+ring shows, and the warning returns with the lap. Only the band starts it, so passing near the wheel does not. With the balance
+profile on screen, none is, hence greys that sit on both themes' panels;
 the light grey keeps "over" readable without a colour that belongs to no profile.
 **Rejected:** the excess as a thinner second ring inside: two rings to read for one figure. Shrinking the ring so the
 used and the excess share it: a full ring would stop meaning the ceiling. An amber number at 90%: the over colour says
 the same and needs no third colour. Colours of the wheel's own, set per machine: the colours belong to the profiles.
-The wheel in segments, one per profile: more than the owner needs. Keeping the last other profile's colours while the
+The wheel in segments, each in its own profile's colour: more than the owner needs, and the wheel would stop being
+the colour of the profile on screen. The profile on screen's hours gathered into one piece from 12 o'clock: the other
+pieces would be pushed along at every switch. Fading by mixing toward the panel's background: on the blue panel
+the faded tone read as a second colour. A slider to wind the wheel back: a permanent control for something wanted a
+few times a month. Keeping the last other profile's colours while the
 balance profile is on screen: the wheel would seem to belong to a profile that is not chosen.
 **Revisit if:** a month goes more than a whole ceiling over, which one lap cannot show.
 **Cases:**
@@ -65,61 +88,18 @@ balance profile is on screen: the wheel would seem to belong to a profile that i
 - Ceiling 42 h, 38 h used: the number in the over colour (90% is 37.8 h); the ring has no over lap.
 - Ceiling 42 h, 46 h used: the ring full, with the over colour over 4/42 of it from 12 o'clock; the next month starts
   with 4 h in the base colour.
+- Profiles A, B and C, an empty wheel, sessions of 2 h. A works: 0–2 lit. Switch to B: 0–2 faded. B works: 0–2
+  faded, 2–4 lit. Switch to C: 0–4 faded. C works: 0–4 faded, 4–6 lit. Switch to A: 0–2 lit, 2–6 faded. A works: 0–2
+  lit, 2–6 faded, 6–8 lit.
+- Ceiling 42 h, 41 h used, A works 2 h: 41–42 lit in the base colour, the over lap's first hour lit in the over
+  colour. Switch to B: both pieces faded.
+- Ceiling 42 h, 46 h used, the pointer on the ring's band: the over lap is gone and the first lap shows whole, lit
+  and faded as worked; the number reads 46:00 in the base colour. The pointer leaves: the over lap is back and the
+  number is in the over colour.
+- The pointer in the wheel's middle, or in a corner of its square: nothing winds back.
+- 46 h used, the over hours all worked by A, B on screen: the over lap is faded and the number is in B's over colour
+  at full strength.
+- A faded piece of base `#7368d4` on the dark panel has the base's hue, 55% of its chroma, and a lightness a fifth of
+  the way toward the panel's.
 - Utveckling (blue) on screen: the wheel is blue; Vaktmästare on screen: the wheel is grey `#9aa3ae` with a light grey
   `#e2e6eb` over the ceiling; the hours are the same in both.
-
-## Each profile carries its colours (2026-11-14)
-
-**Built by:** Profiles.
-
-**Decision:** each profile has a base colour and an over colour, set in its row in the menu, each with the app's own
-colour picker: a swatch that opens straight onto a colour map (saturation and lightness), with a hue strip and the
-colour's code, placed so it always fits inside the menu. Only the swatch opens it. Dragging and typing change only the
-picker's preview; "OK" saves the colour and closes it, while Esc or a click outside closes it without saving; they
-change at once, not from a date, since no count depends on them, and they travel with the profile in the handover. The
-profile with the balance starts with the base `#d78951`, a soft orange; the first start asks for its colours ("A first
-install starts fresh or imports"). A new profile's base is the colour farthest from the others: in OKLCH, the hue in the
-middle of the largest gap between the existing profiles' base hues on the colour circle (a random pick between gaps of
-equal size), at their average lightness and vividness. The colours go to:
-- the control side, for the profile on screen: its letter (in the over colour), the ring around the
-  start button, the warning label, the focus rings, the status line's mark;
-- the small profile circles in the menu and the profile popup: the letter in the over colour, ringed in the base
-  colour, the same pair the figures show;
-- the balance bar, always the balance profile's ("The balance bar");
-- the ceiling wheel, the profile on screen's when it is one of the others ("The ceiling wheel").
-The over colour starts as a suggestion worked out from the base, and a new base brings a new suggestion; the owner may
-pick another, and go back to the suggestion with one click. Nothing warns when a picked over colour is close to the
-base: it is the owner's choice. The suggestion, in OKLCH: the base's hue turned 55° toward red (hue 29°), stopping at
-red, going down through yellow for hues up to 170° and up through violet above; a grey base (chroma under 0.04) turns
-to red. The turned hue is taken at the lightness where it is most vivid (the most chroma sRGB allows, sought between
-lightness 0.2 and 0.98), and as vivid as sRGB allows at that lightness, but at least 0.15 lighter or darker than the
-base: lighter only when the hue turned at least 10°, its most vivid lightness is at least 0.15 above the base and the
-base is at most 0.75, or when darker would fall under 0.3. The dimmed colour is the base mixed 70% toward the panel's
-background, in OKLab; when that leaves it within 0.15 lightness of the base, it sits 0.15 past the background instead,
-on the side away from the base, in the base's hue at 30% of its chroma, if that lands between lightness 0.05 and 0.98.
-**Why:** a colour per profile tells the profiles apart where they are chosen and run, and the figures follow the
-profile they belong to; the largest gap keeps every new colour as far as possible from its neighbours. Turning toward
-red reads as "too much" in any colour family. Where two colours meet edge to edge the eye parts them by lightness, and
-two strong colours of equal lightness flicker, hence the gap. No formula suits every base, so the suggestion can be
-overridden. A profile's colours are part of the profile, so they look the same on both machines.
-**Rejected:** colours of the figures' own, with a switch to unify them: the profiles now carry them. Colours derived
-from the figures: every profile but the balance one shared the wheel's colour. Random colours for new profiles: two
-could land side by side. Colours per machine, out of the handover: a profile would look different at work and at home.
-The over colour always red: a red base would hide it. Turning 30°: blue, cyan, yellow and pink stayed too close to their
-base. Always darker: green went olive and orange brown. The rule's numbers as settings: they could undo the contrast;
-they are tuned once, by eye, on a sketch. Example swatches, or a grid of options for the over colour: the owner picks
-once and knows what they want. The system's colour dialog: on Linux it opened on a palette first, not the colour map,
-and did not draw fully.
-**Revisit if:** the suggestion is often overridden.
-**Cases:**
-- Profiles at base hues 29° and 210°: the gaps are 181° and 179°, so a new profile gets about 120°.
-- A third profile added to two opposite ones: it lands in the middle of one of the two equal gaps.
-- Suggestions: orange `#f28c28` gives red `#e80003`; green `#3aa655` gives golden yellow `#fcd000`; purple `#8e5bd6`
-  gives deep magenta `#940056`; blue `#3b7be0` gives deep violet `#7d00a5`; cyan `#1fb5c4` gives blue `#0064fc`;
-  yellow `#e8c22a` gives red-orange `#fd5300`; pink `#e35d9c` gives crimson `#c50001`; red `#d93a3a` gives dark red
-  `#9e0001`; grey `#8a8a8a` gives dark red `#b40001`; black and white give red `#ff0a0a`; the soft orange `#d78951`
-  gives red `#d60002`.
-- Black on a dark panel: the dimmed colour is a dark grey, lighter than the panel.
-- A profile's base changed from orange to blue after picking an over colour: the over colour returns to the
-  suggestion for blue.
-- Utveckling made blue at work: after a handover it is blue at home too.

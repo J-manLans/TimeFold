@@ -33,3 +33,12 @@ free time, with the same stops at other entries and midnight.
 Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock for
 precision. The draft's clock picker was meant for editing; the line may replace it there, or work beside it.
 **See:** Editing an entry on its line.
+
+## Phase 4: Profiles
+
+### Whose the opening ceiling hours are (2026-11-15)
+
+The ceiling wheel lights the pieces worked by the profile on screen and fades the rest ("The ceiling wheel"). The
+ceiling hours typed in at a fresh start ("A first install starts fresh or imports") come without a profile. Options:
+faded for every profile, as nobody's; or the onboarding asks which profile they belong to.
+**See:** The ceiling wheel; A first install starts fresh or imports.

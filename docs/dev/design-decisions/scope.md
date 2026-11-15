@@ -35,12 +35,12 @@ asking every time is simpler and always checked.
 
 ## A first install starts fresh or imports (2026-11-14)
 
-**Built by:** Clocking for the first start and the opening balance; Profiles for the opening ceiling hours and the
-profile's colours; Handover for importing.
+**Built by:** Clocking for the first start and the opening balance; Profiles for the opening ceiling hours; Handover
+for importing.
 
 **Decision:** an app with no data asks once how to start. **Start fresh** asks for the name of the first profile, the
-one with the balance (janitor work), and its colours ("Each profile carries its colours"), so the first start doubles as
-a short onboarding; then for two opening figures: the janitor balance and the hours of the current month's ceiling
+one with the balance (janitor work), so the first start doubles as a short onboarding; its colours are not asked
+for ("Each profile carries its colours"). Then it asks for two opening figures: the janitor balance and the hours of the current month's ceiling
 already used (any carried from the month before included), both as they stood at the end of the day before the first day
 in the app. Each is kept as an entry dated that first day, which the handover carries, the reports show ("brought over:
 +12:30") and a correction can change like any entry. From then on the app records every entry with its day. **Import

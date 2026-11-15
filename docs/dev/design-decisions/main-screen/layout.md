@@ -1,7 +1,7 @@
 # Main screen: layout
 
-How the main screen is laid out and what its menu holds. How it looks is in `look.md`; the two figures and the
-profiles' colours are in `figures.md`. Each decision follows the template in `../README.md`, and is cited by its
+How the main screen is laid out and what its menu holds. How it looks is in `look.md`; the two figures are in
+`figures.md` and the profiles' colours in `colours.md`. Each decision follows the template in `../README.md`, and is cited by its
 title.
 
 ## The main screen has a control side and a figures side (2026-11-14)
@@ -72,7 +72,7 @@ and one tab's content shows at a time; switching fades from one to the next. Bes
 button ("A light or dark theme, following the system").
 - **Profiler:** each profile is a row (a small circle with its letter in its over colour, ringed in its base colour, and
   its name). A row unfolds in place, its height growing and its content fading in, and folds back the same way; opening
-  one folds any other. It shows its name, its base and over colour ("Each profile carries its colours"), pay (a monthly
+  one folds any other. It shows its name, its colour ("Each profile carries its colours"), pay (a monthly
   salary or a rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
 - **Tid:** the slider that splits full time between janitor's expected hours and the ceiling, with the numbers on it
   ("6 | 2"); full time beside it; and the day the month starts, from 1 to 28 ("A month starts on a set day").

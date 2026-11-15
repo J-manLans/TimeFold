@@ -39,8 +39,7 @@ rules"), and tests animation on Linux early ("Tauri, desktop on Windows and Linu
    a welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
    1. the first profile's name: the profile with the balance, such as "Vaktmästare";
-   2. its colours: a base colour (soft orange offered), with the over colour suggested from it;
-   3. the balance brought over from the Excel file, as it stood the evening before the first day in the app.
+   2. the balance brought over from the Excel file, as it stood the evening before the first day in the app.
    Then the main screen opens with that balance on the bar. Phase 4 adds a step for the ceiling hours already used
    this month, and Phase 5 makes the import choice work.
 7. The question for a running entry from an earlier day.

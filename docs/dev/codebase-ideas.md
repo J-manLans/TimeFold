@@ -35,3 +35,9 @@ A quiet line under the button block: today's hours of the profile with the balan
 ("Idag 3:52 av 6:00"), maybe as a slim bar, updated at stop like everything else. Only that profile has a daily
 target; the others have the month's ceiling, which the wheel shows. The day's total already exists for the balance
 ("Day total" in the glossary), so the line is small to add.
+
+## Winding the wheel back by dragging
+
+**Returns when:** the peek on the ceiling wheel proves unclear in use ("The ceiling wheel", in `design-decisions/`).
+Grab the wheel and drag backwards: the ring unwinds as far as the drag goes, down to an empty wheel, and springs back
+to full on release. It would replace the hover peek on the same wheel, and adds the month building up as it winds.

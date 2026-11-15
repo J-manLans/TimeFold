@@ -101,6 +101,9 @@ checks and names the other by title.
 
 - The balance bar
 - The ceiling wheel
+
+**[Colours](main-screen/colours.md)**
+
 - Each profile carries its colours
 
 ### [Reports](reports.md)
