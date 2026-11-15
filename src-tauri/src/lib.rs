@@ -14,6 +14,8 @@ const KEEP_COPIES: usize = 14;
 //                 Init
 // ======================================
 
+/// Builds the app: the log plugin in debug builds, the commands the interface may invoke, then the window from
+/// tauri.conf.json. Used once, by `main`, when the app starts.
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -36,7 +38,8 @@ pub fn run() {
 //                 API
 // ======================================
 
-/// Reads the record as text for the TypeScript half, or `None` when there is no record yet.
+/// Reads the record as text for the TypeScript half, or `None` when there is no record yet. Invoked by `loadRecord`
+/// once, when the app starts.
 #[tauri::command]
 fn load_record(app: AppHandle) -> Result<Option<String>, String> {
     let folder = data_folder(&app)?;
@@ -44,7 +47,8 @@ fn load_record(app: AppHandle) -> Result<Option<String>, String> {
 }
 
 /// Saves the record's text safely, first copying the record as it stood if this is the first save of `today`
-/// (`YYYY-MM-DD`, the machine's local date, given by the TypeScript half).
+/// (`YYYY-MM-DD`, the machine's local date, given by the TypeScript half). Invoked by `saveRecord` after every change,
+/// such as a stop.
 #[tauri::command]
 fn save_record(app: AppHandle, json: String, today: String) -> Result<(), String> {
     let folder = data_folder(&app)?;
@@ -58,7 +62,8 @@ fn save_record(app: AppHandle, json: String, today: String) -> Result<(), String
 //               Helpers
 // ======================================
 
-/// The app's data folder (named by the identifier in tauri.conf.json), made if it does not exist yet.
+/// The app's data folder (named by the identifier in tauri.conf.json), made if it does not exist yet. Used by both
+/// commands: on Linux, `~/.local/share/TimeFold`.
 fn data_folder(app: &AppHandle) -> Result<PathBuf, String> {
     let folder = app.path().app_data_dir().map_err(|e| e.to_string())?;
     std::fs::create_dir_all(&folder).map_err(|e| e.to_string())?;

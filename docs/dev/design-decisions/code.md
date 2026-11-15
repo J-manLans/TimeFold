@@ -49,9 +49,10 @@ already says its rule.
 - **Imports:** anything under `src/lib/` is imported through `$lib` (`$lib/modules/record`), from source and tests
   alike, and the tests' shared helpers through `$tests` (`$tests/helpers/records`), never by counting `../`; a file
   beside the importer may use `./`.
-- **Doc comments:** every exported function, type and component has one: what it is for, its inputs, what it returns,
-  and side effects if any, as TSDoc (`/** … @param … @returns … */`) without repeating the types, or Rust's `///`.
-  Private helpers need no doc comment; a clarifying comment is enough.
+- **Doc comments:** every exported function, type and component has one: what it is for, when it is used with an example
+  (or its one use), its inputs, what it returns, and side effects if any, as TSDoc (`/** … @param … @returns … */`)
+  without repeating the types, or Rust's `///`. Private helpers and test helpers get a short one too: what they do and
+  who uses them.
 - **Comments:** only where they clarify, not to repeat the code. A comment starts with a capital letter; a comment of
   one sentence has no period, a comment of more than one ends each sentence with one, the last included. Work still to
   do is a searchable `TODO`.

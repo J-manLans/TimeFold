@@ -11,7 +11,8 @@ import { readRecord, type ReadResult, type TimeRecord } from './record'
 // ======================================
 
 /**
- * Loads the record from the disk and checks it.
+ * Loads the record from the disk and checks it. Used once, when the app starts: null opens the welcome screen, a
+ * problem opens the screen that names it, and a record opens the main screen.
  * @returns null when there is no record yet, otherwise the record or the problem with the file
  */
 export async function loadRecord(): Promise<ReadResult | null> {
@@ -21,7 +22,7 @@ export async function loadRecord(): Promise<ReadResult | null> {
 
 /**
  * Saves the record to the disk, safely, as readable JSON. The first save of a day first keeps a copy of the record as
- * it stood.
+ * it stood. Used after every change: the first record at onboarding, each start and stop, each correction.
  * @param record - the whole record
  * @param now - the moment of the save, whose local date names the day's copy
  */
@@ -34,7 +35,10 @@ export async function saveRecord(record: TimeRecord, now: Date = new Date()): Pr
 //               Helpers
 // ======================================
 
-/** The date of `now` on this machine's calendar, written YYYY-MM-DD */
+/**
+ * The date of `now` on this machine's calendar, written YYYY-MM-DD. Used by `saveRecord` to name the day's copy:
+ * 00:01 on 17 November gives 2026-11-17, where UTC would still say the 16th
+ */
 function localDay(now: Date): string {
   const two = (n: number): string => String(n).padStart(2, '0')
   return `${now.getFullYear()}-${two(now.getMonth() + 1)}-${two(now.getDate())}`

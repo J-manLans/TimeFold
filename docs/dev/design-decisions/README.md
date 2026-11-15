@@ -88,7 +88,7 @@ title.
 - Time counts on the day it was worked
 - Time is counted to the second and shown to the minute
 - A day owes its expected hours only when work started on it
-- A month starts on a set day
+- The app's month is the calendar month
 
 ### [Corrections](corrections.md)
 

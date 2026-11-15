@@ -69,8 +69,8 @@ the over colour its opposite ("Each profile carries its colours", in `design-dec
 **Lit.** On the ceiling wheel, hours worked by the profile on screen, in its base or over colour at full strength. See
 **Faded**.
 
-**Month.** The app's counting month, from the set month start day (default the 1st) to the day before it in the next
-month; the ceiling, reports and pruning count by it.
+**Month.** The app's counting month: the calendar month, the 1st to the last day; the ceiling, reports, the pay estimate
+and pruning count by it.
 
 **Neon.** A hue at its most vivid: the colour on the picker's hue strip.
 

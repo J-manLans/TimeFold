@@ -15,7 +15,6 @@ export const RECORD: TimeRecord = {
       expectedMinutes: [{ from: '2026-11-16', minutes: 360 }],
     },
   ],
-  settings: { monthStart: [{ from: '2026-11-16', day: 1 }] },
   openings: [{ profile: 'p1', day: '2026-11-16', balanceMinutes: 750 }],
   entries: [
     { id: 'e1', profile: 'p1', start: '2026-11-16T07:58:00+02:00', stop: '2026-11-16T11:30:00+02:00', made: 'clicked' },

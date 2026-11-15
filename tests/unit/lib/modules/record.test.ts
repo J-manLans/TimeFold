@@ -4,7 +4,10 @@ import { RECORD } from '$tests/helpers/records'
 
 // === Helpers ===
 
-/** The record as JSON text, with `change` applied to a copy first */
+/**
+ * The record as JSON text, with `change` applied to a copy first. Used by every readRecord test:
+ * text((r) => { r.version = 2 }) is the record one version on
+ */
 function text(change: (record: Record<string, unknown>) => void = () => {}): string {
   const copy = structuredClone(RECORD) as unknown as Record<string, unknown>
   change(copy)

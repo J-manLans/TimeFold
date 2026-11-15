@@ -34,12 +34,6 @@ export interface Profile {
   expectedMinutes?: FromDay<{ minutes: number }>[]
 }
 
-/** The settings that count everywhere, not per profile */
-export interface Settings {
-  /** The day of the month the app's month starts on, 1–28 ("A month starts on a set day") */
-  monthStart: FromDay<{ day: number }>[]
-}
-
 /** A balance brought over from before the app, dated the first day ("A first install starts fresh or imports") */
 export interface Opening {
   profile: string
@@ -64,7 +58,6 @@ export interface TimeRecord {
   format: typeof RECORD_FORMAT
   version: number
   profiles: Profile[]
-  settings: Settings
   openings: Opening[]
   entries: Entry[]
 }
@@ -82,7 +75,7 @@ export type ReadResult = { ok: true; record: TimeRecord } | { ok: false; problem
 /**
  * Reads a file's text as a record, checking it on the way ("The record is one JSON file"). Names what is wrong
  * rather than guessing; a record from a newer version of the app is refused, so it is never saved back without what
- * this version does not know.
+ * this version does not know. Used when the app starts, through `loadRecord`, and for a handover file at import.
  * @param text - the file's text, as the disk gave it
  * @returns the record, or the problem with the text
  */
@@ -116,7 +109,10 @@ export function readRecord(text: string): ReadResult {
 //               Helpers
 // ======================================
 
-/** Thrown inside the check; carries where the shape went wrong, such as entries[1].start */
+/**
+ * Thrown inside the check; carries where the shape went wrong. Used by the checks below, and caught in
+ * `readRecord`: a missing start gives entries[1].start
+ */
 class ShapeError extends Error {
   readonly where: string
 
@@ -132,11 +128,15 @@ const DAY = /^\d{4}-\d{2}-\d{2}$/
 const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?([+-]\d{2}:\d{2}|Z)$/
 const MADE: readonly Made[] = ['clicked', 'hand', 'edited']
 
+/** Whether a value is a plain object. Used by `readRecord` for the whole file, and by `fields` */
 function isObject(value: unknown): value is Fields {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-/** Checks every part of the record, throwing a ShapeError at the first that is wrong */
+/**
+ * Checks every part of the record, throwing a ShapeError at the first that is wrong. Used by `readRecord` once
+ * the format and version have passed
+ */
 function checkRecord(data: Fields): void {
   whole(data.version, 'version', 1)
   list(data.profiles, 'profiles', (profile, at) => {
@@ -150,11 +150,6 @@ function checkRecord(data: Fields): void {
         whole(item.minutes, `${where}.minutes`, 0)
       })
     }
-  })
-  const settings = fields(data.settings, 'settings')
-  list(settings.monthStart, 'settings.monthStart', (item, at) => {
-    day(item.from, `${at}.from`)
-    whole(item.day, `${at}.day`, 1, 28)
   })
   list(data.openings, 'openings', (opening, at) => {
     text(opening.profile, `${at}.profile`)
@@ -170,28 +165,37 @@ function checkRecord(data: Fields): void {
   })
 }
 
+/** A whole number within `min` and `max`, or a ShapeError at `where`. Used for minutes, the hue and the version */
 function whole(value: unknown, where: string, min = -Infinity, max = Infinity): void {
   if (!Number.isInteger(value) || (value as number) < min || (value as number) > max) throw new ShapeError(where)
 }
 
+/**
+ * A value as a list, each item checked by `check` with its place, such as entries[1]. Used for profiles,
+ * openings, entries and expected minutes
+ */
 function list(value: unknown, where: string, check: (item: Fields, at: string) => void): void {
   if (!Array.isArray(value)) throw new ShapeError(where)
   value.forEach((item, i) => check(fields(item, `${where}[${i}]`), `${where}[${i}]`))
 }
 
+/** A string with something in it, or a ShapeError at `where`. Used for ids, names and colours */
 function text(value: unknown, where: string): void {
   if (typeof value !== 'string' || value === '') throw new ShapeError(where)
 }
 
+/** A real day written YYYY-MM-DD, or a ShapeError at `where`. Used for openings and from-dates: 16.11.2026 fails */
 function day(value: unknown, where: string): void {
   if (typeof value !== 'string' || !DAY.test(value) || Number.isNaN(Date.parse(value))) throw new ShapeError(where)
 }
 
+/** A value as an object, or a ShapeError at `where`. Used for each profile, opening and entry */
 function fields(value: unknown, where: string): Fields {
   if (!isObject(value)) throw new ShapeError(where)
   return value
 }
 
+/** A real moment written ISO 8601 with its offset, or a ShapeError at `where`. Used for an entry's start and stop */
 function timestamp(value: unknown, where: string): void {
   if (typeof value !== 'string' || !TIMESTAMP.test(value) || Number.isNaN(Date.parse(value))) {
     throw new ShapeError(where)

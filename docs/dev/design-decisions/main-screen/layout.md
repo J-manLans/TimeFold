@@ -92,7 +92,7 @@ would be cramped while the height went unused.
 
 ## The menu has two tabs, with every value locked behind "Ändra" (2026-11-14)
 
-**Built by:** Profiles for the profiles, the working time and the month start; Clocking for the theme.
+**Built by:** Profiles for the profiles and the working time; Clocking for the theme.
 
 **Decision:** the menu has two tabs across its top: **Profiler** and **Tid**. Profiler is selected when the menu opens,
 and one tab's content shows at a time; switching fades from one to the next. Beside the "Meny" heading sits the theme
@@ -103,15 +103,15 @@ button ("A light or dark theme, following the system").
   one folds any other. It shows its name, its colour ("Each profile carries its colours"), pay (a monthly salary or a
   rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
 - **Tid:** the slider that splits full time between janitor's expected hours and the ceiling, with the numbers on it ("6
-  | 2"); full time beside it; and the day the month starts, from 1 to 28 ("A month starts on a set day").
+  | 2"); and full time beside it.
 
 Every value is locked: it shows as text with "Ändra" beside it. "Ändra" opens it; Enter confirms and Esc aborts, as in
-"Entering a length of time". Values that change the counting (full time, the split, the month start, a salary or rate)
-then ask "Gäller från", today unless the owner picks an earlier date ("Settings change from a date"), and under each,
-"Tidigare värden" with a count opens its earlier values and the dates they held from. A name and a pay category are
-saved at once on Enter, with no date and no history, since no count depends on them. Only one value is open for editing
-at a time: "Ändra" on another aborts the open one, and saving one value never resets another or moves the focus away
-from where the owner is. Colours and the theme change at once, from their pickers and button.
+"Entering a length of time". Values that change the counting (full time, the split, a salary or rate) then ask "Gäller
+från", today unless the owner picks an earlier date ("Settings change from a date"), and under each, "Tidigare värden"
+with a count opens its earlier values and the dates they held from. A name and a pay category are saved at once on
+Enter, with no date and no history, since no count depends on them. Only one value is open for editing at a time:
+"Ändra" on another aborts the open one, and saving one value never resets another or moves the focus away from where the
+owner is. Colours and the theme change at once, from their pickers and button.
 
 **Why:** tabs keep the names in a fixed place while the content swaps calmly below them. A value that changes past and
 future counts should not move by a stray click, and Enter and Esc work as they do everywhere else. The earlier values

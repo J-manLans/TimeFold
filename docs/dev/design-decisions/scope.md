@@ -99,8 +99,9 @@ from Clocking and Profiles.
 old, a quiet line at the bottom of the main screen offers to prune ("Du har över tre års historik. Vill du rensa den
 äldsta?"), saying how many months it would remove. Nothing is pruned without the owner's yes; "not now" hides the line
 until the next month. A prune cuts at the start of a month: the balance and the ceiling hours carried into that month
-are frozen as opening figures dated the month's first day ("A month starts on a set day"), as at a first install ("A
-first install starts fresh or imports"), and every entry before it is deleted. A copy of the record is saved first.
+are frozen as opening figures dated the month's first day ("The app's month is the calendar month"), as at a first
+install ("A first install starts fresh or imports"), and every entry before it is deleted. A copy of the record is saved
+first.
 
 **Why:** the owner does not want the record to grow forever, and the opening figures already carry a balance over a cut,
 so pruning reuses them. Cutting at a month's start keeps every remaining month whole, so its report can still be made,

@@ -31,7 +31,7 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-1. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
+1. The counting, as tested functions: entries, days, expected hours, the balance, the month.
 2. The main screen's controls side: the button block, the warning label, the status line, the prune line's room.
 3. The dashboard with the flex bar and the five recent entries; the theme button; the colour rule, which the bar needs
    for its over colour.

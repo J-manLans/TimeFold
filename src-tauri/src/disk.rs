@@ -11,6 +11,7 @@ use std::path::{Path, PathBuf};
 
 /// Saves `contents` to `path` so that a crash at any moment leaves either the old file or the new one whole, never a
 /// mix or an empty file. Writes a temporary file beside `path`, forces it onto the disk, then swaps it into place.
+/// Used by `save_record` for every save of the record, and later for an exported handover file.
 ///
 /// Returns an error if the folder cannot be written to; the old file is then left as it was.
 pub fn save_safely(path: &Path, contents: &str) -> io::Result<()> {
@@ -31,6 +32,7 @@ pub fn read_text(path: &Path) -> io::Result<Option<String>> {
 /// Copies the file at `path` into `folder` as `<name>-<today>.<ext>`, unless a copy for `today` is already there or
 /// there is no file yet, then deletes the oldest copies beyond `keep`. Called before each save, so a day's copy holds
 /// the file as it stood before that day's first save. `today` is a date written `YYYY-MM-DD`, given by the caller.
+/// Used by `save_record`: Monday's first save copies the record to `copies/record-2026-11-16.json`.
 pub fn copy_once_a_day(path: &Path, folder: &Path, today: &str, keep: usize) -> io::Result<()> {
     if !path.exists() {
         return Ok(());
@@ -49,7 +51,8 @@ pub fn copy_once_a_day(path: &Path, folder: &Path, today: &str, keep: usize) -> 
     Ok(())
 }
 
-/// Lists the copies in `folder`, newest first. An empty list when the folder does not exist yet.
+/// Lists the copies in `folder`, newest first. An empty list when the folder does not exist yet. Used by
+/// `copy_once_a_day` to find the copies past 14, and later to offer the newest when the record cannot be read.
 pub fn list_copies(folder: &Path) -> io::Result<Vec<PathBuf>> {
     let entries = match fs::read_dir(folder) {
         Ok(entries) => entries,
@@ -70,6 +73,7 @@ pub fn list_copies(folder: &Path) -> io::Result<Vec<PathBuf>> {
 // ======================================
 
 /// Writes `contents` to a temporary file beside `path` and forces it onto the disk; `path` itself is not touched.
+/// Used by `save_safely` as its first half: `record.json` is written as `record.json.tmp`.
 fn write_temp(path: &Path, contents: &str) -> io::Result<PathBuf> {
     // record.json → record.json.tmp, in the same folder, so the swap stays on one disk
     let mut name = path
@@ -85,7 +89,7 @@ fn write_temp(path: &Path, contents: &str) -> io::Result<PathBuf> {
     Ok(temp)
 }
 
-/// Moves the finished temporary file over `path` in one step.
+/// Moves the finished temporary file over `path` in one step. Used by `save_safely` as its second half.
 fn swap_in(temp: &Path, path: &Path) -> io::Result<()> {
     fs::rename(temp, path)
 }
@@ -107,6 +111,7 @@ mod tests {
 
     // === Helpers ===
 
+    /// The file names of `paths`, for comparing copies by name. Used by the copy tests: `record-2026-11-16.json`
     fn names(paths: &[PathBuf]) -> Vec<String> {
         paths
             .iter()

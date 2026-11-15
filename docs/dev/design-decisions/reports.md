@@ -20,10 +20,10 @@ figures, and its layout depends on the mail program.
 
 **Built by:** Reports.
 
-**Decision:** a report covers one month ("A month starts on a set day"); any month can be exported, the current one
-partway through included. It shows: the month, the year and the owner's name; janitor work as the flex bar, with the
-balance brought in, the month's change and the balance carried out; the other work as the ceiling wheel, with the
-ceiling, the hours used, and the hours carried in and out; and each profile's hours for the month, grouped by pay
+**Decision:** a report covers one month ("The app's month is the calendar month"); any month can be exported, the
+current one partway through included. It shows: the month, the year and the owner's name; janitor work as the flex bar,
+with the balance brought in, the month's change and the balance carried out; the other work as the ceiling wheel, with
+the ceiling, the hours used, and the hours carried in and out; and each profile's hours for the month, grouped by pay
 category where categories are set. An option at export, off by default, adds each day's hours per profile, without clock
 times. The pay estimate and the marks of how entries were made stay out ("A pay estimate per profile"; "Entries remember
 how they were made").

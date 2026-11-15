@@ -39,10 +39,10 @@ from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 
 period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the same
 whenever they are worked: night or day, weekday or weekend. Full time and janitor's expected hours are set together with
 one slider that splits full time between them (6 | 2); how it looks is settled with the look and feel. The ceiling's
-period is the month ("A month starts on a set day"). Hours over a month's ceiling carry into the next month, which
-starts with them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is never
-owed: working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of it is
-used on the ceiling wheel, beside the flex bar ("The ceiling wheel"). It never blocks a click.
+period is the month ("The app's month is the calendar month"). Hours over a month's ceiling carry into the next month,
+which starts with them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is
+never owed: working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of
+it is used on the ceiling wheel, beside the flex bar ("The ceiling wheel"). It never blocks a click.
 
 **Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
 balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree. Showing
@@ -72,10 +72,10 @@ ceiling does not show.
 **Decision:** each profile may have a monthly salary or a rate per hour, settings that change from a date ("Settings
 change from a date"). A salary counts once per month whatever the hours; janitor work has one (such as 1 700 €), since
 its hours move the balance, not the pay. A rate counts the profile's hours that month. A profile with neither is left
-out. The estimate is the month's salaries plus its hours times rates ("A month starts on a set day"), shown as one
-number with no label under the ceiling wheel ("The main screen has a controls side and a dashboard"), and updated when
-an entry stops or an added break changes a stopped entry, like the figures. It is for the owner only, and stays out of
-the report to the boss.
+out. The estimate is the month's salaries plus its hours times rates ("The app's month is the calendar month"), shown as
+one number with no label under the ceiling wheel ("The main screen has a controls side and a dashboard"), and updated
+when an entry stops or an added break changes a stopped entry, like the figures. It is for the owner only, and stays out
+of the report to the boss.
 
 **Why:** the owner wants a rough idea of what the month is worth as it builds up, and pay can rise over time. The
 janitor job is salaried with flexible hours, so its pay is the base the other work sits on. It need not match payroll,

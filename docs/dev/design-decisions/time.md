@@ -90,26 +90,25 @@ after midnight would charge the next day's expected hours, even a day of leave.
 - An empty weekday: adds nothing.
 - A flex day: −6.
 
-## A month starts on a set day (2026-11-14)
+## The app's month is the calendar month (2026-11-16)
 
-**Built by:** Profiles, with the ceiling.
+**Built by:** Clocking for the counting; Profiles, with the ceiling.
 
-**Decision:** the app's month runs from a set day to the day before it in the next month, to match how the school
-counts. The month start is a global setting, a day from 1 to 28, default the 1st, and changes from a date like the other
-settings ("Settings change from a date"). The ceiling, the report and pruning all count this month. A change makes the
-month it falls in run from the old start to the day before the new one, once shorter or longer; its ceiling follows its
-weekdays as any month's does.
+**Decision:** the app counts by the calendar month, the 1st to the last day, as the school counts the owner's hours
+(their payslip names the period 1st to last of the month). The ceiling, the report, the pay estimate and pruning all
+count this month. It is not a setting and is not asked for.
 
 **Why:** the report and the ceiling have to count the same month, or a report's wheel would match neither of its
-ceilings; one global setting keeps them together. Days up to 28 exist in every month.
+ceilings, and the school's month is the calendar one. A setting for a month start, changing from a date, cost a menu
+control, a history and a short month at each change, for a value the owner would not change while at this school.
 
-**Rejected:** a month start for the report alone: its wheel would cover parts of two ceilings. The calendar month only:
-the school may count from another day.
+**Rejected:** a month start from 1 to 28, set in the menu and changing from a date: decided first, then dropped when the
+school's month proved to be the calendar month. A month start asked once at onboarding: nothing to ask. A month start
+for the report alone: its wheel would cover parts of two ceilings.
 
-**Revisit if:** the school counts in weeks or terms rather than months.
+**Revisit if:** the owner works where hours are counted from another day, or in weeks or terms.
 
 **Cases:**
 
-- Month start 16: the month of 16 March to 15 April has its ceiling from the weekdays in that span.
-- Month start changed from 1 to 16, from 16 March: 1–15 March is one short month, then 16 March–15 April.
-- Default month start: a month is the calendar month.
+- 16 November: the month is 1–30 November.
+- 29 February 2028: the month is 1–29 February.

@@ -21,7 +21,8 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `App.svelte`: the root component, the main screen.
 - `lib/components/`: the Svelte components, starting with their first file.
 - `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
-  opening that turns a file's text into a record or names what is wrong with it. `storage.ts`: `loadRecord` and
+  opening that turns a file's text into a record or names what is wrong with it. `counting.ts`: the balance, each day's
+  result, expected hours and the app's month, worked out in seconds from the record. `storage.ts`: `loadRecord` and
   `saveRecord`, the only place that invokes the record's commands; it adds the local date that names a day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts and the body.
