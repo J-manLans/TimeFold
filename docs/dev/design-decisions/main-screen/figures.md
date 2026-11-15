@@ -81,7 +81,8 @@ The wheel in segments, each in its own profile's colour: more than the owner nee
 the colour of the profile on screen. The profile on screen's hours gathered into one piece from 12 o'clock: the other
 pieces would be pushed along at every switch. Fading by mixing toward the panel's background: on the blue panel
 the faded tone read as a second colour. A slider to wind the wheel back: a permanent control for something wanted a
-few times a month. Keeping the last other profile's colours while the
+few times a month. The peek at the interface's transition time (0.2 seconds): tried, and the owner found it
+better at its own 0.3 s. Keeping the last other profile's colours while the
 balance profile is on screen: the wheel would seem to belong to a profile that is not chosen.
 **Revisit if:** a month goes more than a whole ceiling over, which one lap cannot show.
 **Cases:**
