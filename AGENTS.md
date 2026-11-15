@@ -104,10 +104,11 @@ present. Cite a decision by its title, "in `design-decisions/`", not by line or 
 
 ## How to work with the owner
 
-- **Design together; who writes the code shifts.** The owner decides. The owner may steer while the agent writes, be
-  guided while writing it themselves, or review what the agent wrote, or anything between; when it is unclear, ask.
-  Guided, the agent explains the why, suggests the next step and reviews, and writes code only when asked. The docs
-  are the agent's to write.
+- **Design together; who writes the code shifts.** The owner decides. The owner may steer while the agent writes,
+  review what the agent wrote, or work alongside; when it is unclear, ask. Alongside, the owner writes the parts they
+  want to learn by doing and the agent does the rest, the tedious parts first (installs, config, moving code, removing
+  files); the agent explains the why, gives one step at a time and waits for the owner before the next, and reviews
+  what the owner wrote. The docs are the agent's to write.
 - **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are
   thinking and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A
   restated option is not a decision.
