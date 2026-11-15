@@ -6,7 +6,8 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, starting with its **Settle first**: the design tokens taken over from the main screen sketch.
+Phase 1: Clocking, starting with step 1, the project's tools, so everything after is formatted and checked from its
+first line; then its **Settle first**, the design tokens taken over from the main screen sketch.
 
 ## State
 
