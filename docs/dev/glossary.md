@@ -20,8 +20,8 @@ becomes a test.
 janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
 
 **Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills as the month's hours are used, in the
-colours of the profile on screen (grey for the balance profile), with hours over it in the over colour; a timeline of the month's hours,
-the profile on screen's lit and the others' faded ("The ceiling wheel", in `design-decisions/`).
+colours of the profile on screen (grey for the balance profile), with hours over it in the over colour; a timeline of
+the month's hours, the profile on screen's lit and the others' faded ("The ceiling wheel", in `design-decisions/`).
 
 **Controls side.** The left side of the main screen: the start/stop button, the profile button, the status line,
 "Lägg till paus" and the menu. What the owner presses.
@@ -47,8 +47,8 @@ an added break, or afterwards as a gap cut on the entry line.
 Friday", in `design-decisions/`).
 
 **Faded.** On the ceiling wheel, the tone of hours worked by another profile than the one on screen: the base or over
-colour in the same hue, weaker and a little toward the panel's background. Not the dimmed colour, which is the unused part ("The ceiling wheel", in
-`design-decisions/`). See **Lit**.
+colour in the same hue, weaker and a little toward the panel's background. Not the dimmed colour, which is the unused
+part ("The ceiling wheel", in `design-decisions/`). See **Lit**.
 
 **Flex bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the
 balance as a number ("The flex bar", in `design-decisions/`).

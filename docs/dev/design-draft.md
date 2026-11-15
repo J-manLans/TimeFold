@@ -11,7 +11,8 @@ those files win. This file goes once nothing in it is left to move.
 
 ### Purpose
 
-A small, self-contained desktop application for tracking working hours across multiple work profiles. It should work entirely offline, with a simple interface and a little visual flair.
+A small, self-contained desktop application for tracking working hours across multiple work profiles. It should work
+entirely offline, with a simple interface and a little visual flair.
 
 ### 1. Profiles
 
@@ -119,6 +120,8 @@ Importing must preserve data integrity and avoid accidental loss or duplication 
 
 Keep it small, contained and straightforward.
 
-A personal utility rather than a full employment-management system. Prioritize quick interactions, clear information and reliable accounting.
+A personal utility rather than a full employment-management system. Prioritize quick interactions, clear information and
+reliable accounting.
 
-The visual design should be minimal, modern and polished, with restrained use of colour, typography and animation. A little personality without unnecessary decoration.
+The visual design should be minimal, modern and polished, with restrained use of colour, typography and animation. A
+little personality without unnecessary decoration.

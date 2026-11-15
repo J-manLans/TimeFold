@@ -18,26 +18,27 @@ No state, progress, decisions or history here; each has its own home (see "Where
 | Doc | For |
 |---|---|
 | `AGENTS.md` | How an agent works here (this file) |
-| `docs/vision.md` | Where the project is heading, and the questions to ask of a new idea; written at the end of Phase 0 |
-| `docs/dev/roadmap.md` | **Next**, the state table, the phases (until agreed, Phase 0 and the parts), what is not on the roadmap |
-| `docs/dev/design-decisions/README.md` | The decision template, the principles, and every decision's title by area, linking its file |
+| `docs/vision.md` | Where the project is heading, and the questions to ask of a new idea |
+| `docs/dev/roadmap.md` | **Next**, the state table, the phases, what is not on the roadmap |
+| `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area |
 | `docs/dev/open-questions.md` | What is not decided, grouped by the phase (or part) that needs the answer |
 | `docs/dev/glossary.md` | The project's terms; read before writing about the app |
-| `docs/dev/design-draft.md` | The owner's first draft of the app, emptied into the files above as it is talked through |
+| `docs/dev/design-draft.md` | The owner's first draft, emptied into the files above as it is talked through |
 | `docs/dev/code-map.md` | Where the code lives and the path a run takes through it |
+| `docs/dev/codebase-ideas.md` | Ideas that are not a problem now, each opening with **Returns when:** |
+| `docs/dev/sketches/` | Looks tried before they are decided, a page or a drawing each |
+
+`codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
+otherwise name the idea and ask. A sketch holds nothing the docs need: the decision it serves holds every number it
+settles, and it is deleted once the code it previews is built; `git log` keeps it.
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 
-Added when there is something to put in them, each opening with what it holds and what stays out:
+Added when there is something to put in them, each opening with what it holds and what stays out, and moved into the
+doc map once it exists:
 
-- `docs/dev/codebase-ideas.md`, with the first idea that is not a problem now: one entry per idea, each opening with
-  **Returns when:** (the phase, feature or code that would make it matter). Read at a docs sweep, when the owner asks
-  about its subject, or when the owner says to; otherwise name the idea and ask.
 - `docs/dev/procedures/`, when a job is done a second time: one file per job only some sessions need, and a line
   here saying when to read it.
-- `docs/dev/sketches/`, when a look is worth trying before it is decided: a page or a drawing per sketch, a page opening
-  with what it tries. The decision it serves holds every number the sketch settles, so the sketch holds nothing the docs
-  need. It is deleted once the code it previews is built; `git log` keeps it.
 - `docs/dev/archive/`, when an investigation closes or an idea is dropped, and both are true: it is likely to come up
   again, and reaching the conclusion cost something. Each entry says what it was, why it ended, and what would change
   the verdict. Otherwise delete it and let `git log` keep it.
@@ -70,17 +71,17 @@ Scaled to the task:
 
 | When | Update |
 |---|---|
-| A decision is made | its area's file in `docs/dev/design-decisions/`, in the present tense, with **Built by** until built; its title in the index |
-| A question is answered | remove it from `open-questions.md`; the answer goes to its area's file in `design-decisions/` |
+| A decision is made | its area's file in `design-decisions/`, present tense, **Built by** until built; index title |
+| A question is answered | remove it from `open-questions.md`; the answer goes to its area's `design-decisions/` file |
 | A question comes up | `open-questions.md`, under the phase (or part) that needs it |
 | A concrete case is agreed | the **Cases** line of the decision it mainly checks |
 | A case becomes a test | remove it from its decision's **Cases** |
-| A roadmap step is done | remove it from the roadmap, update the state table, remove or shorten each **Built by** it built |
+| A roadmap step is done | remove it from the roadmap; update the state table; trim each **Built by** it built |
 | Code is first run | the "has it run" cell in the state table |
 | A word is coined | `docs/dev/glossary.md` |
 | A file is added, moved or renamed | the code map, in the same change (once it exists) |
 | A look to try before deciding it | a page in `docs/dev/sketches/`; what it settles goes to its decision |
-| An idea that is not a problem now | `docs/dev/codebase-ideas.md`; if it touches what is built, `open-questions.md` instead |
+| An idea that is not a problem now | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead |
 | How an occasional job is done | its file in `docs/dev/procedures/` |
 | An investigation closes, and would cost to redo | `docs/dev/archive/`; otherwise delete it |
 | What was done, and what was run | the commit message |

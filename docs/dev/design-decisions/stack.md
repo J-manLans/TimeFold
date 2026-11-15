@@ -3,7 +3,7 @@
 
 ## Tauri, desktop on Windows and Linux (2026-11-14)
 
-**Built by:** Clocking.
+**Built by:** Clocking, for the program on Windows.
 
 **Decision:** the app is built with Tauri: a web-style interface on the system's webview, with a Rust backend,
 packaged as one small program for Windows and Linux.
@@ -17,8 +17,6 @@ which is risky for a record the boss relies on. A phone app: the owner clicks at
 **Revisit if:** WebKitGTK cannot show the interface acceptably on Linux.
 
 ## Svelte with TypeScript for the interface (2026-11-14)
-
-**Built by:** Clocking.
 
 **Decision:** the interface inside Tauri is written in Svelte, with TypeScript for its logic and plain CSS in each
 component's own style block. No CSS framework. It is plain Svelte
