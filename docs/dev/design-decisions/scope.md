@@ -71,7 +71,7 @@ a worked day: it happens once, and a fresh day needs nothing built.
 **Cases:**
 
 - First install on Monday, Excel balance +12:30 and 18 h of the ceiling used at Friday's close: the balance starts at
-  +12:30 and the ceiling wheel at 18 h; Monday's work adds to both.
+  +12:30 and the ceiling wheel at 18 h; Monday's work adds to both: 7 h worked on Monday makes the balance +13:30.
 - Second machine, first start: "Import from my other machine" brings the whole record, opening figures and profile
   colours included, and asks nothing more.
 

@@ -86,6 +86,7 @@ title.
 
 - Expected hours: 6 a day, Monday to Friday
 - Time counts on the day it was worked
+- Time is counted to the second and shown to the minute
 - A day owes its expected hours only when work started on it
 - A month starts on a set day
 

@@ -39,6 +39,28 @@ calendar, and a period's edge would take hours from the wrong side.
 - Tuesday 22:00 to Wednesday 01:00: Tuesday 2 h, Wednesday 1 h.
 - An entry of a profile without a balance, 31 March 23:00 to 1 April 01:00: 1 h in March's ceiling, 1 h in April's.
 
+## Time is counted to the second and shown to the minute (2026-11-16)
+
+**Built by:** Clocking.
+
+**Decision:** a click records the moment to the second, and the counting works in seconds; every figure the owner sees
+is rounded to the nearest minute only when shown, so 3:31:30 shows as 3:32. A hand count from the times on screen can
+differ from the app by a minute now and then.
+
+**Why:** with clicks, the seconds are what happened; dropping them would invent a precision the record does not have.
+Rounding only for display keeps rounding from adding up over thousands of entries. The owner has rounded to the nearest
+five minutes by hand, so a minute's difference is well within what counts as the same.
+
+**Rejected:** clicks recorded to the whole minute, so what is shown is exactly what is counted: each entry would lose up
+to a minute's truth for a match the owner does not need.
+
+**Revisit if:** a hand count's minute differences start to matter, say to the boss.
+
+**Cases:**
+
+- Clicked 07:58:40 to 11:30:10: counted 3:31:30, shown 3:32.
+- Four entries of 1:59:40 each: counted 7:58:40, shown 7:59, not 8:00.
+
 ## A day owes its expected hours only when work started on it (2026-11-14)
 
 **Built by:** Clocking for worked days; Breaks and flex days for flex days.
