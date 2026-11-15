@@ -31,8 +31,11 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/sketches/`                  | Looks tried before they are decided, a page or a drawing each                    |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
-otherwise name the idea and ask. A sketch holds nothing the docs need: the decision it serves holds every number it
-settles, and it is deleted once the code it previews is built; `git log` keeps it.
+otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
+from it until the screen is built, then live in `design-tokens.css`, where the owner tunes them; it stays the reference
+for the look's intent and for screens not built yet, and goes once the finished app has been validated. A sketch, a
+quick try of one look, holds nothing the docs need: the decision it serves holds every number it settles, and it is
+deleted once the code it previews is built; `git log` keeps it.
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 
@@ -64,8 +67,8 @@ collection, never at a part: a decision by its title, a term by its name. A spli
 Scaled to the task:
 
 1. Always: this file and `docs/dev/roadmap.md`. **Next** in the roadmap says what comes next, not the branch name.
-2. Before a design opinion: `docs/vision.md`, `docs/dev/design-decisions/README.md` and the area files the opinion
-   touches, and `docs/dev/open-questions.md`.
+2. Before a design opinion: `docs/vision/vision.md` (and for a look, `docs/vision/prototype.html`),
+   `docs/dev/design-decisions/README.md` and the area files the opinion touches, and `docs/dev/open-questions.md`.
 3. Before reading code: the code map, once it exists.
 4. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 
@@ -119,10 +122,11 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   the agent builds the phase without stopping, tests first as always, in small batches, each committed as soon as
   `npm run tidy` and `npm test` pass; the owner reviews through git. A question that comes up and blocks nothing is
   collected and asked at the end, as one numbered list; one that would change what is built stops the work and is asked
-  at once. **The sketch is the source of truth for the look:** every value, colour, size, time and behaviour of a screen
-  is taken from it as tuned, through the decision that holds its numbers; where the two disagree, the agent says so and
-  does not pick. Each batch with a screen ends with a short list of what to check by eye in the running app. Afterwards
-  the owner goes by look and feel, and tunes values in `design-tokens.css` or asks the agent for anything bigger.
+  at once. **The prototype is the source of truth for the look:** every value, colour, size, time and behaviour of a
+  screen is taken from it as tuned, through the decision that holds its numbers; where the two disagree, the agent says
+  so and does not pick. Each batch with a screen ends with a short list of what to check by eye in the running app.
+  Afterwards the owner goes by look and feel, and tunes values in `design-tokens.css` or asks the agent for anything
+  bigger.
 - **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are thinking
   and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A restated option
   is not a decision.
@@ -134,10 +138,10 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   message.
 - **Write to the docs in batches,** not after every answer. Judge the batch: a topic talked through, a decision made, a
   session ending, or the owner asking. Write before context runs short, so nothing said is lost.
-- **While tuning, just change the code.** When the owner fine-tunes how something looks or feels, on a sketch or in the
-  app, the code holds the values meanwhile and the conversation the reasons, so no decision edits or commits between
-  tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching topic, at a break,
-  or when the conversation is getting long.
+- **While tuning, just change the code.** When the owner fine-tunes how something looks or feels, on a sketch, the
+  prototype or in the app, the code holds the values meanwhile and the conversation the reasons, so no decision edits or
+  commits between tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching
+  topic, at a break, or when the conversation is getting long.
 - **Mention what is surprising; do not fix it unasked.**
 - **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no "until
   phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
@@ -169,7 +173,7 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
 
 - **A changed decision touches every file that restates it.** After one, search the docs for its old words before
   calling the batch done.
-- **A look's values come from its decision and the sketch,** never from a draft in the chat: check the decision's
+- **A look's values come from its decision and the prototype,** never from a draft in the chat: check the decision's
   numbers and **Cases** before writing a colour, size or time into code.
 - **A claim goes into a commit message only after it was run.** Run the check first, then write what it showed.
 

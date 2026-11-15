@@ -8,7 +8,7 @@ in `../README.md`, and is cited by its title.
 **Built by:** Clocking, with the first screen.
 
 **Decision:** the app's look, from the owner's art direction references (kept locally, not in git) and settled on the
-main screen sketch:
+prototype:
 
 - **Type:** Bricolage Grotesque, bold and at its narrowest width (75%), for the big things: "Starta jobb", the profile
   letter, the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in normal
@@ -21,7 +21,7 @@ main screen sketch:
   is balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same ratio,
   and stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1 (light),
   lines at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons at about
-  2.7:1 and 2.0:1, as measured on the sketch.
+  2.7:1 and 2.0:1, as measured on the prototype.
 - **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper, `#4f688e`,
   with near-white text at 5.2:1, hovered `#40577b` at 6.8:1; in the dark theme a dark grey with light text; a little
   bolder text on the smaller buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset

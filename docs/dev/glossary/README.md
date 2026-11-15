@@ -8,4 +8,4 @@ a term by its name, never at a part.
 Design token, Dimmed colour, Entry, Entry line, Errand, Expected hours.
 
 **[F–Z](f-z.md):** Faded, Flex bar, Flex day, Full time, Gap, Handover, Hue (a profile's), Lit, Month, Neon, Opening
-figures, Over colour, Pay category, Pay estimate, Peek, Profile, Prune, Report.
+figures, Over colour, Pay category, Pay estimate, Peek, Profile, Prototype, Prune, Report, Sketch.

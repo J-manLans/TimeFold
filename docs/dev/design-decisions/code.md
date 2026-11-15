@@ -32,7 +32,7 @@ already says its rule.
 
 - **Structure:** a better structure that comes easily is built from the start, in the app's first version of the part;
   one that needs hoops jumped through waits until a problem asks for it. When two designs serve the owner equally, the
-  one with fewer rules and less code wins. The sketches are throwaway and are not restructured.
+  one with fewer rules and less code wins. The sketches and the prototype are throwaway and are not restructured.
 - **Tools, close to their defaults:** Prettier with its Svelte plugin for TypeScript, Svelte, CSS and the docs'
   markdown, and rustfmt for Rust, formatting automatically; ESLint with the TypeScript and Svelte rules, and clippy for
   Rust. Prettier is pinned to an exact version, since a new one may format the same code differently. `npm run tidy`
@@ -91,14 +91,14 @@ anything. Tools close to their defaults keep style out of reviews and match ever
 and few, sharp tests suit tests-first: each test guards a rule from a decision, and its worked examples are the
 decisions' cases.
 
-**Rejected:** each figure working out its own colours, as the main screen sketch does: a rule changed twice in one
-session meant finding every spot. An underscore for private things: in TypeScript, not exporting says it, and the norm
-is without one. Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright,
-`conftest.py`, reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines: they
-suit a simulation; here the decisions' cases cover it. BEM class names: Svelte's scoped styles already prevent the
-collisions BEM exists to avoid, and the long names would only add noise. A second, check-only `tidy:check`: every change
-`tidy` makes is safe and shows in `git diff`, and a second command needs a rule for which to use when; a check-only mode
-is for a CI server, which the project does not have.
+**Rejected:** each figure working out its own colours, as the prototype does: a rule changed twice in one session meant
+finding every spot. An underscore for private things: in TypeScript, not exporting says it, and the norm is without one.
+Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright, `conftest.py`,
+reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines: they suit a
+simulation; here the decisions' cases cover it. BEM class names: Svelte's scoped styles already prevent the collisions
+BEM exists to avoid, and the long names would only add noise. A second, check-only `tidy:check`: every change `tidy`
+makes is safe and shows in `git diff`, and a second command needs a rule for which to use when; a check-only mode is for
+a CI server, which the project does not have.
 
 **Revisit if:** a tool's default fights the owner's banners or comment style, or a third language joins.
 
@@ -127,7 +127,7 @@ component; only the values are central.
   face, mono text and soft buttons"); a longer animation that tells something has its own token, such as the peek's 0.3s
   ("The ceiling wheel"). `prefers-reduced-motion` is always respected.
 
-**Why:** one file is the tuning panel for the whole look, as the sketch's knobs were, and the look is tuned far more
+**Why:** one file is the tuning panel for the whole look, as the prototype's knobs were, and the look is tuned far more
 often than a component is read; a token's name and go-to-definition make the second file cheap. Custom properties
 inherit through Svelte's scoped styles, so one import on `:root` reaches every component with no wiring. Names by intent
 survive a change of value. `light-dark()` keeps a theme's pair on one line with no second set of tokens, and the theme

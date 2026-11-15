@@ -1,6 +1,6 @@
-<!-- Sketch: the main screen, built from app-sketch.excalidraw.md and the decisions in design-decisions/
-     main-screen/, recording.md and scope.md. The toolbar above the app is for the sketch only. Delete once the main
-     screen is built. -->
+<!-- Prototype: the main screen as tuned, the north star for the app's look beside vision.md. Built from the decisions
+     in design-decisions/ (main-screen/, recording.md, scope.md); the toolbar above the app is for the prototype only.
+     Kept until the finished app has been validated. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Main Screen Sketch</title>
@@ -33,7 +33,7 @@
      "Outfit" (weight 500-900), "Archivo Black" (weight 400 only), "Archivo" (stretch 62%-125%, weight 500-900),
      "Syne" (600-800), "Unbounded" (500-900), "Bricolage Grotesque" (stretch 75%-100%), "Instrument Serif" (an
      edgy serif, weight 400 only), "Tektur" (stretch 75%-100%). --display-stretch only works on Archivo, Bricolage
-     Grotesque and Tektur. Redaction is not on Google Fonts: drop its font file into sketches/fonts/ to try it. */
+     Grotesque and Tektur. Redaction is not on Google Fonts: drop its font file into fonts/ to try it. */
   --display: "Bricolage Grotesque", "Arial", sans-serif;  --display-stretch: 50%;  --display-weight: 700;
   --size-start: 38px;  --size-balance: 46px;  --size-wheel: 34px;
   --size-note: 10.5px;   /* the quiet lines: what runs ("Vaktmästare pågår sedan") and the prune line */
@@ -571,7 +571,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return [13 / 255, 16 / 255, 20 / 255];
   }
   var RULE = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
-  // The neon pair rule ("Each profile carries its colours", in design-decisions/; as in ceiling-wheel.html). A profile has one hue, the one its picker's
+  // The neon pair rule ("Each profile carries its colours", in design-decisions/; as in docs/dev/sketches/ceiling-wheel.html). A profile has one hue, the one its picker's
   // strip sits on. The strip's colour is that hue's neon; the base is any nuance of it, picked in the map (a new
   // profile starts on a muted one); the over colour is the opposite hue at its most vivid, so it moves only with the
   // strip, and is never picked by hand. The app takes a picked colour when the pointer is released, not while it drags.
@@ -590,7 +590,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     lap: 3          // minutes each piece of the ring starts early, tucked under the one before it
   };
 
-  // ---- Colour rule (as in "The ceiling wheel"; same code as ceiling-wheel.html) ----
+  // ---- Colour rule (as in "The ceiling wheel"; same code as docs/dev/sketches/ceiling-wheel.html) ----
   function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
   function fromLin(c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
   function rgbToOklab(rgb) {
