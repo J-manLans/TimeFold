@@ -3,7 +3,7 @@
 How the app looks: type, colour, surfaces and buttons, and the light or dark theme. Each decision follows the template
 in `../README.md`, and is cited by its title.
 
-## The look: a fresh display face, mono text and soft buttons (2026-11-16)
+## The look: a fresh display face, mono text and soft buttons (2026-11-15)
 
 **Built by:** Clocking, with the first screen.
 

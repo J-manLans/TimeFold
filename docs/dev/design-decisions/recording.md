@@ -34,7 +34,7 @@ show the warning: the click target would move under the pointer.
 - "Starta jobb" and "Stoppa jobb": the button has the same size in both.
 - While an entry runs, the flex bar and the ceiling wheel do not change; at stop they include it.
 
-## The last click can be undone for a few seconds (2026-11-16)
+## The last click can be undone for a few seconds (2026-11-15)
 
 **Built by:** Clocking.
 

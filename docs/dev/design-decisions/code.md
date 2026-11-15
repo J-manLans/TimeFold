@@ -21,14 +21,14 @@ A sign-off checklist for cases: the workflow must not become a bottleneck. Every
 well-named test already says its rule.
 **Revisit if:** writing the cases first slows the work more than it saves.
 
-## Code style (2026-11-16)
+## Code style (2026-11-15)
 
 **Built by:** Clocking, from its first file.
 
 **Decision:** the code follows the owner's style from an earlier project, translated to Svelte, TypeScript and Rust.
-- **Structure:** a better structure that comes easily is built from the start, in the app's first version of the
-  part; one that needs hoops jumped through waits until a problem asks for it. The sketches are throwaway and are not
-  restructured.
+- **Structure:** a better structure that comes easily is built from the start, in the app's first version of the part;
+  one that needs hoops jumped through waits until a problem asks for it. When two designs serve the owner equally, the
+  one with fewer rules and less code wins. The sketches are throwaway and are not restructured.
 - **Tools, with their defaults:** Prettier with its Svelte plugin for TypeScript, Svelte and CSS, and rustfmt for
   Rust, formatting automatically; ESLint with the TypeScript and Svelte rules, and clippy for Rust. One `tidy` script
   formats and lints everything, and checks the same as CI. Lines are at most 120 characters, as in the docs.
@@ -73,16 +73,16 @@ well-named test already says its rule.
     two tests of one file stays in that file;
   - a test file's top level is in sections, each only when used, in this order: **Constants**, **Stand-ins**,
     **Helpers**, **Fixtures**, **Tests**.
-**Why:** the owner has worked this way and wants the same feel here. Easy structure pays back at once, and building
-it later means doing the part twice. With colour roles, a change to a colour rule is one edit, the greys can be tuned
-with the other tokens, and a test checks a role without drawing anything. Tools with defaults keep style out of reviews and
-match every example a learner finds. Strict types and few, sharp tests suit tests-first: each test guards a rule from a
-decision, and its worked examples are the decisions' cases.
+**Why:** the owner has worked this way and wants the same feel here. Easy structure pays back at once, and building it
+later means doing the part twice. Every rule is code, a test and a place to change it later. With colour roles, a change
+to a colour rule is one edit, the greys can be tuned with the other tokens, and a test checks a role without drawing
+anything. Tools with defaults keep style out of reviews and match every example a learner finds. Strict types and few,
+sharp tests suit tests-first: each test guards a rule from a decision, and its worked examples are the decisions' cases.
 **Rejected:** each figure working out its own colours, as the main screen sketch does: a rule changed twice in one
-session meant finding every spot. An underscore for private things: in TypeScript, not exporting says it, and the norm is without one.
-Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright, `conftest.py`,
-reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines: they suit a
-simulation; here the decisions' cases cover it. BEM class names: Svelte's scoped styles already prevent the collisions
-BEM exists to avoid, and the long names would only add noise.
+session meant finding every spot. An underscore for private things: in TypeScript, not exporting says it, and the norm
+is without one. Full-width banners: the owner's short, fixed ones read better. Python's tools and forms (Ruff, Pyright,
+`conftest.py`, reST docstrings with types): translated, not carried. Regression tests replaying recorded baselines: they
+suit a simulation; here the decisions' cases cover it. BEM class names: Svelte's scoped styles already prevent the
+collisions BEM exists to avoid, and the long names would only add noise.
 **Revisit if:** a tool's default fights the owner's banners or comment style, or a third language joins.
 

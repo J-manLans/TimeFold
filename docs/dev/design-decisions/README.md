@@ -34,6 +34,9 @@ checks and names the other by title.
 - **One click to start or stop.** Anything that slows the click down needs a strong reason.
 - **The record is the owner's and stays on their own machines.**
 - **Work time is time present minus errands.** Every total in the app and in reports is counted this way.
+- **A signal tells the owner something they can act on.** An effect for its own sake is left out.
+- **Figures that mean alike behave alike.** The flex bar's number and the ceiling wheel's turn to the over colour by
+  one rule: past their line.
 
 ## Decisions by area
 

@@ -37,10 +37,10 @@ this size needs. A CSS framework such as Tailwind: the owner prefers writing the
 **Built by:** Clocking; the handover file in Handover.
 
 **Decision:** each machine keeps the record in one JSON file: profiles, settings, entries with their added breaks, and
-opening figures, with a version number for its shape. A save writes a temporary file and then swaps it into place, so
-a crash leaves the old file whole. On opening, the app checks the file and says plainly what is wrong rather than
-guessing. The handover file is the same JSON. The theme is in a small settings file of the machine's own, which
-is never exported; the profiles' colours are in the record. Once a day the app keeps a copy of the record beside it, and keeps
+opening figures, with a version number for its shape. A save writes a temporary file and then swaps it into place, so a
+crash leaves the old file whole. On opening, the app checks the file and says plainly what is wrong rather than
+guessing. The handover file is the same JSON. The theme is in a small settings file of the machine's own, which is never
+exported; the profiles' colours are in the record. Once a day the app keeps a copy of the record beside it, and keeps
 the last 14.
 **Why:** the record has shape (entries hold breaks; settings change from a date), which JSON holds in one readable
 file. At about four entries a day, ten years is a megabyte or two: rewriting it on each save and counting in memory are

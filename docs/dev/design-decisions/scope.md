@@ -39,15 +39,15 @@ asking every time is simpler and always checked.
 for importing.
 
 **Decision:** an app with no data asks once how to start. **Start fresh** asks for the name of the first profile, the
-one with the balance (janitor work), so the first start doubles as a short onboarding; its colours are not asked
-for ("Each profile carries its colours"). Then it asks for two opening figures: the janitor balance and the hours of the current month's ceiling
-already used (any carried from the month before included), both as they stood at the end of the day before the first day
-in the app. Each is kept as an entry dated that first day, which the handover carries, the reports show ("brought over:
-+12:30") and a correction can change like any entry. From then on the app records every entry with its day. **Import
-from my other machine** reads a handover file instead, as in "Handover between machines", and asks nothing more: the
-file brings the profiles with their colours, the settings and the opening figures; the theme starts as "System". The
-owner switches from the Excel file on a day not yet worked, with the file closed the evening before; the Excel history
-before that stays in the file and is not brought in.
+one with the balance (janitor work), so the first start doubles as a short onboarding; its colours are not asked for
+("Each profile carries its colours"). Then it asks for two opening figures: the janitor balance and the hours of the
+current month's ceiling already used (any carried from the month before included), both as they stood at the end of the
+day before the first day in the app. Each is kept as an entry dated that first day, which the handover carries, the
+reports show ("brought over: +12:30") and a correction can change like any entry. From then on the app records every
+entry with its day. **Import from my other machine** reads a handover file instead, as in "Handover between machines",
+and asks nothing more: the file brings the profiles with their colours, the settings and the opening figures; the theme
+starts as "System". The owner switches from the Excel file on a day not yet worked, with the file closed the evening
+before; the Excel history before that stays in the file and is not brought in.
 **Why:** the Excel history is not needed by anything the app does, and the boss has not asked for it; parsing the
 file's layout would cost much for it. Figures as of the end of the day before mean the app counts every day from its
 first, so none is counted twice or missed. Asking at first start keeps a second machine from getting opening figures
@@ -62,7 +62,7 @@ left out of the other. Switching in the middle of a worked day: it happens once,
 - Second machine, first start: "Import from my other machine" brings the whole record, opening figures and profile
   colours included, and asks nothing more.
 
-## The app is in Swedish (2026-11-16)
+## The app is in Swedish (2026-11-15)
 
 **Built by:** Clocking, for the first screen; each part for its own words.
 
