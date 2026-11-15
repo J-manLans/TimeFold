@@ -49,8 +49,9 @@ Added when there is something to put in them, each opening with what it holds an
 1. **One file.** Every collection (decisions, terms, ideas, the roadmap) starts as a single file.
 2. **A folder with a `README.md` index,** when a file is read every session and has grown past what a session should
    pay for. The README keeps what every session needs and says who reads what; the bodies move into files beside it.
-3. **A part splits again** when it passes its limit: by topic into a file beside it, or into a folder of its own when
-   no cut is clean. The agent makes the cut as soon as it notices a file past its limit, at a sweep or in passing,
+3. **A part splits again** when it passes its limit: into a folder with its name, holding the pieces cut by topic.
+   The folder has no index of its own; the collection's README groups the pieces under the folder's name and still
+   lists every title. The agent makes the cut as soon as it notices a file past its limit, at a sweep or in passing,
    without asking, and reports the new files and their sizes. It is a structural fix, the agent's to make.
 
 Limits, checked with `wc -w` at the sweep and whenever a file looks long: ~4,000 words for a general doc (flagged only),

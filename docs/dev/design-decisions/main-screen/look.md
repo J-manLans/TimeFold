@@ -1,7 +1,7 @@
-# Look
+# Main screen: look
 
 How the app looks: type, colour, surfaces and buttons, and the light or dark theme. Each decision follows the template
-in `README.md`, and is cited by its title.
+in `../README.md`, and is cited by its title.
 
 ## The look: a fresh display face, mono text and soft buttons (2026-11-14)
 

@@ -1,7 +1,8 @@
-# Main screen
+# Main screen: layout
 
 How the main screen is laid out and what its menu holds. How it looks is in `look.md`; the two figures and the
-profiles' colours are in `figures.md`. Each decision follows the template in `README.md`, and is cited by its title.
+profiles' colours are in `figures.md`. Each decision follows the template in `../README.md`, and is cited by its
+title.
 
 ## The main screen has a control side and a figures side (2026-11-14)
 

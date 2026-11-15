@@ -1,7 +1,7 @@
-# Figures
+# Main screen: figures
 
 The two figures on the main screen, the balance bar and the ceiling wheel, and the colours they and the profiles
-carry. Each decision follows the template in `README.md`, and is cited by its title.
+carry. Each decision follows the template in `../README.md`, and is cited by its title.
 
 ## The balance bar (2026-11-14)
 
