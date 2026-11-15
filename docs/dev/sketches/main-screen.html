@@ -758,15 +758,17 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     }
     svg.appendChild(el("line", { x1: 200, x2: 200, y1: 2, y2: 36, style: "stroke: var(--f-zero)", "stroke-width": 1.5 }));
     [-1, 1].forEach(function (sd) {
+      // Each side's end mark and its label wear that side's colour, so both of the profile's colours are always on screen.
+      var side = sd < 0 ? c.base : c.over;
       // Ten marks on each side, from the 0 line out to the scale's end; the end mark a little taller.
       for (var k = 1; k <= 10; k++) {
-        svg.appendChild(el("line", { x1: 200 + sd * half * k / 10, x2: 200 + sd * half * k / 10, y1: k === 10 ? 30 : 32, y2: 36, style: "stroke: var(--f-ink)", "stroke-width": 1 }));
+        svg.appendChild(el("line", { x1: 200 + sd * half * k / 10, x2: 200 + sd * half * k / 10, y1: k === 10 ? 30 : 32, y2: 36, style: "stroke: " + (k === 10 ? side : "var(--f-ink)"), "stroke-width": 1 }));
       }
-      var lab = el("text", { x: 200 + sd * half, y: 47, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 9, style: "fill: var(--f-ink)" });
+      var lab = el("text", { x: 200 + sd * half, y: 47, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 9, style: "fill: " + side });
       lab.textContent = (sd < 0 ? "−" : "+") + Math.round(scale / 60) + " h"; svg.appendChild(lab);
     });
     var n = $("balNum"); n.textContent = hm(v);
-    n.style.color = Math.round(v) === 0 ? "var(--f-fg)" : v > 0 ? c.over : c.base;
+    n.style.color = Math.round(v) === 0 ? "var(--f-fg)" : v > 0 ? c.over : c.base;   // the number follows the bar
   }
   function drawWheel() {
     var svg = $("wheelSvg"), c = resolved("wheel"), r = WHEEL.r, w = WHEEL.w, circ = 2 * Math.PI * r; clear(svg);
