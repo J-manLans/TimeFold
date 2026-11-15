@@ -15,17 +15,17 @@ state, progress, decisions or history here; each has its own home (see "Where th
 
 ## Doc map
 
-| Doc                                   | For                                                                       |
-| ------------------------------------- | ------------------------------------------------------------------------- |
-| `AGENTS.md`                           | How an agent works here (this file)                                       |
-| `docs/vision.md`                      | Where the project is heading, and the questions to ask of a new idea      |
-| `docs/dev/roadmap.md`                 | **Next**, the state table, the phases, what is not on the roadmap         |
-| `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area     |
-| `docs/dev/open-questions.md`          | What is not decided, grouped by the phase (or part) that needs the answer |
-| `docs/dev/glossary.md`                | The project's terms; read before writing about the app                    |
-| `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                  |
-| `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**     |
-| `docs/dev/sketches/`                  | Looks tried before they are decided, a page or a drawing each             |
+| Doc                                   | For                                                                              |
+| ------------------------------------- | -------------------------------------------------------------------------------- |
+| `AGENTS.md`                           | How an agent works here (this file)                                              |
+| `docs/vision.md`                      | Where the project is heading, and the questions to ask of a new idea             |
+| `docs/dev/roadmap.md`                 | **Next**, the state table, the phases, what is not on the roadmap                |
+| `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area            |
+| `docs/dev/open-questions.md`          | What is not decided, grouped by the phase (or part) that needs the answer        |
+| `docs/dev/glossary/README.md`         | The project's terms by part; read the part you need before writing about the app |
+| `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                         |
+| `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**            |
+| `docs/dev/sketches/`                  | Looks tried before they are decided, a page or a drawing each                    |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. A sketch holds nothing the docs need: the decision it serves holds every number it
@@ -77,7 +77,7 @@ Scaled to the task:
 | A case becomes a test                           | remove it from its decision's **Cases**                                                      |
 | A roadmap step is done                          | remove it from the roadmap; update the state table; trim each **Built by** it built          |
 | Code is first run                               | the "has it run" cell in the state table                                                     |
-| A word is coined                                | `docs/dev/glossary.md`                                                                       |
+| A word is coined                                | its part in `docs/dev/glossary/`, and its name in the index                                  |
 | A file is added, moved or renamed               | the code map, in the same change (once it exists)                                            |
 | A look to try before deciding it                | a page in `docs/dev/sketches/`; what it settles goes to its decision                         |
 | An idea that is not a problem now               | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                |
@@ -155,6 +155,9 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
 
 - **A changed decision touches every file that restates it.** After one, search the docs for its old words before
   calling the batch done.
+- **A look's values come from its decision and the sketch,** never from a draft in the chat: check the decision's
+  numbers and **Cases** before writing a colour, size or time into code.
+- **A claim goes into a commit message only after it was run.** Run the check first, then write what it showed.
 
 ## Traps
 
