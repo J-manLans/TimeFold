@@ -13,7 +13,8 @@ main screen sketch:
 - **Type:** Bricolage Grotesque, bold and at its narrowest width (75%), for the big things: "Starta jobb", the profile
   letter, the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in normal
   case. The quiet lines, what runs, the offer to prune and the short messages after an action (such as "Rensar efter en
-  kopia"), share one small size (10.5 px) in the muted colour.
+  kopia"), share one small size (10.5 px) in the muted colour. Both fonts are bundled with the app from their
+  `@fontsource-variable` npm packages, so it needs no internet to show them.
 - **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with its
   light and dark value side by side. The dashboard is near-black in the dark theme and slate blue in the light theme,
   each a tinted family of panel, rows, lines and text ("The main screen has a controls side and a dashboard"). Contrast
@@ -29,12 +30,13 @@ main screen sketch:
   side is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; fields are white
   and the colour picker `#e6ecf4`. The profile popup takes the button colour, with the chosen or hovered profile a
   lighter step (`#5f789e` in the light theme), as in the dark theme.
-- **Profile circle:** a raised disc in the button's own colour, lit from the top, its letter in the profile's colour (if
-  a profile's colour reads poorly on the button, the owner changes it with the picker), sitting in a soft dent 6 px wide
-  around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
-  of the button's own colour, whatever that colour is. In the light theme its highlights and shadows are tinted blue,
-  not white or black, so they sit with the blue button. The theme button's disc is in the buttons' own colour too, with
-  a light icon; it catches the pointer light like the other discs.
+- **Profile circle:** a raised disc in the button's own colour, lit by a soft round glow toward its top, its letter in
+  the profile's colour (if a profile's colour reads poorly on the button, the owner changes it with the picker), sitting
+  in a soft dent 6 px wide around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so
+  it is always a soft shade of the button's own colour, whatever that colour is. In the light theme its highlights and
+  shadows are tinted blue, not white or black, so they sit with the blue button. The glow has the same shape in both
+  themes; only its colours change. The theme button's disc is in the buttons' own colour too, with a light icon; it
+  catches the pointer light like the other discs.
 - **Motion:** every transition in the interface takes the same 0.2 seconds, one setting for all: hover and press, the
   start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
   label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
@@ -66,7 +68,9 @@ better. Decorative micro labels: they say nothing. Light grey buttons in the lig
 (1.08:1, later 1.29:1); the blue ties the controls side to the dashboard. An outline around the profile letter: it
 looked silly. No light on the discs: it set them apart, but less naturally; the profile disc's half strength keeps a
 little of both. A fine grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the
-blue one sits better with the other buttons.
+blue one sits better with the other buttons. A top-down gradient on the disc in the light theme, beside the glow in the
+dark: the glow looks better, and one shape keeps the theme a matter of colours. Loading the fonts from Google Fonts: the
+app works offline.
 
 **Revisit if:** the mono is hard to read at small sizes, or the pointer light repaints too slowly there.
 

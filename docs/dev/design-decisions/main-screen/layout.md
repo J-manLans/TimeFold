@@ -1,7 +1,8 @@
-# Main screen: layout How the main screen is laid out and what its menu holds. How it looks is in `look.md`; the two
+# Main screen: layout
 
-figures are in `figures.md` and the profiles' colours in `colours.md`. Each decision follows the template in
-`../README.md`, and is cited by its title.
+How the main screen is laid out and what its menu holds. How it looks is in `look.md`; the two figures are in
+`figures.md` and the profiles' colours in `colours.md`. Each decision follows the template in `../README.md`, and is
+cited by its title.
 
 ## The main screen has a controls side and a dashboard (2026-11-14)
 
@@ -59,14 +60,34 @@ be lost. A near-black panel in the light theme: it glared against the white cont
 had too little contrast (2.6:1). A violet panel: also good, kept as the alternative. A retro terminal look (green on
 black, scan lines): the owner wants the direction, not the costume.
 
-**Revisit if:** the window is too small for both sides, or the frosted blur is slow on WebKitGTK (then the panel is more
-opaque, without blur).
+**Revisit if:** the frosted blur is slow on WebKitGTK (then the panel is more opaque, without blur).
 
 **Cases:**
 
 - One profile: the profile button opens nothing. Three profiles: a popup of the three, centred on the left side.
 - Menu open: the figures are still in view, and a profile's new colour shows on them at once.
 - Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
+
+## A narrow window stacks the dashboard over the controls (2026-11-15)
+
+**Built by:** Clocking, with the main screen.
+
+**Decision:** the main screen is responsive to the window's size. Wide enough, the two sides sit side by side; below a
+set width, they stack, the dashboard on top and the controls side under it, each the window's full width. The window has
+a minimum size, small enough to stand as a strip beside another window and large enough that the stacked screen fits
+without scrolling, so the start button is always in view. The width where the sides stack and the minimum size are tuned
+on the app. The width lives in the component's media query, since CSS cannot read a custom property there.
+
+**Why:** the owner keeps the app on a second screen, often squeezed beside another window: tall and thin, the screen's
+full height but little of its width. There it is mostly looked at, and the figures are what is looked at, so they come
+first; the app is also something the owner likes to see, as one would a diploma on the wall. The minimum size keeps "One
+click to start or stop" in a cramped window.
+
+**Rejected:** the controls on top when stacked, as the main screen sketch does it: it puts what is pressed over what is
+read. A minimum width that never lets the sides stack: the strip beside another window is how the app is used. Shrinking
+side by side instead of stacking: in a tall, thin window both sides would be cramped while the height went unused.
+
+**Revisit if:** the stacked screen does not fit the minimum height, or the strip is used wider than the stacking width.
 
 ## The menu has two tabs, with every value locked behind "Ändra" (2026-11-14)
 

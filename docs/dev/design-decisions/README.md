@@ -98,6 +98,7 @@ title.
 **[Layout](main-screen/layout.md)**
 
 - The main screen has a controls side and a dashboard
+- A narrow window stacks the dashboard over the controls
 - The menu has two tabs, with every value locked behind "Ändra"
 
 **[Look](main-screen/look.md)**
