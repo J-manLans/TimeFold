@@ -6,17 +6,17 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, starting with its **Settle first**, the design tokens taken over from the main screen sketch; then
-step 1, the record.
+Phase 1: Clocking, step 1, the record.
 
 ## State
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                                              | State   | Has it run                                               |
-| --------------------------------------------------------------------------------- | ------- | -------------------------------------------------------- |
-| The project: Tauri, Svelte and Vite, with an empty main screen                    | written | run: the window opens on Linux                           |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test` | written | run: `tidy` passes; `test` ran a throwaway pass and fail |
+| Part                                                                              | State   | Has it run                                                    |
+| --------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------- |
+| The project: Tauri, Svelte and Vite, with an empty main screen                    | written | run: the window opens on Linux                                |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test` | written | run: `tidy` passes; `test` ran a throwaway pass and fail      |
+| The design tokens and the two fonts, from the main screen sketch                  | written | run: the window shows the text font on the theme's background |
 
 ## The phases
 
@@ -29,8 +29,6 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 ### Phase 1: Clocking
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
-
-**Settle first:** the design tokens taken over from the main screen sketch.
 
 1. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
 2. The counting, as tested functions: entries, days, expected hours, the balance, the month start.

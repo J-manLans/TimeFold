@@ -53,10 +53,11 @@ already says its rule.
   one sentence has no period, a comment of more than one ends each sentence with one, the last included. Work still to
   do is a searchable `TODO`.
 - **Sections:** a file with several parts is grouped under short, fixed banners, in each language's comment style, a
-  line of `=` above and below a centred name; a subsection is one line, `=== Name ===`. Logic modules use **Init**,
-  **API** and **Helpers**, the helpers sub-headed by the section they serve (`=== Init ===`, `=== API ===`,
-  `=== Global ===`). A Svelte component's script uses **Props**, **State**, **Logic** and **Helpers**, and its style
-  **Layout** and **States**. A small file with one job needs no banner.
+  line of `=` above and below a centred name, the closing line starting where the comment opens (in CSS: `/* =====…`,
+  the name centred under it, then `=====… */` flush with the `/*`); a subsection is one line, `=== Name ===`, in every
+  section alike. Logic modules use **Init**, **API** and **Helpers**, the helpers sub-headed by the section they serve
+  (`=== Init ===`, `=== API ===`, `=== Global ===`). A Svelte component's script uses **Props**, **State**, **Logic**
+  and **Helpers**, and its style **Layout** and **States**. A small file with one job needs no banner.
 - **CSS:** every raw value is a design token ("Design tokens hold every value of the look"); components use only
   `var(--…)`. Inside a component, class names are short and plain (`.label`, `.dot`), since Svelte scopes each
   component's styles; states are shown with `class:` directives, `:disabled` and `aria-` attributes, not in class names.
@@ -98,7 +99,7 @@ is for a CI server, which the project does not have.
 
 ## Design tokens hold every value of the look (2026-11-15)
 
-**Built by:** Clocking, starting with the tokens taken over from the main screen sketch.
+**Built by:** Clocking: each component takes its tokens as it is built.
 
 **Decision:** a design token is a named value standing for a design decision, written as a CSS custom property. Every
 raw value of the look (colour, font, size, spacing, radius, time, shadow) is a token in one file,

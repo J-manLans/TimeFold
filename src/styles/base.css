@@ -1,3 +1,30 @@
 /* The reset, the fonts and the body. Every value comes from design-tokens.css */
 
-/* TODO: Fill from the main screen sketch, with the design tokens */
+/* The two fonts, bundled with the app; Bricolage Grotesque's "standard" file carries its width axis */
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
+@import '@fontsource-variable/jetbrains-mono';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--controls-background);
+  color: var(--controls-text);
+  font-family: var(--font-text);
+  font-weight: var(--controls-font-weight);
+  letter-spacing: var(--controls-tracking);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
