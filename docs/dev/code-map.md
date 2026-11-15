@@ -19,8 +19,9 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 
 - `main.ts`: the entry; the global styles are imported here and nowhere else.
 - `App.svelte`: the root component, the main screen.
-- `lib/components/`: the Svelte components; `lib/modules/`: the logic in TypeScript, such as the record and the
-  counting. Both start with their first file.
+- `lib/components/`: the Svelte components, starting with their first file.
+- `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
+  opening that turns a file's text into a record or names what is wrong with it.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts and the body.
 
@@ -46,5 +47,6 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `package.json`: the interface's packages and scripts (`dev`, `build`, `check`, `test`, `tidy`, `tauri`).
 - `.prettierrc` and `.prettierignore`: Prettier's few settings and what it skips; `eslint.config.js`: ESLint's rule
   sets, with Prettier's switch-off and the globals for the webview and for Node.
-- `vite.config.ts`: the dev server Tauri loads; `svelte.config.js`; `tsconfig.json` with `tsconfig.app.json` (the
-  interface) and `tsconfig.node.json` (the config files).
+- `vite.config.ts`: the dev server Tauri loads, and the `$lib` alias for `src/lib` (also in `tsconfig.app.json`);
+  `svelte.config.js`; `tsconfig.json` with `tsconfig.app.json` (the interface) and `tsconfig.node.json` (the config
+  files).

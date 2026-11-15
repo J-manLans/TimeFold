@@ -46,6 +46,8 @@ already says its rule.
   UPPER_SNAKE_CASE for module-level constants; in Rust, its own conventions. What is private is not exported from its
   module (a class's own fields are `#private`), with no underscore prefix; Rust keeps things private by default. Names
   and comments are in English; only what the user sees is Swedish.
+- **Imports:** anything under `src/lib/` is imported through `$lib` (`$lib/modules/record`), from source and tests
+  alike, never by counting `../`; a file beside the importer may use `./`.
 - **Doc comments:** every exported function, type and component has one: what it is for, its inputs, what it returns,
   and side effects if any, as TSDoc (`/** … @param … @returns … */`) without repeating the types, or Rust's `///`.
   Private helpers need no doc comment; a clarifying comment is enough.
