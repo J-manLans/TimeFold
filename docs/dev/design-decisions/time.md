@@ -5,8 +5,6 @@ the template in `README.md`, and is cited by its title.
 
 ## Expected hours: 6 a day, Monday to Friday (2026-11-14)
 
-**Built by:** Clocking.
-
 **Decision:** the owner's janitor work is expected to be 6 hours a day, Monday to Friday. The janitor balance is each
 day's janitor hours minus 6, added up over time. The 6 is a setting, changed as in "Settings change from a date".
 
@@ -17,8 +15,6 @@ day's janitor hours minus 6, added up over time. The 6 is a setting, changed as 
 **Revisit if:** the owner's working time changes, or differs over the year.
 
 ## Time counts on the day it was worked (2026-11-14)
-
-**Built by:** Clocking.
 
 **Decision:** an entry is stored as one stretch, from its start to its stop, but its time is counted on the calendar day
 it was worked: an entry across midnight is split there when counting. This holds for every profile. A profile without a
@@ -41,7 +37,7 @@ calendar, and a period's edge would take hours from the wrong side.
 
 ## Time is counted to the second and shown to the minute (2026-11-16)
 
-**Built by:** Clocking.
+**Built by:** Clocking, for the clicks that record the seconds.
 
 **Decision:** a click records the moment to the second, and the counting works in seconds; every figure the owner sees
 is rounded to the nearest minute only when shown, so 3:31:30 shows as 3:32. A hand count from the times on screen can
@@ -63,7 +59,7 @@ to a minute's truth for a match the owner does not need.
 
 ## A day owes its expected hours only when work started on it (2026-11-14)
 
-**Built by:** Clocking for worked days; Breaks and flex days for flex days.
+**Built by:** Breaks and flex days, for flex days.
 
 **Decision:** for a profile with a balance, each day adds the hours worked on it. A day is also charged its expected
 hours only if one of the profile's entries started on it, or it is a flex day. A flex day, marked with one action for a
@@ -92,7 +88,7 @@ after midnight would charge the next day's expected hours, even a day of leave.
 
 ## The app's month is the calendar month (2026-11-16)
 
-**Built by:** Clocking for the counting; Profiles, with the ceiling.
+**Built by:** Profiles, with the ceiling.
 
 **Decision:** the app counts by the calendar month, the 1st to the last day, as the school counts the owner's hours
 (their payslip names the period 1st to last of the month). The ceiling, the report, the pay estimate and pruning all
