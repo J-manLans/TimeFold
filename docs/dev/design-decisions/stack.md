@@ -41,8 +41,6 @@ rendering are for websites; one window uses neither, and Tauri's SvelteKit templ
 
 ## Rust touches the disk; TypeScript knows the record (2026-11-15)
 
-**Built by:** Clocking.
-
 **Decision:** the Rust half reads and writes files and knows nothing of what they hold: reading the record, the safe
 save, and the daily copies, each a Tauri command. The TypeScript half knows what a record is (its shape, its version,
 the check on opening, the counting) and reaches the disk only through those commands, with `invoke`.
@@ -59,7 +57,7 @@ nearly as safe, but it cannot force the write, and it would leave Rust untried.
 
 ## The record is one JSON file (2026-11-15)
 
-**Built by:** Clocking; the handover file in Handover.
+**Built by:** Clocking, for offering a daily copy when the record cannot be read; Handover, for the handover file.
 
 **Decision:** each machine keeps the record in one JSON file, `record.json` in the app's data folder (named by the app's
 identifier): profiles, settings, entries with their added breaks, and opening figures, with a version number for its

@@ -6,17 +6,18 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, step 1, the record.
+Phase 1: Clocking, step 1, the counting.
 
 ## State
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                                              | State   | Has it run                                                    |
-| --------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------- |
-| The project: Tauri, Svelte and Vite, with an empty main screen                    | written | run: the window opens on Linux                                |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test` | written | run: `tidy` passes; `test` ran a throwaway pass and fail      |
-| The design tokens and the two fonts, from the main screen sketch                  | written | run: the window shows the text font on the theme's background |
+| Part                                                                                                   | State   | Has it run                                                                                                         |
+| ------------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------ |
+| The project: Tauri, Svelte and Vite, with an empty main screen                                         | written | run: the window opens on Linux                                                                                     |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                      | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                           |
+| The design tokens and the two fonts, from the main screen sketch                                       | written | run: the window shows the text font on the theme's background                                                      |
+| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord` | written | run: in tests only (7 TypeScript with a stand-in for Rust, 7 Rust on real temporary files); no screen calls it yet |
 
 ## The phases
 
@@ -30,21 +31,21 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-1. The record: one JSON file with a version number, the safe save, the check on opening, daily copies.
-2. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
-3. The main screen's controls side: the button block, the warning label, the status line, the prune line's room.
-4. The dashboard with the flex bar and the five recent entries; the theme button; the colour rule, which the bar needs
+1. The counting, as tested functions: entries, days, expected hours, the balance, the month start.
+2. The main screen's controls side: the button block, the warning label, the status line, the prune line's room.
+3. The dashboard with the flex bar and the five recent entries; the theme button; the colour rule, which the bar needs
    for its over colour.
-5. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
+4. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
    1. the first profile's name: the profile with the balance, such as "Vaktmästare";
    2. the balance brought over from the Excel file, as it stood the evening before the first day in the app.
 
    Then the main screen opens with that balance on the bar. Phase 4 adds a step for the ceiling hours already used this
-   month, and Phase 5 makes the import choice work.
+   month, and Phase 5 makes the import choice work. A record that cannot be read opens on a screen naming the problem
+   and offering the newest daily copy, which needs commands to list the copies and read one.
 
-6. The question for a running entry from an earlier day.
+5. The question for a running entry from an earlier day.
 
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
 matches the sketch in both themes on Windows and Linux.
