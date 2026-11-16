@@ -19,7 +19,7 @@ export interface ColourRoles {
   base: string
   /** The base faded toward the panel: the unused part of a figure */
   dimmed: string
-  /** The hot accent: the letter, the start ring, the status mark, the undo's afterglow, a plus balance */
+  /** The hot accent: the start ring, the status mark, the undo's afterglow, a plus balance, the letter past its line */
   over: string
 }
 

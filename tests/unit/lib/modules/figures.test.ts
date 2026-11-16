@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { balanceText, barReach, barScale, barSide } from '$lib/modules/figures'
+import { at, entry, RECORD } from '$tests/helpers/records'
+import { balanceText, barReach, barScale, barSide, standsOver } from '$lib/modules/figures'
+import { type TimeRecord } from '$lib/modules/record'
 
 // === Constants ===
 
@@ -40,5 +42,34 @@ describe('the balance is a side of the bar and a number, by the minutes shown', 
   it('reads 0:00, at the 0 marker, for under half a minute either way', () => {
     expect([barSide(20), balanceText(20)]).toEqual(['zero', '0:00'])
     expect([barSide(-20), balanceText(-20)]).toEqual(['zero', '0:00'])
+  })
+})
+
+describe('a profile stands over its line in plus, or past the ceiling; at 0 it does not', () => {
+  /** The shared record with the janitor's opening at `minutes` and a development profile's work. Used below */
+  function standing(minutes: number, devHours = 0): TimeRecord {
+    const dev = { id: 'p2', name: 'Utveckling', hue: 285, base: '#a99cf0' }
+    const work =
+      devHours > 0
+        ? [entry(at('2026-11-17', '08:00'), at('2026-11-18', `${8 + devHours - 24}:00`), { profile: dev.id })]
+        : []
+    return {
+      ...RECORD,
+      profiles: [...RECORD.profiles, dev],
+      openings: [{ ...RECORD.openings[0], balanceMinutes: minutes }],
+      entries: work,
+    }
+  }
+
+  it('puts the janitor over at +5:00, and not at 0:00 or −3:00', () => {
+    const day = '2026-11-16'
+
+    expect([300, 0, -180].map((minutes) => standsOver(standing(minutes), 'p1', day))).toEqual([true, false, false])
+  })
+
+  it('puts another profile over once the month’s 22 h ceiling is passed', () => {
+    const day = '2026-11-20'
+
+    expect([standsOver(standing(0, 23), 'p2', day), standsOver(standing(0, 21), 'p2', day)]).toEqual([true, false])
   })
 })

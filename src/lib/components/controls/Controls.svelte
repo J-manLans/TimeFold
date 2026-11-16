@@ -15,7 +15,7 @@
 
   // === State ===
 
-  // The profile on screen's accent, for its letter, the start ring, the status mark and the undo's afterglow
+  // The profile on screen's accent, for what is happening now: the start ring, the status mark and the undo's afterglow
   let profile = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
   let over = $derived(profile ? overColour(profile.hue) : undefined)
   let menuOpen = $state(false)

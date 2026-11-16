@@ -36,23 +36,27 @@ profile using two, its own and the opposite one its over colour has (a random pi
 strip is set to that hue's neon, and its base is the neon muted: 55% of the neon's chroma, at a lightness 40% of the way
 from the neon's own toward 0.70. The colours go to:
 
-- the controls side, for the profile on screen: its letter (in the over colour), the ring around the start button, the
-  warning label, the focus rings, the status line's mark;
-- the small profile circles in the menu and the profile popup: the letter in the over colour, ringed in the base colour,
-  the same pair the figures show;
+- what is happening now, in the over colour of the profile it concerns: the ring around the start button, the status
+  line's mark, the warning label, the undo's afterglow and the tip's edge;
+- where a profile stands, the same pair the figures show, swapping as its figure crosses its line: past it (the balance
+  in plus, or the ceiling passed) the letter is in the over colour, and before it (at 0 or below) in the base colour.
+  The profile button's letter and every focus ring wear the profile on screen's; the small profile circles in the menu
+  and the profile popup wear each profile's own, the letter in that colour and the ring in the other;
 - the flex bar, always the balance profile's ("The flex bar");
 - the ceiling wheel, the profile on screen's when it is one of the others ("The ceiling wheel").
 
 **Why:** a colour per profile tells the profiles apart where they are chosen and run, and the figures follow the profile
-they belong to. A muted base with the opposite hue at full neon makes the over colour the one hot accent by
-construction, and the two can never land close together. The opposite hues gather on the screen's strongest colours, so
-the over colour holds still across a whole colour range and the pair feels coherent wherever the base is dragged. The
-strip owning the hue means one control moves the over colour and the other never does, and a grey base still has an over
-colour for a visible reason. Counting the opposite hues in the gap keeps a second profile from being the first one
-mirrored. Taking the colour on release shows it where it will live, on the panel beside the figures, without recolouring
-the app at every movement of a drag. The formula's colours are good enough that nothing needs asking at the first start
-or for a new profile; the picker stays because personalising is fun. A profile's colours are part of the profile, so
-they look the same on both machines.
+they belong to. What is happening now is hot, so a running job shows from across the room; where a profile stands
+follows the figures' own rule, the over colour meaning "more than expected", so the letter and the focus rings read the
+balance at a glance, and the swapping pair keeps both colours on screen as the flex bar's end marks do. A muted base
+with the opposite hue at full neon makes the over colour the one hot accent by construction, and the two can never land
+close together. The opposite hues gather on the screen's strongest colours, so the over colour holds still across a
+whole colour range and the pair feels coherent wherever the base is dragged. The strip owning the hue means one control
+moves the over colour and the other never does, and a grey base still has an over colour for a visible reason. Counting
+the opposite hues in the gap keeps a second profile from being the first one mirrored. Taking the colour on release
+shows it where it will live, on the panel beside the figures, without recolouring the app at every movement of a drag.
+The formula's colours are good enough that nothing needs asking at the first start or for a new profile; the picker
+stays because personalising is fun. A profile's colours are part of the profile, so they look the same on both machines.
 
 **Rejected:** the over colour as the base turned 55° toward red, with a picker of its own to override it: most over
 colours ended up near red, and the owner kept changing them by hand. The over colour worked out from the finished base
@@ -66,7 +70,11 @@ figures: every profile but the balance one shared the wheel's colour. Random col
 side by side. Colours per machine, out of the handover: a profile would look different at work and at home. The over
 colour always red: a red base would hide it. The rule's numbers as settings: they could undo the contrast; they are
 tuned once, by eye, on a sketch. Example swatches, or a grid of options: the owner knows what they want. The system's
-colour dialog: on Linux it opened on a palette first, not the colour map, and did not draw fully.
+colour dialog: on Linux it opened on a palette first, not the colour map, and did not draw fully. The focus rings always
+in the over colour: on the light controls side the over colours fade as much as the bases (23 of 36 hues under 3:1
+against 28), and they said nothing. The focus rings by theme, the over colour in the light theme and the base in the
+dark, for the best contrast: they would say nothing of the balance. The running ring and the status mark following the
+balance: in a muted base the one signal seen from across the room would fade.
 
 **Revisit if:** the generated colours are often changed, or two profiles' over colours need telling apart.
 
@@ -83,6 +91,11 @@ colour dialog: on Linux it opened on a palette first, not the colour map, and di
   the over colour stays `#e400fe`.
 - A grey base, the picker reopened: the strip is where it was left.
 - The code field: `#808080` and Enter gives a grey base, with the strip and the over colour unchanged.
+- Vaktmästare on screen at −5:44: the profile letter and the focus rings in the base `#7ed6d5`; a job running: the start
+  button's ring in the over colour `#fc0055`.
+- The balance crosses from 0:00 to +0:01: the letter and the focus rings turn `#fc0055`; in the menu, Vaktmästare's
+  circle shows its letter in `#fc0055` ringed in `#7ed6d5`, and back at 0:00 the letter in `#7ed6d5` ringed in
+  `#fc0055`.
 - Dragging along the strip: the app's colours do not change until the pointer is released; then the base and the over
   colour both change.
 - A colour released twice in the picker, then Esc: the base, the strip and the over colour are as before the picker

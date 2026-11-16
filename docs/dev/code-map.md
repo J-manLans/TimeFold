@@ -18,7 +18,8 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 ## The interface: `src/`
 
 - `main.ts`: the entry; the global styles are imported here and nowhere else.
-- `App.svelte`: the root component, the main screen.
+- `App.svelte`: the root component, the main screen; it sets `--profile-state`, the colour of where the profile on
+  screen stands, which the profile letter and every focus ring wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `undo`
   and `cycleTheme` change them through the rules and save them. The theme is shown by setting `color-scheme` on the

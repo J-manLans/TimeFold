@@ -3,7 +3,8 @@
  * as text ("The flex bar"). Works in seconds, as the counting does; what is shown goes by the whole minutes shown.
  */
 
-import { shownMinutes } from './counting'
+import { balance, ceilingMonth, shownMinutes } from './counting'
+import { type Day, type TimeRecord } from './record'
 
 // ======================================
 //                 API
@@ -58,6 +59,20 @@ export function balanceText(seconds: number): string {
   const sign = minutes < 0 ? '−' : minutes > 0 ? '+' : ''
   const size = Math.abs(minutes)
   return `${sign}${Math.floor(size / 60)}:${String(size % 60).padStart(2, '0')}`
+}
+
+/**
+ * Whether a profile stands over its line now: the balance profile when its balance shows plus, any other when the
+ * month's ceiling is passed; exactly 0, or the ceiling just reached, is not over. Used for the colours that follow where
+ * the profile stands, its letter, its circle and the focus rings: +5:00 is over, 0:00 and −3:00 are not.
+ * @throws if the record has no profile `profileId`
+ */
+export function standsOver(record: TimeRecord, profileId: string, day: Day): boolean {
+  const profile = record.profiles.find((p) => p.id === profileId)
+  if (profile === undefined) throw new Error(`No profile ${profileId} in the record`)
+  if (profile.expectedMinutes !== undefined) return barSide(balance(record, profileId, day)) === 'plus'
+  const month = ceilingMonth(record, day)
+  return month.used > month.ceiling
 }
 
 // ======================================

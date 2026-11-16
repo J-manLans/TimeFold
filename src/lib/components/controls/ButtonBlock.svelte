@@ -1,7 +1,8 @@
 <!--
   The button block: "Starta jobb" or "Stoppa jobb" over "Exportera" and "Importera", with the profile button beside
-  both ("One start/stop button and a profile list"). While the profile on screen runs, a ring in its colour surrounds
-  the start button. Export and import are greyed out until Handover.
+  both ("One start/stop button and a profile list"). While the profile on screen runs, a ring in its over colour
+  surrounds the start button; the profile button's letter wears where the profile stands, its over colour past its line
+  and its base before it. Export and import are greyed out until Handover.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
@@ -98,7 +99,7 @@
     font-weight: var(--font-display-weight);
     font-size: var(--profile-letter-size);
     line-height: 1;
-    color: var(--profile-over);
+    color: var(--profile-state);
   }
 
   /* === States === */

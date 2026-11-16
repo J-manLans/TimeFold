@@ -380,7 +380,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
 /* Inside the app, every focus ring takes the colour of the profile on screen. */
-.app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--accent, #4b8bff); }
+.app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--state, #4b8bff); }
 @media (prefers-reduced-motion: reduce) { .menu, .menu .body, .menu.open .body, .menu-toggle span { transition: none; } .entries li.new, .zero { animation: none; } }
 
 /* Everything else that changes state eases over --speed-ui too: theme colours, the profile letter's colour, tabs,
@@ -710,8 +710,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var w = resolved("wheel");
     app.style.setProperty("--wheel-base", w.base); app.style.setProperty("--wheel-over", w.over);
   }
-  // A profile's colour on the control side: its over colour (the letter, the ring, the label, the focus rings).
+  // A profile's colour for what is happening now: its over colour (the running ring, the status dot, the label).
   function profColour(id) { return profPair(prof(id)).over; }
+  // Where a profile stands: past its line when the balance is in plus, or the ceiling is passed; at 0 it is not.
+  function standsOver(id) { return prof(id).balance ? Math.round(balance) > 0 : used > CEILING; }
+  // Its letter, its small circle and the focus rings follow where it stands: the letter in the over colour past the
+  // line and in the base colour before it, the circle's ring in the other.
+  function stateColours(id) { var p = profPair(prof(id)); return standsOver(id) ? { letter: p.over, ring: p.base } : { letter: p.base, ring: p.over }; }
   // A new profile's hue: the middle of the largest gap between the hues in use, each profile using two, its own and
   // the opposite one its over colour has (a random pick between equal gaps).
   function nextProfileHue(others) {
@@ -879,8 +884,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function drawControls() {
     var p = prof(onScreen);
     $("profileDot").textContent = p.name.charAt(0).toUpperCase();
-    $("profileDot").style.color = profColour(onScreen); drawHueRing();
+    $("profileDot").style.color = stateColours(onScreen).letter; drawHueRing();
     app.style.setProperty("--accent", profColour(onScreen));
+    app.style.setProperty("--state", stateColours(onScreen).letter);
     if (running) app.style.setProperty("--run", profColour(running.profile));
     $("profileBtn").setAttribute("aria-disabled", String(activeProfiles().length < 2));
     var mine = running && running.profile === onScreen;
@@ -918,7 +924,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var p = prof(r.profile), t = { balance: balance, used: used, pay: pay + 135 / 60 * (p.rate || 0) };
     if (p.balance) t.balance = balance + 15; else { t.used = used + 135; addUsed(p.id, 135); }
     balance = t.balance; used = t.used; pay = t.pay; syncSim();
-    drawEntries(true); settleScale(Math.abs(t.balance), true); tweenTo(t);
+    drawEntries(true); settleScale(Math.abs(t.balance), true); tweenTo(t); drawControls();
   }
   $("startBtn").addEventListener("click", function () {
     var snap = snapshot(), at = clock(new Date()), label;
@@ -1021,7 +1027,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var list = $("popupList"); clear(list);
     activeProfiles().forEach(function (q) {
       var b = document.createElement("button"); b.type = "button"; if (q.id === onScreen) b.setAttribute("aria-current", "true");
-      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id); d.style.borderColor = q.colour;
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = stateColours(q.id).letter; d.style.borderColor = stateColours(q.id).ring;
       b.append(d, q.name + (running && running.profile === q.id ? "  ●" : ""));
       b.addEventListener("click", function () { onScreen = q.id; $("scrim").hidden = true; recolour(); });
       list.appendChild(b);
@@ -1281,7 +1287,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     profiles.forEach(function (q) {
       var li = document.createElement("li"); li.className = "prow" + (openRow === q.id ? " open" : "") + (q.archived ? " archived" : "");
       var head = document.createElement("button"); head.type = "button"; head.className = "prow-head"; head.setAttribute("aria-expanded", String(openRow === q.id));
-      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = profColour(q.id); d.style.borderColor = q.colour;
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = stateColours(q.id).letter; d.style.borderColor = stateColours(q.id).ring;
       var nm = document.createElement("span"); nm.textContent = q.name;
       head.append(d, nm);
       if (q.archived) { var ar = document.createElement("span"); ar.className = "mark"; ar.textContent = "arkiverad"; head.appendChild(ar); }
@@ -1417,8 +1423,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   // Sketch toolbar
   function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
-  $("simBal").addEventListener("input", function () { balance = +this.value; shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); });
-  $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); drawFigures(); });
+  $("simBal").addEventListener("input", function () { balance = +this.value; shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); restate(); });
+  $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); drawFigures(); restate(); });
+  // Where the profiles stand changed: the letter, the focus rings and the open menu's circles follow.
+  function restate() { drawControls(); if ($("menu").classList.contains("open")) renderProfiles(); }
   function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
   $("divLine").addEventListener("click", function () { setDivider("line"); });
   $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
