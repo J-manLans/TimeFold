@@ -196,4 +196,7 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
 
 ## Traps
 
-- None yet. A short pointer per trap; the detail lives in the owning file.
+A short pointer per trap; the detail lives in the owning file.
+
+- **The dev window loses its layout** and the terminal says `failed to load virtual css module`: "Known traps" in
+  `docs/dev/procedures/debugging.md`.
