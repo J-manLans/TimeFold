@@ -55,6 +55,10 @@ those screens, once they are drawn.
 3. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
    Windows and Linux installers from a version tag, `docs/dev/procedures/release.md`, and `v0.1.0`.
 
+   The owner makes the `v0.1.0` release by hand, start to finish: raising the version, pushing the tag, publishing the
+   draft. It is the owner's first release, a step in their developer career, and the agent only guides. Something to
+   celebrate with stands ready, chilled, before the tag is pushed.
+
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
 matches the prototype in both themes on Windows and Linux, Windows checked by installing the `v0.1.0` release.
 
