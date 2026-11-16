@@ -1,10 +1,11 @@
 <!--
   The controls side: what the owner presses ("The main screen has a controls side and a dashboard"). From the top: the
   menu button's row, then centred the button block, the status line and the pause row with the undo, and at the bottom
-  the prune line's room.
+  the prune line's room. The menu lies over it all, folded into its button until opened.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import Menu from '$lib/components/menu/Menu.svelte'
   import { overColour } from '$lib/modules/colours'
   import ButtonBlock from './ButtonBlock.svelte'
   import PruneLine from './PruneLine.svelte'
@@ -16,10 +17,11 @@
   // The profile on screen's accent, for its letter, the start ring, the status mark and the undo's afterglow
   let profile = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
   let over = $derived(profile ? overColour(profile.hue) : undefined)
+  let menuOpen = $state(false)
 </script>
 
 <section class="controls" aria-label="Kontroller" style:--profile-over={over}>
-  <!-- TODO: the menu button, with the dashboard step -->
+  <!-- The menu lies over the whole side; the top row keeps the room its folded button sits in -->
   <div class="top"></div>
 
   <div class="centre">
@@ -33,12 +35,16 @@
   </div>
 
   <PruneLine />
+
+  <Menu bind:open={menuOpen} />
 </section>
 
 <style>
   /* === Layout === */
 
   .controls {
+    position: relative;
+    overflow: hidden;
     display: grid;
     grid-template-rows: var(--controls-top-height) 1fr auto;
     background: var(--controls-background);

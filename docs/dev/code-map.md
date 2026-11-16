@@ -23,7 +23,11 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   problem, ready), the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `undo`
   and `cycleTheme` change them through the rules and save them. The theme is shown by setting `color-scheme` on the
   page. Components read it and call its actions.
-- `lib/components/`: the Svelte components, starting with their first file.
+- `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
+  controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine`, `UndoButton`,
+  `PruneLine` and the menu. `menu/`: `Menu.svelte`, the menu button and the frosted panel it grows into, with
+  `ThemeButton`. `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the profile, undo
+  and theme buttons.
 - `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
   opening that turns a file's text into a record or names what is wrong with it. `clock.ts`: what a click on start/stop
   does to the record (`press`) and the undo of the last click (`undo`). `colours.ts`: the colour rule from the

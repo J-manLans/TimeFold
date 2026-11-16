@@ -190,6 +190,14 @@
   --menu-line: light-dark(#9aa6b8, #373a3c); /* light: 1.95:1 */
   --menu-button-line: light-dark(#7d8ba1, #4a4d4f); /* light: 2.7:1 */
   --menu-heading-size: 16px;
+  --menu-heading-weight: 600;
+  --menu-head-gap: 10px; /* between "Meny", the theme button and its label */
+  --menu-head-space: 4px; /* under the heading's row */
+  --menu-toggle-line-width: 20px; /* the menu button's three lines, which cross when it is open */
+  --menu-toggle-line-height: 2px;
+  --menu-toggle-line-gap: 6px;
+  --theme-icon-size: 18px; /* the sun, moon or half circle on the theme disc */
+  --theme-icon-stroke: 1.8;
   --menu-section-size: 11px;
   --menu-section-tracking: 0.08em;
   --menu-tab-size: 13px;

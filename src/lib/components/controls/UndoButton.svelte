@@ -6,7 +6,7 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import Disc from './Disc.svelte'
+  import Disc from '$lib/components/shared/Disc.svelte'
 
   // === State ===
 
