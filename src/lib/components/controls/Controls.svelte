@@ -46,9 +46,13 @@
     })
   }
 
-  // The onboarding's ending asks for the sweep once
+  // The onboarding's ending asks for the sweep once: it runs when the ending turns to sweeping, not again at its later
+  // steps, which leave sweeping on
+  let swept = false
   $effect(() => {
-    if (app.welcome?.sweeping) untrack(sweep)
+    const sweeping = app.welcome?.sweeping ?? false
+    if (sweeping && !swept) untrack(sweep)
+    swept = sweeping
   })
 
   // === Helpers ===
