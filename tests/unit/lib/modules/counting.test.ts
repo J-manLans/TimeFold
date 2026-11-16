@@ -11,8 +11,8 @@ const HOUR = 3600
 const JANITOR: Profile = {
   id: 'p1',
   name: 'Vaktmästare',
-  hue: 28,
-  base: '#d78951',
+  hue: 195,
+  base: '#7ed6d5',
   expectedMinutes: [{ from: '2026-01-01', minutes: 360 }],
 }
 

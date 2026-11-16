@@ -3,6 +3,8 @@
  * ("The record is one JSON file"). Times of day are timestamps with their offset; amounts of time are whole minutes.
  */
 
+import { FIRST_HUE, neonBase } from './colours'
+
 // ======================================
 //                 API
 // ======================================
@@ -12,6 +14,9 @@ export const RECORD_FORMAT = 'timefold-record'
 
 /** The shape's version; it goes up whenever the shape changes */
 export const RECORD_VERSION = 1
+
+/** The janitor's expected minutes a working day, as a fresh record starts them ("Expected hours: 6 a day, Monday to Friday") */
+const EXPECTED_MINUTES = 6 * 60
 
 /** A calendar day, written YYYY-MM-DD */
 export type Day = string
@@ -26,7 +31,7 @@ export type FromDay<T> = T & { from: Day }
 export interface Profile {
   id: string
   name: string
-  /** Where the hue strip sits, 0–359; the over colour follows from it ("Each profile carries its colours") */
+  /** The profile's OKLCH hue, 0–359; its over colour follows from it ("Each profile carries its colours") */
   hue: number
   /** The base colour, a nuance of the hue, as #rrggbb */
   base: string
@@ -103,6 +108,31 @@ export function readRecord(text: string): ReadResult {
   }
 
   return { ok: true, record: data as unknown as TimeRecord }
+}
+
+/**
+ * A new record for "Starta nytt": one profile, the one with the balance, expected to work 6 h a day from the first
+ * day, and the balance brought over from before, dated that day ("A first install starts fresh or imports"). Used by
+ * the onboarding, and by dev mode when there is no record yet: freshRecord('Vaktmästare', 750, '2026-11-16').
+ * @param openingMinutes - the balance from the Excel file as it stood the evening before, in minutes; minus is owed
+ * @param firstDay - the first day in the app, written YYYY-MM-DD
+ */
+export function freshRecord(profileName: string, openingMinutes: number, firstDay: Day): TimeRecord {
+  return {
+    format: RECORD_FORMAT,
+    version: RECORD_VERSION,
+    profiles: [
+      {
+        id: 'p1',
+        name: profileName,
+        hue: FIRST_HUE,
+        base: neonBase(FIRST_HUE),
+        expectedMinutes: [{ from: firstDay, minutes: EXPECTED_MINUTES }],
+      },
+    ],
+    openings: [{ profile: 'p1', day: firstDay, balanceMinutes: openingMinutes }],
+    entries: [],
+  }
 }
 
 // ======================================

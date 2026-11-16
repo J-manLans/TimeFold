@@ -4,6 +4,7 @@
  */
 
 import { invoke } from '@tauri-apps/api/core'
+import { localDay } from './counting'
 import { readRecord, type ReadResult, type TimeRecord } from './record'
 
 // ======================================
@@ -28,18 +29,5 @@ export async function loadRecord(): Promise<ReadResult | null> {
  */
 export async function saveRecord(record: TimeRecord, now: Date = new Date()): Promise<void> {
   // Indented, so the file reads well if it is ever opened by hand
-  await invoke('save_record', { json: JSON.stringify(record, null, 2), today: localDay(now) })
-}
-
-// ======================================
-//               Helpers
-// ======================================
-
-/**
- * The date of `now` on this machine's calendar, written YYYY-MM-DD. Used by `saveRecord` to name the day's copy:
- * 00:01 on 17 November gives 2026-11-17, where UTC would still say the 16th
- */
-function localDay(now: Date): string {
-  const two = (n: number): string => String(n).padStart(2, '0')
-  return `${now.getFullYear()}-${two(now.getMonth() + 1)}-${two(now.getDate())}`
+  await invoke('save_record', { json: JSON.stringify(record, null, 2), today: localDay(now.getTime()) })
 }

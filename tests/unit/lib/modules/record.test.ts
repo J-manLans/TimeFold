@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { readRecord, RECORD_VERSION } from '$lib/modules/record'
+import { freshRecord, readRecord, RECORD_FORMAT, RECORD_VERSION } from '$lib/modules/record'
 import { RECORD } from '$tests/helpers/records'
 
 // === Helpers ===
@@ -72,5 +72,21 @@ describe('a record of the wrong shape names where', () => {
       ;(r.entries as Record<string, unknown>[])[0].made = 'guessed'
     })
     expect(readRecord(broken)).toEqual({ ok: false, problem: { kind: 'wrong-shape', where: 'entries[0].made' } })
+  })
+})
+
+describe('a fresh start makes a record of one profile with its opening', () => {
+  it('holds the profile with 6 h a day from the first day, the opening dated that day, and no entries', () => {
+    expect(freshRecord('Vaktmästare', 12 * 60 + 30, '2026-11-16')).toMatchObject({
+      format: RECORD_FORMAT,
+      version: RECORD_VERSION,
+      profiles: [{ id: 'p1', name: 'Vaktmästare', expectedMinutes: [{ from: '2026-11-16', minutes: 360 }] }],
+      openings: [{ profile: 'p1', day: '2026-11-16', balanceMinutes: 750 }],
+      entries: [],
+    })
+  })
+
+  it('passes the check on opening', () => {
+    expect(readRecord(JSON.stringify(freshRecord('Vaktmästare', -90, '2026-11-16'))).ok).toBe(true)
   })
 })

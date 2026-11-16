@@ -46,7 +46,7 @@
   --text-stretch: 75%;  --text-weight: 500;  --text-case: normal;  --text-tracking: 0.06em;
   /* Motion */
   --undo-time: 15s;     /* how long a click can be undone */
-  --undo-drape: 0.65;   /* how strong the coloured drape is when it appears (translucent, so the disc's sheen shows); it fades to nothing */
+  --undo-afterglow: 0.65;   /* how strong the coloured afterglow is when it appears (translucent, so the disc's sheen shows); it fades to nothing */
   --glow-r: 70px;      /* the pointer light on the buttons: its reach */
   --glow-disc: 0.7;    /* the light on the profile disc, against the faces' (0 none, 1 as strong); other discs get it in full */
   --disabled-o: 0.4;    /* how faded an unavailable button is: "Lägg till paus", the undo, Exportera/Importera */
@@ -222,14 +222,14 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .undo-btn { --dot-size: 26px; --dent: 4px; position: relative; width: 36px; height: 36px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; color: var(--c-btn-fg); border-radius: 50%; }
 .undo-btn { transition: opacity var(--undo-dim) ease; }   /* waking and dimming ease instead of snapping */
 .undo-btn:disabled { opacity: var(--disabled-o); cursor: default; }
-/* While the undo is available, a drape in the profile's over colour lies over the disc only (not the dent around it),
+/* While the undo is available, an afterglow in the profile's over colour lies over the disc only (not the dent around it),
    starting strong and fading evenly to nothing over --undo-time; the arrow stays on top of it. */
 .undo-btn .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; z-index: 2; pointer-events: none;
   background: var(--undo-fill, transparent); opacity: 0; }
 .undo-btn.live .dot::after { animation: undo-fade var(--undo-time) linear forwards; }
-@keyframes undo-fade { from { opacity: var(--undo-drape); } to { opacity: 0; } }
+@keyframes undo-fade { from { opacity: var(--undo-afterglow); } to { opacity: 0; } }
 .undo-btn .undo-icon { position: relative; z-index: 3; }
-@media (prefers-reduced-motion: reduce) { .undo-btn.live .dot::after { animation: none; opacity: var(--undo-drape); } }
+@media (prefers-reduced-motion: reduce) { .undo-btn.live .dot::after { animation: none; opacity: var(--undo-afterglow); } }
 .pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
 .pair .plastic:disabled { opacity: var(--disabled-o); cursor: default; }
 .pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
@@ -429,7 +429,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 }
 /* Only the profile disc catches the light more weakly, which keeps the profile button a little apart. */
 .app.glow-discs .profile-btn .dot { --disc-glow: var(--glow-disc); }
-/* The undo disc's drape would hide the light, so while the drape is there the light is laid on top of it too, under
+/* The undo disc's afterglow would hide the light, so while the afterglow is there the light is laid on top of it too, under
    the arrow. Part of the same trial. */
 .app.glow-discs .undo-btn:not(:disabled)::after {
   content: ""; position: absolute; inset: 5px; border-radius: 50%; z-index: 2; pointer-events: none;

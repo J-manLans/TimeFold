@@ -10,8 +10,8 @@ export const RECORD: TimeRecord = {
     {
       id: 'p1',
       name: 'Vaktis',
-      hue: 28,
-      base: '#d78951',
+      hue: 195,
+      base: '#7ed6d5',
       expectedMinutes: [{ from: '2026-11-16', minutes: 360 }],
     },
   ],

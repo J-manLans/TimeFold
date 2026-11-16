@@ -134,10 +134,10 @@ function inForce<T extends { from: Day }>(values: T[], day: Day): T | undefined 
 // === Days and moments ===
 
 /**
- * The day a moment falls on, on this machine's calendar. Used to find the day an entry starts on, and each day it
- * touches as it is split
+ * The day a moment falls on, on this machine's calendar. Used to find the day an entry starts on and each day it
+ * touches as it is split, the day a save names its copy by, and today: localDay(Date.now())
  */
-function localDay(time: number): Day {
+export function localDay(time: number): Day {
   const date = new Date(time)
   return formatDay(date.getFullYear(), date.getMonth() + 1, date.getDate())
 }
