@@ -58,7 +58,7 @@ matches the sketch in both themes on Windows and Linux.
 
 **Produces:** time away taken off the day, and days off paid for with the balance.
 
-**Settle first:** where a flex day is marked (`open-questions.md`).
+**Settle first:** where a flex day is marked (`open-questions.md`), and the flex day drawn in the prototype.
 
 1. "Lägg till paus" with its length field, and the break tags in the entry list.
 2. Flex days, for a day or a range, taken off the balance.
@@ -70,7 +70,8 @@ matches the sketch in both themes on Windows and Linux.
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
 **Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line
-(`open-questions.md`).
+(`open-questions.md`); the "Visa alla" popup and editing an entry on its line, drawn in the prototype (its "Visa alla"
+button opens nothing yet).
 
 1. The "Visa alla" popup with every entry.
 2. Editing an entry on its line: handles, the zoom, gaps and shortening, the confirm.
@@ -99,7 +100,8 @@ every setting changes from a date as its cases say.
 
 **Produces:** the record moving between the work and home machines.
 
-**Settle first:** nothing open.
+**Settle first:** the question before an import replaces the record, drawn in the prototype (its import button only
+shows a note).
 
 1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
 2. The onboarding's "Importera från min andra dator": it reads a handover file and asks nothing more.
@@ -110,7 +112,8 @@ every setting changes from a date as its cases say.
 
 **Produces:** the monthly report to the boss, as a PDF.
 
-**Settle first:** how the PDF is made in Tauri.
+**Settle first:** how the PDF is made in Tauri; where the report is made from (`open-questions.md`), and that screen
+drawn in the prototype.
 
 1. The month's report: name and month, the flex bar and the ceiling wheel with their carried amounts, hours per profile
    by pay category.

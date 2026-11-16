@@ -50,6 +50,15 @@ faded for every profile, as nobody's; or the onboarding asks which profile they 
 
 **See:** The ceiling wheel; A first install starts fresh or imports.
 
+## Phase 6: Reports
+
+### Where the report is made from (2026-11-16)
+
+The report has its own choices (the month, maybe a preview), so it needs a place in the app. The owner's lean: its own
+tab in the menu, beside the two Phase 4 builds. Not drawn in the prototype.
+
+**See:** The report is a PDF; A report covers one month; The menu has two tabs, with every value locked behind "Ändra".
+
 ## Debugging (any phase)
 
 ### A permanent log (2026-11-16)
