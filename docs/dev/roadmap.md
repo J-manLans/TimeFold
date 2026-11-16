@@ -12,13 +12,13 @@ Phase 1: Clocking, step 1, the controls side.
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                                                                        | State   | Has it run                                                                                                         |
-| ----------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
-| The project: Tauri, Svelte and Vite, with an empty main screen                                              | written | run: the window opens on Linux                                                                                     |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                           | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                           |
-| The design tokens and the two fonts, from the main screen sketch                                            | written | run: the window shows the text font on the theme's background                                                      |
-| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`      | written | run: in tests only (7 TypeScript with a stand-in for Rust, 7 Rust on real temporary files); no screen calls it yet |
-| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown | written | run: in tests only (20, in four time zones); no screen shows it yet                                                |
+| Part                                                                                                        | State   | Has it run                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| The project: Tauri, Svelte and Vite, with an empty main screen                                              | written | run: the window opens on Linux                                                                             |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                           | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                   |
+| The design tokens and the two fonts, from the prototype                                                     | written | run: the window shows the text font on the theme's background                                              |
+| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`      | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart |
+| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown | written | run: in tests only (20, in four time zones); no screen shows it yet                                        |
 
 ## The phases
 
@@ -36,9 +36,10 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 read, and the question for a running entry from an earlier day.
 
 1. The main screen's controls side: the rules of start, stop and undo as tested functions; the button block (export and
-   import greyed out), the status line, the undo, the prune line's room; a test record in dev mode until the onboarding.
-2. The dashboard with the flex bar and the five recent entries; the menu button with a menu holding its heading and the
-   theme button; the colour rule, which the bar needs for its over colour.
+   import greyed out), the status line, the undo, the prune line's room; a test record in dev mode until the onboarding;
+   the colour rule, from the prototype; the menu button with a menu holding its heading and the theme button; the
+   pointer light, the text fades and the pointer label the undo uses.
+2. The dashboard with the flex bar and the five recent entries.
 3. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
@@ -52,7 +53,7 @@ read, and the question for a running entry from an earlier day.
 4. The question for a running entry from an earlier day.
 
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
-matches the sketch in both themes on Windows and Linux.
+matches the prototype in both themes on Windows and Linux.
 
 ### Phase 2: Breaks and flex days
 
@@ -120,7 +121,8 @@ drawn in the prototype.
 2. The export option for each day's hours.
 
 **Done when:** the owner sends a real month's report and it reads without explanation. Then the owner switches from
-Excel: a fresh start with the opening figures, on a day not yet worked.
+Excel: a fresh start with the opening figures, on a day not yet worked. Once the app is validated in that use, the
+prototype goes.
 
 ## Later
 

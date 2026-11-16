@@ -19,12 +19,16 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 
 - `main.ts`: the entry; the global styles are imported here and nowhere else.
 - `App.svelte`: the root component, the main screen.
+- `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
+  problem, ready), the profile on screen and the last click; its actions `load`, `press` and `undo` change the record
+  through the rules and save it. Components read it and call its actions.
 - `lib/components/`: the Svelte components, starting with their first file.
 - `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
   opening that turns a file's text into a record or names what is wrong with it. `clock.ts`: what a click on start/stop
-  does to the record (`press`) and the undo of the last click (`undo`). `counting.ts`: the balance, each day's result,
-  expected hours and the app's month, worked out in seconds from the record. `storage.ts`: `loadRecord` and
-  `saveRecord`, the only place that invokes the record's commands; it adds the local date that names a day's copy.
+  does to the record (`press`) and the undo of the last click (`undo`). `colours.ts`: the colour rule from the
+  prototype, a profile's base, dimmed and over colours by role. `counting.ts`: the balance, each day's result, expected
+  hours and the app's month, worked out in seconds from the record. `storage.ts`: `loadRecord` and `saveRecord`, the
+  only place that invokes the record's commands; it adds the local date that names a day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts and the body.
 
