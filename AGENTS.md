@@ -13,8 +13,8 @@ state, progress, decisions or history here; each has its own home (see "Where th
 4. **Every fact has one owning file.** When two docs disagree, the owning file wins and the other is fixed. When a doc
    and the code disagree, the code wins, and say so.
 5. **Agree on where a new file or folder goes before creating it.** Show the tree it gives. Renames and moves too. In
-   vibe coding mode, a file in a place the code map already has needs no stop; a new folder or a file outside the layout
-   is agreed while the phase is settled, or stops the work.
+   vibe mode, a file in a place the code map already has needs no stop; a new folder or a file outside the layout is
+   agreed while the phase is settled, or stops the work.
 
 ## Doc map
 
@@ -96,13 +96,13 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## Commits
 
-- **Docs are the agent's to commit; code waits for the owner,** except in vibe coding mode (below). Docs not about code
-  under review are committed when done, naming the files (`git commit -- <files>`). Docs about code under review are
-  staged and go in one commit with the code when the owner says commit.
+- **Docs are the agent's to commit; code waits for the owner,** except in vibe mode (below). Docs not about code under
+  review are committed when done, naming the files (`git commit -- <files>`). Docs about code under review are staged
+  and go in one commit with the code when the owner says commit.
 - **Code** is anything that does something: source, config, build files. A comment or docstring the owner asked for
   counts as docs.
-- **In vibe coding mode, code is committed per small batch** once `tidy` and `test` pass, docs about it in the same
-  commit; the message carries what was built, why, and what was run.
+- **In vibe mode, code is committed per small batch** once `tidy` and `test` pass, docs about it in the same commit; the
+  message carries what was built, why, and what was run.
 - **One commit per batch.** Later changes in the same batch are amended into its commit. Amending anything else, such as
   an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended. Check `git status -sb`
   before every amend.
@@ -112,21 +112,25 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## How to work with the owner
 
-- **Design together; who writes the code shifts.** The owner decides. The owner may steer while the agent writes, review
-  what the agent wrote, or work alongside; when it is unclear, ask. Alongside, the owner writes the parts they want to
-  learn by doing and the agent does the rest, the tedious parts first (installs, config, moving code, removing files);
-  the agent explains the why, gives one step at a time and waits for the owner before the next, and reviews what the
-  owner wrote. The docs are the agent's to write.
-- **Vibe coding mode: the agent builds a whole phase.** Only when the owner starts it for a phase. First, owner and
-  agent settle everything the phase needs: its **Settle first**, its open questions, its cases, and any new folder. Then
-  the agent builds the phase without stopping, tests first as always, in small batches, each committed as soon as
-  `npm run tidy` and `npm test` pass; the owner reviews through git. A question that comes up and blocks nothing is
-  collected and asked at the end, as one numbered list; one that would change what is built stops the work and is asked
-  at once. **The prototype is the source of truth for the look:** every value, colour, size, time and behaviour of a
-  screen is taken from it as tuned, through the decision that holds its numbers; where the two disagree, the agent says
-  so and does not pick. Each batch with a screen ends with a short list of what to check by eye in the running app.
-  Afterwards the owner goes by look and feel, and tunes values in `design-tokens.css` or asks the agent for anything
-  bigger.
+- **Three modes, switched by name.** The owner decides; the mode lasts until the owner names another ("learning mode for
+  Phase 3", "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in
+  every mode.
+  - **Design mode:** questions, decisions, the vision, tuning the prototype; no code. Phase 0 runs in it, and so does
+    any later rethink of the design.
+  - **Learning mode:** side by side, for a new framework or a part the owner wants to understand. The owner writes the
+    parts they want to learn by doing, or steers or reviews what the agent writes; the agent does the rest, the tedious
+    parts first (installs, config, moving code, removing files), explains the why, gives one step at a time and waits
+    for the owner before the next, and reviews what the owner wrote. Nothing is committed unasked.
+  - **Vibe mode:** the agent builds a whole phase, once the owner starts it for that phase. First owner and agent settle
+    everything the phase needs: its **Settle first**, its open questions, its cases, and any new folder. Then the agent
+    builds the phase without stopping, tests first as always, in small batches, each committed as soon as `npm run tidy`
+    and `npm test` pass; the owner reviews through git. A question that comes up and blocks nothing is collected and
+    asked at the end, as one numbered list; one that would change what is built stops the work and is asked at once.
+    **The prototype is the source of truth for the look:** every value, colour, size, time and behaviour of a screen is
+    taken from it as tuned, through the decision that holds its numbers; where the two disagree, the agent says so and
+    does not pick. Each batch with a screen ends with a short list of what to check by eye in the running app.
+    Afterwards the owner goes by look and feel, and tunes values in `design-tokens.css` or asks the agent for anything
+    bigger.
 - **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are thinking
   and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A restated option
   is not a decision.
