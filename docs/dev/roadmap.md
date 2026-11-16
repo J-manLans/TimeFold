@@ -44,7 +44,7 @@ once they are drawn.
 
 1. The screen for a record that cannot be read ("A record that cannot be read offers the newest copy"), drawn in the
    prototype first: the locked panel, the copy previewed on the dashboard, the commands to find the newest copy and read
-   it; and the daily copy moved to the start, made only from a file that has passed the check.
+   it; and the daily copy moved to the start, made only from a file that has passed the check, keeping 31 instead of 14.
 
 2. The question for a running entry from an earlier day.
 3. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the

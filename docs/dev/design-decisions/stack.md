@@ -71,7 +71,7 @@ or at import, is refused with a plain message to update the app on this machine 
 file is the same JSON. The theme, and the profile last on screen ("The app opens on the running profile, or the last one
 on screen"), are in a small settings file of the machine's own, which is never exported; the profiles' colours are in
 the record. On each day the app starts, once the file has passed the check, it is copied into `copies/`, a folder beside
-it, unless that day already has a copy or the file is the same as the newest copy; saves copy nothing. The last 14
+it, unless that day already has a copy or the file is the same as the newest copy; saves copy nothing. The last 31
 copies are kept, however many days they span.
 
 **Why:** the record has shape (entries hold breaks; settings change from a date), which JSON holds in one readable file.
@@ -82,14 +82,16 @@ newer one keeps an older app from saving it back without the fields it does not 
 phases. The handover being the same file makes export nearly free, and the colours' own file keeps them out of it with
 no special rule. The copies cover a broken file, a bad hand edit or a stale import; a copy made at start from a file
 that has just passed the check is always readable, even when the file is broken later while the app runs, and dropping
-one the same as the newest keeps 14 different states.
+one the same as the newest keeps 31 different states. 31 copies reach at least a month back, so anything noticed while
+making a month's report can still be recovered from before it went wrong; they cost a few kilobytes each.
 
 **Rejected:** SQLite: sturdy and quick to query, but not readable, and its queries go unused at this size. CSV: one flat
-table per file, so the shape would need several files tied by IDs. No backup: one bad import could lose the record.
-Reading a newer version and ignoring what it does not know: the next save would drop it. The copy made by the day's
-first save, from the file on disk: a file broken while the app ran was copied as it was. The app's last saved text
-handed along with every save for the copy: every save would carry it, for what one copy at start does. Checking the file
-before the day's first copy: an extra read and check on the first click.
+table per file, so the shape would need several files tied by IDs. No backup: one bad import could lose the record. 14
+copies: a fault noticed at the month's report could be older than the copies. Reading a newer version and ignoring what
+it does not know: the next save would drop it. The copy made by the day's first save, from the file on disk: a file
+broken while the app ran was copied as it was. The app's last saved text handed along with every save for the copy:
+every save would carry it, for what one copy at start does. Checking the file before the day's first copy: an extra read
+and check on the first click.
 
 **Revisit if:** the file grows past what saves instantly, or the owner needs to query the history in ways memory cannot.
 
@@ -101,7 +103,7 @@ before the day's first copy: an extra read and check on the first click.
 - No record file: no record yet; nothing is reported as wrong.
 - A record of version 3 opened, or imported, by an app that knows version 2: refused with the message to update and a
   link to the releases page; the file is unchanged.
-- Day 15 of copies: the oldest of the 14 is deleted.
+- The 32nd copy: the oldest of the 31 is deleted.
 - Started three times on Monday, once on Tuesday with nothing changed, once on Wednesday: one copy made Monday, none on
   Tuesday (the same as Monday's), one on Wednesday.
 - The file broken while the app runs, then the day's first click: the record is saved whole, and today's copy, made at
