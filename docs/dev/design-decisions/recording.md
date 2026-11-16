@@ -5,7 +5,7 @@ cited by its title.
 
 ## One start/stop button and a profile list (2026-11-14)
 
-**Built by:** Clocking for the button; Profiles for the profile list and the warning label.
+**Built by:** Profiles, for the profile list and the warning label.
 
 **Decision:** the main control is one button: "Starta jobb", which becomes "Stoppa jobb" while an entry of the profile
 on screen runs. Beside it is a profile button that opens the list of profiles. Picking a profile changes only which
@@ -66,8 +66,6 @@ shows what runs, but opening on the running profile is what the owner expects.
 
 ## The last click can be undone for a few seconds (2026-11-15)
 
-**Built by:** Clocking.
-
 **Decision:** a round undo button sits beside "Lägg till paus", the two centred together under the button block, drawn
 like the profile button's disc in its dent with a turning-back arrow. It is faded out when there is nothing to undo, and
 eases between faded and awake in 0.2 seconds rather than snapping. After a start or a stop it wakes for 15 seconds: an
@@ -98,9 +96,6 @@ controls.
 
 **Cases:**
 
-- Stop pressed by mistake at 15:40, the undo at 15:40:10: the entry runs on, with no mark.
-- Start pressed at 08:02, the undo within 15 seconds: no entry; nothing runs.
-- A running, "Starta jobb" on B at 13:00, the undo within 15 seconds: B's entry is gone, A runs on.
 - Stop at 15:40, nothing done until 15:40:30: the undo button is faded again; the stop stays.
 - Nothing clicked since the app opened: the undo button is faded.
 - Stop at 15:40, the window hidden at once and shown again at 15:41: the undo is faded and a press does nothing; the

@@ -6,19 +6,23 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, step 1, the controls side.
+Phase 1: Clocking, the owner's look at the controls side in the running app; then step 1, the dashboard.
 
 ## State
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                                                                        | State   | Has it run                                                                                                 |
-| ----------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| The project: Tauri, Svelte and Vite, with an empty main screen                                              | written | run: the window opens on Linux                                                                             |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                           | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                   |
-| The design tokens and the two fonts, from the prototype                                                     | written | run: the window shows the text font on the theme's background                                              |
-| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`      | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart |
-| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown | written | run: in tests only (20, in four time zones); no screen shows it yet                                        |
+| Part                                                                                                                | State   | Has it run                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| The project: Tauri, Svelte and Vite, with an empty main screen                                                      | written | run: the window opens on Linux                                                                             |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                   | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                   |
+| The design tokens and the two fonts, from the prototype                                                             | written | run: the window shows the text font on the theme's background                                              |
+| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`              | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart |
+| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown         | written | run: in tests only (20, in four time zones); no screen shows it yet                                        |
+| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room | written | run: the rules in tests; the screen not yet seen in the app window                                         |
+| The colour rule, from the prototype                                                                                 | written | run: in tests only                                                                                         |
+| The menu's fold-out, the theme button, and the machine's settings file                                              | written | run: the settings in tests; the menu not yet seen in the app window                                        |
+| The pointer light                                                                                                   | written | written: not yet seen in the app window                                                                    |
 
 ## The phases
 
@@ -35,12 +39,8 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 **Settle first:** the screens the prototype does not show yet: the onboarding, the screen for a record that cannot be
 read, and the question for a running entry from an earlier day.
 
-1. The main screen's controls side: the rules of start, stop and undo as tested functions; the button block (export and
-   import greyed out), the status line, the undo, the prune line's room; a test record in dev mode until the onboarding;
-   the colour rule, from the prototype; the menu button with a menu holding its heading and the theme button; the
-   pointer light and the pointer label the undo uses.
-2. The dashboard with the flex bar and the five recent entries.
-3. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
+1. The dashboard with the flex bar and the five recent entries.
+2. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
    1. the first profile's name: the profile with the balance, such as "Vaktmästare";
@@ -50,7 +50,7 @@ read, and the question for a running entry from an earlier day.
    month, and Phase 5 makes the import choice work. A record that cannot be read opens on a screen naming the problem
    and offering the newest daily copy, which needs commands to list the copies and read one.
 
-4. The question for a running entry from an earlier day.
+3. The question for a running entry from an earlier day.
 
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
 matches the prototype in both themes on Windows and Linux.

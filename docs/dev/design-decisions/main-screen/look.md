@@ -76,8 +76,6 @@ once.
 
 ## A light or dark theme, following the system (2026-11-14)
 
-**Built by:** Clocking.
-
 **Decision:** the app has a theme setting: "System" (the default, following the computer's light or dark mode), "Ljust"
 or "Mörkt". It is a round button beside the menu's heading, drawn like the profile button's disc in its dent: a sun for
 Ljust, a moon for Mörkt, a half-filled circle for System; each click moves to the next, and a label names the one in
@@ -98,6 +96,5 @@ for its own screen and room.
 
 - System in dark mode, theme "System": the controls side is dark.
 - Theme "Ljust" on a dark system: the controls side is light, and the dashboard slate blue.
-- No settings file, or one that cannot be read: the theme is "System", with no message; the next change writes the file.
 - The theme changed while the pointer label or the undo's afterglow shows: both take the new theme's colours, and
   nothing restarts.
