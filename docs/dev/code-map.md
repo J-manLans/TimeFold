@@ -40,10 +40,11 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   colours by role, and the faded colour. `counting.ts`: the balance, each day's result, expected hours, the app's month,
   the ceiling with its carry and pieces, and the pay estimate, worked out in seconds from the record, and a moment's
   time of day as shown (`timeOfDay`). `figures.ts`: the flex bar's scale, reach and side, and the balance as text.
-  `entries.ts`: the entry lists' stopped entries, newest first, and what a row says. `settings.ts`: the machine's own
-  settings (the theme), their defaults and the check on reading. `storage.ts`: `loadRecord`, `saveRecord`,
-  `loadSettings` and `saveSettings`, the only place that invokes the Rust half; it adds the local date that names a
-  day's copy.
+  `entries.ts`: the entry lists' stopped entries, newest first, and what a row says. `timeInput.ts`: typed durations,
+  each keystroke checked against the field's shape, read into minutes, and written back in words ("1h 20min").
+  `settings.ts`: the machine's own settings (the theme), their defaults and the check on reading. `storage.ts`:
+  `loadRecord`, `saveRecord`, `loadSettings` and `saveSettings`, the only place that invokes the Rust half; it adds the
+  local date that names a day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, and the registered `--glow-strength` the pointer light fades by.
 
