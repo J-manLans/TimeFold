@@ -57,14 +57,6 @@ ceiling per calendar day: a month would allow more than full time, which is a we
 **Revisit if:** another profile gets hours of its own to work, or the limits apply to all hours together in a way the
 ceiling does not show.
 
-**Cases:**
-
-- Janitor 6, full time 8, a month with 21 weekdays: the ceiling is 42 h.
-- The slider moved to 5 | 3 from the 15th, 10 weekdays before it and 11 from it: 10 × 2 + 11 × 3 = 53 h.
-- Two hours of development group work on a Sunday: 2 h of the ceiling used.
-- March ceiling 42 h, 30 h worked: April starts at 0 used.
-- March ceiling 42 h, 46 h worked: April starts at 4 h used.
-
 ## A pay estimate per profile (2026-11-14)
 
 **Built by:** Profiles.
@@ -88,11 +80,7 @@ hours: working more or less there changes the balance, not the pay.
 
 **Cases:**
 
-- Janitor salary 1 700 €, nothing else this month: the estimate is 1 700 €.
-- Then 10 h of development at 26 €/h: 1 960 €.
-- An 8 h janitor day: the estimate does not change.
 - Rate 20 €/h, an entry of 3 h stopped: the estimate grows by 60 €; 30 min then cut from it: it falls by 10 €.
-- Rate raised from 20 to 22 from 1 March: February's hours stay at 20.
 
 ## Settings change from a date (2026-11-14)
 

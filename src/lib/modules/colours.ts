@@ -72,6 +72,17 @@ export function dimmed(base: string, panel: string): string {
 }
 
 /**
+ * A colour faded: the same hue, with 45% of its chroma taken away and its lightness moved 20% of the way toward the
+ * panel's, in OKLCH ("The ceiling wheel"). Used for the wheel's pieces worked by the other profiles: faded('#7368d4',
+ * '#0d1014') is #5e5b93.
+ */
+export function faded(colour: string, panel: string): string {
+  const [lightness, chroma, hue] = labToLch(rgbToOklab(hexToRgb(colour)))
+  const toward = rgbToOklab(hexToRgb(panel))[0]
+  return rgbToHex(lchToRgb([lightness + (toward - lightness) * FADE.lightness, chroma * (1 - FADE.chroma), hue]))
+}
+
+/**
  * A profile's colours by role, against the panel they sit on ("Code style": colours by role). Used by every
  * component that shows a profile's colour: the letter and the start ring take `over`.
  */
@@ -92,6 +103,9 @@ const NEON = { keep: 0.55, pull: 0.4, middle: 0.7 }
 
 /** The dimmed colour's numbers, from the prototype's RULE */
 const DIM = { mix: 0.7, gap: 0.15 }
+
+/** The faded colour's numbers, from the prototype's WHEEL: the share of chroma taken away, and of the way toward the panel */
+const FADE = { chroma: 0.45, lightness: 0.2 }
 
 // === Colour spaces, as in the prototype ===
 
@@ -136,7 +150,7 @@ function lchToLab([l, c, h]: Lch): Lab {
   return [l, c * Math.cos(angle), c * Math.sin(angle)]
 }
 
-/** OKLab to OKLCH. Used by `hueOfStrip` for the hue */
+/** OKLab to OKLCH. Used by `hueOfStrip` for the hue, and by `faded` */
 function labToLch([l, a, b]: Lab): Lch {
   return [l, Math.hypot(a, b), ((Math.atan2(b, a) * 180) / Math.PI + 360) % 360]
 }

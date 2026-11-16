@@ -2,9 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { at, entry } from '$tests/helpers/records'
 import {
   balance,
+  ceilingMonth,
   dayResult,
   expectedSecondsOn,
   monthOf,
+  payEstimate,
   secondsByDay,
   shownMinutes,
   timeOfDay,
@@ -174,5 +176,110 @@ describe('a moment is shown as its time of day on this machine’s clock', () =>
   it('shows hours and minutes, two digits each', () => {
     expect(timeOfDay(at('2026-11-16', '07:58'))).toBe('07:58')
     expect(timeOfDay(at('2026-11-16', '23:05:40'))).toBe('23:05')
+  })
+})
+
+// === The ceiling and the pay ===
+
+// May 2026 has 21 weekdays, 10 of them before the 15th; 3 May is a Sunday
+const SINCE_NEW_YEAR = '2026-01-01'
+const DEV: Profile = { id: 'p2', name: 'Utveckling', hue: 285, base: '#a99cf0' }
+const SUPPORT: Profile = { id: 'p3', name: 'Support', hue: 105, base: '#9fc77e' }
+
+/** A record of the janitor, 6 of a full time of 8, and two other profiles. Used by the ceiling and pay tests */
+function workRecord(entries: Entry[], janitor: Profile = JANITOR, others: Profile[] = [DEV, SUPPORT]): TimeRecord {
+  return {
+    format: RECORD_FORMAT,
+    version: RECORD_VERSION,
+    profiles: [janitor, ...others],
+    openings: [{ profile: janitor.id, day: SINCE_NEW_YEAR, balanceMinutes: 0 }],
+    fullTime: [{ from: SINCE_NEW_YEAR, minutes: 480 }],
+    entries,
+  }
+}
+
+/** `hours` of work by a profile from 08:00 on a day, running into the next days if long. Used by the ceiling and pay tests */
+function work(day: string, hours: number, profile: string): Entry {
+  const [y, m, d] = day.split('-').map(Number)
+  const end = new Date(y, m - 1, d, 8 + hours)
+  const two = (n: number): string => String(n).padStart(2, '0')
+  const endDay = `${end.getFullYear()}-${two(end.getMonth() + 1)}-${two(end.getDate())}`
+  return entry(at(day, '08:00'), at(endDay, `${end.getHours()}:${two(end.getMinutes())}`), { profile })
+}
+
+describe('the other profiles share a ceiling: the rest of full time, on each weekday', () => {
+  it('gives 42 h for a month of 21 weekdays at 6 of 8', () => {
+    expect(ceilingMonth(workRecord([]), '2026-05-10').ceiling).toBe(42 * HOUR)
+  })
+
+  it('gives 10 × 2 + 11 × 3 = 53 h when the split moves to 5 | 3 from the 15th', () => {
+    const janitor = {
+      ...JANITOR,
+      expectedMinutes: [
+        { from: SINCE_NEW_YEAR, minutes: 360 },
+        { from: '2026-05-15', minutes: 300 },
+      ],
+    }
+
+    expect(ceilingMonth(workRecord([], janitor), '2026-05-10').ceiling).toBe(53 * HOUR)
+  })
+
+  it('uses 2 h of it for two hours of development work on a Sunday', () => {
+    expect(ceilingMonth(workRecord([work('2026-05-03', 2, DEV.id)]), '2026-05-10').used).toBe(2 * HOUR)
+  })
+})
+
+describe("the ceiling's hours lie in the order they were worked, each with its profile", () => {
+  it('keeps A, B, then A again as three pieces', () => {
+    const entries = [work('2026-05-04', 2, DEV.id), work('2026-05-05', 2, SUPPORT.id), work('2026-05-06', 2, DEV.id)]
+
+    expect(ceilingMonth(workRecord(entries), '2026-05-10').pieces).toEqual([
+      { profile: DEV.id, seconds: 2 * HOUR },
+      { profile: SUPPORT.id, seconds: 2 * HOUR },
+      { profile: DEV.id, seconds: 2 * HOUR },
+    ])
+  })
+})
+
+describe('hours over a month’s ceiling carry into the next, first and with their profile', () => {
+  it('starts June at 0 used after 30 h in May', () => {
+    expect(ceilingMonth(workRecord([work('2026-05-04', 30, DEV.id)]), '2026-06-10').used).toBe(0)
+  })
+
+  it('starts June with 4 h used after 46 h in May, the carried hours first', () => {
+    const entries = [work('2026-05-04', 10, DEV.id), work('2026-05-11', 36, SUPPORT.id), work('2026-06-02', 1, DEV.id)]
+
+    expect(ceilingMonth(workRecord(entries), '2026-06-10').pieces).toEqual([
+      { profile: SUPPORT.id, seconds: 4 * HOUR },
+      { profile: DEV.id, seconds: 1 * HOUR },
+    ])
+  })
+})
+
+describe("the pay estimate is the month's salaries plus its hours times their rates", () => {
+  const salaried = { ...JANITOR, pay: [{ from: '2026-05-16', kind: 'salary' as const, amount: 1700 }] }
+  const rated = { ...DEV, pay: [{ from: SINCE_NEW_YEAR, kind: 'rate' as const, amount: 26 }] }
+
+  it('gives 1 700 € for the janitor salary alone, from the middle of the month', () => {
+    expect(payEstimate(workRecord([], salaried, [rated]), '2026-05-20')).toBe(1700)
+  })
+
+  it('gives 1 960 € after 10 h of development at 26 €/h, and no more for an 8 h janitor day', () => {
+    const entries = [work('2026-05-18', 10, DEV.id), work('2026-05-19', 8, JANITOR.id)]
+
+    expect(payEstimate(workRecord(entries, salaried, [rated]), '2026-05-20')).toBe(1960)
+  })
+
+  it('keeps February’s hours at 20 €/h when the rate rises to 22 from 1 March', () => {
+    const raised = {
+      ...DEV,
+      pay: [
+        { from: SINCE_NEW_YEAR, kind: 'rate' as const, amount: 20 },
+        { from: '2026-03-01', kind: 'rate' as const, amount: 22 },
+      ],
+    }
+    const entries = [work('2026-02-27', 3, DEV.id)]
+
+    expect(payEstimate(workRecord(entries, JANITOR, [raised]), '2026-02-28')).toBe(60)
   })
 })

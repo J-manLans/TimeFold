@@ -15,6 +15,19 @@ export interface Month {
   last: Day
 }
 
+/** A stretch of the ceiling's hours worked by one profile, in the order they were worked */
+export interface Piece {
+  profile: string
+  seconds: number
+}
+
+/** A month of the ceiling: its size, its hours as pieces in the order worked (carried ones first), and their sum */
+export interface CeilingMonth {
+  ceiling: number
+  pieces: Piece[]
+  used: number
+}
+
 /**
  * An entry's seconds on each calendar day it touches, split at this machine's midnight ("Time counts on the day it
  * was worked"). Used for every day's hours: Tuesday 22:00 to Wednesday 01:00 gives Tuesday 2 h and Wednesday 1 h.
@@ -93,6 +106,53 @@ export function monthOf(day: Day): Month {
 }
 
 /**
+ * The other profiles' ceiling for the month a day falls in ("The other profiles share a ceiling"): the rest of full time
+ * after the janitor's expected hours, on each weekday, and the hours worked against it, carried ones first. Hours
+ * over a month's ceiling carry into the next with their profile; unused hours do not. Running entries count once
+ * stopped. Used by the ceiling wheel: 46 h in a 42 h May start June with 4 h used.
+ * @returns seconds; the ceiling is 0 for a record with no balance profile
+ */
+export function ceilingMonth(record: TimeRecord, day: Day): CeilingMonth {
+  const janitor = record.profiles.find((p) => p.expectedMinutes !== undefined)
+  const worked = otherWork(record, janitor?.id)
+  const target = monthOf(day)
+  let month = monthOf(firstDay(record, worked) ?? day)
+  if (month.first > target.first) month = target
+
+  let carried: Piece[] = []
+  for (;;) {
+    const ceiling = ceilingOf(record, janitor, month)
+    const pieces = joined([...carried, ...worked.filter((piece) => monthOf(piece.day).first === month.first)])
+    if (month.first === target.first) return { ceiling, pieces, used: pieces.reduce((sum, p) => sum + p.seconds, 0) }
+    carried = beyond(pieces, ceiling)
+    month = monthOf(dayAfter(month.last))
+  }
+}
+
+/**
+ * A rough figure of the month's pay, in euros ("A pay estimate per profile"): each salary in force in the month once,
+ * plus each rated profile's hours times the rate in force the day they were worked. Running entries count once
+ * stopped. Used for the pay estimate under the ceiling wheel: a 1 700 € salary and 10 h at 26 €/h give 1 960.
+ */
+export function payEstimate(record: TimeRecord, day: Day): number {
+  const month = monthOf(day)
+  let total = 0
+  for (const profile of record.profiles) {
+    const pay = profile.pay ?? []
+    const salary = inForce(pay, month.last)
+    if (salary?.kind === 'salary') total += salary.amount
+    for (const entry of record.entries) {
+      if (entry.profile !== profile.id) continue
+      for (const [worked, seconds] of secondsByDay(entry)) {
+        const rate = worked >= month.first && worked <= month.last ? inForce(pay, worked) : undefined
+        if (rate?.kind === 'rate') total += (seconds / 3600) * rate.amount
+      }
+    }
+  }
+  return total
+}
+
+/**
  * Seconds as the whole minutes shown, rounded to the nearest; a half minute rounds away from zero. Used for every
  * figure on screen, such as the balance or an entry's length: 3:31:30 shows as 3:32.
  */
@@ -140,7 +200,81 @@ function inForce<T extends { from: Day }>(values: T[], day: Day): T | undefined 
   return found
 }
 
+// === The ceiling ===
+
+/** Seconds worked by a profile on a day, for laying the ceiling's hours in order. Used by `ceilingMonth` */
+interface DayPiece extends Piece {
+  day: Day
+}
+
+/**
+ * The stopped work of every profile but the janitor, day by day in the order it was worked. Used by `ceilingMonth`
+ */
+function otherWork(record: TimeRecord, janitorId: string | undefined): DayPiece[] {
+  const pieces: DayPiece[] = []
+  const entries = record.entries
+    .filter((entry) => entry.profile !== janitorId)
+    .sort((a, b) => Date.parse(a.start) - Date.parse(b.start))
+  for (const entry of entries) {
+    for (const [day, seconds] of secondsByDay(entry)) pieces.push({ profile: entry.profile, day, seconds })
+  }
+  return pieces
+}
+
+/** The first day the ceiling has anything to count from: the first opening or work. Used by `ceilingMonth` */
+function firstDay(record: TimeRecord, worked: DayPiece[]): Day | undefined {
+  const days = [...record.openings.map((o) => o.day), ...worked.map((p) => p.day)].sort()
+  return days[0]
+}
+
+/** A month's ceiling in seconds: full time less the janitor's expected hours, on each weekday. Used by `ceilingMonth` */
+function ceilingOf(record: TimeRecord, janitor: Profile | undefined, month: Month): number {
+  if (janitor === undefined) return 0
+  let total = 0
+  for (let day = month.first; day <= month.last; day = dayAfter(day)) {
+    if (!isWeekday(day)) continue
+    const full = (inForce(record.fullTime, day)?.minutes ?? 0) * 60
+    total += Math.max(0, full - expectedSecondsOn(day, janitor))
+  }
+  return total
+}
+
+/** Pieces with neighbours of the same profile joined into one. Used by `ceilingMonth` */
+function joined(pieces: Piece[]): Piece[] {
+  const result: Piece[] = []
+  for (const { profile, seconds } of pieces) {
+    const last = result[result.length - 1]
+    if (last?.profile === profile) last.seconds += seconds
+    else result.push({ profile, seconds })
+  }
+  return result
+}
+
+/** What of a month's pieces lies past its ceiling, cut where the ceiling falls. Used for the carry into the next month */
+function beyond(pieces: Piece[], ceiling: number): Piece[] {
+  const over: Piece[] = []
+  let at = 0
+  for (const { profile, seconds } of pieces) {
+    const cut = Math.max(at, ceiling)
+    if (at + seconds > cut) over.push({ profile, seconds: at + seconds - cut })
+    at += seconds
+  }
+  return over
+}
+
 // === Days and moments ===
+
+/** The day after a day. Used to walk a month day by day, and from one month to the next */
+function dayAfter(day: Day): Day {
+  const next = new Date(dayToTime(day) + 24 * 3600 * 1000)
+  return formatDay(next.getUTCFullYear(), next.getUTCMonth() + 1, next.getUTCDate())
+}
+
+/** Whether a day is Monday to Friday. Used for the ceiling's days */
+function isWeekday(day: Day): boolean {
+  const weekday = new Date(dayToTime(day)).getUTCDay()
+  return weekday !== 0 && weekday !== 6
+}
 
 /**
  * The day a moment falls on, on this machine's calendar. Used to find the day an entry starts on and each day it

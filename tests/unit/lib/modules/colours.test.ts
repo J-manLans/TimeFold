@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { colourRoles, dimmed, FIRST_HUE, hueOfStrip, neonBase, overColour } from '$lib/modules/colours'
+import { colourRoles, dimmed, faded, FIRST_HUE, hueOfStrip, neonBase, overColour } from '$lib/modules/colours'
 
 // === Constants ===
 
@@ -38,6 +38,13 @@ describe('the dimmed colour is the base mixed 70% toward the panel', () => {
 
   it('sits 0.15 past the panel instead when mixing would leave it too close to the base', () => {
     expect(dimmed('#1e2630', DARK_PANEL)).toBe('#12161c')
+  })
+})
+
+describe('a faded colour keeps its hue, with 45% of its chroma gone and its lightness a fifth toward the panel', () => {
+  it('fades the violet base on the dark and on the light panel, as the prototype does', () => {
+    expect(faded('#7368d4', DARK_PANEL)).toBe('#5e5b93')
+    expect(faded('#7368d4', LIGHT_PANEL)).toBe('#68669f')
   })
 })
 

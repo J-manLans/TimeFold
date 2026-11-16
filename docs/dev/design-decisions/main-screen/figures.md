@@ -122,7 +122,5 @@ balance profile is on screen: the wheel would seem to belong to a profile that i
 - The pointer in the wheel's middle, or in a corner of its square: nothing winds back.
 - 46 h used, the over hours all worked by A, B on screen: the over lap is faded and the number is in B's over colour at
   full strength.
-- A faded piece of base `#7368d4` on the dark panel has the base's hue, 55% of its chroma, and a lightness a fifth of
-  the way toward the panel's.
 - Utveckling (blue) on screen: the wheel is blue; Vaktmästare on screen: the wheel is grey `#9aa3ae` with a light grey
   `#e2e6eb` over the ceiling; the hours are the same in both.
