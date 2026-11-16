@@ -56,6 +56,10 @@ look beside the vision, kept until the finished app has been validated. Not a **
 **Prune.** Removing the record's oldest whole months, past three years, on the owner's yes; the balance and ceiling
 hours at the cut become opening figures.
 
+**Release.** A version of the app built by GitHub from a version tag, such as `v0.1.0`, with installers for Windows and
+Linux on the repo's releases page ("The app reaches each machine as an installer from a GitHub release", in
+`design-decisions/`). Not the record's version, which numbers the file's shape.
+
 **Report.** A period's record, exported from the app for the owner to send to their boss.
 
 **Settings file.** Each machine's own `settings.json` beside the record, holding what belongs to that computer, such as

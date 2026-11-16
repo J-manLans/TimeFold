@@ -93,8 +93,41 @@ Reading a newer version and ignoring what it does not know: the next save would 
 - The file edited by hand into invalid JSON: the app names the problem and offers yesterday's copy.
 - Valid JSON with an entry missing its start: the app names the problem and offers yesterday's copy.
 - No record file: no record yet; nothing is reported as wrong.
-- A record of version 3 opened, or imported, by an app that knows version 2: refused with the message to update; the
-  file is unchanged.
+- A record of version 3 opened, or imported, by an app that knows version 2: refused with the message to update and a
+  link to the releases page; the file is unchanged.
 - Day 15 of copies: the oldest of the 14 is deleted.
 - Three saves on Monday, none on Tuesday, one on Wednesday: one copy made Monday (before its first save), one on
   Wednesday, none on Tuesday.
+
+## The app reaches each machine as an installer from a GitHub release (2026-11-16)
+
+**Built by:** Clocking, for the build, the first release and the link to it; Reports, for the updater.
+
+**Decision:** the owner builds only on Linux. A release is made by pushing a version tag, such as `v0.2.0`; GitHub then
+builds the installers with Tauri's action, for Windows and for Linux, and puts them on a draft release on the repo's
+releases page, which the owner publishes. The action stops if the tag and the app's version disagree. The owner installs
+on each machine from that page; a newer installer updates the program in place and leaves the app's data folder (the
+record, its copies and the settings) untouched, and uninstalling keeps it unless the owner ticks to delete it. The
+version is major.minor.patch, raised by hand in `tauri.conf.json`, `package.json` and `Cargo.toml` alike, by the release
+procedure: one minor version per phase (Phase 1 ships as `0.1.0`), a patch for a fix between phases, and `1.0.0` the day
+the owner switches from Excel. A record from a newer version, refused with the message to update ("The record is one
+JSON file"), offers the releases page. In the last phase the app gains an updater: it notices a new release and offers
+to install it.
+
+**Why:** the dual-boot Windows has no dev setup and should never need one; it only receives a finished app, as the work
+machine will every time the app changes. A tag builds only what the owner means to use. Releases for Linux too mean the
+home machine runs what the work machine runs. The data folder is separate from the program, so updating can never cost
+the record; the refusal of a newer record keeps an old installer from harming it, and its link says where to go. A minor
+version per phase names each step on the way, and 1.0 marks the app taking over from Excel.
+
+**Rejected:** building on Windows: a second dev setup to keep up. A build on every push: slow, and installers nobody
+meant to use. The updater from the start: signing keys and setup for a problem that does not exist while one person
+installs by hand.
+
+**Revisit if:** releases come so often that installing by hand is a chore, before the last phase.
+
+**Cases:**
+
+- Version 0.2.0 installed over 0.1.0 on Windows: the app opens on the record as it was.
+- Tag `v0.2.0` pushed while `tauri.conf.json` still says 0.1.0: the build stops and names the mismatch.
+- The app uninstalled with the box left unticked, then installed again: the record is there.

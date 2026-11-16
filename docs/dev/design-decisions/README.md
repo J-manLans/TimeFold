@@ -60,6 +60,7 @@ title.
 - Svelte with TypeScript for the interface
 - Rust touches the disk; TypeScript knows the record
 - The record is one JSON file
+- The app reaches each machine as an installer from a GitHub release
 
 ### [Code](code.md)
 

@@ -8,5 +8,5 @@ a term by its name, never at a part.
 Day total, Design token, Dimmed colour, Entry, Entry line, Errand, Expected hours.
 
 **[F–Z](f-z.md):** Faded, Flex bar, Flex day, Full time, Gap, Handover, Hue (a profile's), Lit, Month, Neon, Opening
-figures, Over colour, Pay category, Pay estimate, Peek, Pointer light, Profile, Prototype, Prune, Report, Settings file,
-Sketch, Tip.
+figures, Over colour, Pay category, Pay estimate, Peek, Pointer light, Profile, Prototype, Prune, Release, Report,
+Settings file, Sketch, Tip.

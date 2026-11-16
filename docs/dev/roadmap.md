@@ -39,7 +39,7 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the onboarding,
 the screen for a record that cannot be read, and the question for a running entry from an earlier day; the folders for
-those screens, once they are drawn; and how Windows is checked for **Done when**, as there is no dev setup on it.
+those screens, once they are drawn.
 
 1. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
@@ -52,9 +52,11 @@ those screens, once they are drawn; and how Windows is checked for **Done when**
    and offering the newest daily copy, which needs commands to list the copies and read one.
 
 2. The question for a running entry from an earlier day.
+3. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
+   Windows and Linux installers from a version tag, `docs/dev/procedures/release.md`, and `v0.1.0`.
 
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
-matches the prototype in both themes on Windows and Linux.
+matches the prototype in both themes on Windows and Linux, Windows checked by installing the `v0.1.0` release.
 
 ### Phase 2: Breaks and flex days
 
@@ -122,6 +124,7 @@ drawn in the prototype.
 1. The month's report: name and month, the flex bar and the ceiling wheel with their carried amounts, hours per profile
    by pay category.
 2. The export option for each day's hours.
+3. The updater: the app notices a new release and offers to install it.
 
 **Done when:** the owner sends a real month's report and it reads without explanation. Then the owner switches from
 Excel: a fresh start with the opening figures, on a day not yet worked. Once the app is validated in that use, the
