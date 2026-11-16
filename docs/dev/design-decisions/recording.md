@@ -13,10 +13,11 @@ profile is on screen; a running entry goes on. Pressing start on the profile on 
 at that moment and starts one on that profile, so at most one entry runs at a time. While another profile's entry runs,
 a small custom label says what pressing it will stop ("stoppar A"), on a slightly see-through dark background edged in
 that profile's colour: it fades in at once when the pointer enters the button, follows the pointer while it is over it,
-and fades out when it leaves; with keyboard focus it shows under the button. The running profile is shown. The button
-never changes size: "Starta jobb" and "Stoppa jobb" fit the same width. A forgotten switch back is corrected by hand.
-The totals, the flex bar and the ceiling wheel update when an entry stops; nothing ticks while it runs, and the update
-at stop is the visual effect.
+to its right and centred on its height, and fades out where it stood when it leaves; with keyboard focus it shows under
+the button. The same tip explains other buttons, such as the undo ("Ångra: stopp 15:40") and the onboarding's
+"Importera" ("från fil"). The running profile is shown. The button never changes size: "Starta jobb" and "Stoppa jobb"
+fit the same width. A forgotten switch back is corrected by hand. The totals, the flex bar and the ceiling wheel update
+when an entry stops; nothing ticks while it runs, and the update at stop is the visual effect.
 
 **Why:** one running entry is the simplest record, and it is how common time trackers work. A break needs no control of
 its own ("Time away is a gap or an added break").
@@ -174,9 +175,12 @@ work is running, and the entry's line does it better.
 **Built by:** Breaks and flex days.
 
 **Decision:** a length of time, such as an added break, is typed into one field: a plain number is minutes ("45"), and
-hours and minutes are written "1:20". The empty field shows "00:00". While typing, how it reads the input shows just
-under the field ("1 h 20 min"), so the field itself stays where it is. Enter confirms; Esc, or clicking away, cancels.
-The field has no buttons. The clock picker is for times of day only.
+hours and minutes are written "1:20". Only digits and `:` are taken, and only in that shape: up to three digits of
+minutes alone, or two of hours and two of minutes, the minutes at most 59; a sign, a letter or a keystroke that breaks
+the shape does not appear. The empty field shows "00:00". While typing, how it reads the input shows just under the
+field ("1h 20min"), so the field itself stays where it is. Every length the app writes in words is written this way, the
+unit against its number: "5min", "23h 20min", "paus 20min", "+20h". Enter confirms; Esc, or clicking away, cancels. The
+field has no buttons. The clock picker is for times of day only.
 
 **Why:** one short field is the least fuss, and "1:20" is how the owner writes a length in Excel. Showing the reading
 catches a hasty mistake before it is saved.
@@ -189,5 +193,7 @@ and Esc do the same with less on screen. The clock picker: it picks a time of da
 **Cases:**
 
 - "45": 45 min.
-- "1:20": 80 min, shown as "1 h 20 min".
-- "5", "05" and "0:05": 5 min.
+- "1:20": 80 min, shown as "1h 20min".
+- "5", "05" and "0:05": 5 min, shown as "5min".
+- "-5" or "1h": the sign and the letter do not appear. "1:205": the third minute digit does not appear. "1:7": the 7
+  does not appear.

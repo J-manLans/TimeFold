@@ -44,15 +44,20 @@ title.
 
 ## Decisions by area
 
-### [Scope](scope.md)
+### Scope (`scope/`)
+
+**[Boundaries](scope/boundaries.md)**
 
 - One user, offline, on the owner's machines
 - Handover between machines
-- A first install starts fresh or imports
 - The app is in Swedish
 - Old history is pruned on request
 - A plain window app
 - What the app does
+
+**[First start](scope/first-start.md)**
+
+- A first install starts fresh or imports
 
 ### [Stack](stack.md)
 

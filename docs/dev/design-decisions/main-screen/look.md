@@ -31,12 +31,13 @@ prototype:
   and the colour picker `#e6ecf4`. The profile popup takes the button colour, with the chosen or hovered profile a
   lighter step (`#5f789e` in the light theme), as in the dark theme.
 - **Profile circle:** a raised disc in the button's own colour, lit by a soft round glow toward its top, its letter in
-  the profile's colour (if a profile's colour reads poorly on the button, the owner changes it with the picker), sitting
-  in a soft dent 6 px wide around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so
-  it is always a soft shade of the button's own colour, whatever that colour is. In the light theme its highlights and
-  shadows are tinted blue, not white or black, so they sit with the blue button. The glow has the same shape in both
-  themes; only its colours change. The theme button's disc is in the buttons' own colour too, with a light icon; it
-  catches the pointer light like the other discs.
+  the colour of where the profile stands ("Each profile carries its colours"; if a colour reads poorly on the button,
+  the owner changes it with the picker), trimmed to its capital so it sits dead centre, sitting in a soft dent 6 px wide
+  around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
+  of the button's own colour, whatever that colour is. In the light theme its highlights and shadows are tinted blue,
+  not white or black, so they sit with the blue button. The glow has the same shape in both themes; only its colours
+  change. The theme button's disc is in the buttons' own colour too, with a light icon; it catches the pointer light
+  like the other discs.
 - **Motion:** every transition in the interface takes the same 0.2 seconds, one setting for all: hover and press, the
   start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
   label, the profile letter's colour, and a change of theme. A text that changes swaps at once. Animations that tell

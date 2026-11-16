@@ -1,5 +1,5 @@
 <!-- Prototype: the app's screens as tuned, the north star for the app's look beside vision.md. Built from the decisions
-     in design-decisions/ (main-screen/, recording.md, scope.md); the toolbar above the app is for the prototype only.
+     in design-decisions/ (main-screen/, recording.md, scope/); the toolbar above the app is for the prototype only.
      Kept until the finished app has been validated. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,6 +55,26 @@
   --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
   /* The menu panel */
   --menu-blur: 12px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
+  /* The tip, following the pointer over a button */
+  --tip-x: 17px;        /* from the pointer to the tip's left edge */
+  --tip-y: 5px;         /* up or down from centred on the pointer */
+  --tip-focus-gap: 6px; /* under a button with keyboard focus */
+  /* The onboarding: the menu's panel, locked, at the first start ("Replay onboarding" in the toolbar) */
+  --ob-prompt: 16px;    /* "Nuvarande flextimmar?" and "Profilnamn?" */
+  --ob-name: 26px;      /* the name as it is typed; the balance is typed at the dashboard's --size-balance */
+  --ob-gap: 14px;       /* between a prompt, what is typed and how it is read */
+  --ob-frost-in: 0.8s;  /* after the name: the solid panel turning to frost, before it shrinks into the menu button */
+  --ob-choice-pad: 24px;  /* each side of the words on "Starta nytt" and "Importera", before the scale */
+  --ob-choice-scale: 0.8;   /* the two buttons against Starta jobb, height, text and sides alike: 0.8 is 80% */
+  --ob-letter-delay: -0.6s;  /* after the light is gone, before the letter fades in; negative starts it while the light is leaving */
+  --ob-letter-fade: 0.6s;   /* how slowly the letter fades in, the last thing to happen; the screen unlocks after */
+  --ob-sweep-delay: 0.2s;   /* after the panel has shrunk into the menu button, before the light sweeps across the button block */
+  --ob-sweep: 1.2s;         /* the pointer light crossing the button block, left to right */
+  --ob-sweep-ends: 0.3;   /* how large the light is as it enters and leaves the block, against its usual --glow-r */
+  --ob-sweep-grow: 2;     /* how large it grows at the block's middle, against --glow-r */
+  --ob-sweep-rise: 60px;  /* how far above the block's middle the light starts */
+  --ob-sweep-fade: 0.3s;  /* after the arc, the light shrinking from its end size to nothing */
+  --ob-sweep-drop: 40px;  /* how far below it the light ends; between, it arcs down, quickest at first, levelling off */
   /* The figures */
   --bar-share: 0.5;     /* the flex bar's thickness, as a share of the ceiling wheel's band (0.5 a half, 0.333 a third); centred on the 0 line, which keeps its height */
   /* Focus */
@@ -123,6 +143,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --well-lip:    light-dark(rgba(190, 210, 240, 0.35), rgba(255, 255, 255, 0.08));   /* light: a blue sheen, not white */
   /* Menu: the frosted panel (the last number is how solid it is) and its quiet text */
   --menu-frost:  light-dark(rgba(208, 216, 230, 0.55), rgba(26, 28, 32, 0.50));
+  --ob-solid:    light-dark(rgb(208, 216, 230), rgb(26, 28, 32));   /* the onboarding's panel: the frost's tint, made solid */
   --glow-c:      light-dark(rgba(225, 235, 252, 0.20), rgba(255, 255, 255, 0.08));   /* the pointer light's colour and strength */
   --menu-muted:  light-dark(#333c4b, #8f949d);   /* light: 8.8:1 on the frost */
   --menu-fg:     light-dark(#141a24, #e4e6ea);   /* light: 13.8:1 on the frost */
@@ -203,6 +224,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   display: grid; place-items: center;
   font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--dot-letter); line-height: 1;
 }
+/* The profile letter is trimmed to its capital, so centring the box centres the letter itself, not its line. */
+.profile-btn .dot { text-box: trim-both cap alphabetic; }
 .profile-btn .dot::before, .theme-btn .dot::before, .undo-btn .dot::before {
   content: ""; position: absolute; inset: calc(-1 * var(--dent)); border-radius: 50%; z-index: -1;
   background: var(--well-bg); border-top: 1px solid var(--well-edge);
@@ -259,6 +282,35 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   background-color: var(--menu-frost);
   -webkit-backdrop-filter: blur(var(--menu-blur)); backdrop-filter: blur(var(--menu-blur));
 }
+/* The onboarding: the open panel with no way out and none of the menu, one prompt centred in it at a time. It is
+   solid while the prompts show, so nothing behind it is blurred again at every blink of the caret; after the name it
+   turns to frost, and then shrinks. */
+.menu.open.ob-solid { background-color: var(--ob-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* The blur switches on at once, unseen behind the still solid panel; only the tint fades to see-through, so the buttons
+   emerge already blurred. */
+.menu.ob-frosting { transition: clip-path var(--speed-menu) cubic-bezier(.2, .7, .2, 1), background-color var(--ob-frost-in) ease; }
+.menu.onboarding .body { display: none; }
+.menu.onboarding .menu-toggle { opacity: 0; pointer-events: none; }
+.onboard { position: absolute; inset: 0; display: grid; place-items: center; }
+.ob-step { grid-area: 1 / 1; display: grid; justify-items: center; gap: var(--ob-gap); width: min(320px, 80%); opacity: 0; pointer-events: none; transition: opacity var(--speed-ui) ease; }
+.ob-step.on { opacity: 1; pointer-events: auto; }
+.ob-step[data-step="choice"] { grid-template-columns: max-content max-content; justify-content: center; gap: var(--block-gap); width: auto; }
+/* The two choices: Starta jobb's height and font, each as wide as its words. */
+.ob-choice { height: calc(var(--start-h) * var(--ob-choice-scale)); width: max-content; padding: 0 calc(var(--ob-choice-pad) * var(--ob-choice-scale)); display: grid; place-content: center; justify-items: center; }
+.ob-choice .label { text-transform: uppercase; font-family: var(--display); font-stretch: var(--display-stretch);  font-size: calc(var(--size-start) * var(--ob-choice-scale)); font-weight: var(--display-weight); letter-spacing: 0.03em; line-height: 1; }
+/* Importera, greyed out until Handover, still takes the pointer and the focus, so its tip ("från fil") can show. */
+.ob-choice[aria-disabled="true"] { opacity: var(--disabled-o); cursor: default; }
+.ob-prompt { font-size: var(--ob-prompt); font-weight: 600; color: var(--c-fg); }
+/* No field: only the caret shows. Written strongly enough to win over the menu's own fields and the focus ring. */
+.app .menu .onboard input.ob-lone { width: 100%; border: 0; border-radius: 0; padding: 0; background: transparent; box-shadow: none; text-align: center; color: inherit; text-transform: none; letter-spacing: normal; }
+.app .menu .onboard input.ob-lone:focus, .app .menu .onboard input.ob-lone:focus-visible { outline: none; }
+.app .menu .onboard input.ob-bal { font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-balance); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.app .menu .onboard input.ob-name { font-family: var(--mono); font-size: var(--ob-name); }
+.ob-reading { min-height: 1.3em; font-size: 12px; color: var(--c-muted); }
+/* While the letter waits to arrive, nothing on the screen can be pressed. */
+.app.locked { pointer-events: none; }
+.profile-btn .dot.waiting { color: transparent !important; }
+.profile-btn .dot.arriving { transition-duration: var(--ob-letter-fade); }
 .menu-toggle { position: absolute; top: 12px; left: 12px; width: 40px; height: 40px; border: 0; padding: 0; background: transparent; cursor: pointer; z-index: 2; border-radius: var(--r-small); }
 .menu-toggle span { position: absolute; left: 10px; width: 20px; height: 2px; border-radius: 1px; background: var(--c-btn-fg); transition: transform var(--speed-menu) ease, opacity var(--speed-menu) ease; }
 .menu-toggle span:nth-child(1) { top: 13px; }
@@ -288,7 +340,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); width: 150px; }
 .plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .plist li { display: flex; align-items: center; gap: 10px; }
-.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; }
+.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; text-box: trim-both cap alphabetic; }
 
 /* Menu tabs */
 .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--c-line); }
@@ -462,6 +514,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
     <label for="simDiscGlow"><input type="checkbox" id="simDiscGlow" checked> Light on discs</label>
     <label for="simNarrow"><input type="checkbox" id="simNarrow"> Narrow window</label>
+    <button type="button" id="simOnboard">Replay onboarding</button>
     <span>Each stop records 2 h 15 min.</span>
     <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
@@ -487,7 +540,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           </button>
         </div>
         <div class="toast" id="toast"></div>
-        <div class="tip" id="tip" role="tooltip"></div>
       </div>
       <div class="prune" id="prune">
         <span>Du har över tre års historik. Rensa de äldsta 2 månaderna?</span><span class="spacer"></span>
@@ -518,6 +570,22 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
             <p class="hint">Dagen månaden börjar på, så som skolan räknar. Taket, rapporten och rensningen räknar med den.</p>
           </div>
         </div>
+        <!-- The onboarding: the panel locked open at the first start, one centred prompt at a time. -->
+        <div class="onboard" id="onboard" hidden>
+          <div class="ob-step" data-step="choice">
+            <button class="plastic ob-choice" id="obFresh" type="button"><span class="label">Starta nytt</span></button>
+            <button class="plastic ob-choice" id="obImport" type="button" aria-disabled="true"><span class="label">Importera</span></button>
+          </div>
+          <div class="ob-step" data-step="balance">
+            <label class="ob-prompt" for="obBal">Nuvarande flextimmar?</label>
+            <input class="ob-lone ob-bal" id="obBal" type="text" inputmode="numeric" autocomplete="off" spellcheck="false">
+            <span class="ob-reading" id="obBalRead"></span>
+          </div>
+          <div class="ob-step" data-step="name">
+            <label class="ob-prompt" for="obName">Profilnamn?</label>
+            <input class="ob-lone ob-name" id="obName" type="text" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
       </div>
 
       <div class="scrim" id="scrim" hidden>
@@ -528,6 +596,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       </div>
     </div>
 
+    <div class="tip" id="tip" role="tooltip"></div>
     <div class="figures" id="figures">
       <div class="divider"></div>
       <div class="balance">
@@ -776,7 +845,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         svg.appendChild(el("line", { x1: 200 + sd * half * k / 10, x2: 200 + sd * half * k / 10, y1: k === 10 ? 30 : 32, y2: 36, style: "stroke: " + (k === 10 ? side : "var(--f-ink)"), "stroke-width": 1 }));
       }
       var lab = el("text", { x: 200 + sd * half, y: 47, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 9, style: "fill: " + side });
-      lab.textContent = (sd < 0 ? "−" : "+") + Math.round(scale / 60) + " h"; svg.appendChild(lab);
+      lab.textContent = (sd < 0 ? "−" : "+") + Math.round(scale / 60) + "h"; svg.appendChild(lab);
     });
     var n = $("balNum"); n.textContent = hm(v);
     n.style.color = Math.round(v) === 0 ? "var(--f-fg)" : v > 0 ? c.over : c.base;   // the number follows the bar
@@ -855,7 +924,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var cells = [DAY[e.start.getDay()] + " " + e.start.getDate(), clock(e.start) + "–" + clock(e.end), p.name.charAt(0).toUpperCase()];
       cells.forEach(function (txt) { var s = document.createElement("span"); s.textContent = txt; li.appendChild(s); });
       var tag = document.createElement("span");
-      if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + e.brk + " min"; }
+      if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + lengthText(e.brk); }
       li.appendChild(tag);
       var d = document.createElement("span"); d.className = "dur"; d.textContent = hmPlain(dur(e)); li.appendChild(d);
       // Placeholder: a row opens the entries popup on that entry, where it will be edited on its line.
@@ -884,6 +953,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function drawControls() {
     var p = prof(onScreen);
     $("profileDot").textContent = p.name.charAt(0).toUpperCase();
+    $("profileDot").classList.toggle("waiting", onboarding || app.classList.contains("locked") && $("profileDot").classList.contains("waiting"));
     $("profileDot").style.color = stateColours(onScreen).letter; drawHueRing();
     app.style.setProperty("--accent", profColour(onScreen));
     app.style.setProperty("--state", stateColours(onScreen).letter);
@@ -978,6 +1048,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // The warning label: appears at once on pointer enter, follows the pointer, shows under the button on keyboard focus.
   var tipPt = null, tipFocus = null, tipFor = "start";   // tipFocus: which button has keyboard focus, if any
   function tipText() {
+    if (tipFor === "import") return "från fil";
     if (tipFor === "undo") return undo ? "Ångra: " + undo.label : "";
     return running && running.profile !== onScreen ? "stoppar " + prof(running.profile).name : "";
   }
@@ -986,11 +1057,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // With the pointer gone, the label belongs to the button with keyboard focus, if there is one.
     if (!tipPt) { if (tipFocus) { tipFor = tipFocus; txt = tipText(); } else txt = ""; }
     if (!txt) { tip.classList.remove("show"); return; }
-    tip.textContent = txt; tip.style.setProperty("--tipc", tipFor === "undo" ? profColour(onScreen) : profColour(running.profile)); tip.classList.add("show");
-    if (tipPt) { tip.style.left = (tipPt.x + 14) + "px"; tip.style.top = (tipPt.y + 18) + "px"; }
-    else { var r = $(tipFor === "undo" ? "undoBtn" : "startBtn").getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = (r.bottom + 6) + "px"; }
+    tip.textContent = txt; tip.style.setProperty("--tipc", tipFor === "start" ? profColour(running.profile) : profColour(onScreen)); tip.classList.add("show");
+    // By the pointer: to its right, centred on its height. With keyboard focus: under the button.
+    if (tipPt) { tip.style.left = "calc(" + tipPt.x + "px + var(--tip-x))"; tip.style.top = "calc(" + tipPt.y + "px + var(--tip-y))"; tip.style.translate = "0 -50%"; }
+    else { var r = $({ undo: "undoBtn", start: "startBtn", import: "obImport" }[tipFor]).getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = "calc(" + r.bottom + "px + var(--tip-focus-gap))"; tip.style.translate = "0 0"; }
   }
-  [["startBtn", "start"], ["undoBtn", "undo"]].forEach(function (pair) {
+  [["startBtn", "start"], ["undoBtn", "undo"], ["obImport", "import"]].forEach(function (pair) {
     var b = $(pair[0]);
     ["pointerenter", "pointermove"].forEach(function (ev) {
       b.addEventListener(ev, function (e) { if (e.pointerType === "touch") return; tipFor = pair[1]; tipPt = { x: e.clientX, y: e.clientY }; refreshTip(); });
@@ -1002,6 +1074,25 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   });
   window.addEventListener("scroll", function () { if (!tipPt) refreshTip(); }, { passive: true });
 
+  // A length in words, the unit against its number: "5min", "1h 20min", "23h" ("Entering a length of time").
+  function lengthText(mins) {
+    var a = Math.abs(Math.round(mins)), h = Math.floor(a / 60), m = a % 60;
+    return (h ? h + "h" : "") + (h && m ? " " : "") + (m || !h ? m + "min" : "");
+  }
+  // Only these characters reach a length field, and only in its shape: anything else typed or pasted does not appear,
+  // and a keystroke that would break the shape (a third digit of minutes) is refused.
+  function keepOnly(input, allowed, shape) {
+    var last = "";
+    input.addEventListener("input", function () {
+      var kept = this.value.split("").filter(function (c) { return allowed.test(c); }).join("");
+      if (!shape.test(kept)) kept = last;
+      if (kept !== this.value) { var at = Math.max(0, this.selectionStart - (this.value.length - kept.length)); this.value = kept; this.setSelectionRange(at, at); }
+      last = kept;
+    });
+    input.addEventListener("focus", function () { last = this.value; });
+  }
+  // A break: minutes alone, up to three digits, or hours and minutes, two digits each, the minutes at most 59.
+  keepOnly($("pauseInput"), /[0-9:]/, /^(\d{0,3}|\d{0,2}:([0-5]\d?)?)$/);
   // "Lägg till paus": a length typed in place ("45" is minutes, "1:20" is hours and minutes).
   function readLength(s) {
     s = s.trim(); var m = /^(\d{1,2}):(\d{1,2})$/.exec(s), n = /^\d{1,3}$/.exec(s);
@@ -1013,7 +1104,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("pauseInput").addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closePause(); } });
   $("pauseInput").addEventListener("blur", function () { setTimeout(closePause, 0); });
   $("pauseInput").addEventListener("input", function () {
-    var v = readLength(this.value); $("pauseReading").textContent = v === null ? "" : (v >= 60 ? Math.floor(v / 60) + " h " : "") + (v % 60) + " min";
+    var v = readLength(this.value); $("pauseReading").textContent = v === null ? "" : lengthText(v);
   });
   $("pauseField").addEventListener("submit", function (e) {
     e.preventDefault(); var v = readLength($("pauseInput").value);
@@ -1053,6 +1144,120 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("allPop").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
 
   // Menu
+  // ---- The onboarding: the menu's panel, locked open, at the first start ----
+  var onboarding = false;
+  function obStep(name) {
+    Array.prototype.forEach.call(document.querySelectorAll(".ob-step"), function (st) { st.classList.toggle("on", st.dataset.step === name); });
+    var focus = { choice: "obFresh", balance: "obBal", name: "obName" }[name];
+    if (focus) setTimeout(function () { $(focus).focus(); }, 0);
+  }
+  // The balance as typed: a length as in "Lägg till paus", with a sign in front and up to three digits of hours.
+  function readBalance(s) {
+    var m = /^([+-]?)(?:(\d{1,3}):(\d{1,2})|(\d{1,3}))$/.exec(s.trim());
+    if (!m) return null;
+    var mins = m[4] !== undefined ? +m[4] : +m[2] * 60 + +m[3];
+    return m[1] === "-" ? -mins : mins;
+  }
+  // The balance profile's colour for where a balance stands: the over colour in plus, the base at 0 or below.
+  function obColour(v) { var p = profPair(balanceProfile()); return v > 0 ? p.over : p.base; }
+  function startOnboarding() {
+    onboarding = true;
+    entries = []; balance = 0; used = 0; usedLog = []; pay = 0; shown.balance = 0; shown.used = 0; shown.pay = 0;
+    running = null; onScreen = balanceProfile().id; syncSim(); settleScale(0, false);
+    $("obBal").value = ""; $("obBalRead").textContent = ""; $("obName").value = "";
+    $("obBal").style.color = $("obName").style.color = obColour(0);
+    $("onboard").hidden = false; $("menu").classList.add("onboarding", "ob-solid");
+    setMenu(true); $("menuBody").inert = true;
+    drawEntries(false); recolour(); obStep("choice");
+  }
+  // The balance: a sign, then minutes alone or hours and minutes, up to three digits of hours, the minutes at most 59.
+  keepOnly($("obBal"), /[0-9:+\-]/, /^[+-]?(\d{0,3}|\d{0,3}:([0-5]\d?)?)$/);
+  $("obBal").addEventListener("input", function () {
+    var v = readBalance(this.value), s = this.value.trim();
+    var sign = s.charAt(0) === "-" ? -1 : 1;
+    this.style.color = $("obName").style.color = obColour(v !== null ? v : sign < 0 ? -1 : /[1-9]/.test(s) ? 1 : 0);
+    $("obBalRead").textContent = v === null ? "" : (v < 0 ? "−" : v > 0 ? "+" : "") + lengthText(v);
+  });
+  // The dashboard takes a balance on Enter, counting to it as it does at a stop.
+  function obSetBalance(v) {
+    if (v === balance) return;
+    balance = v; syncSim(); settleScale(Math.abs(v), true); tweenTo({ balance: v, used: used, pay: pay });
+  }
+  $("obFresh").addEventListener("click", function () { obStep("balance"); });
+  $("obBal").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); var v = readBalance(this.value); if (v !== null) { obSetBalance(v); obStep("name"); } }
+    if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); obSetBalance(0); obStep("choice"); }
+  });
+  $("obName").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); if (this.value.trim()) finishOnboarding(this.value.trim()); }
+    if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); obStep("balance"); }
+  });
+  // The ending: the text fades, the panel shrinks into the menu button, the light sweeps across the button block, and
+  // then, after --ob-letter-delay, the letter fades in, the last thing; nothing can be pressed until it has.
+  function finishOnboarding(name) {
+    balanceProfile().name = name; obStep(null); app.classList.add("locked");
+    var css = getComputedStyle(app), secs = function (n) { return parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
+    var fade = secs("--speed-ui"), shrink = secs("--speed-menu"), delay = secs("--ob-letter-delay"), arrive = secs("--ob-letter-fade");
+    var frostIn = secs("--ob-frost-in");
+    // The text fades; the solid panel turns to frost; then the panel shrinks into the menu button.
+    setTimeout(function () {
+      $("menu").classList.add("ob-frosting"); $("menu").classList.remove("ob-solid");
+      setTimeout(function () { $("menu").classList.remove("ob-frosting"); closing(); }, frostIn);
+    }, fade);
+    function closing() {
+      onboarding = false; setMenu(false);
+      setTimeout(function () {
+        $("menu").classList.remove("onboarding"); $("onboard").hidden = true;
+        // The light sweeps across the block, and the letter fades in --ob-letter-delay after the light is gone, timed
+        // from the sweep's start so a negative delay starts it while the light is still leaving. The screen unlocks once
+        // both are done.
+        setTimeout(function () {
+          var sweepDone = false, letterDone = false, unlock = function () { if (sweepDone && letterDone) app.classList.remove("locked"); };
+          sweep(secs("--ob-sweep"), function () { sweepDone = true; unlock(); });
+          var gone = reduce ? 0 : secs("--ob-sweep") + secs("--ob-sweep-fade");
+          setTimeout(function () {
+            $("profileDot").classList.add("arriving"); $("profileDot").classList.remove("waiting"); drawControls();
+            setTimeout(function () { $("profileDot").classList.remove("arriving"); letterDone = true; unlock(); }, arrive);
+          }, Math.max(0, gone + delay));
+        }, secs("--ob-sweep-delay"));
+      }, shrink);
+    }
+  }
+  // The pointer light crosses the button block once, left to right, at its middle, fading in at the start and out at the
+  // end: the same light, moved by the app instead of the pointer, small at the edges (--ob-sweep-ends), growing toward
+  // the block's middle (--ob-sweep-grow) and shrinking again past it, arcing down from above the block's middle to below
+  // it (--ob-sweep-rise, --ob-sweep-drop). Used once, at the onboarding's end.
+  function sweep(duration, done) {
+    if (reduce) { done(); return; }
+    var c = document.querySelector(".controls"), b = document.querySelector(".block").getBoundingClientRect();
+    var css = getComputedStyle(app), reach = parseFloat(css.getPropertyValue("--glow-r")) || 70;
+    var grow = parseFloat(css.getPropertyValue("--ob-sweep-grow")) || 1, ends = parseFloat(css.getPropertyValue("--ob-sweep-ends")) || 1;
+    var rise = parseFloat(css.getPropertyValue("--ob-sweep-rise")) || 0, drop = parseFloat(css.getPropertyValue("--ob-sweep-drop")) || 0;
+    var from = b.left - reach * ends, to = b.right + reach * ends, middle = b.top + b.height / 2, t0 = performance.now();
+    var top = middle - rise, bottom = middle + drop;
+    c.style.setProperty("--my", top + "px"); c.style.setProperty("--mx", from + "px"); c.classList.add("lit");
+    (function step(now) {
+      var k = duration ? Math.min(1, (now - t0) / duration) : 1, e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      c.style.setProperty("--mx", from + (to - from) * e + "px");
+      c.style.setProperty("--my", top + (bottom - top) * (1 - Math.pow(1 - e, 2)) + "px");
+      c.style.setProperty("--glow-r", reach * (ends + (grow - ends) * Math.sin(Math.PI * e)) + "px");
+      if (k < 1) { requestAnimationFrame(step); return; }
+      // The end: the light shrinks to nothing where it stands, over --ob-sweep-fade, so no fade lagging behind can flash.
+      // Only once it is gone does it lose its strength and take its usual size back.
+      var out = (parseFloat(css.getPropertyValue("--ob-sweep-fade")) || 0) * 1000, t1 = performance.now(), last = reach * ends;
+      (function shrink(now) {
+        var q = out ? Math.min(1, (now - t1) / out) : 1;
+        c.style.setProperty("--glow-r", last * (1 - q) + "px");
+        if (q < 1) { requestAnimationFrame(shrink); return; }
+        // Gone: what comes next can start now, while the light loses its strength and takes its size back unseen.
+        done();
+        c.classList.remove("lit");
+        setTimeout(function () { c.style.removeProperty("--glow-r"); }, 2 * (parseFloat(css.getPropertyValue("--speed-ui")) || 0.2) * 1000);
+      })(t1);
+    })(t0);
+  }
+  $("simOnboard").addEventListener("click", startOnboarding);
+
   function setMenu(open) {
     if (!open && typeof closePicker === "function") closePicker(false);
     if (open) { selectTab("profiler"); renderMenu(); }
@@ -1063,9 +1268,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("menuBtn").addEventListener("click", function () { setMenu(!$("menu").classList.contains("open")); });
   // A click anywhere outside the open menu closes it, as Esc does.
   document.addEventListener("pointerdown", function (e) {
-    if ($("menu").classList.contains("open") && !$("menu").contains(e.target)) setMenu(false);
+    if ($("menu").classList.contains("open") && !onboarding && !$("menu").contains(e.target)) setMenu(false);
   });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !onboarding) { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
   $("addProfile").addEventListener("click", function () {
     var n = $("newName").value.trim(); if (!n) return;
     var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
@@ -1087,7 +1292,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var MONTHS = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
   function isoDay(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
   function fmtDay(s) { var x = s.split("-"); return (+x[2]) + " " + MONTHS[+x[1] - 1] + " " + x[0]; }
-  function hLen(m) { return Math.floor(m / 60) + (m % 60 ? ":" + String(m % 60).padStart(2, "0") : "") + " h"; }
+  function hLen(m) { return Math.floor(m / 60) + (m % 60 ? ":" + String(m % 60).padStart(2, "0") : "") + "h"; }
   function readHours(s) { s = s.trim(); var m = /^(\d{1,2}):(\d{2})$/.exec(s); if (m) return +m[1] * 60 + +m[2]; if (/^\d{1,2}$/.test(s)) return +s * 60; return null; }
   function now(h) { return h[h.length - 1].v; }
   // Counting settings change from a date; each keeps its history.
@@ -1356,7 +1561,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var wt = $("workTime"); clear(wt); var splitCtl;
     wt.appendChild(lockedValue({
       label: "Heltid", hist: function () { return settings.fullTime; }, show: hLen,
-      toText: function (v) { return hLen(v).replace(" h", ""); }, parse: readHours,
+      toText: function (v) { return hLen(v).replace("h", ""); }, parse: readHours,
       // A new full time only refreshes the split beside it; nothing is rebuilt, so no other edit or focus is lost.
       onCommit: function () { if (splitCtl) splitCtl.refresh(); }
     }));
@@ -1426,7 +1631,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("simBal").addEventListener("input", function () { balance = +this.value; shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); restate(); });
   $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); drawFigures(); restate(); });
   // Where the profiles stand changed: the letter, the focus rings and the open menu's circles follow.
-  function restate() { drawControls(); if ($("menu").classList.contains("open")) renderProfiles(); }
+  function restate() {
+    drawControls(); if ($("menu").classList.contains("open")) renderProfiles();
+    // The open profile popup's circles too; its buttons are the active profiles, in order.
+    if (!$("scrim").hidden) Array.prototype.forEach.call($("popupList").children, function (b, i) {
+      var c = stateColours(activeProfiles()[i].id), d = b.querySelector(".mini-dot"); d.style.color = c.letter; d.style.borderColor = c.ring;
+    });
+  }
   function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
   $("divLine").addEventListener("click", function () { setDivider("line"); });
   $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
