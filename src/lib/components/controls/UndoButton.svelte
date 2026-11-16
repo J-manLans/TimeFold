@@ -1,16 +1,25 @@
 <!--
   The undo: a small disc beside "Lägg till paus" that wakes for --undo-time after a start or a stop, under an afterglow in
   the profile's colour fading to nothing, and reverses that click when pressed ("The last click can be undone for a
-  few seconds"). Faded when there is nothing to undo. Awake or not is read from the clock, so a window hidden past the
+  few seconds"). Hovered or focused while awake, its pointer label says what it would undo ("Ångra: stopp 15:40").
+  Faded when there is nothing to undo. Awake or not is read from the clock, so a window hidden past the
   time shows it faded on return.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import Disc from '$lib/components/shared/Disc.svelte'
+  import { clickLabel } from '$lib/modules/clock'
+  import PointerLabel from './PointerLabel.svelte'
 
   // === State ===
 
   let awake = $state(false)
+  let button: HTMLButtonElement | undefined = $state()
+  /** Where the pointer is over the button, for the label */
+  let point = $state<{ x: number; y: number } | null>(null)
+  /** Whether the button has keyboard focus, which shows the label under it */
+  let focused = $state(false)
+  let label = $derived(awake && app.record && app.lastClick ? `Ångra: ${clickLabel(app.record, app.lastClick)}` : '')
 
   // === Logic ===
 
@@ -34,7 +43,22 @@
     }
   })
 
+  // A button that falls asleep may miss the pointer leaving it, so the label's place is dropped with it
+  $effect(() => {
+    if (!awake) point = null
+  })
+
   // === Helpers ===
+
+  /** The pointer over the button, for the label; a touch shows none. Used on pointer enter and move */
+  function follow(event: PointerEvent): void {
+    if (event.pointerType !== 'touch') point = { x: event.clientX, y: event.clientY }
+  }
+
+  /** Keyboard focus anchors the label under the button; a mouse click does not. Used on focus */
+  function focus(): void {
+    focused = button?.matches(':focus-visible') ?? false
+  }
 
   /** How long a click can be undone, from the --undo-time token. Used to know when the undo falls asleep */
   function undoSeconds(): number {
@@ -42,7 +66,19 @@
   }
 </script>
 
-<button class="undo" type="button" disabled={!awake} aria-label="Ångra senaste klicket" onclick={() => app.undo()}>
+<button
+  class="undo"
+  type="button"
+  disabled={!awake}
+  aria-label="Ångra senaste klicket"
+  bind:this={button}
+  onclick={() => app.undo()}
+  onpointerenter={follow}
+  onpointermove={follow}
+  onpointerleave={() => (point = null)}
+  onfocus={focus}
+  onblur={() => (focused = false)}
+>
   <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)">
     {#key app.lastClick}
       <span class="afterglow" class:live={awake}></span>
@@ -50,6 +86,7 @@
     <span class="arrow" aria-hidden="true">↶</span>
   </Disc>
 </button>
+<PointerLabel text={label} {point} anchor={focused ? (button ?? null) : null} />
 
 <style>
   /* === Layout === */

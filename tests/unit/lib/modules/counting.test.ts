@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { at, entry } from '$tests/helpers/records'
-import { balance, dayResult, expectedSecondsOn, monthOf, secondsByDay, shownMinutes } from '$lib/modules/counting'
+import {
+  balance,
+  dayResult,
+  expectedSecondsOn,
+  monthOf,
+  secondsByDay,
+  shownMinutes,
+  timeOfDay,
+} from '$lib/modules/counting'
 import { RECORD_FORMAT, RECORD_VERSION, type Entry, type Profile, type TimeRecord } from '$lib/modules/record'
 
 // === Constants ===
@@ -158,5 +166,12 @@ describe('figures are shown to the nearest minute', () => {
 
   it('rounds a minus balance the same way, away from zero', () => {
     expect(shownMinutes(-(3 * HOUR + 31 * 60 + 30))).toBe(-(3 * 60 + 32))
+  })
+})
+
+describe('a moment is shown as its time of day on this machine’s clock', () => {
+  it('shows hours and minutes, two digits each', () => {
+    expect(timeOfDay(at('2026-11-16', '07:58'))).toBe('07:58')
+    expect(timeOfDay(at('2026-11-16', '23:05:40'))).toBe('23:05')
   })
 })

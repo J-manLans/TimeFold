@@ -24,17 +24,18 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   and `cycleTheme` change them through the rules and save them. The theme is shown by setting `color-scheme` on the
   page. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
-  controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine`, `UndoButton`,
-  `PruneLine` and the menu. `menu/`: `Menu.svelte`, the menu button and the frosted panel it grows into, with
-  `ThemeButton`. `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the profile, undo
-  and theme buttons.
+  controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine`, `UndoButton`
+  with its `PointerLabel`, `PruneLine` and the menu. `menu/`: `Menu.svelte`, the menu button and the frosted panel it
+  grows into, with `ThemeButton`. `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the
+  profile, undo and theme buttons.
 - `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
   opening that turns a file's text into a record or names what is wrong with it. `clock.ts`: what a click on start/stop
-  does to the record (`press`) and the undo of the last click (`undo`). `colours.ts`: the colour rule from the
-  prototype, a profile's base, dimmed and over colours by role. `counting.ts`: the balance, each day's result, expected
-  hours and the app's month, worked out in seconds from the record. `settings.ts`: the machine's own settings (the
-  theme), their defaults and the check on reading. `storage.ts`: `loadRecord`, `saveRecord`, `loadSettings` and
-  `saveSettings`, the only place that invokes the Rust half; it adds the local date that names a day's copy.
+  does to the record (`press`), the undo of the last click (`undo`) and what the undo's label says (`clickLabel`).
+  `colours.ts`: the colour rule from the prototype, a profile's base, dimmed and over colours by role. `counting.ts`:
+  the balance, each day's result, expected hours and the app's month, worked out in seconds from the record, and a
+  moment's time of day as shown (`timeOfDay`). `settings.ts`: the machine's own settings (the theme), their defaults and
+  the check on reading. `storage.ts`: `loadRecord`, `saveRecord`, `loadSettings` and `saveSettings`, the only place that
+  invokes the Rust half; it adds the local date that names a day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts and the body.
 

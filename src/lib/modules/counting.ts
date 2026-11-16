@@ -3,7 +3,7 @@
  * figures are rounded to the minute only when shown ("Time is counted to the second and shown to the minute").
  */
 
-import { type Day, type Entry, type Profile, type TimeRecord } from './record'
+import { type Day, type Entry, type Profile, type Timestamp, type TimeRecord } from './record'
 
 // ======================================
 //                 API
@@ -98,6 +98,15 @@ export function monthOf(day: Day): Month {
  */
 export function shownMinutes(seconds: number): number {
   return Math.sign(seconds) * Math.round(Math.abs(seconds) / 60)
+}
+
+/**
+ * A moment's time of day on this machine's clock, as hours and minutes. Used wherever a time is shown, such as
+ * "pågår sedan 07:58" and the undo's "stopp 15:40": timeOfDay('2026-11-16T07:58:30+01:00') is "07:58" in Stockholm
+ */
+export function timeOfDay(stamp: Timestamp): string {
+  const date = new Date(stamp)
+  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
 }
 
 // ======================================

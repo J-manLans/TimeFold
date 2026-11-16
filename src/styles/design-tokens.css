@@ -180,6 +180,10 @@
   --tip-blur: 3px;
   --tip-text-size: 12px;
   --tip-padding: 4px 9px;
+  --tip-border-width: 1px; /* in the colour of the profile it speaks of */
+  --tip-offset-x: 14px; /* from the pointer to the label's corner */
+  --tip-offset-y: 18px;
+  --tip-focus-gap: 6px; /* under a button with keyboard focus */
 
   /* === Controls: the menu === */
   /* The frost's last number is how solid it is */

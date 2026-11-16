@@ -3,6 +3,7 @@
  * and a profile list"; "The last click can be undone for a few seconds"). Pure: each function returns a new record.
  */
 
+import { timeOfDay } from './counting'
 import { type Entry, type Timestamp, type TimeRecord } from './record'
 
 // ======================================
@@ -53,9 +54,27 @@ export function undo(record: TimeRecord, click: Click, now: Date, windowSeconds:
   return { ...record, entries }
 }
 
+/**
+ * What the undo would undo, for its label after "Ångra: ": the click's kind and time, and for a switch the profile
+ * stopped and the one started. Used by the undo button's pointer label: "stopp 15:40", "byte 13:00 (Vaktis →
+ * Utvecklingsgruppen)"
+ */
+export function clickLabel(record: TimeRecord, click: Click): string {
+  const time = timeOfDay(click.at)
+  if (click.kind === 'start') return `start ${time}`
+  if (click.kind === 'stop') return `stopp ${time}`
+  return `byte ${time} (${profileName(record, click.stopped)} → ${profileName(record, click.started)})`
+}
+
 // ======================================
 //               Helpers
 // ======================================
+
+/** The name of the profile an entry belongs to. Used by `clickLabel` for a switch's two profiles */
+function profileName(record: TimeRecord, entryId: string): string {
+  const profileId = record.entries.find((e) => e.id === entryId)?.profile
+  return record.profiles.find((p) => p.id === profileId)?.name ?? ''
+}
 
 /**
  * A moment written as the record keeps it: to the second, with this machine's offset. Used by `press` for every start

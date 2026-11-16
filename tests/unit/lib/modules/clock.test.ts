@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { press, undo } from '$lib/modules/clock'
+import { clickLabel, press, undo } from '$lib/modules/clock'
 import { type Entry, type TimeRecord } from '$lib/modules/record'
 import { at, entry, RECORD } from '$tests/helpers/records'
 
@@ -95,5 +95,19 @@ describe('after its seconds the undo changes nothing, by the clock', () => {
     const { record: stopped, click } = press(before, JANITOR, moment('2026-11-16', '15:40'))
 
     expect(undo(stopped, click, moment('2026-11-16', '15:40:30'), UNDO_SECONDS)).toEqual(stopped)
+  })
+})
+
+describe('the undo’s label says which click it would undo, and when', () => {
+  it('names a start, a stop and a switch with their time, the switch with both profiles', () => {
+    const idle = record([])
+    const running = record([entry(at('2026-11-16', '07:58'), null, { id: 'e1' })])
+    const started = press(idle, JANITOR, moment('2026-11-16', '08:02'))
+    const stopped = press(running, JANITOR, moment('2026-11-16', '15:40'))
+    const switched = press(running, DEVELOPMENT, moment('2026-11-16', '13:00'))
+
+    expect(clickLabel(started.record, started.click)).toBe('start 08:02')
+    expect(clickLabel(stopped.record, stopped.click)).toBe('stopp 15:40')
+    expect(clickLabel(switched.record, switched.click)).toBe('byte 13:00 (Vaktis → Utvecklingsgruppen)')
   })
 })
