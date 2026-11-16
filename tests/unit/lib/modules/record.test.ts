@@ -22,6 +22,19 @@ describe('a record of this version is read as it was written', () => {
   })
 })
 
+describe('a record of version 1 is upgraded to this version', () => {
+  it('gains full time, 8 h from its first opening, and keeps the rest', () => {
+    const result = readRecord(
+      text((r) => {
+        r.version = 1
+        delete r.fullTime
+      }),
+    )
+
+    expect(result).toEqual({ ok: true, record: RECORD })
+  })
+})
+
 describe('text that is not JSON is named as such', () => {
   it('reports not-json', () => {
     // A record cut off midway, as a bad hand edit leaves it: no closing brace, so JSON.parse fails before any check
@@ -67,6 +80,16 @@ describe('a record of the wrong shape names where', () => {
     expect(readRecord(broken)).toEqual({ ok: false, problem: { kind: 'wrong-shape', where: 'openings[0].day' } })
   })
 
+  it('names pay that is neither a salary nor a rate', () => {
+    const result = readRecord(
+      text((r) => {
+        ;(r.profiles as { pay: { kind: string }[] }[])[0].pay[0].kind = 'bonus'
+      }),
+    )
+
+    expect(result).toEqual({ ok: false, problem: { kind: 'wrong-shape', where: 'profiles[0].pay[0].kind' } })
+  })
+
   it('names a way of making an entry the app does not know', () => {
     const broken = text((r) => {
       ;(r.entries as Record<string, unknown>[])[0].made = 'guessed'
@@ -76,12 +99,13 @@ describe('a record of the wrong shape names where', () => {
 })
 
 describe('a fresh start makes a record of one profile with its opening', () => {
-  it('holds the profile with 6 h a day from the first day, the opening dated that day, and no entries', () => {
+  it('holds the profile with 6 h a day and full time of 8 h from the first day, the opening that day, no entries', () => {
     expect(freshRecord('Vaktmästare', 12 * 60 + 30, '2026-11-16')).toMatchObject({
       format: RECORD_FORMAT,
       version: RECORD_VERSION,
       profiles: [{ id: 'p1', name: 'Vaktmästare', expectedMinutes: [{ from: '2026-11-16', minutes: 360 }] }],
       openings: [{ profile: 'p1', day: '2026-11-16', balanceMinutes: 750 }],
+      fullTime: [{ from: '2026-11-16', minutes: 480 }],
       entries: [],
     })
   })

@@ -33,6 +33,7 @@ function record(entries: Entry[], openingMinutes = 0): TimeRecord {
     version: RECORD_VERSION,
     profiles: [JANITOR],
     openings: [{ profile: JANITOR.id, day: '2026-11-16', balanceMinutes: openingMinutes }],
+    fullTime: [{ from: '2026-01-01', minutes: 480 }],
     entries,
   }
 }

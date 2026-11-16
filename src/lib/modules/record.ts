@@ -13,10 +13,13 @@ import { FIRST_HUE, neonBase } from './colours'
 export const RECORD_FORMAT = 'timefold-record'
 
 /** The shape's version; it goes up whenever the shape changes */
-export const RECORD_VERSION = 1
+export const RECORD_VERSION = 2
 
 /** The janitor's expected minutes a working day, as a fresh record starts them ("Expected hours: 6 a day, Monday to Friday") */
 const EXPECTED_MINUTES = 6 * 60
+
+/** Full time in minutes a working day, as a fresh or upgraded record starts it ("The other profiles share a ceiling") */
+const FULL_TIME_MINUTES = 8 * 60
 
 /** A calendar day, written YYYY-MM-DD */
 export type Day = string
@@ -37,7 +40,18 @@ export interface Profile {
   base: string
   /** Only the profile with a balance has expected minutes per working day */
   expectedMinutes?: FromDay<{ minutes: number }>[]
+  /** A monthly salary or a rate per hour, for the pay estimate ("A pay estimate per profile"); none leaves it out */
+  pay?: FromDay<Pay>[]
 }
+
+/** What a profile pays, in euros: a salary once a month, or a rate for each hour worked */
+export interface Pay {
+  kind: PayKind
+  amount: number
+}
+
+/** A salary counts once a month whatever the hours; a rate counts the hours */
+export type PayKind = 'salary' | 'rate'
 
 /** A balance brought over from before the app, dated the first day ("A first install starts fresh or imports") */
 export interface Opening {
@@ -64,6 +78,8 @@ export interface TimeRecord {
   version: number
   profiles: Profile[]
   openings: Opening[]
+  /** Full time a working day, whose rest after the janitor's expected hours is the other profiles' ceiling */
+  fullTime: FromDay<{ minutes: number }>[]
   entries: Entry[]
 }
 
@@ -101,6 +117,7 @@ export function readRecord(text: string): ReadResult {
   }
 
   try {
+    if (data.version === 1) upgradeFromOne(data)
     checkRecord(data)
   } catch (error) {
     if (error instanceof ShapeError) return { ok: false, problem: { kind: 'wrong-shape', where: error.where } }
@@ -111,8 +128,8 @@ export function readRecord(text: string): ReadResult {
 }
 
 /**
- * A new record for "Starta nytt": one profile, the one with the balance, expected to work 6 h a day from the first
- * day, and the balance brought over from before, dated that day ("A first install starts fresh or imports"). Used by
+ * A new record for "Starta nytt": one profile, the one with the balance, expected to work 6 h a day of a full time of 8
+ * h from the first day, and the balance brought over from before, dated that day ("A first install starts fresh or imports"). Used by
  * the onboarding, and by dev mode when there is no record yet: freshRecord('Vaktmästare', 750, '2026-11-16').
  * @param openingMinutes - the balance from the Excel file as it stood the evening before, in minutes; minus is owed
  * @param firstDay - the first day in the app, written YYYY-MM-DD
@@ -131,6 +148,7 @@ export function freshRecord(profileName: string, openingMinutes: number, firstDa
       },
     ],
     openings: [{ profile: 'p1', day: firstDay, balanceMinutes: openingMinutes }],
+    fullTime: [{ from: firstDay, minutes: FULL_TIME_MINUTES }],
     entries: [],
   }
 }
@@ -157,6 +175,28 @@ type Fields = { [key: string]: unknown }
 const DAY = /^\d{4}-\d{2}-\d{2}$/
 const TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?([+-]\d{2}:\d{2}|Z)$/
 const MADE: readonly Made[] = ['clicked', 'hand', 'edited']
+const PAY_KINDS: readonly PayKind[] = ['salary', 'rate']
+const MINUTES_A_DAY = 24 * 60
+
+/**
+ * Brings a version 1 record to this version: full time, which it did not have, starts at 8 h from its first opening.
+ * Used by `readRecord` before the check, which then judges the result; a record with no opening is left for it to name
+ */
+function upgradeFromOne(data: Fields): void {
+  const openings = Array.isArray(data.openings) ? (data.openings as unknown[]) : []
+  const days = openings
+    .map((opening) => (isObject(opening) ? opening.day : undefined))
+    .filter(isText)
+    .sort()
+  if (days.length === 0) throw new ShapeError('openings')
+  data.fullTime = [{ from: days[0], minutes: FULL_TIME_MINUTES }]
+  data.version = RECORD_VERSION
+}
+
+/** Whether a value is a string. Used by `upgradeFromOne` to keep only the openings' days */
+function isText(value: unknown): value is string {
+  return typeof value === 'string'
+}
 
 /** Whether a value is a plain object. Used by `readRecord` for the whole file, and by `fields` */
 function isObject(value: unknown): value is Fields {
@@ -168,7 +208,7 @@ function isObject(value: unknown): value is Fields {
  * the format and version have passed
  */
 function checkRecord(data: Fields): void {
-  whole(data.version, 'version', 1)
+  whole(data.version, 'version', RECORD_VERSION, RECORD_VERSION)
   list(data.profiles, 'profiles', (profile, at) => {
     text(profile.id, `${at}.id`)
     text(profile.name, `${at}.name`)
@@ -180,11 +220,22 @@ function checkRecord(data: Fields): void {
         whole(item.minutes, `${where}.minutes`, 0)
       })
     }
+    if (profile.pay !== undefined) {
+      list(profile.pay, `${at}.pay`, (item, where) => {
+        day(item.from, `${where}.from`)
+        if (!PAY_KINDS.includes(item.kind as PayKind)) throw new ShapeError(`${where}.kind`)
+        amount(item.amount, `${where}.amount`)
+      })
+    }
   })
   list(data.openings, 'openings', (opening, at) => {
     text(opening.profile, `${at}.profile`)
     day(opening.day, `${at}.day`)
     whole(opening.balanceMinutes, `${at}.balanceMinutes`)
+  })
+  list(data.fullTime, 'fullTime', (item, at) => {
+    day(item.from, `${at}.from`)
+    whole(item.minutes, `${at}.minutes`, 0, MINUTES_A_DAY)
   })
   list(data.entries, 'entries', (entry, at) => {
     text(entry.id, `${at}.id`)
@@ -200,9 +251,14 @@ function whole(value: unknown, where: string, min = -Infinity, max = Infinity): 
   if (!Number.isInteger(value) || (value as number) < min || (value as number) > max) throw new ShapeError(where)
 }
 
+/** A sum of money, zero or more and not necessarily whole, or a ShapeError at `where`. Used for salaries and rates */
+function amount(value: unknown, where: string): void {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) throw new ShapeError(where)
+}
+
 /**
  * A value as a list, each item checked by `check` with its place, such as entries[1]. Used for profiles,
- * openings, entries and expected minutes
+ * openings, entries, expected minutes, pay and full time
  */
 function list(value: unknown, where: string, check: (item: Fields, at: string) => void): void {
   if (!Array.isArray(value)) throw new ShapeError(where)

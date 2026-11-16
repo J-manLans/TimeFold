@@ -2,7 +2,10 @@
 
 import { RECORD_FORMAT, RECORD_VERSION, type Entry, type TimeRecord } from '$lib/modules/record'
 
-/** A sound record of this version: one profile with a balance, an opening, a stopped entry and a running one */
+/**
+ * A sound record of this version: full time, one profile with a balance and a salary, an opening, a stopped entry and
+ * a running one
+ */
 export const RECORD: TimeRecord = {
   format: RECORD_FORMAT,
   version: RECORD_VERSION,
@@ -13,8 +16,10 @@ export const RECORD: TimeRecord = {
       hue: 195,
       base: '#7ed6d5',
       expectedMinutes: [{ from: '2026-11-16', minutes: 360 }],
+      pay: [{ from: '2026-11-16', kind: 'salary', amount: 1700 }],
     },
   ],
+  fullTime: [{ from: '2026-11-16', minutes: 480 }],
   openings: [{ profile: 'p1', day: '2026-11-16', balanceMinutes: 750 }],
   entries: [
     { id: 'e1', profile: 'p1', start: '2026-11-16T07:58:00+02:00', stop: '2026-11-16T11:30:00+02:00', made: 'clicked' },

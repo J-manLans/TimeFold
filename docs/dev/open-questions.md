@@ -50,6 +50,14 @@ faded for every profile, as nobody's; or the onboarding asks which profile they 
 
 **See:** The ceiling wheel; A first install starts fresh or imports.
 
+### The pay estimate before or after tax (2026-11-16)
+
+The pay estimate shows the month's pay before tax ("A pay estimate per profile"). The owner wants a "Före skatt"
+checkbox, checked by default; unchecked, the estimate would show pay after tax, from a simple formula rather than tax
+rules. Open: where the checkbox sits (the menu, or by the number), and what the formula is.
+
+**See:** A pay estimate per profile.
+
 ## Phase 6: Reports
 
 ### Where the report is made from (2026-11-16)
