@@ -55,6 +55,11 @@
   --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
   /* The menu panel */
   --menu-blur: 12px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
+  /* The screen for a record that cannot be read ("Broken record" in the toolbar) */
+  --rc-gap: 18px;       /* between the words, the buttons and the quiet note */
+  --rc-line: 13px;      /* the problem and what is offered, under the heading */
+  --rc-width: 34ch;     /* the most the words and the note take before they wrap */
+  --rc-pulse: 2.4s;     /* the "KOPIA" label breathing into the over colour and back, for as long as the screen shows */
   /* The tip, following the pointer over a button */
   --tip-x: 17px;        /* from the pointer to the tip's left edge */
   --tip-y: 5px;         /* up or down from centred on the pointer */
@@ -307,6 +312,19 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .app .menu .onboard input.ob-bal { font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-balance); font-variant-numeric: tabular-nums; line-height: 1.1; }
 .app .menu .onboard input.ob-name { font-family: var(--mono); font-size: var(--ob-name); }
 .ob-reading { min-height: 1.3em; font-size: 12px; color: var(--c-muted); }
+/* A record that cannot be read: the words, then the choices, then a quiet note, centred in the locked panel. */
+.recover { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--rc-gap); padding: 0 24px; text-align: center; transition: opacity var(--speed-ui) ease; }
+.recover.fading { opacity: 0; }
+.rc-words { display: grid; gap: 8px; justify-items: center; }
+.rc-words .ob-prompt { margin: 0; }
+.rc-line { margin: 0; max-width: var(--rc-width); font-size: var(--rc-line); line-height: 1.45; color: var(--c-fg); text-wrap: balance; }
+.rc-actions { display: flex; gap: var(--block-gap); justify-content: center; }
+.rc-note { margin: 0; max-width: var(--rc-width); font-size: var(--size-note); line-height: 1.45; color: var(--c-muted); text-wrap: balance; }
+/* The copy's label at the top of the dashboard, lit once as the screen appears. */
+.copy-label { justify-self: center; }
+.copy-label.pulse { animation: copy-pulse var(--rc-pulse) ease-in-out infinite; }
+/* It breathes between the label's quiet colour and the profile on screen's over colour. */
+@keyframes copy-pulse { 0%, 100% { color: var(--f-muted); } 50% { color: var(--accent, var(--f-fg)); } }
 /* While the letter waits to arrive, nothing on the screen can be pressed. */
 .app.locked { pointer-events: none; }
 .profile-btn .dot.waiting { color: transparent !important; }
@@ -515,6 +533,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     <label for="simDiscGlow"><input type="checkbox" id="simDiscGlow" checked> Light on discs</label>
     <label for="simNarrow"><input type="checkbox" id="simNarrow"> Narrow window</label>
     <button type="button" id="simOnboard">Replay onboarding</button>
+    <button type="button" id="simBroken">Broken record</button>
+    <button type="button" id="simBrokenBare">Broken, no copy</button>
+    <button type="button" id="simNewer">Newer record</button>
     <span>Each stop records 2 h 15 min.</span>
     <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
@@ -586,6 +607,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
             <input class="ob-lone ob-name" id="obName" type="text" autocomplete="off" spellcheck="false">
           </div>
         </div>
+        <!-- A record that cannot be read: the same locked panel, offering the newest copy, which the dashboard shows. -->
+        <div class="recover" id="recover" hidden>
+          <div class="rc-words">
+            <h3 class="ob-prompt" id="rcTitle"></h3>
+            <p class="rc-line" id="rcLine"></p>
+          </div>
+          <div class="rc-actions">
+            <button class="plastic ob-choice" id="rcMain" type="button"><span class="label" id="rcMainLabel"></span></button>
+            <button class="plastic ob-choice" id="rcImport" type="button" aria-disabled="true"><span class="label">Importera</span></button>
+          </div>
+          <p class="rc-note" id="rcNote"></p>
+        </div>
       </div>
 
       <div class="scrim" id="scrim" hidden>
@@ -599,6 +632,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     <div class="tip" id="tip" role="tooltip"></div>
     <div class="figures" id="figures">
       <div class="divider"></div>
+      <span class="flabel copy-label" id="copyLabel" hidden></span>
       <div class="balance">
         <div class="num" id="balNum"></div>
         <svg id="balSvg" viewBox="0 0 400 48" role="img" aria-label="Saldostapel"></svg>
@@ -1048,7 +1082,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // The warning label: appears at once on pointer enter, follows the pointer, shows under the button on keyboard focus.
   var tipPt = null, tipFocus = null, tipFor = "start";   // tipFocus: which button has keyboard focus, if any
   function tipText() {
-    if (tipFor === "import") return "från fil";
+    if (tipFor === "import" || tipFor === "rcimport") return "från fil";
     if (tipFor === "undo") return undo ? "Ångra: " + undo.label : "";
     return running && running.profile !== onScreen ? "stoppar " + prof(running.profile).name : "";
   }
@@ -1060,9 +1094,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     tip.textContent = txt; tip.style.setProperty("--tipc", tipFor === "start" ? profColour(running.profile) : profColour(onScreen)); tip.classList.add("show");
     // By the pointer: to its right, centred on its height. With keyboard focus: under the button.
     if (tipPt) { tip.style.left = "calc(" + tipPt.x + "px + var(--tip-x))"; tip.style.top = "calc(" + tipPt.y + "px + var(--tip-y))"; tip.style.translate = "0 -50%"; }
-    else { var r = $({ undo: "undoBtn", start: "startBtn", import: "obImport" }[tipFor]).getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = "calc(" + r.bottom + "px + var(--tip-focus-gap))"; tip.style.translate = "0 0"; }
+    else { var r = $({ undo: "undoBtn", start: "startBtn", import: "obImport", rcimport: "rcImport" }[tipFor]).getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = "calc(" + r.bottom + "px + var(--tip-focus-gap))"; tip.style.translate = "0 0"; }
   }
-  [["startBtn", "start"], ["undoBtn", "undo"], ["obImport", "import"]].forEach(function (pair) {
+  [["startBtn", "start"], ["undoBtn", "undo"], ["obImport", "import"], ["rcImport", "rcimport"]].forEach(function (pair) {
     var b = $(pair[0]);
     ["pointerenter", "pointermove"].forEach(function (ev) {
       b.addEventListener(ev, function (e) { if (e.pointerType === "touch") return; tipFor = pair[1]; tipPt = { x: e.clientX, y: e.clientY }; refreshTip(); });
@@ -1166,6 +1200,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     running = null; onScreen = balanceProfile().id; syncSim(); settleScale(0, false);
     $("obBal").value = ""; $("obBalRead").textContent = ""; $("obName").value = "";
     $("obBal").style.color = $("obName").style.color = obColour(0);
+    $("recover").hidden = true; $("copyLabel").hidden = true; recoverKind = null;
     $("onboard").hidden = false; $("menu").classList.add("onboarding", "ob-solid");
     setMenu(true); $("menuBody").inert = true;
     drawEntries(false); recolour(); obStep("choice");
@@ -1257,6 +1292,56 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     })(t0);
   }
   $("simOnboard").addEventListener("click", startOnboarding);
+
+  // ---- A record that cannot be read: the locked panel offers the newest copy, which the dashboard shows ----
+  var DAYS_LONG = ["söndag", "måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag"];
+  var MONTHS = ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"];
+  var recoverKind = null;
+  // kind: "copy" (the file is broken and yesterday's copy is offered), "bare" (broken, no copy yet), "newer" (too new).
+  function startRecovery(kind) {
+    recoverKind = kind; onboarding = true;
+    if (kind !== "copy") {
+      entries = []; balance = 0; used = 0; usedLog = []; pay = 0; shown.balance = 0; shown.used = 0; shown.pay = 0;
+      running = null; syncSim(); settleScale(0, false); drawEntries(false);
+    }
+    var copyDay = new Date(Date.now() - 24 * 3600 * 1000);
+    var words = {
+      // The dashboard sits right of the panel, or above it in a narrow window
+      copy: ["Programmet kunde ej startas.", "Din data är korrupt. Dashboarden " + (app.classList.contains("narrow") ? "ovanför" : "till höger") + " visar senaste bra kopian, från " + DAYS_LONG[copyDay.getDay()] + " " + copyDay.getDate() + " " + MONTHS[copyDay.getMonth()] + ".", "Använd kopian", "Inget ändras förrän du väljer."],
+      bare: ["Programmet kunde ej startas.", "Din data är korrupt, och appen hann aldrig spara någon kopia, men det hände tidigt: ladda bara om filen du importerade, eller starta om och fyll i för hand om något försvann.", "Starta nytt", "Den skadade filen ersätts när du är klar."],
+      newer: ["Din fil kommer från en nyare version.", "Den här versionen av TimeFold kan inte öppna den. Hämta den senaste versionen och starta appen igen.", "Hämta senaste", "Appen stängs när du klickar på knappen, så att du kan installera om."]
+    }[kind];
+    $("rcTitle").textContent = words[0]; $("rcLine").textContent = words[1]; $("rcMainLabel").textContent = words[2]; $("rcNote").textContent = words[3];
+    $("rcImport").hidden = kind === "newer";
+    $("recover").hidden = false; $("recover").classList.remove("fading"); $("onboard").hidden = true;
+    $("menu").classList.add("onboarding", "ob-solid"); setMenu(true); $("menuBody").inert = true; recolour();
+    var label = $("copyLabel");
+    label.hidden = kind !== "copy";
+    if (kind === "copy") {
+      label.textContent = "Kopia · " + DAY[copyDay.getDay()] + " " + copyDay.getDate() + " " + MONTHS[copyDay.getMonth()].slice(0, 3);
+      label.classList.remove("pulse"); void label.offsetWidth; label.classList.add("pulse");
+    }
+    setTimeout(function () { $("rcMain").focus(); }, 0);
+  }
+  // The copy taken, or the onboarding started instead of it. For a newer record the button opens the releases page and
+  // closes the app, so the installer can replace it; the prototype can only open the page.
+  $("rcMain").addEventListener("click", function () {
+    if (recoverKind === "newer") { window.open("https://github.com/J-manLans/TimeFold/releases", "_blank"); return; }
+    if (recoverKind === "bare") { $("recover").hidden = true; $("onboard").hidden = false; $("obBal").value = ""; $("obName").value = ""; $("obBalRead").textContent = ""; obStep("balance"); return; }
+    // "Använd kopian": the words fade, the panel turns to frost and folds away, as at the onboarding's end
+    var css = getComputedStyle(app), secs = function (n) { return parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
+    $("recover").classList.add("fading"); app.classList.add("locked");
+    setTimeout(function () {
+      $("menu").classList.add("ob-frosting"); $("menu").classList.remove("ob-solid");
+      setTimeout(function () {
+        $("menu").classList.remove("ob-frosting"); onboarding = false; setMenu(false); $("copyLabel").hidden = true;
+        setTimeout(function () { $("menu").classList.remove("onboarding"); $("recover").hidden = true; app.classList.remove("locked"); recoverKind = null; }, secs("--speed-menu"));
+      }, secs("--ob-frost-in"));
+    }, secs("--speed-ui"));
+  });
+  $("simBroken").addEventListener("click", function () { startRecovery("copy"); });
+  $("simBrokenBare").addEventListener("click", function () { startRecovery("bare"); });
+  $("simNewer").addEventListener("click", function () { startRecovery("newer"); });
 
   function setMenu(open) {
     if (!open && typeof closePicker === "function") closePicker(false);

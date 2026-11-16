@@ -99,37 +99,55 @@ day. "Importera från min andra dator": long, and tied to a machine.
 
 **Decision:** when the record cannot be read at start ("The record is one JSON file"), the app opens on the menu's panel
 locked over the controls side, as at the first start ("A first install starts fresh or imports"), solid, with no way
-out. It says plainly that the file could not be read, in one line for the kind of problem, and offers the newest daily
-copy: "Till höger ser du senaste kopian, från tisdag 17 november", **"Använd kopian"**, "Importera" greyed out until
-Handover with its tip, "från fil", and a quiet "Inget ändras förrän du väljer." The dashboard beside it shows the copy
-as it would be, its balance, wheel and recent entries, under a label in the dashboard's label style, "KOPIA · TIS 17
-NOV", which pulses once as the screen appears. "Använd kopian" saves the copy as the record, and the panel folds away as
-at the end of the onboarding. Closing the app instead changes nothing; the broken file stays as it was, to be put right
-by hand. With no copy yet, the panel says so and offers "Starta nytt", the onboarding, warning that the broken file will
-be replaced, and "Importera". A record from a newer version of the app is not broken: the panel asks to update the app,
-with the link to the repo's releases page ("The app reaches each machine as an installer from a GitHub release"), offers
-no copy, and the dashboard stays empty.
+out, one centred block of words, buttons and a quiet note in the panel. It says **"Programmet kunde ej startas."**, then
+"Din data är korrupt. Dashboarden till höger visar senaste bra kopian, från tisdag 17 november" ("ovanför" in a narrow
+window, where the dashboard is on top), and offers **"Använd kopian"**, with "Importera" greyed out until Handover with
+its tip, "från fil", and the note "Inget ändras förrän du väljer." The dashboard beside it shows the copy as it would
+be, its balance, wheel and recent entries, under a label in the dashboard's label style, "KOPIA · TIS 17 NOV", which
+breathes between its quiet colour and the profile on screen's over colour for as long as the screen shows. "Använd
+kopian" saves the copy as the record, and the panel turns to frost and folds away, as at the end of the onboarding.
+Closing the app instead changes nothing; the broken file stays as it was, to be put right by hand.
+
+With no copy yet, which can only happen in the first session, since a copy is made at every start: "Din data är korrupt,
+och appen hann aldrig spara någon kopia, men det hände tidigt: ladda bara om filen du importerade, eller starta om och
+fyll i för hand om något försvann." It offers **"Starta nytt"**, which runs the onboarding from its balance, and
+"Importera", with the note "Den skadade filen ersätts när du är klar."
+
+A record from a newer version of the app is not broken: "Din fil kommer från en nyare version", that this version cannot
+open it, and **"Hämta senaste"**, which opens the repo's releases page ("The app reaches each machine as an installer
+from a GitHub release") and closes the app so the installer can replace it; the note says so beforehand: "Appen stängs
+när du klickar på knappen, så att du kan installera om." No copy is offered and the dashboard stays empty.
+
+The words and the note wrap at one width, their lines balanced.
 
 **Why:** the dashboard is where the owner reads a record, so it is where a copy is best judged before taking it; the
 locked panel puts all the attention on it, and the two screens that start the app share one form. The newest copy is
 offered alone because it is both certainly readable (copies are made only from a file that has just passed the check)
 and the one that loses least: each older copy loses another day. What lies in the file, not its shape, cannot be judged
-by the app, so this screen is only for a file it cannot read. A label stays while the owner reads, where a flash would
-be gone; one pulse draws the eye to it.
+by the app, so this screen is only for a file it cannot read. Saying that the program could not start, and that the
+dashboard shows the last good copy, tells the owner what happened and what they see; the label's breathing keeps saying
+"this is a copy" while the panel is read. With no copy, the damage is early and small, and the words say so. Closing on
+"Hämta senaste" is the step the installer needs next, and the file is untouched, so this screen simply returns until the
+app is updated.
 
 **Rejected:** a popup centred on the controls side: the controls stay in view around it, dimmed, where the panel leaves
 only the dashboard. Stepping back through older copies: a broken shape never reaches the copies, and each step back
 loses a day; recovering from wrong contents is another problem. A "No thanks" button: closing the app already declines,
-changing nothing. A flash across the whole dashboard: gone before the panel is read. Advice to start, stop and edit an
-entry to put back what is lost: editing comes in Corrections, where writing a forgotten entry is simpler.
+changing nothing. A flash across the whole dashboard, or one pulse of the label: gone before the panel is read; the
+owner did not see at once that the whole dashboard was the copy. A glow on the label: its colour turning to the over
+colour says it with the app's own accent. "Din fil gick inte att läsa": the program not starting is what the owner
+meets. Advice to start, stop and edit an entry to put back what is lost: editing comes in Corrections, where writing a
+forgotten entry is simpler. "Importera" after "Hämta senaste": the updated app reads the file itself. Fading the app out
+as it closes: the note says it will close, and the browser opens anyway.
 
 **Revisit if:** a broken file turns out to be common, which would point at a cause worth fixing instead.
 
 **Cases:**
 
-- `record.json` edited by hand into invalid JSON, a copy from Tuesday 17 November: the panel names the problem, the
-  dashboard shows Tuesday's copy under "KOPIA · TIS 17 NOV", which pulses once; "Använd kopian" saves it and the app
-  opens on it.
+- `record.json` edited by hand into invalid JSON, a copy from Tuesday 17 November: the dashboard shows Tuesday's copy
+  under "KOPIA · TIS 17 NOV", breathing into the over colour; "Använd kopian" saves it and the app opens on it.
+- The same in a narrow window: the words say "Dashboarden ovanför".
 - The same, the app closed instead: the broken file is unchanged at the next start.
-- A broken file and no copies: "Starta nytt" warns that the file will be replaced, then runs the onboarding.
-- A record of a newer version: "Uppdatera appen", the releases link, no copy offered, the dashboard empty.
+- A broken file and no copies: the words say it happened early; "Starta nytt" runs the onboarding from its balance.
+- A record of a newer version: "Hämta senaste" opens the releases page and closes the app; no copy is offered, the
+  dashboard is empty, and the next start shows the same screen until the app is updated.
