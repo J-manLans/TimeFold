@@ -137,7 +137,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     behaviour or meaning, the agent asks. A screen or state the prototype does not show stops the work: it goes back to
     design mode to be drawn, and the agent does not invent a look. Each batch with a screen ends with a short list of
     what to check by eye in the running app. Afterwards the owner goes by look and feel, and tunes values in
-    `design-tokens.css` or asks the agent for anything bigger.
+    `design-tokens.css` or asks the agent for anything bigger. Vibe mode ends when the phase or step it was started for
+    is built; the review that follows is learning mode, tuning included ("While tuning, just change the code"), until
+    the owner names another mode.
   - **Debug mode:** for a bug the owner has seen. The agent hunts it: reproduces it as a test seen to fail before any
     code changes, finds the cause from evidence rather than guesses, then reports the cause, its evidence and the
     planned fix, and waits for the owner's go before changing code, every time. The fix changes only what the evidence
