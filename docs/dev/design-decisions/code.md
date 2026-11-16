@@ -32,7 +32,9 @@ already says its rule.
 
 - **Structure:** a better structure that comes easily is built from the start, in the app's first version of the part;
   one that needs hoops jumped through waits until a problem asks for it. When two designs serve the owner equally, the
-  one with fewer rules and less code wins. The sketches and the prototype are throwaway and are not restructured.
+  one with fewer rules and less code wins. The sketches are throwaway and are not restructured. The prototype is not
+  throwaway: it is the north star for the look beside the vision, structured for tuning (its knobs, in
+  `procedures/prototype.md`) rather than as app code.
 - **Tools, close to their defaults:** Prettier with its Svelte plugin for TypeScript, Svelte, CSS and the docs'
   markdown, and rustfmt for Rust, formatting automatically; ESLint with the TypeScript and Svelte rules, and clippy for
   Rust. Prettier is pinned to an exact version, since a new one may format the same code differently. `npm run tidy`

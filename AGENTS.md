@@ -140,7 +140,7 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     code changes, finds the cause from evidence rather than guesses, then reports the cause, its evidence and the
     planned fix, and waits for the owner's go before changing code, every time. The fix changes only what the evidence
     points at, until the test passes; the hunt's order and tools are in `docs/dev/procedures/debugging.md`. The fix is
-    code, and is committed as any code is.
+    code: it is committed only after the owner has reviewed it and says so.
 - **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are thinking
   and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A restated option
   is not a decision.

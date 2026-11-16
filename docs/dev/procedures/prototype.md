@@ -2,8 +2,7 @@
 
 How the prototype is built, and when it is done. Read before building or tuning it, and in any design pass. The values
 stay out (they live in the prototype), and so do the decisions behind them (`design-decisions/`). What happens to the
-prototype once screens are built, and what vibe mode does with it, is in `AGENTS.md`. Written to hold for any project
-with a look, so it can be carried to the next one as it is.
+prototype once screens are built, and what vibe mode does with it, is in `AGENTS.md`.
 
 ## Why it comes first
 
@@ -28,8 +27,9 @@ surprises. The time spent on it comes back many times over.
 
 - Every value worth tuning (colour, size, radius, shadow, time, easing, text) is a named variable at the top of the
   file: CSS custom properties for the look, named constants for times and behaviour.
-- Grouped by screen under a banner, each with a short comment naming what it touches, so the owner can find and tune a
-  value without the agent.
+- The owner tunes alone, so a knob must be easy to find: knobs are grouped by screen, and within a screen by the part
+  they touch (the button, the bar, the popup), each group under its own banner, and each knob with a short comment
+  naming what it changes. A knob the owner has to ask the agent to find is a knob in the wrong place.
 - A value that follows from others is worked out from them, not written twice.
 - Controls that exist only for trying the prototype (a toolbar, a theme switch) sit apart and are labelled as such.
 
