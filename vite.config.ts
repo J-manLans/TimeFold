@@ -12,6 +12,11 @@ export default defineConfig({
       $tests: fileURLToPath(new URL('./tests', import.meta.url)),
     },
   },
+  // The app runs only in WebKitGTK and WebView2, both new enough for light-dark(); an older target makes the build
+  // rewrite it into a version the theme button cannot switch
+  build: {
+    cssTarget: ['chrome123', 'safari17.5'],
+  },
   // Keep Rust's compile errors on screen when Vite starts
   clearScreen: false,
   server: {

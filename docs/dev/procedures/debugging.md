@@ -51,3 +51,17 @@ compiled styles into one CSS file.
 3. If it keeps coming back, compile every component when the dev server starts, by adding
    `warmup: { clientFiles: ['./src/**/*.svelte'] }` under `server` in `vite.config.ts`. It is dev-only and costs well
    under a second; it is code, so it waits for the owner's go.
+
+### The built app's theme follows only the desktop
+
+**Seen as:** in a built app, the theme button does nothing, and the theme follows the desktop's light or dark setting;
+in dev the button works.
+
+**Cause:** the theme button sets `color-scheme` on the page, which picks each token's side of `light-dark()`. A build
+aimed at browsers older than `light-dark()` has Lightning CSS rewrite it into `--lightningcss-light` and
+`--lightningcss-dark` variables, switched only by `@media (prefers-color-scheme: dark)`. Dev sends the CSS as written,
+so it never shows there.
+
+**Fix:** `build.cssTarget` in `vite.config.ts` names engines new enough for `light-dark()` (WebKitGTK and WebView2 are),
+so the build leaves it alone. To check a build, the CSS in `dist/assets/` should hold `light-dark(` and no
+`lightningcss-`.

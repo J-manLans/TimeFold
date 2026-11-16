@@ -200,3 +200,5 @@ A short pointer per trap; the detail lives in the owning file.
 
 - **The dev window loses its layout** and the terminal says `failed to load virtual css module`: "Known traps" in
   `docs/dev/procedures/debugging.md`.
+- **The built app's theme follows only the desktop** while dev works: "Known traps" in
+  `docs/dev/procedures/debugging.md`.
