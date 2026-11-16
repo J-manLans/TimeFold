@@ -5,7 +5,7 @@ How an app with no data starts: fresh, through the onboarding, or from a file. E
 
 ## A first install starts fresh or imports (2026-11-14)
 
-**Built by:** Clocking for the first start and the opening balance; Handover for importing.
+**Built by:** Handover, for importing.
 
 **Decision:** an app with no data asks once how to start, in the menu's panel ("The main screen has a controls side and
 a dashboard") grown open over the controls side in a locked stage: no ×, and no click outside or Esc closes it. While

@@ -2,9 +2,12 @@
   The menu ("The menu has two tabs, with every value locked behind "Ändra""): folded, it is the button in the controls
   side's top-left corner; open, it grows from that corner into a frosted panel over the whole controls side, with the
   "Meny" heading and the theme button. A click on the button, a click outside or Esc closes it. The tabs come with
-  Profiles.
+  Profiles. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
+  imports"): solid while the prompts show, then frost, then folded into its button, as the onboarding's ending says.
 -->
 <script lang="ts">
+  import { app } from '$lib/app.svelte'
+  import Onboarding from './Onboarding.svelte'
   import ThemeButton from './ThemeButton.svelte'
 
   // === Props ===
@@ -15,12 +18,18 @@
   // === State ===
 
   let menu: HTMLDivElement | undefined = $state()
+  let locked = $derived(app.welcome !== null)
 
   // === Logic ===
 
-  // While open, a press outside the menu or Esc closes it
+  // At the first start the menu is open until the onboarding's ending folds it
   $effect(() => {
-    if (!open) return
+    if (app.welcome !== null) open = !app.welcome.folded
+  })
+
+  // While open, a press outside the menu or Esc closes it, unless it is locked for the onboarding
+  $effect(() => {
+    if (!open || locked) return
     const outside = (event: PointerEvent): void => {
       if (menu && !menu.contains(event.target as Node)) open = false
     }
@@ -36,10 +45,18 @@
   })
 </script>
 
-<div class="menu" class:open bind:this={menu}>
+<div
+  class="menu"
+  class:open
+  class:solid={app.welcome !== null && !app.welcome.frosted}
+  class:frosting={app.welcome !== null && app.welcome.frosted && !app.welcome.folded}
+  class:hidden-toggle={app.welcome !== null && !app.welcome.folded}
+  bind:this={menu}
+>
   <button
     class="toggle"
     type="button"
+    inert={locked}
     aria-label={open ? 'Stäng menyn' : 'Öppna menyn'}
     aria-expanded={open}
     onclick={() => (open = !open)}
@@ -47,13 +64,17 @@
     <span></span><span></span><span></span>
   </button>
 
-  <div class="body" inert={!open}>
-    <div class="head">
-      <h2>Meny</h2>
-      <ThemeButton />
+  {#if locked}
+    <Onboarding />
+  {:else}
+    <div class="body" inert={!open}>
+      <div class="head">
+        <h2>Meny</h2>
+        <ThemeButton />
+      </div>
+      <!-- TODO: the two tabs, Profiler and Tid, in Profiles -->
     </div>
-    <!-- TODO: the two tabs, Profiler and Tid, in Profiles -->
-  </div>
+  {/if}
 </div>
 
 <style>
@@ -76,6 +97,7 @@
   }
 
   .toggle {
+    transition: opacity var(--speed-ui) ease;
     position: absolute;
     top: var(--menu-inset);
     left: var(--menu-inset);
@@ -165,6 +187,24 @@
 
   .open .toggle span:nth-child(3) {
     transform: translateY(calc(-1 * var(--menu-toggle-line-gap))) rotate(-45deg);
+  }
+
+  /* The onboarding: solid while its prompts show, so nothing behind is blurred again at every blink of the caret */
+  .menu.open.solid {
+    background-color: var(--onboarding-panel);
+    backdrop-filter: none;
+  }
+
+  /* Then frost: the blur is on at once behind the still solid tint, and only the tint fades */
+  .menu.frosting {
+    transition:
+      clip-path var(--speed-ui) var(--ease-grow),
+      background-color var(--onboarding-frost-in) ease;
+  }
+
+  /* No way out while it is locked open; the button shows again as the panel folds into it */
+  .hidden-toggle .toggle {
+    opacity: 0;
   }
 
   /* The content fades in once the panel has half grown */

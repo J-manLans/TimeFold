@@ -21,8 +21,9 @@
   })
 </script>
 
-{#if app.phase === 'ready'}
-  <main class="screen" style:--profile-state={stateColour}>
+<!-- The main screen, from the first start's onboarding on; during the onboarding's ending it takes no input -->
+{#if app.phase === 'ready' || app.phase === 'welcome'}
+  <main class="screen" style:--profile-state={stateColour} inert={app.welcome?.ending ?? false}>
     <Controls />
     <Dashboard />
   </main>

@@ -28,7 +28,9 @@
   <!-- TODO: opens the profile popup (Profiles); until then a click does nothing -->
   <button class="profile" type="button" aria-label="Byt profil">
     <Disc size="var(--profile-disc-size)" dent="var(--profile-disc-dent)" light="var(--glow-profile-disc)">
-      <span class="letter">{profile?.name.charAt(0).toUpperCase()}</span>
+      <span class="letter" class:waiting={app.welcome !== null && !app.welcome.letter}>
+        {profile?.name.charAt(0).toUpperCase()}
+      </span>
     </Disc>
   </button>
 </div>
@@ -124,6 +126,15 @@
   button:disabled {
     opacity: var(--opacity-disabled);
     cursor: default;
+  }
+
+  /* At the first start the letter waits, and arrives last, slowly ("A first install starts fresh or imports") */
+  .letter {
+    transition: opacity var(--onboarding-letter-fade) ease;
+  }
+
+  .letter.waiting {
+    opacity: 0;
   }
 
   .start.running {

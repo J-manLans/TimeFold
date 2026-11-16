@@ -2,9 +2,11 @@
   The controls side: what the owner presses ("The main screen has a controls side and a dashboard"). From the top: the
   menu button's row, then centred the button block, the status line and the pause row with the undo, and at the bottom
   the prune line's room. The menu lies over it all, folded into its button until opened. A soft light follows the
-  pointer over the side's buttons and discs; with the menu open it leaves what is under the frost.
+  pointer over the side's buttons and discs; with the menu open it leaves what is under the frost. At the onboarding's
+  end the light sweeps once across the button block by itself ("A first install starts fresh or imports").
 -->
 <script lang="ts">
+  import { untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
   import Menu from '$lib/components/menu/Menu.svelte'
   import { overColour } from '$lib/modules/colours'
@@ -20,6 +22,7 @@
   let over = $derived(profile ? overColour(profile.hue) : undefined)
   let menuOpen = $state(false)
   let side: HTMLElement | undefined = $state()
+  let block: HTMLDivElement | undefined = $state()
   /** Whether the pointer is over the side, which fades the light in */
   let lit = $state(false)
 
@@ -42,6 +45,67 @@
       side?.style.setProperty('--light-y', `${y}px`)
     })
   }
+
+  // The onboarding's ending asks for the sweep once
+  $effect(() => {
+    if (app.welcome?.sweeping) untrack(sweep)
+  })
+
+  // === Helpers ===
+
+  /**
+   * The pointer light crossing the button block once, by itself: from above its middle on the left, arcing down to
+   * below it on the right, quickest at first; small at the edges and largest at the middle; then shrinking to nothing
+   * where it ends, so nothing can flash as it goes. Skipped when the system asks for reduced motion. Used once, at the
+   * onboarding's end
+   */
+  function sweep(): void {
+    if (!side || !block || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const host = side
+    const tokens = getComputedStyle(document.documentElement)
+    const number = (name: string): number => parseFloat(tokens.getPropertyValue(name)) || 0
+    const reach = number('--glow-reach')
+    const ends = number('--onboarding-sweep-ends')
+    const grow = number('--onboarding-sweep-grow')
+    const across = number('--onboarding-sweep') * 1000
+    const away = number('--onboarding-sweep-fade') * 1000
+    const box = block.getBoundingClientRect()
+    const from = box.left - reach * ends
+    const to = box.right + reach * ends
+    const top = box.top + box.height / 2 - number('--onboarding-sweep-rise')
+    const bottom = box.top + box.height / 2 + number('--onboarding-sweep-drop')
+    const place = (x: number, y: number, size: number): void => {
+      host.style.setProperty('--light-x', `${x}px`)
+      host.style.setProperty('--light-y', `${y}px`)
+      host.style.setProperty('--glow-reach', `${size}px`)
+    }
+    lit = true
+    const start = performance.now()
+    const cross = (now: number): void => {
+      const k = Math.min(1, (now - start) / across)
+      const eased = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2
+      place(
+        from + (to - from) * eased,
+        top + (bottom - top) * (1 - Math.pow(1 - eased, 2)),
+        reach * (ends + (grow - ends) * Math.sin(Math.PI * eased)),
+      )
+      if (k < 1) requestAnimationFrame(cross)
+      else requestAnimationFrame(shrink(performance.now()))
+    }
+    const shrink =
+      (begun: number) =>
+      (now: number): void => {
+        const q = away > 0 ? Math.min(1, (now - begun) / away) : 1
+        host.style.setProperty('--glow-reach', `${reach * ends * (1 - q)}px`)
+        if (q < 1) {
+          requestAnimationFrame(shrink(begun))
+          return
+        }
+        lit = false
+        setTimeout(() => host.style.removeProperty('--glow-reach'), 2 * number('--speed-ui') * 1000)
+      }
+    requestAnimationFrame(cross)
+  }
 </script>
 
 <section
@@ -57,8 +121,10 @@
   <!-- The menu lies over the whole side; the top row keeps the room its folded button sits in -->
   <div class="top"></div>
 
-  <div class="centre">
-    <ButtonBlock />
+  <div class="centre" inert={app.welcome !== null}>
+    <div bind:this={block}>
+      <ButtonBlock />
+    </div>
     <StatusLine />
     <div class="pause-row">
       <!-- TODO: "Lägg till paus" works in Phase 2 -->
@@ -67,7 +133,9 @@
     </div>
   </div>
 
-  <PruneLine />
+  <div inert={app.welcome !== null}>
+    <PruneLine />
+  </div>
 
   <Menu bind:open={menuOpen} />
 </section>

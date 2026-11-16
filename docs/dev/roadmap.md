@@ -24,6 +24,7 @@ Phase 1: Clocking, its **Settle first**, for the steps left: how Windows is chec
 | The menu's fold-out, the theme button, and the machine's settings file                                                                  | written | run: the settings in tests; the menu in the app window on Linux                                                             |
 | The pointer light                                                                                                                       | written | run: in the app window on Linux                                                                                             |
 | The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right        |
+| The onboarding: the locked panel, the balance and the name, the record saved on the name, the ending with its sweep                     | written | run: the duration rules in tests; the screen not yet seen                                                                   |
 
 ## The phases
 
@@ -37,14 +38,12 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the onboarding,
-the screen for a record that cannot be read, and the question for a running entry from an earlier day; the folders for
-those screens, once they are drawn.
+**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the screen for a
+record that cannot be read, and the question for a running entry from an earlier day; the folders for those screens,
+once they are drawn.
 
-1. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"): the menu's panel in its locked
-   stage, "Starta nytt" and "Importera" (greyed out until Phase 5), then "Nuvarande flextimmar?" and "Profilnamn?", and
-   the closing with the letter last. A record that cannot be read opens on a screen naming the problem and offering the
-   newest daily copy, which needs commands to list the copies and read one.
+1. The screen for a record that cannot be read: it names the problem and offers the newest daily copy, which needs
+   commands to list the copies and read one; for a newer version, the link to the releases page.
 
 2. The question for a running entry from an earlier day.
 3. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the

@@ -57,7 +57,13 @@
   }
 </script>
 
-<section class="dashboard" aria-label="Översikt" style:--wheel-base={wheelBase} bind:this={side}>
+<section
+  class="dashboard"
+  aria-label="Översikt"
+  style:--wheel-base={wheelBase}
+  inert={app.welcome !== null}
+  bind:this={side}
+>
   <div class="divider"></div>
   {#if panel}
     <FlexBar {panel} />

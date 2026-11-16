@@ -18,6 +18,18 @@ import { loadRecord, loadSettings, saveRecord, saveSettings } from '$lib/modules
 /** Where the app is: loading, waiting for a fresh start, stopped by a file it cannot read, or ready to clock */
 export type Phase = 'loading' | 'welcome' | 'problem' | 'ready'
 
+/**
+ * The first start's ending, step by step ("A first install starts fresh or imports"): the answers given, the panel
+ * turned to frost, folded into its button, the light sweeping across the buttons, and the letter arriving
+ */
+export interface Welcome {
+  ending: boolean
+  frosted: boolean
+  folded: boolean
+  sweeping: boolean
+  letter: boolean
+}
+
 class AppState {
   // === State ===
 
@@ -31,6 +43,8 @@ class AppState {
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
   theme = $state<Theme>('system')
+  /** The first start, while the phase is 'welcome': where its ending has got to */
+  welcome = $state<Welcome | null>(null)
 
   /** The entry that runs, if any; at most one does */
   running: Entry | null = $derived(this.record?.entries.find((e) => e.stop === null) ?? null)
@@ -39,21 +53,17 @@ class AppState {
 
   /**
    * Loads the machine's theme and the record, and decides where the app starts. Used once, when the app starts: no
-   * record opens the welcome screen (in dev mode, a fresh record instead, until the onboarding exists), a broken one
-   * the problem screen.
+   * record opens the onboarding, on a fresh record kept only in memory until it is finished; a broken one the problem
+   * screen.
    */
   async load(): Promise<void> {
     this.#applyTheme((await loadSettings()).theme)
     const result = await loadRecord()
     if (result === null) {
-      if (!import.meta.env.DEV) {
-        this.phase = 'welcome'
-        return
-      }
-      // TODO: dev mode's fresh record goes once the onboarding makes the first record
-      const record = freshRecord('Vaktmästare', 0, localDay(Date.now()))
-      await saveRecord(record)
-      this.#ready(record)
+      this.record = freshRecord('', 0, localDay(Date.now()))
+      this.onScreen = this.record.profiles[0].id
+      this.welcome = { ending: false, frosted: false, folded: false, sweeping: false, letter: false }
+      this.phase = 'welcome'
       return
     }
     if (!result.ok) {
@@ -84,6 +94,39 @@ class AppState {
     if (after === before) return
     this.record = after
     await saveRecord(after)
+  }
+
+  /**
+   * The onboarding's balance entered: the opening balance, in minutes, which the dashboard counts to. Used by the
+   * onboarding on Enter, and with 0 when it goes back past the balance; nothing is saved yet
+   */
+  setOpening(minutes: number): void {
+    if (this.record === null || this.phase !== 'welcome') return
+    const [opening, ...rest] = this.record.openings
+    this.record = { ...this.record, openings: [{ ...opening, balanceMinutes: minutes }, ...rest] }
+  }
+
+  /**
+   * The onboarding's name entered: the first profile gets it and the record is saved for the first time; the ending
+   * then plays. Used by the onboarding on Enter
+   */
+  async finishStart(name: string): Promise<void> {
+    if (this.record === null || this.welcome === null) return
+    const [first, ...rest] = this.record.profiles
+    this.record = { ...this.record, profiles: [{ ...first, name }, ...rest] }
+    this.welcome = { ...this.welcome, ending: true }
+    await saveRecord(this.record)
+  }
+
+  /** The onboarding's ending moves on a step. Used by the onboarding's timeline: { frosted: true } */
+  stepWelcome(step: Partial<Welcome>): void {
+    if (this.welcome !== null) this.welcome = { ...this.welcome, ...step }
+  }
+
+  /** The onboarding's ending is over: the app is ready to clock. Used by the onboarding's timeline, last */
+  endWelcome(): void {
+    this.welcome = null
+    this.phase = 'ready'
   }
 
   /** The theme button pressed. Used by the theme button: moves to the next theme, shows it at once, then saves it */

@@ -221,6 +221,27 @@
   --menu-padding: 16px 18px 24px;
   --menu-gap: 20px;
 
+  /* === Controls: the onboarding, the menu's panel locked open at the first start === */
+  --onboarding-panel: light-dark(rgb(208 216 230), rgb(26 28 32)); /* the frost's tint, made solid */
+  --onboarding-prompt-size: 16px; /* "Nuvarande flextimmar?" and "Profilnamn?" */
+  --onboarding-prompt-weight: 600;
+  --onboarding-name-size: 26px; /* the name as it is typed; the balance is typed at --balance-text-size */
+  --onboarding-reading-size: 12px; /* how a typed balance is read, under it */
+  --onboarding-width: 320px; /* the most a prompt and its answer take */
+  --onboarding-gap: 14px; /* between a prompt, what is typed and how it is read */
+  --onboarding-choice-scale: 0.8; /* "Starta nytt" and "Importera" against "Starta jobb": height, text and sides */
+  --onboarding-choice-padding: 24px; /* each side of their words, before the scale */
+  --onboarding-frost-in: 0.8s; /* after the name: the solid panel turning to frost, before it shrinks */
+  --onboarding-sweep-delay: 0.2s; /* after the panel has shrunk, before the light sweeps across the button block */
+  --onboarding-sweep: 1.2s; /* the pointer light crossing the button block, left to right */
+  --onboarding-sweep-ends: 0.3; /* the light's size as it enters and leaves the block, against --glow-reach */
+  --onboarding-sweep-grow: 2; /* its size at the block's middle, against --glow-reach */
+  --onboarding-sweep-rise: 60px; /* how far above the block's middle it starts */
+  --onboarding-sweep-drop: 60px; /* how far below it it ends, arcing down, quickest at first */
+  --onboarding-sweep-fade: 0.3s; /* the light shrinking to nothing where the arc ends */
+  --onboarding-letter-delay: -0.6s; /* after the light is gone, before the letter fades in; negative overlaps */
+  --onboarding-letter-fade: 0.6s; /* the letter fading in, the last thing; the screen takes input after */
+
   /* === Controls: the profile popup === */
   --scrim: light-dark(rgb(20 26 36 / 0.25), rgb(0 0 0 / 0.45));
   --popup-background: var(--button-background);

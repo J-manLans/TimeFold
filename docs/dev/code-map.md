@@ -21,18 +21,20 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `App.svelte`: the root component, the main screen; it sets `--profile-state`, the colour of where the profile on
   screen stands, which the profile letter and every focus ring wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
-  problem, ready), the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `undo`
-  and `cycleTheme` change them through the rules and save them. The theme is shown by setting `color-scheme` on the
-  page. Components read it and call its actions.
+  problem, ready) and, while welcoming, where the onboarding's ending has got to, the profile on screen, the last click
+  and the machine's theme; its actions `load`, `press`, `undo` and `cycleTheme` change them through the rules and save
+  them. The theme is shown by setting `color-scheme` on the page. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
   controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine`, `UndoButton`
-  with its `TipLabel`, `PruneLine` and the menu, and making the pointer light: it sets the light's place, and every
-  button and disc that catches it paints `--pointer-light`. `menu/`: `Menu.svelte`, the menu button and the frosted
-  panel it grows into, with `ThemeButton`. `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures,
-  drawing the divider, and handing them the panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its
-  bar; `CeilingWheel.svelte`, the ceiling wheel with the pay estimate; `RecentEntries.svelte`, the five newest entries;
-  `AllEntries.svelte`, "Visa alla" and its popup; `EntryRow.svelte`, the row both lists share. `shared/`: what more than
-  one part uses, such as `Disc.svelte`, the dented disc of the profile, undo and theme buttons.
+  with its `TipLabel`, `PruneLine` and the menu, and making the pointer light, which it also sweeps once at the
+  onboarding's end: it sets the light's place, and every button and disc that catches it paints `--pointer-light`.
+  `menu/`: `Menu.svelte`, the menu button and the frosted panel it grows into, with `ThemeButton`, and locked open at
+  the first start around `Onboarding.svelte`, the onboarding with its ending's timeline. `dashboard/`:
+  `Dashboard.svelte`, the dashboard, laying out its figures, drawing the divider, and handing them the panel's colour
+  and the wheel's base; `FlexBar.svelte`, the balance and its bar; `CeilingWheel.svelte`, the ceiling wheel with the pay
+  estimate; `RecentEntries.svelte`, the five newest entries; `AllEntries.svelte`, "Visa alla" and its popup;
+  `EntryRow.svelte`, the row both lists share. `shared/`: what more than one part uses, such as `Disc.svelte`, the
+  dented disc of the profile, undo and theme buttons.
 - `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
   opening that turns a file's text into a record or names what is wrong with it, upgrading an older version first.
   `clock.ts`: what a click on start/stop does to the record (`press`), the undo of the last click (`undo`) and what the
