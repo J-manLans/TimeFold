@@ -39,6 +39,31 @@ show the warning: the click target would move under the pointer.
 - "Starta jobb" and "Stoppa jobb": the button has the same size in both.
 - While an entry runs, the flex bar and the ceiling wheel do not change; at stop they include it.
 
+## The app opens on the running profile, or the last one on screen (2026-11-16)
+
+**Built by:** Profiles.
+
+**Decision:** the app opens on the profile whose entry is running. When nothing runs, it opens on the profile that was
+on screen when it closed, kept in the machine's own settings file beside the theme; when that profile is archived or
+gone, or nothing is kept yet, it opens on the first profile.
+
+**Why:** opening where the clock is going makes the app feel alive. When nothing runs, the owner comes back to where
+they left off: stopped for a break on the development group, they reopen on it. The profile on screen belongs to the
+machine, like the theme, so it stays out of the record and the handover.
+
+**Rejected:** always the first profile when nothing runs: simpler, as nothing is kept, but after a break on another
+profile it means a click to get back. Always the last one on screen, even while another runs: the status line already
+shows what runs, but opening on the running profile is what the owner expects.
+
+**Revisit if:** opening on the running profile surprises more often than it helps.
+
+**Cases:**
+
+- A running at close, B on screen: it opens on A.
+- Nothing running, B on screen at close: it opens on B.
+- Nothing running, B on screen at close, B archived on the other machine and handed over: it opens on the first profile.
+- A first start: it opens on the first profile.
+
 ## The last click can be undone for a few seconds (2026-11-15)
 
 **Built by:** Clocking.

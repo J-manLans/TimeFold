@@ -66,10 +66,11 @@ file whole. On opening, the app checks the file and says plainly what is wrong r
 valid JSON, or not a record's shape, is named as such and yesterday's copy is offered. No file at all means no record
 yet, and the welcome screen opens ("A first install starts fresh or imports"). A file of an older version is upgraded to
 the current shape; a file of a newer version, at opening or at import, is refused with a plain message to update the app
-on this machine first, and left untouched. The handover file is the same JSON. The theme is in a small settings file of
-the machine's own, which is never exported; the profiles' colours are in the record. On each day the app is used, its
-first save first copies the record as it stood into `copies/`, a folder beside it; the last 14 copies are kept, however
-many days they span.
+on this machine first, and left untouched. The handover file is the same JSON. The theme, and the profile last on screen
+("The app opens on the running profile, or the last one on screen"), are in a small settings file of the machine's own,
+which is never exported; the profiles' colours are in the record. On each day the app is used, its first save first
+copies the record as it stood into `copies/`, a folder beside it; the last 14 copies are kept, however many days they
+span.
 
 **Why:** the record has shape (entries hold breaks; settings change from a date), which JSON holds in one readable file.
 At about four entries a day, ten years is a megabyte or two: rewriting it on each save and counting in memory are

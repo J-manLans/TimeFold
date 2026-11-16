@@ -70,6 +70,7 @@ title.
 ### [Recording](recording.md)
 
 - One start/stop button and a profile list
+- The app opens on the running profile, or the last one on screen
 - The last click can be undone for a few seconds
 - A running entry from an earlier day asks
 - Time away is a gap or an added break
