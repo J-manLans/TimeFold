@@ -12,9 +12,11 @@ state, progress, decisions or history here; each has its own home (see "Where th
 3. **Written is not run.** Check the state table in `docs/dev/roadmap.md` before saying something works.
 4. **Every fact has one owning file.** When two docs disagree, the owning file wins and the other is fixed. When a doc
    and the code disagree, the code wins, and say so.
-5. **Agree on where a new file or folder goes before creating it.** Show the tree it gives. Renames and moves too. In
-   vibe mode, a file in a place the code map already has needs no stop; a new folder or a file outside the layout is
-   agreed while the phase is settled, or stops the work.
+5. **Agree on where a new file or folder goes before creating it,** for code and for `docs/vision/`. Show the tree it
+   gives. Renames and moves too. In vibe mode, a file in a place the code map already has needs no stop; a new folder or
+   a file outside the layout is agreed while the phase is settled, or stops the work. In `docs/dev/`, the agent's
+   workspace, the agent places, moves and renames files itself, by "Where things go" and "How docs grow", and reports
+   the tree it gives.
 
 ## Doc map
 
