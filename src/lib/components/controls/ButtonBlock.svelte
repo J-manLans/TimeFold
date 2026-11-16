@@ -99,6 +99,8 @@
     font-weight: var(--font-display-weight);
     font-size: var(--profile-letter-size);
     line-height: 1;
+    /* Trimmed to the capital, so centring the box centres the letter itself */
+    text-box: trim-both cap alphabetic;
     color: var(--profile-state);
   }
 

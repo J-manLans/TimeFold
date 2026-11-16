@@ -145,7 +145,7 @@
           />
         {/each}
         <text class="label" x={BOARD.centre + s * BOARD.half} y={BOARD.labelBaseline} style:fill={colour}>
-          {s < 0 ? '−' : '+'}{Math.round((scale ?? 0) / 3600)} h
+          {s < 0 ? '−' : '+'}{Math.round((scale ?? 0) / 3600)}h
         </text>
       {/each}
     </svg>

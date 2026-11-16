@@ -31,7 +31,7 @@
     <span>{row.day}</span>
     <span>{row.times}</span>
     <span>{row.letter}</span>
-    <!-- TODO: the break tag, "paus 20 min", in Phase 2 -->
+    <!-- TODO: the break tag, "paus 20min", in Phase 2 -->
     <span></span>
     <span class="length">{row.length}</span>
   </li>
