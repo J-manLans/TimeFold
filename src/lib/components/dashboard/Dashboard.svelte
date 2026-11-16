@@ -1,12 +1,13 @@
 <!--
   The dashboard ("The main screen has a controls side and a dashboard"): the living side, a dark panel in both themes,
   laying out its figures from the top: the balance with the flex bar, the ceiling wheel with the pay estimate, then the
-  recent entries. A thin line divides it from the controls side; in a narrow window it stacks on top, the line under
-  it. It gives its figures the panel's colour, which the dimmed colours are worked out against, and the wheel's base,
-  which a new row lights in.
+  recent entries; while a copy is offered at recovery, a breathing "KOPIA" label above them. A thin line divides it
+  from the controls side; in a narrow window it stacks on top, the line under it. It gives its figures the panel's
+  colour, which the dimmed colours are worked out against, and the wheel's base, which a new row lights in.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import { dayLabel } from '$lib/modules/dates'
   import CeilingWheel from './CeilingWheel.svelte'
   import FlexBar from './FlexBar.svelte'
   import RecentEntries from './RecentEntries.svelte'
@@ -61,10 +62,14 @@
   class="dashboard"
   aria-label="Översikt"
   style:--wheel-base={wheelBase}
-  inert={app.welcome !== null}
+  inert={app.panel !== null}
   bind:this={side}
 >
   <div class="divider"></div>
+  {#if app.recovery === 'copy' && app.copyDay !== null && !app.panel?.folded}
+    <!-- While the copy is offered, the dashboard shows it ("A record that cannot be read offers the newest copy") -->
+    <span class="copy">Kopia · {dayLabel(app.copyDay)}</span>
+  {/if}
   {#if panel}
     <FlexBar {panel} />
     <CeilingWheel {panel} />
@@ -87,6 +92,22 @@
     font-family: var(--font-text);
     font-weight: var(--dashboard-font-weight);
     letter-spacing: normal;
+  }
+
+  /* The copy's label, breathing into the colour of where the profile stands in it and back */
+  .copy {
+    justify-self: center;
+    color: var(--dashboard-text-muted);
+    font-size: var(--text-size-note);
+    letter-spacing: var(--dashboard-label-tracking);
+    text-transform: uppercase;
+    animation: breathe var(--recovery-breath) ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    50% {
+      color: var(--profile-state);
+    }
   }
 
   .divider {

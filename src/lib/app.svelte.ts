@@ -1,15 +1,30 @@
 /**
  * The app's state while it runs: the record in memory, the machine's theme, and the actions that change them and save
- * them. Components read
- * it and call its actions; nothing else changes the record. Svelte's $state makes every component that reads a field
- * follow it when it changes.
+ * them. Components read it and call its actions; nothing else changes the record. Svelte's $state makes every
+ * component that reads a field follow it when it changes.
  */
 
 import { press, undo, type Click } from '$lib/modules/clock'
 import { localDay } from '$lib/modules/counting'
-import { freshRecord, type Entry, type Problem, type TimeRecord } from '$lib/modules/record'
+import {
+  freshRecord,
+  recoveryFor,
+  type Day,
+  type Entry,
+  type Problem,
+  type Recovery,
+  type TimeRecord,
+} from '$lib/modules/record'
 import { nextTheme, type Theme } from '$lib/modules/settings'
-import { copyRecord, loadRecord, loadSettings, saveRecord, saveSettings } from '$lib/modules/storage'
+import {
+  copyRecord,
+  loadRecord,
+  loadSettings,
+  newestCopy,
+  saveRecord,
+  saveSettings,
+  type Copy,
+} from '$lib/modules/storage'
 
 // ======================================
 //                 API
@@ -19,10 +34,12 @@ import { copyRecord, loadRecord, loadSettings, saveRecord, saveSettings } from '
 export type Phase = 'loading' | 'welcome' | 'problem' | 'ready'
 
 /**
- * The first start's ending, step by step ("A first install starts fresh or imports"): the answers given, the panel
- * turned to frost, folded into its button, the light sweeping across the buttons, and the letter arriving
+ * The menu's panel locked open over the controls side, for the first start's onboarding ("A first install starts
+ * fresh or imports") or a record that cannot be read ("A record that cannot be read offers the newest copy"), and its
+ * ending step by step: the answer given, the panel turned to frost, folded into its button, and at the first start
+ * the light sweeping across the buttons and the letter arriving
  */
-export interface Welcome {
+export interface LockedPanel {
   ending: boolean
   frosted: boolean
   folded: boolean
@@ -37,14 +54,20 @@ class AppState {
   record = $state<TimeRecord | null>(null)
   /** Why the record could not be read, while `phase` is 'problem' */
   problem = $state<Problem | null>(null)
+  /** What the screen for a record that cannot be read offers, while `phase` is 'problem' */
+  recovery = $state<Recovery | null>(null)
+  /** The day of the copy it offers, whose record the dashboard shows meanwhile */
+  copyDay = $state<Day | null>(null)
+  /** The step the onboarding opens on: its two buttons, or its balance after the recovery screen's "Starta nytt" */
+  onboardingFrom = $state<'choice' | 'balance'>('choice')
   /** The profile on screen, whose button the start/stop is */
   onScreen = $state('p1')
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
   theme = $state<Theme>('system')
-  /** The first start, while the phase is 'welcome': where its ending has got to */
-  welcome = $state<Welcome | null>(null)
+  /** The menu's panel while it is locked open, at the first start or a record that cannot be read; null otherwise */
+  panel = $state<LockedPanel | null>(null)
 
   /** The entry that runs, if any; at most one does */
   running: Entry | null = $derived(this.record?.entries.find((e) => e.stop === null) ?? null)
@@ -62,12 +85,19 @@ class AppState {
     if (result === null) {
       this.record = freshRecord('', 0, localDay(Date.now()))
       this.onScreen = this.record.profiles[0].id
-      this.welcome = { ending: false, frosted: false, folded: false, sweeping: false, letter: false }
+      this.panel = { ...PANEL_OPEN }
       this.phase = 'welcome'
       return
     }
     if (!result.ok) {
+      const copy = await readNewestCopy()
       this.problem = result.problem
+      this.recovery = recoveryFor(result.problem, copy !== null)
+      this.copyDay = this.recovery === 'copy' && copy !== null ? copy.day : null
+      // The dashboard shows the copy it offers, or nothing
+      this.record = this.recovery === 'copy' && copy !== null ? copy.record : freshRecord('', 0, localDay(Date.now()))
+      this.onScreen = this.record.profiles[0].id
+      this.panel = { ...PANEL_OPEN }
       this.phase = 'problem'
       return
     }
@@ -117,21 +147,48 @@ class AppState {
    * then plays. Used by the onboarding on Enter
    */
   async finishStart(name: string): Promise<void> {
-    if (this.record === null || this.welcome === null) return
+    if (this.record === null || this.panel === null) return
     const [first, ...rest] = this.record.profiles
     this.record = { ...this.record, profiles: [{ ...first, name }, ...rest] }
-    this.welcome = { ...this.welcome, ending: true }
+    this.panel = { ...this.panel, ending: true }
     await saveRecord(this.record)
   }
 
-  /** The onboarding's ending moves on a step. Used by the onboarding's timeline: { frosted: true } */
-  stepWelcome(step: Partial<Welcome>): void {
-    if (this.welcome !== null) this.welcome = { ...this.welcome, ...step }
+  /**
+   * The recovery screen's "Använd kopian": the copy becomes the record and is saved over the broken file; the panel's
+   * ending then plays. Used by the recovery screen
+   */
+  async useCopy(): Promise<void> {
+    if (this.record === null || this.panel === null || this.recovery !== 'copy') return
+    this.panel = { ...this.panel, ending: true }
+    await saveRecord(this.record)
   }
 
-  /** The onboarding's ending is over: the app is ready to clock. Used by the onboarding's timeline, last */
-  endWelcome(): void {
-    this.welcome = null
+  /**
+   * The recovery screen's "Starta nytt", when there is no copy: the onboarding, from its balance, on a fresh record
+   * that replaces the broken file once it is finished. Used by the recovery screen
+   */
+  startFresh(): void {
+    this.record = freshRecord('', 0, localDay(Date.now()))
+    this.onScreen = this.record.profiles[0].id
+    this.recovery = null
+    this.copyDay = null
+    this.onboardingFrom = 'balance'
+    this.panel = { ...PANEL_OPEN }
+    this.phase = 'welcome'
+  }
+
+  /** The locked panel's ending moves on a step. Used by the onboarding's and recovery's timelines: { folded: true } */
+  stepPanel(step: Partial<LockedPanel>): void {
+    if (this.panel !== null) this.panel = { ...this.panel, ...step }
+  }
+
+  /** The locked panel's ending is over: the app is ready to clock. Used by the timelines, last */
+  unlock(): void {
+    this.panel = null
+    this.recovery = null
+    this.copyDay = null
+    this.problem = null
     this.phase = 'ready'
   }
 
@@ -166,6 +223,22 @@ export const app = new AppState()
 // ======================================
 //               Helpers
 // ======================================
+
+/**
+ * The newest copy that can be read, or null; a failure to look counts as none, since the screen still works without
+ * one. Used by `load` when the record cannot be read
+ */
+async function readNewestCopy(): Promise<Copy | null> {
+  try {
+    return await newestCopy()
+  } catch (error) {
+    console.error('The newest copy could not be read', error)
+    return null
+  }
+}
+
+/** The locked panel as it opens, before any step of its ending */
+const PANEL_OPEN: LockedPanel = { ending: false, frosted: false, folded: false, sweeping: false, letter: false }
 
 /** How long a click can be undone, read from the design token --undo-time. Used by `undo`: 15s gives 15 */
 function undoSeconds(): number {

@@ -146,8 +146,9 @@ export function readRecord(text: string): ReadResult {
 
 /**
  * A new record for "Starta nytt": one profile, the one with the balance, expected to work 6 h a day of a full time of 8
- * h from the first day, and the balance brought over from before, dated that day ("A first install starts fresh or imports"). Used by
- * the onboarding, and by dev mode when there is no record yet: freshRecord('Vaktmästare', 750, '2026-11-16').
+ * h from the first day, and the balance brought over from before, dated that day ("A first install starts fresh or
+ * imports"). Used by the onboarding, which names it and sets its balance before the first save, and when a broken
+ * record with no copy starts fresh: freshRecord('Vaktmästare', 750, '2026-11-16').
  * @param openingMinutes - the balance from the Excel file as it stood the evening before, in minutes; minus is owed
  * @param firstDay - the first day in the app, written YYYY-MM-DD
  */

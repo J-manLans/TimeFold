@@ -3,7 +3,8 @@
  * dashboard"). The five most recent and the "Visa alla" popup read the same rows.
  */
 
-import { shownMinutes, timeOfDay } from './counting'
+import { localDay, shownMinutes, timeOfDay } from './counting'
+import { dayShort } from './dates'
 import { type Entry, type TimeRecord } from './record'
 
 // ======================================
@@ -41,16 +42,9 @@ export function entryRow(entry: Entry, record: TimeRecord): EntryRow {
   const name = record.profiles.find((p) => p.id === entry.profile)?.name ?? ''
   const minutes = shownMinutes((Date.parse(stop) - start.getTime()) / 1000)
   return {
-    day: `${WEEKDAYS[start.getDay()]} ${start.getDate()}`,
+    day: dayShort(localDay(start.getTime())),
     times: `${timeOfDay(entry.start)}–${timeOfDay(stop)}`,
     letter: name.charAt(0).toUpperCase(),
     length: `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}`,
   }
 }
-
-// ======================================
-//               Helpers
-// ======================================
-
-/** The weekdays as a row shows them, from Sunday, as `Date.getDay` counts */
-const WEEKDAYS = ['sön', 'mån', 'tis', 'ons', 'tor', 'fre', 'lör']

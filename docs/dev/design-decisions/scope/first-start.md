@@ -95,7 +95,7 @@ day. "Importera från min andra dator": long, and tied to a machine.
 
 ## A record that cannot be read offers the newest copy (2026-11-17)
 
-**Built by:** Clocking; Handover, for importing.
+**Built by:** Handover, for importing.
 
 **Decision:** when the record cannot be read at start ("The record is one JSON file"), the app opens on the menu's panel
 locked over the controls side, as at the first start ("A first install starts fresh or imports"), solid, with no way

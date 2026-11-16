@@ -21,9 +21,10 @@
   })
 </script>
 
-<!-- The main screen, from the first start's onboarding on; during the onboarding's ending it takes no input -->
-{#if app.phase === 'ready' || app.phase === 'welcome'}
-  <main class="screen" style:--profile-state={stateColour} inert={app.welcome?.ending ?? false}>
+<!-- The main screen, also behind the locked panel of the onboarding and the recovery; it takes no input in their
+     endings -->
+{#if app.phase !== 'loading'}
+  <main class="screen" style:--profile-state={stateColour} inert={app.panel?.ending ?? false}>
     <Controls />
     <Dashboard />
   </main>

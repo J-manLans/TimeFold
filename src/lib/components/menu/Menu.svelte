@@ -3,11 +3,13 @@
   side's top-left corner; open, it grows from that corner into a frosted panel over the whole controls side, with the
   "Meny" heading and the theme button. A click on the button, a click outside or Esc closes it. The tabs come with
   Profiles. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
-  imports"): solid while the prompts show, then frost, then folded into its button, as the onboarding's ending says.
+  imports"), or with the screen for a record that cannot be read: solid while it asks, then frost, then folded into its
+  button.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import Onboarding from './Onboarding.svelte'
+  import Recovery from './Recovery.svelte'
   import ThemeButton from './ThemeButton.svelte'
 
   // === Props ===
@@ -18,13 +20,13 @@
   // === State ===
 
   let menu: HTMLDivElement | undefined = $state()
-  let locked = $derived(app.welcome !== null)
+  let locked = $derived(app.panel !== null)
 
   // === Logic ===
 
   // At the first start the menu is open until the onboarding's ending folds it
   $effect(() => {
-    if (app.welcome !== null) open = !app.welcome.folded
+    if (app.panel !== null) open = !app.panel.folded
   })
 
   // While open, a press outside the menu or Esc closes it, unless it is locked for the onboarding
@@ -48,9 +50,9 @@
 <div
   class="menu"
   class:open
-  class:solid={app.welcome !== null && !app.welcome.frosted}
-  class:frosting={app.welcome !== null && app.welcome.frosted && !app.welcome.folded}
-  class:hidden-toggle={app.welcome !== null && !app.welcome.folded}
+  class:solid={app.panel !== null && !app.panel.frosted}
+  class:frosting={app.panel !== null && app.panel.frosted && !app.panel.folded}
+  class:hidden-toggle={app.panel !== null && !app.panel.folded}
   bind:this={menu}
 >
   <button
@@ -64,8 +66,10 @@
     <span></span><span></span><span></span>
   </button>
 
-  {#if locked}
-    <Onboarding />
+  {#if locked && app.phase === 'welcome'}
+    <Onboarding from={app.onboardingFrom} />
+  {:else if locked && app.phase === 'problem'}
+    <Recovery />
   {:else}
     <div class="body" inert={!open}>
       <div class="head">

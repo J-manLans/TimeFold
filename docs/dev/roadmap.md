@@ -12,19 +12,20 @@ Phase 1: Clocking, its **Settle first**, for the steps left: how Windows is chec
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                                                                                                    | State   | Has it run                                                                                                                  |
-| --------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
-| The project: Tauri, Svelte and Vite, with an empty main screen                                                                          | written | run: the window opens on Linux                                                                                              |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                                       | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                                    |
-| The design tokens and the two fonts, from the prototype                                                                                 | written | run: the window shows the text font on the theme's background                                                               |
-| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`                                  | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart                  |
-| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown                             | written | run: in tests only (20, in four time zones); the dashboard shows the balance, not yet seen                                  |
-| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room                     | written | run: the rules in tests; and in the app window on Linux, where the owner clocked entries and found them saved in the record |
-| The colour rule, from the prototype                                                                                                     | written | run: in tests only                                                                                                          |
-| The menu's fold-out, the theme button, and the machine's settings file                                                                  | written | run: the settings in tests; the menu in the app window on Linux                                                             |
-| The pointer light                                                                                                                       | written | run: in the app window on Linux                                                                                             |
-| The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right        |
-| The onboarding: the locked panel, the balance and the name, the record saved on the name, the ending with its sweep                     | written | run: the duration rules in tests; the screen not yet seen                                                                   |
+| Part                                                                                                                                                     | State   | Has it run                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
+| The project: Tauri, Svelte and Vite, with an empty main screen                                                                                           | written | run: the window opens on Linux                                                                                              |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                                                        | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                                    |
+| The design tokens and the two fonts, from the prototype                                                                                                  | written | run: the window shows the text font on the theme's background                                                               |
+| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`                                                   | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart                  |
+| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown                                              | written | run: in tests only (20, in four time zones); the dashboard shows the balance, not yet seen                                  |
+| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room                                      | written | run: the rules in tests; and in the app window on Linux, where the owner clocked entries and found them saved in the record |
+| The colour rule, from the prototype                                                                                                                      | written | run: in tests only                                                                                                          |
+| The menu's fold-out, the theme button, and the machine's settings file                                                                                   | written | run: the settings in tests; the menu in the app window on Linux                                                             |
+| The pointer light                                                                                                                                        | written | run: in the app window on Linux                                                                                             |
+| The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup                  | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right        |
+| The onboarding: the locked panel, the balance and the name, the record saved on the name, the ending with its sweep                                      | written | run: the duration rules in tests; the screen not yet seen                                                                   |
+| The recovery: the daily copy at start (31 kept, none the same as the newest), the screen for a record that cannot be read with the copy on the dashboard | written | run: the copy rules in Rust tests, the newest copy and the recovery's choice in tests; the screen not yet seen              |
 
 ## The phases
 
@@ -38,16 +39,11 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the screen for a
-record that cannot be read, and the question for a running entry from an earlier day; the folders for those screens,
-once they are drawn.
+**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the question for a
+running entry from an earlier day; the folders for those screens, once they are drawn.
 
-1. The screen for a record that cannot be read ("A record that cannot be read offers the newest copy"), drawn in the
-   prototype first: the locked panel, the copy previewed on the dashboard, the commands to find the newest copy and read
-   it; and the daily copy moved to the start, made only from a file that has passed the check, keeping 31 instead of 14.
-
-2. The question for a running entry from an earlier day.
-3. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
+1. The question for a running entry from an earlier day.
+2. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
    Windows and Linux installers from a version tag, `docs/dev/procedures/release.md`, and `v0.1.0`.
 
    The owner makes the `v0.1.0` release by hand, start to finish: raising the version, pushing the tag, publishing the

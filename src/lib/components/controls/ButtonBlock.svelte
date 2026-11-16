@@ -28,7 +28,7 @@
   <!-- TODO: opens the profile popup (Profiles); until then a click does nothing -->
   <button class="profile" type="button" aria-label="Byt profil">
     <Disc size="var(--profile-disc-size)" dent="var(--profile-disc-dent)" light="var(--glow-profile-disc)">
-      <span class="letter" class:waiting={app.welcome !== null && !app.welcome.letter}>
+      <span class="letter" class:waiting={app.phase === 'welcome' && app.panel !== null && !app.panel.letter}>
         {profile?.name.charAt(0).toUpperCase()}
       </span>
     </Disc>

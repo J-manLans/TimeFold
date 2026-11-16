@@ -7,26 +7,32 @@
   the panel turns to frost and folds, the light sweeps across the buttons, and the letter arrives last.
 -->
 <script lang="ts">
-  import { onMount, tick } from 'svelte'
+  import { onMount, tick, untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
-  import TipLabel from '$lib/components/controls/TipLabel.svelte'
   import { overColour } from '$lib/modules/colours'
   import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/timeInput'
+  import ChoiceButton from './ChoiceButton.svelte'
 
-  // === State ===
+  // === Props ===
 
   type Step = 'choice' | 'balance' | 'name'
 
-  let step = $state<Step | null>('choice')
+  let {
+    from = 'choice',
+  }: {
+    /** The step it opens on: the two buttons, or the balance when the recovery screen's "Starta nytt" led here */
+    from?: Step
+  } = $props()
+
+  // === State ===
+
+  // The step it opened on is read once; from then on the keys and buttons move it
+  let step = $state<Step | null>(untrack(() => from))
   let balanceText = $state('')
   let name = $state('')
-  let fresh: HTMLButtonElement | undefined = $state()
+  let fresh: ChoiceButton | undefined = $state()
   let balanceInput: HTMLInputElement | undefined = $state()
   let nameInput: HTMLInputElement | undefined = $state()
-  let importButton: HTMLButtonElement | undefined = $state()
-  /** Where the pointer is over "Importera", and whether it has keyboard focus, for its tip */
-  let point = $state<{ x: number; y: number } | null>(null)
-  let importFocused = $state(false)
 
   let profile = $derived(app.record?.profiles[0])
   let minutes = $derived(readDuration(balanceText, BALANCE))
@@ -39,7 +45,7 @@
   // === Logic ===
 
   onMount(() => {
-    fresh?.focus()
+    void show(step)
   })
 
   // === Helpers ===
@@ -97,43 +103,24 @@
     const sweepAt = fade + time('--onboarding-frost-in') + fade + time('--onboarding-sweep-delay')
     const letterAt = sweepAt + Math.max(0, gone + time('--onboarding-letter-delay'))
     const readyAt = Math.max(sweepAt + gone + 2 * fade, letterAt + time('--onboarding-letter-fade'))
-    setTimeout(() => app.stepWelcome({ frosted: true }), fade)
-    setTimeout(() => app.stepWelcome({ folded: true }), fade + time('--onboarding-frost-in'))
-    setTimeout(() => app.stepWelcome({ sweeping: true }), sweepAt)
-    setTimeout(() => app.stepWelcome({ letter: true }), letterAt)
-    setTimeout(() => app.endWelcome(), readyAt)
+    setTimeout(() => app.stepPanel({ frosted: true }), fade)
+    setTimeout(() => app.stepPanel({ folded: true }), fade + time('--onboarding-frost-in'))
+    setTimeout(() => app.stepPanel({ sweeping: true }), sweepAt)
+    setTimeout(() => app.stepPanel({ letter: true }), letterAt)
+    setTimeout(() => app.unlock(), readyAt)
   }
 
   /** A time token in milliseconds; negative times are kept. Used by `finish` */
   function time(name: string): number {
     return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) * 1000 || 0
   }
-
-  /** The pointer over "Importera", for its tip; a touch shows none. Used on pointer enter and move */
-  function follow(event: PointerEvent): void {
-    if (event.pointerType !== 'touch') point = { x: event.clientX, y: event.clientY }
-  }
 </script>
 
 <div class="onboarding">
   <div class="step choices" class:on={step === 'choice'} inert={step !== 'choice'}>
-    <button class="choice" type="button" bind:this={fresh} onclick={() => show('balance')}>
-      <span class="label">Starta nytt</span>
-    </button>
+    <ChoiceButton label="Starta nytt" onclick={() => show('balance')} bind:this={fresh} />
     <!-- TODO: Importera works in Handover; until then greyed out, its tip still showing -->
-    <button
-      class="choice"
-      type="button"
-      aria-disabled="true"
-      bind:this={importButton}
-      onpointerenter={follow}
-      onpointermove={follow}
-      onpointerleave={() => (point = null)}
-      onfocus={() => (importFocused = importButton?.matches(':focus-visible') ?? false)}
-      onblur={() => (importFocused = false)}
-    >
-      <span class="label">Importera</span>
-    </button>
+    <ChoiceButton label="Importera" greyed tip="från fil" />
   </div>
 
   <div class="step" class:on={step === 'balance'} inert={step !== 'balance'}>
@@ -169,7 +156,6 @@
     />
   </div>
 </div>
-<TipLabel text="från fil" {point} anchor={importFocused ? (importButton ?? null) : null} />
 
 <style>
   /* === Layout === */
@@ -197,30 +183,6 @@
     justify-content: center;
     gap: var(--block-gap);
     width: auto;
-  }
-
-  /* "Starta jobb"'s height and font, scaled, each as wide as its words */
-  .choice {
-    background-attachment: fixed;
-    height: calc(var(--start-height) * var(--onboarding-choice-scale));
-    padding: 0 calc(var(--onboarding-choice-padding) * var(--onboarding-choice-scale));
-    border: 0;
-    border-radius: var(--radius-button);
-    background-color: var(--button-background);
-    color: var(--button-text);
-    box-shadow: var(--shadow-button);
-    cursor: pointer;
-    transition: background-color var(--speed-ui) ease;
-  }
-
-  .choice .label {
-    font-family: var(--font-display);
-    font-size: calc(var(--start-text-size) * var(--onboarding-choice-scale));
-    font-stretch: var(--font-display-stretch);
-    font-weight: var(--font-display-weight);
-    letter-spacing: var(--start-tracking);
-    line-height: 1;
-    text-transform: uppercase;
   }
 
   .prompt {
@@ -270,14 +232,5 @@
   .lone:focus,
   .lone:focus-visible {
     outline: none;
-  }
-
-  .choice:not([aria-disabled='true']):hover {
-    background-color: var(--button-background-hover);
-  }
-
-  .choice[aria-disabled='true'] {
-    opacity: var(--opacity-disabled);
-    cursor: default;
   }
 </style>

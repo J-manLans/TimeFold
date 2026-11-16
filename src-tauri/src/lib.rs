@@ -16,11 +16,12 @@ const SETTINGS_FILE: &str = "settings.json";
 //                 Init
 // ======================================
 
-/// Builds the app: the log plugin in debug builds, the commands the interface may invoke, then the window from
-/// tauri.conf.json. Used once, by `main`, when the app starts.
+/// Builds the app: the opener plugin (the releases page in the browser), the log plugin in debug builds, the commands
+/// the interface may invoke, then the window from tauri.conf.json. Used once, by `main`, when the app starts.
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_opener::init())
         .setup(|app| {
             if cfg!(debug_assertions) {
                 app.handle().plugin(

@@ -50,7 +50,7 @@
   // steps, which leave sweeping on
   let swept = false
   $effect(() => {
-    const sweeping = app.welcome?.sweeping ?? false
+    const sweeping = app.panel?.sweeping ?? false
     if (sweeping && !swept) untrack(sweep)
     swept = sweeping
   })
@@ -125,7 +125,7 @@
   <!-- The menu lies over the whole side; the top row keeps the room its folded button sits in -->
   <div class="top"></div>
 
-  <div class="centre" inert={app.welcome !== null}>
+  <div class="centre" inert={app.panel !== null}>
     <div bind:this={block}>
       <ButtonBlock />
     </div>
@@ -137,7 +137,7 @@
     </div>
   </div>
 
-  <div inert={app.welcome !== null}>
+  <div inert={app.panel !== null}>
     <PruneLine />
   </div>
 

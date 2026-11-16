@@ -242,6 +242,12 @@
   --onboarding-letter-delay: -0.6s; /* after the light is gone, before the letter fades in; negative overlaps */
   --onboarding-letter-fade: 0.6s; /* the letter fading in, the last thing; the screen takes input after */
 
+  /* === Controls: a record that cannot be read, in the same locked panel === */
+  --recovery-gap: 18px; /* between the words, the buttons and the quiet note */
+  --recovery-line-size: 13px; /* what happened and what is offered, under the heading */
+  --recovery-width: 34ch; /* the most the words and the note take before they wrap */
+  --recovery-breath: 2.4s; /* the dashboard's "KOPIA" label breathing into the balance's colour and back */
+
   /* === Controls: the profile popup === */
   --scrim: light-dark(rgb(20 26 36 / 0.25), rgb(0 0 0 / 0.45));
   --popup-background: var(--button-background);

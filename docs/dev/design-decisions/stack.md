@@ -57,8 +57,7 @@ nearly as safe, but it cannot force the write, and it would leave Rust untried.
 
 ## The record is one JSON file (2026-11-15)
 
-**Built by:** Clocking, for the copy made at start and the screen for a record that cannot be read; Handover, for the
-handover file.
+**Built by:** Handover, for the handover file.
 
 **Decision:** each machine keeps the record in one JSON file, `record.json` in the app's data folder (named by the app's
 identifier): profiles, settings, entries with their added breaks, and opening figures, with a version number for its
