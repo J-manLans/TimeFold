@@ -132,11 +132,12 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     `npm test` pass; the owner reviews through git. A question that comes up and blocks nothing is collected and asked
     at the end, as one numbered list; one that would change what is built stops the work and is asked at once. **The
     prototype is the source of truth for the look:** every value, colour, size, time and behaviour of a screen is taken
-    from it as tuned, through the decision that holds its numbers; where the two disagree, the agent says so and does
-    not pick. A screen or state the prototype does not show stops the work: it goes back to design mode to be drawn, and
-    the agent does not invent a look. Each batch with a screen ends with a short list of what to check by eye in the
-    running app. Afterwards the owner goes by look and feel, and tunes values in `design-tokens.css` or asks the agent
-    for anything bigger.
+    from it as tuned, through the decision that holds its numbers. Where the two disagree on a value, the prototype wins
+    and the agent fixes the decision, since the owner owns the prototype and the agent the docs; where they disagree on
+    behaviour or meaning, the agent asks. A screen or state the prototype does not show stops the work: it goes back to
+    design mode to be drawn, and the agent does not invent a look. Each batch with a screen ends with a short list of
+    what to check by eye in the running app. Afterwards the owner goes by look and feel, and tunes values in
+    `design-tokens.css` or asks the agent for anything bigger.
   - **Debug mode:** for a bug the owner has seen. The agent hunts it: reproduces it as a test seen to fail before any
     code changes, finds the cause from evidence rather than guesses, then reports the cause, its evidence and the
     planned fix, and waits for the owner's go before changing code, every time. The fix changes only what the evidence
