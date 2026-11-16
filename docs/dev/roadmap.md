@@ -38,9 +38,12 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the onboarding,
 the screen for a record that cannot be read, and the question for a running entry from an earlier day; the folders for
-the dashboard and for those screens; and how Windows is checked for **Done when**, as there is no dev setup on it.
+those screens, once they are drawn; and how Windows is checked for **Done when**, as there is no dev setup on it.
 
-1. The dashboard with the flex bar and the five recent entries.
+1. The dashboard with the flex bar, the five recent entries, and "Visa alla" opening a popup with every entry, both
+   lists read-only until Phase 3. In `src/lib/components/dashboard/`, a component per figure: `Dashboard.svelte` lays
+   them out; `FlexBar.svelte`, `RecentEntries.svelte`, `AllEntries.svelte` (the popup), and `EntryRow.svelte`, the row
+   both lists share. The ceiling wheel joins as `CeilingWheel.svelte` in Phase 4.
 2. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
@@ -75,9 +78,9 @@ matches the prototype in both themes on Windows and Linux.
 (`open-questions.md`); editing an entry on its line, drawn in the prototype (its "Visa alla" popup only notes where it
 goes).
 
-1. The "Visa alla" popup with every entry.
-2. Editing an entry on its line: handles, the zoom, gaps and shortening, the confirm.
-3. Deleting, and writing a forgotten entry; each entry's mark of how it was made.
+1. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
+   shortening, the confirm; the rows' hover with it.
+2. Deleting, and writing a forgotten entry; each entry's mark of how it was made.
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, and the
 balance follows.

@@ -6,8 +6,8 @@ cited by its title.
 
 ## The main screen has a controls side and a dashboard (2026-11-14)
 
-**Built by:** Clocking for the screen, the button, the flex bar and the list; Profiles for the profile button, the
-ceiling wheel and the pay estimate; Handover for export and import.
+**Built by:** Clocking for the screen, the button, the flex bar, the list and its "Visa alla" popup; Profiles for the
+profile button, the ceiling wheel and the pay estimate; Handover for export and import.
 
 **Decision:** the main screen has two sides, the controls side on the left and the dashboard on the right, split by a
 divider (a sharp line or a gradient, settled when built). The left side holds the controls and stays still: the
