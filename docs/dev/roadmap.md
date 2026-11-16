@@ -36,8 +36,9 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-**Settle first:** the screens the prototype does not show yet: the onboarding, the screen for a record that cannot be
-read, and the question for a running entry from an earlier day.
+**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the onboarding,
+the screen for a record that cannot be read, and the question for a running entry from an earlier day; the folders for
+the dashboard and for those screens; and how Windows is checked for **Done when**, as there is no dev setup on it.
 
 1. The dashboard with the flex bar and the five recent entries.
 2. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
