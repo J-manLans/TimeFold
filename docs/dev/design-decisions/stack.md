@@ -57,20 +57,22 @@ nearly as safe, but it cannot force the write, and it would leave Rust untried.
 
 ## The record is one JSON file (2026-11-15)
 
-**Built by:** Clocking, for offering a daily copy when the record cannot be read; Handover, for the handover file.
+**Built by:** Clocking, for the copy made at start and the screen for a record that cannot be read; Handover, for the
+handover file.
 
 **Decision:** each machine keeps the record in one JSON file, `record.json` in the app's data folder (named by the app's
 identifier): profiles, settings, entries with their added breaks, and opening figures, with a version number for its
 shape. A save writes a temporary file, forces it onto the disk, and then swaps it into place, so a crash leaves the old
 file whole. On opening, the app checks the file and says plainly what is wrong rather than guessing: a file that is not
-valid JSON, or not a record's shape, is named as such and yesterday's copy is offered. No file at all means no record
-yet, and the welcome screen opens ("A first install starts fresh or imports"). A file of an older version is upgraded to
-the current shape; a file of a newer version, at opening or at import, is refused with a plain message to update the app
-on this machine first, and left untouched. The handover file is the same JSON. The theme, and the profile last on screen
-("The app opens on the running profile, or the last one on screen"), are in a small settings file of the machine's own,
-which is never exported; the profiles' colours are in the record. On each day the app is used, its first save first
-copies the record as it stood into `copies/`, a folder beside it; the last 14 copies are kept, however many days they
-span.
+valid JSON, or not a record's shape, is named as such and the newest copy is offered ("A record that cannot be read
+offers the newest copy"). No file at all means no record yet, and the welcome screen opens ("A first install starts
+fresh or imports"). A file of an older version is upgraded to the current shape; a file of a newer version, at opening
+or at import, is refused with a plain message to update the app on this machine first, and left untouched. The handover
+file is the same JSON. The theme, and the profile last on screen ("The app opens on the running profile, or the last one
+on screen"), are in a small settings file of the machine's own, which is never exported; the profiles' colours are in
+the record. On each day the app starts, once the file has passed the check, it is copied into `copies/`, a folder beside
+it, unless that day already has a copy or the file is the same as the newest copy; saves copy nothing. The last 14
+copies are kept, however many days they span.
 
 **Why:** the record has shape (entries hold breaks; settings change from a date), which JSON holds in one readable file.
 At about four entries a day, ten years is a megabyte or two: rewriting it on each save and counting in memory are
@@ -78,26 +80,32 @@ instant. The swap makes the one real risk, a half-written file, cheap to avoid; 
 just after the swap from leaving an empty file. The version number lets a newer app read an older file, and refusing a
 newer one keeps an older app from saving it back without the fields it does not know, since the shape changes with most
 phases. The handover being the same file makes export nearly free, and the colours' own file keeps them out of it with
-no special rule. The copies cover a broken file, a bad hand edit or a stale import; a copy taken before the day's first
-save is always a whole day that was already fine.
+no special rule. The copies cover a broken file, a bad hand edit or a stale import; a copy made at start from a file
+that has just passed the check is always readable, even when the file is broken later while the app runs, and dropping
+one the same as the newest keeps 14 different states.
 
 **Rejected:** SQLite: sturdy and quick to query, but not readable, and its queries go unused at this size. CSV: one flat
 table per file, so the shape would need several files tied by IDs. No backup: one bad import could lose the record.
-Reading a newer version and ignoring what it does not know: the next save would drop it.
+Reading a newer version and ignoring what it does not know: the next save would drop it. The copy made by the day's
+first save, from the file on disk: a file broken while the app ran was copied as it was. The app's last saved text
+handed along with every save for the copy: every save would carry it, for what one copy at start does. Checking the file
+before the day's first copy: an extra read and check on the first click.
 
 **Revisit if:** the file grows past what saves instantly, or the owner needs to query the history in ways memory cannot.
 
 **Cases:**
 
 - A crash during a save: on restart the file is the one before the save.
-- The file edited by hand into invalid JSON: the app names the problem and offers yesterday's copy.
-- Valid JSON with an entry missing its start: the app names the problem and offers yesterday's copy.
+- The file edited by hand into invalid JSON: the app names the problem and offers the newest copy.
+- Valid JSON with an entry missing its start: the app names the problem and offers the newest copy.
 - No record file: no record yet; nothing is reported as wrong.
 - A record of version 3 opened, or imported, by an app that knows version 2: refused with the message to update and a
   link to the releases page; the file is unchanged.
 - Day 15 of copies: the oldest of the 14 is deleted.
-- Three saves on Monday, none on Tuesday, one on Wednesday: one copy made Monday (before its first save), one on
-  Wednesday, none on Tuesday.
+- Started three times on Monday, once on Tuesday with nothing changed, once on Wednesday: one copy made Monday, none on
+  Tuesday (the same as Monday's), one on Wednesday.
+- The file broken while the app runs, then the day's first click: the record is saved whole, and today's copy, made at
+  start, is readable.
 
 ## The app reaches each machine as an installer from a GitHub release (2026-11-16)
 

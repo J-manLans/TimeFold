@@ -58,6 +58,7 @@ title.
 **[First start](scope/first-start.md)**
 
 - A first install starts fresh or imports
+- A record that cannot be read offers the newest copy
 
 ### [Stack](stack.md)
 

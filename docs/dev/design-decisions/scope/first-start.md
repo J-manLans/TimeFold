@@ -1,7 +1,7 @@
 # Scope: first start
 
-How an app with no data starts: fresh, through the onboarding, or from a file. Each decision follows the template in
-`../README.md`, and is cited by its title.
+How the app starts with no record, through the onboarding or from a file, and with one it cannot read. Each decision
+follows the template in `../README.md`, and is cited by its title.
 
 ## A first install starts fresh or imports (2026-11-14)
 
@@ -92,3 +92,44 @@ day. "Importera från min andra dator": long, and tied to a machine.
 - Reduced motion: no sweep; the letter follows the panel's closing.
 - Second machine, first start: "Importera" brings the whole record, opening figures and profile colours included, and
   asks nothing more.
+
+## A record that cannot be read offers the newest copy (2026-11-17)
+
+**Built by:** Clocking; Handover, for importing.
+
+**Decision:** when the record cannot be read at start ("The record is one JSON file"), the app opens on the menu's panel
+locked over the controls side, as at the first start ("A first install starts fresh or imports"), solid, with no way
+out. It says plainly that the file could not be read, in one line for the kind of problem, and offers the newest daily
+copy: "Till höger ser du senaste kopian, från tisdag 17 november", **"Använd kopian"**, "Importera" greyed out until
+Handover with its tip, "från fil", and a quiet "Inget ändras förrän du väljer." The dashboard beside it shows the copy
+as it would be, its balance, wheel and recent entries, under a label in the dashboard's label style, "KOPIA · TIS 17
+NOV", which pulses once as the screen appears. "Använd kopian" saves the copy as the record, and the panel folds away as
+at the end of the onboarding. Closing the app instead changes nothing; the broken file stays as it was, to be put right
+by hand. With no copy yet, the panel says so and offers "Starta nytt", the onboarding, warning that the broken file will
+be replaced, and "Importera". A record from a newer version of the app is not broken: the panel asks to update the app,
+with the link to the repo's releases page ("The app reaches each machine as an installer from a GitHub release"), offers
+no copy, and the dashboard stays empty.
+
+**Why:** the dashboard is where the owner reads a record, so it is where a copy is best judged before taking it; the
+locked panel puts all the attention on it, and the two screens that start the app share one form. The newest copy is
+offered alone because it is both certainly readable (copies are made only from a file that has just passed the check)
+and the one that loses least: each older copy loses another day. What lies in the file, not its shape, cannot be judged
+by the app, so this screen is only for a file it cannot read. A label stays while the owner reads, where a flash would
+be gone; one pulse draws the eye to it.
+
+**Rejected:** a popup centred on the controls side: the controls stay in view around it, dimmed, where the panel leaves
+only the dashboard. Stepping back through older copies: a broken shape never reaches the copies, and each step back
+loses a day; recovering from wrong contents is another problem. A "No thanks" button: closing the app already declines,
+changing nothing. A flash across the whole dashboard: gone before the panel is read. Advice to start, stop and edit an
+entry to put back what is lost: editing comes in Corrections, where writing a forgotten entry is simpler.
+
+**Revisit if:** a broken file turns out to be common, which would point at a cause worth fixing instead.
+
+**Cases:**
+
+- `record.json` edited by hand into invalid JSON, a copy from Tuesday 17 November: the panel names the problem, the
+  dashboard shows Tuesday's copy under "KOPIA · TIS 17 NOV", which pulses once; "Använd kopian" saves it and the app
+  opens on it.
+- The same, the app closed instead: the broken file is unchanged at the next start.
+- A broken file and no copies: "Starta nytt" warns that the file will be replaced, then runs the onboarding.
+- A record of a newer version: "Uppdatera appen", the releases link, no copy offered, the dashboard empty.
