@@ -24,10 +24,9 @@
     <button type="button" disabled>Importera</button>
   </div>
 
-  <!-- TODO: with more than one profile, opens the profile popup (Profiles), and its disc catches the light:
-       light="var(--glow-profile-disc)" -->
-  <button class="profile" type="button" aria-label="Byt profil" aria-disabled="true">
-    <Disc size="var(--profile-disc-size)" dent="var(--profile-disc-dent)">
+  <!-- TODO: opens the profile popup (Profiles); until then a click does nothing -->
+  <button class="profile" type="button" aria-label="Byt profil">
+    <Disc size="var(--profile-disc-size)" dent="var(--profile-disc-dent)" light="var(--glow-profile-disc)">
       <span class="letter">{profile?.name.charAt(0).toUpperCase()}</span>
     </Disc>
   </button>
@@ -105,15 +104,15 @@
   /* === States === */
 
   /* A button that can be used catches the pointer light; pressed, the press shade lies on top of it */
-  button:not(:disabled, [aria-disabled='true']) {
+  button:not(:disabled) {
     background-image: var(--pointer-light);
   }
 
-  button:not(:disabled, [aria-disabled='true']):hover {
+  button:not(:disabled):hover {
     background-color: var(--button-background-hover);
   }
 
-  button:not(:disabled, [aria-disabled='true']):active {
+  button:not(:disabled):active {
     background-image: linear-gradient(180deg, var(--button-press-shade), transparent 70%), var(--pointer-light);
     background-attachment: scroll, fixed;
     box-shadow: none;
@@ -121,10 +120,6 @@
 
   button:disabled {
     opacity: var(--opacity-disabled);
-    cursor: default;
-  }
-
-  .profile[aria-disabled='true'] {
     cursor: default;
   }
 
