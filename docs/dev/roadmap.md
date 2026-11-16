@@ -38,7 +38,7 @@ read, and the question for a running entry from an earlier day.
 1. The main screen's controls side: the rules of start, stop and undo as tested functions; the button block (export and
    import greyed out), the status line, the undo, the prune line's room; a test record in dev mode until the onboarding;
    the colour rule, from the prototype; the menu button with a menu holding its heading and the theme button; the
-   pointer light, the text fades and the pointer label the undo uses.
+   pointer light and the pointer label the undo uses.
 2. The dashboard with the flex bar and the five recent entries.
 3. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until

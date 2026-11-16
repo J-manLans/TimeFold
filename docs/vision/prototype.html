@@ -383,14 +383,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 .app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--accent, #4b8bff); }
 @media (prefers-reduced-motion: reduce) { .menu, .menu .body, .menu.open .body, .menu-toggle span { transition: none; } .entries li.new, .zero { animation: none; } }
 
-/* Everything else that changes state eases over --speed-ui too: theme colours, the start label and the status
-   line swapping text, the profile letter's colour, tabs, rows, swatches, the popup. */
+/* Everything else that changes state eases over --speed-ui too: theme colours, the profile letter's colour, tabs,
+   rows, swatches, the popup. A text that changes swaps at once. */
 .controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more {
   transition: background-color var(--speed-ui) ease, color var(--speed-ui) ease, border-color var(--speed-ui) ease;
 }
-.start .label, .status { transition: opacity var(--speed-ui) ease; }
 .profile-btn .dot, .theme-btn .dot, .undo-btn .dot { transition: color var(--speed-ui) ease, background-color var(--speed-ui) ease; }
-.swap-out { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
   .controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more, .start .label, .status,
   .profile-btn .dot, .theme-btn .dot, .undo-btn .dot, .plastic, .undo-btn { transition: none; }
@@ -897,14 +895,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (running) { var dot = document.createElement("span"); dot.className = "live"; dot.textContent = "● "; st.append(dot, prof(running.profile).name + " pågår sedan " + clock(running.start)); }
     });
   }
-  // A text that changes fades out, swaps, and fades back in, within --speed-ui; an unchanged text is left alone.
-  function uiMs() { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed-ui")) * 1000 || 300; }
+  // A text that changes swaps at once; an unchanged text is left alone.
   function swapText(el, fill) {
     var probe = el.cloneNode(true); fill(probe);
     if (probe.innerHTML === el.innerHTML) return;
-    if (reduce) { fill(el); return; }
-    clearTimeout(el._swap); el.classList.add("swap-out");
-    el._swap = setTimeout(function () { fill(el); el.classList.remove("swap-out"); }, uiMs() / 2);
+    fill(el);
   }
   // The pointer light: the position goes into two CSS variables, at most once a frame.
   (function () {

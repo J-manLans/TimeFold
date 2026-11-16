@@ -39,9 +39,8 @@ prototype:
   catches the pointer light like the other discs.
 - **Motion:** every transition in the interface takes the same 0.2 seconds, one setting for all: hover and press, the
   start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
-  label, the profile letter's colour, and a change of theme. A text that changes fades out, swaps and fades back in
-  within that time. Animations that tell something over longer, such as the numbers counting at stop or the undo's fade,
-  keep their own length.
+  label, the profile letter's colour, and a change of theme. A text that changes swaps at once. Animations that tell
+  something over longer, such as the numbers counting at stop or the undo's fade, keep their own length.
 - **Light:** a soft, matte light follows the pointer over the controls side: one light shared by all buttons, reaching
   about 70 px from the pointer (far enough to flow across buttons, near enough that a button visibly lights up as the
   pointer enters it), so it lies only on button surfaces and flows across them, faint and tinted (stronger on the light
@@ -70,7 +69,8 @@ looked silly. No light on the discs: it set them apart, but less naturally; the 
 little of both. A fine grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the
 blue one sits better with the other buttons. A top-down gradient on the disc in the light theme, beside the glow in the
 dark: the glow looks better, and one shape keeps the theme a matter of colours. Loading the fonts from Google Fonts: the
-app works offline.
+app works offline. A changing text fading out, swapping and fading back in: the owner prefers the snappier change at
+once.
 
 **Revisit if:** the mono is hard to read at small sizes, or the pointer light repaints too slowly there.
 
@@ -98,3 +98,6 @@ for its own screen and room.
 
 - System in dark mode, theme "System": the controls side is dark.
 - Theme "Ljust" on a dark system: the controls side is light, and the dashboard slate blue.
+- No settings file, or one that cannot be read: the theme is "System", with no message; the next change writes the file.
+- The theme changed while the pointer label or the undo's afterglow shows: both take the new theme's colours, and
+  nothing restarts.
