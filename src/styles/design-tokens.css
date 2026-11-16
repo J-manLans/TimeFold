@@ -181,8 +181,8 @@
   --tip-text-size: 12px;
   --tip-padding: 4px 9px;
   --tip-border-width: 1px; /* in the colour of the profile it speaks of */
-  --tip-offset-x: 14px; /* from the pointer to the label's corner */
-  --tip-offset-y: 18px;
+  --tip-offset-x: 17px; /* from the pointer to the tip's left edge */
+  --tip-offset-y: 5px; /* up or down from centred on the pointer */
   --tip-focus-gap: 6px; /* under a button with keyboard focus */
 
   /* === Controls: the menu === */

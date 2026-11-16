@@ -25,7 +25,7 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   page. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
   controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine`, `UndoButton`
-  with its `PointerLabel`, `PruneLine` and the menu, and making the pointer light: it sets the light's place, and every
+  with its `TipLabel`, `PruneLine` and the menu, and making the pointer light: it sets the light's place, and every
   button and disc that catches it paints `--pointer-light`. `menu/`: `Menu.svelte`, the menu button and the frosted
   panel it grows into, with `ThemeButton`. `shared/`: what more than one part uses, such as `Disc.svelte`, the dented
   disc of the profile, undo and theme buttons.

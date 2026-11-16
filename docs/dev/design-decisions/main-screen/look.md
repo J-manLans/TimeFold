@@ -96,5 +96,5 @@ for its own screen and room.
 
 - System in dark mode, theme "System": the controls side is dark.
 - Theme "Ljust" on a dark system: the controls side is light, and the dashboard slate blue.
-- The theme changed while the pointer label or the undo's afterglow shows: both take the new theme's colours, and
-  nothing restarts.
+- The theme changed while the tip or the undo's afterglow shows: both take the new theme's colours, and nothing
+  restarts.

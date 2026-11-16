@@ -56,7 +56,7 @@ export function undo(record: TimeRecord, click: Click, now: Date, windowSeconds:
 
 /**
  * What the undo would undo, for its label after "Ångra: ": the click's kind and time, and for a switch the profile
- * stopped and the one started. Used by the undo button's pointer label: "stopp 15:40", "byte 13:00 (Vaktis →
+ * stopped and the one started. Used by the undo button's tip: "stopp 15:40", "byte 13:00 (Vaktis →
  * Utvecklingsgruppen)"
  */
 export function clickLabel(record: TimeRecord, click: Click): string {

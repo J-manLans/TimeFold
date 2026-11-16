@@ -44,9 +44,6 @@ report.
 
 **Peek.** Resting the pointer on the ceiling wheel's band, which winds the over lap back so the first lap shows whole.
 
-**Pointer label.** The small label that follows the pointer over a button, edged in a profile's colour: what the undo
-would undo, or what the start button would stop. With keyboard focus it shows under the button.
-
 **Pointer light.** The soft light that follows the pointer over the controls side, lying only on the buttons and discs
 that can be used ("The look: a fresh display face, mono text and soft buttons").
 
@@ -66,3 +63,6 @@ the theme; never in the record or the handover.
 
 **Sketch.** A quick try of one look before it is decided, in `docs/dev/sketches/`; what it settles goes to its decision,
 and it goes once that is built. Not the **Prototype**.
+
+**Tip.** The small label that follows the pointer over a button, to its right, edged in a profile's colour: what the
+undo would undo, or what the start button would stop. With keyboard focus it shows under the button.

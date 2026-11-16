@@ -1,7 +1,7 @@
 <!--
   The undo: a small disc beside "Lägg till paus" that wakes for --undo-time after a start or a stop, under an afterglow in
   the profile's colour fading to nothing, and reverses that click when pressed ("The last click can be undone for a
-  few seconds"). Hovered or focused while awake, its pointer label says what it would undo ("Ångra: stopp 15:40").
+  few seconds"). Hovered or focused while awake, its tip says what it would undo ("Ångra: stopp 15:40").
   Faded when there is nothing to undo. Awake or not is read from the clock, so a window hidden past the
   time shows it faded on return.
 -->
@@ -9,7 +9,7 @@
   import { app } from '$lib/app.svelte'
   import Disc from '$lib/components/shared/Disc.svelte'
   import { clickLabel } from '$lib/modules/clock'
-  import PointerLabel from './PointerLabel.svelte'
+  import TipLabel from './TipLabel.svelte'
 
   // === State ===
 
@@ -89,7 +89,7 @@
     <span class="arrow" aria-hidden="true">↶</span>
   </Disc>
 </button>
-<PointerLabel text={label} {point} anchor={focused ? (button ?? null) : null} />
+<TipLabel text={label} {point} anchor={focused ? (button ?? null) : null} />
 
 <style>
   /* === Layout === */
