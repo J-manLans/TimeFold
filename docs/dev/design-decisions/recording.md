@@ -130,7 +130,7 @@ be running at midnight. Doing nothing until a correction: the mistake surfaces t
 
 ## Time away is a gap or an added break (2026-11-14)
 
-**Built by:** Clocking for the gap; Breaks and flex days for the added break.
+**Built by:** Breaks and flex days, for the added break.
 
 **Decision:** time away is recorded in one of two ways, and both count on the day it happens ("Time counts on the day it
 was worked"). A planned break is a stop and a later start: the gap between them is not work, and falls on whichever day

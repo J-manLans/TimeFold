@@ -27,6 +27,9 @@ the month's hours, the profile on screen's lit and the others' faded ("The ceili
 **Controls side.** The left side of the main screen: the start/stop button, the profile button, the status line, "Lägg
 till paus" and the menu. What the owner presses.
 
+**Daily copy.** The record as it stood when the app started on a day, kept in `copies/` beside it once it has passed the
+check, unless it is the same as the newest; the last 31 are kept. What the **Recovery screen** offers.
+
 **Dashboard.** The right side of the main screen, a dark or slate-blue panel: the balance, the flex bar, the ceiling
 wheel, the pay estimate and the recent entries. What the owner reads.
 

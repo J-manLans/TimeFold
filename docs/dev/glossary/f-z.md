@@ -12,6 +12,9 @@ a number ("The flex bar", in `design-decisions/`).
 **Flex day.** A whole day off paid for with the balance: it takes the expected hours off the balance. Not annual leave,
 which is left empty.
 
+**Focus outline.** The ring around whatever has keyboard focus, in the colour of where the profile on screen stands (see
+**Standing**). Not the running ring around "Stoppa jobb", which is always the over colour.
+
 **Full time.** The hours of a full working day (8), a setting; janitor's expected hours and the ceiling divide it.
 
 **Gap.** The time between a stop and the next start, or cut from an entry on the entry line. Not work; it counts on no
@@ -26,10 +29,16 @@ the over colour its opposite ("Each profile carries its colours", in `design-dec
 **Lit.** On the ceiling wheel, hours worked by the profile on screen, in its base or over colour at full strength. See
 **Faded**.
 
+**Locked panel.** The menu's panel held open over the controls side, with no way out, for the **Onboarding** or the
+**Recovery screen**; solid while it asks, then frost, then folded into the menu button.
+
 **Month.** The app's counting month: the calendar month, the 1st to the last day; the ceiling, reports, the pay estimate
 and pruning count by it.
 
 **Neon.** A hue at its most vivid: the colour on the picker's hue strip.
+
+**Onboarding.** The first start on a machine with no record: "Starta nytt" or "Importera", then the balance and the
+profile's name, in the **Locked panel**, ending with the **Sweep** and the letter arriving.
 
 **Opening figures.** Figures brought over from before the app, kept in the record apart from the entries and dated the
 day they start from: the janitor balance, typed in when the app starts fresh, and the ceiling hours already used, whose
@@ -57,6 +66,9 @@ look beside the vision, kept until the finished app has been validated. Not a **
 **Prune.** Removing the record's oldest whole months, past three years, on the owner's yes; the balance and ceiling
 hours at the cut become opening figures.
 
+**Recovery screen.** What the app opens on when its record cannot be read: the newest **Daily copy** offered, shown on
+the dashboard under a breathing "KOPIA" label; with no copy, a fresh start; for a newer record, an update.
+
 **Release.** A version of the app built by GitHub from a version tag, such as `v0.1.0`, with installers for Windows and
 Linux on the repo's releases page ("The app reaches each machine as an installer from a GitHub release", in
 `design-decisions/`). Not the record's version, which numbers the file's shape.
@@ -66,8 +78,15 @@ Linux on the repo's releases page ("The app reaches each machine as an installer
 **Settings file.** Each machine's own `settings.json` beside the record, holding what belongs to that computer, such as
 the theme; never in the record or the handover.
 
+**Standing (a profile's).** Where a profile's figure is: past its line (the balance in plus, or the ceiling passed) or
+not (at 0 or below). Its letter, its small circle and the focus outline wear it, the over colour past the line and the
+base before it.
+
 **Sketch.** A quick try of one look before it is decided, in `docs/dev/sketches/`; what it settles goes to its decision,
 and it goes once that is built. Not the **Prototype**.
+
+**Sweep.** At the onboarding's end, the pointer light crossing the button block once by itself, in an arc, before the
+letter arrives.
 
 **Tip.** The small label that follows the pointer over a button, to its right, edged in a profile's colour: what the
 undo would undo, or what the start button would stop. With keyboard focus it shows under the button.

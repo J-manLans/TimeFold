@@ -37,8 +37,6 @@ calendar, and a period's edge would take hours from the wrong side.
 
 ## Time is counted to the second and shown to the minute (2026-11-16)
 
-**Built by:** Clocking, for the clicks that record the seconds.
-
 **Decision:** a click records the moment to the second, and the counting works in seconds; every figure the owner sees
 is rounded to the nearest minute only when shown, so 3:31:30 shows as 3:32. A hand count from the times on screen can
 differ from the app by a minute now and then.

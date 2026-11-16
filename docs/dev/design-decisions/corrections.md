@@ -53,7 +53,7 @@ entry is small in it.
 
 ## Entries remember how they were made (2026-11-14)
 
-**Built by:** Clocking for clicked entries; Corrections for written and edited ones.
+**Built by:** Corrections, for written and edited entries.
 
 **Decision:** every entry keeps one mark of how it was made: clicked, written by hand, or edited after it was recorded.
 The mark is stored from the first entry. Showing it in the report is not decided; see "Corrected entries in the report",

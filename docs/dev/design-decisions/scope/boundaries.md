@@ -5,8 +5,6 @@ decision follows the template in `../README.md`, and is cited by its title.
 
 ## One user, offline, on the owner's machines (2026-11-14)
 
-**Built by:** Clocking.
-
 **Decision:** the app has one user, the owner. It needs no network connection, has no account or login, and keeps its
 data only on the owner's own machines: a desktop app on the work computer (Windows; the owner may install programs) and
 the owner's computer at home (Linux).
@@ -41,7 +39,7 @@ every time is simpler and always checked.
 
 ## The app is in Swedish (2026-11-15)
 
-**Built by:** Clocking, for the first screen; each part for its own words.
+**Built by:** each part, for its own words.
 
 **Decision:** the app's interface and the report are in Swedish. The app is called TimeFold, in English, as its
 repository is.
@@ -85,8 +83,6 @@ without a word. Cutting mid-month: that month's report and ceiling would be spli
 - "Not now" on 3 February 2030: the line returns on 1 March 2030, offering two months.
 
 ## A plain window app (2026-11-14)
-
-**Built by:** Clocking.
 
 **Decision:** the app is an ordinary window: the owner opens it, clicks, and minimises or closes it, and closing it
 quits it. It has no tray icon, no always-on widget and no autostart. Timing does not depend on the app running: an entry

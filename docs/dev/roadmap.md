@@ -6,7 +6,8 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, its **Settle first**, for the steps left: how Windows is checked first.
+Phase 1: Clocking, its **Settle first**: the question for a running entry from an earlier day, its three questions in
+`open-questions.md`; then building it, and the release.
 
 ## State
 

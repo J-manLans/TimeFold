@@ -5,7 +5,7 @@ wear them are in `figures.md`. Each decision follows the template in `../README.
 
 ## Each profile carries its colours (2026-11-15)
 
-**Built by:** Profiles; Clocking for the balance profile's colours on the flex bar.
+**Built by:** Profiles.
 
 **Decision:** each profile has a hue, a base colour and an over colour. The hue and the base are set in the profile's
 row in the menu with one swatch and the app's own colour picker; the over colour follows from the hue and is never
