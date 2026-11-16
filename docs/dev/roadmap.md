@@ -40,7 +40,8 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
 **Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the question for a
-running entry from an earlier day; the folders for those screens, once they are drawn.
+running entry from an earlier day, its three questions in `open-questions.md`; the folders for those screens, once they
+are drawn.
 
 1. The question for a running entry from an earlier day.
 2. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
