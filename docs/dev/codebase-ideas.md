@@ -84,3 +84,14 @@ second line beside the coloured ring, and it must follow the surface, not the th
 where the pale colours fail, and light on the three dark surfaces, where the dark ones do; the other theme's controls
 background gives the two colours. It cannot be a box-shadow, which would replace the start button's running ring while
 it has focus, and an element has only one outline.
+
+## A copy when the day changes while the app runs
+
+**Returns when:** the app is left running across days, so the daily copies thin out.
+
+The day's copy is made at start, from a file that has just passed the check ("The record is one JSON file"). An app left
+running past midnight makes no copy for the new day until it is started again. The fix needs no question to the owner,
+since a copy costs nothing and an identical one is dropped: at the first save after the date changes, the app hands Rust
+its own record from memory, valid by construction, to write as the day's copy. Not built: the owner closes the app every
+evening, and it would be a second way of making copies for a case that barely happens. Rejected for it: an offer on the
+prune line ("no copy today, make one?"), a question whose only answer is yes.
