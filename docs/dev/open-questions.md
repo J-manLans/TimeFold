@@ -44,9 +44,11 @@ may replace it there, or work beside it.
 
 ### Whose the opening ceiling hours are (2026-11-15)
 
-The ceiling wheel lights the pieces worked by the profile on screen and fades the rest ("The ceiling wheel"). The
-ceiling hours typed in at a fresh start ("A first install starts fresh or imports") come without a profile. Options:
-faded for every profile, as nobody's; or the onboarding asks which profile they belong to.
+The ceiling wheel lights the pieces worked by the profile on screen and fades the rest ("The ceiling wheel"). The hours
+of the current month's ceiling already used when the owner switches from Excel have to be asked somewhere, and the fresh
+start no longer asks them ("A first install starts fresh or imports"). The owner's idea, to think over: each profile
+added from the menu asks how much of the month's ceiling it has already used, and those hours are its own, lit for it on
+the wheel.
 
 **See:** The ceiling wheel; A first install starts fresh or imports.
 

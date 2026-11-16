@@ -41,15 +41,10 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 the screen for a record that cannot be read, and the question for a running entry from an earlier day; the folders for
 those screens, once they are drawn.
 
-1. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
-   welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
-   Phase 5. "Starta nytt" then asks, one screen at a time:
-   1. the first profile's name: the profile with the balance, such as "Vaktmästare";
-   2. the balance brought over from the Excel file, as it stood the evening before the first day in the app.
-
-   Then the main screen opens with that balance on the bar. Phase 4 adds a step for the ceiling hours already used this
-   month, and Phase 5 makes the import choice work. A record that cannot be read opens on a screen naming the problem
-   and offering the newest daily copy, which needs commands to list the copies and read one.
+1. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"): the menu's panel in its locked
+   stage, "Starta nytt" and "Importera" (greyed out until Phase 5), then "Nuvarande flextimmar?" and "Profilnamn?", and
+   the closing with the letter last. A record that cannot be read opens on a screen naming the problem and offering the
+   newest daily copy, which needs commands to list the copies and read one.
 
 2. The question for a running entry from an earlier day.
 3. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
@@ -99,8 +94,7 @@ balance follows.
 2. The ceiling's opening hours, once whose they are is settled.
 3. The menu: the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that change from a
    date.
-4. The onboarding's step for the ceiling hours already used this month.
-5. Pruning on request ("Old history is pruned on request"), once the ceiling's carry exists: the prune itself and the
+4. Pruning on request ("Old history is pruned on request"), once the ceiling's carry exists: the prune itself and the
    offer on the prune line, tested with set dates rather than waiting three years.
 
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
@@ -114,7 +108,7 @@ every setting changes from a date as its cases say, and a prune on a set date cu
 shows a note).
 
 1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
-2. The onboarding's "Importera från min andra dator": it reads a handover file and asks nothing more.
+2. The onboarding's "Importera": it reads a handover file and asks nothing more.
 
 **Done when:** a week worked on both machines, handed over each day, matches on both.
 

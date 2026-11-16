@@ -41,39 +41,72 @@ every time is simpler and always checked.
 
 ## A first install starts fresh or imports (2026-11-14)
 
-**Built by:** Clocking for the first start and the opening balance; Profiles for the opening ceiling hours; Handover for
-importing.
+**Built by:** Clocking for the first start and the opening balance; Handover for importing.
 
-**Decision:** an app with no data asks once how to start. **Start fresh** asks for the name of the first profile, the
-one with the balance (janitor work), so the first start doubles as a short onboarding; its colours are not asked for
-("Each profile carries its colours"). Then it asks for two opening figures: the janitor balance and the hours of the
-current month's ceiling already used (any carried from the month before included), both as they stood at the end of the
-day before the first day in the app. Each is kept in the record as an opening figure dated that first day, apart from
-the entries: the handover carries it, the reports show it ("brought over: +12:30"), a correction can change it, and the
-balance and the ceiling count from it. From then on the app records every entry with its day. **Import from my other
-machine** reads a handover file instead, as in "Handover between machines", and asks nothing more: the file brings the
-profiles with their colours, the settings and the opening figures; the theme starts as "System". The owner switches from
-the Excel file on a day not yet worked, with the file closed the evening before; the Excel history before that stays in
-the file and is not brought in.
+**Decision:** an app with no data asks once how to start, in the menu's frosted panel ("The main screen has a controls
+side and a dashboard") grown open over the controls side in a locked stage: no ×, and no click outside or Esc closes it.
+The dashboard stays sharp beside it, empty at first. One centred prompt shows at a time, and each step fades out as the
+next fades in, over the interface's transition time. First, two buttons: **"Starta nytt"**, and **"Importera"** with
+"från fil" under it in quiet text, greyed out until Handover.
+
+**Starta nytt** makes the first profile at once, the one with the balance (janitor work), in its default colours ("Each
+profile carries its colours"), and then asks two things, with no fields: a lone blinking caret, the browser's own, under
+each prompt.
+
+1. **"Nuvarande flextimmar?"** The balance as it stood at the end of the day before the first day in the app, typed in
+   the dashboard's display font: only digits, `:`, `+` and `-` are taken, and Enter moves on only for a whole time (`5`,
+   `12:30`, `-3:00`); no sign means plus, as Excel writes it. The number wears where it stands: the base colour at 0 or
+   below, the over colour in plus. The dashboard's number and bar follow as it is typed.
+2. **"Profilnamn?"** The first profile's name, typed in the colour the balance decided; Enter moves on only when it is
+   not empty.
+
+Esc goes back a step, the answer kept. After the name, the panel's text fades away and the panel shrinks into the menu
+button, as the menu closes; the screen takes no input until, a short delay later, the profile's letter fades in on the
+profile button, the last thing to happen. The balance is kept in the record as an opening figure dated the first day,
+apart from the entries: the handover carries it, the reports show it ("brought over: +12:30"), a correction can change
+it, and the balance counts from it. The fresh start asks nothing about the ceiling; the hours of the current month's
+ceiling already used are an open question ("Whose the opening ceiling hours are"). From then on the app records every
+entry with its day. **Importera** reads a handover file instead, as in "Handover between machines", and asks nothing
+more: the file brings the profiles with their colours, the settings and the opening figures; the theme starts as
+"System". The owner switches from the Excel file on a day not yet worked, with the file closed the evening before; the
+Excel history before that stays in the file and is not brought in.
 
 **Why:** the Excel history is not needed by anything the app does, and the boss has not asked for it; parsing the file's
 layout would cost much for it. Figures as of the end of the day before mean the app counts every day from its first, so
 none is counted twice or missed. Asking at first start keeps a second machine from getting opening figures of its own.
+The menu's panel is where the profile's settings will live, so the first start is the first use of it, and its frost
+keeps the dashboard in view, where the balance lands as it is typed. One prompt at a time is calm, and leaves the screen
+still enough that each answer shows where it goes. The balance comes first because it decides the letter's colour, so
+the name and the letter appear once, in their final colour; the letter arriving last, on a still screen, is the moment
+the app becomes the owner's. A real input with nothing of a field showing keeps typing, pasting and editing as they
+always work. "Från fil" says what the import reads without tying it to a machine; a file that is not a record is named
+as such.
 
 **Rejected:** importing the past days from the Excel file: far more work for history no one reads. The opening figures
 as settings: settings here change from a date and apply forward, and a setting typed on one machine could be left out of
 the other. The opening figures as entries: an opening has an amount, not a start and a stop, and every part that reads
 entries (the counting, the recent list, editing, the undo, the report) would have to skip it. Switching in the middle of
-a worked day: it happens once, and a fresh day needs nothing built.
+a worked day: it happens once, and a fresh day needs nothing built. A page of its own, or a form: the app would appear
+only after it, and a form asks everything at once. A slider for the balance: an exact figure from Excel cannot be hit by
+dragging. A default name: it invites Enter without a thought. The letter appearing under the frost as the name is typed:
+blurred, where it could arrive crisp. The name first: the letter would change colour once the balance came. "Importera"
+alone: it reads as importing the Excel file. "Importera från min andra dator": long, and tied to a machine.
 
 **Revisit if:** the boss or payroll asks for days from before the app.
 
 **Cases:**
 
-- First install on Monday, Excel balance +12:30 and 18 h of the ceiling used at Friday's close: the balance starts at
-  +12:30 and the ceiling wheel at 18 h; Monday's work adds to both: 7 h worked on Monday makes the balance +13:30.
-- Second machine, first start: "Import from my other machine" brings the whole record, opening figures and profile
-  colours included, and asks nothing more.
+- First install on Monday, Excel balance +12:30 at Friday's close: the balance starts at +12:30; 7 h worked on Monday
+  makes it +13:30.
+- `-3:00` typed: the number in the base colour, the bar to the left, the name and then the letter in the base colour.
+  `12:30` with no sign: all in the over colour.
+- `12:` and Enter: nothing happens; the caret waits. A letter typed into the balance: it does not appear. Enter on an
+  empty name: nothing happens.
+- Esc on the name: back to the balance, `-3:00` still there; Esc there: back to the two buttons.
+- The name entered: the text fades, the panel shrinks into the menu button, nothing can be pressed, and then the letter
+  fades in.
+- Second machine, first start: "Importera" brings the whole record, opening figures and profile colours included, and
+  asks nothing more.
 
 ## The app is in Swedish (2026-11-15)
 
