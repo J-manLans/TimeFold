@@ -93,9 +93,11 @@ balance follows.
 3. The menu: the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that change from a
    date.
 4. The pay estimate; the onboarding's step for the ceiling hours already used this month.
+5. Pruning on request ("Old history is pruned on request"), once the ceiling's carry exists: the prune itself and the
+   offer on the prune line, tested with set dates rather than waiting three years.
 
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
-every setting changes from a date as its cases say.
+every setting changes from a date as its cases say, and a prune on a set date cuts as its cases say.
 
 ### Phase 5: Handover
 
@@ -123,12 +125,6 @@ drawn in the prototype.
 **Done when:** the owner sends a real month's report and it reads without explanation. Then the owner switches from
 Excel: a fresh start with the opening figures, on a day not yet worked. Once the app is validated in that use, the
 prototype goes.
-
-## Later
-
-Decided, but needed only once the app has been in use for years:
-
-- Pruning old history on request ("Old history is pruned on request"), three years after the first install.
 
 ## Not on this roadmap
 

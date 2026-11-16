@@ -92,8 +92,8 @@ name ("Varv", "Flexa", "Stämpla"): the owner likes TimeFold, and an English tra
 
 ## Old history is pruned on request (2026-11-14)
 
-**Built by:** nothing on the roadmap yet; it matters three years after the first install, and needs the opening figures
-from Clocking and Profiles.
+**Built by:** Profiles, once the ceiling's carry exists, since a prune freezes both the balance and the ceiling hours.
+Its cases are tested with set dates.
 
 **Decision:** the record keeps a rolling window of three years. When the oldest whole month is more than three years
 old, a quiet line at the bottom of the main screen offers to prune ("Du har över tre års historik. Vill du rensa den
