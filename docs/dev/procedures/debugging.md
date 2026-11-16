@@ -11,10 +11,12 @@ The order of a bug hunt and the tools for it. Read in debug mode. What debug mod
    stays on the owner's machines. A bug that cannot be reproduced is reported as such, with what was tried; it is not
    fixed by a guess.
 2. **Find the cause from evidence:** read the code the test runs through, add temporary logging or set breakpoints, and
-   run the test again. Name the cause and the evidence for it. Temporary logging is removed before the fix is done.
-3. **Fix only what the evidence points at,** and see the test pass. Then run the checks for the change ("Commands" in
+   run the test again. Temporary logging is removed before the fix is done.
+3. **Report and wait:** one short message with the cause, the evidence for it and the planned fix; the fix waits for the
+   owner's go.
+4. **Fix only what the evidence points at,** and see the test pass. Then run the checks for the change ("Commands" in
    `AGENTS.md`).
-4. **The test stays,** named for the rule the bug broke, so the bug cannot come back unseen.
+5. **The test stays,** named for the rule the bug broke, so the bug cannot come back unseen.
 
 ## When the cause will not show
 

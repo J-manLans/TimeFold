@@ -70,8 +70,8 @@ matches the sketch in both themes on Windows and Linux.
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
 **Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line
-(`open-questions.md`); the "Visa alla" popup and editing an entry on its line, drawn in the prototype (its "Visa alla"
-button opens nothing yet).
+(`open-questions.md`); editing an entry on its line, drawn in the prototype (its "Visa alla" popup only notes where it
+goes).
 
 1. The "Visa alla" popup with every entry.
 2. Editing an entry on its line: handles, the zoom, gaps and shortening, the confirm.
