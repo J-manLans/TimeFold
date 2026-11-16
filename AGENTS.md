@@ -119,7 +119,8 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in every mode.
   - **Design mode:** questions, decisions, the vision, building and tuning the prototype; no code. Phase 0 runs in it
     and ends when the prototype is complete (`docs/dev/procedures/prototype.md`); so does any later rethink of the
-    design, and the design pass for a screen the prototype does not show.
+    design, and the design pass for a screen the prototype does not show. Spitball before verdicts, and before lists:
+    one topic at a time as a conversation; say what you are thinking and ask one open question.
   - **Learning mode:** side by side, for a new framework or a part the owner wants to understand. The owner writes the
     parts they want to learn by doing, or steers or reviews what the agent writes; the agent does the rest, the tedious
     parts first (installs, config, moving code, removing files), explains the why, gives one step at a time and waits
@@ -141,8 +142,7 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     planned fix, and waits for the owner's go before changing code, every time. The fix changes only what the evidence
     points at, until the test passes; the hunt's order and tools are in `docs/dev/procedures/debugging.md`. The fix is
     code: it is committed only after the owner has reviewed it and says so.
-- **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are thinking
-  and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A restated option
+- **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
 - **Argue for the owner's hunch** before defending the proposal.
 - **Make the work reviewable.** List each file touched and what changed, what was run and what was only read, and
