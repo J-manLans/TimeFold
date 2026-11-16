@@ -6,23 +6,23 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, the owner's look at the controls side in the running app; then step 1, the dashboard.
+Phase 1: Clocking, its **Settle first**; then step 1, the dashboard.
 
 ## State
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                                                                                | State   | Has it run                                                                                                 |
-| ------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| The project: Tauri, Svelte and Vite, with an empty main screen                                                      | written | run: the window opens on Linux                                                                             |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                   | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                   |
-| The design tokens and the two fonts, from the prototype                                                             | written | run: the window shows the text font on the theme's background                                              |
-| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`              | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart |
-| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown         | written | run: in tests only (20, in four time zones); no screen shows it yet                                        |
-| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room | written | run: the rules in tests; the screen not yet seen in the app window                                         |
-| The colour rule, from the prototype                                                                                 | written | run: in tests only                                                                                         |
-| The menu's fold-out, the theme button, and the machine's settings file                                              | written | run: the settings in tests; the menu not yet seen in the app window                                        |
-| The pointer light                                                                                                   | written | written: not yet seen in the app window                                                                    |
+| Part                                                                                                                | State   | Has it run                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
+| The project: Tauri, Svelte and Vite, with an empty main screen                                                      | written | run: the window opens on Linux                                                                                              |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                   | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                                    |
+| The design tokens and the two fonts, from the prototype                                                             | written | run: the window shows the text font on the theme's background                                                               |
+| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`              | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart                  |
+| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown         | written | run: in tests only (20, in four time zones); no screen shows it yet                                                         |
+| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room | written | run: the rules in tests; and in the app window on Linux, where the owner clocked entries and found them saved in the record |
+| The colour rule, from the prototype                                                                                 | written | run: in tests only                                                                                                          |
+| The menu's fold-out, the theme button, and the machine's settings file                                              | written | run: the settings in tests; the menu in the app window on Linux                                                             |
+| The pointer light                                                                                                   | written | run: in the app window on Linux                                                                                             |
 
 ## The phases
 
