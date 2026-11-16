@@ -169,9 +169,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   question about where things stand), offer it once. Check, in order: the roadmap and open questions against what was
   done, and each **Built by** (one naming a finished phase or part is stale); decisions from the session missing from
   their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas (built
-  ones move to decisions, dropped ones go). Say what changed and what needs the owner, flagging borderline calls
-  (decision or still open, idea or problem) instead of guessing; leave out what was checked and found fine. The same
-  goes for any report on docs.
+  ones move to decisions, dropped ones go). Report only what needs the owner, flagging borderline calls (decision or
+  still open, idea or problem) instead of guessing; what changed is in the commit message, and what was checked and
+  found fine is left out. The same goes for any report on docs.
 - **Add a rule only when its absence has cost something.**
 
 ## Commands, and what each kind of change runs
