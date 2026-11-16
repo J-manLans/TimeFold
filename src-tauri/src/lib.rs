@@ -7,8 +7,8 @@ use tauri::{AppHandle, Manager};
 const RECORD_FILE: &str = "record.json";
 /// The folder beside the record that holds its daily copies
 const COPIES_FOLDER: &str = "copies";
-/// How many daily copies are kept
-const KEEP_COPIES: usize = 14;
+/// How many daily copies are kept: a month back, so a fault noticed at the month's report can still be undone
+const KEEP_COPIES: usize = 31;
 /// The machine's own settings, such as the theme, beside the record; never exported
 const SETTINGS_FILE: &str = "settings.json";
 
@@ -34,6 +34,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             load_record,
             save_record,
+            copy_record,
+            newest_copy,
             load_settings,
             save_settings
         ])
@@ -53,16 +55,48 @@ fn load_record(app: AppHandle) -> Result<Option<String>, String> {
     disk::read_text(&folder.join(RECORD_FILE)).map_err(|e| e.to_string())
 }
 
-/// Saves the record's text safely, first copying the record as it stood if this is the first save of `today`
-/// (`YYYY-MM-DD`, the machine's local date, given by the TypeScript half). Invoked by `saveRecord` after every change,
-/// such as a stop.
+/// Saves the record's text safely. Invoked by `saveRecord` after every change, such as a stop.
 #[tauri::command]
-fn save_record(app: AppHandle, json: String, today: String) -> Result<(), String> {
+fn save_record(app: AppHandle, json: String) -> Result<(), String> {
     let folder = data_folder(&app)?;
-    let record = folder.join(RECORD_FILE);
-    disk::copy_once_a_day(&record, &folder.join(COPIES_FOLDER), &today, KEEP_COPIES)
-        .map_err(|e| e.to_string())?;
-    disk::save_safely(&record, &json).map_err(|e| e.to_string())
+    disk::save_safely(&folder.join(RECORD_FILE), &json).map_err(|e| e.to_string())
+}
+
+/// Keeps the day's copy of the record, unless `today` (`YYYY-MM-DD`, the machine's local date, given by the
+/// TypeScript half) has one or it is the same as the newest. Invoked by `copyRecord` when the app starts, once the
+/// record has passed the check.
+#[tauri::command]
+fn copy_record(app: AppHandle, today: String) -> Result<(), String> {
+    let folder = data_folder(&app)?;
+    disk::copy_once_a_day(
+        &folder.join(RECORD_FILE),
+        &folder.join(COPIES_FOLDER),
+        &today,
+        KEEP_COPIES,
+    )
+    .map_err(|e| e.to_string())
+}
+
+/// The newest daily copy as its day (`YYYY-MM-DD`, from its name) and its text, or `None` when there is none.
+/// Invoked by `newestCopy` when the record cannot be read.
+#[tauri::command]
+fn newest_copy(app: AppHandle) -> Result<Option<(String, String)>, String> {
+    let folder = data_folder(&app)?.join(COPIES_FOLDER);
+    let Some(newest) = disk::list_copies(&folder)
+        .map_err(|e| e.to_string())?
+        .into_iter()
+        .next()
+    else {
+        return Ok(None);
+    };
+    // record-2026-11-16.json → 2026-11-16
+    let stem = newest.file_stem().unwrap_or_default().to_string_lossy();
+    let day = stem
+        .get(stem.len().saturating_sub(10)..)
+        .unwrap_or_default()
+        .to_string();
+    let text = disk::read_text(&newest).map_err(|e| e.to_string())?;
+    Ok(text.map(|text| (day, text)))
 }
 
 /// Reads this machine's settings as text, or `None` when there are none yet. Invoked by `loadSettings` once, when the

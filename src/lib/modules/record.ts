@@ -90,6 +90,23 @@ export type Problem =
   | { kind: 'newer-version'; version: number }
   | { kind: 'wrong-shape'; where: string }
 
+/**
+ * What the screen for a record that cannot be read offers: the newest copy, a fresh start when there is none, or an
+ * update when the record is from a newer version
+ */
+export type Recovery = 'copy' | 'bare' | 'newer'
+
+/**
+ * What a problem with the record leads to ("A record that cannot be read offers the newest copy"). Used when the app
+ * starts on a record it cannot read: a broken file with a copy offers the copy, one without a fresh start, and a newer
+ * record, copy or not, an update.
+ * @param hasCopy - whether a readable copy exists
+ */
+export function recoveryFor(problem: Problem, hasCopy: boolean): Recovery {
+  if (problem.kind === 'newer-version') return 'newer'
+  return hasCopy ? 'copy' : 'bare'
+}
+
 /** What reading a file gives: the record, or the problem with it */
 export type ReadResult = { ok: true; record: TimeRecord } | { ok: false; problem: Problem }
 

@@ -29,21 +29,27 @@ pub fn read_text(path: &Path) -> io::Result<Option<String>> {
     }
 }
 
-/// Copies the file at `path` into `folder` as `<name>-<today>.<ext>`, unless a copy for `today` is already there or
-/// there is no file yet, then deletes the oldest copies beyond `keep`. Called before each save, so a day's copy holds
-/// the file as it stood before that day's first save. `today` is a date written `YYYY-MM-DD`, given by the caller.
-/// Used by `save_record`: Monday's first save copies the record to `copies/record-2026-11-16.json`.
+/// Copies the file at `path` into `folder` as `<name>-<today>.<ext>`, unless a copy for `today` is already there,
+/// the file is the same as the newest copy, or there is no file yet; then deletes the oldest copies beyond `keep`.
+/// Called when the app starts, once the file has passed the check, so every copy is a file that could be read. `today`
+/// is a date written `YYYY-MM-DD`, given by the caller. Used by `copy_record`: Monday's start copies the record to
+/// `copies/record-2026-11-16.json`, and Tuesday's makes none if nothing changed.
 pub fn copy_once_a_day(path: &Path, folder: &Path, today: &str, keep: usize) -> io::Result<()> {
-    if !path.exists() {
+    let Some(contents) = read_text(path)? else {
         return Ok(());
-    }
+    };
     // record.json → record-2026-11-16.json
     let stem = path.file_stem().unwrap_or_default().to_string_lossy();
     let ext = path.extension().unwrap_or_default().to_string_lossy();
     let copy = folder.join(format!("{stem}-{today}.{ext}"));
-    if !copy.exists() {
+    let newest = list_copies(folder)?.into_iter().next();
+    let same = match &newest {
+        Some(newest) => read_text(newest)?.as_deref() == Some(contents.as_str()),
+        None => false,
+    };
+    if !copy.exists() && !same {
         fs::create_dir_all(folder)?;
-        fs::copy(path, &copy)?;
+        fs::write(&copy, &contents)?;
     }
     for old in list_copies(folder)?.iter().skip(keep) {
         fs::remove_file(old)?;
@@ -52,7 +58,8 @@ pub fn copy_once_a_day(path: &Path, folder: &Path, today: &str, keep: usize) -> 
 }
 
 /// Lists the copies in `folder`, newest first. An empty list when the folder does not exist yet. Used by
-/// `copy_once_a_day` to find the copies past 14, and later to offer the newest when the record cannot be read.
+/// `copy_once_a_day` to compare with the newest and find the copies past 31, and by `newest_copy` to offer the newest
+/// when the record cannot be read.
 pub fn list_copies(folder: &Path) -> io::Result<Vec<PathBuf>> {
     let entries = match fs::read_dir(folder) {
         Ok(entries) => entries,
@@ -107,7 +114,7 @@ mod tests {
 
     const OLD: &str = r#"{"version":1,"entries":["Monday"]}"#;
     const NEW: &str = r#"{"version":1,"entries":["Monday","Tuesday"]}"#;
-    const KEEP: usize = 14;
+    const KEEP: usize = 31;
 
     // === Helpers ===
 
@@ -165,24 +172,42 @@ mod tests {
     }
 
     #[test]
-    fn a_copy_is_made_once_on_each_day_the_app_saves() {
+    fn a_copy_is_made_once_a_day_and_not_when_nothing_changed() {
         let folder = tempdir().unwrap();
         let record = folder.path().join("record.json");
         let copies = folder.path().join("copies");
         fs::write(&record, OLD).unwrap();
 
-        // Three saves on Monday, none on Tuesday, one on Wednesday
+        // Started three times on Monday, the record changed after the first; once on Tuesday; once on Wednesday,
+        // nothing changed since Tuesday
         copy_once_a_day(&record, &copies, "2026-11-16", KEEP).unwrap();
         fs::write(&record, NEW).unwrap();
         copy_once_a_day(&record, &copies, "2026-11-16", KEEP).unwrap();
         copy_once_a_day(&record, &copies, "2026-11-16", KEEP).unwrap();
+        copy_once_a_day(&record, &copies, "2026-11-17", KEEP).unwrap();
         copy_once_a_day(&record, &copies, "2026-11-18", KEEP).unwrap();
 
         let names = names(&list_copies(&copies).unwrap());
-        assert_eq!(names, ["record-2026-11-18.json", "record-2026-11-16.json"]);
-        // Monday's copy is the record as it stood before Monday's first save
+        // Tuesday's holds Monday's change; Wednesday's would be the same as Tuesday's, so it is dropped
+        assert_eq!(names, ["record-2026-11-17.json", "record-2026-11-16.json"]);
         let monday = fs::read_to_string(copies.join("record-2026-11-16.json")).unwrap();
         assert_eq!(monday, OLD);
+    }
+
+    #[test]
+    fn a_copy_the_same_as_the_newest_is_dropped() {
+        let folder = tempdir().unwrap();
+        let record = folder.path().join("record.json");
+        let copies = folder.path().join("copies");
+        fs::write(&record, OLD).unwrap();
+
+        copy_once_a_day(&record, &copies, "2026-11-16", KEEP).unwrap();
+        copy_once_a_day(&record, &copies, "2026-11-17", KEEP).unwrap();
+
+        assert_eq!(
+            names(&list_copies(&copies).unwrap()),
+            ["record-2026-11-16.json"]
+        );
     }
 
     #[test]
@@ -202,25 +227,27 @@ mod tests {
     }
 
     #[test]
-    fn the_fifteenth_copy_deletes_the_oldest() {
+    fn the_thirty_second_copy_deletes_the_oldest() {
         let folder = tempdir().unwrap();
         let record = folder.path().join("record.json");
         let copies = folder.path().join("copies");
-        fs::write(&record, OLD).unwrap();
 
-        for day in 1..=15 {
-            copy_once_a_day(&record, &copies, &format!("2026-12-{day:02}"), KEEP).unwrap();
+        // A different record each day, so none is dropped as the same
+        for day in 1..=32 {
+            fs::write(&record, format!(r#"{{"day":{day}}}"#)).unwrap();
+            let date = format!("2027-{:02}-{:02}", 1 + (day - 1) / 28, 1 + (day - 1) % 28);
+            copy_once_a_day(&record, &copies, &date, KEEP).unwrap();
         }
 
         let names = names(&list_copies(&copies).unwrap());
-        assert_eq!(names.len(), 14);
+        assert_eq!(names.len(), 31);
         assert_eq!(
             names.first().map(String::as_str),
-            Some("record-2026-12-15.json")
+            Some("record-2027-02-04.json")
         );
         assert_eq!(
             names.last().map(String::as_str),
-            Some("record-2026-12-02.json")
+            Some("record-2027-01-02.json")
         );
     }
 }

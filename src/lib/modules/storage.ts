@@ -5,7 +5,7 @@
 
 import { invoke } from '@tauri-apps/api/core'
 import { localDay } from './counting'
-import { readRecord, type ReadResult, type TimeRecord } from './record'
+import { readRecord, type Day, type ReadResult, type TimeRecord } from './record'
 import { readSettings, type Settings } from './settings'
 
 // ======================================
@@ -23,14 +23,41 @@ export async function loadRecord(): Promise<ReadResult | null> {
 }
 
 /**
- * Saves the record to the disk, safely, as readable JSON. The first save of a day first keeps a copy of the record as
- * it stood. Used after every change: the first record at onboarding, each start and stop, each correction.
- * @param record - the whole record
- * @param now - the moment of the save, whose local date names the day's copy
+ * Saves the record to the disk, safely, as readable JSON; it copies nothing. Used after every change: the first record
+ * at onboarding, each start and stop, each correction, and a copy taken at recovery.
  */
-export async function saveRecord(record: TimeRecord, now: Date = new Date()): Promise<void> {
+export async function saveRecord(record: TimeRecord): Promise<void> {
   // Indented, so the file reads well if it is ever opened by hand
-  await invoke('save_record', { json: JSON.stringify(record, null, 2), today: localDay(now.getTime()) })
+  await invoke('save_record', { json: JSON.stringify(record, null, 2) })
+}
+
+/**
+ * Keeps the day's copy of the record as it stands on the disk, unless the day has one or it is the same as the newest
+ * ("The record is one JSON file"). Used when the app starts, once the record has passed the check, so every copy is
+ * readable.
+ * @param now - the moment the app started, whose local date names the copy
+ */
+export async function copyRecord(now: Date = new Date()): Promise<void> {
+  await invoke('copy_record', { today: localDay(now.getTime()) })
+}
+
+/** The newest daily copy that can be read: its day and its record */
+export interface Copy {
+  day: Day
+  record: TimeRecord
+}
+
+/**
+ * Reads the newest daily copy and checks it. Used when the record cannot be read, to offer the copy ("A record that
+ * cannot be read offers the newest copy").
+ * @returns null when there is no copy, or the newest cannot be read as a record either
+ */
+export async function newestCopy(): Promise<Copy | null> {
+  const found = await invoke<[Day, string] | null>('newest_copy')
+  if (found === null) return null
+  const [day, text] = found
+  const result = readRecord(text)
+  return result.ok ? { day, record: result.record } : null
 }
 
 /**

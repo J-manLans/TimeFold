@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { freshRecord, readRecord, RECORD_FORMAT, RECORD_VERSION } from '$lib/modules/record'
+import { freshRecord, readRecord, RECORD_FORMAT, RECORD_VERSION, recoveryFor } from '$lib/modules/record'
 import { RECORD } from '$tests/helpers/records'
 
 // === Helpers ===
@@ -112,5 +112,19 @@ describe('a fresh start makes a record of one profile with its opening', () => {
 
   it('passes the check on opening', () => {
     expect(readRecord(JSON.stringify(freshRecord('Vaktmästare', -90, '2026-11-16'))).ok).toBe(true)
+  })
+})
+
+describe('a record that cannot be read leads to the copy, a fresh start, or an update', () => {
+  it('offers the copy for a broken file when there is one, and a fresh start when there is not', () => {
+    const broken = { kind: 'not-json', detail: 'Unexpected end' } as const
+
+    expect([recoveryFor(broken, true), recoveryFor({ kind: 'wrong-shape', where: 'entries[1].start' }, false)]).toEqual(
+      ['copy', 'bare'],
+    )
+  })
+
+  it('asks for an update for a newer record, copy or not', () => {
+    expect(recoveryFor({ kind: 'newer-version', version: 3 }, true)).toBe('newer')
   })
 })

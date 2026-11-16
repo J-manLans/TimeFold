@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { loadRecord, loadSettings, saveRecord, saveSettings } from '$lib/modules/storage'
+import { copyRecord, loadRecord, loadSettings, newestCopy, saveRecord, saveSettings } from '$lib/modules/storage'
 import { RECORD } from '$tests/helpers/records'
 
 // === Stand-ins ===
@@ -38,24 +38,44 @@ describe('loading a record checks it', () => {
   })
 })
 
-describe('saving sends the whole record with the local date', () => {
-  it('sends the record as JSON and the day it is on this machine', async () => {
+describe('saving sends the whole record, and copies nothing', () => {
+  it('sends the record as JSON', async () => {
     rust.mockResolvedValue(undefined)
 
-    await saveRecord(RECORD, new Date(2026, 10, 16, 9, 0))
+    await saveRecord(RECORD)
 
-    expect(rust).toHaveBeenCalledWith('save_record', { json: expect.any(String), today: '2026-11-16' })
+    expect(rust).toHaveBeenCalledWith('save_record', { json: expect.any(String) })
     const sent = rust.mock.calls[0][1] as { json: string }
     expect(JSON.parse(sent.json)).toEqual(RECORD)
   })
+})
 
+describe('the day’s copy is asked for with the local date', () => {
   it('names the local day on both sides of midnight, not the day in UTC', async () => {
     rust.mockResolvedValue(undefined)
 
-    await saveRecord(RECORD, new Date(2026, 10, 16, 23, 59))
-    await saveRecord(RECORD, new Date(2026, 10, 17, 0, 1))
+    await copyRecord(new Date(2026, 10, 16, 23, 59))
+    await copyRecord(new Date(2026, 10, 17, 0, 1))
 
-    expect(rust.mock.calls.map(([, args]) => (args as { today: string }).today)).toEqual(['2026-11-16', '2026-11-17'])
+    expect(rust.mock.calls).toEqual([
+      ['copy_record', { today: '2026-11-16' }],
+      ['copy_record', { today: '2026-11-17' }],
+    ])
+  })
+})
+
+describe('the newest copy is read and checked, with its day', () => {
+  it('gives the day and the record', async () => {
+    rust.mockResolvedValue(['2026-11-16', JSON.stringify(RECORD)])
+
+    expect(await newestCopy()).toEqual({ day: '2026-11-16', record: RECORD })
+    expect(rust).toHaveBeenCalledWith('newest_copy')
+  })
+
+  it('gives null when there is no copy, or the newest cannot be read', async () => {
+    rust.mockResolvedValueOnce(null).mockResolvedValueOnce(['2026-11-16', '{"broken'])
+
+    expect([await newestCopy(), await newestCopy()]).toEqual([null, null])
   })
 })
 

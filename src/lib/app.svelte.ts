@@ -9,7 +9,7 @@ import { press, undo, type Click } from '$lib/modules/clock'
 import { localDay } from '$lib/modules/counting'
 import { freshRecord, type Entry, type Problem, type TimeRecord } from '$lib/modules/record'
 import { nextTheme, type Theme } from '$lib/modules/settings'
-import { loadRecord, loadSettings, saveRecord, saveSettings } from '$lib/modules/storage'
+import { copyRecord, loadRecord, loadSettings, saveRecord, saveSettings } from '$lib/modules/storage'
 
 // ======================================
 //                 API
@@ -72,6 +72,12 @@ class AppState {
       return
     }
     this.#ready(result.record)
+    // The day's copy, from the file that has just passed the check; a copy that fails does not stop the app
+    try {
+      await copyRecord()
+    } catch (error) {
+      console.error('The daily copy could not be made', error)
+    }
   }
 
   // === API ===
