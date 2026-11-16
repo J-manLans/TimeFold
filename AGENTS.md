@@ -57,7 +57,8 @@ map once it exists:
 3. **A part splits again** when it passes its limit: into a folder with its name, holding the pieces cut by topic. The
    folder has no index of its own; the collection's README groups the pieces under the folder's name and still lists
    every title. The agent makes the cut as soon as it notices a file past its limit, at a sweep or in passing, without
-   asking, and reports the new files and their sizes. It is a structural fix, the agent's to make.
+   asking, and reports the new files and their sizes. A file near its limit is not mentioned. It is a structural fix,
+   the agent's to make.
 
 Limits, checked with `wc -w` at the sweep and whenever a file looks long: ~4,000 words for a general doc (flagged only),
 ~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point at the

@@ -45,7 +45,8 @@ running entry from an earlier day, its three questions in `open-questions.md`; t
 are drawn.
 
 1. The question for a running entry from an earlier day.
-2. The release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
+2. The window's minimum size ("A narrow window stacks the dashboard over the controls"), tuned on the app. Then the
+   release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
    Windows and Linux installers from a version tag, `docs/dev/procedures/release.md`, and `v0.1.0`.
 
    The owner makes the `v0.1.0` release by hand, start to finish: raising the version, pushing the tag, publishing the

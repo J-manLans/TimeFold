@@ -76,7 +76,7 @@ scan lines): the owner wants the direction, not the costume.
 
 ## A narrow window stacks the dashboard over the controls (2026-11-15)
 
-**Built by:** Clocking, with the main screen.
+**Built by:** Clocking, for the window's minimum size.
 
 **Decision:** the main screen is responsive to the window's size. Wide enough, the two sides sit side by side; below a
 set width, they stack, the dashboard on top and the controls side under it, each the window's full width. The window has

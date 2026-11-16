@@ -4,8 +4,6 @@ How the code is written and tested. Each decision follows the template in `READM
 
 ## Tests come first, from the owner's rules (2026-11-14)
 
-**Built by:** Clocking, from its first code.
-
 **Decision:** before a piece of code is written, the owner says what must hold and what must never happen. Owner and
 agent talk it through as a conversation: the agent names what it thinks is missing, and together they settle what fits.
 The agreed cases are written as tests and seen to fail before the code is written. Cases agreed before their part is
@@ -25,8 +23,6 @@ already says its rule.
 **Revisit if:** writing the cases first slows the work more than it saves.
 
 ## Code style (2026-11-15)
-
-**Built by:** Clocking, from its first file.
 
 **Decision:** the code follows the owner's style from an earlier project, translated to Svelte, TypeScript and Rust.
 
@@ -105,8 +101,6 @@ a CI server, which the project does not have.
 **Revisit if:** a tool's default fights the owner's banners or comment style, or a third language joins.
 
 ## Design tokens hold every value of the look (2026-11-15)
-
-**Built by:** Clocking: each component takes its tokens as it is built.
 
 **Decision:** a design token is a named value standing for a design decision, written as a CSS custom property. Every
 raw value of the look (colour, font, size, spacing, radius, time, shadow) is a token in one file,
