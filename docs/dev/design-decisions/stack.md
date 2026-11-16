@@ -68,8 +68,8 @@ yet, and the welcome screen opens ("A first install starts fresh or imports"). A
 the current shape; a file of a newer version, at opening or at import, is refused with a plain message to update the app
 on this machine first, and left untouched. The handover file is the same JSON. The theme is in a small settings file of
 the machine's own, which is never exported; the profiles' colours are in the record. On each day the app is used, its
-first save first copies the record as it stood into a folder beside it; the last 14 copies are kept, however many days
-they span.
+first save first copies the record as it stood into `copies/`, a folder beside it; the last 14 copies are kept, however
+many days they span.
 
 **Why:** the record has shape (entries hold breaks; settings change from a date), which JSON holds in one readable file.
 At about four entries a day, ten years is a megabyte or two: rewriting it on each save and counting in memory are
