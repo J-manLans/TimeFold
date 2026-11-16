@@ -61,3 +61,13 @@ Install the tools then and sweep the whole codebase once: `@vitest/coverage-v8` 
 StrykerJS with its Vitest runner (whether breaking the code turns a test red) for TypeScript, `cargo-mutants` for Rust.
 Mutation testing measures the rule in "Code style" that a test earns its place only if breaking its code turns it red.
 Until then the owner's cases, written first and seen red, and the hand count in Phase 1's **Done when** carry it.
+
+## Property-based testing
+
+**Returns when:** a bug is "sometimes wrong" and a few hand-picked cases do not catch it, or a rule grows too many
+inputs to pick cases for by hand.
+
+A test states a rule, such as "two undos leave the balance as it was", and the tool tries hundreds of generated inputs,
+shrinking a failure to the smallest one. fast-check for TypeScript, which runs inside Vitest, and proptest for Rust. The
+counting, being pure rules over dates and seconds, would gain most. One of the tools in a bug hunt
+(`procedures/debugging.md`).

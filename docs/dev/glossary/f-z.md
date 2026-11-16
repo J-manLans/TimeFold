@@ -47,8 +47,8 @@ report.
 **Profile.** A label on an entry for the kind of work it is, such as janitor work or the development group. Profiles are
 isolated; only one with expected hours has a balance.
 
-**Prototype.** The main screen as tuned before it was built, `docs/vision/prototype.html`: the north star for the look
-beside the vision, kept until the finished app has been validated. Not a **Sketch**.
+**Prototype.** The app's screens as tuned before they are built, `docs/vision/prototype.html`: the north star for the
+look beside the vision, kept until the finished app has been validated. Not a **Sketch**.
 
 **Prune.** Removing the record's oldest whole months, past three years, on the owner's yes; the balance and ceiling
 hours at the cut become opening figures.

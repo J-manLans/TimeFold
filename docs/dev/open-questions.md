@@ -49,3 +49,14 @@ ceiling hours typed in at a fresh start ("A first install starts fresh or import
 faded for every profile, as nobody's; or the onboarding asks which profile they belong to.
 
 **See:** The ceiling wheel; A first install starts fresh or imports.
+
+## Debugging (any phase)
+
+### A permanent log (2026-11-16)
+
+A bug that shows once, on a real day, leaves no trail unless the app writes one as it runs. Options: a small permanent
+log of key events (opening the record, each save, each error) in the app's data folder, kept short like the daily
+copies; or no permanent log, only temporary logging added during a hunt (`procedures/debugging.md`). Lean, the agent's:
+the small permanent log, since a time tracker's worst bugs, such as a lost entry, are the rare ones.
+
+**See:** Rust touches the disk; TypeScript knows the record; The record is one JSON file.

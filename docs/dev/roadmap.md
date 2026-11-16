@@ -32,6 +32,9 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
+**Settle first:** the screens the prototype does not show yet: the onboarding, the screen for a record that cannot be
+read, and the question for a running entry from an earlier day.
+
 1. The main screen's controls side: the rules of start, stop and undo as tested functions; the button block (export and
    import greyed out), the status line, the undo, the prune line's room; a test record in dev mode until the onboarding.
 2. The dashboard with the flex bar and the five recent entries; the menu button with a menu holding its heading and the

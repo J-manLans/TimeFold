@@ -21,7 +21,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | Doc                                   | For                                                                              |
 | ------------------------------------- | -------------------------------------------------------------------------------- |
 | `AGENTS.md`                           | How an agent works here (this file)                                              |
-| `docs/vision.md`                      | Where the project is heading, and the questions to ask of a new idea             |
+| `docs/vision/vision.md`               | Where the project is heading, and the questions to ask of a new idea             |
 | `docs/dev/roadmap.md`                 | **Next**, the state table, the phases, what is not on the roadmap                |
 | `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area            |
 | `docs/dev/open-questions.md`          | What is not decided, grouped by the phase (or part) that needs the answer        |
@@ -29,6 +29,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                         |
 | `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**            |
 | `docs/dev/sketches/`                  | Looks tried before they are decided, a page or a drawing each                    |
+| `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when  |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
@@ -42,8 +43,6 @@ deleted once the code it previews is built; `git log` keeps it.
 Added when there is something to put in them, each opening with what it holds and what stays out, and moved into the doc
 map once it exists:
 
-- `docs/dev/procedures/`, when a job is done a second time: one file per job only some sessions need, and a line here
-  saying when to read it.
 - `docs/dev/archive/`, when an investigation closes or an idea is dropped, and both are true: it is likely to come up
   again, and reaching the conclusion cost something. Each entry says what it was, why it ended, and what would change
   the verdict. Otherwise delete it and let `git log` keep it.
@@ -69,8 +68,10 @@ Scaled to the task:
 1. Always: this file and `docs/dev/roadmap.md`. **Next** in the roadmap says what comes next, not the branch name.
 2. Before a design opinion: `docs/vision/vision.md` (and for a look, `docs/vision/prototype.html`),
    `docs/dev/design-decisions/README.md` and the area files the opinion touches, and `docs/dev/open-questions.md`.
-3. Before reading code: the code map, once it exists.
-4. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
+3. Before building or tuning the prototype, in any design pass: `docs/dev/procedures/prototype.md`.
+4. In debug mode: `docs/dev/procedures/debugging.md`.
+5. Before reading code: the code map, once it exists.
+6. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 
 ## Where things go
 
@@ -112,25 +113,33 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## How to work with the owner
 
-- **Three modes, switched by name.** The owner decides; the mode lasts until the owner names another ("learning mode for
-  Phase 3", "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in
-  every mode.
-  - **Design mode:** questions, decisions, the vision, tuning the prototype; no code. Phase 0 runs in it, and so does
-    any later rethink of the design.
+- **Four modes, switched by name.** Design decides what to build; learning builds it side by side so the owner
+  understands it; vibe has the agent build what is settled while the owner reviews; debug finds why something is wrong
+  before anything changes. The owner decides; the mode lasts until the owner names another ("learning mode for Phase 3",
+  "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in every mode.
+  - **Design mode:** questions, decisions, the vision, building and tuning the prototype; no code. Phase 0 runs in it
+    and ends when the prototype is complete (`docs/dev/procedures/prototype.md`); so does any later rethink of the
+    design, and the design pass for a screen the prototype does not show.
   - **Learning mode:** side by side, for a new framework or a part the owner wants to understand. The owner writes the
     parts they want to learn by doing, or steers or reviews what the agent writes; the agent does the rest, the tedious
     parts first (installs, config, moving code, removing files), explains the why, gives one step at a time and waits
     for the owner before the next, and reviews what the owner wrote. Nothing is committed unasked.
-  - **Vibe mode:** the agent builds a whole phase, once the owner starts it for that phase. First owner and agent settle
-    everything the phase needs: its **Settle first**, its open questions, its cases, and any new folder. Then the agent
-    builds the phase without stopping, tests first as always, in small batches, each committed as soon as `npm run tidy`
-    and `npm test` pass; the owner reviews through git. A question that comes up and blocks nothing is collected and
-    asked at the end, as one numbered list; one that would change what is built stops the work and is asked at once.
-    **The prototype is the source of truth for the look:** every value, colour, size, time and behaviour of a screen is
-    taken from it as tuned, through the decision that holds its numbers; where the two disagree, the agent says so and
-    does not pick. Each batch with a screen ends with a short list of what to check by eye in the running app.
-    Afterwards the owner goes by look and feel, and tunes values in `design-tokens.css` or asks the agent for anything
-    bigger.
+  - **Vibe mode:** the agent builds a whole phase, or the rest of one, once the owner starts it for that phase. First
+    owner and agent settle everything the phase needs: its **Settle first**, its open questions, its cases, any new
+    folder, and a check that the prototype shows every screen and state the phase builds. Then the agent builds the
+    phase without stopping, tests first as always, in small batches, each committed as soon as `npm run tidy` and
+    `npm test` pass; the owner reviews through git. A question that comes up and blocks nothing is collected and asked
+    at the end, as one numbered list; one that would change what is built stops the work and is asked at once. **The
+    prototype is the source of truth for the look:** every value, colour, size, time and behaviour of a screen is taken
+    from it as tuned, through the decision that holds its numbers; where the two disagree, the agent says so and does
+    not pick. A screen or state the prototype does not show stops the work: it goes back to design mode to be drawn, and
+    the agent does not invent a look. Each batch with a screen ends with a short list of what to check by eye in the
+    running app. Afterwards the owner goes by look and feel, and tunes values in `design-tokens.css` or asks the agent
+    for anything bigger.
+  - **Debug mode:** for a bug the owner has seen. The agent hunts it: reproduces it as a test seen to fail before any
+    code changes, finds the cause from evidence rather than guesses, and changes only what the evidence points at, until
+    the test passes; the hunt's order and tools are in `docs/dev/procedures/debugging.md`. The fix is code, and is
+    committed as any code is.
 - **Spitball before verdicts, and before lists.** Take one topic at a time as a conversation: say what you are thinking
   and ask one open question. When a choice is open, give a lean, labelled as a lean, with its reason. A restated option
   is not a decision.
