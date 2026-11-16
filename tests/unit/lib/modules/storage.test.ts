@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { loadRecord, saveRecord } from '$lib/modules/storage'
+import { loadRecord, loadSettings, saveRecord, saveSettings } from '$lib/modules/storage'
 import { RECORD } from '$tests/helpers/records'
 
 // === Stand-ins ===
@@ -64,5 +64,32 @@ describe('a failed save is not hidden', () => {
     rust.mockRejectedValue('No space left on device')
 
     await expect(saveRecord(RECORD)).rejects.toBe('No space left on device')
+  })
+})
+
+describe('loading the settings reads the machine’s own file', () => {
+  it('gives the theme from the file', async () => {
+    rust.mockResolvedValue('{"theme":"light"}')
+
+    expect(await loadSettings()).toEqual({ theme: 'light' })
+    expect(rust).toHaveBeenCalledWith('load_settings')
+  })
+
+  it('gives System, with no error, when the file cannot be read', async () => {
+    rust.mockRejectedValue('Permission denied')
+
+    expect(await loadSettings()).toEqual({ theme: 'system' })
+  })
+})
+
+describe('saving the settings sends them as JSON', () => {
+  it('sends the theme', async () => {
+    rust.mockResolvedValue(undefined)
+
+    await saveSettings({ theme: 'dark' })
+
+    const sent = rust.mock.calls[0][1] as { json: string }
+    expect(rust.mock.calls[0][0]).toBe('save_settings')
+    expect(JSON.parse(sent.json)).toEqual({ theme: 'dark' })
   })
 })

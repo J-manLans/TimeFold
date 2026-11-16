@@ -20,15 +20,17 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `main.ts`: the entry; the global styles are imported here and nowhere else.
 - `App.svelte`: the root component, the main screen.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
-  problem, ready), the profile on screen and the last click; its actions `load`, `press` and `undo` change the record
-  through the rules and save it. Components read it and call its actions.
+  problem, ready), the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `undo`
+  and `cycleTheme` change them through the rules and save them. The theme is shown by setting `color-scheme` on the
+  page. Components read it and call its actions.
 - `lib/components/`: the Svelte components, starting with their first file.
 - `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types, and `readRecord`, the check on
   opening that turns a file's text into a record or names what is wrong with it. `clock.ts`: what a click on start/stop
   does to the record (`press`) and the undo of the last click (`undo`). `colours.ts`: the colour rule from the
   prototype, a profile's base, dimmed and over colours by role. `counting.ts`: the balance, each day's result, expected
-  hours and the app's month, worked out in seconds from the record. `storage.ts`: `loadRecord` and `saveRecord`, the
-  only place that invokes the record's commands; it adds the local date that names a day's copy.
+  hours and the app's month, worked out in seconds from the record. `settings.ts`: the machine's own settings (the
+  theme), their defaults and the check on reading. `storage.ts`: `loadRecord`, `saveRecord`, `loadSettings` and
+  `saveSettings`, the only place that invokes the Rust half; it adds the local date that names a day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts and the body.
 
@@ -42,9 +44,10 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 ## The Rust half: `src-tauri/`
 
 - `src/main.rs`: starts the app; `src/lib.rs`: builds it in `run()`, where commands and plugins are registered, and
-  holds the commands the interface invokes: `load_record` and `save_record` (the daily copy, then the safe save).
+  holds the commands the interface invokes: `load_record` and `save_record` (the daily copy, then the safe save), and
+  `load_settings` and `save_settings` (the safe save, no copies).
 - `src/disk.rs`: the file work, with no Tauri in it: reading a file, the safe save, the daily copies; its tests at the
-  bottom. The record and its `copies/` folder live in the app's data folder.
+  bottom. The record, its `copies/` folder and `settings.json` live in the app's data folder.
 - `tauri.conf.json`: the app's name, its identifier (which names the folder the record lives in), the window, and the
   commands that build the interface.
 - `capabilities/`: what the interface may ask of the Rust half.

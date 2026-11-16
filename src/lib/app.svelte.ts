@@ -1,5 +1,6 @@
 /**
- * The app's state while it runs: the record in memory, and the actions that change it and save it. Components read
+ * The app's state while it runs: the record in memory, the machine's theme, and the actions that change them and save
+ * them. Components read
  * it and call its actions; nothing else changes the record. Svelte's $state makes every component that reads a field
  * follow it when it changes.
  */
@@ -7,7 +8,8 @@
 import { press, undo, type Click } from '$lib/modules/clock'
 import { localDay } from '$lib/modules/counting'
 import { freshRecord, type Entry, type Problem, type TimeRecord } from '$lib/modules/record'
-import { loadRecord, saveRecord } from '$lib/modules/storage'
+import { nextTheme, type Theme } from '$lib/modules/settings'
+import { loadRecord, loadSettings, saveRecord, saveSettings } from '$lib/modules/storage'
 
 // ======================================
 //                 API
@@ -27,6 +29,8 @@ class AppState {
   onScreen = $state('p1')
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
+  /** This machine's theme, from its settings file */
+  theme = $state<Theme>('system')
 
   /** The entry that runs, if any; at most one does */
   running: Entry | null = $derived(this.record?.entries.find((e) => e.stop === null) ?? null)
@@ -34,10 +38,12 @@ class AppState {
   // === Init ===
 
   /**
-   * Loads the record and decides where the app starts. Used once, when the app starts: no record opens the welcome
-   * screen (in dev mode, a fresh record instead, until the onboarding exists), a broken one the problem screen.
+   * Loads the machine's theme and the record, and decides where the app starts. Used once, when the app starts: no
+   * record opens the welcome screen (in dev mode, a fresh record instead, until the onboarding exists), a broken one
+   * the problem screen.
    */
   async load(): Promise<void> {
+    this.#applyTheme((await loadSettings()).theme)
     const result = await loadRecord()
     if (result === null) {
       if (!import.meta.env.DEV) {
@@ -80,7 +86,22 @@ class AppState {
     await saveRecord(after)
   }
 
+  /** The theme button pressed. Used by the theme button: moves to the next theme, shows it at once, then saves it */
+  async cycleTheme(): Promise<void> {
+    this.#applyTheme(nextTheme(this.theme))
+    await saveSettings({ theme: this.theme })
+  }
+
   // === Helpers ===
+
+  /**
+   * Shows `theme`: color-scheme on the page picks each token's light or dark side, and "System" leaves the pick to
+   * the computer. Used by `load` and `cycleTheme`
+   */
+  #applyTheme(theme: Theme): void {
+    this.theme = theme
+    document.documentElement.style.colorScheme = theme === 'system' ? 'light dark' : theme
+  }
 
   /** Shows the main screen on `record`, with its first profile on screen. Used by `load` */
   #ready(record: TimeRecord): void {

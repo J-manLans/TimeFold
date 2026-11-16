@@ -9,6 +9,8 @@ const RECORD_FILE: &str = "record.json";
 const COPIES_FOLDER: &str = "copies";
 /// How many daily copies are kept
 const KEEP_COPIES: usize = 14;
+/// The machine's own settings, such as the theme, beside the record; never exported
+const SETTINGS_FILE: &str = "settings.json";
 
 // ======================================
 //                 Init
@@ -29,7 +31,12 @@ pub fn run() {
             }
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![load_record, save_record])
+        .invoke_handler(tauri::generate_handler![
+            load_record,
+            save_record,
+            load_settings,
+            save_settings
+        ])
         .run(tauri::generate_context!())
         .expect("error while building tauri application");
 }
@@ -58,12 +65,28 @@ fn save_record(app: AppHandle, json: String, today: String) -> Result<(), String
     disk::save_safely(&record, &json).map_err(|e| e.to_string())
 }
 
+/// Reads this machine's settings as text, or `None` when there are none yet. Invoked by `loadSettings` once, when the
+/// app starts.
+#[tauri::command]
+fn load_settings(app: AppHandle) -> Result<Option<String>, String> {
+    let folder = data_folder(&app)?;
+    disk::read_text(&folder.join(SETTINGS_FILE)).map_err(|e| e.to_string())
+}
+
+/// Saves this machine's settings safely; no daily copies, since they only hold the theme. Invoked by `saveSettings`
+/// after each change, such as a click on the theme button.
+#[tauri::command]
+fn save_settings(app: AppHandle, json: String) -> Result<(), String> {
+    let folder = data_folder(&app)?;
+    disk::save_safely(&folder.join(SETTINGS_FILE), &json).map_err(|e| e.to_string())
+}
+
 // ======================================
 //               Helpers
 // ======================================
 
-/// The app's data folder (named by the identifier in tauri.conf.json), made if it does not exist yet. Used by both
-/// commands: on Linux, `~/.local/share/TimeFold`.
+/// The app's data folder (named by the identifier in tauri.conf.json), made if it does not exist yet. Used by every
+/// command: on Linux, `~/.local/share/TimeFold`.
 fn data_folder(app: &AppHandle) -> Result<PathBuf, String> {
     let folder = app.path().app_data_dir().map_err(|e| e.to_string())?;
     std::fs::create_dir_all(&folder).map_err(|e| e.to_string())?;

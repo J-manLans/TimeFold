@@ -3,7 +3,7 @@
    light-dark(light theme, dark theme); color-scheme on :root picks the side. */
 
 :root {
-  /* "System" follows the system; the theme button sets light or dark here */
+  /* "System" follows the system; the theme button sets light or dark on the page itself (app.svelte.ts) */
   color-scheme: light dark;
 
   /* ======================================
