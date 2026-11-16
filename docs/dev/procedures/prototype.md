@@ -23,6 +23,11 @@ surprises. The time spent on it comes back many times over.
 - **A screen found missing later** gets a design pass before it is built: drawn and tuned in the prototype, its
   decisions written, then built.
 
+## What it leaves out
+
+No accessibility markup: no `aria-` attributes, roles or labels for screen readers. The prototype is for the owner's
+eyes and hands, and leaving them out keeps it lean for that; the app adds what it needs when a screen is built.
+
 ## Every value is a knob
 
 - Every value worth tuning (colour, size, radius, shadow, time, easing, text) is a named variable at the top of the
