@@ -34,9 +34,11 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   does to the record (`press`), the undo of the last click (`undo`) and what the undo's label says (`clickLabel`).
   `colours.ts`: the colour rule from the prototype, a profile's base, dimmed and over colours by role. `counting.ts`:
   the balance, each day's result, expected hours and the app's month, worked out in seconds from the record, and a
-  moment's time of day as shown (`timeOfDay`). `settings.ts`: the machine's own settings (the theme), their defaults and
-  the check on reading. `storage.ts`: `loadRecord`, `saveRecord`, `loadSettings` and `saveSettings`, the only place that
-  invokes the Rust half; it adds the local date that names a day's copy.
+  moment's time of day as shown (`timeOfDay`). `figures.ts`: the flex bar's scale, reach and side, and the balance as
+  text. `entries.ts`: the entry lists' stopped entries, newest first, and what a row says. `settings.ts`: the machine's
+  own settings (the theme), their defaults and the check on reading. `storage.ts`: `loadRecord`, `saveRecord`,
+  `loadSettings` and `saveSettings`, the only place that invokes the Rust half; it adds the local date that names a
+  day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, and the registered `--glow-strength` the pointer light fades by.
 
