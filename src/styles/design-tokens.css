@@ -139,6 +139,8 @@
   --dashboard-label-tracking: 0.14em;
   --dashboard-padding: 22px 26px 18px 30px;
   --dashboard-gap: 18px;
+  --dashboard-inner-gap: 6px; /* inside a figure: the number and its bar, a label and its list */
+  --divider-width: 1px; /* the line between the two sides, in --dashboard-line */
 
   /* === The balance and the flex bar === */
   --balance-text-size: 46px;
@@ -149,6 +151,9 @@
   --bar-zero-width: 1.5px;
   --bar-zero-breath: 3.2s; /* the marker at exactly 0 widens and narrows over this */
   --bar-zero-breath-width: 1.6; /* how wide it gets, against its rest */
+  --bar-label-size: 9px; /* the scale's end labels, "−20 h" and "+20 h" */
+  --balance-count: 0.9s; /* the balance and its bar counting to a new value */
+  --bar-scale-change: 0.5s; /* the scale growing or shrinking */
 
   /* === The ceiling wheel === */
   --wheel-diameter: 200px;

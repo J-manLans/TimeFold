@@ -10,34 +10,33 @@ cited by its title.
 profile button, the ceiling wheel and the pay estimate; Handover for export and import.
 
 **Decision:** the main screen has two sides, the controls side on the left and the dashboard on the right, split by a
-divider (a sharp line or a gradient, settled when built). The left side holds the controls and stays still: the
-start/stop button ("One start/stop button and a profile list"), "Exportera" and "Importera" side by side under it,
-together as wide as it, greyed out while any profile runs; the profile button beside both, as tall as the two rows, a
-rectangle holding a raised disc set in a dent ("The look: a fresh display face, mono text and soft buttons") with the
-profile's first letter, capitalised, in the profile's colour, which with more than one profile opens a popup of the
-profiles, centred on the left side; under the block, the status line naming what runs and since when, which keeps its
-room even when empty; under that, centred together, "Lägg till paus" (as wide as its text) and the round undo button
-("The last click can be undone for a few seconds"); "Lägg till paus" ("Time away is a gap or an added break"), a
-smaller, quieter button, greyed out unless the profile on screen runs, whose length field opens in its place, text
-starting at the left; the menu button at the top left, and at the bottom the line that offers pruning ("Old history is
-pruned on request"), its room kept when there is nothing to offer and its line drawn only with the offer. The menu grows
-out of its own button: pressed, the button's rounded rectangle expands from the top left into a panel over the controls
-side, stopping at the divider, and the menu's content fades in once it is open; the three lines of the button turn into
-an × in the same spot, where the menu closes, shrinking back into the button; Esc or a click anywhere outside the menu
-closes it too. The panel is frosted: slightly see-through, with the controls side lightly blurred behind it, and in the
-light theme tinted a little darker than the controls side so it stands out. The figures stay sharp and in view while
-settings change. New profiles are made from the menu. The right side is narrower, about two fifths of the window, and is
-the living one, changing at each stop, and looks like a modern terminal dashboard, not a retro one: a near-black panel
-in the dark theme and a deep slate-blue one (#2c3e5c) in the light theme, its rows a step darker and its text light,
-numbers in a monospaced font with their digits lined up, thin lines, small uppercase labels, and small, precise motion
-(numbers counting to their new value, the arc sweeping). The colours come from the profiles ("Each profile carries its
-colours"): the profile on screen colours the controls side and, when it is one of the others, the ceiling wheel; the
-flex bar always wears the balance profile's. While the profile on screen runs, a ring in its colour surrounds the start
-button. Every focus ring in the app takes the colour of the profile on screen. On the right side, from the top: the
-balance as a number, centred, with no label; the flex bar; the ceiling wheel, centred under it with nothing beside it;
-the pay estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa alla",
-which opens a popup centred on the whole window listing every entry, where entries are edited ("Editing an entry on its
-line").
+thin line. The left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile
+list"), "Exportera" and "Importera" side by side under it, together as wide as it, greyed out while any profile runs;
+the profile button beside both, as tall as the two rows, a rectangle holding a raised disc set in a dent ("The look: a
+fresh display face, mono text and soft buttons") with the profile's first letter, capitalised, in the profile's colour,
+which with more than one profile opens a popup of the profiles, centred on the left side; under the block, the status
+line naming what runs and since when, which keeps its room even when empty; under that, centred together, "Lägg till
+paus" (as wide as its text) and the round undo button ("The last click can be undone for a few seconds"); "Lägg till
+paus" ("Time away is a gap or an added break"), a smaller, quieter button, greyed out unless the profile on screen runs,
+whose length field opens in its place, text starting at the left; the menu button at the top left, and at the bottom the
+line that offers pruning ("Old history is pruned on request"), its room kept when there is nothing to offer and its line
+drawn only with the offer. The menu grows out of its own button: pressed, the button's rounded rectangle expands from
+the top left into a panel over the controls side, stopping at the divider, and the menu's content fades in once it is
+open; the three lines of the button turn into an × in the same spot, where the menu closes, shrinking back into the
+button; Esc or a click anywhere outside the menu closes it too. The panel is frosted: slightly see-through, with the
+controls side lightly blurred behind it, and in the light theme tinted a little darker than the controls side so it
+stands out. The figures stay sharp and in view while settings change. New profiles are made from the menu. The right
+side is narrower, about two fifths of the window, and is the living one, changing at each stop, and looks like a modern
+terminal dashboard, not a retro one: a near-black panel in the dark theme and a deep slate-blue one (#2c3e5c) in the
+light theme, its rows a step darker and its text light, numbers in a monospaced font with their digits lined up, thin
+lines, small uppercase labels, and small, precise motion (numbers counting to their new value, the arc sweeping). The
+colours come from the profiles ("Each profile carries its colours"): the profile on screen colours the controls side
+and, when it is one of the others, the ceiling wheel; the flex bar always wears the balance profile's. While the profile
+on screen runs, a ring in its colour surrounds the start button. Every focus ring in the app takes the colour of the
+profile on screen. On the right side, from the top: the balance as a number, centred, with no label; the flex bar; the
+ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the wheel, with no
+label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window listing every
+entry, where entries are edited ("Editing an entry on its line").
 
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
@@ -58,8 +57,9 @@ but more parts than the growing button. The icon riding to the panel's far corne
 where the pointer is. A menu sliding in under a separate button: the icon would stay apart from the menu. A see-through
 menu always present: nothing needs it when closed. A fully light dashboard in the light theme: the dashboard look would
 be lost. A near-black panel in the light theme: it glared against the white controls. A mid-grey panel: its light text
-had too little contrast (2.6:1). A violet panel: also good, kept as the alternative. A retro terminal look (green on
-black, scan lines): the owner wants the direction, not the costume.
+had too little contrast (2.6:1). A violet panel: also good, kept as the alternative. A gradient for the divider, fading
+from the controls side: tried in the prototype, and the owner preferred the line. A retro terminal look (green on black,
+scan lines): the owner wants the direction, not the costume.
 
 **Revisit if:** the frosted blur is slow on WebKitGTK (then the panel is more opaque, without blur).
 

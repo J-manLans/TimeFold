@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
   import { app } from '$lib/app.svelte'
   import Controls from '$lib/components/controls/Controls.svelte'
+  import Dashboard from '$lib/components/dashboard/Dashboard.svelte'
 
   onMount(() => {
     void app.load()
@@ -11,8 +12,7 @@
 {#if app.phase === 'ready'}
   <main class="screen">
     <Controls />
-    <!-- TODO: the dashboard, in its own component -->
-    <section class="dashboard" aria-label="Översikt"></section>
+    <Dashboard />
   </main>
 {/if}
 
@@ -25,19 +25,10 @@
     min-height: 100vh;
   }
 
-  .dashboard {
-    background: var(--dashboard-background);
-  }
-
-  /* A narrow window stacks the dashboard over the controls; CSS cannot read a token here */
+  /* A narrow window stacks the dashboard over the controls (Dashboard.svelte); CSS cannot read a token here */
   @media (max-width: 640px) {
     .screen {
       grid-template-columns: minmax(0, 1fr);
-    }
-
-    .dashboard {
-      order: -1;
-      min-height: 50vh;
     }
   }
 </style>
