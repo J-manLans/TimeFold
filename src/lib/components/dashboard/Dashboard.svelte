@@ -1,11 +1,13 @@
 <!--
   The dashboard ("The main screen has a controls side and a dashboard"): the living side, a dark panel in both themes,
-  laying out its figures from the top: the balance with the flex bar, then the recent entries. A thin line divides it
-  from the controls side; in a narrow window it stacks on top, the line under it. It gives its figures the panel's
-  colour, which the dimmed colours are worked out against, and the wheel's base, which a new row lights in.
+  laying out its figures from the top: the balance with the flex bar, the ceiling wheel with the pay estimate, then the
+  recent entries. A thin line divides it from the controls side; in a narrow window it stacks on top, the line under
+  it. It gives its figures the panel's colour, which the dimmed colours are worked out against, and the wheel's base,
+  which a new row lights in.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import CeilingWheel from './CeilingWheel.svelte'
   import FlexBar from './FlexBar.svelte'
   import RecentEntries from './RecentEntries.svelte'
 
@@ -59,6 +61,7 @@
   <div class="divider"></div>
   {#if panel}
     <FlexBar {panel} />
+    <CeilingWheel {panel} />
   {/if}
   <RecentEntries />
 </section>

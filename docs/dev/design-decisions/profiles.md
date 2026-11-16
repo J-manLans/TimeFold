@@ -31,7 +31,7 @@ work is done has no bearing on the counts.
 
 ## The other profiles share a ceiling (2026-11-14)
 
-**Built by:** Profiles.
+**Built by:** Profiles, for the full-time slider and the opening ceiling hours.
 
 **Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles together
 share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but follows
@@ -59,7 +59,7 @@ ceiling does not show.
 
 ## A pay estimate per profile (2026-11-14)
 
-**Built by:** Profiles.
+**Built by:** Profiles, for pay set in the menu.
 
 **Decision:** each profile may have a monthly salary or a rate per hour, settings that change from a date ("Settings
 change from a date"). A salary counts once per month whatever the hours; janitor work has one (such as 1 700 €), since

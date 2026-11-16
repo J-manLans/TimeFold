@@ -50,8 +50,6 @@ the bar would always look full.
 
 ## The ceiling wheel (2026-11-15)
 
-**Built by:** Profiles.
-
 **Decision:** the ceiling shows as a ring, the ceiling wheel, with the month's used hours as a number in its centre. A
 full ring is the month's ceiling; its band is 28 wide on a wheel 200 across. It takes the colours of the profile on
 screen when that is one of the other profiles, and greys while the profile with the balance is on screen: base

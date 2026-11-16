@@ -159,6 +159,8 @@
   --wheel-diameter: 200px;
   --wheel-band: 28px; /* of the 200 */
   --wheel-text-size: 34px;
+  --wheel-label-size: 10px; /* "AV 42:00 H" under the number */
+  --wheel-label-tracking: 1.5px;
   --wheel-tick: light-dark(#6a82a8, #2c3440);
   /* While the balance profile is on screen: a grey wheel, light grey past the ceiling */
   --wheel-balance: #9aa3ae;
