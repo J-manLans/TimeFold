@@ -45,12 +45,12 @@ prototype:
   about 70 px from the pointer (far enough to flow across buttons, near enough that a button visibly lights up as the
   pointer enters it), so it lies only on button surfaces and flows across them, faint and tinted (stronger on the light
   theme's blue than on the dark grey), fading in and out with the pointer. The discs catch it too, at full strength,
-  except the profile disc, which catches it at half strength and so stays a little apart; on the undo disc it lies over
-  the coloured afterglow, under the arrow. While the menu is open, the light leaves the buttons under its frost, which
-  it would seem to shine through, and lies only on what is in the menu. The small text buttons in the menu ("Ändra",
-  "OK", "Ny profil", "Använd default", "Arkivera") stay plain, without the light: it marks the main controls and the
-  discs, the theme disc among them. A disabled button reacts to nothing: no light, no hover, no press; and every
-  unavailable button fades by the same amount (to 40%), so "Lägg till paus" and the undo match side by side.
+  except the profile disc, which catches 0.7 of it and so stays a little apart; on the undo disc it lies over the
+  coloured afterglow, under the arrow. While the menu is open, the light leaves the buttons under its frost, which it
+  would seem to shine through, and lies only on what is in the menu. The small text buttons in the menu ("Ändra", "OK",
+  "Ny profil", "Använd default", "Arkivera") stay plain, without the light: it marks the main controls and the discs,
+  the theme disc among them. A disabled button reacts to nothing: no light, no hover, no press; and every unavailable
+  button fades by the same amount (to 40%), so "Lägg till paus" and the undo match side by side.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for decoration
   alone.
 - In code, these values are named variables in one place, so the look is tuned there.
@@ -65,7 +65,7 @@ for the big type; tried for all text, it was too much. Matte plastic buttons wit
 shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile circle: the button's own colour reads
 better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the page
 (1.08:1, later 1.29:1); the blue ties the controls side to the dashboard. An outline around the profile letter: it
-looked silly. No light on the discs: it set them apart, but less naturally; the profile disc's half strength keeps a
+looked silly. No light on the discs: it set them apart, but less naturally; the profile disc's weaker share keeps a
 little of both. A fine grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the
 blue one sits better with the other buttons. A top-down gradient on the disc in the light theme, beside the glow in the
 dark: the glow looks better, and one shape keeps the theme a matter of colours. Loading the fonts from Google Fonts: the
