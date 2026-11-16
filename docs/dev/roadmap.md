@@ -6,7 +6,7 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, the owner's look at the dashboard in the running app; then its **Settle first**, for the steps left.
+Phase 1: Clocking, its **Settle first**, for the steps left: how Windows is checked first.
 
 ## State
 
@@ -23,7 +23,7 @@ Phase 1: Clocking, the owner's look at the dashboard in the running app; then it
 | The colour rule, from the prototype                                                                                                     | written | run: in tests only                                                                                                          |
 | The menu's fold-out, the theme button, and the machine's settings file                                                                  | written | run: the settings in tests; the menu in the app window on Linux                                                             |
 | The pointer light                                                                                                                       | written | run: in the app window on Linux                                                                                             |
-| The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup | written | run: the rules in tests; the record's upgrade on the owner's machine; the screen not yet seen                               |
+| The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right        |
 
 ## The phases
 
