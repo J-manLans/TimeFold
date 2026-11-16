@@ -6,8 +6,8 @@ cited by its title.
 
 ## The main screen has a controls side and a dashboard (2026-11-14)
 
-**Built by:** Clocking for the screen, the button, the flex bar, the list and its "Visa alla" popup; Profiles for the
-profile button, the ceiling wheel and the pay estimate; Handover for export and import.
+**Built by:** Profiles for the profile button, the ceiling wheel and the pay estimate; Handover for export and import;
+Corrections for editing from the lists.
 
 **Decision:** the main screen has two sides, the controls side on the left and the dashboard on the right, split by a
 thin line. The left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile
@@ -36,7 +36,10 @@ on screen runs, a ring in its colour surrounds the start button. Every focus rin
 profile on screen. On the right side, from the top: the balance as a number, centred, with no label; the flex bar; the
 ceiling wheel, centred under it with nothing beside it; the pay estimate as one quiet number under the wheel, with no
 label; then the five most recent entries and "Visa alla", which opens a popup centred on the whole window listing every
-entry, where entries are edited ("Editing an entry on its line").
+entry, where entries are edited ("Editing an entry on its line"). Both lists hold stopped entries, newest first by
+start; one that runs shows in neither until it stops. The recent list always keeps five rows' room, so "Visa alla" never
+moves; with no entry yet, "Inga poster ännu" sits centred in that room and "Visa alla" is greyed out. An entry's row, as
+it arrives at a stop, lights in the wheel's base colour (grey while the balance profile is on screen) and fades.
 
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
@@ -67,7 +70,9 @@ scan lines): the owner wants the direction, not the costume.
 
 - One profile: the profile button opens nothing. Three profiles: a popup of the three, centred on the left side.
 - Menu open: the figures are still in view, and a profile's new colour shows on them at once.
-- Seven entries since yesterday: the newest five are listed, and "Visa alla" opens the rest.
+- No entry yet: "Inga poster ännu" centred in five rows' room, "Visa alla" greyed out. Two entries: the same room, "Visa
+  alla" where it always is.
+- A stop with the balance profile on screen: the new row lights grey and fades.
 
 ## A narrow window stacks the dashboard over the controls (2026-11-15)
 

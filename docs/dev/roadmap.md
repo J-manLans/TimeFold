@@ -6,7 +6,7 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, its **Settle first**; then step 1, the dashboard.
+Phase 1: Clocking, the owner's look at the dashboard in the running app; then its **Settle first**, for the steps left.
 
 ## State
 
@@ -18,11 +18,12 @@ Phase 1: Clocking, its **Settle first**; then step 1, the dashboard.
 | The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                   | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                                    |
 | The design tokens and the two fonts, from the prototype                                                             | written | run: the window shows the text font on the theme's background                                                               |
 | The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`              | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart                  |
-| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown         | written | run: in tests only (20, in four time zones); no screen shows it yet                                                         |
+| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown         | written | run: in tests only (20, in four time zones); the dashboard shows the balance, not yet seen                                  |
 | The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room | written | run: the rules in tests; and in the app window on Linux, where the owner clocked entries and found them saved in the record |
 | The colour rule, from the prototype                                                                                 | written | run: in tests only                                                                                                          |
 | The menu's fold-out, the theme button, and the machine's settings file                                              | written | run: the settings in tests; the menu in the app window on Linux                                                             |
 | The pointer light                                                                                                   | written | run: in the app window on Linux                                                                                             |
+| The dashboard: the balance and the flex bar, the five recent entries, "Visa alla" and its popup                     | written | run: the rules in tests; not yet seen in the app window                                                                     |
 
 ## The phases
 
@@ -40,11 +41,7 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 the screen for a record that cannot be read, and the question for a running entry from an earlier day; the folders for
 those screens, once they are drawn; and how Windows is checked for **Done when**, as there is no dev setup on it.
 
-1. The dashboard with the flex bar, the five recent entries, and "Visa alla" opening a popup with every entry, both
-   lists read-only until Phase 3. In `src/lib/components/dashboard/`, a component per figure: `Dashboard.svelte` lays
-   them out; `FlexBar.svelte`, `RecentEntries.svelte`, `AllEntries.svelte` (the popup), and `EntryRow.svelte`, the row
-   both lists share. The ceiling wheel joins as `CeilingWheel.svelte` in Phase 4.
-2. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
+1. The onboarding, Phase 1's part of it ("A first install starts fresh or imports"). An app with no record opens on a
    welcome screen with two choices: "Starta nytt", and "Importera från min andra dator", shown but greyed out until
    Phase 5. "Starta nytt" then asks, one screen at a time:
    1. the first profile's name: the profile with the balance, such as "Vaktmästare";
@@ -54,7 +51,7 @@ those screens, once they are drawn; and how Windows is checked for **Done when**
    month, and Phase 5 makes the import choice work. A record that cannot be read opens on a screen naming the problem
    and offering the newest daily copy, which needs commands to list the copies and read one.
 
-3. The question for a running entry from an earlier day.
+2. The question for a running entry from an earlier day.
 
 **Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
 matches the prototype in both themes on Windows and Linux.
@@ -93,7 +90,8 @@ balance follows.
 
 1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving; the
    warning label on the start button while another profile runs.
-2. The ceiling, its carry into the next month, and the ceiling wheel in the profile on screen's colours.
+2. The ceiling, its carry into the next month, and the ceiling wheel in the profile on screen's colours, as
+   `CeilingWheel.svelte` in the dashboard's folder.
 3. The menu: the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that change from a
    date.
 4. The pay estimate; the onboarding's step for the ceiling hours already used this month.

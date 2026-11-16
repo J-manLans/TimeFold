@@ -168,12 +168,16 @@
   /* === The pay estimate and the entries === */
   --pay-text-size: 13px;
   --entry-text-size: 12.5px;
+  --entry-columns: 7ch 11ch 2ch minmax(0, 1fr) auto; /* day, times, letter, tag, length */
+  --entry-cell-gap: 10px;
   --entry-tag-size: 11px;
   --entry-padding: 5px 8px;
   --entry-gap: 2px;
   --entry-hover: 10%; /* how much of the text colour lights a hovered row */
-  --entry-flash: 1.2s; /* a new entry's row lights in the profile's colour and fades over this */
+  --entry-flash: 1.2s; /* a new entry's row lights in the wheel's base colour and fades over this */
   --entry-flash-strength: 35%;
+  --entries-button-size: 12px; /* "Visa alla" and "Stäng" */
+  --entries-button-padding: 4px 10px;
 
   /* ======================================
               Overlays and popups
@@ -233,4 +237,8 @@
   /* === Dashboard: every entry ("Visa alla") === */
   --all-entries-scrim: rgb(0 0 0 / 0.45);
   --all-entries-width: 560px;
+  --all-entries-share: 92%; /* of the window, when that is narrower */
+  --all-entries-height: 80vh; /* the most it takes before it scrolls */
+  --all-entries-padding: 16px 18px;
+  --all-entries-gap: 10px;
 }

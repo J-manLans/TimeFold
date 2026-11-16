@@ -7,6 +7,7 @@
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import FlexBar from './FlexBar.svelte'
+  import RecentEntries from './RecentEntries.svelte'
 
   // === State ===
 
@@ -59,6 +60,7 @@
   {#if panel}
     <FlexBar {panel} />
   {/if}
+  <RecentEntries />
 </section>
 
 <style>

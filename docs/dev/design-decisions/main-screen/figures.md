@@ -5,7 +5,7 @@ The two figures on the main screen, the flex bar and the ceiling wheel. The colo
 
 ## The flex bar (2026-11-15)
 
-**Built by:** Clocking; its colours from the balance profile in Profiles.
+**Built by:** Profiles, for the balance profile's colours as chosen in the menu.
 
 **Decision:** the janitor balance shows as a horizontal bar from a 0 line, minus to the left and plus to the right, with
 the balance as a number above it. The bar is only its active part, with no track behind it, and is rounded only at its
@@ -46,9 +46,6 @@ the bar would always look full.
 - Balance +5:00: a bar to the right in Vaktmästare's over colour.
 - Balance −3:00: the number in the base colour; the −10 h end mark and label in the base colour, the +10 h ones in the
   over colour, the other marks grey.
-- Balance +12:00: the scale is ±20 h, and the bar reaches 60% of its side.
-- Balance +21:00: the scale grows to ±40 h with a short animation; back at +17:00 it stays ±40 h; at +15:00 (within 80%
-  of 20) it returns to ±20 h.
 - Utveckling on screen: the bar keeps Vaktmästare's colours.
 
 ## The ceiling wheel (2026-11-15)
