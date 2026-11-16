@@ -5,6 +5,11 @@ The order of a bug hunt and the tools for it. Read in debug mode. What debug mod
 
 ## The hunt
 
+A fault in a rule, which a test can state and which could quietly break again, goes through the hunt as written. A fault
+seen on screen (layout, look, motion) shows itself when looked at, so the eye is its check: steps 2 and 3 are the same,
+the report names what to look at instead of a failing test, and the fix ends with a list of what to check by eye in the
+running app; no test is written for it.
+
 1. **Reproduce it as a test,** and see it fail for the bug's reason before any code changes. When the bug came from a
    real day, start from that day's copy of the record (in `copies/`, beside the record) and replay it in a test. The
    committed test keeps only the entries the bug needs, written with the helpers in `tests/helpers/`, since the record

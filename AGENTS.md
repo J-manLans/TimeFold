@@ -140,11 +140,12 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     `design-tokens.css` or asks the agent for anything bigger. Vibe mode ends when the phase or step it was started for
     is built; the review that follows is learning mode, tuning included ("While tuning, just change the code"), until
     the owner names another mode.
-  - **Debug mode:** for a bug the owner has seen. The agent hunts it: reproduces it as a test seen to fail before any
-    code changes, finds the cause from evidence rather than guesses, then reports the cause, its evidence and the
-    planned fix, and waits for the owner's go before changing code, every time. The fix changes only what the evidence
-    points at, until the test passes; the hunt's order and tools are in `docs/dev/procedures/debugging.md`. The fix is
-    code: it is committed only after the owner has reviewed it and says so.
+  - **Debug mode:** for a bug the owner has seen. The agent hunts it: reproduces it before any code changes (a fault in
+    a rule as a test seen to fail, a fault seen on screen by eye), finds the cause from evidence rather than guesses,
+    then reports the cause, its evidence and the planned fix, and waits for the owner's go before changing code, every
+    time. The fix changes only what the evidence points at, until the test passes or the screen looks right; the hunt's
+    order and tools are in `docs/dev/procedures/debugging.md`. The fix is code: it is committed only after the owner has
+    reviewed it and says so.
 - **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
 - **Argue for the owner's hunch** before defending the proposal.
