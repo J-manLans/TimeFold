@@ -59,7 +59,7 @@
   --rc-gap: 18px;       /* between the words, the buttons and the quiet note */
   --rc-line: 13px;      /* the problem and what is offered, under the heading */
   --rc-width: 34ch;     /* the most the words and the note take before they wrap */
-  --rc-pulse: 2.4s;     /* the "KOPIA" label breathing into the over colour and back, for as long as the screen shows */
+  --rc-pulse: 2.4s;     /* the "KOPIA" label breathing into the balance's colour and back, for as long as the screen shows */
   /* The tip, following the pointer over a button */
   --tip-x: 17px;        /* from the pointer to the tip's left edge */
   --tip-y: 5px;         /* up or down from centred on the pointer */
@@ -323,8 +323,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* The copy's label at the top of the dashboard, lit once as the screen appears. */
 .copy-label { justify-self: center; }
 .copy-label.pulse { animation: copy-pulse var(--rc-pulse) ease-in-out infinite; }
-/* It breathes between the label's quiet colour and the profile on screen's over colour. */
-@keyframes copy-pulse { 0%, 100% { color: var(--f-muted); } 50% { color: var(--accent, var(--f-fg)); } }
+/* It breathes between the label's quiet colour and the colour of where the profile on screen stands in the copy: its
+   over colour in plus, its base at 0 or below, as the letter and the focus rings. */
+@keyframes copy-pulse { 0%, 100% { color: var(--f-muted); } 50% { color: var(--state, var(--f-fg)); } }
 /* While the letter waits to arrive, nothing on the screen can be pressed. */
 .app.locked { pointer-events: none; }
 .profile-btn .dot.waiting { color: transparent !important; }

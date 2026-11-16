@@ -104,9 +104,10 @@ out, one centred block of words, buttons and a quiet note in the panel. It says 
 window, where the dashboard is on top), and offers **"Använd kopian"**, with "Importera" greyed out until Handover with
 its tip, "från fil", and the note "Inget ändras förrän du väljer." The dashboard beside it shows the copy as it would
 be, its balance, wheel and recent entries, under a label in the dashboard's label style, "KOPIA · TIS 17 NOV", which
-breathes between its quiet colour and the profile on screen's over colour for as long as the screen shows. "Använd
-kopian" saves the copy as the record, and the panel turns to frost and folds away, as at the end of the onboarding.
-Closing the app instead changes nothing; the broken file stays as it was, to be put right by hand.
+breathes between its quiet colour and the colour of where the profile on screen stands in the copy ("Each profile
+carries its colours") for as long as the screen shows. "Använd kopian" saves the copy as the record, and the panel turns
+to frost and folds away, as at the end of the onboarding. Closing the app instead changes nothing; the broken file stays
+as it was, to be put right by hand.
 
 With no copy yet, which can only happen in the first session, since a copy is made at every start: "Din data är korrupt,
 och appen hann aldrig spara någon kopia, men det hände tidigt: ladda bara om filen du importerade, eller starta om och
@@ -134,18 +135,20 @@ app is updated.
 only the dashboard. Stepping back through older copies: a broken shape never reaches the copies, and each step back
 loses a day; recovering from wrong contents is another problem. A "No thanks" button: closing the app already declines,
 changing nothing. A flash across the whole dashboard, or one pulse of the label: gone before the panel is read; the
-owner did not see at once that the whole dashboard was the copy. A glow on the label: its colour turning to the over
-colour says it with the app's own accent. "Din fil gick inte att läsa": the program not starting is what the owner
-meets. Advice to start, stop and edit an entry to put back what is lost: editing comes in Corrections, where writing a
-forgotten entry is simpler. "Importera" after "Hämta senaste": the updated app reads the file itself. Fading the app out
-as it closes: the note says it will close, and the browser opens anyway.
+owner did not see at once that the whole dashboard was the copy. A glow on the label: its colour changing says it with
+the app's own colours. The label breathing into the over colour always: it shows where the copy stands, so it follows
+the balance, as the letter does. "Din fil gick inte att läsa": the program not starting is what the owner meets. Advice
+to start, stop and edit an entry to put back what is lost: editing comes in Corrections, where writing a forgotten entry
+is simpler. "Importera" after "Hämta senaste": the updated app reads the file itself. Fading the app out as it closes:
+the note says it will close, and the browser opens anyway.
 
 **Revisit if:** a broken file turns out to be common, which would point at a cause worth fixing instead.
 
 **Cases:**
 
 - `record.json` edited by hand into invalid JSON, a copy from Tuesday 17 November: the dashboard shows Tuesday's copy
-  under "KOPIA · TIS 17 NOV", breathing into the over colour; "Använd kopian" saves it and the app opens on it.
+  under "KOPIA · TIS 17 NOV", breathing into the over colour if the copy's balance is in plus, the base if not; "Använd
+  kopian" saves it and the app opens on it.
 - The same in a narrow window: the words say "Dashboarden ovanför".
 - The same, the app closed instead: the broken file is unchanged at the next start.
 - A broken file and no copies: the words say it happened early; "Starta nytt" runs the onboarding from its balance.
