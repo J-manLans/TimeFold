@@ -1,17 +1,31 @@
 <!--
   A raised disc in the button's colour, lit by a soft glow toward its top, set in a see-through dent ("The look: a
   fresh display face, mono text and soft buttons"). Used by the profile button, the undo and the theme button, at
-  their sizes: <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)">↶</Disc>
+  their sizes. A disc on a button that can be used catches the pointer light, at the share `light` gives:
+  <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)" light="1">↶</Disc>
 -->
 <script lang="ts">
   import type { Snippet } from 'svelte'
 
   // === Props ===
 
-  let { size, dent, children }: { size: string; dent: string; children?: Snippet } = $props()
+  let {
+    size,
+    dent,
+    light,
+    children,
+  }: {
+    size: string
+    dent: string
+    /** How much of the pointer light the disc catches, 0 to 1; none when not given */
+    light?: string
+    children?: Snippet
+  } = $props()
 </script>
 
-<span class="disc" style:--size={size} style:--dent={dent}>{@render children?.()}</span>
+<span class="disc" class:lit={light !== undefined} style:--size={size} style:--dent={dent} style:--glow-share={light}
+  >{@render children?.()}</span
+>
 
 <style>
   /* === Layout === */
@@ -29,6 +43,13 @@
     box-shadow:
       0 2px 5px var(--disc-drop),
       var(--disc-rim);
+  }
+
+  /* === States === */
+
+  .disc.lit {
+    background-image: var(--pointer-light), var(--disc-glow);
+    background-attachment: fixed, scroll;
   }
 
   /* The dent around the disc */

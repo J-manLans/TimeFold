@@ -79,10 +79,13 @@
   onfocus={focus}
   onblur={() => (focused = false)}
 >
-  <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)">
+  <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)" light={awake ? '1' : undefined}>
     {#key app.lastClick}
       <span class="afterglow" class:live={awake}></span>
     {/key}
+    {#if awake}
+      <span class="light"></span>
+    {/if}
     <span class="arrow" aria-hidden="true">↶</span>
   </Disc>
 </button>
@@ -112,6 +115,16 @@
     border-radius: 50%;
     background: var(--profile-over);
     opacity: 0;
+    pointer-events: none;
+  }
+
+  /* The afterglow would hide the light on the disc, so the light lies on top of it too, under the arrow */
+  .light {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-image: var(--pointer-light);
+    background-attachment: fixed;
     pointer-events: none;
   }
 

@@ -24,7 +24,8 @@
     <button type="button" disabled>Importera</button>
   </div>
 
-  <!-- TODO: with more than one profile, opens the profile popup (Profiles) -->
+  <!-- TODO: with more than one profile, opens the profile popup (Profiles), and its disc catches the light:
+       light="var(--glow-profile-disc)" -->
   <button class="profile" type="button" aria-label="Byt profil" aria-disabled="true">
     <Disc size="var(--profile-disc-size)" dent="var(--profile-disc-dent)">
       <span class="letter">{profile?.name.charAt(0).toUpperCase()}</span>
@@ -46,6 +47,7 @@
   }
 
   button {
+    background-attachment: fixed;
     border: 0;
     border-radius: var(--radius-button);
     background-color: var(--button-background);
@@ -102,12 +104,18 @@
 
   /* === States === */
 
+  /* A button that can be used catches the pointer light; pressed, the press shade lies on top of it */
+  button:not(:disabled, [aria-disabled='true']) {
+    background-image: var(--pointer-light);
+  }
+
   button:not(:disabled, [aria-disabled='true']):hover {
     background-color: var(--button-background-hover);
   }
 
   button:not(:disabled, [aria-disabled='true']):active {
-    background-image: linear-gradient(180deg, var(--button-press-shade), transparent 70%);
+    background-image: linear-gradient(180deg, var(--button-press-shade), transparent 70%), var(--pointer-light);
+    background-attachment: scroll, fixed;
     box-shadow: none;
   }
 

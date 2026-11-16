@@ -25,7 +25,7 @@
 </script>
 
 <button class="theme" type="button" aria-label="Tema: {name}. Klicka för nästa." onclick={() => app.cycleTheme()}>
-  <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)">
+  <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)" light="1">
     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
       {#if app.theme === 'light'}
         <circle cx="12" cy="12" r="4" />

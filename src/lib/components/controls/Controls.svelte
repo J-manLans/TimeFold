@@ -1,7 +1,8 @@
 <!--
   The controls side: what the owner presses ("The main screen has a controls side and a dashboard"). From the top: the
   menu button's row, then centred the button block, the status line and the pause row with the undo, and at the bottom
-  the prune line's room. The menu lies over it all, folded into its button until opened.
+  the prune line's room. The menu lies over it all, folded into its button until opened. A soft light follows the
+  pointer over the side's buttons and discs; with the menu open it leaves what is under the frost.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
@@ -18,9 +19,41 @@
   let profile = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
   let over = $derived(profile ? overColour(profile.hue) : undefined)
   let menuOpen = $state(false)
+  let side: HTMLElement | undefined = $state()
+  /** Whether the pointer is over the side, which fades the light in */
+  let lit = $state(false)
+
+  // === Logic ===
+
+  // The pointer's place goes into two CSS variables, at most once a frame; a touch lights nothing
+  let queued = false
+  let x = 0
+  let y = 0
+  function follow(event: PointerEvent): void {
+    if (event.pointerType === 'touch') return
+    x = event.clientX
+    y = event.clientY
+    lit = true
+    if (queued) return
+    queued = true
+    requestAnimationFrame(() => {
+      queued = false
+      side?.style.setProperty('--light-x', `${x}px`)
+      side?.style.setProperty('--light-y', `${y}px`)
+    })
+  }
 </script>
 
-<section class="controls" aria-label="Kontroller" style:--profile-over={over}>
+<section
+  class="controls"
+  class:lit
+  class:menu-open={menuOpen}
+  aria-label="Kontroller"
+  style:--profile-over={over}
+  bind:this={side}
+  onpointermove={follow}
+  onpointerleave={() => (lit = false)}
+>
   <!-- The menu lies over the whole side; the top row keeps the room its folded button sits in -->
   <div class="top"></div>
 
@@ -49,6 +82,21 @@
     grid-template-rows: var(--controls-top-height) 1fr auto;
     background: var(--controls-background);
     color: var(--controls-text);
+    --light-x: -999px;
+    --light-y: -999px;
+    transition: --glow-strength var(--speed-ui) ease;
+  }
+
+  /* The pointer light ("The look: a fresh display face, mono text and soft buttons"): one light, which each surface
+     that catches it paints its own slice of with background-attachment: fixed, so it flows across them. Worked out
+     on every element, so each takes its own --glow-share: the profile disc catches less */
+  .controls,
+  .controls :global(*) {
+    --pointer-light: radial-gradient(
+      circle var(--glow-reach) at var(--light-x) var(--light-y),
+      color-mix(in srgb, var(--glow-colour) calc(var(--glow-strength) * var(--glow-share, 1) * 100%), transparent),
+      transparent
+    );
   }
 
   .centre {
@@ -67,6 +115,7 @@
   }
 
   .pause {
+    background-attachment: fixed;
     height: var(--pause-height);
     padding: var(--pause-padding);
     border: 0;
@@ -81,7 +130,30 @@
 
   /* === States === */
 
+  .controls.lit {
+    --glow-strength: 1;
+  }
+
+  /* With the menu open, the light leaves the buttons under its frost, which it would seem to shine through */
+  .controls > :global(:not(.menu)) {
+    transition: --glow-strength var(--speed-ui) ease;
+  }
+
+  .controls.menu-open > :global(:not(.menu)) {
+    --glow-strength: 0;
+  }
+
+  .pause:not(:disabled) {
+    background-image: var(--pointer-light);
+  }
+
   .pause:disabled {
     opacity: var(--opacity-disabled);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .controls.lit {
+      --glow-strength: 0;
+    }
   }
 </style>
