@@ -27,6 +27,12 @@ on the second, replacing everything there.
 **Hue (a profile's).** Where the hue strip of the profile's colour picker sits; the base colour is a nuance of it and
 the over colour its opposite ("Each profile carries its colours", in `design-decisions/`).
 
+**Level (the owner's).** How much the agent explains in one area, such as Rust or design: Noob, Tinkerer or Wizard.
+Ticked by the owner, offered to shift by the agent, kept in `docs/dev/levels.md`.
+
+**Light sweep.** At the onboarding's end, the pointer light crossing the button block once by itself, in an arc, before
+the letter arrives. In the code, the `--onboarding-sweep` tokens and `sweep()`. Not the **docs sweep** in `AGENTS.md`.
+
 **Lit.** On the ceiling wheel, hours worked by the profile on screen, in its base or over colour at full strength. See
 **Faded**.
 
@@ -39,7 +45,7 @@ and pruning count by it.
 **Neon.** A hue at its most vivid: the colour on the picker's hue strip.
 
 **Onboarding.** The first start on a machine with no record: "Starta nytt" or "Importera", then the balance and the
-profile's name, in the **Locked panel**, ending with the **Sweep** and the letter arriving.
+profile's name, in the **Locked panel**, ending with the **Light sweep** and the letter arriving.
 
 **Opening figures.** Figures brought over from before the app, kept in the record apart from the entries and dated the
 day they start from: the janitor balance, typed in when the app starts fresh, and the ceiling hours already used, whose

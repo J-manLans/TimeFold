@@ -69,8 +69,8 @@ blurred, where it could arrive crisp. The name first: the letter would change co
 with no hint: it reads as importing the Excel file. "(från fil)" under the button: a third thing on a screen of two. The
 dashboard following each keystroke: a half-typed number would swing the bar. The panel frosted while the prompts show:
 seams across the blur. The blur growing with the tint: the buttons showed sharp, then blurred. The letter before the
-sweep: the light would pass over the moment instead of leading to it. The sweep at every start: something seen every
-day. "Importera från min andra dator": long, and tied to a machine.
+light sweep: the light would pass over the moment instead of leading to it. The light sweep at every start: something
+seen every day. "Importera från min andra dator": long, and tied to a machine.
 
 **Revisit if:** the boss or payroll asks for days from before the app.
 
@@ -89,7 +89,7 @@ day. "Importera från min andra dator": long, and tied to a machine.
 - The name entered: the text fades, the panel turns to frost with the buttons blurred behind it, shrinks into the menu
   button, the light sweeps across the buttons, and the letter fades in as the light leaves; nothing can be pressed until
   it has.
-- Reduced motion: no sweep; the letter follows the panel's closing.
+- Reduced motion: no light sweep; the letter follows the panel's closing.
 - Second machine, first start: "Importera" brings the whole record, opening figures and profile colours included, and
   asks nothing more.
 

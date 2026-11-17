@@ -32,6 +32,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**            |
 | `docs/dev/sketches/`                  | Looks tried before they are decided, a page or a drawing each                    |
 | `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when  |
+| `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains               |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
@@ -45,7 +46,6 @@ deleted once the code it previews is built; `git log` keeps it.
 Added when there is something to put in them, each opening with what it holds and what stays out, and moved into the doc
 map once it exists:
 
-- `docs/dev/levels.md`, at the owner's first placement: each area's level and the date it was set or shifted.
 - `docs/dev/archive/`, when an investigation closes or an idea is dropped, and both are true: it is likely to come up
   again, and reaching the conclusion cost something. Each entry says what it was, why it ended, and what would change
   the verdict. Otherwise delete it and let `git log` keep it.
@@ -57,13 +57,13 @@ map once it exists:
    for. The README keeps what every session needs and says who reads what; the bodies move into files beside it.
 3. **A part splits again** when it passes its limit: into a folder with its name, holding the pieces cut by topic. The
    folder has no index of its own; the collection's README groups the pieces under the folder's name and still lists
-   every title. The agent makes the cut as soon as it notices a file past its limit, at a sweep or in passing, without
-   asking, and reports the new files and their sizes. A file near its limit is not mentioned. It is a structural fix,
-   the agent's to make.
+   every title. The agent makes the cut as soon as it notices a file past its limit, at a docs sweep or in passing,
+   without asking, and reports the new files and their sizes. A file near its limit is not mentioned. It is a structural
+   fix, the agent's to make.
 
-Limits, checked with `wc -w` at the sweep and whenever a file looks long: ~4,000 words for a general doc (flagged only),
-~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point at the
-collection, never at a part: a decision by its title, a term by its name. A split then changes only the index.
+Limits, checked with `wc -w` at the docs sweep and whenever a file looks long: ~4,000 words for a general doc (flagged
+only), ~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point
+at the collection, never at a part: a decision by its title, a term by its name. A split then changes only the index.
 
 ## Starting a session
 
@@ -111,9 +111,10 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 - **One commit per batch.** Later changes in the same batch are amended into its commit. Amending anything else, such as
   an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended, except a session's docs
   commit (below). Check `git status -sb` before every amend.
-- **Docs with no code are one commit per session.** A design session, a sweep or a rule change opens one docs commit;
-  every later doc write in that session is amended into it and pushed with `git push --force-with-lease`, the message
-  growing to cover the session, and the owner pulls with `git pull --rebase`. Docs about code still go with that code.
+- **Docs with no code are one commit per session.** A design session, a docs sweep or a rule change opens one docs
+  commit; every later doc write in that session is amended into it and pushed with `git push --force-with-lease`, the
+  message growing to cover the session, and the owner pulls with `git pull --rebase`. Docs about code still go with that
+  code.
 - **The message is the record:** what changed, why, and what was run to check it, or that nothing was run.
 - **Cite an unmerged commit by its title,** since rebase merges change hashes.
 - Once there is a remote: each phase on a small branch off `main`, merged back by pull request with rebase.
@@ -153,19 +154,26 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     time. The fix changes only what the evidence points at, until the test passes or the screen looks right; the hunt's
     order and tools are in `docs/dev/procedures/debugging.md`. The fix is code: it is committed only after the owner has
     reviewed it and says so.
-- **Explaining follows the owner's level, per area.** Three levels: **Noob** (the agent leads, explains each piece
-  unasked, points out its own guesses and checks understanding before the next step), **Tinkerer** (explains when asked
-  and points out the bigger choices) and **Wizard** (brief; leans labelled, as always). The owner's own placement per
-  area (such as Svelte, TypeScript, Rust, Tauri) is the opening guess; with none recorded, ask for it at the start of
-  the session as a multiple-choice question per area, with the three levels to tick (the question tool, where the agent
-  has one), never as open text. From then on the agent tunes it from what it sees: repeated basic questions or "why?"
-  step an area down, explanations skipped or the owner writing the code themselves step it up. A step takes a clear
-  pattern over several exchanges, never one moment; it moves one level at a time; and after a shift the area holds for
-  at least the rest of the session, so it does not flicker, as the flex bar's scale grows at 90% but shrinks only at
-  80%. Every shift is offered, not made: at the end of a reply, never mid-work, a question to tick, about the
-  explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and free text (the question tool, where
-  the agent has one). Only a Yes shifts the level, and the owner's word overrides it at any time. The levels and their
-  dates live in `docs/dev/levels.md`.
+- **Explaining follows the owner's level, per area.** Three levels: **Noob** (the agent leads with the big picture of
+  each piece, what it is for and how it fits, without talking down; a metaphor only where it is truly on point, never
+  one per concept; detail when asked; points out its own guesses), **Tinkerer** (explains when asked and points out the
+  bigger choices) and **Wizard** (brief; leans labelled, as always). The mode decides that the agent explains, the level
+  how deep: learning mode in a Noob area goes slower and deeper than in a Tinkerer one. In vibe mode the level shapes
+  each batch's summary of what was built and why, and never stops the work. When a piece spans areas, the level of the
+  area being explained applies, not the lowest. The list that makes the work reviewable is the same at every level. The
+  owner's own placement per area is the opening guess, asked as a multiple-choice question per area with the three
+  levels to tick (the question tool, where the agent has one), never as open text. A new project, with no stack yet,
+  opens with two: programming in general, and design. Each technology (such as Svelte, TypeScript, Rust, Tauri) is asked
+  once a decision settles it, not while it is only discussed, with the general level as the hint; a technology later
+  swapped out loses its line, and its replacement is asked the same way. With nothing recorded, ask at the start of the
+  session. From then on the agent tunes it from what it sees: repeated basic questions or "why?" step an area down,
+  explanations skipped or the owner writing the code themselves step it up. A step takes a clear pattern over several
+  exchanges, never one moment; it moves one level at a time; and after a shift the area holds for at least the rest of
+  the session, so it does not flicker, as the flex bar's scale grows at 90% but shrinks only at 80%. Every shift is
+  offered, not made: at the end of a reply in conversation, never during a vibe build, where there is nothing to read it
+  from, a question to tick, about the explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and
+  free text (the question tool, where the agent has one). Only a Yes shifts the level, and the owner's word overrides it
+  at any time. The levels and their dates live in `docs/dev/levels.md`.
 - **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
 - **Argue for the owner's hunch** before defending the proposal.
@@ -224,3 +232,18 @@ A short pointer per trap; the detail lives in the owning file.
   `docs/dev/procedures/debugging.md`.
 - **The built app's theme follows only the desktop** while dev works: "Known traps" in
   `docs/dev/procedures/debugging.md`.
+
+## Moving to the starter
+
+What only a new project needs belongs in the AI starter repository, not here; this file carries what TimeFold needs now.
+When the starter repository exists, each item below moves there and is trimmed from this file, and this section goes
+with the last of them. Suggested by the agent; each is the owner's to confirm.
+
+- **The levels for a new project:** the two opening ticks, programming in general and design, and asking each technology
+  once a decision settles it. TimeFold's stack is settled; here only the per-area levels and their tuning are needed.
+- **"once it exists" on the code map,** in "Starting a session" and "Where things go": the code map exists.
+- **"Once there is a remote"** in "Commits": TimeFold has one; keep the rule, drop the condition.
+- **"Rows are added when the project has tests, type checks, lint or probes"** under the commands: TimeFold has tests
+  and `tidy`.
+- **Phase 0 in design mode,** running until the prototype is complete: TimeFold's prototype is complete; keep design
+  mode's later rethinks and design passes.

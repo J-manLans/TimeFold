@@ -46,8 +46,5 @@ and it goes once that is built. Not the **Prototype**.
 **Small deviations.** In a report, the days whose net change is under 5 minutes, left off the list of days and summed in
 its closing line, "Små avvikelser under månaden".
 
-**Sweep.** At the onboarding's end, the pointer light crossing the button block once by itself, in an arc, before the
-letter arrives.
-
 **Tip.** The small label that follows the pointer over a button, to its right, edged in a profile's colour: what the
 undo would undo, or what the start button would stop. With keyboard focus it shows under the button.
