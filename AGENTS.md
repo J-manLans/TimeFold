@@ -101,15 +101,18 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 ## Commits
 
 - **Docs are the agent's to commit; code waits for the owner,** except in vibe mode (below). Docs not about code under
-  review are committed when done, naming the files (`git commit -- <files>`). Docs about code under review are staged
-  and go in one commit with the code when the owner says commit.
+  review are committed when done, naming the files (`git commit -- <files>`), into the session's docs commit. Docs about
+  code under review are staged and go in one commit with the code when the owner says commit.
 - **Code** is anything that does something: source, config, build files. A comment or docstring the owner asked for
   counts as docs.
 - **In vibe mode, code is committed per small batch** once `tidy` and `test` pass, docs about it in the same commit; the
   message carries what was built, why, and what was run.
 - **One commit per batch.** Later changes in the same batch are amended into its commit. Amending anything else, such as
-  an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended. Check `git status -sb`
-  before every amend.
+  an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended, except a session's docs
+  commit (below). Check `git status -sb` before every amend.
+- **Docs with no code are one commit per session.** A design session, a sweep or a rule change opens one docs commit;
+  every later doc write in that session is amended into it and pushed with `git push --force-with-lease`, the message
+  growing to cover the session, and the owner pulls with `git pull --rebase`. Docs about code still go with that code.
 - **The message is the record:** what changed, why, and what was run to check it, or that nothing was run.
 - **Cite an unmerged commit by its title,** since rebase merges change hashes.
 - Once there is a remote: each phase on a small branch off `main`, merged back by pull request with rebase.

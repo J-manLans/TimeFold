@@ -22,17 +22,6 @@ end), but not three things about the screen, raised as it was to be drawn:
 
 **See:** A running entry from an earlier day asks; Entering a length of time.
 
-## Phase 2: Breaks and flex days
-
-### Where a flex day is marked (2026-11-14)
-
-A flex day, for one day or a range, takes the expected hours off the balance with one action ("A day owes its expected
-hours only when work started on it"). Where that action lives is open: in the menu, from the "Visa alla" popup on a
-chosen day, or beside "Lägg till paus". Not drawn in the prototype.
-
-**See:** A day owes its expected hours only when work started on it; The main screen has a controls side and a
-dashboard.
-
 ## Phase 3: Corrections
 
 ### Joining two entries (2026-11-14)
@@ -44,8 +33,9 @@ meet the other on the line, which then join; or a "join" action on two neighbour
 
 ### Deleting an entry, and writing a forgotten one (2026-11-14)
 
-How an entry is removed, and how a whole forgotten entry is written by hand. A new entry could be drawn on a line in
-free time, with the same stops at other entries and midnight.
+How an entry is removed, and how a whole forgotten entry is written by hand. Known: a delete asks "Ta bort?" and needs
+no reason ("Every edit carries a reason"). A new entry could be drawn on a line in free time, with the same stops at
+other entries and midnight.
 
 **See:** Editing an entry on its line.
 
@@ -83,9 +73,9 @@ rules. Open: where the checkbox sits (the menu, or by the number), and what the 
 ### Where the report is made from (2026-11-16)
 
 The report has its own choices (the month, maybe a preview), so it needs a place in the app. The owner's lean: its own
-tab in the menu, beside the two Phase 4 builds. Not drawn in the prototype.
+tab in the menu, beside the Phase 4 tabs. Not drawn in the prototype.
 
-**See:** The report is a PDF; A report covers one month; The menu has two tabs, with every value locked behind "Ändra".
+**See:** The report is a PDF; A report covers one month; The menu has tabs, with every value locked behind "Ändra".
 
 ## Debugging (any phase)
 

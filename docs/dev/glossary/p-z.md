@@ -1,0 +1,53 @@
+# Glossary: P–Z
+
+Terms P–Z, in alphabetical order. The index and the rules for terms are in `README.md`.
+
+**Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
+
+**Pay estimate.** A rough figure of the month's pay: salaries plus hours times rates, for the owner only; never in the
+report.
+
+**Peek.** Resting the pointer on the ceiling wheel's band, which winds the over lap back so the first lap shows whole.
+
+**Pointer light.** The soft light that follows the pointer over the controls side, lying only on the buttons and discs
+that can be used ("The look: a fresh display face, mono text and soft buttons").
+
+**Profile.** A label on an entry for the kind of work it is, such as janitor work or the development group. Profiles are
+isolated; only one with expected hours has a balance.
+
+**Prototype.** The app's screens as tuned before they are built, `docs/vision/prototype.html`: the north star for the
+look beside the vision, kept until the finished app has been validated. Not a **Sketch**.
+
+**Prune.** Removing the record's oldest whole months, past three years, on the owner's yes; the balance and ceiling
+hours at the cut become opening figures.
+
+**Reason (an edit's).** Why an entry's time or profile was set by hand, chosen under the entry line from the list kept
+in the menu's "Orsaker" tab, or written after "Annan orsak". Stored as text on the entry.
+
+**Recovery screen.** What the app opens on when its record cannot be read: the newest **Daily copy** offered, shown on
+the dashboard under a breathing "KOPIA" label; with no copy, a fresh start; for a newer record, an update.
+
+**Release.** A version of the app built by GitHub from a version tag, such as `v0.1.0`, with installers for Windows and
+Linux on the repo's releases page ("The app reaches each machine as an installer from a GitHub release", in
+`design-decisions/`). Not the record's version, which numbers the file's shape.
+
+**Report.** A period's record, exported from the app for the owner to send to their boss.
+
+**Settings file.** Each machine's own `settings.json` beside the record, holding what belongs to that computer, such as
+the theme; never in the record or the handover.
+
+**Standing (a profile's).** Where a profile's figure is: past its line (the balance in plus, or the ceiling passed) or
+not (at 0 or below). Its letter, its small circle and the focus outline wear it, the over colour past the line and the
+base before it.
+
+**Sketch.** A quick try of one look before it is decided, in `docs/dev/sketches/`; what it settles goes to its decision,
+and it goes once that is built. Not the **Prototype**.
+
+**Small deviations.** In a report, the days whose net change is under 5 minutes, left off the list of days and summed in
+its closing line, "Små avvikelser under månaden".
+
+**Sweep.** At the onboarding's end, the pointer light crossing the button block once by itself, in an arc, before the
+letter arrives.
+
+**Tip.** The small label that follows the pointer over a button, to its right, edged in a profile's colour: what the
+undo would undo, or what the start button would stop. With keyboard focus it shows under the button.

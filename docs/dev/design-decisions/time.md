@@ -60,11 +60,11 @@ to a minute's truth for a match the owner does not need.
 **Built by:** Breaks and flex days, for flex days.
 
 **Decision:** for a profile with a balance, each day adds the hours worked on it. A day is also charged its expected
-hours only if one of the profile's entries started on it, or it is a flex day. A flex day, marked with one action for a
-day or a range of days, takes off the full expected hours. Any other day owes nothing: weekends, public holidays, annual
-leave and sick days are simply left empty, and the app never needs to know why. Hours that run past midnight into such a
-day are added to it, and charge nothing. Hours taken out within a day need nothing special: a short day lowers the
-balance by itself.
+hours only if one of the profile's entries started on it, or it is a flex day. A flex day, marked for a day or a range
+of days ("A flex day can be marked ahead, and the screen counts it at once"), takes off the full expected hours. Any
+other day owes nothing: weekends, public holidays, annual leave and sick days are simply left empty, and the app never
+needs to know why. Hours that run past midnight into such a day are added to it, and charge nothing. Hours taken out
+within a day need nothing special: a short day lowers the balance by itself.
 
 **Why:** it is how the owner's Excel file works today, proven in daily use, and it needs no calendar of holidays to keep
 up to date. The flex day replaces the one thing that is awkward in Excel: typing a zero day for each day off. Counting
@@ -83,6 +83,48 @@ after midnight would charge the next day's expected hours, even a day of leave.
 - Janitor, Sunday 22:00 to Monday 01:00, then Monday 11:00–17:00: Monday adds 1 + 6 − 6 = +1.
 - An empty weekday: adds nothing.
 - A flex day: −6.
+
+## A flex day can be marked ahead, and the screen counts it at once (2026-11-17)
+
+**Built by:** Breaks and flex days.
+
+**Decision:** a flex day ("A day owes its expected hours only when work started on it") is picked in a calendar in the
+menu's **Tid** tab ("The menu has tabs, with every value locked behind "Ändra""), for any date, today, past or ahead,
+one day or a range. Days marked ahead show at the top of the "Visa alla" popup as "Flexledig" rows, where each can be
+moved to another date or unmarked, which gives its hours back. The balance on the main screen counts every marked day at
+once, ahead ones included, so the flex bar shows the balance as planned: with a day marked ahead and too little balance
+to cover it, the bar goes minus, and the minus is the time still to work before that day. If the day comes and the
+balance is still short, nothing special happens: the balance carries the minus as any other. A day costs the expected
+hours in force on its own date ("Settings change from a date"), so a later change to them changes what a marked day
+ahead costs. Work recorded on a flex day adds to it as usual. The report counts only days up to its own end: the month's
+last day, or today for the current month; a flex day ahead is not in it until the month it falls in ("The report lists
+the days the balance moved"). Both are one count with two end dates; the screen's simply runs to the last marked day.
+
+**Why:** the owner plans days off weeks or months ahead; with the hours taken at once, the flex bar always shows the
+planned truth, and the minus says how much is left to work for it with no other figure. In the owner's Excel a day off
+is a typed zero day on the day itself; marking ahead replaces both the zero day and the sum in the head. Counting the
+report only to its end keeps each report true to what happened in its month.
+
+**Rejected:** a third bar on the main screen for the hours still needed before a day off: the flex bar's minus already
+says it, and the main screen stays as it is. Taking the hours only on the day: the bar would show a balance that is
+already spent. The report taking the screen's balance: a month's report would carry days off not yet taken, maybe more
+than a year ahead. A line in the report naming days off ahead: the boss reads what happened, not plans. Adding planned
+hours back for the report: one count with two end dates gives the same figures with nothing to keep in step.
+
+**Revisit if:** the boss asks to see days off ahead, or planned days pile up so far ahead that the bar stops being read
+as today's balance.
+
+**Cases:**
+
+- Balance +4:37, a flex day on 12 December marked on 17 November: the bar shows −1:23 at once.
+- The same, nothing more worked before 12 December beyond expected hours: the balance stays −1:23 after it.
+- The same day unmarked from the top of "Visa alla": the bar is back at +4:37, and the row is gone.
+- Expected hours changed from 6 to 5 from 1 December, the 12 December day already marked: it costs 5 h.
+- November's report, with the 12 December day marked: November's figures and lines do not include it; December's report
+  lists it.
+- A flex day on 25 November, November's report exported on 20 November: the day is not in it; exported on 1 December: it
+  is.
+- Three hours worked on a flex day: the day adds 3 − 6 = −3.
 
 ## The app's month is the calendar month (2026-11-16)
 

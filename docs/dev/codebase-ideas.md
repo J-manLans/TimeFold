@@ -9,8 +9,9 @@ what is built go to `open-questions.md` instead.
 **Returns when:** the Reports part is built.
 
 The record marks each entry clicked, written by hand or edited ("Entries remember how they were made", in
-`design-decisions/`). The report could show the mark, such as a small sign beside a hand-set time, so the boss sees
-which times were set afterwards. Not vital: the record keeps the mark either way, and a clean report may read better.
+`design-decisions/`), and the report already shows an edit's reason on a day it lists ("The report lists the days the
+balance moved"). The report could also show the mark itself, such as a small sign beside a hand-set time on the days
+page. Not vital: the reason already tells the boss a time was set afterwards, and a clean report may read better.
 
 ## A tray icon, with autostart
 
@@ -26,9 +27,9 @@ process; the app gains little ("A plain window app", in `design-decisions/`).
 
 **Returns when:** the menu is built.
 
-Switching tabs in the menu ("The menu has two tabs, with every value locked behind "Ändra"", in `design-decisions/`)
-starts as a fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the
-menu grows out of its button. To try in the menu's coding session, against the fade.
+Switching tabs in the menu ("The menu has tabs, with every value locked behind "Ändra"", in `design-decisions/`) starts
+as a fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the menu grows
+out of its button. To try in the menu's coding session, against the fade.
 
 ## Today's hours on the controls side
 

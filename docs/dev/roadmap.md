@@ -32,9 +32,10 @@ Phase 1: Clocking, its **Settle first**: the question for a running entry from a
 
 In this order because each builds on the one before, and so the app can be tried on real days early: clocking first,
 then what a real day needs (breaks, then putting mistakes right), then the other work, then the second machine, then the
-report. The owner keeps the Excel file until the switch after Phase 6 ("A first install starts fresh or imports", in
-`design-decisions/`). Every phase starts its code from the owner's cases ("Tests come first, from the owner's rules"),
-and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
+report, and last what carries over to the owner's next project. The owner keeps the Excel file until the switch after
+Phase 6 ("A first install starts fresh or imports", in `design-decisions/`). Every phase starts its code from the
+owner's cases ("Tests come first, from the owner's rules"), and tests animation on Linux early ("Tauri, desktop on
+Windows and Linux").
 
 ### Phase 1: Clocking
 
@@ -60,27 +61,32 @@ matches the prototype in both themes on Windows and Linux, Windows checked by in
 
 **Produces:** time away taken off the day, and days off paid for with the balance.
 
-**Settle first:** where a flex day is marked (`open-questions.md`), and the flex day drawn in the prototype.
+**Settle first:** the flex-day calendar in the menu's Tid tab, and "Visa alla" grouped by day with the flex days ahead
+at its top, drawn in the prototype.
 
 1. "Lägg till paus" with its length field, and the break tags in the entry list.
-2. Flex days, for a day or a range, taken off the balance.
+2. Flex days, for a day or a range, picked in a calendar ahead or not, in the menu's tab row and its Tid tab, built here
+   with the calendar alone; taken off the balance on screen at once, and moved or unmarked from the top of "Visa alla".
+3. "Visa alla" grouped by day, each day's header with its net change or "Flexledig".
 
-**Done when:** a day with errands and a flex day count as agreed in their cases, checked against the owner's Excel.
+**Done when:** a day with errands and a flex day count as agreed in their cases, checked against the owner's Excel, and
+a flex day marked ahead shows on the flex bar at once and comes back when unmarked.
 
 ### Phase 3: Corrections
 
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
 **Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line
-(`open-questions.md`); editing an entry on its line, drawn in the prototype (its "Visa alla" popup only notes where it
-goes).
+(`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the prototype
+(its "Visa alla" popup only notes where it goes).
 
 1. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
-   shortening, the confirm; the rows' hover with it.
-2. Deleting, and writing a forgotten entry; each entry's mark of how it was made.
+   shortening, the profile, the confirm; the rows' hover with it.
+2. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
+   chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
 
-**Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, and the
-balance follows.
+**Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
+its reason, and the balance follows.
 
 ### Phase 4: Profiles
 
@@ -91,8 +97,9 @@ balance follows.
 1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving; the
    warning label on the start button while another profile runs.
 2. The ceiling's opening hours, once whose they are is settled.
-3. The menu: the two tabs, counting values locked behind "Ändra" with "Tidigare värden"; settings that change from a
-   date.
+3. The menu: the Profiler and Orsaker tabs, the full-time slider in Tid, counting values locked behind "Ändra" with
+   "Tidigare värden"; settings that change from a date; the "Orsaker" tab, with the reasons added, renamed and removed,
+   and the "Annan orsak" texts that keep coming up.
 4. Pruning on request ("Old history is pruned on request"), once the ceiling's carry exists: the prune itself and the
    offer on the prune line, tested with set dates rather than waiting three years.
 
@@ -116,16 +123,37 @@ shows a note).
 **Produces:** the monthly report to the boss, as a PDF.
 
 **Settle first:** how the PDF is made in Tauri; where the report is made from (`open-questions.md`), and that screen
-drawn in the prototype.
+drawn in the prototype; everything the PDF shows, its pages with the flex bar, the ceiling wheel, the days the balance
+moved and the "Små avvikelser" line, drawn in the prototype.
 
 1. The month's report: name and month, the flex bar and the ceiling wheel with their carried amounts, hours per profile
-   by pay category.
+   by pay category; the days the balance moved, with flex days, edit reasons and the "Små avvikelser" line.
 2. The export option for each day's hours.
 3. The updater: the app notices a new release and offers to install it.
 
 **Done when:** the owner sends a real month's report and it reads without explanation. Then the owner switches from
 Excel: a fresh start with the opening figures, on a day not yet worked. Once the app is validated in that use, the
 prototype goes.
+
+### Phase 7: Carry-over
+
+**Produces:** a folder of TimeFold's general shapes, made for no project yet, that the owner's next project starts from.
+The first one in view is the owner's monthly budget, now an Excel sheet, but the folder is not shaped for it.
+
+**Settle first:** which parts carry over; where the folder lives (in this repo or a repository of its own, agreed before
+it is made); what the general names are once TimeFold's are gone. Candidates, not yet chosen: the flex bar as a plain
+over-and-under bar, settings that change from a date, the record with its safe save and daily copies, the design tokens
+and the look, the menu with its locked values, and the field for entering a length.
+
+1. Each chosen part lifted into the folder with its tests, its TimeFold names and rules taken out.
+2. A prompt in the same folder, written with the owner, describing the next project for the agent that starts it. It
+   stays with the folder, not in the AI starter repository, which holds only the method. For the budget, what the owner
+   has said so far: income and expenses per month, with recurring items; the stock and fund portfolio, kept as holdings
+   and their counts, valued by an "Uppdatera kurser" button that fetches prices with no login, saved as a dated snapshot
+   per month, a failed price typed by hand; and a savings goal showing the monthly target and what was actually saved.
+
+**Done when:** the folder's tests pass on their own, nothing in its code names TimeFold's work, profiles or hours, the
+owner has read it through and knows what each part is for, and the prompt reads as the owner means it.
 
 ## Not on this roadmap
 

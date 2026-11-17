@@ -96,12 +96,14 @@ title.
 - Time counts on the day it was worked
 - Time is counted to the second and shown to the minute
 - A day owes its expected hours only when work started on it
+- A flex day can be marked ahead, and the screen counts it at once
 - The app's month is the calendar month
 
 ### [Corrections](corrections.md)
 
 - Editing an entry on its line
 - Entries remember how they were made
+- Every edit carries a reason
 
 ### Main screen (`main-screen/`)
 
@@ -109,7 +111,7 @@ title.
 
 - The main screen has a controls side and a dashboard
 - A narrow window stacks the dashboard over the controls
-- The menu has two tabs, with every value locked behind "Ändra"
+- The menu has tabs, with every value locked behind "Ändra"
 
 **[Look](main-screen/look.md)**
 
@@ -129,3 +131,4 @@ title.
 
 - The report is a PDF
 - A report covers one month
+- The report lists the days the balance moved

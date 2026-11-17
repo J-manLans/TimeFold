@@ -6,7 +6,8 @@ cited by its title.
 
 ## The main screen has a controls side and a dashboard (2026-11-14)
 
-**Built by:** Profiles for the profile button; Handover for export and import; Corrections for editing from the lists.
+**Built by:** Profiles for the profile button; Handover for export and import; Corrections for editing from the lists;
+Breaks and flex days for the days in "Visa alla".
 
 **Decision:** the main screen has two sides, the controls side on the left and the dashboard on the right, split by a
 thin line. The left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile
@@ -35,11 +36,16 @@ flex bar always wears the balance profile's. While the profile on screen runs, a
 start button. Every focus ring in the app takes the colour of where the profile on screen stands. On the right side,
 from the top: the balance as a number, centred, with no label; the flex bar; the ceiling wheel, centred under it with
 nothing beside it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent
-entries and "Visa alla", which opens a popup centred on the whole window listing every entry, where entries are edited
-("Editing an entry on its line"). Both lists hold stopped entries, newest first by start; one that runs shows in neither
-until it stops. The recent list always keeps five rows' room, so "Visa alla" never moves; with no entry yet, "Inga
-poster ännu" sits centred in that room and "Visa alla" is greyed out. An entry's row, as it arrives at a stop, lights in
-the wheel's base colour (grey while the balance profile is on screen) and fades.
+entries and "Visa alla", which opens a popup centred on the whole window listing every entry, grouped by day, where
+entries are edited ("Editing an entry on its line"). Above the days, flex days marked ahead show as "Flexledig" rows, to
+move or unmark ("A flex day can be marked ahead, and the screen counts it at once"). Each day opens with a header
+holding its date and the day's net change to the janitor balance in whole minutes, however small, or "Flexledig" and its
+hours on a flex day; an edited or hand-written entry shows its reason ("Every edit carries a reason"). Both lists hold
+stopped entries, newest first by start; one that runs shows in neither until it stops. The recent list always keeps five
+rows' room, so "Visa alla" never moves; with no entry yet, "Inga poster ännu" sits centred in that room and "Visa alla"
+is greyed out. The day headers and reasons stay in "Visa alla": the recent list and the rest of the main screen show
+none of it. An entry's row, as it arrives at a stop, lights in the wheel's base colour (grey while the balance profile
+is on screen) and fades.
 
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
@@ -96,20 +102,24 @@ while the height went unused.
 
 **Revisit if:** the stacked screen does not fit the minimum height, or the strip is used wider than the stacking width.
 
-## The menu has two tabs, with every value locked behind "Ändra" (2026-11-14)
+## The menu has tabs, with every value locked behind "Ändra" (2026-11-17)
 
-**Built by:** Profiles, for the tabs, the profiles and the working time.
+**Built by:** Breaks and flex days, for the tab row and the Tid tab with the flex-day calendar; Profiles, for the
+Profiler and Orsaker tabs, the working time in Tid, and the reasons.
 
-**Decision:** the menu has two tabs across its top: **Profiler** and **Tid**. Profiler is selected when the menu opens,
-and one tab's content shows at a time; switching fades from one to the next. Beside the "Meny" heading sits the theme
-button ("A light or dark theme, following the system").
+**Decision:** the menu has three tabs across its top: **Profiler**, **Tid** and **Orsaker**. Profiler is selected when
+the menu opens, and one tab's content shows at a time; switching fades from one to the next. Beside the "Meny" heading
+sits the theme button ("A light or dark theme, following the system").
 
 - **Profiler:** each profile is a row (a small circle with its letter, its pair of colours swapping with where it stands
   ("Each profile carries its colours"), and its name). A row unfolds in place, its height growing and its content fading
   in, and folds back the same way; opening one folds any other. It shows its name, its colour ("Each profile carries its
   colours"), pay (a monthly salary or a rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
 - **Tid:** the slider that splits full time between janitor's expected hours and the ceiling, with the numbers on it ("6
-  | 2"); and full time beside it.
+  | 2"); full time beside it; and "Flexledig", the calendar where flex days are marked ("A flex day can be marked ahead,
+  and the screen counts it at once").
+- **Orsaker:** the reasons an edit can be given, and the "Annan orsak" texts that keep coming up ("Every edit carries a
+  reason").
 
 Every value is locked: it shows as text with "Ändra" beside it. "Ändra" opens it; Enter confirms and Esc aborts, as in
 "Entering a length of time". Values that change the counting (full time, the split, a salary or rate) then ask "Gäller

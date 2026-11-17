@@ -9,7 +9,8 @@ It holds its length and the day it was added, and comes off the entry's time on 
 or a stop and fades to nothing while the click can be undone ("The last click can be undone for a few seconds").
 
 **Balance.** For a profile with expected hours (only janitor work), the running sum of each day's hours minus the
-expected hours. Positive: hours to take out. Negative: hours to work in.
+expected hours. Positive: hours to take out. Negative: hours to work in. On the main screen it also counts flex days
+marked ahead; a report counts only the days up to its end.
 
 **Base colour.** A profile's main colour: the figures' colour for hours used and for minus; a nuance of the profile's
 hue, picked in the profile's row.
@@ -32,6 +33,9 @@ check, unless it is the same as the newest; the last 31 are kept. What the **Rec
 
 **Dashboard.** The right side of the main screen, a dark or slate-blue panel: the balance, the flex bar, the ceiling
 wheel, the pay estimate and the recent entries. What the owner reads.
+
+**Day header.** In the "Visa alla" popup, the line opening each day: its date and the day's net change to the balance,
+or "Flexledig" on a flex day.
 
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
