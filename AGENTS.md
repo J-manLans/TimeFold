@@ -45,6 +45,7 @@ deleted once the code it previews is built; `git log` keeps it.
 Added when there is something to put in them, each opening with what it holds and what stays out, and moved into the doc
 map once it exists:
 
+- `docs/dev/levels.md`, at the owner's first placement: each area's level and the date it was set or shifted.
 - `docs/dev/archive/`, when an investigation closes or an idea is dropped, and both are true: it is likely to come up
   again, and reaching the conclusion cost something. Each entry says what it was, why it ended, and what would change
   the verdict. Otherwise delete it and let `git log` keep it.
@@ -152,6 +153,19 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     time. The fix changes only what the evidence points at, until the test passes or the screen looks right; the hunt's
     order and tools are in `docs/dev/procedures/debugging.md`. The fix is code: it is committed only after the owner has
     reviewed it and says so.
+- **Explaining follows the owner's level, per area.** Three levels: **Noob** (the agent leads, explains each piece
+  unasked, points out its own guesses and checks understanding before the next step), **Tinkerer** (explains when asked
+  and points out the bigger choices) and **Wizard** (brief; leans labelled, as always). The owner's own placement per
+  area (such as Svelte, TypeScript, Rust, Tauri) is the opening guess; with none recorded, ask for it at the start of
+  the session as a multiple-choice question per area, with the three levels to tick (the question tool, where the agent
+  has one), never as open text. From then on the agent tunes it from what it sees: repeated basic questions or "why?"
+  step an area down, explanations skipped or the owner writing the code themselves step it up. A step takes a clear
+  pattern over several exchanges, never one moment; it moves one level at a time; and after a shift the area holds for
+  at least the rest of the session, so it does not flicker, as the flex bar's scale grows at 90% but shrinks only at
+  80%. Every shift is offered, not made: at the end of a reply, never mid-work, a question to tick, about the
+  explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and free text (the question tool, where
+  the agent has one). Only a Yes shifts the level, and the owner's word overrides it at any time. The levels and their
+  dates live in `docs/dev/levels.md`.
 - **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
 - **Argue for the owner's hunch** before defending the proposal.
