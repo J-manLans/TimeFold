@@ -7,7 +7,7 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { dayLabel } from '$lib/modules/dates'
+  import { dayLabel } from '$lib/modules/shared/dates'
   import CeilingWheel from './CeilingWheel.svelte'
   import FlexBar from './FlexBar.svelte'
   import RecentEntries from './RecentEntries.svelte'

@@ -8,7 +8,7 @@
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import Disc from '$lib/components/shared/Disc.svelte'
-  import { clickLabel } from '$lib/modules/clock'
+  import { clickLabel } from '$lib/modules/controls/clock'
   import TipLabel from './TipLabel.svelte'
 
   // === State ===

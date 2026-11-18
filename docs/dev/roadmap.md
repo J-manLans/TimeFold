@@ -6,8 +6,7 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, its **Settle first**: the popup for a running entry from an earlier day, drawn in the prototype with
-its words; then building it, and the release.
+Phase 1: Clocking, in vibe mode once the owner starts it: the steps below, then the release.
 
 ## State
 
@@ -41,13 +40,10 @@ Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the popup for a
-running entry from an earlier day ("A running entry from an earlier day asks"), with its words; the prototype brought in
-line with the hue-only colour picker and the neon ("Each profile carries its colours"), its comments no longer pointing
-at the deleted ceiling wheel sketch; the folders for those screens, once they are drawn.
-
 1. The over colour renamed the neon in the code (`overColour`, `--profile-over` and the like; names meaning over the
-   ceiling, such as `--wheel-balance-over`, stay). Then the popup for a running entry from an earlier day.
+   ceiling, such as `--wheel-balance-over`, stay). Then the popup for a running entry from an earlier day
+   (`components/controls/LatePopup.svelte`, its rules in `modules/controls/clock.ts`, `ChoiceButton.svelte` moved to
+   `components/shared/`).
 2. The window's minimum size ("A narrow window stacks the dashboard over the controls"), tuned on the app. Then the
    release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
    Windows and Linux installers from a version tag, `docs/dev/procedures/release.md`, and `v0.1.0`.

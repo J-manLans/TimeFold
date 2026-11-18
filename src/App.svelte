@@ -3,9 +3,9 @@
   import { app } from '$lib/app.svelte'
   import Controls from '$lib/components/controls/Controls.svelte'
   import Dashboard from '$lib/components/dashboard/Dashboard.svelte'
-  import { overColour } from '$lib/modules/colours'
-  import { localDay } from '$lib/modules/counting'
-  import { standsOver } from '$lib/modules/figures'
+  import { overColour } from '$lib/modules/shared/colours'
+  import { localDay } from '$lib/modules/shared/counting'
+  import { standsOver } from '$lib/modules/dashboard/figures'
 
   // Where the profile on screen stands, as a colour: its over colour past its line, its base before it. The profile
   // letter and every focus ring wear it

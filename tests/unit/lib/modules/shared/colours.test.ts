@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { colourRoles, dimmed, faded, FIRST_HUE, hueOfStrip, neonBase, overColour } from '$lib/modules/colours'
+import { colourRoles, dimmed, faded, FIRST_HUE, hueOfStrip, neonBase, overColour } from '$lib/modules/shared/colours'
 
 // === Constants ===
 

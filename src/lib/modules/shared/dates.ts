@@ -3,7 +3,7 @@
  * "mån 16 nov" in a label. A day is a calendar date with no clock, so no time zone can move it.
  */
 
-import { type Day } from './record'
+import { type Day } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API

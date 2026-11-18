@@ -35,9 +35,9 @@
   import { Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
-  import { colourRoles } from '$lib/modules/colours'
-  import { balance, localDay } from '$lib/modules/counting'
-  import { balanceText, barReach, barScale, barSide } from '$lib/modules/figures'
+  import { colourRoles } from '$lib/modules/shared/colours'
+  import { balance, localDay } from '$lib/modules/shared/counting'
+  import { balanceText, barReach, barScale, barSide } from '$lib/modules/dashboard/figures'
 
   // === Props ===
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { clickLabel, press, undo } from '$lib/modules/clock'
-import { type Entry, type TimeRecord } from '$lib/modules/record'
+import { clickLabel, press, undo } from '$lib/modules/controls/clock'
+import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 import { at, entry, RECORD } from '$tests/helpers/records'
 
 // === Constants ===

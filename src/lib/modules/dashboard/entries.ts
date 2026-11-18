@@ -3,9 +3,9 @@
  * dashboard"). The five most recent and the "Visa alla" popup read the same rows.
  */
 
-import { localDay, shownMinutes, timeOfDay } from './counting'
-import { dayShort } from './dates'
-import { type Entry, type TimeRecord } from './record'
+import { localDay, shownMinutes, timeOfDay } from '$lib/modules/shared/counting'
+import { dayShort } from '$lib/modules/shared/dates'
+import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API

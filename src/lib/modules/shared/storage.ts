@@ -4,9 +4,9 @@
  */
 
 import { invoke } from '@tauri-apps/api/core'
-import { localDay } from './counting'
-import { readRecord, type Day, type ReadResult, type TimeRecord } from './record'
-import { readSettings, type Settings } from './settings'
+import { localDay } from '$lib/modules/shared/counting'
+import { readRecord, type Day, type ReadResult, type TimeRecord } from '$lib/modules/shared/record'
+import { readSettings, type Settings } from '$lib/modules/menu/settings'
 
 // ======================================
 //                 API

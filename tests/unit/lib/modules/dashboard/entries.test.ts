@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { entryRow, stoppedEntries } from '$lib/modules/entries'
-import { type Entry, type TimeRecord } from '$lib/modules/record'
+import { entryRow, stoppedEntries } from '$lib/modules/dashboard/entries'
+import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 // === Helpers ===
 

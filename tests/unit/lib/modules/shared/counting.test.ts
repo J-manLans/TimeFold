@@ -10,8 +10,8 @@ import {
   secondsByDay,
   shownMinutes,
   timeOfDay,
-} from '$lib/modules/counting'
-import { RECORD_FORMAT, RECORD_VERSION, type Entry, type Profile, type TimeRecord } from '$lib/modules/record'
+} from '$lib/modules/shared/counting'
+import { RECORD_FORMAT, RECORD_VERSION, type Entry, type Profile, type TimeRecord } from '$lib/modules/shared/record'
 
 // === Constants ===
 

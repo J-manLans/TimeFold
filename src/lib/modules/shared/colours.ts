@@ -4,7 +4,7 @@
  * Hues are OKLCH hues, 0–359; colours are written #rrggbb.
  */
 
-import { type Profile } from './record'
+import { type Profile } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API

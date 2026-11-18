@@ -1,16 +1,16 @@
 <!--
   The theme button beside the menu's heading, and the label naming the theme in force ("A light or dark theme,
-  following the system"): a small disc in its dent, with a half-filled circle for System, a sun for Ljust and a moon
-  for Mörkt. Each click moves to the next theme and saves it.
+  following the system"): a small disc in its dent, with a sun for Ljust and a moon for Mörkt, the theme in force
+  whether chosen or followed from the computer. Each click switches to the other and saves it.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import Disc from '$lib/components/shared/Disc.svelte'
-  import { themeName } from '$lib/modules/settings'
+  import { themeName } from '$lib/modules/menu/settings'
 
   // === State ===
 
-  let name = $derived(themeName(app.theme))
+  let name = $derived(themeName(app.shownTheme))
 
   // The sun's eight rays, as line ends around its centre
   const RAYS = Array.from({ length: 8 }, (_, k) => {
@@ -24,19 +24,16 @@
   })
 </script>
 
-<button class="theme" type="button" aria-label="Tema: {name}. Klicka för nästa." onclick={() => app.cycleTheme()}>
+<button class="theme" type="button" aria-label="Tema: {name}. Klicka för att byta." onclick={() => app.switchTheme()}>
   <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)" light="1">
     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-      {#if app.theme === 'light'}
+      {#if app.shownTheme === 'light'}
         <circle cx="12" cy="12" r="4" />
         {#each RAYS as ray, k (k)}
           <line {...ray} />
         {/each}
-      {:else if app.theme === 'dark'}
-        <path d="M15.5 3.5a8.5 8.5 0 1 0 5 13.4A7 7 0 0 1 15.5 3.5z" />
       {:else}
-        <circle cx="12" cy="12" r="8" />
-        <path class="filled" d="M12 4a8 8 0 0 1 0 16z" />
+        <path d="M15.5 3.5a8.5 8.5 0 1 0 5 13.4A7 7 0 0 1 15.5 3.5z" />
       {/if}
     </svg>
   </Disc>
@@ -68,11 +65,6 @@
     stroke-width: var(--theme-icon-stroke);
     stroke-linecap: round;
     stroke-linejoin: round;
-  }
-
-  .filled {
-    fill: currentColor;
-    stroke: none;
   }
 
   .name {

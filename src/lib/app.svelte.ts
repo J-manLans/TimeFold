@@ -4,8 +4,8 @@
  * component that reads a field follow it when it changes.
  */
 
-import { press, undo, type Click } from '$lib/modules/clock'
-import { localDay } from '$lib/modules/counting'
+import { press, undo, type Click } from '$lib/modules/controls/clock'
+import { localDay } from '$lib/modules/shared/counting'
 import {
   freshRecord,
   recoveryFor,
@@ -14,8 +14,8 @@ import {
   type Problem,
   type Recovery,
   type TimeRecord,
-} from '$lib/modules/record'
-import { nextTheme, type Theme } from '$lib/modules/settings'
+} from '$lib/modules/shared/record'
+import { nextTheme, shownTheme, type ShownTheme, type Theme } from '$lib/modules/menu/settings'
 import {
   copyRecord,
   loadRecord,
@@ -24,7 +24,7 @@ import {
   saveRecord,
   saveSettings,
   type Copy,
-} from '$lib/modules/storage'
+} from '$lib/modules/shared/storage'
 
 // ======================================
 //                 API
@@ -66,9 +66,13 @@ class AppState {
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
   theme = $state<Theme>('system')
+  /** Whether the computer asks for the dark theme, which "System" follows */
+  systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches)
   /** The menu's panel while it is locked open, at the first start or a record that cannot be read; null otherwise */
   panel = $state<LockedPanel | null>(null)
 
+  /** The theme in force on screen */
+  shownTheme: ShownTheme = $derived(shownTheme(this.theme, this.systemDark))
   /** The entry that runs, if any; at most one does */
   running: Entry | null = $derived(this.record?.entries.find((e) => e.stop === null) ?? null)
 
@@ -80,6 +84,7 @@ class AppState {
    * screen.
    */
   async load(): Promise<void> {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => (this.systemDark = e.matches))
     this.#applyTheme((await loadSettings()).theme)
     const result = await loadRecord()
     if (result === null) {
@@ -192,9 +197,12 @@ class AppState {
     this.phase = 'ready'
   }
 
-  /** The theme button pressed. Used by the theme button: moves to the next theme, shows it at once, then saves it */
-  async cycleTheme(): Promise<void> {
-    this.#applyTheme(nextTheme(this.theme))
+  /**
+   * The theme button pressed. Used by the theme button: switches to the other of the theme in force, shows it at once,
+   * then saves it, so the app stops following the computer
+   */
+  async switchTheme(): Promise<void> {
+    this.#applyTheme(nextTheme(this.theme, this.systemDark))
     await saveSettings({ theme: this.theme })
   }
 
@@ -202,7 +210,7 @@ class AppState {
 
   /**
    * Shows `theme`: color-scheme on the page picks each token's light or dark side, and "System" leaves the pick to
-   * the computer. Used by `load` and `cycleTheme`
+   * the computer. Used by `load` and `switchTheme`
    */
   #applyTheme(theme: Theme): void {
     this.theme = theme

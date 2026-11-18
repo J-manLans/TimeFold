@@ -39,9 +39,9 @@ it, the reports show it ("brought over: +12:30"), a correction can change it, an
 start asks nothing about the ceiling; the hours of the current month's ceiling already used are an open question ("Whose
 the opening ceiling hours are"). From then on the app records every entry with its day. **Importera** reads a handover
 file instead, as in "Handover between machines", and asks nothing more: the file brings the profiles with their colours,
-the settings and the opening figures; the theme starts as "System". The owner switches from the Excel file on a day not
-yet worked, with the file closed the evening before; the Excel history before that stays in the file and is not brought
-in.
+the settings and the opening figures; the theme starts following the system. The owner switches from the Excel file on a
+day not yet worked, with the file closed the evening before; the Excel history before that stays in the file and is not
+brought in.
 
 **Why:** the Excel history is not needed by anything the app does, and the boss has not asked for it; parsing the file's
 layout would cost much for it. Figures as of the end of the day before mean the app counts every day from its first, so

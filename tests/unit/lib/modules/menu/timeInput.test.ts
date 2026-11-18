@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { BALANCE, BREAK, durationText, fitsShape, readDuration } from '$lib/modules/timeInput'
+import { BALANCE, BREAK, durationText, fitsShape, readDuration } from '$lib/modules/menu/timeInput'
 
 // === Tests ===
 

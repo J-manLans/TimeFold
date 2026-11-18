@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { copyRecord, loadRecord, loadSettings, newestCopy, saveRecord, saveSettings } from '$lib/modules/storage'
+import { copyRecord, loadRecord, loadSettings, newestCopy, saveRecord, saveSettings } from '$lib/modules/shared/storage'
 import { RECORD } from '$tests/helpers/records'
 
 // === Stand-ins ===

@@ -9,8 +9,8 @@
 <script lang="ts">
   import { onMount, tick, untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
-  import { overColour } from '$lib/modules/colours'
-  import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/timeInput'
+  import { overColour } from '$lib/modules/shared/colours'
+  import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/menu/timeInput'
   import ChoiceButton from './ChoiceButton.svelte'
 
   // === Props ===

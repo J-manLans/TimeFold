@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { freshRecord, readRecord, RECORD_FORMAT, RECORD_VERSION, recoveryFor } from '$lib/modules/record'
+import { freshRecord, readRecord, RECORD_FORMAT, RECORD_VERSION, recoveryFor } from '$lib/modules/shared/record'
 import { RECORD } from '$tests/helpers/records'
 
 // === Helpers ===

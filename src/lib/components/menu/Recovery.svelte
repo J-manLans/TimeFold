@@ -43,7 +43,7 @@
   import { getCurrentWindow } from '@tauri-apps/api/window'
   import { openUrl } from '@tauri-apps/plugin-opener'
   import { app } from '$lib/app.svelte'
-  import { dayInWords } from '$lib/modules/dates'
+  import { dayInWords } from '$lib/modules/shared/dates'
   import ChoiceButton from './ChoiceButton.svelte'
 
   // === State ===

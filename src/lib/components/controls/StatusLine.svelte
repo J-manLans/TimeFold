@@ -4,7 +4,7 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { timeOfDay } from '$lib/modules/counting'
+  import { timeOfDay } from '$lib/modules/shared/counting'
 
   // === State ===
 

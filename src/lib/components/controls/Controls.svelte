@@ -9,7 +9,7 @@
   import { untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
   import Menu from '$lib/components/menu/Menu.svelte'
-  import { overColour } from '$lib/modules/colours'
+  import { overColour } from '$lib/modules/shared/colours'
   import ButtonBlock from './ButtonBlock.svelte'
   import PruneLine from './PruneLine.svelte'
   import StatusLine from './StatusLine.svelte'

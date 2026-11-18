@@ -6,8 +6,8 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { entryRow } from '$lib/modules/entries'
-  import { type Entry } from '$lib/modules/record'
+  import { entryRow } from '$lib/modules/dashboard/entries'
+  import { type Entry } from '$lib/modules/shared/record'
 
   // === Props ===
 

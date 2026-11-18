@@ -37,19 +37,21 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   estimate; `RecentEntries.svelte`, the five newest entries; `AllEntries.svelte`, "Visa alla" and its popup;
   `EntryRow.svelte`, the row both lists share. `shared/`: what more than one part uses, such as `Disc.svelte`, the
   dented disc of the profile, undo and theme buttons.
-- `lib/modules/`: the logic in TypeScript. `record.ts`: the record's shape as types; `readRecord`, the check on opening
-  that turns a file's text into a record or names what is wrong with it, upgrading an older version first; and
-  `recoveryFor`, what a problem leads to. `clock.ts`: what a click on start/stop does to the record (`press`), the undo
-  of the last click (`undo`) and what the undo's label says (`clickLabel`). `colours.ts`: the colour rule from the
-  prototype, a profile's base, dimmed and neons by role, and the faded colour. `counting.ts`: the balance, each day's
-  result, expected hours, the app's month, the ceiling with its carry and pieces, and the pay estimate, worked out in
-  seconds from the record, and a moment's time of day as shown (`timeOfDay`). `figures.ts`: the flex bar's scale, reach
-  and side, and the balance as text. `entries.ts`: the entry lists' stopped entries, newest first, and what a row says.
-  `dates.ts`: days in Swedish words ("måndag 16 november", "mån 16"). `timeInput.ts`: typed durations, each keystroke
-  checked against the field's shape, read into minutes, and written back in words ("1h 20min"). `settings.ts`: the
-  machine's own settings (the theme), their defaults and the check on reading. `storage.ts`: `loadRecord`, `saveRecord`,
-  `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord`
-  adds the local date that names a day's copy.
+- `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
+  `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
+  `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click (`undo`)
+  and what the undo's label says (`clickLabel`). `dashboard/`: `figures.ts`, the flex bar's scale, reach and side, and
+  the balance as text; `entries.ts`, the entry lists' stopped entries, newest first, and what a row says. `menu/`:
+  `timeInput.ts`, typed durations, each keystroke checked against the field's shape, read into minutes, and written back
+  in words ("1h 20min"); `settings.ts`, the machine's own settings (the theme), their defaults, the check on reading,
+  the theme in force and the theme button's switch. `shared/`: `record.ts`, the record's shape as types, `readRecord`,
+  the check on opening that turns a file's text into a record or names what is wrong with it, upgrading an older version
+  first, and `recoveryFor`, what a problem leads to; `colours.ts`, the colour rule from the prototype, a profile's base,
+  dimmed and neon by role, and the faded colour; `counting.ts`, the balance, each day's result, expected hours, the
+  app's month, the ceiling with its carry and pieces, and the pay estimate, worked out in seconds from the record, and a
+  moment's time of day as shown (`timeOfDay`); `dates.ts`, days in Swedish words ("måndag 16 november", "mån 16");
+  `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the only
+  place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy.
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, and the registered `--glow-strength` the pointer light fades by.
 

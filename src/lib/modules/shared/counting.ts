@@ -3,7 +3,7 @@
  * figures are rounded to the minute only when shown ("Time is counted to the second and shown to the minute").
  */
 
-import { type Day, type Entry, type Profile, type Timestamp, type TimeRecord } from './record'
+import { type Day, type Entry, type Profile, type Timestamp, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API

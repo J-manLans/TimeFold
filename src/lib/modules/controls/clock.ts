@@ -3,8 +3,8 @@
  * and a profile list"; "The last click can be undone for a few seconds"). Pure: each function returns a new record.
  */
 
-import { timeOfDay } from './counting'
-import { type Entry, type Timestamp, type TimeRecord } from './record'
+import { timeOfDay } from '$lib/modules/shared/counting'
+import { type Entry, type Timestamp, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API

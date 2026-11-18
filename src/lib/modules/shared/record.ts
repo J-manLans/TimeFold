@@ -3,7 +3,7 @@
  * ("The record is one JSON file"). Times of day are timestamps with their offset; amounts of time are whole minutes.
  */
 
-import { FIRST_HUE, neonBase } from './colours'
+import { FIRST_HUE, neonBase } from '$lib/modules/shared/colours'
 
 // ======================================
 //                 API

@@ -44,9 +44,9 @@ already says its rule.
   UPPER_SNAKE_CASE for module-level constants; in Rust, its own conventions. What is private is not exported from its
   module (a class's own fields are `#private`), with no underscore prefix; Rust keeps things private by default. Names
   and comments are in English; only what the user sees is Swedish.
-- **Imports:** anything under `src/lib/` is imported through `$lib` (`$lib/modules/record`), from source and tests
-  alike, and the tests' shared helpers through `$tests` (`$tests/helpers/records`), never by counting `../`; a file
-  beside the importer may use `./`.
+- **Imports:** anything under `src/lib/` is imported through `$lib` (`$lib/modules/shared/record`), from source and
+  tests alike, and the tests' shared helpers through `$tests` (`$tests/helpers/records`), never by counting `../`; a
+  file beside the importer may use `./`.
 - **Doc comments:** every exported function, type and component has one: what it is for, when it is used with an example
   (or its one use), its inputs, what it returns, and side effects if any, as TSDoc (`/** … @param … @returns … */`)
   without repeating the types, or Rust's `///`. Private helpers and test helpers get a short one too: what they do and
@@ -114,11 +114,12 @@ component; only the values are central.
 - **Order:** the file runs Global, Controls (the controls side), Dashboard, then Overlays and popups, the popups grouped
   by the side that owns them, or Global. Inside each component, and in Global, values go in this order: colours,
   typography, dimensions, spacing, radii, motion, shadows and effects. The sections use the banners of "Code style".
-- **Theming:** `:root` sets `color-scheme: light dark`. The theme button's "System" leaves it so; "Ljust" and "Mörkt"
-  set it to `light` or `dark` ("A light or dark theme, following the system"). A value that differs between the themes
-  is written once as `light-dark(light, dark)`; one that does not is a single value. While the look is tuned, a pair may
-  hold the same value on both sides; once the design settles, such a pair is merged into one value. The profiles'
-  colours are not tokens: the colour roles in "Code style" work them out. The balance profile's greys are tokens.
+- **Theming:** `:root` sets `color-scheme: light dark`. A fresh install leaves it so, following the system; once the
+  theme button is clicked, "Ljust" and "Mörkt" set it to `light` or `dark` ("A light or dark theme, following the
+  system"). A value that differs between the themes is written once as `light-dark(light, dark)`; one that does not is a
+  single value. While the look is tuned, a pair may hold the same value on both sides; once the design settles, such a
+  pair is merged into one value. The profiles' colours are not tokens: the colour roles in "Code style" work them out.
+  The balance profile's greys are tokens.
 - **Motion:** times are written in seconds. `--speed-ui: 0.2s` is every small transition's ("The look: a fresh display
   face, mono text and soft buttons"); a longer animation that tells something has its own token, such as the peek's 0.3s
   ("The ceiling wheel"). `prefers-reduced-motion` is always respected.

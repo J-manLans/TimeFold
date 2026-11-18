@@ -3,8 +3,8 @@
  * as text ("The flex bar"). Works in seconds, as the counting does; what is shown goes by the whole minutes shown.
  */
 
-import { balance, ceilingMonth, shownMinutes } from './counting'
-import { type Day, type TimeRecord } from './record'
+import { balance, ceilingMonth, shownMinutes } from '$lib/modules/shared/counting'
+import { type Day, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dayInWords, dayLabel, dayShort } from '$lib/modules/dates'
+import { dayInWords, dayLabel, dayShort } from '$lib/modules/shared/dates'
 
 // === Tests ===
 

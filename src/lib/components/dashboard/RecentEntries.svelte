@@ -14,7 +14,7 @@
 
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { stoppedEntries } from '$lib/modules/entries'
+  import { stoppedEntries } from '$lib/modules/dashboard/entries'
   import AllEntries from './AllEntries.svelte'
   import EntryRow from './EntryRow.svelte'
 

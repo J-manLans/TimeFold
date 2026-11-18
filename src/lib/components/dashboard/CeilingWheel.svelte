@@ -34,8 +34,8 @@
   import { Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
-  import { colourRoles, dimmed, faded } from '$lib/modules/colours'
-  import { ceilingMonth, localDay, payEstimate, shownMinutes } from '$lib/modules/counting'
+  import { colourRoles, dimmed, faded } from '$lib/modules/shared/colours'
+  import { ceilingMonth, localDay, payEstimate, shownMinutes } from '$lib/modules/shared/counting'
 
   // === Props ===
 

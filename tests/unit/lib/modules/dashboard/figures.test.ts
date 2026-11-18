@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { balanceText, barReach, barScale, barSide, standsOver } from '$lib/modules/figures'
-import { type TimeRecord } from '$lib/modules/record'
+import { balanceText, barReach, barScale, barSide, standsOver } from '$lib/modules/dashboard/figures'
+import { type TimeRecord } from '$lib/modules/shared/record'
 
 // === Constants ===
 

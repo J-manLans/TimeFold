@@ -7,8 +7,14 @@
 //                 API
 // ======================================
 
-/** "System" follows the computer's light or dark mode; "light" and "dark" hold one regardless */
+/**
+ * "System", a fresh install's, follows the computer's light or dark mode until the theme button is first clicked;
+ * "light" and "dark" hold one regardless
+ */
 export type Theme = 'system' | 'light' | 'dark'
+
+/** The theme in force on screen: what "System" resolves to, or the theme chosen */
+export type ShownTheme = 'light' | 'dark'
 
 /** The settings file's shape */
 export interface Settings {
@@ -31,13 +37,25 @@ export function readSettings(text: string | null): Settings {
   }
 }
 
-/** The theme after `theme` on the theme button: System → Ljust → Mörkt → System. Used by each click on it */
-export function nextTheme(theme: Theme): Theme {
-  return THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]
+/**
+ * The theme in force: the computer's while the theme is "System", else the one chosen. Used by the theme button's icon
+ * and label, and by `nextTheme`: shownTheme('system', true) is 'dark'
+ */
+export function shownTheme(theme: Theme, systemDark: boolean): ShownTheme {
+  if (theme === 'system') return systemDark ? 'dark' : 'light'
+  return theme
+}
+
+/**
+ * The theme after a click on the theme button: the other of the one in force, so the button only switches between
+ * Ljust and Mörkt. Used by each click on it: nextTheme('system', true) is 'light'
+ */
+export function nextTheme(theme: Theme, systemDark: boolean): ShownTheme {
+  return shownTheme(theme, systemDark) === 'dark' ? 'light' : 'dark'
 }
 
 /** The theme's name as the theme button's label shows it: themeName('light') is "Ljust" */
-export function themeName(theme: Theme): string {
+export function themeName(theme: ShownTheme): string {
   return NAMES[theme]
 }
 
@@ -45,10 +63,10 @@ export function themeName(theme: Theme): string {
 //               Helpers
 // ======================================
 
-/** The themes in the theme button's order */
+/** The themes a settings file can hold */
 const THEMES: Theme[] = ['system', 'light', 'dark']
 
-const NAMES: Record<Theme, string> = { system: 'System', light: 'Ljust', dark: 'Mörkt' }
+const NAMES: Record<ShownTheme, string> = { light: 'Ljust', dark: 'Mörkt' }
 
 /** The settings when there is no file, or it cannot be read */
 const DEFAULTS: Settings = { theme: 'system' }

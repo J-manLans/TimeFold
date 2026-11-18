@@ -6,7 +6,7 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { stoppedEntries } from '$lib/modules/entries'
+  import { stoppedEntries } from '$lib/modules/dashboard/entries'
   import EntryRow from './EntryRow.svelte'
 
   // === Props ===

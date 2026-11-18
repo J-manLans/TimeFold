@@ -1,6 +1,6 @@
 /** Records several test files share */
 
-import { RECORD_FORMAT, RECORD_VERSION, type Entry, type TimeRecord } from '$lib/modules/record'
+import { RECORD_FORMAT, RECORD_VERSION, type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 /**
  * A sound record of this version: full time, one profile with a balance and a salary, an opening, a stopped entry and
