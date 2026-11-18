@@ -2,7 +2,7 @@
   The ceiling wheel ("The ceiling wheel"), with the pay estimate under it ("A pay estimate per profile"). A ring whose
   full lap is the month's ceiling: used hours fill it clockwise from 12 o'clock in the order they were worked, the
   profile on screen's pieces lit and the others' faded, the rest dimmed; hours over the ceiling lie on a second lap in
-  the over colour. Grey, one piece, while the balance profile is on screen. The used hours sit in the middle, "AV 42:00
+  the neon. Grey, one piece, while the balance profile is on screen. The used hours sit in the middle, "AV 42:00
   H" under them. With the pointer on the band, the over lap winds back so the first lap shows whole. The figures count
   to a new value as the balance does; on opening they show at once. Drawn as the prototype draws it, on a 200 board.
 -->
@@ -55,7 +55,7 @@
   // The wheel wears the profile on screen's colours, or the greys while that is the balance profile
   let onScreen = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
   let grey = $derived(onScreen === undefined || onScreen.expectedMinutes !== undefined)
-  let greys = $state<{ base: string; over: string } | null>(null)
+  let greys = $state<{ base: string; neon: string } | null>(null)
   let colours = $derived.by(() => {
     if (grey) return greys ? { ...greys, dimmed: dimmed(greys.base, panel) } : null
     return onScreen ? colourRoles(onScreen, panel) : null
@@ -83,7 +83,7 @@
     band = parseFloat(tokens.getPropertyValue('--wheel-band'))
     greys = {
       base: tokens.getPropertyValue('--wheel-balance').trim(),
-      over: tokens.getPropertyValue('--wheel-balance-over').trim(),
+      neon: tokens.getPropertyValue('--wheel-balance-over').trim(),
     }
   })
 
@@ -104,14 +104,14 @@
    * What shows round the ring, as pieces that do not overlap, in the order drawn: the over lap, what is left of the
    * first lap, then the unused part. Used to draw the ring
    */
-  function ring(c: { base: string; dimmed: string; over: string }): { from: number; to: number; colour: string }[] {
+  function ring(c: { base: string; dimmed: string; neon: string }): { from: number; to: number; colour: string }[] {
     const ceiling = month.ceiling
     if (ceiling <= 0) return [{ from: 0, to: 1, colour: c.dimmed }]
     const top = Math.min(shownUsed.current, 2 * ceiling)
     const overEnd = Math.max(top - ceiling, 0) * (1 - peek.current)
     const runs = grey ? [{ from: 0, to: top, lit: true }] : litRuns(top)
     const fadedBase = faded(c.base, panel)
-    const fadedOver = faded(c.over, panel)
+    const fadedNeon = faded(c.neon, panel)
     const drawn: { from: number; to: number; colour: string }[] = []
     const add = (from: number, to: number, colour: string): void => {
       if (to <= from) return
@@ -120,7 +120,7 @@
       else drawn.push({ from, to, colour })
     }
     for (const run of runs)
-      add(Math.max(run.from, ceiling) - ceiling, Math.min(run.to - ceiling, overEnd), run.lit ? c.over : fadedOver)
+      add(Math.max(run.from, ceiling) - ceiling, Math.min(run.to - ceiling, overEnd), run.lit ? c.neon : fadedNeon)
     for (const run of runs) add(Math.max(run.from, overEnd), Math.min(run.to, ceiling), run.lit ? c.base : fadedBase)
     add(Math.min(top, ceiling), ceiling, c.dimmed)
     return drawn.map((piece) => ({ from: piece.from / ceiling, to: piece.to / ceiling, colour: piece.colour }))
@@ -201,7 +201,7 @@
           y2={BOARD.centre - (tick.long ? BOARD.tickInnerLong : BOARD.tickInner) * Math.cos(tick.angle)}
         />
       {/each}
-      <text class="number" x={BOARD.centre} y={BOARD.numberBaseline} fill={past ? colours.over : colours.base}>
+      <text class="number" x={BOARD.centre} y={BOARD.numberBaseline} fill={past ? colours.neon : colours.base}>
         {hours(shownUsed.current)}
       </text>
       <text class="label" x={BOARD.centre} y={BOARD.labelBaseline}>AV {hours(month.ceiling)} H</text>

@@ -3,17 +3,17 @@
   import { app } from '$lib/app.svelte'
   import Controls from '$lib/components/controls/Controls.svelte'
   import Dashboard from '$lib/components/dashboard/Dashboard.svelte'
-  import { overColour } from '$lib/modules/shared/colours'
+  import { neonColour } from '$lib/modules/shared/colours'
   import { localDay } from '$lib/modules/shared/counting'
   import { standsOver } from '$lib/modules/dashboard/figures'
 
-  // Where the profile on screen stands, as a colour: its over colour past its line, its base before it. The profile
+  // Where the profile on screen stands, as a colour: its neon past its line, its base before it. The profile
   // letter and every focus ring wear it
   let stateColour = $derived.by(() => {
     const record = app.record
     const profile = record?.profiles.find((p) => p.id === app.onScreen)
     if (!record || !profile) return undefined
-    return standsOver(record, profile.id, localDay(Date.now())) ? overColour(profile.hue) : profile.base
+    return standsOver(record, profile.id, localDay(Date.now())) ? neonColour(profile.hue) : profile.base
   })
 
   onMount(() => {

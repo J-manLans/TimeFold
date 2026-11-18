@@ -9,7 +9,7 @@
 <script lang="ts">
   import { onMount, tick, untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
-  import { overColour } from '$lib/modules/shared/colours'
+  import { neonColour } from '$lib/modules/shared/colours'
   import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/menu/timeInput'
   import ChoiceButton from './ChoiceButton.svelte'
 
@@ -37,10 +37,10 @@
   let profile = $derived(app.record?.profiles[0])
   let minutes = $derived(readDuration(balanceText, BALANCE))
   let reading = $derived(minutes === null ? '' : durationText(minutes, true))
-  // The colour of where the balance stands: the over colour in plus, the base at 0 or below; while it is half typed,
+  // The colour of where the balance stands: the neon in plus, the base at 0 or below; while it is half typed,
   // a leading minus is below and any other digit but 0 is plus
   let plus = $derived(minutes !== null ? minutes > 0 : !balanceText.startsWith('-') && /[1-9]/.test(balanceText))
-  let colour = $derived(profile ? (plus ? overColour(profile.hue) : profile.base) : undefined)
+  let colour = $derived(profile ? (plus ? neonColour(profile.hue) : profile.base) : undefined)
 
   // === Logic ===
 

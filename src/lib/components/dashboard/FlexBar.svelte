@@ -1,6 +1,6 @@
 <!--
   The flex bar ("The flex bar"): the janitor balance as a number, centred, over a bar from a 0 line, minus to the left
-  in the balance profile's base colour and plus to the right in its over colour; exactly 0 is a dimmed marker that
+  in the balance profile's base colour and plus to the right in its neon; exactly 0 is a dimmed marker that
   slowly breathes. Ten marks a side run to the scale's end, whose mark and label wear that side's colour. The number
   and the bar count to a new balance together, and the scale grows or shrinks with a short animation; on opening, both
   show at once. Drawn as the prototype draws it, on a 400 × 48 board.
@@ -66,7 +66,7 @@
   let value = $derived(shown.current)
   let side = $derived(barSide(value))
   let reach = $derived(shownScale.current > 0 ? barReach(value, shownScale.current) * BOARD.half : 0)
-  let numberColour = $derived(side === 'minus' ? roles?.base : side === 'plus' ? roles?.over : 'var(--dashboard-text)')
+  let numberColour = $derived(side === 'minus' ? roles?.base : side === 'plus' ? roles?.neon : 'var(--dashboard-text)')
   let top = $derived(BOARD.middle - thickness / 2)
 
   // === Logic ===
@@ -129,11 +129,11 @@
           fill={roles.dimmed}
         />
       {:else}
-        <path d={barPath(reach, side === 'plus')} fill={side === 'plus' ? roles.over : roles.base} />
+        <path d={barPath(reach, side === 'plus')} fill={side === 'plus' ? roles.neon : roles.base} />
       {/if}
       <line class="zero-line" x1={BOARD.centre} x2={BOARD.centre} y1={BOARD.lineTop} y2={BOARD.lineBottom} />
       {#each [-1, 1] as s (s)}
-        {@const colour = s < 0 ? roles.base : roles.over}
+        {@const colour = s < 0 ? roles.base : roles.neon}
         {#each MARKS as share (share)}
           <line
             class="mark"

@@ -22,7 +22,7 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   screen stands, which the profile letter and every focus ring wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
-  the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `undo` and `cycleTheme`
+  the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `undo` and `switchTheme`
   change them through the rules and save them. The theme is shown by setting `color-scheme` on the page. Components read
   it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the

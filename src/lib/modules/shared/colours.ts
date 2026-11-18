@@ -20,24 +20,24 @@ export interface ColourRoles {
   /** The base faded toward the panel: the unused part of a figure */
   dimmed: string
   /** The hot accent: the start ring, the status mark, the undo's afterglow, a plus balance, the letter past its line */
-  over: string
+  neon: string
 }
 
 /**
- * The muted base a new profile starts on: 55% of the hue's neon colour, at a lightness 40% of the way from the neon's
- * own toward 0.70. Used for the first profile and each new one: neonBase(195) is #7ed6d5.
+ * A profile's base: its hue muted, 55% of the chroma of the hue at its most vivid, at a lightness 40% of the way from
+ * that colour's own toward 0.70. Used for every profile's base: baseColour(195) is #7ed6d5.
  */
-export function neonBase(hue: number): string {
+export function baseColour(hue: number): string {
   const lightness = mostVividLightness(hue)
-  const toward = lightness + (NEON.middle - lightness) * NEON.pull
-  return rgbToHex(lchToRgb([toward, maxChroma(lightness, hue) * NEON.keep, hue]))
+  const toward = lightness + (MUTE.middle - lightness) * MUTE.pull
+  return rgbToHex(lchToRgb([toward, maxChroma(lightness, hue) * MUTE.keep, hue]))
 }
 
 /**
- * The over colour: the hue opposite, at the lightness where it is most vivid, with all the chroma sRGB allows there.
- * It moves only with the hue. Used for every profile's accent: overColour(195) is #fc0055.
+ * The neon: the hue opposite, at the lightness where it is most vivid, with all the chroma sRGB allows there.
+ * It moves only with the hue. Used for every profile's accent: neonColour(195) is #fc0055.
  */
-export function overColour(hue: number): string {
+export function neonColour(hue: number): string {
   const opposite = (hue + 180) % 360
   const lightness = mostVividLightness(opposite)
   return rgbToHex(lchToRgb([lightness, maxChroma(lightness, opposite), opposite]))
@@ -84,10 +84,10 @@ export function faded(colour: string, panel: string): string {
 
 /**
  * A profile's colours by role, against the panel they sit on ("Code style": colours by role). Used by every
- * component that shows a profile's colour: the letter and the start ring take `over`.
+ * component that shows a profile's colour: the letter and the start ring take `neon`.
  */
 export function colourRoles(profile: Profile, panel: string): ColourRoles {
-  return { base: profile.base, dimmed: dimmed(profile.base, panel), over: overColour(profile.hue) }
+  return { base: profile.base, dimmed: dimmed(profile.base, panel), neon: neonColour(profile.hue) }
 }
 
 // ======================================
@@ -99,7 +99,7 @@ type Lab = [number, number, number]
 type Lch = [number, number, number]
 
 /** The muted base's numbers, from the prototype's NEON */
-const NEON = { keep: 0.55, pull: 0.4, middle: 0.7 }
+const MUTE = { keep: 0.55, pull: 0.4, middle: 0.7 }
 
 /** The dimmed colour's numbers, from the prototype's RULE */
 const DIM = { mix: 0.7, gap: 0.15 }
@@ -167,7 +167,7 @@ function maxChroma(lightness: number, hue: number): number {
   return low
 }
 
-/** The lightness, between 0.2 and 0.98, where a hue is most vivid. Used for the neon and the over colour */
+/** The lightness, between 0.2 and 0.98, where a hue is most vivid. Used for the base and the neon */
 function mostVividLightness(hue: number): number {
   let best = 0.5
   let bestChroma = -1
@@ -181,7 +181,7 @@ function mostVividLightness(hue: number): number {
   return best
 }
 
-/** OKLCH to sRGB, the chroma cut to what sRGB allows. Used by `neonBase` and `overColour` */
+/** OKLCH to sRGB, the chroma cut to what sRGB allows. Used by `baseColour` and `neonColour` */
 function lchToRgb([l, c, h]: Lch): Rgb {
   const lightness = clamp(l)
   const chroma = Math.min(c, maxChroma(lightness, h))

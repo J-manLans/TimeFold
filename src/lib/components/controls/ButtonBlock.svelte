@@ -1,7 +1,7 @@
 <!--
   The button block: "Starta jobb" or "Stoppa jobb" over "Exportera" and "Importera", with the profile button beside
-  both ("One start/stop button and a profile list"). While the profile on screen runs, a ring in its over colour
-  surrounds the start button; the profile button's letter wears where the profile stands, its over colour past its line
+  both ("One start/stop button and a profile list"). While the profile on screen runs, a ring in its neon
+  surrounds the start button; the profile button's letter wears where the profile stands, its neon past its line
   and its base before it. Export and import are greyed out until Handover.
 -->
 <script lang="ts">
@@ -138,6 +138,6 @@
   }
 
   .start.running {
-    box-shadow: 0 0 0 var(--start-ring-width) var(--profile-over);
+    box-shadow: 0 0 0 var(--start-ring-width) var(--profile-neon);
   }
 </style>

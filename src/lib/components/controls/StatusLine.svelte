@@ -30,6 +30,6 @@
   }
 
   .dot {
-    color: var(--profile-over);
+    color: var(--profile-neon);
   }
 </style>

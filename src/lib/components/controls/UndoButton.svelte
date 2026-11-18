@@ -113,7 +113,7 @@
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: var(--profile-over);
+    background: var(--profile-neon);
     opacity: 0;
     pointer-events: none;
   }

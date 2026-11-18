@@ -44,7 +44,7 @@ export function barReach(seconds: number, scale: number): number {
 
 /**
  * Which side of the 0 line a balance falls on, by the minutes shown: under half a minute either way is 0. Used for the
- * bar's colour and the number's: minus in the base colour, plus in the over colour, 0 the dimmed marker.
+ * bar's colour and the number's: minus in the base colour, plus in the neon, 0 the dimmed marker.
  */
 export function barSide(seconds: number): BarSide {
   const minutes = shownMinutes(seconds)

@@ -3,7 +3,7 @@
  * ("The record is one JSON file"). Times of day are timestamps with their offset; amounts of time are whole minutes.
  */
 
-import { FIRST_HUE, neonBase } from '$lib/modules/shared/colours'
+import { FIRST_HUE, baseColour } from '$lib/modules/shared/colours'
 
 // ======================================
 //                 API
@@ -34,7 +34,7 @@ export type FromDay<T> = T & { from: Day }
 export interface Profile {
   id: string
   name: string
-  /** The profile's OKLCH hue, 0–359; its over colour follows from it ("Each profile carries its colours") */
+  /** The profile's OKLCH hue, 0–359; its neon follows from it ("Each profile carries its colours") */
   hue: number
   /** The base colour, a nuance of the hue, as #rrggbb */
   base: string
@@ -161,7 +161,7 @@ export function freshRecord(profileName: string, openingMinutes: number, firstDa
         id: 'p1',
         name: profileName,
         hue: FIRST_HUE,
-        base: neonBase(FIRST_HUE),
+        base: baseColour(FIRST_HUE),
         expectedMinutes: [{ from: firstDay, minutes: EXPECTED_MINUTES }],
       },
     ],

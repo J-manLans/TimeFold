@@ -9,7 +9,7 @@
   import { untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
   import Menu from '$lib/components/menu/Menu.svelte'
-  import { overColour } from '$lib/modules/shared/colours'
+  import { neonColour } from '$lib/modules/shared/colours'
   import ButtonBlock from './ButtonBlock.svelte'
   import PruneLine from './PruneLine.svelte'
   import StatusLine from './StatusLine.svelte'
@@ -19,7 +19,7 @@
 
   // The profile on screen's accent, for what is happening now: the start ring, the status mark and the undo's afterglow
   let profile = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
-  let over = $derived(profile ? overColour(profile.hue) : undefined)
+  let neon = $derived(profile ? neonColour(profile.hue) : undefined)
   let menuOpen = $state(false)
   let side: HTMLElement | undefined = $state()
   let block: HTMLDivElement | undefined = $state()
@@ -117,7 +117,7 @@
   class:lit
   class:menu-open={menuOpen}
   aria-label="Kontroller"
-  style:--profile-over={over}
+  style:--profile-neon={neon}
   bind:this={side}
   onpointermove={follow}
   onpointerleave={() => (lit = false)}

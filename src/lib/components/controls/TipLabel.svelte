@@ -12,7 +12,7 @@
     text,
     point,
     anchor,
-    colour = 'var(--profile-over)',
+    colour = 'var(--profile-neon)',
   }: {
     /** What the label says; empty hides it */
     text: string
@@ -20,7 +20,7 @@
     point: { x: number; y: number } | null
     /** The button with keyboard focus, to show the label under it when the pointer is away, or null */
     anchor: HTMLElement | null
-    /** The edge's colour: the profile on screen's over colour unless another is given */
+    /** The edge's colour: the profile on screen's neon unless another is given */
     colour?: string
   } = $props()
 
