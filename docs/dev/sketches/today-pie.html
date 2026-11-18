@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Today's pie</title>
+<!-- A sketch for the idea "Today's hours on the controls side" (docs/dev/codebase-ideas.md): a pie beside the status
+     line, its slices the day's expected hours. Deleted once the code it previews is built. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wdth,wght@75..100,400..700&display=swap">
+<style>
+:root {
+  /* ================= KNOBS ================= */
+  /* The pie */
+  --pie: 50px;            /* its size */
+  --pie-gap: 10px;        /* from the end of the status text to the pie */
+  --slice-line: 4;        /* the border that marks an empty slice, in its base colour, in the pie's own units (100 across) */
+  --flash: 1.2s;          /* a slice clicking in lights and fades, as a new entry's row does */
+  --flash-strength: 60%;  /* how much white the flash starts with */
+  /* The profile's colours (Vaktis) */
+  --base: #7ed6d5;
+  --neon: #fc0055;
+  /* ======================================== */
+  --ui: "Inter", system-ui, sans-serif;
+  --text: "JetBrains Mono", ui-monospace, monospace;
+  color-scheme: light dark;
+  --c-bg: light-dark(#f2f4f7, #1a1c20);
+  --c-fg: light-dark(#1f2227, #e4e6ea);
+  --c-muted: light-dark(#556070, #8f949d);
+  --c-btn: light-dark(#4f688e, #2a2d33);
+  --c-btn-fg: light-dark(#f4f6fa, #eef0f3);
+  --page: light-dark(#e3e7ee, #111317);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+body { margin: 0; background: var(--page); color: var(--c-fg); font-family: var(--ui); font-size: 14px; }
+.page { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; display: grid; gap: 16px; }
+h1 { font-size: 1.1rem; margin: 0; }
+.page > p { margin: 0; color: var(--c-muted); max-width: 72ch; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; padding: 10px 12px; border: 1px dashed var(--c-muted); border-radius: 8px; font-size: 13px; color: var(--c-muted); }
+.toolbar label { display: flex; align-items: center; gap: 6px; }
+.toolbar button { font: inherit; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--c-muted); background: transparent; color: var(--c-fg); cursor: pointer; }
+.toolbar button[aria-pressed="true"] { background: var(--c-btn); color: var(--c-btn-fg); }
+.val { font-family: var(--text); color: var(--c-fg); min-width: 5ch; }
+
+/* The controls side, as wide as in the app window */
+.side { background: var(--c-bg); border-radius: 12px; height: 330px; display: grid; place-content: center; justify-items: center; gap: 14px; transition: width 0.2s ease; margin: 0 auto; }
+.block { display: grid; grid-template-columns: 214px 76px; gap: 8px; }
+.block > div { background: var(--c-btn); border-radius: 5px; }
+.start { height: 64px; display: grid; place-items: center; color: var(--c-btn-fg); font: 700 30px/1 var(--ui); letter-spacing: 0.03em; }
+.profile { grid-row: span 2; }
+.pair { height: 34px; }
+.statusrow { display: flex; align-items: center; gap: var(--pie-gap); height: var(--pie); }
+.status { font-family: var(--text); font-stretch: 75%; font-size: 10.5px; color: var(--c-muted); letter-spacing: 0.06em; }
+.status .live { color: var(--neon); }
+svg.pie { width: var(--pie); height: var(--pie); flex: none; }
+.pie path.empty { fill: none; stroke: var(--base); stroke-width: var(--slice-line); }
+.pie path.done { fill: var(--base); }
+.pie path.over { fill: var(--neon); }
+.pie path.fresh { animation: click var(--flash) ease-out; }
+@keyframes click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { .pie path.fresh { animation: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Today's pie</h1>
+  <p>The day's expected hours as slices beside the status line, for the profile with the balance. Each slice is marked by its border in the base colour while empty, fills in it as its hour is worked, and lights as it clicks in. Past the expected hours a second lap fills in the neon, over the first. Two shapes to compare: pizza slices meeting near the centre, or ring slices like a round health bar. The dashed bar is for the sketch only.</p>
+
+  <div class="toolbar">
+    <label>Worked today <input type="range" id="worked" min="0" max="600" step="10" value="232"><span class="val" id="workedVal"></span></label>
+    <button type="button" id="hour">+1 hour</button>
+    <span>Shape
+      <button type="button" data-shape="pizza" aria-pressed="false">Pizza</button>
+      <button type="button" data-shape="ring" aria-pressed="true">Ring</button>
+    </span>
+    <label>Ring's inner size <input type="range" id="inner" min="20" max="75" step="1" value="52"><span class="val" id="innerVal"></span></label>
+    <label>Border <input type="range" id="line" min="0.5" max="10" step="0.5" value="4"><span class="val" id="lineVal"></span></label>
+    <label>Gap <input type="range" id="gap" min="0" max="6" step="0.5" value="2.5"><span class="val" id="gapVal"></span></label>
+    <label>Expected <select id="slices"><option value="6" selected>6 h</option><option value="4">4 h</option><option value="8">8 h</option></select></label>
+    <span>Window
+      <button type="button" data-width="650" aria-pressed="true">Wide</button>
+      <button type="button" data-width="400" aria-pressed="false">Narrow</button>
+    </span>
+    <button type="button" id="copy">Copy values</button>
+    <span>Theme
+      <button type="button" data-theme="light" aria-pressed="false">Light</button>
+      <button type="button" data-theme="dark" aria-pressed="false">Dark</button>
+    </span>
+  </div>
+
+  <div class="side" id="side" style="width: 650px">
+    <div class="block">
+      <div class="start">STOPPA JOBB</div>
+      <div class="profile"></div>
+      <div class="pair"></div>
+    </div>
+    <div class="statusrow">
+      <span class="status"><span class="live">● </span>Vaktis pågår sedan 08:02</span>
+      <svg class="pie" id="pie" viewBox="0 0 100 100" aria-label="Idag"></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { worked: 232, shape: "ring", inner: 52, gap: 2.5, slices: 6, fresh: -1 };
+  var NS = "http://www.w3.org/2000/svg", C = 50, R = 49;
+
+  // A slice between two angles (0 at 12 o'clock, clockwise), from radius ri to ro, with a gap of the same width all the
+  // way along its sides; a pizza slice's inner radius is where the gaps would meet, so its tip is cut, not a point.
+  function slice(a0, a1, ri, ro, g) {
+    var pt = function (a, r) { return [C + r * Math.sin(a), C - r * Math.cos(a)]; };
+    var off = function (r) { return Math.asin(Math.min(1, g / 2 / r)); };
+    var o0 = pt(a0 + off(ro), ro), o1 = pt(a1 - off(ro), ro), i1 = pt(a1 - off(ri), ri), i0 = pt(a0 + off(ri), ri);
+    var big = (a1 - a0) > Math.PI ? 1 : 0;
+    return "M" + o0 + " A" + ro + " " + ro + " 0 " + big + " 1 " + o1 + " L" + i1 + " A" + ri + " " + ri + " 0 " + big + " 0 " + i0 + " Z";
+  }
+
+  function draw() {
+    var svg = $("pie"); while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var n = state.slices, step = 2 * Math.PI / n, g = state.gap;
+    var tip = g / (2 * Math.sin(Math.PI / n)) + 0.5;
+    var ri = state.shape === "ring" ? R * state.inner / 100 : Math.max(tip, 1);
+    var hours = Math.floor(state.worked / 60), over = Math.max(0, hours - n);
+    for (var k = 0; k < n; k++) {
+      var p = document.createElementNS(NS, "path");
+      p.setAttribute("d", slice(k * step, (k + 1) * step, ri, R, g));
+      // The first lap in the base colour; past the expected hours the second lap lies over it in the neon
+      p.setAttribute("class", k < over ? "over" : k < hours ? "done" : "empty");
+      if (k === state.fresh) p.classList.add("fresh");
+      svg.appendChild(p);
+    }
+    var hm = function (m) { return Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0"); };
+    $("workedVal").textContent = hm(state.worked);
+    $("innerVal").textContent = state.inner + "%"; $("gapVal").textContent = state.gap;
+    state.fresh = -1;
+  }
+
+  // The slice that has just clicked in: the last full hour, in the lap it belongs to
+  function clickIn() {
+    var hours = Math.floor(state.worked / 60), n = state.slices;
+    state.fresh = hours > n ? (hours - n - 1) % n : hours - 1;
+  }
+  $("worked").addEventListener("input", function () {
+    var before = Math.floor(state.worked / 60); state.worked = +this.value;
+    if (Math.floor(state.worked / 60) > before) clickIn();
+    draw();
+  });
+  $("hour").addEventListener("click", function () {
+    state.worked = Math.min(600, (Math.floor(state.worked / 60) + 1) * 60); $("worked").value = state.worked; clickIn(); draw();
+  });
+  $("inner").addEventListener("input", function () { state.inner = +this.value; draw(); });
+  $("gap").addEventListener("input", function () { state.gap = +this.value; draw(); });
+  $("line").addEventListener("input", function () { document.documentElement.style.setProperty("--slice-line", this.value); $("lineVal").textContent = this.value; });
+  $("lineVal").textContent = $("line").value;
+  $("slices").addEventListener("change", function () { state.slices = +this.value; draw(); });
+  function group(attr, apply) {
+    document.querySelectorAll("[data-" + attr + "]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        document.querySelectorAll("[data-" + attr + "]").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+        apply(b.dataset[attr]);
+      });
+    });
+  }
+  // The settings as text, to paste into the chat
+  $("copy").addEventListener("click", function () {
+    var text = "shape " + state.shape + ", inner " + state.inner + "%, border " + $("line").value + ", gap " + state.gap + ", expected " + state.slices + " h";
+    var done = function () { $("copy").textContent = "Copied"; setTimeout(function () { $("copy").textContent = "Copy values"; }, 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { prompt("Copy these:", text); });
+    else prompt("Copy these:", text);
+  });
+  group("shape", function (v) { state.shape = v; $("inner").disabled = v !== "ring"; draw(); });
+  group("width", function (v) { $("side").style.width = v + "px"; });
+  group("theme", function (v) { document.documentElement.dataset.theme = v; });
+  draw();
+})();
+</script>
+</body>
+</html>

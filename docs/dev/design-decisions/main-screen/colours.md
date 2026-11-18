@@ -1,7 +1,7 @@
 # Main screen: colours
 
 The colours each profile carries: its hue, base and neon, how they are picked and where they go. The figures that wear
-them are in `figures.md`. Each decision follows the template in `../README.md`, and is cited by its title.
+them are in `figures/`. Each decision follows the template in `../README.md`, and is cited by its title.
 
 ## Each profile carries its colours (2026-11-18)
 

@@ -11,4 +11,4 @@ copy, Dashboard, Day header, Day total, Design token, Dimmed colour, Entry, Entr
 panel, Month, Neon, Onboarding, Opening figures.
 
 **[P–Z](p-z.md):** Pay category, Pay estimate, Peek, Pointer light, Profile, Prototype, Prune, Reason (an edit's),
-Recovery screen, Release, Report, Settings file, Sketch, Small deviations, Standing (a profile's), Tip.
+Recovery screen, Release, Report, Settings file, Sketch, Small deviations, Standing (a profile's), Tip, Today's pie.

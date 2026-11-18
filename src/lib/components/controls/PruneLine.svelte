@@ -28,4 +28,12 @@
   .offering {
     border-top: 1px solid var(--controls-line);
   }
+
+  /* A narrow window (App.svelte; CSS cannot read a token here): the menu button sits in the lower left corner, so the
+     line starts right of it */
+  @media (max-width: 640px) {
+    .prune {
+      margin-left: calc(2 * var(--menu-inset) + var(--button-icon-size));
+    }
+  }
 </style>

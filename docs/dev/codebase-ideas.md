@@ -31,19 +31,6 @@ Switching tabs in the menu ("The menu has tabs, with every value locked behind "
 as a fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the menu grows
 out of its button. To try in the menu's coding session, against the fade.
 
-## Today's hours on the controls side
-
-**Returns when:** the owner, using the app, keeps wondering how much is left of today.
-
-A small pie beside the status line, for the profile with the balance only, since only it has a daily target (the others
-have the month's ceiling, which the wheel shows): the day's expected hours as slices, 6 h as six, each filling in the
-profile's base colour as its hour is worked, and the neon taking over past the expected hours. Unlike every other figure
-it is live: while an entry runs it is recounted once a minute, with no animation, so a few hours at the desk show where
-today stands at a glance on the second screen. The dashboard still changes only at stop, with its animation: the pie
-says how today is going, how much is left or over, while the flex bar and the wheel say where the owner stands overall,
-so the two behaving differently says that they mean different things. A solid pie, beside the ceiling wheel's ring,
-keeps the two apart. The day's total already exists for the balance ("Day total" in the glossary).
-
 ## Winding the wheel back by dragging
 
 **Returns when:** the peek on the ceiling wheel proves unclear in use ("The ceiling wheel", in `design-decisions/`).

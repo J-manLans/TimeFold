@@ -231,4 +231,12 @@
       --glow-strength: 0;
     }
   }
+
+  /* A narrow window (App.svelte; CSS cannot read a token here): the menu button moves to the lower left corner, so
+     the top row goes and the bottom row keeps its room beside the prune line */
+  @media (max-width: 640px) {
+    .controls {
+      grid-template-rows: 0 1fr minmax(calc(var(--button-icon-size) + 2 * var(--menu-inset)), auto);
+    }
+  }
 </style>

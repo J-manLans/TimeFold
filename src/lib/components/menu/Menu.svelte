@@ -216,4 +216,29 @@
     opacity: 1;
     transition: opacity var(--speed-ui) ease calc(var(--speed-ui) / 2);
   }
+
+  /* A narrow window (App.svelte; CSS cannot read a token here): the button sits in the lower left corner, the panel
+     grows from there, and the heading takes the top row the button leaves */
+  @media (max-width: 640px) {
+    .menu {
+      clip-path: inset(
+        calc(100% - var(--menu-inset) - var(--button-icon-size))
+          calc(100% - var(--menu-inset) - var(--button-icon-size)) var(--menu-inset) var(--menu-inset) round
+          var(--radius-small)
+      );
+    }
+
+    .toggle {
+      top: auto;
+      bottom: var(--menu-inset);
+    }
+
+    .head {
+      margin-left: 0;
+    }
+
+    .body {
+      padding-bottom: calc(var(--menu-inset) + var(--button-icon-size) + var(--menu-gap));
+    }
+  }
 </style>

@@ -46,5 +46,8 @@ and it goes once that is built. Not the **Prototype**.
 **Small deviations.** In a report, the days whose net change is under 5 minutes, left off the list of days and summed in
 its closing line, "Små avvikelser under månaden".
 
+**Today's pie.** The small ring of slices beside the status line: one per hour the profile with the balance is expected
+to work today, filling as each is worked, live, and the neon lapping over it past them.
+
 **Tip.** The small label that follows the pointer over a button, to its right, edged in a profile's colour: what the
 undo would undo, or what the start button would stop. With keyboard focus it shows under the button.

@@ -91,6 +91,11 @@
   --late-choice-scale: 0.42;  /* Stoppa and Fortfarande igång against Starta jobb, as --ob-choice-scale */
   /* A profile's colours in its menu row: the pair it wears, beside "Ändra" */
   --pair-swatch: 18px;    /* each of the two small swatches, the base and the neon */
+  /* Today's pie, beside the status line ("Worked today" in the toolbar) */
+  --pie: 50px;            /* its size */
+  --pie-gap: 10px;        /* from the end of the status text */
+  --pie-border: 2.5;      /* an empty slice's border, in the pie's own units (100 across) */
+  --pie-flash: 1.2s;      /* a slice clicking in lights and fades, as a new entry's row does */
   /* The entry rows */
   --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
   /* The figures */
@@ -205,6 +210,18 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
    The "Narrow window" box in the sketch bar sets .narrow; a narrow page sets it too. */
 .app.narrow { grid-template-columns: minmax(0, 1fr); height: auto; width: var(--narrow-w); margin-inline: auto; }
 .app.narrow .figures { order: -1; }
+/* Narrow, the menu button moves to the lower left corner: the top row goes, the panel grows from that corner, its
+   heading takes the top row, and the prune line keeps clear of the button */
+.app.narrow .top { height: 0; }
+.app.narrow .menu:not(.open) { clip-path: inset(calc(100% - 52px) calc(100% - 52px) 12px 12px round var(--r-small)); }
+.app.narrow .menu-toggle { top: auto; bottom: 12px; }
+.app.narrow .menu-head { margin-left: 0; }
+.app.narrow .menu .body { padding-bottom: 64px; }
+.app.narrow .prune { margin-left: 64px; min-height: 40px; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 6px 10px; align-items: center; }
+/* Narrow, the offer wraps over the left, its two buttons stacked on the right */
+.app.narrow .prune > span:first-child { grid-row: 1 / span 2; grid-column: 1; }
+.app.narrow .prune .spacer { display: none; }
+.app.narrow .prune button { grid-column: 2; }
 .app.narrow .divider { top: auto; bottom: 0; left: 0; right: 0; width: auto; height: 1px; }
 .app.narrow[data-divider="gradient"] .divider { width: auto; height: 56px; background: linear-gradient(to top, var(--c-bg), transparent); }
 
@@ -280,6 +297,15 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: 12px; color: var(--c-muted); white-space: nowrap; pointer-events: none; }
 .pause-field button { font: inherit; font-size: 12px; height: 28px; padding: 0 10px; border-radius: var(--r-small); }
 .status .live { color: var(--run, #e80003); }
+/* The status text and today's pie are one row, centred together; it keeps the pie's room, so nothing moves when it shows */
+.status-row { display: flex; align-items: center; justify-content: center; gap: var(--pie-gap); height: var(--pie); }
+.today-pie { flex: none; width: var(--pie); height: var(--pie); }
+.today-pie path.empty { fill: none; stroke: var(--pie-base); stroke-width: var(--pie-border); }
+.today-pie path.done { fill: var(--pie-base); }
+.today-pie path.over { fill: var(--pie-neon); }
+.today-pie path.fresh { animation: pie-click var(--pie-flash) ease-out; }
+@keyframes pie-click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { .today-pie path.fresh { animation: none; } }
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
 .prune .spacer { flex: 1; }
@@ -544,6 +570,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   <div class="toolbar" aria-label="Sketch controls">
     <label for="simBal">Balance <input type="range" id="simBal" min="-6000" max="6000" step="15" value="270"><span class="val" id="simBalVal"></span></label>
+    <label for="simToday">Worked today <input type="range" id="simToday" min="0" max="600" step="10" value="232"><span class="val" id="simTodayVal"></span></label>
     <label for="simUsed">Ceiling hours used <input type="range" id="simUsed" min="0" max="3600" step="30" value="2280"><span class="val" id="simUsedVal"></span></label>
     <label>Divider
       <span class="seg" style="--c-btn: transparent; --c-btn-line: var(--page-line); --c-fg: var(--page-fg); --c-bg: var(--page-bg);">
@@ -572,7 +599,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <div class="pair"><button class="plastic" type="button" id="exportBtn">Exportera</button><button class="plastic" type="button" id="importBtn">Importera</button></div>
           <button class="profile-btn plastic" id="profileBtn" type="button" aria-label="Byt profil"><span class="dot" id="profileDot">V</span></button>
         </div>
-        <div class="status" id="status"></div>
+        <div class="status-row"><div class="status" id="status"></div><svg class="today-pie" id="todayPie" viewBox="0 0 100 100" aria-label="Idag"></svg></div>
         <div class="pause-area">
           <button class="pause plastic" id="pauseBtn" type="button" disabled autocomplete="off">Lägg till paus</button>
           <form class="pause-field" id="pauseField" hidden>
@@ -717,6 +744,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     pull: 0.4,    // base lightness: 0 the hue's own most vivid lightness, 1 the shared middle
     mid: 0.7,     // the shared middle lightness
     over: 1       // the neon: share of the opposite hue's most vivid chroma
+  };
+  var PIE = {
+    inner: 30,    // today's pie: the ring's open middle, as a share of its radius
+    gap: 6        // the gap between slices, the same width all along their sides, in the pie's units (100 across)
   };
   var WHEEL = {
     r: 75, w: 28,   // the ceiling wheel's ring: radius to the middle of the band, and the band's width (of 200)
@@ -1030,6 +1061,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   // ---- Controls ----
   function drawControls() {
+    drawPie();
     var p = prof(onScreen);
     $("profileDot").textContent = p.name.charAt(0).toUpperCase();
     $("profileDot").classList.toggle("waiting", onboarding || app.classList.contains("locked") && $("profileDot").classList.contains("waiting"));
@@ -1771,6 +1803,45 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     running = { profile: balanceProfile().id, start: start, real: true };   // Stoppa records it from 21:30 yesterday
     drawControls(); showLate();
   });
+
+  // ---- Today's pie: one slice per expected hour of the balance profile, live while it runs ----
+  // A slice clicks in whole as its hour is worked, the last at the day's expected hours, and lights; past them a
+  // second lap fills in the neon over the first. Counted again once a minute while that profile runs. Sketch only:
+  // "Worked today" in the toolbar stands for the day's earlier entries.
+  var EXPECTED = 360, pieShown = null, todayBase = 232;
+  function workedToday() {
+    var q = balanceProfile(), day = new Date().toDateString(), m = todayBase;
+    entries.forEach(function (e) { if (e.profile === q.id && e.start.toDateString() === day) m += dur(e); });
+    if (running && running.profile === q.id && !running.real) m += Math.max(0, (Date.now() - running.start) / 60000);
+    return Math.floor(m);
+  }
+  function pieSlice(a0, a1, ri, ro, g) {
+    var pt = function (a, r) { return [50 + r * Math.sin(a), 50 - r * Math.cos(a)]; };
+    var off = function (r) { return Math.asin(Math.min(1, g / 2 / r)); };
+    var o0 = pt(a0 + off(ro), ro), o1 = pt(a1 - off(ro), ro), i1 = pt(a1 - off(ri), ri), i0 = pt(a0 + off(ri), ri);
+    return "M" + o0 + " A" + ro + " " + ro + " 0 0 1 " + o1 + " L" + i1 + " A" + ri + " " + ri + " 0 0 0 " + i0 + " Z";
+  }
+  function drawPie() {
+    if (!EXPECTED) return;   // drawControls can run before the pie's state is set up
+    var svg = $("todayPie"), q = balanceProfile(), p = profPair(q), n = Math.max(1, Math.round(EXPECTED / 60)), each = EXPECTED / n, worked = workedToday();
+    // Shown only while the balance profile works; expected hours that are not whole divide evenly among the slices
+    svg.style.display = running && running.profile === q.id ? "" : "none";
+    var done = worked >= EXPECTED ? n : Math.floor(worked / each), over = worked > EXPECTED ? Math.min(n, Math.floor((worked - EXPECTED) / each)) : 0;
+    var fresh = pieShown && (done + over > pieShown.done + pieShown.over) ? (over > pieShown.over ? over - 1 : done - 1) : -1;
+    var freshLap = over > (pieShown ? pieShown.over : 0) ? "over" : "done";
+    pieShown = { done: done, over: over };
+    svg.style.setProperty("--pie-base", p.base); svg.style.setProperty("--pie-neon", p.over);
+    clear(svg);
+    for (var k = 0; k < n; k++) {
+      var path = el("path", { d: pieSlice(k * 2 * Math.PI / n, (k + 1) * 2 * Math.PI / n, 49 * PIE.inner / 100, 49, PIE.gap) });
+      path.setAttribute("class", k < over ? "over" : k < done ? "done" : "empty");
+      if (k === fresh && (freshLap === "over" ? k < over : k < done)) path.classList.add("fresh");
+      svg.appendChild(path);
+    }
+    $("simTodayVal").textContent = hmPlain(worked);
+  }
+  setInterval(function () { if (running) drawPie(); }, 60000);
+  $("simToday").addEventListener("input", function () { todayBase = +this.value; drawPie(); });
 
   // Sketch toolbar
   function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }

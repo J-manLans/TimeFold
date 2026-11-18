@@ -112,21 +112,22 @@ title.
 
 ### Main screen (`main-screen/`)
 
-**[Layout](main-screen/layout.md)**
+**Layout (`main-screen/layout/`)**
 
-- The main screen has a controls side and a dashboard
-- A narrow window stacks the dashboard over the controls
-- The menu has tabs, with every value locked behind "Ändra"
+- [The main screen has a controls side and a dashboard](main-screen/layout/screen.md)
+- [A narrow window stacks the dashboard over the controls](main-screen/layout/narrow.md)
+- [The menu has tabs, with every value locked behind "Ändra"](main-screen/layout/menu.md)
 
 **[Look](main-screen/look.md)**
 
 - The look: a fresh display face, mono text and soft buttons
 - A light or dark theme, following the system
 
-**[Figures](main-screen/figures.md)**
+**Figures (`main-screen/figures/`)**
 
-- The flex bar
-- The ceiling wheel
+- [The flex bar](main-screen/figures/flex-bar.md)
+- [The ceiling wheel](main-screen/figures/ceiling-wheel.md)
+- [Today's pie](main-screen/figures/todays-pie.md)
 
 **[Colours](main-screen/colours.md)**
 

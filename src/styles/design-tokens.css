@@ -106,6 +106,15 @@
 
   /* === The status line, the pause row and the undo === */
   --status-height: 16px; /* kept even when empty */
+
+  /* === Controls: today's pie, right of the status text === */
+  --pie-size: 50px;
+  --pie-gap: 10px; /* from the end of the status text */
+  --pie-inner: 30; /* the ring's open middle, as a share of its radius, in % */
+  --pie-slice-gap: 6; /* between slices, the same width all along their sides, in the pie's units (100 across) */
+  --pie-border: 2.5; /* an empty slice's border, in the pie's units */
+  --pie-flash: 1.2s; /* a slice clicking in lights and fades, as a new entry's row does */
+  --pie-flash-brightness: 1.9; /* how bright it starts */
   --pause-row-height: 36px;
   --pause-row-gap: 10px;
   --pause-height: 30px;
