@@ -89,6 +89,8 @@
   --late-line: 13px;    /* what runs and since when */
   --late-width: 30ch;   /* the most the words take before they wrap */
   --late-choice-scale: 0.42;  /* Stoppa and Fortfarande igång against Starta jobb, as --ob-choice-scale */
+  /* A profile's colours in its menu row: the pair it wears, beside "Ändra" */
+  --pair-swatch: 18px;    /* each of the two small swatches, the base and the neon */
   /* The entry rows */
   --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
   /* The figures */
@@ -412,7 +414,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @media (prefers-reduced-motion: reduce) { .tabpanel { animation: none; } }
 
 /* The app's own colour picker */
-.swatch { width: 44px; height: 26px; padding: 0; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); cursor: pointer; }
+.pair { display: inline-flex; gap: 4px; }
+.pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
 .cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
 .cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: var(--cp-strip-h); margin: 0; border-radius: calc(var(--cp-strip-h) / 2); background: var(--cp-strip); }
 .cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4); }
@@ -1592,15 +1595,23 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (pick && !pick.el.hidden && !pick.el.contains(e.target) && e.target !== pick.anchor) closePicker(false);
   }, true);
   $("menuBody").addEventListener("scroll", function () { closePicker(false); });
-  // A colour field: a swatch that opens the picker straight away.
-  function swatch(label, get, set, getStrip, owner) {
-    var b = document.createElement("button"); b.type = "button"; b.className = "swatch"; b.setAttribute("aria-label", label);
-    b.style.background = get();
-    b.addEventListener("click", function () {
-      if (pick && !pick.el.hidden && pick.anchor === b) { closePicker(true); return; }
-      openPicker(b, get(), function (hex, h) { set(hex, h); b.style.background = get(); }, getStrip ? getStrip() : undefined, owner);
+  // A profile's colour field: the pair it wears, the base and the neon as two small swatches that are always true
+  // whatever the balance, and "Ändra", which opens the picker beside it; a second press closes it.
+  function colourField(q, onChange) {
+    var wrap = document.createElement("div"); wrap.className = "lv";
+    var row = document.createElement("div"); row.className = "lv-row";
+    var lab = document.createElement("span"); lab.className = "lv-label"; lab.textContent = "Färg";
+    var val = document.createElement("span"); val.className = "lv-val pair";
+    var base = document.createElement("span"), neon = document.createElement("span"); val.append(base, neon);
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
+    row.append(lab, val, btn); wrap.appendChild(row);
+    function sync() { base.style.background = q.colour; neon.style.background = profColour(q.id); }
+    btn.addEventListener("click", function () {
+      if (pick && !pick.el.hidden && pick.anchor === btn) { closePicker(true); return; }
+      openPicker(btn, q.colour, function (hex, h) { onChange(hex, h); sync(); }, q.strip, q.id);
     });
-    return b;
+    sync();
+    return wrap;
   }
 
   var openRow = null;
@@ -1650,12 +1661,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           toText: function (v) { return String(v); },
           parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; }
         });
-        var fc = document.createElement("div"); fc.className = "field";
-        var lc = document.createElement("span"); lc.textContent = "Färg";
-        var ic = swatch("Profilens färg", function () { return q.colour; }, function (hex, h) { q.colour = hex; q.strip = h; q.hue = stripHue(h); syncOver(); recolour(); }, function () { return q.strip; }, q.id);
-        fc.append(lc, ic);
-        function syncOver() { ic.style.background = q.colour; d.style.borderColor = q.colour; d.style.color = profColour(q.id); }
-        syncOver();
+        var fc = colourField(q, function (hex, h) { q.colour = hex; q.strip = h; q.hue = stripHue(h); syncOver(); recolour(); });
+        function syncOver() { var c = stateColours(q.id); d.style.color = c.letter; d.style.borderColor = c.ring; }
         body.append(f1, fc, pay, f2);
         if (!q.balance) {
           var f3 = document.createElement("div"); f3.className = "field";
