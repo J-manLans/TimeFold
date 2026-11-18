@@ -825,13 +825,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var GREY = "#9aa3ae", GREY_OVER = "#e2e6eb";   // the wheel while the balance profile is on screen: grey, over it a light grey
   function balanceProfile() { for (var i = 0; i < profiles.length; i++) if (profiles[i].balance) return profiles[i]; return profiles[0]; }
   function pairFor(base, over) { var s = derive(base, panelBg()); return { base: base, dim: s.dim, over: over || s.over, suggested: s.over }; }
-  function neonBase(h) { var L = cuspL(h); return rgbToHex(lchToRgb([L + (NEON.mid - L) * NEON.pull, maxChroma(L, h) * NEON.keep, h])); }
-  function neonOver(h) { var o = (h + 180) % 360, L = cuspL(o); return rgbToHex(lchToRgb([L, maxChroma(L, o) * NEON.over, o])); }
+  function baseColour(h) { var L = cuspL(h); return rgbToHex(lchToRgb([L + (NEON.mid - L) * NEON.pull, maxChroma(L, h) * NEON.keep, h])); }
+  function neonColour(h) { var o = (h + 180) % 360, L = cuspL(o); return rgbToHex(lchToRgb([L, maxChroma(L, o) * NEON.over, o])); }
   // The OKLCH hue of the colour at a place on the picker's strip, and the place on the strip of an OKLCH hue's neon.
   function stripHue(strip) { return labToLch(rgbToOklab(hsvToRgb(strip, 1, 1)))[2]; }
   function stripOf(h) { var L = cuspL(h), c = lchToRgb([L, maxChroma(L, h), h]); return rgbToHsv(c[0], c[1], c[2])[0]; }
-  function setHue(q, h) { q.hue = h; q.strip = stripOf(h); q.colour = neonBase(h); }
-  function profPair(q) { return pairFor(q.colour, neonOver(q.hue)); }
+  function setHue(q, h) { q.hue = h; q.strip = stripOf(h); q.colour = baseColour(h); }
+  function profPair(q) { return pairFor(q.colour, neonColour(q.hue)); }
   // The bar is always the balance profile's; the wheel is the profile on screen's, or grey for the balance profile.
   // While a profile's colour picker is open, the wheel is that profile's instead.
   function resolved(which) {
@@ -1524,7 +1524,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function stripTable() {
     if (STRIP) return STRIP;
     STRIP = [];
-    for (var at = 0; at <= 360; at++) { var h = stripHue(at % 360); STRIP.push({ base: neonBase(h), neon: neonOver(h) }); }
+    for (var at = 0; at <= 360; at++) { var h = stripHue(at % 360); STRIP.push({ base: baseColour(h), neon: neonColour(h) }); }
     return STRIP;
   }
   function stripAt(h) { return stripTable()[Math.round(Math.min(360, Math.max(0, h)))]; }

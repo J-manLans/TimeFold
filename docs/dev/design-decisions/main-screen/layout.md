@@ -80,15 +80,14 @@ scan lines): the owner wants the direction, not the costume.
   alla" where it always is.
 - A stop with the balance profile on screen: the new row lights grey and fades.
 
-## A narrow window stacks the dashboard over the controls (2026-11-15)
-
-**Built by:** Clocking, for the window's minimum size.
+## A narrow window stacks the dashboard over the controls (2026-11-18)
 
 **Decision:** the main screen is responsive to the window's size. Wide enough, the two sides sit side by side; below a
 set width, they stack, the dashboard on top and the controls side under it, each the window's full width. The window has
 a minimum size, small enough to stand as a strip beside another window and large enough that the stacked screen fits
-without scrolling, so the start button is always in view. The width where the sides stack and the minimum size are tuned
-on the app. The width lives in the component's media query, since CSS cannot read a custom property there.
+without scrolling, so the start button is always in view. The sides stack below 640 px; the window is at least 400 px
+wide and 640 px tall, tuned on the app. The width lives in the component's media query, since CSS cannot read a custom
+property there.
 
 **Why:** the owner keeps the app on a second screen, often squeezed beside another window: tall and thin, the screen's
 full height but little of its width. There it is mostly looked at, and the figures are what is looked at, so they come

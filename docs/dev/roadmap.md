@@ -42,9 +42,7 @@ Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-1. The window's minimum size ("A narrow window stacks the dashboard over the controls"), tuned on the app from its first
-   value. Then `v0.1.0` ("The app reaches each machine as an installer from a GitHub release"), by
-   `docs/dev/procedures/release.md`.
+1. `v0.1.0` ("The app reaches each machine as an installer from a GitHub release"), by `docs/dev/procedures/release.md`.
 
    The owner makes the `v0.1.0` release by hand, start to finish: raising the version, pushing the tag, publishing the
    draft. It is the owner's first release, a step in their developer career, and the agent only guides. Something to
