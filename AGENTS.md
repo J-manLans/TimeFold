@@ -9,7 +9,8 @@ state, progress, decisions or history here; each has its own home (see "Where th
    coding mode, which is that say-so. See "Commits".
 2. **An open question is not a decision.** Something is decided when the owner says so. See
    `docs/dev/open-questions.md`.
-3. **Written is not run.** Check the state table in `docs/dev/roadmap.md` before saying something works.
+3. **Written is not run.** A step still in `docs/dev/roadmap.md` is not done; its tags say how far it got. Check it
+   before saying something works.
 4. **Every fact has one owning file.** When two docs disagree, the owning file wins and the other is fixed. When a doc
    and the code disagree, the code wins, and say so.
 5. **Agree on where a new file or folder goes before creating it,** for code and for `docs/vision/`. Show the tree it
@@ -24,7 +25,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | ------------------------------------- | -------------------------------------------------------------------------------- |
 | `AGENTS.md`                           | How an agent works here (this file)                                              |
 | `docs/vision/vision.md`               | Where the project is heading, and the questions to ask of a new idea             |
-| `docs/dev/roadmap.md`                 | **Next**, the state table, the phases, what is not on the roadmap                |
+| `docs/dev/roadmap.md`                 | **Next**, the phases with each step's tag, what is not on the roadmap            |
 | `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area            |
 | `docs/dev/open-questions.md`          | What is not decided, grouped by the phase (or part) that needs the answer        |
 | `docs/dev/glossary/README.md`         | The project's terms by part; read the part you need before writing about the app |
@@ -82,22 +83,22 @@ Scaled to the task:
 
 ## Where things go
 
-| When                                            | Update                                                                                       |
-| ----------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| A decision is made                              | its area's file in `design-decisions/`, present tense, **Built by** until built; index title |
-| A question is answered                          | remove it from `open-questions.md`; the answer goes to its area's `design-decisions/` file   |
-| A question comes up                             | `open-questions.md`, under the phase (or part) that needs it                                 |
-| A concrete case is agreed                       | the **Cases** line of the decision it mainly checks                                          |
-| A case becomes a test                           | remove it from its decision's **Cases**                                                      |
-| A roadmap step is done                          | remove it from the roadmap; update the state table; trim each **Built by** it built          |
-| Code is first run                               | the "has it run" cell in the state table                                                     |
-| A word is coined                                | its part in `docs/dev/glossary/`, and its name in the index                                  |
-| A file is added, moved or renamed               | the code map, in the same change                                                             |
-| A look to try before deciding it                | a page in `docs/dev/sketches/`; what it settles goes to its decision                         |
-| An idea that is not a problem now               | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                |
-| How an occasional job is done                   | its file in `docs/dev/procedures/`                                                           |
-| An investigation closes, and would cost to redo | `docs/dev/archive/`; otherwise delete it                                                     |
-| What was done, and what was run                 | the commit message                                                                           |
+| When                                             | Update                                                                                       |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| A decision is made                               | its area's file in `design-decisions/`, present tense, **Built by** until built; index title |
+| A question is answered                           | remove it from `open-questions.md`; the answer goes to its area's `design-decisions/` file   |
+| A question comes up                              | `open-questions.md`, under the phase (or part) that needs it                                 |
+| A concrete case is agreed                        | the **Cases** line of the decision it mainly checks                                          |
+| A case becomes a test                            | remove it from its decision's **Cases**                                                      |
+| Code for a roadmap step is written, tested, seen | a tag added to the step in the roadmap                                                       |
+| A roadmap step is seen everywhere it must work   | remove it from the roadmap; trim each **Built by** it built                                  |
+| A word is coined                                 | its part in `docs/dev/glossary/`, and its name in the index                                  |
+| A file is added, moved or renamed                | the code map, in the same change                                                             |
+| A look to try before deciding it                 | a page in `docs/dev/sketches/`; what it settles goes to its decision                         |
+| An idea that is not a problem now                | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                |
+| How an occasional job is done                    | its file in `docs/dev/procedures/`                                                           |
+| An investigation closes, and would cost to redo  | `docs/dev/archive/`; otherwise delete it                                                     |
+| What was done, and what was run                  | the commit message                                                                           |
 
 Docs say what is true now. A doc that tells its own story ("we used to…", "as of Tuesday") is rewritten to the present.
 Cite a decision by its title, "in `design-decisions/`", not by line or file.

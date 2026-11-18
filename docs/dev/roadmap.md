@@ -1,37 +1,23 @@
 # Roadmap
 
-What comes next, the state of what is built, the phases, and what is not on the roadmap. Read every session. Nothing
-done stays here: a finished step is removed, and what was done goes in the commit message. **Next** says what comes
-next, not the branch name.
+What comes next, the phases with how far each step has got, and what is not on the roadmap. Read every session. Nothing
+done stays here: a step is removed once it is seen working, and what was done goes in the commit message. **Next** says
+what comes next, not the branch name; work outside a phase, such as a patch, is a step under it.
+
+A step's tags, at its start, say how far it has got; they stack, each added as it comes true, none taken away. Written
+is not run.
+
+- No tag: not written yet.
+- `[written]`: the code exists.
+- `[tests]`: run in tests.
+- `[seen: <where>]`: seen working, and where: `[seen: linux]`, `[seen: windows]`, `[seen: release]`.
+
+A step is removed once it is seen everywhere it has to work, which is the owner's Linux machine unless a short note
+after the step names more. A phase whose steps are gone and whose **Done when** holds goes too.
 
 ## Next
 
-`v0.1.1`, the patch with the capped dashboard, the NSIS-only Windows installer and the new identifier, by
-`docs/dev/procedures/release.md`. On Windows, uninstall `v0.1.0` first: its old identifier keeps it from updating in
-place. The record starts fresh in the new data folder; the old one held no real numbers. Then Phase 2: Breaks and flex
-days, in design mode, starting from its **Settle first**.
-
-## State
-
-"Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
-
-| Part                                                                                                                                                     | State   | Has it run                                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| The project: Tauri, Svelte and Vite, with an empty main screen                                                                                           | written | run: the window opens on Linux                                                                                                            |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                                                        | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                                                  |
-| The design tokens and the two fonts, from the prototype                                                                                                  | written | run: the window shows the text font on the theme's background                                                                             |
-| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`                                                   | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart                                |
-| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown                                              | written | run: in tests only (20, in four time zones); and on the dashboard, which the owner found right                                            |
-| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room                                      | written | run: the rules in tests; and in the app window on Linux, where the owner clocked entries and found them saved in the record               |
-| The colour rule, from the prototype                                                                                                                      | written | run: in tests only                                                                                                                        |
-| The menu's fold-out, the theme button, and the machine's settings file                                                                                   | written | run: the settings in tests; the menu in the app window on Linux                                                                           |
-| The pointer light                                                                                                                                        | written | run: in the app window on Linux                                                                                                           |
-| The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup                  | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right                      |
-| The onboarding: the locked panel, the balance and the name, the record saved on the name, the ending with its light sweep                                | written | run: the duration rules in tests; the screen in the app, which the owner found right                                                      |
-| The release: the GitHub action building the Windows and Linux installers from a version tag, and its procedure                                           | written | run: `v0.1.0` built and published by the owner, and installed on Windows                                                                  |
-| Today's pie: a slice per expected hour beside the status line, live once a minute, the neon lapping past them                                            | written | run: the rules in tests; the screen in the app, which the owner found right                                                               |
-| The popup for a running entry from an earlier day: asked at opening, Stoppa with its undo, Fortfarande igång                                             | written | run: the rules and the words in tests; the screen in the app, which the owner found right                                                 |
-| The recovery: the daily copy at start (31 kept, none the same as the newest), the screen for a record that cannot be read with the copy on the dashboard | written | run: the copy rules in Rust tests, the newest copy and the recovery's choice in tests; the screen in the app, which the owner found right |
+Phase 2: Breaks and flex days, in design mode, starting from its **Settle first**.
 
 ## The phases
 
