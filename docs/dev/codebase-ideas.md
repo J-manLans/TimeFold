@@ -78,13 +78,13 @@ counting, being pure rules over dates and seconds, would gain most. One of the t
 **Returns when:** a profile's colour is hard to see as a focus ring, as a pale hue on the light controls side may be.
 
 The focus rings wear where the profile on screen stands ("Each profile carries its colours"), and some colours barely
-show on some surfaces. Measured over 36 hues, the share of bases and over colours under 3:1: on the light controls side
-28 and 23 of 36 (worst 1.38 and 1.00), on the light dashboard 6 and 12, on the dark controls 0 and 4, on the dark
-dashboard 0 and 3. No light background helps: the palest bases would need one brighter than white. What works is a thin
-second line beside the coloured ring, and it must follow the surface, not the theme: dark on the light controls side,
-where the pale colours fail, and light on the three dark surfaces, where the dark ones do; the other theme's controls
-background gives the two colours. It cannot be a box-shadow, which would replace the start button's running ring while
-it has focus, and an element has only one outline.
+show on some surfaces. Measured over 36 hues, the share of bases and neons under 3:1: on the light controls side 28 and
+23 of 36 (worst 1.38 and 1.00), on the light dashboard 6 and 12, on the dark controls 0 and 4, on the dark dashboard 0
+and 3. No light background helps: the palest bases would need one brighter than white. What works is a thin second line
+beside the coloured ring, and it must follow the surface, not the theme: dark on the light controls side, where the pale
+colours fail, and light on the three dark surfaces, where the dark ones do; the other theme's controls background gives
+the two colours. It cannot be a box-shadow, which would replace the start button's running ring while it has focus, and
+an element has only one outline.
 
 ## A copy when the day changes while the app runs
 

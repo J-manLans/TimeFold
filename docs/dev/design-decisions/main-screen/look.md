@@ -15,13 +15,13 @@ prototype:
   case. The quiet lines, what runs, the offer to prune and the short messages after an action (such as "Rensar efter en
   kopia"), share one small size (10.5 px) in the muted colour. Both fonts are bundled with the app from their
   `@fontsource-variable` npm packages, so it needs no internet to show them.
-- **Colour:** flat fields with one hot accent, which the over colour already is. Each theme colour is set once, with its
-  light and dark value side by side. The dashboard is near-black in the dark theme and slate blue in the light theme,
-  each a tinted family of panel, rows, lines and text ("The main screen has a controls side and a dashboard"). Contrast
-  is balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same ratio,
-  and stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1 (light),
-  lines at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons at about
-  2.7:1 and 2.0:1, as measured on the prototype.
+- **Colour:** flat fields with one hot accent, which the neon already is. Each theme colour is set once, with its light
+  and dark value side by side. The dashboard is near-black in the dark theme and slate blue in the light theme, each a
+  tinted family of panel, rows, lines and text ("The main screen has a controls side and a dashboard"). Contrast is
+  balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same ratio, and
+  stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1 (light), lines
+  at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons at about 2.7:1
+  and 2.0:1, as measured on the prototype.
 - **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper, `#4f688e`,
   with near-white text at 5.2:1, hovered `#40577b` at 6.8:1; in the dark theme a dark grey with light text; a little
   bolder text on the smaller buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset

@@ -6,8 +6,8 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, its **Settle first**: the question for a running entry from an earlier day, its three questions in
-`open-questions.md`; then building it, and the release.
+Phase 1: Clocking, its **Settle first**: the popup for a running entry from an earlier day, drawn in the prototype with
+its words; then building it, and the release.
 
 ## State
 
@@ -41,11 +41,13 @@ Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the question for a
-running entry from an earlier day, its three questions in `open-questions.md`; the folders for those screens, once they
-are drawn.
+**Settle first:** the screens the prototype does not show yet, drawn in design mode with their cases: the popup for a
+running entry from an earlier day ("A running entry from an earlier day asks"), with its words; the prototype brought in
+line with the hue-only colour picker and the neon ("Each profile carries its colours"), its comments no longer pointing
+at the deleted ceiling wheel sketch; the folders for those screens, once they are drawn.
 
-1. The question for a running entry from an earlier day.
+1. The over colour renamed the neon in the code (`overColour`, `--profile-over` and the like; names meaning over the
+   ceiling, such as `--wheel-balance-over`, stay). Then the popup for a running entry from an earlier day.
 2. The window's minimum size ("A narrow window stacks the dashboard over the controls"), tuned on the app. Then the
    release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
    Windows and Linux installers from a version tag, `docs/dev/procedures/release.md`, and `v0.1.0`.
@@ -54,8 +56,9 @@ are drawn.
    draft. It is the owner's first release, a step in their developer career, and the agent only guides. Something to
    celebrate with stands ready, chilled, before the tag is pushed.
 
-**Done when:** the owner clocks real days with it on one machine and the balance matches a hand count; the screen
-matches the prototype in both themes on Windows and Linux, Windows checked by installing the `v0.1.0` release.
+**Done when:** the owner clocks simulated days with it on one machine, an entry left running past midnight among them,
+and the balance matches a hand count; the screen matches the prototype in both themes on Windows and Linux, Windows
+checked by installing the `v0.1.0` release.
 
 ### Phase 2: Breaks and flex days
 
@@ -76,9 +79,9 @@ a flex day marked ahead shows on the flex bar at once and comes back when unmark
 
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
-**Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line
-(`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the prototype
-(its "Visa alla" popup only notes where it goes).
+**Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line; the line's
+zoom (`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the
+prototype (its "Visa alla" popup only notes where it goes).
 
 1. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
    shortening, the profile, the confirm; the rows' hover with it.
@@ -147,10 +150,10 @@ and the look, the menu with its locked values, and the field for entering a leng
 
 1. Each chosen part lifted into the folder with its tests, its TimeFold names and rules taken out.
 2. A prompt in the same folder, written with the owner, describing the next project for the agent that starts it. It
-   stays with the folder, not in the AI starter repository, which holds only the method. For the budget, what the owner
-   has said so far: income and expenses per month, with recurring items; the stock and fund portfolio, kept as holdings
-   and their counts, valued by an "Uppdatera kurser" button that fetches prices with no login, saved as a dated snapshot
-   per month, a failed price typed by hand; and a savings goal showing the monthly target and what was actually saved.
+   stays with the folder. For the budget, what the owner has said so far: income and expenses per month, with recurring
+   items; the stock and fund portfolio, kept as holdings and their counts, valued by an "Uppdatera kurser" button that
+   fetches prices with no login, saved as a dated snapshot per month, a failed price typed by hand; and a savings goal
+   showing the monthly target and what was actually saved.
 
 **Done when:** the folder's tests pass on their own, nothing in its code names TimeFold's work, profiles or hours, the
 owner has read it through and knows what each part is for, and the prompt reads as the owner means it.

@@ -23,8 +23,7 @@ each prompt.
    with two additions: a sign in front, `+` or `-`, no sign meaning plus as Excel writes it; and up to three digits of
    hours. Only digits, `:`, `+` and `-` are taken, in that shape, the minutes at most 59, and Enter moves on only for a
    whole length. How it is read shows just under it, sign included ("−12h 30min"). The number wears where it stands: the
-   base colour at 0 or below, the over colour in plus. On Enter the dashboard's number and bar count to it, as at a
-   stop.
+   base colour at 0 or below, the neon in plus. On Enter the dashboard's number and bar count to it, as at a stop.
 2. **"Profilnamn?"** The first profile's name, typed in the colour the balance decided; Enter moves on only when it is
    not empty.
 
@@ -79,7 +78,7 @@ seen every day. "Importera från min andra dator": long, and tied to a machine.
 - First install on Monday, Excel balance +12:30 at Friday's close: the balance starts at +12:30; 7 h worked on Monday
   makes it +13:30.
 - `-3:00` typed: the number in the base colour, the bar to the left, the name and then the letter in the base colour.
-  `12:30` with no sign: all in the over colour.
+  `12:30` with no sign: all in the neon.
 - `12:30` typed: "12h 30min" under it. `5`: "5min". `-105:00`: "−105h".
 - `12:` and Enter: nothing happens; the caret waits. A letter typed into the balance: it does not appear. Enter on an
   empty name: nothing happens.
@@ -136,19 +135,19 @@ only the dashboard. Stepping back through older copies: a broken shape never rea
 loses a day; recovering from wrong contents is another problem. A "No thanks" button: closing the app already declines,
 changing nothing. A flash across the whole dashboard, or one pulse of the label: gone before the panel is read; the
 owner did not see at once that the whole dashboard was the copy. A glow on the label: its colour changing says it with
-the app's own colours. The label breathing into the over colour always: it shows where the copy stands, so it follows
-the balance, as the letter does. "Din fil gick inte att läsa": the program not starting is what the owner meets. Advice
-to start, stop and edit an entry to put back what is lost: editing comes in Corrections, where writing a forgotten entry
-is simpler. "Importera" after "Hämta senaste": the updated app reads the file itself. Fading the app out as it closes:
-the note says it will close, and the browser opens anyway.
+the app's own colours. The label breathing into the neon always: it shows where the copy stands, so it follows the
+balance, as the letter does. "Din fil gick inte att läsa": the program not starting is what the owner meets. Advice to
+start, stop and edit an entry to put back what is lost: editing comes in Corrections, where writing a forgotten entry is
+simpler. "Importera" after "Hämta senaste": the updated app reads the file itself. Fading the app out as it closes: the
+note says it will close, and the browser opens anyway.
 
 **Revisit if:** a broken file turns out to be common, which would point at a cause worth fixing instead.
 
 **Cases:**
 
 - `record.json` edited by hand into invalid JSON, a copy from Tuesday 17 November: the dashboard shows Tuesday's copy
-  under "KOPIA · TIS 17 NOV", breathing into the over colour if the copy's balance is in plus, the base if not; "Använd
-  kopian" saves it and the app opens on it.
+  under "KOPIA · TIS 17 NOV", breathing into the neon if the copy's balance is in plus, the base if not; "Använd kopian"
+  saves it and the app opens on it.
 - The same in a narrow window: the words say "Dashboarden ovanför".
 - The same, the app closed instead: the broken file is unchanged at the next start.
 - A broken file and no copies: the words say it happened early; "Starta nytt" runs the onboarding from its balance.

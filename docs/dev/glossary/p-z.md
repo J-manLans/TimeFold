@@ -37,8 +37,8 @@ Linux on the repo's releases page ("The app reaches each machine as an installer
 the theme; never in the record or the handover.
 
 **Standing (a profile's).** Where a profile's figure is: past its line (the balance in plus, or the ceiling passed) or
-not (at 0 or below). Its letter, its small circle and the focus outline wear it, the over colour past the line and the
-base before it.
+not (at 0 or below). Its letter, its small circle and the focus outline wear it, the neon past the line and the base
+before it.
 
 **Sketch.** A quick try of one look before it is decided, in `docs/dev/sketches/`; what it settles goes to its decision,
 and it goes once that is built. Not the **Prototype**.

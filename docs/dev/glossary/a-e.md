@@ -5,15 +5,15 @@ Terms A–E, in alphabetical order. The index and the rules for terms are in `RE
 **Added break.** A length of time taken off a running entry when the owner is back, for unplanned time away during it.
 It holds its length and the day it was added, and comes off the entry's time on that day first, then the day before.
 
-**Afterglow.** On the undo button, the glow in the profile on screen's over colour that lies over the disc after a start
-or a stop and fades to nothing while the click can be undone ("The last click can be undone for a few seconds").
+**Afterglow.** On the undo button, the glow in the profile on screen's neon that lies over the disc after a start or a
+stop and fades to nothing while the click can be undone ("The last click can be undone for a few seconds").
 
 **Balance.** For a profile with expected hours (only janitor work), the running sum of each day's hours minus the
 expected hours. Positive: hours to take out. Negative: hours to work in. On the main screen it also counts flex days
 marked ahead; a report counts only the days up to its end.
 
-**Base colour.** A profile's main colour: the figures' colour for hours used and for minus; a nuance of the profile's
-hue, picked in the profile's row.
+**Base colour.** A profile's main colour: the figures' colour for hours used and for minus; the profile's hue muted,
+never picked; only the hue is.
 
 **Case.** A concrete example agreed with the owner, given this, expect that, waiting under its decision until it becomes
 a test.
@@ -22,8 +22,8 @@ a test.
 janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
 
 **Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills as the month's hours are used, in the
-colours of the profile on screen (grey for the balance profile), with hours over it in the over colour; a timeline of
-the month's hours, the profile on screen's lit and the others' faded ("The ceiling wheel", in `design-decisions/`).
+colours of the profile on screen (grey for the balance profile), with hours over it in the neon; a timeline of the
+month's hours, the profile on screen's lit and the others' faded ("The ceiling wheel", in `design-decisions/`).
 
 **Controls side.** The left side of the main screen: the start/stop button, the profile button, the status line, "Lägg
 till paus" and the menu. What the owner presses.

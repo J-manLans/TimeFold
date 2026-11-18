@@ -35,3 +35,6 @@ dist-ssr
 AGENT_DOCS_STARTER.md
 CODE_STYLE_STARTER.md
 PROCEDURES_STARTER.md
+
+# The owner's levels: personal, made from docs/dev/levels.example.md
+docs/dev/levels.md

@@ -4,24 +4,6 @@ What is not decided, grouped under the phase that needs the answer, so a phase's
 entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question leaves;
 its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
-## Phase 1: Clocking
-
-### The question for a running entry from an earlier day: where, how, and after midnight (2026-11-17)
-
-"A running entry from an earlier day asks" settles what happens ("Fortfarande igång" runs on; "Jag slutade …" sets the
-end), but not three things about the screen, raised as it was to be drawn:
-
-1. Where it sits: the decision says a popup centred on the controls side, but the menu's locked panel has since become
-   the place for screens that start the app ("A first install starts fresh or imports"; "A record that cannot be read
-   offers the newest copy"), keeping the dashboard in full view.
-2. How the end is given: the decision's clock picker, an analogue 24-hour dial never drawn and itself in doubt ("Exact
-   minutes on the line"), or the onboarding's lone caret, a typed time such as `23:10` with its reading under it. The
-   agent's lean: typed, as already built, exact, and enough for a screen seen a few times a year.
-3. A time after midnight: an entry started yesterday at 21:30 and `01:30` typed is today's 01:30, but the rule is not
-   written; and an end past now cannot be.
-
-**See:** A running entry from an earlier day asks; Entering a length of time.
-
 ## Phase 3: Corrections
 
 ### Joining two entries (2026-11-14)
@@ -44,9 +26,18 @@ other entries and midnight.
 Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock picker for
 precision. The clock picker, from the owner's first draft, is an analogue 24-hour dial: the hours on an inner and an
 outer ring, the minutes picked in a second step, with no AM/PM and no digital fields. It was meant for editing; the line
-may replace it there, or work beside it.
+may replace it there, or work beside it. The owner's idea, to try on the prototype: − and + at the chosen handle, one
+minute per press, its time shown between them; the arrow keys could do the same, and holding a button repeat.
 
 **See:** Editing an entry on its line.
+
+### The line's zoom (2026-11-18)
+
+With no wall at midnight, a handle can be dragged towards a neighbour days away, and a view that follows it exactly
+would pump in and out as the handle moves back and forth. The owner's idea, to try on the prototype: the flex bar's
+logic, the view growing when the handle nears its edge and shrinking only once it is well back.
+
+**See:** Editing an entry on its line; The flex bar.
 
 ## Phase 4: Profiles
 

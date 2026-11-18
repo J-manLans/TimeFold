@@ -32,20 +32,20 @@ the dark theme and a deep slate-blue one (#2c3e5c) in the light theme, its rows 
 numbers in a monospaced font with their digits lined up, thin lines, small uppercase labels, and small, precise motion
 (numbers counting to their new value, the arc sweeping). The colours come from the profiles ("Each profile carries its
 colours"): the profile on screen colours the controls side and, when it is one of the others, the ceiling wheel; the
-flex bar always wears the balance profile's. While the profile on screen runs, a ring in its over colour surrounds the
-start button. Every focus ring in the app takes the colour of where the profile on screen stands. On the right side,
-from the top: the balance as a number, centred, with no label; the flex bar; the ceiling wheel, centred under it with
-nothing beside it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent
-entries and "Visa alla", which opens a popup centred on the whole window listing every entry, grouped by day, where
-entries are edited ("Editing an entry on its line"). Above the days, flex days marked ahead show as "Flexledig" rows, to
-move or unmark ("A flex day can be marked ahead, and the screen counts it at once"). Each day opens with a header
-holding its date and the day's net change to the janitor balance in whole minutes, however small, or "Flexledig" and its
-hours on a flex day; an edited or hand-written entry shows its reason ("Every edit carries a reason"). Both lists hold
-stopped entries, newest first by start; one that runs shows in neither until it stops. The recent list always keeps five
-rows' room, so "Visa alla" never moves; with no entry yet, "Inga poster ännu" sits centred in that room and "Visa alla"
-is greyed out. The day headers and reasons stay in "Visa alla": the recent list and the rest of the main screen show
-none of it. An entry's row, as it arrives at a stop, lights in the wheel's base colour (grey while the balance profile
-is on screen) and fades.
+flex bar always wears the balance profile's. While the profile on screen runs, a ring in its neon surrounds the start
+button. Every focus ring in the app takes the colour of where the profile on screen stands. On the right side, from the
+top: the balance as a number, centred, with no label; the flex bar; the ceiling wheel, centred under it with nothing
+beside it; the pay estimate as one quiet number under the wheel, with no label; then the five most recent entries and
+"Visa alla", which opens a popup centred on the whole window listing every entry, grouped by day, where entries are
+edited ("Editing an entry on its line"). Above the days, flex days marked ahead show as "Flexledig" rows, to move or
+unmark ("A flex day can be marked ahead, and the screen counts it at once"). Each day opens with a header holding its
+date and the day's net change to the janitor balance in whole minutes, however small, or "Flexledig" and its hours on a
+flex day; an edited or hand-written entry shows its reason ("Every edit carries a reason"). Both lists hold stopped
+entries, newest first by start; one that runs shows in neither until it stops. The recent list always keeps five rows'
+room, so "Visa alla" never moves; with no entry yet, "Inga poster ännu" sits centred in that room and "Visa alla" is
+greyed out. The day headers and reasons stay in "Visa alla": the recent list and the rest of the main screen show none
+of it. An entry's row, as it arrives at a stop, lights in the wheel's base colour (grey while the balance profile is on
+screen) and fades.
 
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
@@ -53,10 +53,10 @@ With the figures in view beside the menu, a colour changed in settings shows at 
 recent entries show yesterday's work on a fresh morning, where today's alone would be an empty list. The break control
 sits with what runs and never moves; the status line's kept room sets it a little apart, marking it as secondary. The
 wheel tells its story alone, so nothing beside it is needed, and the side can be narrower. A dashboard look suits
-figures that are read at a glance, and a soft base colour with a neon-leaning over colour is how such dashboards use
-colour. In the light theme the slate blue has about half the contrast black had against the white controls side (9.7:1
-against 17:1), so it does not glare, while its light text stays sharp on it (9.6:1); blue is also the complement of the
-default orange, so the figures stand out.
+figures that are read at a glance, and a soft base colour with a vivid accent is how such dashboards use colour. In the
+light theme the slate blue has about half the contrast black had against the white controls side (9.7:1 against 17:1),
+so it does not glare, while its light text stays sharp on it (9.6:1); blue is also the complement of the default orange,
+so the figures stand out.
 
 **Rejected:** today's entries only: empty every morning. A small flex bar beside a large wheel: both are figures the
 owner reads every day. Figures beside the wheel (ceiling, used, left, carried): the wheel already shows them. A label on

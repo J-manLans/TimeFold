@@ -7,8 +7,8 @@ a term by its name, never at a part.
 **[A–E](a-e.md):** Added break, Afterglow, Balance, Base colour, Case, Ceiling, Ceiling wheel, Controls side, Daily
 copy, Dashboard, Day header, Day total, Design token, Dimmed colour, Entry, Entry line, Errand, Expected hours.
 
-**[F–O](f-o.md):** Faded, Flex bar, Flex day, Focus outline, Full time, Gap, Handover, Hue (a profile's), Level (the
-owner's), Lit, Locked panel, Month, Neon, Onboarding, Opening figures, Over colour.
+**[F–O](f-o.md):** Faded, Flex bar, Flex day, Focus outline, Full time, Gap, Handover, Hue (a profile's), Lit, Locked
+panel, Month, Neon, Onboarding, Opening figures.
 
 **[P–Z](p-z.md):** Pay category, Pay estimate, Peek, Pointer light, Profile, Prototype, Prune, Reason (an edit's),
 Recovery screen, Release, Report, Settings file, Sketch, Small deviations, Standing (a profile's), Tip.

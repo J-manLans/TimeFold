@@ -70,9 +70,9 @@ shows what runs, but opening on the running profile is what the owner expects.
 **Decision:** a round undo button sits beside "Lägg till paus", the two centred together under the button block, drawn
 like the profile button's disc in its dent with a turning-back arrow. It is faded out when there is nothing to undo, and
 eases between faded and awake in 0.2 seconds rather than snapping. After a start or a stop it wakes for 15 seconds: an
-afterglow in the profile's over colour lies over the disc only, not the dent around it, under the arrow, starting at
-about two thirds strength, so the disc's own sheen shows through, and fading evenly to nothing over that time; hovered,
-the pointer-following label says what it would undo ("Ångra: stopp 15:40"). Pressing it reverses exactly that click: an
+afterglow in the profile's neon lies over the disc only, not the dent around it, under the arrow, starting at about two
+thirds strength, so the disc's own sheen shows through, and fading evenly to nothing over that time; hovered, the
+pointer-following label says what it would undo ("Ångra: stopp 15:40"). Pressing it reverses exactly that click: an
 undone start removes the entry it created; an undone stop lets the entry run on as if never stopped; an undone switch
 ("Starta jobb" on one profile while another runs) reverses both halves, removing the new entry and letting the old one
 run on. Only the latest click can be undone, and only within its 15 seconds. An undone click leaves no mark in the
@@ -104,29 +104,41 @@ controls.
 - Stop at 15:40, the app closed and opened again at 15:40:05: the undo is faded; the last click lives only in the
   running app, never in the record.
 
-## A running entry from an earlier day asks (2026-11-14)
+## A running entry from an earlier day asks (2026-11-18)
 
-**Built by:** Clocking.
+**Built by:** Clocking; the case of another profile on screen, Profiles.
 
 **Decision:** nothing stops an entry by itself. During the day, the stop click is the only signal of when work ended.
-When the app is opened or clicked on a later date than a still-running entry started, it says so ("Work has been running
-since yesterday 21:30") and asks, in a popup centred on the controls side so the figures stay in view: **Still
-working**, and the entry goes on, or **I stopped at…**, and the clock sets its end.
+When the app opens on a later date than a still-running entry started, it says so ("Work has been running since
+yesterday 21:30") in a popup centred on the controls side, so the figures stay in view, with a line saying that if it is
+a mistake, press Stoppa and correct the entry ("Editing an entry on its line"). It offers two answers: **Stoppa** stops
+the running entry as the start/stop button does, undo included, whichever profile is on screen; **Fortfarande igång**
+closes the popup and the entry runs on. Nothing is remembered: the next opening on a later date asks again. The check is
+made only when the app opens, never while it runs. The popup's words are settled when it is drawn in the prototype.
 
 **Why:** late work from home can cross midnight, so a running entry is not always a mistake; but usually it is, and the
-owner should hear of it at once, not find it in the report. It is also a reminder to go to bed.
+owner should hear of it at once, not find it in the report. Opening is the one moment the app can tell without guessing:
+while it runs, it cannot know whether the owner is still there, and asking at the first click after midnight would
+interrupt real night work. Stoppa is the true answer when work has just ended; when the entry was forgotten, it is put
+right where every mistake is, on its line, not on a screen of its own. Reusing the button's stop brings its undo along.
 
 **Rejected:** stopping the entry at midnight: it records an end that is false but looks believable, and the app may not
-be running at midnight. Doing nothing until a correction: the mistake surfaces too late.
+be running at midnight. Doing nothing until a correction: the mistake surfaces too late. "Jag slutade …" with a time,
+from a clock picker or typed: a second way to correct an entry, beside the line that already does it. Asking also while
+the app runs, at the first click on a later date: it guesses whether the owner is there. Remembering "Fortfarande igång"
+until the next change of date: an opening asks once, so there is nothing to remember. A notice also when stopping an
+entry from an earlier day: it guards against a slip the owner sees in the list anyway.
 
-**Revisit if:** the question comes up for days that were really worked through the night.
+**Revisit if:** a forgotten entry, with the app left open overnight, slips through unnoticed.
 
 **Cases:**
 
-- Entry started yesterday 21:30 and running, app opened today: the question is asked.
-- Answer "I stopped at 23:10": the entry ends yesterday at 23:10.
-- Answer "Still working": the entry runs on; the question comes again only at the next change of date.
-- Entry started today and running: no question.
+- Entry started yesterday 21:30 and running, app opened today: the popup shows.
+- Stoppa at 07:00: the entry is 21:30–07:00, stopped as by the button; undo makes it run again from 21:30.
+- Fortfarande igång: the entry runs on; closing and opening the app again today shows the popup again.
+- Entry started today and running: no popup.
+- App left open across midnight, clicked at 07:00: no popup.
+- Another profile on screen (Profiles): Stoppa stops the running entry, and the profile on screen stays.
 
 ## Time away is a gap or an added break (2026-11-14)
 

@@ -80,6 +80,15 @@
   --ob-sweep-rise: 60px;  /* how far above the block's middle the light starts */
   --ob-sweep-fade: 0.3s;  /* after the arc, the light shrinking from its end size to nothing */
   --ob-sweep-drop: 60px;  /* how far below it the light ends; between, it arcs down, quickest at first, levelling off */
+  /* The colour picker: only the hue is picked, on a strip of base colours */
+  --cp-strip-h: 14px;   /* the hue strip's height */
+  --cp-thumb: 18px;     /* the circle dragged along it, filled with the neon of where it sits */
+  --cp-swatch: 20px;    /* the small swatch before each code */
+  /* The popup for a running entry from an earlier day ("Running since yesterday" in the toolbar) */
+  --late-gap: 12px;     /* between the heading, the line, the note and the buttons */
+  --late-line: 13px;    /* what runs and since when */
+  --late-width: 30ch;   /* the most the words take before they wrap */
+  --late-choice-scale: 0.42;  /* Stoppa and Fortfarande igång against Starta jobb, as --ob-choice-scale */
   /* The figures */
   --bar-share: 0.5;     /* the flex bar's thickness, as a share of the ceiling wheel's band (0.5 a half, 0.333 a third); centred on the 0 line, which keeps its height */
   /* Focus */
@@ -250,7 +259,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .undo-btn { --dot-size: 26px; --dent: 4px; position: relative; width: 36px; height: 36px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; color: var(--c-btn-fg); border-radius: 50%; }
 .undo-btn { transition: opacity var(--undo-dim) ease; }   /* waking and dimming ease instead of snapping */
 .undo-btn:disabled { opacity: var(--disabled-o); cursor: default; }
-/* While the undo is available, an afterglow in the profile's over colour lies over the disc only (not the dent around it),
+/* While the undo is available, an afterglow in the profile's neon lies over the disc only (not the dent around it),
    starting strong and fading evenly to nothing over --undo-time; the arrow stays on top of it. */
 .undo-btn .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; z-index: 2; pointer-events: none;
   background: var(--undo-fill, transparent); opacity: 0; }
@@ -324,7 +333,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .copy-label { justify-self: center; }
 .copy-label.pulse { animation: copy-pulse var(--rc-pulse) ease-in-out infinite; }
 /* It breathes between the label's quiet colour and the colour of where the profile on screen stands in the copy: its
-   over colour in plus, its base at 0 or below, as the letter and the focus rings. */
+   neon in plus, its base at 0 or below, as the letter and the focus rings. */
 @keyframes copy-pulse { 0%, 100% { color: var(--f-muted); } 50% { color: var(--state, var(--f-fg)); } }
 /* While the letter waits to arrive, nothing on the screen can be pressed. */
 .app.locked { pointer-events: none; }
@@ -402,19 +411,24 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* The app's own colour picker */
 .swatch { width: 44px; height: 26px; padding: 0; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); cursor: pointer; }
-.cpick { position: absolute; z-index: 20; width: 236px; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
-.cpick canvas { width: 100%; height: 140px; border-radius: 4px; cursor: crosshair; touch-action: none; display: block; }
-.cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; height: 12px; margin: 0; border-radius: 6px; background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); }
-.cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 2px solid #222; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
-.cpick .hue::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #222; }
+.cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+.cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: var(--cp-strip-h); margin: 0; border-radius: calc(var(--cp-strip-h) / 2); background: var(--cp-strip); }
+.cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4); }
+.cpick .hue::-moz-range-thumb { width: var(--cp-thumb); height: var(--cp-thumb); box-sizing: border-box; border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); }
+.cpick .cp-pair { display: grid; gap: 6px; }
 .cpick .cp-row { display: flex; align-items: center; gap: 8px; }
-.cpick .cp-now { width: 26px; height: 26px; border-radius: 4px; border: 1px solid var(--c-btn-line); flex: none; }
-.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
-.cpick .cp-ok { margin-left: auto; font-weight: 600; padding: 4px 14px; }
+.cpick .cp-now { width: var(--cp-swatch); height: var(--cp-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); flex: none; }
+.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 3px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: text; }
 
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
 .popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.late h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
+.late p { margin: 0; max-width: var(--late-width); text-wrap: balance; }
+.late .late-line { font-size: var(--late-line); }
+.late .late-note { font-size: var(--size-note); color: var(--c-muted); }
+.late .late-buttons { display: flex; gap: var(--block-gap); }
 .popup h3 { margin: 4px 8px 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
 .popup button { display: flex; gap: 10px; align-items: center; font: inherit; text-align: left; padding: 8px; border: 0; border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: pointer; }
 .popup button:hover, .popup button[aria-current="true"] { background: var(--popup-pick); }
@@ -537,6 +551,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     <button type="button" id="simBroken">Broken record</button>
     <button type="button" id="simBrokenBare">Broken, no copy</button>
     <button type="button" id="simNewer">Newer record</button>
+    <button type="button" id="simLate">Running since yesterday</button>
+    <button type="button" id="simSystemTheme">Theme as installed</button>
     <span>Each stop records 2 h 15 min.</span>
     <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
@@ -574,8 +590,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         <div class="body" id="menuBody" inert>
           <div class="menu-head">
             <h2>Meny</h2>
-            <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema: System"><span class="dot"><svg id="themeIcon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"></svg></span></button>
-            <span class="theme-label" id="themeLabel">System</span>
+            <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema"><span class="dot"><svg id="themeIcon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"></svg></span></button>
+            <span class="theme-label" id="themeLabel"></span>
           </div>
           <div class="tabs" role="tablist" aria-label="Menyns delar">
             <button class="tab" role="tab" type="button" data-tab="profiler" aria-selected="true">Profiler</button>
@@ -619,6 +635,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
             <button class="plastic ob-choice" id="rcImport" type="button" aria-disabled="true"><span class="label">Importera</span></button>
           </div>
           <p class="rc-note" id="rcNote"></p>
+        </div>
+      </div>
+
+      <div class="scrim" id="lateScrim" hidden>
+        <div class="late" role="dialog" aria-label="Pågår sedan igår">
+          <h3>Startad igår</h3>
+          <p class="late-line" id="lateLine"></p>
+          <p class="late-note">Glömde du stoppa? Tryck Stoppa och rätta posten i listan.</p>
+          <div class="late-buttons">
+            <button class="plastic ob-choice" id="lateStop" type="button"><span class="label">Stoppa</span></button>
+            <button class="plastic ob-choice" id="lateGo" type="button"><span class="label">Fortfarande igång</span></button>
+          </div>
         </div>
       </div>
 
@@ -673,16 +701,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return [13 / 255, 16 / 255, 20 / 255];
   }
   var RULE = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
-  // The neon pair rule ("Each profile carries its colours", in design-decisions/; as in docs/dev/sketches/ceiling-wheel.html). A profile has one hue, the one its picker's
-  // strip sits on. The strip's colour is that hue's neon; the base is any nuance of it, picked in the map (a new
-  // profile starts on a muted one); the over colour is the opposite hue at its most vivid, so it moves only with the
-  // strip, and is never picked by hand. The app takes a picked colour when the pointer is released, not while it drags.
+  // The colour pair rule ("Each profile carries its colours", in design-decisions/). A profile has one hue, the one its
+  // picker's strip sits on, and only the hue is picked. The base is that hue muted (below); the neon is the opposite
+  // hue at its most vivid, so both move only with the strip, and neither is picked by hand. The app takes a picked
+  // colour when the pointer is released, not while it drags.
   var NEON = {
     start: 195,   // the balance profile's hue: cyan
-    keep: 0.55,   // base: share of the neon's colour kept
+    keep: 0.55,   // base: share of the hue's most vivid chroma kept
     pull: 0.4,    // base lightness: 0 the hue's own most vivid lightness, 1 the shared middle
     mid: 0.7,     // the shared middle lightness
-    over: 1       // over colour: share of full neon
+    over: 1       // the neon: share of the opposite hue's most vivid chroma
   };
   var WHEEL = {
     r: 75, w: 28,   // the ceiling wheel's ring: radius to the middle of the band, and the band's width (of 200)
@@ -692,7 +720,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     lap: 3          // minutes each piece of the ring starts early, tucked under the one before it
   };
 
-  // ---- Colour rule (as in "The ceiling wheel"; same code as docs/dev/sketches/ceiling-wheel.html) ----
+  // ---- Colour rule (as in "The ceiling wheel") ----
   function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
   function fromLin(c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
   function rgbToOklab(rgb) {
@@ -793,7 +821,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function dur(e) { return Math.round((e.end - e.start) / 60000) - e.brk; }
   function prof(id) { for (var i = 0; i < profiles.length; i++) if (profiles[i].id === id) return profiles[i]; return profiles[0]; }
 
-  // ---- Colours: each profile carries a base and an over colour; the figures follow the profiles ----
+  // ---- Colours: each profile carries a base and a neon; the figures follow the profiles ----
   var GREY = "#9aa3ae", GREY_OVER = "#e2e6eb";   // the wheel while the balance profile is on screen: grey, over it a light grey
   function balanceProfile() { for (var i = 0; i < profiles.length; i++) if (profiles[i].balance) return profiles[i]; return profiles[0]; }
   function pairFor(base, over) { var s = derive(base, panelBg()); return { base: base, dim: s.dim, over: over || s.over, suggested: s.over }; }
@@ -814,15 +842,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var w = resolved("wheel");
     app.style.setProperty("--wheel-base", w.base); app.style.setProperty("--wheel-over", w.over);
   }
-  // A profile's colour for what is happening now: its over colour (the running ring, the status dot, the label).
+  // A profile's colour for what is happening now: its neon (the running ring, the status dot, the label).
   function profColour(id) { return profPair(prof(id)).over; }
   // Where a profile stands: past its line when the balance is in plus, or the ceiling is passed; at 0 it is not.
   function standsOver(id) { return prof(id).balance ? Math.round(balance) > 0 : used > CEILING; }
-  // Its letter, its small circle and the focus rings follow where it stands: the letter in the over colour past the
+  // Its letter, its small circle and the focus rings follow where it stands: the letter in the neon past the
   // line and in the base colour before it, the circle's ring in the other.
   function stateColours(id) { var p = profPair(prof(id)); return standsOver(id) ? { letter: p.over, ring: p.base } : { letter: p.base, ring: p.over }; }
   // A new profile's hue: the middle of the largest gap between the hues in use, each profile using two, its own and
-  // the opposite one its over colour has (a random pick between equal gaps).
+  // the opposite one its neon has (a random pick between equal gaps).
   function nextProfileHue(others) {
     if (!others.length) return NEON.start;
     var hues = [];
@@ -1193,7 +1221,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var mins = m[4] !== undefined ? +m[4] : +m[2] * 60 + +m[3];
     return m[1] === "-" ? -mins : mins;
   }
-  // The balance profile's colour for where a balance stands: the over colour in plus, the base at 0 or below.
+  // The balance profile's colour for where a balance stands: the neon in plus, the base at 0 or below.
   function obColour(v) { var p = profPair(balanceProfile()); return v > 0 ? p.over : p.base; }
   function startOnboarding() {
     onboarding = true;
@@ -1480,7 +1508,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     show(); wrap.refresh = function () { if (stage === "locked") show(); }; return wrap;
   }
 
-  // ---- The app's own colour picker: opens straight onto the colour map, and always fits inside the menu ----
+  // ---- The app's own colour picker: a hue strip of base colours, and the pair's codes; always inside the menu ----
   function hsvToRgb(h, s, v) {
     var f = function (n) { var k = (n + h / 60) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); };
     return [f(5), f(3), f(1)];
@@ -1490,70 +1518,60 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (d) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
     return [(h * 60 + 360) % 360, max ? d / max : 0, max];
   }
-  var pick = null;   // { el, anchor, h, s, v, onChange, orig, owner }
+  var pick = null;   // { el, anchor, h, onChange, owner }
+  // Each place on the strip (0-360) with its base and neon, worked out once, so a drag only looks them up.
+  var STRIP = null;
+  function stripTable() {
+    if (STRIP) return STRIP;
+    STRIP = [];
+    for (var at = 0; at <= 360; at++) { var h = stripHue(at % 360); STRIP.push({ base: neonBase(h), neon: neonOver(h) }); }
+    return STRIP;
+  }
+  function stripAt(h) { return stripTable()[Math.round(Math.min(360, Math.max(0, h)))]; }
   function buildPicker() {
     var el = document.createElement("div"); el.className = "cpick"; el.hidden = true; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Välj färg");
-    el.innerHTML = '<canvas width="400" height="260" tabindex="0" aria-label="Mättnad och ljushet"></canvas>' +
-      '<input class="hue" type="range" min="0" max="360" step="1" aria-label="Kulör">' +
-      '<div class="cp-row"><span class="cp-now"></span><input class="cp-hex" type="text" maxlength="7" aria-label="Färgkod" spellcheck="false"><button class="cp-ok small" type="button">OK</button></div>';
+    el.innerHTML = '<input class="hue" type="range" min="0" max="360" step="1" aria-label="Kulör">' +
+      '<div class="cp-pair">' +
+      '<div class="cp-row"><span class="cp-now cp-base"></span><input class="cp-hex cp-base-hex" type="text" readonly aria-label="Grundfärgens kod" spellcheck="false"></div>' +
+      '<div class="cp-row"><span class="cp-now cp-neon"></span><input class="cp-hex cp-neon-hex" type="text" readonly aria-label="Neonfärgens kod" spellcheck="false"></div>' +
+      '</div>';
     $("menu").appendChild(el);
-    var cv = el.querySelector("canvas"), hue = el.querySelector(".hue"), hexIn = el.querySelector(".cp-hex");
-    function fromXY(e) {
-      var r = cv.getBoundingClientRect();
-      pick.s = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
-      pick.v = 1 - Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
-      emit();
-    }
-    cv.addEventListener("pointerdown", function (e) { cv.setPointerCapture(e.pointerId); fromXY(e); });
-    cv.addEventListener("pointermove", function (e) { if (cv.hasPointerCapture(e.pointerId)) fromXY(e); });
-    cv.addEventListener("pointerup", apply);
-    hue.addEventListener("input", function () { pick.h = +hue.value; emit(); });
-    hue.addEventListener("change", apply);
-    hexIn.addEventListener("keydown", function (e) {
-      if (e.key !== "Enter") return; e.preventDefault();
-      var m = /^#?([0-9a-f]{6})$/i.exec(hexIn.value.trim()); if (!m) return;
-      var c = hexToRgb("#" + m[1]); var hsv = rgbToHsv(c[0], c[1], c[2]);
-      if (hsv[1] > 0 && hsv[2] > 0) pick.h = hsv[0];   // a grey, black or white leaves the strip where it is
-      pick.s = hsv[1]; pick.v = hsv[2]; emit(); apply();
-    });
+    var hue = el.querySelector(".hue"), t = stripTable(), stops = [];
+    for (var at = 0; at <= 360; at += 10) stops.push(t[at].base + " " + (at / 3.6).toFixed(2) + "%");
+    hue.style.setProperty("--cp-strip", "linear-gradient(to right, " + stops.join(", ") + ")");
+    // Dragging moves only the circle, filled with the neon of where it sits; the rows and the app follow on release.
+    hue.addEventListener("input", function () { pick.h = +hue.value; drawThumb(); });
+    hue.addEventListener("change", function () { drawRows(); apply(); });
+    // The codes are only read: a click selects one, ready to copy.
+    el.querySelectorAll(".cp-hex").forEach(function (f) { f.addEventListener("focus", function () { f.select(); }); });
     el.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); closePicker(true); } });
-    el.querySelector(".cp-ok").addEventListener("click", function () { apply(); closePicker(true, true); });
     return el;
   }
-  function drawPicker() {
-    var el = pick.el, cv = el.querySelector("canvas"), x = cv.getContext("2d"), W = cv.width, H = cv.height;
-    var top = hsvToRgb(pick.h, 1, 1);
-    x.fillStyle = rgbToHex(top); x.fillRect(0, 0, W, H);
-    var g1 = x.createLinearGradient(0, 0, W, 0); g1.addColorStop(0, "#ffffff"); g1.addColorStop(1, "rgba(255,255,255,0)"); x.fillStyle = g1; x.fillRect(0, 0, W, H);
-    var g2 = x.createLinearGradient(0, 0, 0, H); g2.addColorStop(0, "rgba(0,0,0,0)"); g2.addColorStop(1, "#000000"); x.fillStyle = g2; x.fillRect(0, 0, W, H);
-    var mx = pick.s * W, my = (1 - pick.v) * H;
-    x.lineWidth = 3; x.strokeStyle = pick.v > 0.55 ? "#000000" : "#ffffff"; x.beginPath(); x.arc(mx, my, 9, 0, 2 * Math.PI); x.stroke();
-    var hex = rgbToHex(hsvToRgb(pick.h, pick.s, pick.v));
-    el.querySelector(".hue").value = Math.round(pick.h);
-    el.querySelector(".cp-now").style.background = hex;
-    if (document.activeElement !== el.querySelector(".cp-hex")) el.querySelector(".cp-hex").value = hex;
+  function drawThumb() { pick.el.querySelector(".hue").style.setProperty("--cp-neon", stripAt(pick.h).neon); }
+  function drawRows() {
+    var c = stripAt(pick.h), el = pick.el;
+    el.querySelector(".cp-base").style.background = c.base; el.querySelector(".cp-base-hex").value = c.base;
+    el.querySelector(".cp-neon").style.background = c.neon; el.querySelector(".cp-neon-hex").value = c.neon;
   }
-  // Dragging and typing only change the picker's preview. The app takes the colour when the pointer is released (or
-  // Enter is pressed in the code field); "OK" keeps it and closes; Esc or a click outside puts the old colour back.
-  function emit() { drawPicker(); }
-  function apply() { pick.onChange(rgbToHex(hsvToRgb(pick.h, pick.s, pick.v)), pick.h); }
+  function drawPicker() { pick.el.querySelector(".hue").value = Math.round(pick.h); drawThumb(); drawRows(); }
+  // Each release keeps the colour; Esc, a click outside or scrolling the menu only closes the picker.
+  function apply() { pick.onChange(stripAt(pick.h).base, pick.h); }
   // strip: where the hue strip starts, for a colour that remembers it; otherwise read from the colour.
   // owner: the profile whose colour is picked; it gets the wheel while the picker is open.
   function openPicker(anchor, hex, onChange, strip, owner) {
     var el = (pick && pick.el) || buildPicker();
-    var c = hexToRgb(hex), hsv = rgbToHsv(c[0], c[1], c[2]), h = strip === undefined ? hsv[0] : strip;
-    pick = { el: el, anchor: anchor, h: h, s: hsv[1], v: hsv[2], onChange: onChange, orig: { hex: hex, h: h }, owner: owner };
+    var c = hexToRgb(hex), h = strip === undefined ? rgbToHsv(c[0], c[1], c[2])[0] : strip;
+    pick = { el: el, anchor: anchor, h: h, onChange: onChange, owner: owner };
     el.hidden = false;
     // Place it under the swatch, kept inside the menu on every side.
-    var m = $("menu").getBoundingClientRect(), a = anchor.getBoundingClientRect(), w = el.offsetWidth, h = el.offsetHeight;
+    var m = $("menu").getBoundingClientRect(), a = anchor.getBoundingClientRect(), w = el.offsetWidth, ht = el.offsetHeight;
     var left = Math.min(Math.max(8, a.left - m.left), m.width - w - 8);
-    var topPos = a.bottom - m.top + 6; if (topPos + h > m.height - 8) topPos = Math.max(8, a.top - m.top - h - 6);
+    var topPos = a.bottom - m.top + 6; if (topPos + ht > m.height - 8) topPos = Math.max(8, a.top - m.top - ht - 6);
     el.style.left = left + "px"; el.style.top = topPos + "px";
-    drawPicker(); recolour(); el.querySelector("canvas").focus();
+    drawPicker(); recolour(); el.querySelector(".hue").focus();
   }
-  function closePicker(refocus, keep) {
+  function closePicker(refocus) {
     if (!pick || pick.el.hidden) return;
-    if (!keep) pick.onChange(pick.orig.hex, pick.orig.h);
     pick.el.hidden = true; recolour(); if (refocus) pick.anchor.focus();
   }
   // A click outside the picker (and outside its swatch) closes it.
@@ -1689,28 +1707,50 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", applyTheme);
   applyTheme();
-  // The theme button: System (half-filled circle) → Ljust (sun) → Mörkt (moon) → System.
-  var THEMES = [["system", "System"], ["light", "Ljust"], ["dark", "Mörkt"]];
+  // The theme button: only Ljust (sun) and Mörkt (moon), each click to the other. A fresh install follows the system
+  // until the first click; the button shows the theme in force either way.
+  var THEMES = [["light", "Ljust"], ["dark", "Mörkt"]];
+  function themeInForce() { return app.classList.contains("dark") ? "dark" : "light"; }
   function drawThemeIcon() {
-    var th = app.dataset.appTheme, svg = $("themeIcon"); clear(svg);
+    var th = themeInForce(), svg = $("themeIcon"); clear(svg);
     var ink = "currentColor";
     if (th === "light") {
       svg.appendChild(el("circle", { cx: 12, cy: 12, r: 4, fill: "none", stroke: ink, "stroke-width": 1.8 }));
       for (var k = 0; k < 8; k++) { var a = k * Math.PI / 4; svg.appendChild(el("line", { x1: 12 + 7 * Math.cos(a), y1: 12 + 7 * Math.sin(a), x2: 12 + 9.5 * Math.cos(a), y2: 12 + 9.5 * Math.sin(a), stroke: ink, "stroke-width": 1.8, "stroke-linecap": "round" })); }
-    } else if (th === "dark") {
-      svg.appendChild(el("path", { d: "M15.5 3.5a8.5 8.5 0 1 0 5 13.4A7 7 0 0 1 15.5 3.5z", fill: "none", stroke: ink, "stroke-width": 1.8, "stroke-linejoin": "round" }));
     } else {
-      svg.appendChild(el("circle", { cx: 12, cy: 12, r: 8, fill: "none", stroke: ink, "stroke-width": 1.8 }));
-      svg.appendChild(el("path", { d: "M12 4a8 8 0 0 1 0 16z", fill: ink }));
+      svg.appendChild(el("path", { d: "M15.5 3.5a8.5 8.5 0 1 0 5 13.4A7 7 0 0 1 15.5 3.5z", fill: "none", stroke: ink, "stroke-width": 1.8, "stroke-linejoin": "round" }));
     }
     var name = THEMES.filter(function (x) { return x[0] === th; })[0][1];
     $("themeLabel").textContent = name; $("themeBtn").setAttribute("aria-label", "Tema: " + name + ". Klicka för nästa.");
   }
   $("themeBtn").addEventListener("click", function () {
-    var k = THEMES.map(function (x) { return x[0]; }).indexOf(app.dataset.appTheme);
-    app.dataset.appTheme = THEMES[(k + 1) % THEMES.length][0]; applyTheme(); drawThemeIcon();
+    app.dataset.appTheme = themeInForce() === "dark" ? "light" : "dark"; applyTheme(); drawThemeIcon();
   });
+  if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", drawThemeIcon);
   drawThemeIcon();
+  // Sketch only: back to a fresh install's theme, following the system.
+  $("simSystemTheme").addEventListener("click", function () { app.dataset.appTheme = "system"; applyTheme(); drawThemeIcon(); });
+
+  // ---- A running entry from an earlier day: the app opens on a later date and says so ----
+  // Asked only when the app opens, never while it runs. Stoppa stops the running entry as the start/stop button does,
+  // undo included, whichever profile is on screen; Fortfarande igång closes it, and nothing is remembered.
+  function showLate() {
+    $("lateLine").textContent = prof(running.profile).name + " pågår sedan igår " + clock(running.start) + ".";
+    $("lateScrim").hidden = false; $("lateStop").focus();
+  }
+  $("lateStop").addEventListener("click", function () {
+    var snap = snapshot(), at = clock(new Date());
+    $("lateScrim").hidden = true; stopRunning(); offerUndo("stopp " + at, snap); drawControls();
+  });
+  $("lateGo").addEventListener("click", function () { $("lateScrim").hidden = true; });
+  // Sketch only: as if the app were opened this morning with janitor work running since 21:30 yesterday.
+  $("simLate").addEventListener("click", function () {
+    if (onboarding || app.classList.contains("locked")) return;
+    setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true;
+    var start = new Date(); start.setDate(start.getDate() - 1); start.setHours(21, 30, 0, 0);
+    running = { profile: balanceProfile().id, start: start };
+    drawControls(); showLate();
+  });
 
   // Sketch toolbar
   function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }

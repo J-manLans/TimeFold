@@ -32,7 +32,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**            |
 | `docs/dev/sketches/`                  | Looks tried before they are decided, a page or a drawing each                    |
 | `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when  |
-| `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains               |
+| `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains; gitignored   |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
@@ -69,12 +69,13 @@ at the collection, never at a part: a decision by its title, a term by its name.
 
 Scaled to the task:
 
-1. Always: this file and `docs/dev/roadmap.md`. **Next** in the roadmap says what comes next, not the branch name.
+1. Always: this file, `docs/dev/roadmap.md` and `docs/dev/levels.md`. **Next** in the roadmap says what comes next, not
+   the branch name.
 2. Before a design opinion: `docs/vision/vision.md` (and for a look, `docs/vision/prototype.html`),
    `docs/dev/design-decisions/README.md` and the area files the opinion touches, and `docs/dev/open-questions.md`.
 3. Before building or tuning the prototype, in any design pass: `docs/dev/procedures/prototype.md`.
 4. In debug mode: `docs/dev/procedures/debugging.md`.
-5. Before reading code: the code map, once it exists.
+5. Before reading code: the code map.
 6. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 
 ## Where things go
@@ -89,7 +90,7 @@ Scaled to the task:
 | A roadmap step is done                          | remove it from the roadmap; update the state table; trim each **Built by** it built          |
 | Code is first run                               | the "has it run" cell in the state table                                                     |
 | A word is coined                                | its part in `docs/dev/glossary/`, and its name in the index                                  |
-| A file is added, moved or renamed               | the code map, in the same change (once it exists)                                            |
+| A file is added, moved or renamed               | the code map, in the same change                                                             |
 | A look to try before deciding it                | a page in `docs/dev/sketches/`; what it settles goes to its decision                         |
 | An idea that is not a problem now               | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                |
 | How an occasional job is done                   | its file in `docs/dev/procedures/`                                                           |
@@ -117,7 +118,7 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   code.
 - **The message is the record:** what changed, why, and what was run to check it, or that nothing was run.
 - **Cite an unmerged commit by its title,** since rebase merges change hashes.
-- Once there is a remote: each phase on a small branch off `main`, merged back by pull request with rebase.
+- Each phase on a small branch off `main`, merged back by pull request with rebase.
 
 ## How to work with the owner
 
@@ -125,10 +126,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   understands it; vibe has the agent build what is settled while the owner reviews; debug finds why something is wrong
   before anything changes. The owner decides; the mode lasts until the owner names another ("learning mode for Phase 3",
   "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in every mode.
-  - **Design mode:** questions, decisions, the vision, building and tuning the prototype; no code. Phase 0 runs in it
-    and ends when the prototype is complete (`docs/dev/procedures/prototype.md`); so does any later rethink of the
-    design, and the design pass for a screen the prototype does not show. Spitball before verdicts, and before lists:
-    one topic at a time as a conversation; say what you are thinking and ask one open question.
+  - **Design mode:** questions, decisions, the vision, building and tuning the prototype; no code. A rethink of the
+    design runs in it, and so does the design pass for a screen the prototype does not show. Spitball before verdicts,
+    and before lists: one topic at a time as a conversation; say what you are thinking and ask one open question.
   - **Learning mode:** side by side, for a new framework or a part the owner wants to understand. The owner writes the
     parts they want to learn by doing, or steers or reviews what the agent writes; the agent does the rest, the tedious
     parts first (installs, config, moving code, removing files), explains the why, gives one step at a time and waits
@@ -162,18 +162,17 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   each batch's summary of what was built and why, and never stops the work. When a piece spans areas, the level of the
   area being explained applies, not the lowest. The list that makes the work reviewable is the same at every level. The
   owner's own placement per area is the opening guess, asked as a multiple-choice question per area with the three
-  levels to tick (the question tool, where the agent has one), never as open text. A new project, with no stack yet,
-  opens with two: programming in general, and design. Each technology (such as Svelte, TypeScript, Rust, Tauri) is asked
-  once a decision settles it, not while it is only discussed, with the general level as the hint; a technology later
-  swapped out loses its line, and its replacement is asked the same way. With nothing recorded, ask at the start of the
-  session. From then on the agent tunes it from what it sees: repeated basic questions or "why?" step an area down,
-  explanations skipped or the owner writing the code themselves step it up. A step takes a clear pattern over several
-  exchanges, never one moment; it moves one level at a time; and after a shift the area holds for at least the rest of
-  the session, so it does not flicker, as the flex bar's scale grows at 90% but shrinks only at 80%. Every shift is
-  offered, not made: at the end of a reply in conversation, never during a vibe build, where there is nothing to read it
-  from, a question to tick, about the explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and
-  free text (the question tool, where the agent has one). Only a Yes shifts the level, and the owner's word overrides it
-  at any time. The levels and their dates live in `docs/dev/levels.md`.
+  levels to tick (the question tool, where the agent has one), never as open text. A technology added later is asked
+  once a decision settles it; one swapped out loses its line. With no `docs/dev/levels.md`, copy
+  `docs/dev/levels.example.md` to it and ask at the start of the session. From then on the agent tunes it from what it
+  sees: repeated basic questions or "why?" step an area down, explanations skipped or the owner writing the code
+  themselves step it up. A step takes a clear pattern over several exchanges, never one moment; it moves one level at a
+  time; and after a shift the area holds for at least the rest of the session, so it does not flicker, as a thermostat
+  that turns on at one mark turns off only at a lower one. Every shift is offered, not made: at the end of a reply in
+  conversation, never during a vibe build, where there is nothing to read it from, a question to tick, about the
+  explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and free text (the question tool, where
+  the agent has one). Only a Yes shifts the level, and the owner's word overrides it at any time. The levels and their
+  dates live in `docs/dev/levels.md`, gitignored, since they belong to a person, not the project.
 - **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
 - **Argue for the owner's hunch** before defending the proposal.
@@ -212,8 +211,6 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 `tidy` is safe to run at any time: it formats, applies only fixes that cannot change behaviour, and fails on anything
 left. Save open files first.
 
-Rows are added when the project has tests, type checks, lint or probes.
-
 ## Verify before asserting
 
 Each mistake that once cost a wrong conclusion gets a one-line warning here.
@@ -232,18 +229,3 @@ A short pointer per trap; the detail lives in the owning file.
   `docs/dev/procedures/debugging.md`.
 - **The built app's theme follows only the desktop** while dev works: "Known traps" in
   `docs/dev/procedures/debugging.md`.
-
-## Moving to the starter
-
-What only a new project needs belongs in the AI starter repository, not here; this file carries what TimeFold needs now.
-When the starter repository exists, each item below moves there and is trimmed from this file, and this section goes
-with the last of them. Suggested by the agent; each is the owner's to confirm.
-
-- **The levels for a new project:** the two opening ticks, programming in general and design, and asking each technology
-  once a decision settles it. TimeFold's stack is settled; here only the per-area levels and their tuning are needed.
-- **"once it exists" on the code map,** in "Starting a session" and "Where things go": the code map exists.
-- **"Once there is a remote"** in "Commits": TimeFold has one; keep the rule, drop the condition.
-- **"Rows are added when the project has tests, type checks, lint or probes"** under the commands: TimeFold has tests
-  and `tidy`.
-- **Phase 0 in design mode,** running until the prototype is complete: TimeFold's prototype is complete; keep design
-  mode's later rethinks and design passes.
