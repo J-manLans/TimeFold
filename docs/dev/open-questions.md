@@ -55,7 +55,10 @@ lit for it on the wheel.
 
 The pay estimate shows the month's pay before tax ("A pay estimate per profile"). The owner wants a "Före skatt"
 checkbox, checked by default; unchecked, the estimate would show pay after tax, from a simple formula rather than tax
-rules. Open: where the checkbox sits (the menu, or by the number), and what the formula is.
+rules. Open: where the checkbox sits (the menu, or by the number), and what the formula is. Known: a month's salary is
+paid on its 15th, so December's is paid on 15 December; hourly pay for the other work may come a month after the hours,
+which the estimate may need to say. In Finland the tax card (verokortti) gives a withholding percentage, and an extra
+one above a yearly income limit: a candidate for the formula.
 
 **See:** A pay estimate per profile.
 

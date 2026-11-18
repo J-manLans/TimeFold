@@ -43,7 +43,8 @@ neon follow from it. The colours go to:
   in plus, or the ceiling passed) the letter is in the neon, and before it (at 0 or below) in the base colour. The
   profile button's letter and every focus ring wear the profile on screen's; the small profile circles in the menu and
   the profile popup wear each profile's own, the letter in that colour and the ring in the other;
-- the flex bar, always the balance profile's ("The flex bar");
+- the flex bar, always the balance profile's ("The flex bar"), and the flex days marked in the calendar, in its base
+  colour ("A flex day can be marked ahead, and the screen counts it at once");
 - the ceiling wheel, the profile on screen's when it is one of the others ("The ceiling wheel").
 
 **Why:** a colour per profile tells the profiles apart where they are chosen and run, and the figures follow the profile

@@ -97,7 +97,17 @@
   --pie-border: 2.5;      /* an empty slice's border, in the pie's own units (100 across) */
   --pie-flash: 1.2s;      /* a slice clicking in lights and fades, as a new entry's row does */
   /* The entry rows */
+  --entry-month-gap: 12px;  /* in "Visa alla", above the line naming a new month */
   --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
+  /* The flex-day calendar in the menu's Tid tab */
+  --cal-cell: 30px;     /* each day's square */
+  --cal-gap: 4px;       /* between the days */
+  --cal-ink: #10141a;   /* a day's number on the base colour */
+  --cal-side-gap: 24px; /* between the calendar and the list of marked days on its right */
+  --cal-head-h: 28px;   /* the month and its arrows */
+  --cal-head-gap: 8px;  /* between the month and the weekday names */
+  --cal-lock: 14px;     /* the padlock beside the month name, which unlocks the days gone by */
+  --cal-wd-h: 16px;     /* the weekday names; with the two above, sets where the list's first line starts */
   /* The figures */
   --bar-share: 0.5;     /* the flex bar's thickness, as a share of the ceiling wheel's band (0.5 a half, 0.333 a third); centred on the 0 line, which keeps its height */
   /* Focus */
@@ -390,7 +400,6 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu .line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .menu .line > span:first-child { min-width: 86px; }
 .menu input[type="color"] { width: 40px; height: 30px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); padding: 2px; background: var(--c-btn); cursor: pointer; }
-.menu .hint { font-size: 12px; color: var(--c-muted); }
 .menu .small { font: inherit; font-size: 12px; background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
 .seg { display: inline-flex; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); overflow: hidden; }
 .seg button { font: inherit; font-size: 13px; padding: 5px 12px; border: 0; background: var(--c-btn); color: var(--c-fg); cursor: pointer; }
@@ -420,6 +429,34 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .split input[type="range"] { width: 100%; accent-color: var(--accent, var(--c-fg)); }
 .split input[type="range"]:disabled { opacity: 0.55; }
 .split-legend { display: flex; justify-content: space-between; font-size: 12px; font-variant-numeric: tabular-nums; }
+/* The flex-day calendar in Tid: outlined days; marked ones in the balance profile's base colour; weekends greyed out.
+   The calendar on the left, as wide as its seven days; the marked days ahead on its right, a line per month, the days
+   wrapping under the first day, each a link; a year gets its own line where the list crosses into it. In a narrow menu the list
+   drops under the calendar. */
+.cal-wrap { display: flex; flex-wrap: wrap; align-items: start; gap: 16px var(--cal-side-gap); }
+.cal-body { display: grid; gap: var(--cal-head-gap); width: calc(7 * var(--cal-cell) + 6 * var(--cal-gap)); }
+.cal-head { display: flex; align-items: center; gap: 6px; height: var(--cal-head-h); }
+.cal-title { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; }
+.cal-lock { display: grid; place-items: center; width: calc(var(--cal-lock) + 8px); height: calc(var(--cal-lock) + 8px); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
+.cal-lock:hover, .cal-lock.open { color: var(--c-fg); }
+.cal-lock svg { width: var(--cal-lock); height: var(--cal-lock); }
+.cal-nav { font: inherit; font-size: 16px; line-height: 1; width: var(--cal-head-h); height: var(--cal-head-h); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
+.cal-nav:hover { color: var(--c-fg); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, var(--cal-cell)); gap: var(--cal-gap); justify-content: start; }
+.cal-wd { font-size: 10.5px; height: var(--cal-wd-h); line-height: var(--cal-wd-h); color: var(--c-muted); text-align: center; }
+.cal-day { font: inherit; font-size: 12px; width: var(--cal-cell); height: var(--cal-cell); padding: 0; border: 1px solid var(--c-line); border-radius: var(--r-small); background: none; color: var(--c-fg); cursor: pointer; font-variant-numeric: tabular-nums; }
+.cal-day:disabled { opacity: var(--disabled-o); cursor: default; }
+.cal-day.today { font-weight: 700; }
+.cal-day.marked { background: var(--flex-base); border-color: var(--flex-base); color: var(--cal-ink); }
+/* Each line of the list, a wrapped one too, is a day's height with the days' gap, so it sits level with a week. */
+.cal-ahead { flex: 1; min-width: 110px; display: grid; gap: var(--cal-gap); align-content: start; line-height: var(--cal-cell); padding-top: calc(var(--cal-head-h) + var(--cal-head-gap) + var(--cal-wd-h) + var(--cal-gap)); font-size: 12px; color: var(--c-muted); font-variant-numeric: tabular-nums; }
+/* In the narrow window the list sits under the calendar, its lines straight after the last week, a head gap apart. */
+.app.narrow .cal-wrap { flex-direction: column; gap: var(--cal-head-gap); }
+.app.narrow .cal-ahead { padding-top: 0; }
+.cal-month { display: grid; grid-template-columns: 3.5ch 1fr; gap: 8px; }
+.cal-nums { display: flex; flex-wrap: wrap; gap: var(--cal-gap) 8px; }
+.cal-year { font-size: 11px; font-weight: 700; }
+.cal-link { font: inherit; background: none; border: 0; padding: 0; color: var(--c-fg); cursor: pointer; }
 /* Profile rows: open in place */
 .prows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .prow { border: 1px solid var(--c-line); border-radius: var(--r-small); }
@@ -488,6 +525,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .entries ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .entries li { display: grid; grid-template-columns: 7ch 12.5ch 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
 .entries li.new { animation: flash 1.2s ease-out; }
+/* In "Visa alla", a quiet line where the list crosses into a month; the rows under it are as in the recent list. */
+.entries li.month { display: block; background: none; padding: var(--entry-month-gap) 8px 2px; font-size: 11px; font-weight: 700; color: var(--f-muted); }
+.entries li.month:first-child { padding-top: 0; }
 .entries .later { font-size: var(--entry-later); vertical-align: super; line-height: 0; margin-left: 2px; color: var(--f-muted); }
 @keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
 .entries .tag { font-size: 11px; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; justify-self: start; }
@@ -636,9 +676,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           </div>
           <div class="tabpanel" role="tabpanel" data-panel="arbetstid" hidden>
             <div id="workTime"></div>
-            <p class="hint">Taket för de andra profilerna är heltid minus vaktmästartimmarna, per vardag.</p>
-            <div id="monthStart"></div>
-            <p class="hint">Dagen månaden börjar på, så som skolan räknar. Taket, rapporten och rensningen räknar med den.</p>
+            <section>
+              <span class="lv-label">Flexledig</span>
+              <div class="cal-wrap">
+                <div class="cal-body" id="flexCal"></div>
+                <div class="cal-ahead" id="flexAhead"></div>
+              </div>
+            </section>
           </div>
         </div>
         <!-- The onboarding: the panel locked open at the first start, one centred prompt at a time. -->
@@ -850,7 +894,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return { start: s, end: e, profile: p, brk: brk || 0 };
   }
   var entries = [mk(1, 13, 5, 15, 40, "v"), mk(1, 7, 58, 12, 10, "v", 20), mk(2, 17, 30, 19, 0, "u"), mk(2, 12, 45, 15, 20, "v"),
-                 mk(2, 8, 2, 12, 0, "v"), mk(3, 13, 0, 16, 5, "v", 15), mk(3, 8, 10, 12, 5, "v")];
+                 mk(2, 8, 2, 12, 0, "v"), mk(3, 13, 0, 16, 5, "v", 15), mk(3, 8, 10, 12, 5, "v"),
+                 mk(28, 8, 0, 14, 30, "v", 30), mk(29, 7, 45, 13, 50, "v"), mk(52, 8, 5, 14, 15, "v")];
 
   // ---- Formatting ----
   function hm(mins) { var s = mins < 0 ? "−" : mins > 0 ? "+" : ""; mins = Math.abs(Math.round(mins)); return s + Math.floor(mins / 60) + ":" + String(mins % 60).padStart(2, "0"); }
@@ -879,6 +924,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function applyColours() {
     var w = resolved("wheel");
     app.style.setProperty("--wheel-base", w.base); app.style.setProperty("--wheel-over", w.over);
+    app.style.setProperty("--flex-base", profPair(balanceProfile()).base);
   }
   // A profile's colour for what is happening now: its neon (the running ring, the status dot, the label).
   function profColour(id) { return profPair(prof(id)).over; }
@@ -1021,10 +1067,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var a = new Date(start.getFullYear(), start.getMonth(), start.getDate()), b = new Date(end.getFullYear(), end.getMonth(), end.getDate());
     return Math.round((b - a) / 86400000);
   }
-  function drawEntries(fresh) { fillList($("entryList"), entries.slice(0, 5), fresh); fillList($("allList"), entries, false); }
-  function fillList(ol, list, fresh) {
-    clear(ol);
+  function drawEntries(fresh) { fillList($("entryList"), entries.slice(0, 5), fresh); fillList($("allList"), entries, false, true); }
+  // "Visa alla" (months set) opens each month with a line naming it and its year; the recent list has none.
+  function fillList(ol, list, fresh, months) {
+    clear(ol); var lastMonth = null;
     list.forEach(function (e, i) {
+      var ym = e.start.getFullYear() * 12 + e.start.getMonth();
+      if (months && ym !== lastMonth) {
+        var ml = document.createElement("li"); ml.className = "month"; ml.textContent = MONTH_FULL[e.start.getMonth()] + " " + e.start.getFullYear();
+        ol.appendChild(ml); lastMonth = ym;
+      }
       var li = document.createElement("li"); if (fresh && i === 0) li.className = "new";
       var p = prof(e.profile);
       var cells = [DAY[e.start.getDay()] + " " + e.start.getDate(), clock(e.start) + "–" + clock(e.end), p.name.charAt(0).toUpperCase()];
@@ -1120,7 +1172,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // ---- Undo: only the latest click, only within its minute ----
   var undo = null;   // { label, snap, timer }
   function snapshot() {
-    return { running: running ? { profile: running.profile, start: running.start, brk: running.brk || 0 } : null,
+    return { running: running ? { profile: running.profile, start: running.start, brk: running.brk || 0, real: running.real } : null,
              n: entries.length, balance: balance, used: used, pay: pay, log: JSON.stringify(usedLog) };
   }
   function undoMs() {
@@ -1222,7 +1274,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     e.preventDefault(); var v = readLength($("pauseInput").value);
     if (!v || !running) return;
     if ((running.brk || 0) + v >= 135) { $("pauseReading").textContent = "längre än posten"; return; }
+    var snap = snapshot();
     running.brk = (running.brk || 0) + v; closePause(); toast("Paus " + hmPlain(v) + " tillagd");
+    offerUndo("paus " + lengthText(v), snap); drawControls();
   });
 
   $("profileBtn").addEventListener("click", function () {
@@ -1433,7 +1487,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   document.addEventListener("pointerdown", function (e) {
     if ($("menu").classList.contains("open") && !onboarding && !$("menu").contains(e.target)) setMenu(false);
   });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !onboarding) { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
+  // Esc closes an open "Ändra" first, wherever the focus is, and only the next Esc closes the menu.
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape" || onboarding) return;
+    if (openEdit) { e.preventDefault(); openEdit.escape(); return; }
+    setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true;
+  });
   $("addProfile").addEventListener("click", function () {
     var n = $("newName").value.trim(); if (!n) return;
     var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
@@ -1443,6 +1502,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   // ---- Menu: tabs, counting values locked behind "Ändra", profile rows that open in place ----
   function selectTab(name) {
+    if (name !== "arbetstid" && calUnlocked) { calUnlocked = false; renderCal(); }
     document.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tab === name)); });
     document.querySelectorAll(".tabpanel").forEach(function (pnl) {
       var on = pnl.dataset.panel === name;
@@ -1461,8 +1521,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // Counting settings change from a date; each keeps its history.
   var settings = {
     fullTime: [{ from: "2026-01-01", v: 480 }],
-    split: [{ from: "2026-01-01", v: 360 }],      // janitor's expected minutes a day; the ceiling gets the rest
-    monthStart: [{ from: "2026-01-01", v: 1 }]
+    split: [{ from: "2026-01-01", v: 360 }]       // janitor's expected minutes a day; the ceiling gets the rest
   };
   profiles.forEach(function (q) {
     q.pay = q.salary ? { kind: "salary", hist: [{ from: "2026-01-01", v: q.salary }] } : { kind: "rate", hist: q.rate ? [{ from: "2026-01-01", v: q.rate }] : [] };
@@ -1476,6 +1535,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // (today unless moved); Esc aborts at any step. "Tidigare värden (n)" lists the earlier values.
   // Only one value is open for editing at a time: "Ändra" on another aborts the open one.
   var openEdit = null;
+  // A click outside the open value aborts it, as Esc does.
+  document.addEventListener("pointerdown", function (e) { if (openEdit && !openEdit.wrap.contains(e.target)) openEdit.abort(); });
   function lockedValue(o) {
     var wrap = document.createElement("div"); wrap.className = "lv";
     var row = document.createElement("div"); row.className = "lv-row";
@@ -1513,7 +1574,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       stage = "locked"; if (openEdit === me) openEdit = null;
     }
     function abort() { show(); btn.focus(); }
-    var me = { abort: function () { show(); } };
+    var me = { abort: function () { show(); }, escape: abort, wrap: wrap };
     function askDate(v) {
       pending = v; stage = "date";
       if (input) { input.remove(); input = null; }
@@ -1734,14 +1795,79 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         }
       }
     }));
-    var ms = $("monthStart"); clear(ms);
-    ms.appendChild(lockedValue({
-      label: "Månaden börjar", hist: function () { return settings.monthStart; },
-      show: function (v) { return "den " + v + ":e"; }, toText: function (v) { return String(v); },
-      parse: function (s) { var n = +s.trim(); return /^\d{1,2}$/.test(s.trim()) && n >= 1 && n <= 28 ? n : null; }
-    }));
   }
-  function renderMenu() { renderProfiles(); renderSettings(); }
+  // ---- The flex-day calendar in Tid: one click per day ----
+  // A click on a weekday, today or ahead, marks it, taking the janitor's expected hours off the balance at once, and a
+  // click on a marked one unmarks it, giving them back; weekends and, until the padlock is opened, days gone by are
+  // greyed out and cannot be clicked, a past flex day keeping its base colour.
+  var MONTH_FULL = ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"];
+  // The padlock beside the month name unlocks the days gone by, to mark a day off that was forgotten; it locks again on
+  // leaving the Tid tab or closing the menu.
+  var flexDays = {}, calMonth = null, calUnlocked = false;
+  var LOCK_SHUT = '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>';
+  var LOCK_OPEN = '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.75-1.4"/>';
+  // Days already marked: two a few weeks ahead, and one about four months ahead, all on weekdays.
+  [[18, 2], [120, 1]].forEach(function (at) {
+    var d = new Date(); d.setDate(d.getDate() + at[0]); var n = 0;
+    while (n < at[1]) { if (d.getDay() !== 0 && d.getDay() !== 6) { flexDays[isoDay(d)] = true; n++; } d.setDate(d.getDate() + 1); }
+  });
+  function renderCal(focusKey) {
+    var box = $("flexCal"); clear(box);
+    if (!calMonth) { var t = new Date(); calMonth = new Date(t.getFullYear(), t.getMonth(), 1); }
+    var y = calMonth.getFullYear(), m = calMonth.getMonth();
+    var head = document.createElement("div"); head.className = "cal-head";
+    function nav(txt, step) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "cal-nav"; b.textContent = txt;
+      b.addEventListener("click", function () { calMonth = new Date(y, m + step, 1); renderCal(); box.querySelectorAll(".cal-nav")[step < 0 ? 0 : 1].focus(); });
+      return b;
+    }
+    var title = document.createElement("span"); title.className = "cal-title";
+    var lock = document.createElement("button"); lock.type = "button"; lock.className = "cal-lock" + (calUnlocked ? " open" : "");
+    lock.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + (calUnlocked ? LOCK_OPEN : LOCK_SHUT) + '</svg>';
+    lock.addEventListener("click", function () { calUnlocked = !calUnlocked; renderCal(); box.querySelector(".cal-lock").focus(); });
+    title.append(document.createTextNode(MONTH_FULL[m] + " " + y), lock);
+    head.append(nav("‹", -1), title, nav("›", 1)); box.appendChild(head);
+    var grid = document.createElement("div"); grid.className = "cal-grid";
+    ["mån", "tis", "ons", "tor", "fre", "lör", "sön"].forEach(function (w) { var s = document.createElement("span"); s.className = "cal-wd"; s.textContent = w; grid.appendChild(s); });
+    var lead = (new Date(y, m, 1).getDay() + 6) % 7, count = new Date(y, m + 1, 0).getDate(), today = isoDay(new Date());
+    for (var i = 0; i < lead; i++) grid.appendChild(document.createElement("span"));
+    for (var d = 1; d <= count; d++) (function (d) {
+      var date = new Date(y, m, d), key = isoDay(date), marked = !!flexDays[key];
+      var b = document.createElement("button"); b.type = "button"; b.className = "cal-day"; b.textContent = d; b.dataset.key = key;
+      // A weekend owes no hours, so it is never a flex day; a day gone by is history, marked or unmarked only unlocked.
+      if (date.getDay() === 0 || date.getDay() === 6 || (key < today && !calUnlocked)) b.disabled = true;
+      if (key === today) b.classList.add("today");
+      if (marked) b.classList.add("marked");
+      b.addEventListener("click", function () {
+        var cost = now(settings.split);
+        if (marked) { delete flexDays[key]; balance += cost; } else { flexDays[key] = true; balance -= cost; }
+        renderCal(key);
+        syncSim(); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay }); restate();
+      });
+      grid.appendChild(b);
+    })(d);
+    box.appendChild(grid);
+    // Every marked day from today on, a line per month; each number jumps the calendar to its month.
+    var ahead = $("flexAhead"), groups = {}, lastYear = new Date().getFullYear(); clear(ahead);
+    Object.keys(flexDays).filter(function (k) { return k >= today; }).sort().forEach(function (k) {
+      var ym = k.slice(0, 7); (groups[ym] = groups[ym] || []).push(k);
+    });
+    Object.keys(groups).sort().forEach(function (ym) {
+      var gy = +ym.slice(0, 4), gm = +ym.slice(5, 7) - 1;
+      if (gy !== lastYear) { var yr = document.createElement("div"); yr.className = "cal-year"; yr.textContent = gy; ahead.appendChild(yr); lastYear = gy; }
+      var g = document.createElement("div"); g.className = "cal-month";
+      var name = document.createElement("span"); name.textContent = MONTHS[gm];
+      var nums = document.createElement("span"); nums.className = "cal-nums"; g.append(name, nums);
+      groups[ym].forEach(function (k) {
+        var a = document.createElement("button"); a.type = "button"; a.className = "cal-link"; a.textContent = +k.slice(8);
+        a.addEventListener("click", function () { calMonth = new Date(gy, gm, 1); renderCal(k); });
+        nums.appendChild(a);
+      });
+      ahead.appendChild(g);
+    });
+    if (focusKey) { var again = grid.querySelector('[data-key="' + focusKey + '"]'); if (again) again.focus(); }
+  }
+  function renderMenu() { renderProfiles(); renderSettings(); calMonth = null; calUnlocked = false; renderCal(); }
   // Sketch only: where the profiles' hues sit on the colour circle.
   function drawHueRing() {
     var svg = $("hueRing"); if (!svg) return; clear(svg);
