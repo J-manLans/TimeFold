@@ -58,7 +58,7 @@
   <button
     class="toggle"
     type="button"
-    inert={locked}
+    inert={locked || app.late !== null}
     aria-label={open ? 'Stäng menyn' : 'Öppna menyn'}
     aria-expanded={open}
     onclick={() => (open = !open)}

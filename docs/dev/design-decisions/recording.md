@@ -109,12 +109,14 @@ controls.
 **Built by:** Profiles, for the case of another profile on screen.
 
 **Decision:** nothing stops an entry by itself. During the day, the stop click is the only signal of when work ended.
-When the app opens on a later date than a still-running entry started, it says so ("Work has been running since
-yesterday 21:30") in a popup centred on the controls side, so the figures stay in view, with a line saying that if it is
-a mistake, press Stoppa and correct the entry ("Editing an entry on its line"). It offers two answers: **Stoppa** stops
-the running entry as the start/stop button does, undo included, whichever profile is on screen; **Fortfarande igång**
-closes the popup and the entry runs on. Nothing is remembered: the next opening on a later date asks again. The check is
-made only when the app opens, never while it runs. The popup's words are settled when it is drawn in the prototype.
+When the app opens on a later date than a still-running entry started, it says so: when it started ("Startad igår", or
+for an older day its weekday and date, "Startad lördag 14 november") and which profile runs since when ("Vaktis pågår
+sedan igår 21:30.") in a popup centred on the controls side, so the figures stay in view, with a line saying that if it
+is a mistake, press Stoppa and correct the entry ("Editing an entry on its line"). It offers two answers: **Stoppa**
+stops the running entry as the start/stop button does, undo included, whichever profile is on screen; **Fortfarande
+igång** closes the popup and the entry runs on. Nothing is remembered: the next opening on a later date asks again. The
+check is made only when the app opens, never while it runs. The popup's words are settled when it is drawn in the
+prototype.
 
 **Why:** late work from home can cross midnight, so a running entry is not always a mistake; but usually it is, and the
 owner should hear of it at once, not find it in the report. Opening is the one moment the app can tell without guessing:
@@ -135,6 +137,8 @@ entry from an earlier day: it guards against a slip the owner sees in the list a
 
 - Fortfarande igång: the entry runs on; closing and opening the app again today shows the popup again.
 - App left open across midnight, clicked at 07:00: no popup.
+- The popup showing, Tab pressed again and again: the focus moves only between Stoppa and Fortfarande igång, never to
+  the dashboard or the menu button.
 - Another profile on screen (Profiles): Stoppa stops the running entry, and the profile on screen stays.
 
 ## Time away is a gap or an added break (2026-11-14)

@@ -62,7 +62,7 @@
   class="dashboard"
   aria-label="Översikt"
   style:--wheel-base={wheelBase}
-  inert={app.panel !== null}
+  inert={app.panel !== null || app.late !== null}
   bind:this={side}
 >
   <div class="divider"></div>
