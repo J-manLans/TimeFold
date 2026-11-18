@@ -119,15 +119,15 @@ on each machine from that page; a newer installer updates the program in place a
 record, its copies and the settings) untouched, and uninstalling keeps it unless the owner ticks to delete it. The
 version is major.minor.patch, raised by hand in `tauri.conf.json`, `package.json` and `Cargo.toml` alike, by the release
 procedure: one minor version per phase (Phase 1 ships as `0.1.0`), a patch for a fix between phases, and `1.0.0` the day
-the owner switches from Excel. A record from a newer version, refused with the message to update ("The record is one
-JSON file"), offers the releases page. In the last phase the app gains an updater: it notices a new release and offers
-to install it.
+the app is finished and the Excel backup goes. A record from a newer version, refused with the message to update ("The
+record is one JSON file"), offers the releases page. In the last phase the app gains an updater: it notices a new
+release and offers to install it.
 
 **Why:** the dual-boot Windows has no dev setup and should never need one; it only receives a finished app, as the work
 machine will every time the app changes. A tag builds only what the owner means to use. Releases for Linux too mean the
 home machine runs what the work machine runs. The data folder is separate from the program, so updating can never cost
 the record; the refusal of a newer record keeps an old installer from harming it, and its link says where to go. A minor
-version per phase names each step on the way, and 1.0 marks the app taking over from Excel.
+version per phase names each step on the way, and 1.0 marks the app standing alone, without the Excel backup.
 
 **Rejected:** building on Windows: a second dev setup to keep up. A build on every push: slow, and installers nobody
 meant to use. The updater from the start: signing keys and setup for a problem that does not exist while one person

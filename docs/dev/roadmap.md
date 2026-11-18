@@ -33,10 +33,10 @@ Phase 1: Clocking, in vibe mode once the owner starts it: the steps below, then 
 
 In this order because each builds on the one before, and so the app can be tried on real days early: clocking first,
 then what a real day needs (breaks, then putting mistakes right), then the other work, then the second machine, then the
-report, and last what carries over to the owner's next project. The owner keeps the Excel file until the switch after
-Phase 6 ("A first install starts fresh or imports", in `design-decisions/`). Every phase starts its code from the
-owner's cases ("Tests come first, from the owner's rules"), and tests animation on Linux early ("Tauri, desktop on
-Windows and Linux").
+report, and last what carries over to the owner's next project. The owner switches to the app with Phase 1's release and
+keeps the Excel file as a backup until the app is finished ("A first install starts fresh or imports", in
+`design-decisions/`). Every phase starts its code from the owner's cases ("Tests come first, from the owner's rules"),
+and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 ### Phase 1: Clocking
 
@@ -48,9 +48,9 @@ Windows and Linux").
    draft. It is the owner's first release, a step in their developer career, and the agent only guides. Something to
    celebrate with stands ready, chilled, before the tag is pushed.
 
-**Done when:** the owner clocks simulated days with it on one machine, an entry left running past midnight among them,
-and the balance matches a hand count; the screen matches the prototype in both themes on Windows and Linux, Windows
-checked by installing the `v0.1.0` release.
+**Done when:** the owner clocks real days with it on one machine, the Excel file kept beside it as a backup, an entry
+left running past midnight among them, and the balance matches Excel's; the screen matches the prototype in both themes
+on Windows and Linux, Windows checked by installing the `v0.1.0` release.
 
 ### Phase 2: Breaks and flex days
 
@@ -126,9 +126,8 @@ moved and the "Små avvikelser" line, drawn in the prototype.
 2. The export option for each day's hours.
 3. The updater: the app notices a new release and offers to install it.
 
-**Done when:** the owner sends a real month's report and it reads without explanation. Then the owner switches from
-Excel: a fresh start with the opening figures, on a day not yet worked. Once the app is validated in that use, the
-prototype goes.
+**Done when:** the owner sends a real month's report and it reads without explanation. Then the Excel backup goes, and
+the app is `1.0.0`. Once the app is validated in that use, the prototype goes.
 
 ### Phase 7: Carry-over
 

@@ -74,12 +74,17 @@ title.
 - Code style
 - Design tokens hold every value of the look
 
-### [Recording](recording.md)
+### Recording (`recording/`)
+
+**[Clicking](recording/clicking.md)**
 
 - One start/stop button and a profile list
 - The app opens on the running profile, or the last one on screen
 - The last click can be undone for a few seconds
 - A running entry from an earlier day asks
+
+**[Time away](recording/time-away.md)**
+
 - Time away is a gap or an added break
 - Entering a length of time
 

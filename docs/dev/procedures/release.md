@@ -9,7 +9,7 @@ The owner makes each release by hand; the agent guides, one step at a time.
 ## Which version
 
 major.minor.patch: one minor version per phase (Phase 1 ships as `0.1.0`), a patch for a fix between phases, and `1.0.0`
-the day the owner switches from Excel.
+the day the app is finished and the Excel backup goes.
 
 ## Steps
 
