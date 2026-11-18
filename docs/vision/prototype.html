@@ -89,6 +89,8 @@
   --late-line: 13px;    /* what runs and since when */
   --late-width: 30ch;   /* the most the words take before they wrap */
   --late-choice-scale: 0.42;  /* Stoppa and Fortfarande igång against Starta jobb, as --ob-choice-scale */
+  /* The entry rows */
+  --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
   /* The figures */
   --bar-share: 0.5;     /* the flex bar's thickness, as a share of the ceiling wheel's band (0.5 a half, 0.333 a third); centred on the 0 line, which keeps its height */
   /* Focus */
@@ -455,8 +457,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .allpop .note { font-size: 12px; color: var(--f-muted); border: 1px dashed var(--f-line); border-radius: var(--r-small); padding: 8px 10px; }
 .entries { display: grid; gap: 6px; }
 .entries ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.entries li { display: grid; grid-template-columns: 7ch 11ch 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
+.entries li { display: grid; grid-template-columns: 7ch 12.5ch 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
 .entries li.new { animation: flash 1.2s ease-out; }
+.entries .later { font-size: var(--entry-later); vertical-align: super; line-height: 0; margin-left: 2px; color: var(--f-muted); }
 @keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
 .entries .tag { font-size: 11px; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; justify-self: start; }
 .entries .dur { text-align: right; }
@@ -978,6 +981,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (on !== !!peekTo) peek(on);
   });
   $("wheelSvg").addEventListener("pointerleave", function () { if (peekTo) peek(false); });
+  // How many calendar days after its start an entry ends: 0 on the same day.
+  function daysLater(start, end) {
+    var a = new Date(start.getFullYear(), start.getMonth(), start.getDate()), b = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    return Math.round((b - a) / 86400000);
+  }
   function drawEntries(fresh) { fillList($("entryList"), entries.slice(0, 5), fresh); fillList($("allList"), entries, false); }
   function fillList(ol, list, fresh) {
     clear(ol);
@@ -986,6 +994,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var p = prof(e.profile);
       var cells = [DAY[e.start.getDay()] + " " + e.start.getDate(), clock(e.start) + "–" + clock(e.end), p.name.charAt(0).toUpperCase()];
       cells.forEach(function (txt) { var s = document.createElement("span"); s.textContent = txt; li.appendChild(s); });
+      // An entry that ends on a later day says how many days later, small after its end time: "21:30–07:00 +1"
+      var later = daysLater(e.start, e.end);
+      if (later) { var up = document.createElement("sup"); up.className = "later"; up.textContent = "+" + later; li.children[1].appendChild(up); }
+      // The letter in its profile's base colour, so each profile's rows are found at a glance
+      li.children[2].style.color = p.colour;
       var tag = document.createElement("span");
       if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + lengthText(e.brk); }
       li.appendChild(tag);
@@ -1051,7 +1064,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     c.addEventListener("pointerleave", function () { c.classList.remove("lit"); });
   })();
   function stopRunning() {
-    var r = running, end = new Date(), start = new Date(end.getTime() - 135 * 60000);
+    var r = running, end = new Date(), start = r.real ? r.start : new Date(end.getTime() - 135 * 60000);
     entries.unshift({ start: start, end: end, profile: r.profile, brk: r.brk || 0 });
     running = null;
     var p = prof(r.profile), t = { balance: balance, used: used, pay: pay + 135 / 60 * (p.rate || 0) };
@@ -1748,7 +1761,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (onboarding || app.classList.contains("locked")) return;
     setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true;
     var start = new Date(); start.setDate(start.getDate() - 1); start.setHours(21, 30, 0, 0);
-    running = { profile: balanceProfile().id, start: start };
+    running = { profile: balanceProfile().id, start: start, real: true };   // Stoppa records it from 21:30 yesterday
     drawControls(); showLate();
   });
 

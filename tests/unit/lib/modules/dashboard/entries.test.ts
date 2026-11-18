@@ -34,12 +34,18 @@ describe("an entry's row reads its day, its times, its profile and its length", 
   it('reads mån 16, 07:58–11:30, V and 3:32 for a Monday morning', () => {
     const row = entryRow(entry(at('2026-11-16', '07:58:40'), at('2026-11-16', '11:30:10')), RECORD)
 
-    expect(row).toEqual({ day: 'mån 16', times: '07:58–11:30', letter: 'V', length: '3:32' })
+    expect(row).toEqual({ day: 'mån 16', times: '07:58–11:30', later: 0, letter: 'V', base: '#7ed6d5', length: '3:32' })
   })
 
   it('reads an entry across midnight on the day it started, with its whole length', () => {
     const row = entryRow(entry(at('2026-11-17', '22:00'), at('2026-11-18', '01:00')), RECORD)
 
-    expect(row).toMatchObject({ day: 'tis 17', times: '22:00–01:00', length: '3:00' })
+    expect(row).toMatchObject({ day: 'tis 17', times: '22:00–01:00', later: 1, length: '3:00' })
+  })
+
+  it('says how many days later an entry ends that runs over several midnights', () => {
+    const row = entryRow(entry(at('2026-11-14', '21:30'), at('2026-11-16', '07:00')), RECORD)
+
+    expect(row).toMatchObject({ day: 'lör 14', times: '21:30–07:00', later: 2 })
   })
 })

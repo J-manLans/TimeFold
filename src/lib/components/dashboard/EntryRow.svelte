@@ -1,7 +1,7 @@
 <!--
-  One entry's row, as both entry lists show it: its day, its times, its profile's letter, room for a break tag, and its
-  length, on a row a step darker than the panel. A fresh row, the entry just stopped, lights in the wheel's base colour
-  and fades. A blank row holds a row's height with nothing in it, so a short list keeps its room:
+  One entry's row, as both entry lists show it: its day, its times (with a small "+1" when it stops a day later), its
+  profile's letter in the profile's base colour, room for a break tag, and its length, on a row a step darker than the
+  panel. A fresh row, the entry just stopped, lights in the wheel's base colour and fades. A blank row holds a row's height with nothing in it, so a short list keeps its room:
   <EntryRow entry={e} fresh />, <EntryRow />
 -->
 <script lang="ts">
@@ -29,8 +29,10 @@
 {#if row}
   <li class:fresh>
     <span>{row.day}</span>
-    <span>{row.times}</span>
-    <span>{row.letter}</span>
+    <span
+      >{row.times}{#if row.later > 0}<sup class="later">+{row.later}</sup>{/if}</span
+    >
+    <span style:color={row.base}>{row.letter}</span>
     <!-- TODO: the break tag, "paus 20min", in Phase 2 -->
     <span></span>
     <span class="length">{row.length}</span>
@@ -56,6 +58,14 @@
 
   .length {
     text-align: right;
+  }
+
+  .later {
+    margin-left: var(--entry-later-gap);
+    font-size: var(--entry-later-size);
+    line-height: 0;
+    color: var(--dashboard-text-muted);
+    vertical-align: super;
   }
 
   /* === States === */
