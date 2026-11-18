@@ -23,33 +23,76 @@ function moment(day: string, time: string): Date {
   return new Date(at(day, time))
 }
 
+// === Constants ===
+
+const THIRDS = 3
+
 // === Tests ===
 
 describe("today's pie has a slice for each expected hour, filled as each is worked", () => {
-  it('fills three of six slices at 3:52, the entry still running', () => {
+  it('fills three of six slices at 3:52, the last one marked in thirds', () => {
     const today = [entry(at('2026-11-18', '07:00'), null)]
 
-    expect(todaySlices(record(today), moment('2026-11-18', '10:52'))).toEqual({ slices: 6, done: 3, over: 0 })
+    expect(todaySlices(record(today), moment('2026-11-18', '10:52'), THIRDS)).toEqual({
+      slices: 6,
+      lap: 0,
+      filled: 3,
+      split: 5,
+      parts: 3,
+      partsFilled: 0,
+    })
   })
 
   it('counts the running entry to now, so a slice clicks in on the hour', () => {
     const today = [entry(at('2026-11-18', '08:00'), null)]
 
-    expect(todaySlices(record(today), moment('2026-11-18', '11:05'))).toMatchObject({ done: 3 })
-    expect(todaySlices(record(today), moment('2026-11-18', '12:00'))).toMatchObject({ done: 4 })
+    expect(todaySlices(record(today), moment('2026-11-18', '11:05'), THIRDS)).toMatchObject({ filled: 3 })
+    expect(todaySlices(record(today), moment('2026-11-18', '12:00'), THIRDS)).toMatchObject({ filled: 4 })
   })
 
-  it('fills all six past the expected hours, and laps the neon over them', () => {
-    const today = [entry(at('2026-11-18', '07:00'), at('2026-11-18', '12:00')), entry(at('2026-11-18', '12:30'), null)]
+  it('fills the last slice a third at a time', () => {
+    const today = [entry(at('2026-11-18', '07:00'), null)]
 
-    expect(todaySlices(record(today), moment('2026-11-18', '14:50'))).toEqual({ slices: 6, done: 6, over: 1 })
+    expect(todaySlices(record(today), moment('2026-11-18', '12:20'), THIRDS)).toMatchObject({
+      filled: 5,
+      split: 5,
+      partsFilled: 1,
+    })
   })
 
   it('divides expected hours that are not whole into even slices: 6:30 is seven of 55:43', () => {
     const today = [entry(at('2026-11-18', '07:00'), null)]
 
-    expect(todaySlices(record(today, 390), moment('2026-11-18', '09:00'))).toEqual({ slices: 7, done: 2, over: 0 })
-    expect(todaySlices(record(today, 390), moment('2026-11-18', '09:52'))).toMatchObject({ done: 3 })
+    expect(todaySlices(record(today, 390), moment('2026-11-18', '09:00'), THIRDS)).toMatchObject({
+      slices: 7,
+      filled: 2,
+    })
+    expect(todaySlices(record(today, 390), moment('2026-11-18', '09:52'), THIRDS)).toMatchObject({ filled: 3 })
+  })
+})
+
+describe('past the expected hours the next lap fills over the last, in thirds as it goes', () => {
+  it('fills the second lap over the first at 7:20, the slice filling now in thirds', () => {
+    const today = [entry(at('2026-11-18', '07:00'), at('2026-11-18', '12:00')), entry(at('2026-11-18', '12:30'), null)]
+
+    expect(todaySlices(record(today), moment('2026-11-18', '14:50'), THIRDS)).toEqual({
+      slices: 6,
+      lap: 1,
+      filled: 1,
+      split: 1,
+      parts: 3,
+      partsFilled: 1,
+    })
+  })
+
+  it('runs on into a third lap when the overtime passes a whole lap: 5 h worked of 2 h', () => {
+    const today = [entry(at('2026-11-18', '07:00'), null)]
+
+    expect(todaySlices(record(today, 120), moment('2026-11-18', '12:00'), THIRDS)).toMatchObject({
+      slices: 2,
+      lap: 2,
+      filled: 1,
+    })
   })
 })
 
@@ -58,17 +101,19 @@ describe("today's pie shows only while the janitor works, and counts only today"
     const stopped = [entry(at('2026-11-18', '07:00'), at('2026-11-18', '10:00'))]
     const other = [entry(at('2026-11-18', '11:00'), null, { profile: 'p2' })]
 
-    expect(todaySlices(record(stopped), moment('2026-11-18', '12:00'))).toBeNull()
-    expect(todaySlices(record(other), moment('2026-11-18', '12:00'))).toBeNull()
+    expect(todaySlices(record(stopped), moment('2026-11-18', '12:00'), THIRDS)).toBeNull()
+    expect(todaySlices(record(other), moment('2026-11-18', '12:00'), THIRDS)).toBeNull()
   })
 
   it('leaves out yesterday, and the part of an entry before midnight', () => {
     const worked = [entry(at('2026-11-17', '08:00'), at('2026-11-17', '14:00')), entry(at('2026-11-17', '22:00'), null)]
 
-    expect(todaySlices(record(worked), moment('2026-11-18', '02:10'))).toMatchObject({ done: 2 })
+    expect(todaySlices(record(worked), moment('2026-11-18', '02:10'), THIRDS)).toMatchObject({ filled: 2 })
   })
 
   it('shows no pie on a Saturday', () => {
-    expect(todaySlices(record([entry(at('2026-11-21', '09:00'), null)]), moment('2026-11-21', '10:00'))).toBeNull()
+    const saturday = [entry(at('2026-11-21', '09:00'), null)]
+
+    expect(todaySlices(record(saturday), moment('2026-11-21', '10:00'), THIRDS)).toBeNull()
   })
 })

@@ -92,7 +92,7 @@
   /* A profile's colours in its menu row: the pair it wears, beside "Ändra" */
   --pair-swatch: 18px;    /* each of the two small swatches, the base and the neon */
   /* Today's pie, beside the status line ("Worked today" in the toolbar) */
-  --pie: 50px;            /* its size */
+  --pie: 40px;            /* its size */
   --pie-gap: 10px;        /* from the end of the status text */
   --pie-border: 2.5;      /* an empty slice's border, in the pie's own units (100 across) */
   --pie-flash: 1.2s;      /* a slice clicking in lights and fades, as a new entry's row does */
@@ -570,7 +570,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   <div class="toolbar" aria-label="Sketch controls">
     <label for="simBal">Balance <input type="range" id="simBal" min="-6000" max="6000" step="15" value="270"><span class="val" id="simBalVal"></span></label>
-    <label for="simToday">Worked today <input type="range" id="simToday" min="0" max="600" step="10" value="232"><span class="val" id="simTodayVal"></span></label>
+    <label for="simToday">Worked today <input type="range" id="simToday" min="0" max="900" step="10" value="232"><span class="val" id="simTodayVal"></span></label>
     <label for="simUsed">Ceiling hours used <input type="range" id="simUsed" min="0" max="3600" step="30" value="2280"><span class="val" id="simUsedVal"></span></label>
     <label>Divider
       <span class="seg" style="--c-btn: transparent; --c-btn-line: var(--page-line); --c-fg: var(--page-fg); --c-bg: var(--page-bg);">
@@ -747,7 +747,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   };
   var PIE = {
     inner: 30,    // today's pie: the ring's open middle, as a share of its radius
-    gap: 6        // the gap between slices, the same width all along their sides, in the pie's units (100 across)
+    gap: 6,       // the gap between slices, the same width all along their sides, in the pie's units (100 across)
+    parts: 3      // the slice filling at the end of a lap grows in this many parts: thirds
   };
   var WHEEL = {
     r: 75, w: 28,   // the ceiling wheel's ring: radius to the middle of the band, and the band's width (of 200)
@@ -1805,8 +1806,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   });
 
   // ---- Today's pie: one slice per expected hour of the balance profile, live while it runs ----
-  // A slice clicks in whole as its hour is worked, the last at the day's expected hours, and lights; past them a
-  // second lap fills in the neon over the first. Counted again once a minute while that profile runs. Sketch only:
+  // A slice clicks in whole as its hour is worked and lights; past the expected hours the next lap fills over the last,
+  // the neon and the base by turns; the slice filling at the end of a lap, the last of the first, grows in thirds. Counted again once a minute while that profile runs. Sketch only:
   // "Worked today" in the toolbar stands for the day's earlier entries.
   var EXPECTED = 360, pieShown = null, todayBase = 232;
   function workedToday() {
@@ -1815,31 +1816,52 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (running && running.profile === q.id && !running.real) m += Math.max(0, (Date.now() - running.start) / 60000);
     return Math.floor(m);
   }
-  function pieSlice(a0, a1, ri, ro, g) {
+  // A slice from a0 to a1, its gap set in along both sides; gEnd 0 ends it straight inside a slice, as a part's fill does
+  function pieSlice(a0, a1, ri, ro, g, gEnd) {
+    var end = gEnd === undefined ? g : gEnd;
     var pt = function (a, r) { return [50 + r * Math.sin(a), 50 - r * Math.cos(a)]; };
-    var off = function (r) { return Math.asin(Math.min(1, g / 2 / r)); };
-    var o0 = pt(a0 + off(ro), ro), o1 = pt(a1 - off(ro), ro), i1 = pt(a1 - off(ri), ri), i0 = pt(a0 + off(ri), ri);
+    var off = function (gg, r) { return Math.asin(Math.min(1, gg / 2 / r)); };
+    var o0 = pt(a0 + off(g, ro), ro), o1 = pt(a1 - off(end, ro), ro), i1 = pt(a1 - off(end, ri), ri), i0 = pt(a0 + off(g, ri), ri);
     return "M" + o0 + " A" + ro + " " + ro + " 0 0 1 " + o1 + " L" + i1 + " A" + ri + " " + ri + " 0 0 0 " + i0 + " Z";
   }
+  // The pie's state, as the app's todaySlices(): each lap of slices is a slice's worth of the expected time per slice;
+  // laps take the base and the neon by turns; the slice filling at the end of a lap, the last of the first, grows in parts
+  function pieState(worked, expected, parts) {
+    // In whole minutes times slices and parts, so a part clicks in on its exact minute, with no rounding drift
+    var slices = Math.max(1, Math.round(expected / 60)), whole = Math.floor(worked * slices / expected);
+    var lap = Math.floor(whole / slices), filled = whole % slices, split = lap === 0 ? slices - 1 : filled;
+    var into = worked * slices * parts - (lap * slices + split) * expected * parts;
+    var partsFilled = into > 0 ? Math.min(parts - 1, Math.floor(into / expected)) : 0;
+    return { slices: slices, lap: lap, filled: filled, split: split, parts: parts, partsFilled: partsFilled };
+  }
+  function lapClass(lap) { return lap % 2 === 0 ? "done" : "over"; }
+  function sliceClass(k, st) { return k < st.filled ? lapClass(st.lap) : st.lap === 0 ? "empty" : lapClass(st.lap - 1); }
   function drawPie() {
     if (!EXPECTED) return;   // drawControls can run before the pie's state is set up
-    var svg = $("todayPie"), q = balanceProfile(), p = profPair(q), n = Math.max(1, Math.round(EXPECTED / 60)), each = EXPECTED / n, worked = workedToday();
-    // Shown only while the balance profile works; expected hours that are not whole divide evenly among the slices
+    var svg = $("todayPie"), q = balanceProfile(), p = profPair(q), worked = workedToday();
+    // Shown only while the balance profile works
     svg.style.display = running && running.profile === q.id ? "" : "none";
-    var done = worked >= EXPECTED ? n : Math.floor(worked / each), over = worked > EXPECTED ? Math.min(n, Math.floor((worked - EXPECTED) / each)) : 0;
-    var fresh = pieShown && (done + over > pieShown.done + pieShown.over) ? (over > pieShown.over ? over - 1 : done - 1) : -1;
-    var freshLap = over > (pieShown ? pieShown.over : 0) ? "over" : "done";
-    pieShown = { done: done, over: over };
+    var st = pieState(worked, EXPECTED, PIE.parts), n = st.slices, step = 2 * Math.PI / n, ri = 49 * PIE.inner / 100;
+    var was = pieShown, fresh = was && (st.lap !== was.lap || st.filled !== was.filled) ? (st.filled + n - 1) % n : -1;
+    var freshPart = was && fresh === -1 && st.partsFilled > was.partsFilled;
+    pieShown = st;
     svg.style.setProperty("--pie-base", p.base); svg.style.setProperty("--pie-neon", p.over);
     clear(svg);
     for (var k = 0; k < n; k++) {
-      var path = el("path", { d: pieSlice(k * 2 * Math.PI / n, (k + 1) * 2 * Math.PI / n, 49 * PIE.inner / 100, 49, PIE.gap) });
-      path.setAttribute("class", k < over ? "over" : k < done ? "done" : "empty");
-      if (k === fresh && (freshLap === "over" ? k < over : k < done)) path.classList.add("fresh");
+      var path = el("path", { d: pieSlice(k * step, (k + 1) * step, ri, 49, PIE.gap) });
+      path.setAttribute("class", sliceClass(k, st));
+      if (k === fresh) path.classList.add("fresh");
       svg.appendChild(path);
+    }
+    // The split slice's fill, a part at a time, straight where it stops inside the slice
+    if (st.partsFilled > 0) {
+      var a0 = st.split * step, part = el("path", { d: pieSlice(a0, a0 + step * st.partsFilled / st.parts, ri, 49, PIE.gap, 0) });
+      part.setAttribute("class", lapClass(st.lap)); if (freshPart) part.classList.add("fresh");
+      svg.appendChild(part);
     }
     $("simTodayVal").textContent = hmPlain(worked);
   }
+
   setInterval(function () { if (running) drawPie(); }, 60000);
   $("simToday").addEventListener("input", function () { todayBase = +this.value; drawPie(); });
 
