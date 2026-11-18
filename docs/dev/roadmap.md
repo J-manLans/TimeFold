@@ -6,29 +6,29 @@ next, not the branch name.
 
 ## Next
 
-Phase 1: Clocking, in vibe mode once the owner starts it: the steps below, then the release.
+Phase 2: Breaks and flex days, in design mode, starting from its **Settle first**.
 
 ## State
 
 "Has it run" is _written_ (never run) or _run_ (executed by a script, a person or the system). Written is not run.
 
-| Part                                                                                                                                                     | State   | Has it run                                                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
-| The project: Tauri, Svelte and Vite, with an empty main screen                                                                                           | written | run: the window opens on Linux                                                                                              |
-| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                                                        | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                                    |
-| The design tokens and the two fonts, from the prototype                                                                                                  | written | run: the window shows the text font on the theme's background                                                               |
-| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`                                                   | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart                  |
-| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown                                              | written | run: in tests only (20, in four time zones); the dashboard shows the balance, not yet seen                                  |
-| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room                                      | written | run: the rules in tests; and in the app window on Linux, where the owner clocked entries and found them saved in the record |
-| The colour rule, from the prototype                                                                                                                      | written | run: in tests only                                                                                                          |
-| The menu's fold-out, the theme button, and the machine's settings file                                                                                   | written | run: the settings in tests; the menu in the app window on Linux                                                             |
-| The pointer light                                                                                                                                        | written | run: in the app window on Linux                                                                                             |
-| The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup                  | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right        |
-| The onboarding: the locked panel, the balance and the name, the record saved on the name, the ending with its light sweep                                | written | run: the duration rules in tests; the screen not yet seen                                                                   |
-| The release: the GitHub action building the Windows and Linux installers from a version tag, and its procedure                                           | written | written: never run                                                                                                          |
-| Today's pie: a slice per expected hour beside the status line, live once a minute, the neon lapping past them                                            | written | run: the rules in tests; the screen not yet seen                                                                            |
-| The popup for a running entry from an earlier day: asked at opening, Stoppa with its undo, Fortfarande igång                                             | written | run: the rules and the words in tests; the screen not yet seen                                                              |
-| The recovery: the daily copy at start (31 kept, none the same as the newest), the screen for a record that cannot be read with the copy on the dashboard | written | run: the copy rules in Rust tests, the newest copy and the recovery's choice in tests; the screen not yet seen              |
+| Part                                                                                                                                                     | State   | Has it run                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| The project: Tauri, Svelte and Vite, with an empty main screen                                                                                           | written | run: the window opens on Linux                                                                                                            |
+| The tools: Prettier, ESLint, rustfmt, clippy and Vitest, run by `tidy` and `test`                                                                        | written | run: `tidy` passes; `test` ran a throwaway pass and fail                                                                                  |
+| The design tokens and the two fonts, from the prototype                                                                                                  | written | run: the window shows the text font on the theme's background                                                                             |
+| The record: types, the check on opening, the safe save and daily copies, `loadRecord` and `saveRecord`                                                   | written | run: in tests; and in the app, which made `record.json` on the owner's machine and read it back on restart                                |
+| The counting: each day's seconds, expected hours, a day's result, the balance, the month, the minutes shown                                              | written | run: in tests only (20, in four time zones); and on the dashboard, which the owner found right                                            |
+| The controls side: start, stop and undo, the button block, the status line, the undo's label, the prune line's room                                      | written | run: the rules in tests; and in the app window on Linux, where the owner clocked entries and found them saved in the record               |
+| The colour rule, from the prototype                                                                                                                      | written | run: in tests only                                                                                                                        |
+| The menu's fold-out, the theme button, and the machine's settings file                                                                                   | written | run: the settings in tests; the menu in the app window on Linux                                                                           |
+| The pointer light                                                                                                                                        | written | run: in the app window on Linux                                                                                                           |
+| The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup                  | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right                      |
+| The onboarding: the locked panel, the balance and the name, the record saved on the name, the ending with its light sweep                                | written | run: the duration rules in tests; the screen in the app, which the owner found right                                                      |
+| The release: the GitHub action building the Windows and Linux installers from a version tag, and its procedure                                           | written | run: `v0.1.0` built and published by the owner, and installed on Windows                                                                  |
+| Today's pie: a slice per expected hour beside the status line, live once a minute, the neon lapping past them                                            | written | run: the rules in tests; the screen in the app, which the owner found right                                                               |
+| The popup for a running entry from an earlier day: asked at opening, Stoppa with its undo, Fortfarande igång                                             | written | run: the rules and the words in tests; the screen in the app, which the owner found right                                                 |
+| The recovery: the daily copy at start (31 kept, none the same as the newest), the screen for a record that cannot be read with the copy on the dashboard | written | run: the copy rules in Rust tests, the newest copy and the recovery's choice in tests; the screen in the app, which the owner found right |
 
 ## The phases
 
@@ -38,20 +38,6 @@ report, and last what carries over to the owner's next project. The owner switch
 keeps the Excel file as a backup until the app is finished ("A first install starts fresh or imports", in
 `design-decisions/`). Every phase starts its code from the owner's cases ("Tests come first, from the owner's rules"),
 and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
-
-### Phase 1: Clocking
-
-**Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
-
-1. `v0.1.0` ("The app reaches each machine as an installer from a GitHub release"), by `docs/dev/procedures/release.md`.
-
-   The owner makes the `v0.1.0` release by hand, start to finish: raising the version, pushing the tag, publishing the
-   draft. It is the owner's first release, a step in their developer career, and the agent only guides. Something to
-   celebrate with stands ready, chilled, before the tag is pushed.
-
-**Done when:** the owner clocks real days with it on one machine, the Excel file kept beside it as a backup, an entry
-left running past midnight among them, and the balance matches Excel's; the screen matches the prototype in both themes
-on Windows and Linux, Windows checked by installing the `v0.1.0` release.
 
 ### Phase 2: Breaks and flex days
 
