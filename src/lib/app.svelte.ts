@@ -4,7 +4,7 @@
  * component that reads a field follow it when it changes.
  */
 
-import { press, undo, type Click } from '$lib/modules/controls/clock'
+import { press, runningSinceEarlierDay, stopRunning, undo, type Click } from '$lib/modules/controls/clock'
 import { localDay } from '$lib/modules/shared/counting'
 import {
   freshRecord,
@@ -68,6 +68,11 @@ class AppState {
   theme = $state<Theme>('system')
   /** Whether the computer asks for the dark theme, which "System" follows */
   systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches)
+  /**
+   * The entry found running from an earlier day when the app opened, for its popup; null once answered, or when none
+   * was ("A running entry from an earlier day asks")
+   */
+  late = $state<Entry | null>(null)
   /** The menu's panel while it is locked open, at the first start or a record that cannot be read; null otherwise */
   panel = $state<LockedPanel | null>(null)
 
@@ -126,6 +131,25 @@ class AppState {
     await saveRecord(done.record)
   }
 
+  /**
+   * The popup's "Stoppa": the running entry stops as the start/stop button stops it, whichever profile is on screen,
+   * and can be undone; the popup closes. Used by the popup for a running entry from an earlier day
+   */
+  async stopLate(): Promise<void> {
+    this.late = null
+    if (this.record === null) return
+    const done = stopRunning(this.record, new Date())
+    if (done.click === null) return
+    this.record = done.record
+    this.lastClick = done.click
+    await saveRecord(done.record)
+  }
+
+  /** The popup's "Fortfarande igång": the entry runs on and the popup closes, remembering nothing. Used by the popup */
+  keepLate(): void {
+    this.late = null
+  }
+
   /** The undo pressed. Used by the undo button: reverses the last click if its time is not up, then saves */
   async undo(): Promise<void> {
     if (this.record === null || this.lastClick === null) return
@@ -165,6 +189,8 @@ class AppState {
    */
   async useCopy(): Promise<void> {
     if (this.record === null || this.panel === null || this.recovery !== 'copy') return
+    // The app opens on the copy, so a copy with an entry running from an earlier day asks, once the panel has folded
+    this.late = runningSinceEarlierDay(this.record, new Date())
     this.panel = { ...this.panel, ending: true }
     await saveRecord(this.record)
   }
@@ -221,6 +247,7 @@ class AppState {
   #ready(record: TimeRecord): void {
     this.record = record
     this.onScreen = record.profiles[0].id
+    this.late = runningSinceEarlierDay(record, new Date())
     this.phase = 'ready'
   }
 }

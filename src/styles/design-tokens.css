@@ -248,6 +248,13 @@
   --recovery-width: 34ch; /* the most the words and the note take before they wrap */
   --recovery-breath: 2.4s; /* the dashboard's "KOPIA" label breathing into the balance's colour and back */
 
+  /* === Controls: the popup for a running entry from an earlier day === */
+  --late-gap: 12px; /* between the heading, the line, the note and the buttons */
+  --late-line-size: 13px; /* what runs and since when */
+  --late-width: 30ch; /* the most the words take before they wrap */
+  --late-padding: 16px 18px;
+  --late-choice-scale: 0.42; /* "Stoppa" and "Fortfarande igång" against "Starta jobb", as the locked panel's choices */
+
   /* === Controls: the profile popup === */
   --scrim: light-dark(rgb(20 26 36 / 0.25), rgb(0 0 0 / 0.45));
   --popup-background: var(--button-background);

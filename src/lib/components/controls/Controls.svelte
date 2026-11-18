@@ -11,6 +11,7 @@
   import Menu from '$lib/components/menu/Menu.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
   import ButtonBlock from './ButtonBlock.svelte'
+  import LatePopup from './LatePopup.svelte'
   import PruneLine from './PruneLine.svelte'
   import StatusLine from './StatusLine.svelte'
   import UndoButton from './UndoButton.svelte'
@@ -125,7 +126,7 @@
   <!-- The menu lies over the whole side; the top row keeps the room its folded button sits in -->
   <div class="top"></div>
 
-  <div class="centre" inert={app.panel !== null}>
+  <div class="centre" inert={app.panel !== null || app.late !== null}>
     <div bind:this={block}>
       <ButtonBlock />
     </div>
@@ -137,11 +138,13 @@
     </div>
   </div>
 
-  <div inert={app.panel !== null}>
+  <div inert={app.panel !== null || app.late !== null}>
     <PruneLine />
   </div>
 
   <Menu bind:open={menuOpen} />
+
+  <LatePopup />
 </section>
 
 <style>

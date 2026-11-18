@@ -106,7 +106,7 @@ controls.
 
 ## A running entry from an earlier day asks (2026-11-18)
 
-**Built by:** Clocking; the case of another profile on screen, Profiles.
+**Built by:** Profiles, for the case of another profile on screen.
 
 **Decision:** nothing stops an entry by itself. During the day, the stop click is the only signal of when work ended.
 When the app opens on a later date than a still-running entry started, it says so ("Work has been running since
@@ -133,10 +133,7 @@ entry from an earlier day: it guards against a slip the owner sees in the list a
 
 **Cases:**
 
-- Entry started yesterday 21:30 and running, app opened today: the popup shows.
-- Stoppa at 07:00: the entry is 21:30–07:00, stopped as by the button; undo makes it run again from 21:30.
 - Fortfarande igång: the entry runs on; closing and opening the app again today shows the popup again.
-- Entry started today and running: no popup.
 - App left open across midnight, clicked at 07:00: no popup.
 - Another profile on screen (Profiles): Stoppa stops the running entry, and the profile on screen stays.
 

@@ -11,7 +11,7 @@
   import { app } from '$lib/app.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
   import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/menu/timeInput'
-  import ChoiceButton from './ChoiceButton.svelte'
+  import ChoiceButton from '$lib/components/shared/ChoiceButton.svelte'
 
   // === Props ===
 

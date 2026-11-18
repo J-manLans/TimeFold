@@ -1,6 +1,7 @@
 <!--
-  A choice in the menu's locked panel, in "Starta jobb"'s height and font scaled by --onboarding-choice-scale, as wide
-  as its words: "Starta nytt", "Använd kopian", "Hämta senaste". Greyed out, it still takes the pointer and the focus,
+  A choice in the menu's locked panel or a popup, in "Starta jobb"'s height and font scaled by --choice-scale (the
+  locked panel's --onboarding-choice-scale unless a parent sets it), as wide as its words: "Starta nytt", "Använd
+  kopian", "Stoppa". Greyed out, it still takes the pointer and the focus,
   so its tip can say why or what: <ChoiceButton label="Importera" greyed tip="från fil" />
 -->
 <script lang="ts">
@@ -71,8 +72,8 @@
 
   .choice {
     background-attachment: fixed;
-    height: calc(var(--start-height) * var(--onboarding-choice-scale));
-    padding: 0 calc(var(--onboarding-choice-padding) * var(--onboarding-choice-scale));
+    height: calc(var(--start-height) * var(--choice-scale, var(--onboarding-choice-scale)));
+    padding: 0 calc(var(--onboarding-choice-padding) * var(--choice-scale, var(--onboarding-choice-scale)));
     border: 0;
     border-radius: var(--radius-button);
     background-color: var(--button-background);
@@ -84,7 +85,7 @@
 
   .label {
     font-family: var(--font-display);
-    font-size: calc(var(--start-text-size) * var(--onboarding-choice-scale));
+    font-size: calc(var(--start-text-size) * var(--choice-scale, var(--onboarding-choice-scale)));
     font-stretch: var(--font-display-stretch);
     font-weight: var(--font-display-weight);
     letter-spacing: var(--start-tracking);

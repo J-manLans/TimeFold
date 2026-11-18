@@ -1,9 +1,11 @@
 /**
  * What a click on the start/stop button does to the record, and how the last click is undone ("One start/stop button
- * and a profile list"; "The last click can be undone for a few seconds"). Pure: each function returns a new record.
+ * and a profile list"; "The last click can be undone for a few seconds"), and the entry left running from an earlier
+ * day ("A running entry from an earlier day asks"). Pure: each function returns a new record.
  */
 
-import { timeOfDay } from '$lib/modules/shared/counting'
+import { localDay, timeOfDay } from '$lib/modules/shared/counting'
+import { dayInWords } from '$lib/modules/shared/dates'
 import { type Entry, type Timestamp, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
@@ -37,6 +39,40 @@ export function press(record: TimeRecord, profileId: string, now: Date): { recor
     ? { kind: 'switch', at, stopped: running.id, started: started.id }
     : { kind: 'start', at, started: started.id }
   return { record: { ...record, entries }, click }
+}
+
+/**
+ * The running entry, if it started on an earlier day than `now`, on this machine's calendar. Used when the app opens,
+ * never while it runs: an entry started 2026-11-16 21:30 and opened on 2026-11-17 is found; one started today is not.
+ */
+export function runningSinceEarlierDay(record: TimeRecord, now: Date): Entry | null {
+  const running = record.entries.find((e) => e.stop === null)
+  if (running === undefined) return null
+  return localDay(Date.parse(running.start)) < localDay(now.getTime()) ? running : null
+}
+
+/**
+ * The running entry stopped at `now`, as the start/stop button stops it, whichever profile is on screen. Used by
+ * "Stoppa" in the popup for a running entry from an earlier day; the record is unchanged when nothing runs.
+ * @returns the changed record, and the click for the undo
+ */
+export function stopRunning(record: TimeRecord, now: Date): { record: TimeRecord; click: Click | null } {
+  const running = record.entries.find((e) => e.stop === null)
+  if (running === undefined) return { record, click: null }
+  return press(record, running.profile, now)
+}
+
+/**
+ * What the popup for a running entry from an earlier day says: when it started, as a heading, and which profile runs
+ * since when. Yesterday is "igår", an older day its words. Used by the popup: an entry of Vaktis started yesterday
+ * 21:30 gives { heading: 'Startad igår', line: 'Vaktis pågår sedan igår 21:30.' }
+ */
+export function lateWords(record: TimeRecord, entry: Entry, now: Date): { heading: string; line: string } {
+  const started = localDay(Date.parse(entry.start))
+  const before = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
+  const when = started === localDay(before.getTime()) ? 'igår' : dayInWords(started)
+  const name = record.profiles.find((p) => p.id === entry.profile)?.name ?? ''
+  return { heading: `Startad ${when}`, line: `${name} pågår sedan ${when} ${timeOfDay(entry.start)}.` }
 }
 
 /**

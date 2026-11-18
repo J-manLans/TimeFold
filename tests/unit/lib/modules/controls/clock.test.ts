@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { clickLabel, press, undo } from '$lib/modules/controls/clock'
+import { clickLabel, lateWords, press, runningSinceEarlierDay, stopRunning, undo } from '$lib/modules/controls/clock'
 import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 import { at, entry, RECORD } from '$tests/helpers/records'
 
@@ -109,5 +109,50 @@ describe('the undo’s label says which click it would undo, and when', () => {
     expect(clickLabel(started.record, started.click)).toBe('start 08:02')
     expect(clickLabel(stopped.record, stopped.click)).toBe('stopp 15:40')
     expect(clickLabel(switched.record, switched.click)).toBe('byte 13:00 (Vaktis → Utvecklingsgruppen)')
+  })
+})
+
+describe('a running entry from an earlier day is asked about when the app opens', () => {
+  it('finds an entry started yesterday 21:30 and still running', () => {
+    const late = entry(at('2026-11-16', '21:30'), null, { id: 'e1' })
+
+    expect(runningSinceEarlierDay(record([late]), moment('2026-11-17', '07:00'))).toEqual(late)
+  })
+
+  it('finds nothing for an entry started today, or when nothing runs', () => {
+    const today = entry(at('2026-11-17', '06:30'), null, { id: 'e1' })
+    const stopped = entry(at('2026-11-16', '21:30'), at('2026-11-16', '23:10'), { id: 'e1' })
+
+    expect(runningSinceEarlierDay(record([today]), moment('2026-11-17', '07:00'))).toBeNull()
+    expect(runningSinceEarlierDay(record([stopped]), moment('2026-11-17', '07:00'))).toBeNull()
+  })
+})
+
+describe('Stoppa stops the running entry, whichever profile is on screen', () => {
+  it('stops the janitor entry at the press, as the button does, with a stop to undo', () => {
+    const before = record([entry(at('2026-11-16', '21:30'), null, { id: 'e1' })])
+
+    const { record: after, click } = stopRunning(before, moment('2026-11-17', '07:00'))
+
+    expect(after.entries).toEqual([{ ...before.entries[0], stop: at('2026-11-17', '07:00') }])
+    expect(click).toEqual({ kind: 'stop', at: at('2026-11-17', '07:00'), stopped: 'e1' })
+    if (click === null) throw new Error('nothing was stopped')
+    expect(undo(after, click, moment('2026-11-17', '07:00:05'), UNDO_SECONDS)).toEqual(before)
+  })
+})
+
+describe('the popup says which profile runs and since when', () => {
+  it('says yesterday as "igår", and an older day in words', () => {
+    const yesterday = entry(at('2026-11-16', '21:30'), null, { id: 'e1' })
+    const older = entry(at('2026-11-14', '21:30'), null, { id: 'e1' })
+
+    expect(lateWords(record([yesterday]), yesterday, moment('2026-11-17', '07:00'))).toEqual({
+      heading: 'Startad igår',
+      line: 'Vaktis pågår sedan igår 21:30.',
+    })
+    expect(lateWords(record([older]), older, moment('2026-11-17', '07:00'))).toEqual({
+      heading: 'Startad lördag 14 november',
+      line: 'Vaktis pågår sedan lördag 14 november 21:30.',
+    })
   })
 })
