@@ -31,7 +31,7 @@
     "targets": ["nsis", "deb", "rpm", "appimage"],
     "publisher": "Joel Lansgren",
     "windows": {
-      "nsis": { "languages": ["Swedish"] }
+      "nsis": { "languages": ["Swedish"], "installerIcon": "icons/icon.ico" }
     },
     "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico"]
   }

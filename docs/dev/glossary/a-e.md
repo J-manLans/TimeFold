@@ -34,9 +34,6 @@ check, unless it is the same as the newest; the last 31 are kept. What the **Rec
 **Dashboard.** The right side of the main screen, a dark or slate-blue panel: the balance, the flex bar, the ceiling
 wheel, the pay estimate and the recent entries. What the owner reads.
 
-**Day header.** In the "Visa alla" popup, the line opening each day: its date and the day's net change to the balance,
-or "Flexledig" on a flex day.
-
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
 

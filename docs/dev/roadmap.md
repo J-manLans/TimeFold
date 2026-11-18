@@ -17,7 +17,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 2: Breaks and flex days, in design mode, starting from its **Settle first**.
+Phase 2: Breaks and flex days, settled and drawn in the prototype; built from its cases, in the mode the owner names.
 
 ## The phases
 
@@ -32,13 +32,13 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** time away taken off the day, and days off paid for with the balance.
 
-**Settle first:** the flex-day calendar in the menu's Tid tab, and "Visa alla" grouped by day with the flex days ahead
-at its top, drawn in the prototype.
-
-1. "Lägg till paus" with its length field, and the break tags in the entry list.
-2. Flex days, for a day or a range, picked in a calendar ahead or not, in the menu's tab row and its Tid tab, built here
-   with the calendar alone; taken off the balance on screen at once, and moved or unmarked from the top of "Visa alla".
-3. "Visa alla" grouped by day, each day's header with its net change or "Flexledig".
+1. "Lägg till paus" with its length field, an added break undone with the undo, and the break tags in the entry list;
+   the record's new version, with breaks and flex days, upgrading the owner's.
+2. Flex days, a weekday per click in the calendar under "Flexledig", in the menu's tab row and its Tid tab, built here
+   with the calendar alone: the padlock for days gone by and the list of days ahead beside it; taken off the balance on
+   screen at once, and unmarked with a second click.
+3. The month lines in "Visa alla".
+4. `[written]` The Windows installer wears the app's icon. Seen on Windows, in a built installer.
 
 **Done when:** a day with errands and a flex day count as agreed in their cases, checked against the owner's Excel, and
 a flex day marked ahead shows on the flex bar at once and comes back when unmarked.

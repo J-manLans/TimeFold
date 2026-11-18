@@ -9,9 +9,9 @@ ceiling wheel", in `design-decisions/`). See **Lit**.
 **Flex bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the balance as
 a number ("The flex bar", in `design-decisions/`).
 
-**Flex day.** A whole day off paid for with the balance: it takes the expected hours off the balance. Picked in a
-calendar, ahead or not, and unmarked at will; "Flexledig" in "Visa alla" and the report. Not annual leave, which is left
-empty.
+**Flex day.** A whole day off paid for with the balance: it takes the expected hours off the balance. Marked in the
+calendar in the menu's Tid tab, a weekday per click, ahead or, behind its padlock, past, and unmarked the same way;
+"Flexledig" there and in the report. Not annual leave, which is left empty.
 
 **Focus outline.** The ring around whatever has keyboard focus, in the colour of where the profile on screen stands (see
 **Standing**). Not the running ring around "Stoppa jobb", which is always the neon.
@@ -38,6 +38,9 @@ the letter arrives. In the code, the `--onboarding-sweep` tokens and `sweep()`. 
 
 **Month.** The app's counting month: the calendar month, the 1st to the last day; the ceiling, reports, the pay estimate
 and pruning count by it.
+
+**Month line.** In the "Visa alla" popup, the quiet line where the list crosses into a month, naming it and its year
+("november 2026"). The recent list has none.
 
 **Neon.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, and the numbers that show
 them; the opposite of the profile's hue at its most vivid, never picked. The one hot accent.
