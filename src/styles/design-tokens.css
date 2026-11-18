@@ -1,0 +1,292 @@
+/* Every value of the look, named by what it is for ("Design tokens hold every value of the look"). Components use
+   these through var(--…) and hold no raw values of their own. A value that differs between the themes is written as
+   light-dark(light theme, dark theme); color-scheme on :root picks the side. */
+
+:root {
+  /* "System" follows the system; the theme button sets light or dark on the page itself (app.svelte.ts) */
+  color-scheme: light dark;
+
+  /* ======================================
+                     Global
+  ====================================== */
+
+  /* === Typography === */
+  /* The big things: "Starta jobb", the profile letter, the balance, the wheel's hours */
+  --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', sans-serif;
+  --font-display-stretch: 75%;
+  --font-display-weight: 700;
+  /* All other text, on both sides */
+  --font-text: 'JetBrains Mono Variable', 'Cascadia Mono', 'DejaVu Sans Mono', ui-monospace, monospace;
+  /* The quiet lines: what runs, the prune line, the short messages, the dashboard's labels */
+  --text-size-note: 10.5px;
+
+  /* === Radii === */
+  --radius-button: 5px; /* the button block, "Lägg till paus" */
+  --radius-small: 6px; /* fields, small buttons, the warning label, menu controls, entry rows */
+  --radius-panel: 12px; /* popups and cards */
+  --radius-tag: 4px; /* tags and marks, the colour picker's map */
+
+  /* === Motion === */
+  --speed-ui: 0.2s; /* every small transition: hover, press, fades, the menu, tabs, rows, the theme */
+  --ease-grow: cubic-bezier(0.2, 0.7, 0.2, 1); /* things that grow out of their place: the menu, a profile row */
+
+  /* === Shadows and effects === */
+  --shadow-button: 2px 3px 12px 0 rgb(0 0 0 / 0.14);
+  --opacity-disabled: 0.4; /* every unavailable button fades by this */
+  --focus-width: 2px; /* in the colour of the profile on screen */
+  --focus-offset: 2px;
+
+  /* ======================================
+                    Controls
+  ====================================== */
+
+  /* === Surface and text === */
+  --controls-background: light-dark(#f2f4f7, #1a1c20);
+  --controls-text: light-dark(#1f2227, #e4e6ea);
+  --controls-text-muted: light-dark(#556070, #8f949d); /* light: 5.8:1 on the background */
+  --controls-line: light-dark(#d9dfe8, #2c2f35);
+  --controls-font-weight: 500;
+  --controls-tracking: 0.06em;
+  --controls-text-size-small: 12px; /* hints, the field's reading, small buttons */
+  --controls-top-height: 64px; /* the row holding the menu button */
+  --controls-gap: 14px; /* between the button block, the status line and the pause row */
+
+  /* === Buttons === */
+  /* Light theme: the dashboard's blue, a step deeper, so light text reads well on it */
+  --button-background: light-dark(#4f688e, #2a2d33); /* light: text 5.2:1 on it */
+  --button-background-hover: light-dark(#40577b, #343840); /* light: text 6.8:1 */
+  --button-text: light-dark(#f4f6fa, #eef0f3);
+  --button-line: light-dark(#3f5578, #3a3e45); /* borders of fields and small buttons */
+  --button-press-shade: light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.18));
+  --button-icon-size: 40px; /* the clickable square of the menu and theme buttons */
+
+  /* === The pointer light === */
+  --glow-colour: light-dark(rgb(225 235 252 / 0.2), rgb(255 255 255 / 0.08));
+  --glow-reach: 70px;
+  --glow-profile-disc: 0.7; /* the profile disc catches this share of it; the other discs all of it */
+
+  /* === The button block === */
+  --start-width: 214px;
+  --start-height: 64px;
+  --start-text-size: 38px;
+  --start-tracking: 0.03em;
+  --start-ring-width: 2px; /* in the profile's colour while it runs */
+  --pair-height: 34px; /* "Exportera" and "Importera" */
+  --pair-text-size: 13px;
+  --pair-font-weight: 600;
+  --profile-button-width: 76px;
+  --block-gap: 8px;
+
+  /* === The discs: the profile button's, the undo's and the theme button's === */
+  --disc-face: var(--button-background);
+  --disc-glow: radial-gradient(
+    circle at 50% 25%,
+    light-dark(rgb(190 210 240 / 0.35), rgb(255 255 255 / 0.12)) 0%,
+    transparent 65%
+  );
+  --disc-drop: light-dark(rgb(10 25 55 / 0.45), rgb(0 0 0 / 0.6));
+  --disc-rim:
+    inset 0 1px 0 light-dark(rgb(200 218 245 / 0.55), rgb(255 255 255 / 0.14)),
+    inset 0 -2px 4px light-dark(rgb(10 25 55 / 0.25), rgb(0 0 0 / 0.3));
+  /* The dent around a disc is see-through, so it is always a shade of the button under it */
+  --dent-background: linear-gradient(
+    180deg,
+    light-dark(rgb(10 25 55 / 0.22), rgb(0 0 0 / 0.14)),
+    light-dark(rgb(10 25 55 / 0.04), rgb(0 0 0 / 0.02))
+  );
+  --dent-edge: light-dark(rgb(10 25 55 / 0.3), rgb(0 0 0 / 0.18));
+  --dent-shade: light-dark(rgb(10 25 55 / 0.35), rgb(0 0 0 / 0.25));
+  --dent-lip: light-dark(rgb(190 210 240 / 0.35), rgb(255 255 255 / 0.08)); /* light: a blue sheen, not white */
+  --profile-disc-size: 42px;
+  --profile-disc-dent: 6px;
+  --profile-letter-size: 26px;
+  --small-disc-size: 26px; /* the disc drawn inside the undo and theme buttons */
+  --small-disc-dent: 4px;
+  --undo-button-size: 36px;
+
+  /* === The status line, the pause row and the undo === */
+  --status-height: 16px; /* kept even when empty */
+
+  /* === Controls: today's pie, right of the status text === */
+  --pie-size: 40px;
+  --pie-gap: 10px; /* from the end of the status text */
+  --pie-inner: 30; /* the ring's open middle, as a share of its radius, in % */
+  --pie-slice-gap: 6; /* between slices, the same width all along their sides, in the pie's units (100 across) */
+  --pie-border: 2.5; /* an empty slice's border, in the pie's units */
+  --pie-parts: 3; /* the slice filling at the end of a lap grows in this many parts: thirds */
+  --pie-flash: 1.2s; /* a slice clicking in lights and fades, as a new entry's row does */
+  --pie-flash-brightness: 1.9; /* how bright it starts */
+  --pause-row-height: 36px;
+  --pause-row-gap: 10px;
+  --pause-height: 30px;
+  --pause-text-size: 12.5px;
+  --pause-font-weight: 600;
+  --pause-padding: 0 14px;
+  --field-background: light-dark(#ffffff, #2a2d33); /* fields: text 16:1 */
+  --field-height: 28px;
+  --pause-field-width: 72px;
+  --undo-time: 15s; /* how long a click can be undone; the logic reads it from here */
+  --undo-afterglow: 0.65; /* how strong the neon's afterglow is when the undo wakes; it fades to nothing */
+
+  /* === The prune line === */
+  --prune-margin: 12px;
+  --prune-padding: 9px 12px;
+  --prune-height: 40px; /* the prune line's room, kept when there is nothing to offer */
+
+  /* ======================================
+                   Dashboard
+  ====================================== */
+
+  /* === Surface and text === */
+  /* Light theme: a deep slate blue, half the contrast black had against the controls side */
+  --dashboard-background: light-dark(#2c3e5c, #0d1014);
+  --dashboard-row: light-dark(#233350, #141920); /* the entry rows, a step darker */
+  --dashboard-line: light-dark(#4a6185, #232a33); /* thin lines, borders and the divider */
+  --dashboard-text: light-dark(#eef2f8, #d9dee6); /* entries, the balance */
+  --dashboard-text-muted: light-dark(#a9b8cf, #7b8592); /* the pay estimate, labels, tags */
+  --dashboard-ink: light-dark(#b8c5d9, #7b8592); /* small marks: the bar's scale */
+  --dashboard-font-weight: 400;
+  --dashboard-label-tracking: 0.14em;
+  --dashboard-padding: 22px 26px 18px 30px;
+  --dashboard-gap: 18px;
+  --dashboard-inner-gap: 6px; /* inside a figure: the number and its bar, a label and its list */
+  --divider-width: 1px; /* the line between the two sides, in --dashboard-line */
+
+  /* === The balance and the flex bar === */
+  --balance-text-size: 46px;
+  --balance-tracking: 0.02em;
+  --bar-height: 48px;
+  --bar-share: 0.5; /* the bar's thickness, as a share of the wheel's band */
+  --bar-zero: light-dark(#e6ecf5, #c9d1db); /* the 0 line */
+  --bar-zero-width: 1.5px;
+  --bar-zero-breath: 3.2s; /* the marker at exactly 0 widens and narrows over this */
+  --bar-zero-breath-width: 1.6; /* how wide it gets, against its rest */
+  --bar-label-size: 9px; /* the scale's end labels, "−20 h" and "+20 h" */
+  --balance-count: 0.9s; /* the balance and its bar counting to a new value */
+  --bar-scale-change: 0.5s; /* the scale growing or shrinking */
+
+  /* === The ceiling wheel === */
+  --wheel-diameter: 200px;
+  --wheel-band: 28px; /* of the 200 */
+  --wheel-text-size: 34px;
+  --wheel-label-size: 10px; /* "AV 42:00 H" under the number */
+  --wheel-label-tracking: 1.5px;
+  --wheel-tick: light-dark(#6a82a8, #2c3440);
+  /* While the balance profile is on screen: a grey wheel, light grey past the ceiling */
+  --wheel-balance: #9aa3ae;
+  --wheel-balance-over: #e2e6eb;
+  --wheel-peek: 0.3s; /* the over lap winding back */
+
+  /* === The pay estimate and the entries === */
+  --pay-text-size: 13px;
+  --entry-text-size: 12.5px;
+  --entry-columns: 7ch 14ch 2ch minmax(0, 1fr) auto; /* day, times, letter, tag, length */
+  --entry-later-size: 0.72em; /* the "+1" after the end time of an entry that stops on a later day */
+  --entry-later-gap: 2px;
+  --entry-cell-gap: 10px;
+  --entry-tag-size: 11px;
+  --entry-padding: 5px 8px;
+  --entry-gap: 2px;
+  --entry-hover: 10%; /* how much of the text colour lights a hovered row */
+  --entry-flash: 1.2s; /* a new entry's row lights in the wheel's base colour and fades over this */
+  --entry-flash-strength: 35%;
+  --entries-button-size: 12px; /* "Visa alla" and "Stäng" */
+  --entries-button-padding: 4px 10px;
+
+  /* ======================================
+              Overlays and popups
+  ====================================== */
+
+  /* === Controls: the warning label === */
+  --tip-background: rgb(13 16 20 / 0.78);
+  --tip-text: #e6eaf0;
+  --tip-blur: 3px;
+  --tip-text-size: 12px;
+  --tip-padding: 4px 9px;
+  --tip-border-width: 1px; /* in the colour of the profile it speaks of */
+  --tip-offset-x: 17px; /* from the pointer to the tip's left edge */
+  --tip-offset-y: 5px; /* up or down from centred on the pointer */
+  --tip-focus-gap: 6px; /* under a button with keyboard focus */
+
+  /* === Controls: the menu === */
+  /* The frost's last number is how solid it is */
+  --menu-frost: light-dark(rgb(208 216 230 / 0.55), rgb(26 28 32 / 0.5));
+  --menu-blur: 12px; /* the controls side behind the open menu */
+  --menu-text: light-dark(#141a24, #e4e6ea); /* light: 13.8:1 on the frost */
+  --menu-text-muted: light-dark(#333c4b, #8f949d); /* light: 8.8:1 on the frost */
+  --menu-line: light-dark(#9aa6b8, #373a3c); /* light: 1.95:1 */
+  --menu-button-line: light-dark(#7d8ba1, #4a4d4f); /* light: 2.7:1 */
+  --menu-heading-size: 16px;
+  --menu-heading-weight: 600;
+  --menu-head-gap: 10px; /* between "Meny", the theme button and its label */
+  --menu-head-space: 4px; /* under the heading's row */
+  --menu-toggle-line-width: 20px; /* the menu button's three lines, which cross when it is open */
+  --menu-toggle-line-height: 2px;
+  --menu-toggle-line-gap: 6px;
+  --theme-icon-size: 18px; /* the sun, moon or half circle on the theme disc */
+  --theme-icon-stroke: 1.8;
+  --menu-section-size: 11px;
+  --menu-section-tracking: 0.08em;
+  --menu-tab-size: 13px;
+  --menu-history-size: 11.5px; /* "Tidigare värden" */
+  --menu-inset: 12px; /* where the folded menu button sits */
+  --menu-padding: 16px 18px 24px;
+  --menu-gap: 20px;
+
+  /* === Controls: the onboarding, the menu's panel locked open at the first start === */
+  --onboarding-panel: light-dark(rgb(208 216 230), rgb(26 28 32)); /* the frost's tint, made solid */
+  --onboarding-prompt-size: 16px; /* "Nuvarande flextimmar?" and "Profilnamn?" */
+  --onboarding-prompt-weight: 600;
+  --onboarding-name-size: 26px; /* the name as it is typed; the balance is typed at --balance-text-size */
+  --onboarding-reading-size: 12px; /* how a typed balance is read, under it */
+  --onboarding-width: 320px; /* the most a prompt and its answer take */
+  --onboarding-gap: 14px; /* between a prompt, what is typed and how it is read */
+  --onboarding-choice-scale: 0.8; /* "Starta nytt" and "Importera" against "Starta jobb": height, text and sides */
+  --onboarding-choice-padding: 24px; /* each side of their words, before the scale */
+  --onboarding-frost-in: 0.8s; /* after the name: the solid panel turning to frost, before it shrinks */
+  --onboarding-sweep-delay: 0.2s; /* after the panel has shrunk, before the light sweeps across the button block */
+  --onboarding-sweep: 1.2s; /* the pointer light crossing the button block, left to right */
+  --onboarding-sweep-ends: 0.3; /* the light's size as it enters and leaves the block, against --glow-reach */
+  --onboarding-sweep-grow: 2; /* its size at the block's middle, against --glow-reach */
+  --onboarding-sweep-rise: 60px; /* how far above the block's middle it starts */
+  --onboarding-sweep-drop: 60px; /* how far below it it ends, arcing down, quickest at first */
+  --onboarding-sweep-fade: 0.3s; /* the light shrinking to nothing where the arc ends */
+  --onboarding-letter-delay: -0.6s; /* after the light is gone, before the letter fades in; negative overlaps */
+  --onboarding-letter-fade: 0.6s; /* the letter fading in, the last thing; the screen takes input after */
+
+  /* === Controls: a record that cannot be read, in the same locked panel === */
+  --recovery-gap: 18px; /* between the words, the buttons and the quiet note */
+  --recovery-line-size: 13px; /* what happened and what is offered, under the heading */
+  --recovery-width: 34ch; /* the most the words and the note take before they wrap */
+  --recovery-breath: 2.4s; /* the dashboard's "KOPIA" label breathing into the balance's colour and back */
+
+  /* === Controls: the popup for a running entry from an earlier day === */
+  --late-gap: 12px; /* between the heading, the line, the note and the buttons */
+  --late-line-size: 13px; /* what runs and since when */
+  --late-width: 30ch; /* the most the words take before they wrap */
+  --late-padding: 16px 18px;
+  --late-choice-scale: 0.42; /* "Stoppa" and "Fortfarande igång" against "Starta jobb", as the locked panel's choices */
+
+  /* === Controls: the profile popup === */
+  --scrim: light-dark(rgb(20 26 36 / 0.25), rgb(0 0 0 / 0.45));
+  --popup-background: var(--button-background);
+  --popup-text: var(--button-text);
+  --popup-pick: light-dark(#5f789e, #343840); /* the chosen or hovered profile, a lighter step */
+  --popup-muted: 70%; /* how much of the text colour its quiet text keeps */
+  --popup-min-width: 220px;
+  --popup-shadow: 0 12px 30px rgb(0 0 0 / 0.25);
+
+  /* === Controls: the colour picker === */
+  --picker-background: light-dark(#e6ecf4, #2a2d33);
+  --picker-width: 236px;
+  --picker-map-height: 140px;
+  --picker-shadow: 0 12px 30px rgb(0 0 0 / 0.28);
+
+  /* === Dashboard: every entry ("Visa alla") === */
+  --all-entries-scrim: rgb(0 0 0 / 0.45);
+  --all-entries-width: 560px;
+  --all-entries-share: 92%; /* of the window, when that is narrower */
+  --all-entries-height: 80vh; /* the most it takes before it scrolls */
+  --all-entries-padding: 16px 18px;
+  --all-entries-gap: 10px;
+}

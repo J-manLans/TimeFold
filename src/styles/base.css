@@ -1,0 +1,43 @@
+/* The reset, the fonts, the body, and the pointer light's strength. Every value comes from design-tokens.css */
+
+/* The two fonts, bundled with the app; Bricolage Grotesque's "standard" file carries its width axis */
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
+@import '@fontsource-variable/jetbrains-mono';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--controls-background);
+  color: var(--controls-text);
+  font-family: var(--font-text);
+  font-weight: var(--controls-font-weight);
+  letter-spacing: var(--controls-tracking);
+}
+
+/* Every focus ring, in the colour of where the profile on screen stands (App.svelte) */
+:focus-visible {
+  outline: var(--focus-width) solid var(--profile-state, currentColor);
+  outline-offset: var(--focus-offset);
+}
+
+/* How strong the pointer light is, 0 to 1, registered as a number so it can fade in and out (Controls.svelte) */
+@property --glow-strength {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+}

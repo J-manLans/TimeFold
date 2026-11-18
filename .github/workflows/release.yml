@@ -1,0 +1,71 @@
+# Builds TimeFold's installers for Windows and Linux when a version tag such as v0.1.0 is pushed, and puts them on a
+# draft release for the owner to publish ("The app reaches each machine as an installer from a GitHub release"). The
+# steps around it are in docs/dev/procedures/release.md.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  # The tag must name the version the app says it is, in all three places it is written
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: The tag matches the app's version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          conf=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          pkg=$(node -p "require('./package.json').version")
+          cargo=$(grep -m1 '^version' src-tauri/Cargo.toml | cut -d'"' -f2)
+          fail=0
+          for place in "tauri.conf.json=$conf" "package.json=$pkg" "Cargo.toml=$cargo"; do
+            if [ "${place#*=}" != "$tag" ]; then
+              echo "::error::The tag is v$tag, but ${place%%=*} says ${place#*=}"
+              fail=1
+            fi
+          done
+          exit $fail
+
+  build:
+    needs: version
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-22.04, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Linux libraries for Tauri
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - run: npm ci
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: TimeFold ${{ github.ref_name }}
+          releaseBody: Installers for Windows and Linux. Install over the old version; the record is kept.
+          releaseDraft: true
+          prerelease: false

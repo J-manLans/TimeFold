@@ -1,0 +1,1896 @@
+<!-- Prototype: the app's screens as tuned, the north star for the app's look beside vision.md. Built from the decisions
+     in design-decisions/ (main-screen/, recording/, scope/); the toolbar above the app is for the prototype only.
+     Kept until the finished app has been validated. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TimeFold Prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Tektur:wdth,wght@75..100,400..900&family=Chakra+Petch:wght@600;700&family=Oxanium:wght@600;700&family=Rajdhani:wght@600;700&family=Antonio:wght@600;700&family=League+Gothic&family=Share+Tech&family=Outfit:wght@500..900&family=Archivo+Black&family=Archivo:wdth,wght@62..125,500..900&family=Syne:wght@600..800&family=Unbounded:wght@500..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,500..800&family=Instrument+Serif&display=swap">
+<style>
+/* Layout: a sketch toolbar, then the app window: controls on the left (follow the app theme), a dark dashboard on the right. */
+:root {
+  --page-bg: #e9ebee; --page-fg: #1d2026; --page-muted: #5d6370; --page-line: #cfd3da;
+  --ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
+
+  /* ================= KNOBS: change these to tune the feel ================= */
+  /* Shape */
+  --r-btn: 5px;          /* Starta jobb, the profile button, Exportera/Importera, Lägg till paus */
+  --r-small: 6px;        /* fields, small buttons, the warning label, menu controls */
+  --r-panel: 12px;       /* the app window, popups, cards */
+  --border-w: 0px;       /* borders on buttons and fields */
+  /* Buttons */
+  --btn-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.14);   /* was 5px 5px 20px 0.3; flatter: 0 1px 3px rgba(0, 0, 0, 0.08) */
+  /* The button block */
+  --start-w: 214px;  --start-h: 64px;  --pair-h: 34px;  --profile-w: 76px;  --block-gap: 8px;
+  /* The profile circle */
+  --dot-size: 42px;      /* the raised disc */
+  --dent: 6px;           /* how far the dent reaches around the disc */
+  --dot-letter: 26px;
+  /* Type */
+  /* The big ones: Starta jobb, the profile letter, the balance, the wheel's hours. All loaded, to try:
+     "Outfit" (weight 500-900), "Archivo Black" (weight 400 only), "Archivo" (stretch 62%-125%, weight 500-900),
+     "Syne" (600-800), "Unbounded" (500-900), "Bricolage Grotesque" (stretch 75%-100%), "Instrument Serif" (an
+     edgy serif, weight 400 only), "Tektur" (stretch 75%-100%). --display-stretch only works on Archivo, Bricolage
+     Grotesque and Tektur. Redaction is not on Google Fonts: drop its font file into fonts/ to try it. */
+  --display: "Bricolage Grotesque", "Arial", sans-serif;  --display-stretch: 50%;  --display-weight: 700;
+  --size-start: 38px;  --size-balance: 46px;  --size-wheel: 34px;
+  --size-note: 10.5px;   /* the quiet lines: what runs ("Vaktmästare pågår sedan") and the prune line */
+  /* Text on the control side: everything except the big ones (Starta jobb, the profile letter). The figures side
+     keeps the mono.
+     Fonts to try, all loaded: "Tektur" (with --text-stretch 75% or 100%), "Chakra Petch", "Oxanium", "Rajdhani",
+     "Share Tech", "Antonio", "JetBrains Mono", "Inter". With a font that has no width axis, --text-stretch does
+     nothing. --text-case: uppercase or none. */
+  --text-font: "JetBrains Mono", "Cascadia Mono", "DejaVu Sans Mono", ui-monospace, monospace;
+  --text-stretch: 75%;  --text-weight: 500;  --text-case: normal;  --text-tracking: 0.06em;
+  /* Motion */
+  --undo-time: 15s;     /* how long a click can be undone */
+  --undo-afterglow: 0.65;   /* how strong the coloured afterglow is when it appears (translucent, so the disc's sheen shows); it fades to nothing */
+  --glow-r: 70px;      /* the pointer light on the buttons: its reach */
+  --glow-disc: 0.7;    /* the light on the profile disc, against the faces' (0 none, 1 as strong); other discs get it in full */
+  --disabled-o: 0.4;    /* how faded an unavailable button is: "Lägg till paus", the undo, Exportera/Importera */
+  --speed-ui: 0.2s;     /* every transition in the interface: hover, press, fades, the menu, tabs, rows, theme */
+  --speed-press: var(--speed-ui);  --speed-fade: var(--speed-ui);  --speed-menu: var(--speed-ui);
+  --speed-tab: var(--speed-ui);    --speed-row: var(--speed-ui);   --undo-dim: var(--speed-ui);
+  /* The menu panel */
+  --menu-blur: 12px;    /* how much the control side is blurred behind the open menu; its colour and solidity are --menu-frost */
+  /* The screen for a record that cannot be read ("Broken record" in the toolbar) */
+  --rc-gap: 18px;       /* between the words, the buttons and the quiet note */
+  --rc-line: 13px;      /* the problem and what is offered, under the heading */
+  --rc-width: 34ch;     /* the most the words and the note take before they wrap */
+  --rc-pulse: 2.4s;     /* the "KOPIA" label breathing into the balance's colour and back, for as long as the screen shows */
+  /* The tip, following the pointer over a button */
+  --tip-x: 17px;        /* from the pointer to the tip's left edge */
+  --tip-y: 5px;         /* up or down from centred on the pointer */
+  --tip-focus-gap: 6px; /* under a button with keyboard focus */
+  /* The onboarding: the menu's panel, locked, at the first start ("Replay onboarding" in the toolbar) */
+  --ob-prompt: 16px;    /* "Nuvarande flextimmar?" and "Profilnamn?" */
+  --ob-name: 26px;      /* the name as it is typed; the balance is typed at the dashboard's --size-balance */
+  --ob-gap: 14px;       /* between a prompt, what is typed and how it is read */
+  --ob-frost-in: 0.8s;  /* after the name: the solid panel turning to frost, before it shrinks into the menu button */
+  --ob-choice-pad: 24px;  /* each side of the words on "Starta nytt" and "Importera", before the scale */
+  --ob-choice-scale: 0.8;   /* the two buttons against Starta jobb, height, text and sides alike: 0.8 is 80% */
+  --ob-letter-delay: -0.6s;  /* after the light is gone, before the letter fades in; negative starts it while the light is leaving */
+  --ob-letter-fade: 0.6s;   /* how slowly the letter fades in, the last thing to happen; the screen unlocks after */
+  --ob-sweep-delay: 0.2s;   /* after the panel has shrunk into the menu button, before the light sweeps across the button block */
+  --ob-sweep: 1.2s;         /* the pointer light crossing the button block, left to right */
+  --ob-sweep-ends: 0.3;   /* how large the light is as it enters and leaves the block, against its usual --glow-r */
+  --ob-sweep-grow: 2;     /* how large it grows at the block's middle, against --glow-r */
+  --ob-sweep-rise: 60px;  /* how far above the block's middle the light starts */
+  --ob-sweep-fade: 0.3s;  /* after the arc, the light shrinking from its end size to nothing */
+  --ob-sweep-drop: 60px;  /* how far below it the light ends; between, it arcs down, quickest at first, levelling off */
+  /* The colour picker: only the hue is picked, on a strip of base colours */
+  --cp-strip-h: 14px;   /* the hue strip's height */
+  --cp-thumb: 18px;     /* the circle dragged along it, filled with the neon of where it sits */
+  --cp-swatch: 20px;    /* the small swatch before each code */
+  /* The popup for a running entry from an earlier day ("Running since yesterday" in the toolbar) */
+  --late-gap: 12px;     /* between the heading, the line, the note and the buttons */
+  --late-line: 13px;    /* what runs and since when */
+  --late-width: 30ch;   /* the most the words take before they wrap */
+  --late-choice-scale: 0.42;  /* Stoppa and Fortfarande igång against Starta jobb, as --ob-choice-scale */
+  /* A profile's colours in its menu row: the pair it wears, beside "Ändra" */
+  --pair-swatch: 18px;    /* each of the two small swatches, the base and the neon */
+  /* Today's pie, beside the status line ("Worked today" in the toolbar) */
+  --pie: 40px;            /* its size */
+  --pie-gap: 10px;        /* from the end of the status text */
+  --pie-border: 2.5;      /* an empty slice's border, in the pie's own units (100 across) */
+  --pie-flash: 1.2s;      /* a slice clicking in lights and fades, as a new entry's row does */
+  /* The entry rows */
+  --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
+  /* The figures */
+  --bar-share: 0.5;     /* the flex bar's thickness, as a share of the ceiling wheel's band (0.5 a half, 0.333 a third); centred on the 0 line, which keeps its height */
+  /* Focus */
+  --focus-w: 2px;
+  /* The narrow window ("Narrow window" in the sketch bar) */
+  --narrow-w: 400px;
+  /* ======================================================================== */
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --page-bg: #111317; --page-fg: #e3e6eb; --page-muted: #8b919c; --page-line: #2a2e35; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --page-bg: #111317; --page-fg: #e3e6eb; --page-muted: #8b919c; --page-line: #2a2e35; color-scheme: dark; }
+/* So the page also works opened straight from the folder, without the artifact's wrapper. */
+[hidden] { display: none !important; }
+body { margin: 0; }
+body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui); font-size: 14px; }
+.page {
+  max-width: 1100px; margin: 0 auto; display: grid; gap: 16px;
+  padding-block: 20px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.page h1 { font-size: 1.2rem; margin: 0; font-weight: 600; }
+.page > p { margin: 0; color: var(--page-muted); max-width: 70ch; }
+
+/* Sketch toolbar */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 12px 14px; border: 1px dashed var(--page-line); border-radius: 8px; font-size: 13px; color: var(--page-muted); }
+.toolbar label { display: flex; align-items: center; gap: 8px; }
+.toolbar input[type="range"] { width: 140px; }
+.toolbar .huering { display: inline-flex; align-items: center; gap: 6px; }
+.toolbar .val { font-family: var(--mono); color: var(--page-fg); min-width: 6ch; }
+.toolbar button { font: inherit; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--page-line); background: transparent; color: var(--page-fg); cursor: pointer; }
+
+/* The app window. */
+.app {
+  color-scheme: light;   /* the script sets .dark from the theme setting and the system */
+
+  /* ================= THEME COLOURS: light-dark(light theme, dark theme) ================= */
+  /* Control side: surfaces and text. Light theme: cool greys, so they sit with the blue buttons and the dashboard. */
+  --c-bg:        light-dark(#f2f4f7, #1a1c20);
+  --c-fg:        light-dark(#1f2227, #e4e6ea);
+  --c-muted:     light-dark(#556070, #8f949d);   /* light: 5.8:1 on the page */
+  --c-line:      light-dark(#d9dfe8, #2c2f35);
+  --c-scrim:     light-dark(rgba(20, 26, 36, 0.25), rgba(0, 0, 0, 0.45));
+  /* Buttons. Light theme: the dashboard's blue, a step deeper so light text reads well. */
+  --c-btn:       light-dark(#4f688e, #2a2d33);   /* light: text 5.2:1 on it */
+  --c-btn-line:  light-dark(#3f5578, #3a3e45);
+  --c-hover:     light-dark(#40577b, #343840);   /* light: a step darker on hover; text 6.8:1 */
+  --c-btn-fg:    light-dark(#f4f6fa, #eef0f3);   /* text and lines on buttons */
+  --press-shade: light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.18));
+  /* Surfaces that hold dark text: fields in the menu, the profile popup, the profile disc */
+  --c-field:     light-dark(#ffffff, #2a2d33);   /* fields: text 16:1 */
+  --popup-bg:    var(--c-btn);                   /* the profile popup: the buttons' colour, as in the dark theme */
+  --popup-fg:    var(--c-btn-fg);
+  --popup-pick:  light-dark(#5f789e, #343840);   /* the chosen or hovered profile in the popup: a lighter step, as in dark */
+  --sheet-bg:    light-dark(#e6ecf4, #2a2d33);   /* light surfaces holding dark text: the colour picker */
+  /* The theme button's disc and icon. Trying the buttons' blue; to go back to near white, use
+     --theme-face: light-dark(#e3e9f2, #2a2d33) and --theme-ink: var(--c-fg). */
+  --theme-face:  var(--c-btn);
+  --theme-ink:   var(--c-btn-fg);
+  --dot-face:    var(--c-btn);                   /* the profile disc: the button's own colour */
+  /* Profile circle: the disc's shadow and its dent */
+  --dot-drop:    light-dark(rgba(10, 25, 55, 0.45), rgba(0, 0, 0, 0.60));
+  --well-edge:   light-dark(rgba(10, 25, 55, 0.30), rgba(0, 0, 0, 0.18));   /* the dent is see-through in both themes, */
+  --well-shade:  light-dark(rgba(10, 25, 55, 0.35), rgba(0, 0, 0, 0.25));   /* so it is always a shade of the button */
+  --well-lip:    light-dark(rgba(190, 210, 240, 0.35), rgba(255, 255, 255, 0.08));   /* light: a blue sheen, not white */
+  /* Menu: the frosted panel (the last number is how solid it is) and its quiet text */
+  --menu-frost:  light-dark(rgba(208, 216, 230, 0.55), rgba(26, 28, 32, 0.50));
+  --ob-solid:    light-dark(rgb(208, 216, 230), rgb(26, 28, 32));   /* the onboarding's panel: the frost's tint, made solid */
+  --glow-c:      light-dark(rgba(225, 235, 252, 0.20), rgba(255, 255, 255, 0.08));   /* the pointer light's colour and strength */
+  --menu-muted:  light-dark(#333c4b, #8f949d);   /* light: 8.8:1 on the frost */
+  --menu-fg:     light-dark(#141a24, #e4e6ea);   /* light: 13.8:1 on the frost */
+  /* Lines and borders in the menu, against its frost. Faint lines read weaker on light than on dark at the same
+     ratio, so the light theme's are a little stronger: lines 1.59:1 / 1.49:1, borders 2.2:1 / 2.0:1. */
+  --menu-line:      light-dark(#9aa6b8, #373a3c);   /* light: 1.95:1 */
+  --menu-btn-line:  light-dark(#7d8ba1, #4a4d4f);   /* light: 2.7:1 */
+  /* Figures side. Light theme: a deep slate blue instead of black. Against the white control side it has about half
+     the contrast black had (9.7:1 instead of 17:1), so it no longer glares, while its light text keeps a high
+     contrast on it (9.6:1, where the grey panel gave 2.6:1). Blue is also the complement of the default orange, so
+     the figures' colours stand out on it.
+     To try a violet panel instead, swap in the second value of each comment. */
+  --f-bg:        light-dark(#2c3e5c, #0d1014);   /* the panel                                   violet: #37345f */
+  --f-row:       light-dark(#233350, #141920);   /* the entry rows, a step darker              violet: #2d2a52 */
+  --f-line:      light-dark(#4a6185, #232a33);   /* thin lines and borders                     violet: #57528a */
+  --f-fg:        light-dark(#eef2f8, #d9dee6);   /* main text: entries, the balance            violet: #f0eef8 */
+  --f-muted:     light-dark(#a9b8cf, #7b8592);   /* grey text: pay estimate, "Senaste", tags   violet: #b7b1d6 */
+  --f-ink:       light-dark(#b8c5d9, #7b8592);   /* small marks: the bar's scale, "AV 42:00 H" violet: #c6c1e2 */
+  --f-tick:      light-dark(#6a82a8, #2c3440);   /* the wheel's tick marks                     violet: #736ea6 */
+  --f-zero:      light-dark(#e6ecf5, #c9d1db);   /* the bar's 0 line                           violet: #ebe8f5 */
+  /* ======================================================================================== */
+
+  /* Theme values that are not single colours (gradients, shadows, amounts): light here, dark in .app.dark */
+  --dot-bg: linear-gradient(180deg, rgba(190, 210, 240, 0.35), rgba(190, 210, 240, 0) 60%, rgba(10, 25, 55, 0.12));
+  --dot-inner: inset 0 1px 1px rgba(200, 218, 245, 0.55), inset 0 -2px 4px rgba(10, 25, 55, 0.25);
+  --well-bg: linear-gradient(180deg, rgba(10, 25, 55, 0.22), rgba(10, 25, 55, 0.04));
+
+  font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight);
+  text-transform: var(--text-case); letter-spacing: var(--text-tracking);
+  position: relative; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  height: 620px; border-radius: var(--r-panel); overflow: hidden; border: 1px solid var(--page-line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+.app.dark {
+  color-scheme: dark;
+  --dot-bg: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 65%);
+  --dot-inner: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -2px 4px rgba(0, 0, 0, 0.30);
+  --well-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.02));
+}
+/* A narrow window: the sides stack, the dashboard on top ("A narrow window stacks the dashboard over the controls").
+   The "Narrow window" box in the sketch bar sets .narrow; a narrow page sets it too. */
+.app.narrow { grid-template-columns: minmax(0, 1fr); height: auto; width: var(--narrow-w); margin-inline: auto; }
+.app.narrow .figures { order: -1; }
+/* Narrow, the menu button moves to the lower left corner: the top row goes, the panel grows from that corner, its
+   heading takes the top row, and the prune line keeps clear of the button */
+.app.narrow .top { height: 0; }
+.app.narrow .menu:not(.open) { clip-path: inset(calc(100% - 52px) calc(100% - 52px) 12px 12px round var(--r-small)); }
+.app.narrow .menu-toggle { top: auto; bottom: 12px; }
+.app.narrow .menu-head { margin-left: 0; }
+.app.narrow .menu .body { padding-bottom: 64px; }
+.app.narrow .prune { margin-left: 64px; min-height: 40px; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 6px 10px; align-items: center; }
+/* Narrow, the offer wraps over the left, its two buttons stacked on the right */
+.app.narrow .prune > span:first-child { grid-row: 1 / span 2; grid-column: 1; }
+.app.narrow .prune .spacer { display: none; }
+.app.narrow .prune button { grid-column: 2; }
+.app.narrow .divider { top: auto; bottom: 0; left: 0; right: 0; width: auto; height: 1px; }
+.app.narrow[data-divider="gradient"] .divider { width: auto; height: 56px; background: linear-gradient(to top, var(--c-bg), transparent); }
+
+/* Control side */
+.controls { position: relative; background: var(--c-bg); color: var(--c-fg); display: grid; grid-template-rows: auto 1fr auto; min-height: 420px; overflow: hidden; }
+.controls > *, .figures > * { position: relative; z-index: 1; }
+.controls > .menu, .controls > .scrim { position: absolute; }
+.icon-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: transparent; color: var(--c-fg); border-radius: var(--r-small); cursor: pointer; }
+.icon-btn:hover { background: var(--c-hover); }
+.top { height: 64px; }
+.center { display: grid; place-content: center; gap: 14px; justify-items: center; padding: 0 16px; }
+
+/* Buttons: flat surfaces in the theme's button colour */
+.plastic {
+  position: relative; border: var(--border-w) solid var(--c-btn-line); color: var(--c-btn-fg); cursor: pointer;
+  background-color: var(--c-btn); border-radius: var(--r-btn); box-shadow: var(--btn-shadow);
+  transition: background-color var(--speed-ui) ease, box-shadow var(--speed-ui) ease, color var(--speed-ui) ease, opacity var(--speed-ui) ease;
+}
+/* Hover and press only on buttons that can be used: a disabled button stays as it is */
+.plastic:not(:disabled):not([aria-disabled="true"]):hover { background-color: var(--c-hover); }
+.plastic:not(:disabled):not([aria-disabled="true"]):active, .plastic.pressed { background-image: linear-gradient(180deg, var(--press-shade), transparent 70%); box-shadow: none; }
+
+/* The button block: Starta jobb over Exportera | Importera; the profile button spans both rows */
+.block { display: grid; grid-template-columns: var(--start-w) var(--profile-w); grid-template-rows: var(--start-h) var(--pair-h); gap: var(--block-gap); grid-template-areas: "start prof" "pair prof"; }
+.start { grid-area: start; display: grid; place-items: center; padding: 0 6px; }
+.start .label { text-transform: uppercase; font-family: var(--display); font-stretch: var(--display-stretch); font-size: var(--size-start); font-weight: var(--display-weight); letter-spacing: 0.03em; text-transform: uppercase; line-height: 1; }
+.start.running { box-shadow: 0 0 0 2px var(--run, #e80003); }
+.profile-btn { grid-area: prof; display: grid; place-items: center; isolation: isolate; }
+/* The profile circle: a raised light disc sitting in a recessed well, after the CodePen pen
+   "bthehuman/pen/zGKBvm" (MIT), scaled down and put on theme tokens. */
+.profile-btn .dot, .theme-btn .dot, .undo-btn .dot {
+  position: relative; width: var(--dot-size); height: var(--dot-size); border-radius: 50%;
+  background-color: var(--dot-face); background-image: var(--dot-bg);
+  box-shadow: 0 2px 5px var(--dot-drop), var(--dot-inner);
+  display: grid; place-items: center;
+  font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--dot-letter); line-height: 1;
+}
+/* The profile letter is trimmed to its capital, so centring the box centres the letter itself, not its line. */
+.profile-btn .dot { text-box: trim-both cap alphabetic; }
+.profile-btn .dot::before, .theme-btn .dot::before, .undo-btn .dot::before {
+  content: ""; position: absolute; inset: calc(-1 * var(--dent)); border-radius: 50%; z-index: -1;
+  background: var(--well-bg); border-top: 1px solid var(--well-edge);
+  box-shadow: inset 0 4px 14px var(--well-shade), 0 1px 0 var(--well-lip);
+}
+.profile-btn[aria-disabled="true"] { cursor: default; }
+.pair { grid-area: pair; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pair button { font: inherit; font-size: 13px; font-weight: 600; }
+
+/* The warning label that follows the pointer over the start button */
+.tip { position: fixed; z-index: 50; pointer-events: none; padding: 4px 9px; border-radius: var(--r-small); font-size: 12px; background: rgba(13, 16, 20, 0.78); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); color: #e6eaf0; border: 1px solid var(--tipc, #e80003); white-space: nowrap; opacity: 0; transition: opacity var(--speed-fade) ease; }
+.tip.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+.status { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; } /* keeps its room even when empty */
+.pause-area { height: 36px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+/* The undo: a disc like the profile's, faded when there is nothing to undo; a ring drains over its minute */
+.undo-btn { --dot-size: 26px; --dent: 4px; position: relative; width: 36px; height: 36px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; color: var(--c-btn-fg); border-radius: 50%; }
+.undo-btn { transition: opacity var(--undo-dim) ease; }   /* waking and dimming ease instead of snapping */
+.undo-btn:disabled { opacity: var(--disabled-o); cursor: default; }
+/* While the undo is available, an afterglow in the profile's neon lies over the disc only (not the dent around it),
+   starting strong and fading evenly to nothing over --undo-time; the arrow stays on top of it. */
+.undo-btn .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; z-index: 2; pointer-events: none;
+  background: var(--undo-fill, transparent); opacity: 0; }
+.undo-btn.live .dot::after { animation: undo-fade var(--undo-time) linear forwards; }
+@keyframes undo-fade { from { opacity: var(--undo-afterglow); } to { opacity: 0; } }
+.undo-btn .undo-icon { position: relative; z-index: 3; }
+@media (prefers-reduced-motion: reduce) { .undo-btn.live .dot::after { animation: none; opacity: var(--undo-afterglow); } }
+.pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
+.pair .plastic:disabled { opacity: var(--disabled-o); cursor: default; }
+.pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
+.pause-field { position: relative; display: grid; place-items: center; height: 30px; }
+.pause-field input:focus, .pause-field input:focus-visible { outline: var(--focus-w) solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
+.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: 12.5px; text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
+.pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: 12px; color: var(--c-muted); white-space: nowrap; pointer-events: none; }
+.pause-field button { font: inherit; font-size: 12px; height: 28px; padding: 0 10px; border-radius: var(--r-small); }
+.status .live { color: var(--run, #e80003); }
+/* The status text and today's pie are one row, centred together; it keeps the pie's room, so nothing moves when it shows */
+.status-row { display: flex; align-items: center; justify-content: center; gap: var(--pie-gap); height: var(--pie); }
+.today-pie { flex: none; width: var(--pie); height: var(--pie); }
+.today-pie path.empty { fill: none; stroke: var(--pie-base); stroke-width: var(--pie-border); }
+.today-pie path.done { fill: var(--pie-base); }
+.today-pie path.over { fill: var(--pie-neon); }
+.today-pie path.fresh { animation: pie-click var(--pie-flash) ease-out; }
+@keyframes pie-click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { .today-pie path.fresh { animation: none; } }
+.prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
+.prune .spacer { flex: 1; }
+.toast { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; text-align: center; }
+
+/* Menu: slides in from the left and stops at the divider */
+/* In the menu, quiet text is darker in the light theme, so it holds up on the frost. */
+.menu { --c-muted: var(--menu-muted); --c-fg: var(--menu-fg); --c-line: var(--menu-line); --c-btn-line: var(--menu-btn-line); }
+/* Menu: folded, it is the button in the top-left corner; open, it grows into a frosted panel up to the divider. */
+.menu {
+  position: absolute; inset: 0; z-index: 5;
+  background-color: var(--c-btn);
+  clip-path: inset(12px calc(100% - 52px) calc(100% - 52px) 12px round var(--r-small));
+  transition: clip-path var(--speed-menu) cubic-bezier(.2, .7, .2, 1), background-color var(--speed-menu) ease;
+}
+.menu.open {
+  clip-path: inset(0 0 0 0 round 0);
+  background-color: var(--menu-frost);
+  -webkit-backdrop-filter: blur(var(--menu-blur)); backdrop-filter: blur(var(--menu-blur));
+}
+/* The onboarding: the open panel with no way out and none of the menu, one prompt centred in it at a time. It is
+   solid while the prompts show, so nothing behind it is blurred again at every blink of the caret; after the name it
+   turns to frost, and then shrinks. */
+.menu.open.ob-solid { background-color: var(--ob-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* The blur switches on at once, unseen behind the still solid panel; only the tint fades to see-through, so the buttons
+   emerge already blurred. */
+.menu.ob-frosting { transition: clip-path var(--speed-menu) cubic-bezier(.2, .7, .2, 1), background-color var(--ob-frost-in) ease; }
+.menu.onboarding .body { display: none; }
+.menu.onboarding .menu-toggle { opacity: 0; pointer-events: none; }
+.onboard { position: absolute; inset: 0; display: grid; place-items: center; }
+.ob-step { grid-area: 1 / 1; display: grid; justify-items: center; gap: var(--ob-gap); width: min(320px, 80%); opacity: 0; pointer-events: none; transition: opacity var(--speed-ui) ease; }
+.ob-step.on { opacity: 1; pointer-events: auto; }
+.ob-step[data-step="choice"] { grid-template-columns: max-content max-content; justify-content: center; gap: var(--block-gap); width: auto; }
+/* The two choices: Starta jobb's height and font, each as wide as its words. */
+.ob-choice { height: calc(var(--start-h) * var(--ob-choice-scale)); width: max-content; padding: 0 calc(var(--ob-choice-pad) * var(--ob-choice-scale)); display: grid; place-content: center; justify-items: center; }
+.ob-choice .label { text-transform: uppercase; font-family: var(--display); font-stretch: var(--display-stretch);  font-size: calc(var(--size-start) * var(--ob-choice-scale)); font-weight: var(--display-weight); letter-spacing: 0.03em; line-height: 1; }
+/* Importera, greyed out until Handover, still takes the pointer and the focus, so its tip ("från fil") can show. */
+.ob-choice[aria-disabled="true"] { opacity: var(--disabled-o); cursor: default; }
+.ob-prompt { font-size: var(--ob-prompt); font-weight: 600; color: var(--c-fg); }
+/* No field: only the caret shows. Written strongly enough to win over the menu's own fields and the focus ring. */
+.app .menu .onboard input.ob-lone { width: 100%; border: 0; border-radius: 0; padding: 0; background: transparent; box-shadow: none; text-align: center; color: inherit; text-transform: none; letter-spacing: normal; }
+.app .menu .onboard input.ob-lone:focus, .app .menu .onboard input.ob-lone:focus-visible { outline: none; }
+.app .menu .onboard input.ob-bal { font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-balance); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.app .menu .onboard input.ob-name { font-family: var(--mono); font-size: var(--ob-name); }
+.ob-reading { min-height: 1.3em; font-size: 12px; color: var(--c-muted); }
+/* A record that cannot be read: the words, then the choices, then a quiet note, centred in the locked panel. */
+.recover { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--rc-gap); padding: 0 24px; text-align: center; transition: opacity var(--speed-ui) ease; }
+.recover.fading { opacity: 0; }
+.rc-words { display: grid; gap: 8px; justify-items: center; }
+.rc-words .ob-prompt { margin: 0; }
+.rc-line { margin: 0; max-width: var(--rc-width); font-size: var(--rc-line); line-height: 1.45; color: var(--c-fg); text-wrap: balance; }
+.rc-actions { display: flex; gap: var(--block-gap); justify-content: center; }
+.rc-note { margin: 0; max-width: var(--rc-width); font-size: var(--size-note); line-height: 1.45; color: var(--c-muted); text-wrap: balance; }
+/* The copy's label at the top of the dashboard, lit once as the screen appears. */
+.copy-label { justify-self: center; }
+.copy-label.pulse { animation: copy-pulse var(--rc-pulse) ease-in-out infinite; }
+/* It breathes between the label's quiet colour and the colour of where the profile on screen stands in the copy: its
+   neon in plus, its base at 0 or below, as the letter and the focus rings. */
+@keyframes copy-pulse { 0%, 100% { color: var(--f-muted); } 50% { color: var(--state, var(--f-fg)); } }
+/* While the letter waits to arrive, nothing on the screen can be pressed. */
+.app.locked { pointer-events: none; }
+.profile-btn .dot.waiting { color: transparent !important; }
+.profile-btn .dot.arriving { transition-duration: var(--ob-letter-fade); }
+.menu-toggle { position: absolute; top: 12px; left: 12px; width: 40px; height: 40px; border: 0; padding: 0; background: transparent; cursor: pointer; z-index: 2; border-radius: var(--r-small); }
+.menu-toggle span { position: absolute; left: 10px; width: 20px; height: 2px; border-radius: 1px; background: var(--c-btn-fg); transition: transform var(--speed-menu) ease, opacity var(--speed-menu) ease; }
+.menu-toggle span:nth-child(1) { top: 13px; }
+.menu-toggle span:nth-child(2) { top: 19px; }
+.menu-toggle span:nth-child(3) { top: 25px; }
+.menu.open .menu-toggle span { background: var(--c-fg); }
+.menu.open .menu-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu.open .menu-toggle span:nth-child(2) { opacity: 0; }
+.menu.open .menu-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.menu h2 { margin: 0; font-size: 16px; font-weight: 600; line-height: 32px; }
+.menu-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px 52px; min-height: 40px; }
+/* The theme button: drawn like the profile button's disc in its dent, smaller */
+.theme-btn { --dot-size: 26px; --dent: 4px; --dot-face: var(--theme-face); width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--theme-ink); }
+.theme-label { font-size: var(--size-note); color: var(--c-muted); }
+.menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity var(--speed-ui) ease; }
+.menu.open .body { opacity: 1; transition: opacity var(--speed-ui) ease calc(var(--speed-ui) / 2); }
+.menu section { display: grid; gap: 10px; }
+.menu h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); font-weight: 600; }
+.menu .line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.menu .line > span:first-child { min-width: 86px; }
+.menu input[type="color"] { width: 40px; height: 30px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); padding: 2px; background: var(--c-btn); cursor: pointer; }
+.menu .hint { font-size: 12px; color: var(--c-muted); }
+.menu .small { font: inherit; font-size: 12px; background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
+.seg { display: inline-flex; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); overflow: hidden; }
+.seg button { font: inherit; font-size: 13px; padding: 5px 12px; border: 0; background: var(--c-btn); color: var(--c-fg); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--c-fg); color: var(--c-bg); }
+.menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); width: 150px; }
+.plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.plist li { display: flex; align-items: center; gap: 10px; }
+.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; text-box: trim-both cap alphabetic; }
+
+/* Menu tabs */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--c-line); }
+.tab { font: inherit; font-size: 13px; padding: 7px 10px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--c-muted); cursor: pointer; }
+.tab[aria-selected="true"] { color: var(--c-fg); border-bottom-color: var(--accent, var(--c-fg)); }
+.tabpanel { display: grid; gap: 14px; align-content: start; animation: tabfade var(--speed-tab) ease; }
+@keyframes tabfade { from { opacity: 0; } to { opacity: 1; } }
+/* A counting value: locked as text until "Ändra"; Enter confirms, Esc aborts, then "Gäller från" */
+.lv { display: grid; gap: 6px; padding: 10px 0; border-bottom: 1px dashed var(--c-line); }
+.lv-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 30px; }
+.lv-label { min-width: 110px; color: var(--c-muted); }
+.lv-val { font-variant-numeric: tabular-nums; }
+.lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
+.lv input[type="date"] { width: auto; }
+.lv .keys { font-size: 11px; color: var(--c-muted); }
+.lv-hist-btn { justify-self: start; font: inherit; font-size: 11.5px; background: none; border: 0; padding: 0; color: var(--c-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.lv-hist { list-style: none; margin: 0; padding: 0 0 0 2px; display: grid; gap: 3px; font-size: 12px; color: var(--c-muted); }
+.split { display: grid; gap: 6px; }
+.split input[type="range"] { width: 100%; accent-color: var(--accent, var(--c-fg)); }
+.split input[type="range"]:disabled { opacity: 0.55; }
+.split-legend { display: flex; justify-content: space-between; font-size: 12px; font-variant-numeric: tabular-nums; }
+/* Profile rows: open in place */
+.prows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.prow { border: 1px solid var(--c-line); border-radius: var(--r-small); }
+.prow-head { width: 100%; display: flex; align-items: center; gap: 10px; font: inherit; text-align: left; padding: 8px 10px; background: none; border: 0; color: var(--c-fg); cursor: pointer; }
+.prow-head .mark { font-size: 11px; color: var(--c-muted); border: 1px solid var(--c-line); border-radius: 4px; padding: 0 5px; }
+.prow-head .chev { margin-left: auto; color: var(--c-muted); transition: transform var(--speed-fade) ease; }
+.prow.open .chev { transform: rotate(90deg); }
+.prow.archived .prow-head { opacity: 0.55; }
+/* A row unfolds and folds: its body's height animates from 0 to its own size, and fades. */
+.prow-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--speed-row) cubic-bezier(.2, .7, .2, 1); }
+.prow.open .prow-wrap { grid-template-rows: 1fr; }
+.prow-clip { min-height: 0; overflow: hidden; opacity: 0; transition: opacity var(--speed-row) ease; }
+.prow.open .prow-clip { opacity: 1; }
+.prow-body { padding: 2px 12px 12px; display: grid; gap: 2px; }
+@media (prefers-reduced-motion: reduce) { .prow-wrap, .prow-clip { transition: none; } }
+.prow-body .field { display: flex; align-items: center; gap: 10px; min-height: 34px; }
+.prow-body .field > span:first-child { min-width: 110px; color: var(--c-muted); }
+@media (prefers-reduced-motion: reduce) { .tabpanel { animation: none; } }
+
+/* The app's own colour picker */
+.pair { display: inline-flex; gap: 4px; }
+.pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
+.cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+.cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: var(--cp-strip-h); margin: 0; border-radius: calc(var(--cp-strip-h) / 2); background: var(--cp-strip); }
+.cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4); }
+.cpick .hue::-moz-range-thumb { width: var(--cp-thumb); height: var(--cp-thumb); box-sizing: border-box; border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); }
+.cpick .cp-pair { display: grid; gap: 6px; }
+.cpick .cp-row { display: flex; align-items: center; gap: 8px; }
+.cpick .cp-now { width: var(--cp-swatch); height: var(--cp-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); flex: none; }
+.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 3px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: text; }
+
+/* Profile popup: centred on the control side */
+.scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
+.popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.late h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
+.late p { margin: 0; max-width: var(--late-width); text-wrap: balance; }
+.late .late-line { font-size: var(--late-line); }
+.late .late-note { font-size: var(--size-note); color: var(--c-muted); }
+.late .late-buttons { display: flex; gap: var(--block-gap); }
+.popup h3 { margin: 4px 8px 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
+.popup button { display: flex; gap: 10px; align-items: center; font: inherit; text-align: left; padding: 8px; border: 0; border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: pointer; }
+.popup button:hover, .popup button[aria-current="true"] { background: var(--popup-pick); }
+
+/* Divider */
+.figures { position: relative; }
+.divider { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--f-line); z-index: 1; pointer-events: none; }
+.app[data-divider="gradient"] .divider { width: 56px; background: linear-gradient(to right, var(--c-bg), transparent); }
+
+/* Figures side: dark in every theme */
+.figures { background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; padding: 22px 26px 18px 30px; display: grid; gap: 18px; align-content: start; overflow-y: auto; }
+.flabel { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--f-muted); }
+.balance { display: grid; gap: 6px; }
+.balance .num { font-family: var(--display); font-stretch: var(--display-stretch); font-size: var(--size-balance); font-weight: var(--display-weight); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; text-align: center; line-height: 1; }
+.balance svg { width: 100%; height: 48px; display: block; overflow: visible; }
+.zero { transform-box: fill-box; transform-origin: center; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(1.6); } }
+.wheelbox { display: grid; justify-items: center; gap: 6px; }
+.wheelbox svg { width: 200px; height: 200px; display: block; }
+.pay { font-size: 13px; color: var(--f-muted); font-variant-numeric: tabular-nums; }
+.allpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 8; }
+.allpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; border: 1px solid var(--f-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: 10px; }
+.allpop .card header { display: flex; justify-content: space-between; align-items: center; }
+.allpop .note { font-size: 12px; color: var(--f-muted); border: 1px dashed var(--f-line); border-radius: var(--r-small); padding: 8px 10px; }
+.entries { display: grid; gap: 6px; }
+.entries ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.entries li { display: grid; grid-template-columns: 7ch 12.5ch 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
+.entries li.new { animation: flash 1.2s ease-out; }
+.entries .later { font-size: var(--entry-later); vertical-align: super; line-height: 0; margin-left: 2px; color: var(--f-muted); }
+@keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
+.entries .tag { font-size: 11px; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; justify-self: start; }
+.entries .dur { text-align: right; }
+.entries .more { justify-self: start; font: inherit; font-size: 12px; color: var(--f-muted); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 4px 10px; cursor: pointer; }
+.entries .more:hover { border-color: var(--f-muted); }
+
+button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
+/* Inside the app, every focus ring takes the colour of the profile on screen. */
+.app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--state, #4b8bff); }
+@media (prefers-reduced-motion: reduce) { .menu, .menu .body, .menu.open .body, .menu-toggle span { transition: none; } .entries li.new, .zero { animation: none; } }
+
+/* Everything else that changes state eases over --speed-ui too: theme colours, the profile letter's colour, tabs,
+   rows, swatches, the popup. A text that changes swaps at once. */
+.controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more {
+  transition: background-color var(--speed-ui) ease, color var(--speed-ui) ease, border-color var(--speed-ui) ease;
+}
+.profile-btn .dot, .theme-btn .dot, .undo-btn .dot { transition: color var(--speed-ui) ease, background-color var(--speed-ui) ease; }
+@media (prefers-reduced-motion: reduce) {
+  .controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more, .start .label, .status,
+  .profile-btn .dot, .theme-btn .dot, .undo-btn .dot, .plastic, .undo-btn { transition: none; }
+}
+
+
+/* A soft, matte light follows the pointer over the control side. One light for all buttons: each active button face
+   paints its own slice of the same gradient, fixed to the window, so the light lies only on button surfaces and flows
+   across them. The discs keep their own light (they sit on top of the face); disabled buttons catch none.
+   --glow-a fades the light in and out with the pointer, over --speed-ui. */
+@property --glow-a { syntax: "<number>"; inherits: true; initial-value: 0; }
+.controls { --mx: -999px; --my: -999px; transition: --glow-a var(--speed-ui) ease, background-color var(--speed-ui) ease, color var(--speed-ui) ease; }
+.controls.lit { --glow-a: 1; }
+.controls .plastic:not(:disabled):not([aria-disabled="true"]) {
+  background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
+    color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);
+  background-attachment: fixed;
+}
+/* Pressed: the press shade on top of the light */
+.controls .plastic:not(:disabled):not([aria-disabled="true"]):active {
+  background-image: linear-gradient(180deg, var(--press-shade), transparent 70%),
+    radial-gradient(circle var(--glow-r) at var(--mx) var(--my), color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);
+  background-attachment: scroll, fixed;
+}
+@media (prefers-reduced-motion: reduce) { .controls .plastic { background-image: none !important; } }
+
+/* TRIAL, easy to revert: with .glow-discs on the app (the "Light on discs" box in the sketch bar), the discs of active
+   buttons catch the pointer light too, on top of their own sheen. Remove this block to drop it. */
+.app.glow-discs .profile-btn:not([aria-disabled="true"]) .dot,
+.app.glow-discs .undo-btn:not(:disabled) .dot,
+.app.glow-discs .theme-btn .dot {
+  background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
+      color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * var(--disc-glow, 1) * 100%), transparent), transparent),
+    var(--dot-bg);
+  background-attachment: fixed, scroll;
+}
+/* Only the profile disc catches the light more weakly, which keeps the profile button a little apart. */
+.app.glow-discs .profile-btn .dot { --disc-glow: var(--glow-disc); }
+/* The undo disc's afterglow would hide the light, so while the afterglow is there the light is laid on top of it too, under
+   the arrow. Part of the same trial. */
+.app.glow-discs .undo-btn:not(:disabled)::after {
+  content: ""; position: absolute; inset: 5px; border-radius: 50%; z-index: 2; pointer-events: none;
+  background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
+    color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);
+  background-attachment: fixed;
+}
+
+/* With the menu open, the light leaves the buttons under the frost (it would seem to shine through the glass); it
+   still lies on what is in the menu. It fades out and back in over --speed-ui. */
+.controls > :not(.menu) { transition: --glow-a var(--speed-ui) ease; }
+.controls.menu-open > :not(.menu) { --glow-a: 0; }
+
+/* The recent entries are clickable: a step lighter on hover, a hand pointer; the picked one is marked in the popup. */
+.entries li[role="button"] { cursor: pointer; transition: background-color var(--speed-ui) ease; }
+.entries li[role="button"]:hover, .entries li[role="button"]:focus-visible { background: color-mix(in srgb, var(--f-row), var(--f-fg) 10%); outline: none; }
+.entries li.picked { box-shadow: inset 0 0 0 1px var(--f-muted); }
+</style>
+
+<div class="page">
+  <h1>Main Screen Sketch</h1>
+  <p>Built from the owner's drawing and the decisions so far. The app window below works: start and stop, switch profile, open the menu, change theme and colours. The dashed bar above it is for the sketch only.</p>
+
+  <div class="toolbar" aria-label="Sketch controls">
+    <label for="simBal">Balance <input type="range" id="simBal" min="-6000" max="6000" step="15" value="270"><span class="val" id="simBalVal"></span></label>
+    <label for="simToday">Worked today <input type="range" id="simToday" min="0" max="900" step="10" value="232"><span class="val" id="simTodayVal"></span></label>
+    <label for="simUsed">Ceiling hours used <input type="range" id="simUsed" min="0" max="3600" step="30" value="2280"><span class="val" id="simUsedVal"></span></label>
+    <label>Divider
+      <span class="seg" style="--c-btn: transparent; --c-btn-line: var(--page-line); --c-fg: var(--page-fg); --c-bg: var(--page-bg);">
+        <button type="button" id="divLine" aria-pressed="true">Line</button><button type="button" id="divGrad" aria-pressed="false">Gradient</button>
+      </span>
+    </label>
+    <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
+    <label for="simDiscGlow"><input type="checkbox" id="simDiscGlow" checked> Light on discs</label>
+    <label for="simNarrow"><input type="checkbox" id="simNarrow"> Narrow window</label>
+    <button type="button" id="simOnboard">Replay onboarding</button>
+    <button type="button" id="simBroken">Broken record</button>
+    <button type="button" id="simBrokenBare">Broken, no copy</button>
+    <button type="button" id="simNewer">Newer record</button>
+    <button type="button" id="simLate">Running since yesterday</button>
+    <button type="button" id="simSystemTheme">Theme as installed</button>
+    <span>Each stop records 2 h 15 min.</span>
+    <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
+  </div>
+
+  <div class="app" id="app" data-app-theme="system" data-divider="line">
+    <div class="controls">
+      <div class="top"></div>
+      <div class="center">
+        <div class="block">
+          <button class="start plastic" id="startBtn" type="button" aria-describedby="tip"><span class="label" id="startLabel">Starta jobb</span></button>
+          <div class="pair"><button class="plastic" type="button" id="exportBtn">Exportera</button><button class="plastic" type="button" id="importBtn">Importera</button></div>
+          <button class="profile-btn plastic" id="profileBtn" type="button" aria-label="Byt profil"><span class="dot" id="profileDot">V</span></button>
+        </div>
+        <div class="status-row"><div class="status" id="status"></div><svg class="today-pie" id="todayPie" viewBox="0 0 100 100" aria-label="Idag"></svg></div>
+        <div class="pause-area">
+          <button class="pause plastic" id="pauseBtn" type="button" disabled autocomplete="off">Lägg till paus</button>
+          <form class="pause-field" id="pauseField" hidden>
+            <input id="pauseInput" type="text" inputmode="numeric" placeholder="00:00" aria-label="Pausens längd, Enter lägger till, Esc avbryter" autocomplete="off">
+            <span class="reading" id="pauseReading"></span>
+          </form>
+          <button class="undo-btn" id="undoBtn" type="button" disabled autocomplete="off" aria-label="Ångra senaste klicket">
+            <span class="dot"><svg class="undo-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></span>
+          </button>
+        </div>
+        <div class="toast" id="toast"></div>
+      </div>
+      <div class="prune" id="prune">
+        <span>Du har över tre års historik. Rensa de äldsta 2 månaderna?</span><span class="spacer"></span>
+        <button type="button" id="pruneYes">Rensa</button><button type="button" id="pruneNo">Inte nu</button>
+      </div>
+
+      <!-- The menu is its own button, folded: open, it grows from the top-left corner into a frosted panel. -->
+      <div class="menu" id="menu">
+        <button class="menu-toggle" id="menuBtn" type="button" aria-label="Öppna menyn" aria-expanded="false"><span></span><span></span><span></span></button>
+        <div class="body" id="menuBody" inert>
+          <div class="menu-head">
+            <h2>Meny</h2>
+            <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema"><span class="dot"><svg id="themeIcon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"></svg></span></button>
+            <span class="theme-label" id="themeLabel"></span>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Menyns delar">
+            <button class="tab" role="tab" type="button" data-tab="profiler" aria-selected="true">Profiler</button>
+            <button class="tab" role="tab" type="button" data-tab="arbetstid" aria-selected="false">Tid</button>
+          </div>
+          <div class="tabpanel" role="tabpanel" data-panel="profiler">
+            <ul class="prows" id="plist"></ul>
+            <div class="line"><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil"><button class="small" id="addProfile" type="button">Ny profil</button></div>
+          </div>
+          <div class="tabpanel" role="tabpanel" data-panel="arbetstid" hidden>
+            <div id="workTime"></div>
+            <p class="hint">Taket för de andra profilerna är heltid minus vaktmästartimmarna, per vardag.</p>
+            <div id="monthStart"></div>
+            <p class="hint">Dagen månaden börjar på, så som skolan räknar. Taket, rapporten och rensningen räknar med den.</p>
+          </div>
+        </div>
+        <!-- The onboarding: the panel locked open at the first start, one centred prompt at a time. -->
+        <div class="onboard" id="onboard" hidden>
+          <div class="ob-step" data-step="choice">
+            <button class="plastic ob-choice" id="obFresh" type="button"><span class="label">Starta nytt</span></button>
+            <button class="plastic ob-choice" id="obImport" type="button" aria-disabled="true"><span class="label">Importera</span></button>
+          </div>
+          <div class="ob-step" data-step="balance">
+            <label class="ob-prompt" for="obBal">Nuvarande flextimmar?</label>
+            <input class="ob-lone ob-bal" id="obBal" type="text" inputmode="numeric" autocomplete="off" spellcheck="false">
+            <span class="ob-reading" id="obBalRead"></span>
+          </div>
+          <div class="ob-step" data-step="name">
+            <label class="ob-prompt" for="obName">Profilnamn?</label>
+            <input class="ob-lone ob-name" id="obName" type="text" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <!-- A record that cannot be read: the same locked panel, offering the newest copy, which the dashboard shows. -->
+        <div class="recover" id="recover" hidden>
+          <div class="rc-words">
+            <h3 class="ob-prompt" id="rcTitle"></h3>
+            <p class="rc-line" id="rcLine"></p>
+          </div>
+          <div class="rc-actions">
+            <button class="plastic ob-choice" id="rcMain" type="button"><span class="label" id="rcMainLabel"></span></button>
+            <button class="plastic ob-choice" id="rcImport" type="button" aria-disabled="true"><span class="label">Importera</span></button>
+          </div>
+          <p class="rc-note" id="rcNote"></p>
+        </div>
+      </div>
+
+      <div class="scrim" id="lateScrim" hidden>
+        <div class="late" role="dialog" aria-label="Pågår sedan igår">
+          <h3>Startad igår</h3>
+          <p class="late-line" id="lateLine"></p>
+          <p class="late-note">Glömde du stoppa? Tryck Stoppa och rätta posten i listan.</p>
+          <div class="late-buttons">
+            <button class="plastic ob-choice" id="lateStop" type="button"><span class="label">Stoppa</span></button>
+            <button class="plastic ob-choice" id="lateGo" type="button"><span class="label">Fortfarande igång</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="scrim" id="scrim" hidden>
+        <div class="popup" role="dialog" aria-label="Välj profil">
+          <h3>Profil</h3>
+          <div id="popupList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip" id="tip" role="tooltip"></div>
+    <div class="figures" id="figures">
+      <div class="divider"></div>
+      <span class="flabel copy-label" id="copyLabel" hidden></span>
+      <div class="balance">
+        <div class="num" id="balNum"></div>
+        <svg id="balSvg" viewBox="0 0 400 48" role="img" aria-label="Saldostapel"></svg>
+      </div>
+      <div class="wheelbox">
+        <svg id="wheelSvg" viewBox="0 0 200 200" role="img" aria-label="Takhjul"></svg>
+        <div class="pay" id="payNum"></div>
+      </div>
+      <div class="entries">
+        <span class="flabel">Senaste</span>
+        <ol id="entryList"></ol>
+        <button class="more" id="moreBtn" type="button">Visa alla</button>
+      </div>
+    </div>
+
+    <div class="allpop" id="allPop" hidden>
+      <div class="card" role="dialog" aria-label="Alla poster">
+        <header><span class="flabel">Alla poster</span>
+          <button class="more" id="allClose" type="button">Stäng</button>
+        </header>
+        <p class="note">Här redigeras posterna: den valda posten öppnas på sin linje med handtag i båda ändar. Inte byggt i skissen; den markerade raden är den du klickade på.</p>
+        <div class="entries"><ol id="allList"></ol></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var RED_HUE = 29, CEILING = 42 * 60;
+  // The figures panel's actual background, as the colour rule's "background" (it changes with the theme).
+  function panelBg() {
+    var s = getComputedStyle(document.getElementById("figures")).backgroundColor, m;
+    if ((m = s.match(/^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/))) return [+m[1], +m[2], +m[3]];
+    if ((m = s.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/))) return [m[1] / 255, m[2] / 255, m[3] / 255];
+    return [13 / 255, 16 / 255, 20 / 255];
+  }
+  var RULE = { turn: 55, split: 170, strength: 1, darken: 1, minDiff: 0.15, dim: 0.7 };
+  // The colour pair rule ("Each profile carries its colours", in design-decisions/). A profile has one hue, the one its
+  // picker's strip sits on, and only the hue is picked. The base is that hue muted (below); the neon is the opposite
+  // hue at its most vivid, so both move only with the strip, and neither is picked by hand. The app takes a picked
+  // colour when the pointer is released, not while it drags.
+  var NEON = {
+    start: 195,   // the balance profile's hue: cyan
+    keep: 0.55,   // base: share of the hue's most vivid chroma kept
+    pull: 0.4,    // base lightness: 0 the hue's own most vivid lightness, 1 the shared middle
+    mid: 0.7,     // the shared middle lightness
+    over: 1       // the neon: share of the opposite hue's most vivid chroma
+  };
+  var PIE = {
+    inner: 30,    // today's pie: the ring's open middle, as a share of its radius
+    gap: 6,       // the gap between slices, the same width all along their sides, in the pie's units (100 across)
+    parts: 3      // the slice filling at the end of a lap grows in this many parts: thirds
+  };
+  var WHEEL = {
+    r: 75, w: 28,   // the ceiling wheel's ring: radius to the middle of the band, and the band's width (of 200)
+    fadeC: 0.45,    // faded, for the other profiles' hours: the share of the colour's strength taken away (the hue stays)
+    fadeL: 0.2,     // faded: how far its lightness moves toward the panel's background
+    peek: 300,      // ms for the over lap to wind back while the pointer is on the wheel, and to return
+    lap: 3          // minutes each piece of the ring starts early, tucked under the one before it
+  };
+
+  // ---- Colour rule (as in "The ceiling wheel") ----
+  function toLin(c) { return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+  function fromLin(c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055; }
+  function rgbToOklab(rgb) {
+    var r = toLin(rgb[0]), g = toLin(rgb[1]), b = toLin(rgb[2]);
+    var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    var s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s, 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+  }
+  function oklabToLinRgb(lab) {
+    var l = lab[0] + 0.3963377774 * lab[1] + 0.2158037573 * lab[2];
+    var m = lab[0] - 0.1055613458 * lab[1] - 0.0638541728 * lab[2];
+    var s = lab[0] - 0.0894841775 * lab[1] - 1.2914855480 * lab[2];
+    l = l * l * l; m = m * m * m; s = s * s * s;
+    return [4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s, -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s, -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s];
+  }
+  function lchToLab(c) { var h = c[2] * Math.PI / 180; return [c[0], c[1] * Math.cos(h), c[1] * Math.sin(h)]; }
+  function labToLch(l) { var h = Math.atan2(l[2], l[1]) * 180 / Math.PI; return [l[0], Math.hypot(l[1], l[2]), (h + 360) % 360]; }
+  function inGamut(rgb) { return rgb.every(function (v) { return v >= -0.0005 && v <= 1.0005; }); }
+  function maxChroma(L, h) { var lo = 0, hi = 0.4; for (var i = 0; i < 24; i++) { var mid = (lo + hi) / 2; if (inGamut(oklabToLinRgb(lchToLab([L, mid, h])))) lo = mid; else hi = mid; } return lo; }
+  function lchToRgb(c) { var L = Math.min(1, Math.max(0, c[0])); var C = Math.min(c[1], maxChroma(L, c[2])); return oklabToLinRgb(lchToLab([L, C, c[2]])).map(function (v) { return fromLin(Math.min(1, Math.max(0, v))); }); }
+  function cuspL(h) { var best = 0.5, bestC = -1; for (var L = 0.2; L < 0.985; L += 0.01) { var c = maxChroma(L, h); if (c > bestC) { bestC = c; best = L; } } return best; }
+  function hexToRgb(hex) { var n = parseInt(hex.slice(1), 16); return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255]; }
+  function rgbToHex(rgb) { return "#" + rgb.map(function (v) { return Math.round(v * 255).toString(16).padStart(2, "0"); }).join(""); }
+  function derive(hex, bgRgb) {
+    var baseLab = rgbToOklab(hexToRgb(hex)), base = labToLch(baseLab), grey = base[1] < 0.04;
+    var up = (base[2] - RED_HUE + 360) % 360, d = up <= RULE.split - RED_HUE ? -up : 360 - up;
+    var step = grey ? 0 : Math.sign(d) * Math.min(Math.abs(d), RULE.turn);
+    var overHue = grey ? RED_HUE : (base[2] + step + 360) % 360;
+    var L = base[0] + (cuspL(overHue) - base[0]) * RULE.darken;
+    var rel = grey ? 0.6 : Math.min(1, base[1] / Math.max(1e-6, maxChroma(base[0], base[2])));
+    var target = rel + (1 - rel) * RULE.strength, gap = RULE.minDiff;
+    var darkerL = base[0] - Math.max(base[0] - L, gap);
+    var lighter = (Math.abs(step) >= 10 && L - base[0] >= gap && base[0] + gap <= 0.9) || darkerL < 0.3;
+    var newL = lighter ? base[0] + Math.max(L - base[0], gap) : darkerL;
+    var over = lchToRgb([newL, target * maxChroma(newL, overHue), overHue]);
+    var a = baseLab, b = rgbToOklab(bgRgb), t = RULE.dim;
+    var dimLab = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+    if (Math.abs(dimLab[0] - a[0]) < gap) {
+      var away = b[0] > a[0] ? 1 : b[0] < a[0] ? -1 : (b[0] < 0.5 ? 1 : -1), tL = b[0] + away * gap;
+      if (tL >= 0.05 && tL <= 0.98 && Math.abs(tL - a[0]) >= gap) dimLab = [tL, a[1] * (1 - t), a[2] * (1 - t)];
+    }
+    var dim = oklabToLinRgb(dimLab).map(function (v) { return fromLin(Math.min(1, Math.max(0, v))); });
+    return { dim: rgbToHex(dim), over: rgbToHex(over) };
+  }
+
+  // ---- State ----
+  var $ = function (id) { return document.getElementById(id); };
+  var app = $("app");
+  // Janitor work has a monthly salary (its hours move the balance, not the pay); the others a rate per hour.
+  var profiles = [{ id: "v", name: "Vaktmästare", balance: true, salary: 1700 }, { id: "u", name: "Utveckling", rate: 26 }];
+  var onScreen = "v", running = null; // running: { profile, start }
+  var balance = 270, used = 2280, pay = 1739; // minutes, minutes, euro (1 700 salary + 1.5 h × 26)
+  var shown = { balance: 270, used: 2280, pay: 1739 };
+  // The ceiling's hours in the order they were worked, each piece with its profile; `used` is their sum.
+  var usedLog = [{ p: "u", mins: 2280 }];
+  function addUsed(id, mins) {
+    var last = usedLog[usedLog.length - 1];
+    if (last && last.p === id) last.mins += mins; else usedLog.push({ p: id, mins: mins });
+  }
+  // Sketch only: the toolbar's slider adds hours as the profile on screen (the first other profile when the balance
+  // profile is on screen), and takes them away from the latest worked.
+  function setUsed(total) {
+    var diff = total - used, q = prof(onScreen);
+    if (q.balance) q = activeProfiles().filter(function (x) { return !x.balance; })[0] || prof("u");
+    if (diff > 0) addUsed(q.id, diff);
+    while (diff < 0 && usedLog.length) {
+      var last = usedLog[usedLog.length - 1], cut = Math.min(last.mins, -diff);
+      last.mins -= cut; diff += cut; if (!last.mins) usedLog.pop();
+    }
+    used = total;
+  }
+  // The ceiling's minutes up to `upTo`, in the order worked, as runs that are lit (worked by profile `id`) or faded
+  // (worked by any other): [{ from, to, lit }]. Neighbouring pieces of the same kind are one run.
+  function wheelRuns(id, upTo) {
+    var at = 0, runs = [];
+    usedLog.forEach(function (e) {
+      var from = at, to = Math.min(at + e.mins, upTo), lit = e.p === id, last = runs[runs.length - 1];
+      at += e.mins;
+      if (to <= from) return;
+      if (last && last.lit === lit) last.to = to; else runs.push({ from: from, to: to, lit: lit });
+    });
+    return runs;
+  }
+  var DAY = ["sön", "mån", "tis", "ons", "tor", "fre", "lör"];
+  function mk(dayOffset, sh, sm, eh, em, p, brk) {
+    var d = new Date(); d.setDate(d.getDate() - dayOffset);
+    var s = new Date(d); s.setHours(sh, sm, 0, 0); var e = new Date(d); e.setHours(eh, em, 0, 0);
+    return { start: s, end: e, profile: p, brk: brk || 0 };
+  }
+  var entries = [mk(1, 13, 5, 15, 40, "v"), mk(1, 7, 58, 12, 10, "v", 20), mk(2, 17, 30, 19, 0, "u"), mk(2, 12, 45, 15, 20, "v"),
+                 mk(2, 8, 2, 12, 0, "v"), mk(3, 13, 0, 16, 5, "v", 15), mk(3, 8, 10, 12, 5, "v")];
+
+  // ---- Formatting ----
+  function hm(mins) { var s = mins < 0 ? "−" : mins > 0 ? "+" : ""; mins = Math.abs(Math.round(mins)); return s + Math.floor(mins / 60) + ":" + String(mins % 60).padStart(2, "0"); }
+  function hmPlain(mins) { mins = Math.max(0, Math.round(mins)); return Math.floor(mins / 60) + ":" + String(mins % 60).padStart(2, "0"); }
+  function clock(d) { return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); }
+  function dur(e) { return Math.round((e.end - e.start) / 60000) - e.brk; }
+  function prof(id) { for (var i = 0; i < profiles.length; i++) if (profiles[i].id === id) return profiles[i]; return profiles[0]; }
+
+  // ---- Colours: each profile carries a base and a neon; the figures follow the profiles ----
+  var GREY = "#9aa3ae", GREY_OVER = "#e2e6eb";   // the wheel while the balance profile is on screen: grey, over it a light grey
+  function balanceProfile() { for (var i = 0; i < profiles.length; i++) if (profiles[i].balance) return profiles[i]; return profiles[0]; }
+  function pairFor(base, over) { var s = derive(base, panelBg()); return { base: base, dim: s.dim, over: over || s.over, suggested: s.over }; }
+  function baseColour(h) { var L = cuspL(h); return rgbToHex(lchToRgb([L + (NEON.mid - L) * NEON.pull, maxChroma(L, h) * NEON.keep, h])); }
+  function neonColour(h) { var o = (h + 180) % 360, L = cuspL(o); return rgbToHex(lchToRgb([L, maxChroma(L, o) * NEON.over, o])); }
+  // The OKLCH hue of the colour at a place on the picker's strip, and the place on the strip of an OKLCH hue's neon.
+  function stripHue(strip) { return labToLch(rgbToOklab(hsvToRgb(strip, 1, 1)))[2]; }
+  function stripOf(h) { var L = cuspL(h), c = lchToRgb([L, maxChroma(L, h), h]); return rgbToHsv(c[0], c[1], c[2])[0]; }
+  function setHue(q, h) { q.hue = h; q.strip = stripOf(h); q.colour = baseColour(h); }
+  function profPair(q) { return pairFor(q.colour, neonColour(q.hue)); }
+  // The bar is always the balance profile's; the wheel is the profile on screen's, or grey for the balance profile.
+  // While a profile's colour picker is open, the wheel is that profile's instead.
+  function resolved(which) {
+    if (which === "bar") return profPair(balanceProfile());
+    var q = prof(pick && !pick.el.hidden && pick.owner ? pick.owner : onScreen); return q.balance ? pairFor(GREY, GREY_OVER) : profPair(q);
+  }
+  function applyColours() {
+    var w = resolved("wheel");
+    app.style.setProperty("--wheel-base", w.base); app.style.setProperty("--wheel-over", w.over);
+  }
+  // A profile's colour for what is happening now: its neon (the running ring, the status dot, the label).
+  function profColour(id) { return profPair(prof(id)).over; }
+  // Where a profile stands: past its line when the balance is in plus, or the ceiling is passed; at 0 it is not.
+  function standsOver(id) { return prof(id).balance ? Math.round(balance) > 0 : used > CEILING; }
+  // Its letter, its small circle and the focus rings follow where it stands: the letter in the neon past the
+  // line and in the base colour before it, the circle's ring in the other.
+  function stateColours(id) { var p = profPair(prof(id)); return standsOver(id) ? { letter: p.over, ring: p.base } : { letter: p.base, ring: p.over }; }
+  // A new profile's hue: the middle of the largest gap between the hues in use, each profile using two, its own and
+  // the opposite one its neon has (a random pick between equal gaps).
+  function nextProfileHue(others) {
+    if (!others.length) return NEON.start;
+    var hues = [];
+    others.forEach(function (id) { var h = prof(id).hue; hues.push(h, (h + 180) % 360); });
+    hues.sort(function (a, b) { return a - b; });
+    var best = [], bestGap = -1;
+    for (var i = 0; i < hues.length; i++) {
+      var a = hues[i], b = i + 1 < hues.length ? hues[i + 1] : hues[0] + 360, gap = b - a;
+      if (gap > bestGap + 0.5) { best = [a + gap / 2]; bestGap = gap; }
+      else if (Math.abs(gap - bestGap) <= 0.5) best.push(a + gap / 2);
+    }
+    return best[Math.floor(Math.random() * best.length)] % 360;
+  }
+  function recolour() { applyColours(); drawFigures(); drawControls(); }
+
+  // ---- Drawing ----
+  var NS = "http://www.w3.org/2000/svg";
+  function el(name, attrs) { var e = document.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+  // Stepped scales: the smallest whose 90% holds the balance; back down only within 80% of the smaller one.
+  var STEPS = [600, 1200, 2400, 4800], scale = 1200;
+  function pickScale(abs) {
+    var fit = STEPS[STEPS.length - 1];
+    for (var i = 0; i < STEPS.length; i++) if (abs <= 0.9 * STEPS[i]) { fit = STEPS[i]; break; }
+    if (fit > scale) return fit;
+    var s = scale;
+    while (STEPS.indexOf(s) > 0 && abs <= 0.8 * STEPS[STEPS.indexOf(s) - 1]) s = STEPS[STEPS.indexOf(s) - 1];
+    return s;
+  }
+  function settleScale(abs, animate) {
+    var next = pickScale(abs); if (next === scale) return;
+    var from = shown.scale || scale, t0 = performance.now(), D = animate && !reduce ? 500 : 0; scale = next;
+    (function frame(now) { var k = D ? Math.min(1, (now - t0) / D) : 1; shown.scale = from + (next - from) * (1 - Math.pow(1 - k, 3)); drawBar(); if (k < 1) requestAnimationFrame(frame); })(performance.now());
+  }
+  function drawBar() {
+    var svg = $("balSvg"), c = resolved("bar"), S = shown.scale || scale; clear(svg);
+    // The bar is centred on the 0 line (y 2 to 36), its thickness a share of the wheel's band.
+    var share = parseFloat(getComputedStyle(app).getPropertyValue("--bar-share")) || 0.5;
+    var half = 180, h = WHEEL.w * share, y = 19 - h / 2, v = shown.balance, a = Math.abs(v);
+    var w = Math.min(a, S) / S * half;
+    if (Math.round(v) === 0) svg.appendChild(el("rect", { class: "zero", x: 192, y: y, width: 16, height: h, rx: Math.min(8, h / 2), fill: c.dim }));
+    else {
+      // Rounded only at the outer end; square against the 0 line.
+      var len = Math.max(w, 2), r = Math.min(9, len, h / 2), sd = v > 0 ? 1 : -1, x0 = 200, x1 = 200 + sd * len;
+      var d = "M" + x0 + "," + y + " L" + (x1 - sd * r) + "," + y + " A" + r + "," + r + " 0 0 " + (sd > 0 ? 1 : 0) + " " + x1 + "," + (y + r) +
+        " L" + x1 + "," + (y + h - r) + " A" + r + "," + r + " 0 0 " + (sd > 0 ? 1 : 0) + " " + (x1 - sd * r) + "," + (y + h) + " L" + x0 + "," + (y + h) + " Z";
+      svg.appendChild(el("path", { d: d, fill: v > 0 ? c.over : c.base }));
+    }
+    svg.appendChild(el("line", { x1: 200, x2: 200, y1: 2, y2: 36, style: "stroke: var(--f-zero)", "stroke-width": 1.5 }));
+    [-1, 1].forEach(function (sd) {
+      // Each side's end mark and its label wear that side's colour, so both of the profile's colours are always on screen.
+      var side = sd < 0 ? c.base : c.over;
+      // Ten marks on each side, from the 0 line out to the scale's end; the end mark a little taller.
+      for (var k = 1; k <= 10; k++) {
+        svg.appendChild(el("line", { x1: 200 + sd * half * k / 10, x2: 200 + sd * half * k / 10, y1: k === 10 ? 30 : 32, y2: 36, style: "stroke: " + (k === 10 ? side : "var(--f-ink)"), "stroke-width": 1 }));
+      }
+      var lab = el("text", { x: 200 + sd * half, y: 47, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 9, style: "fill: " + side });
+      lab.textContent = (sd < 0 ? "−" : "+") + Math.round(scale / 60) + "h"; svg.appendChild(lab);
+    });
+    var n = $("balNum"); n.textContent = hm(v);
+    n.style.color = Math.round(v) === 0 ? "var(--f-fg)" : v > 0 ? c.over : c.base;   // the number follows the bar
+  }
+  function drawWheel() {
+    var svg = $("wheelSvg"), c = resolved("wheel"), r = WHEEL.r, w = WHEEL.w, circ = 2 * Math.PI * r; clear(svg);
+    var u = Math.min(shown.used, CEILING) / CEILING, o = Math.min(Math.max(shown.used - CEILING, 0), CEILING) / CEILING;
+    var g = el("g", { transform: "rotate(-90 100 100)" });
+    // The ring is a timeline: every piece stays where it was worked. The wheel's profile's pieces are lit, the
+    // others' faded; past the ceiling the same order goes on in the over lap. The balance profile's grey wheel is
+    // not sliced.
+    var who = prof(pick && !pick.el.hidden && pick.owner ? pick.owner : onScreen), bg = panelBg();
+    var top = Math.min(shown.used, 2 * CEILING), lapEnd = Math.min(top, CEILING), overEnd = Math.max(top - CEILING, 0);
+    var runs = who.balance ? [{ from: 0, to: top, lit: true }] : wheelRuns(who.id, top);
+    var fadedBase = faded(c.base, bg), fadedOver = faded(c.over, bg);
+    // While the pointer is on the wheel the over lap winds back to 12 o'clock, showing the first lap whole.
+    overEnd *= 1 - peekAmt;
+    // What shows at each place round the ring, as pieces that do not overlap: the over lap, then what is left of the
+    // first lap, then the unused part. Nothing lies under another colour, so no colour shows along another's rim.
+    var segs = [];
+    function seg(from, to, colour) {
+      var last = segs[segs.length - 1];
+      if (to <= from) return;
+      if (last && last.colour === colour) last.to = to; else segs.push({ from: from, to: to, colour: colour });
+    }
+    runs.forEach(function (n) { seg(Math.max(n.from, CEILING) - CEILING, Math.min(n.to - CEILING, overEnd), n.lit ? c.over : fadedOver); });
+    runs.forEach(function (n) { seg(Math.max(n.from, overEnd), Math.min(n.to, CEILING), n.lit ? c.base : fadedBase); });
+    seg(lapEnd, CEILING, c.dim);
+    if (segs.length === 1) g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: segs[0].colour, "stroke-width": w }));
+    // Each piece starts a hair early, under the end of the one before it (the first under the last), so no gap shows where two meet.
+    else segs.forEach(function (n) {
+      var from = n.from - WHEEL.lap;
+      g.appendChild(el("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: n.colour, "stroke-width": w, "stroke-dasharray": ((n.to - from) / CEILING * circ) + " " + circ, "stroke-dashoffset": -from / CEILING * circ }));
+    });
+    svg.appendChild(g);
+    for (var i = 0; i < 40; i++) { var a = i / 40 * 2 * Math.PI, r1 = 52, r2 = i % 10 === 0 ? 46 : 49; svg.appendChild(el("line", { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + r2 * Math.sin(a), y2: 100 - r2 * Math.cos(a), style: "stroke: var(--f-tick)", "stroke-width": 1 })); }
+    var t = el("text", { x: 100, y: 106, "text-anchor": "middle", style: "font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-wheel)", fill: shown.used > CEILING && !peekTo ? c.over : c.base, class: "wheel-num" });
+    t.textContent = hmPlain(shown.used); svg.appendChild(t);
+    var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, style: "fill: var(--f-ink)", "letter-spacing": "1.5" });
+    s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);
+    $("payNum").textContent = "≈ " + Math.round(shown.pay).toLocaleString("sv-SE") + " €";
+  }
+  // A colour faded: the same hue, with less strength and its lightness a little toward the background's.
+  function faded(hex, bgRgb) {
+    var c = labToLch(rgbToOklab(hexToRgb(hex))), bgL = rgbToOklab(bgRgb)[0];
+    return rgbToHex(lchToRgb([c[0] + (bgL - c[0]) * WHEEL.fadeL, c[1] * (1 - WHEEL.fadeC), c[2]]));
+  }
+  // The peek: 0 the wheel as it is, 1 the over lap wound all the way back.
+  var peekAmt = 0, peekTo = 0, peekRaf = 0;
+  function peek(on) {
+    peekTo = on ? 1 : 0;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { peekAmt = peekTo; drawWheel(); return; }
+    cancelAnimationFrame(peekRaf);
+    var from = peekAmt, t0 = performance.now();
+    (function step(now) {
+      var t = Math.min(1, (now - t0) / WHEEL.peek), e = 1 - Math.pow(1 - t, 3);
+      peekAmt = from + (peekTo - from) * e; drawWheel();
+      if (t < 1) peekRaf = requestAnimationFrame(step);
+    })(t0);
+  }
+  function drawFigures() { drawBar(); drawWheel(); }
+  // The peek starts only on the ring's band, not its corners or its middle. While peeking, the number takes the base
+  // colour, the sample for the first lap that now shows whole.
+  $("wheelSvg").addEventListener("pointermove", function (e) {
+    var b = this.getBoundingClientRect(), x = (e.clientX - b.left) / b.width * 200 - 100, y = (e.clientY - b.top) / b.height * 200 - 100;
+    var on = Math.abs(Math.hypot(x, y) - WHEEL.r) <= WHEEL.w / 2;
+    if (on !== !!peekTo) peek(on);
+  });
+  $("wheelSvg").addEventListener("pointerleave", function () { if (peekTo) peek(false); });
+  // How many calendar days after its start an entry ends: 0 on the same day.
+  function daysLater(start, end) {
+    var a = new Date(start.getFullYear(), start.getMonth(), start.getDate()), b = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    return Math.round((b - a) / 86400000);
+  }
+  function drawEntries(fresh) { fillList($("entryList"), entries.slice(0, 5), fresh); fillList($("allList"), entries, false); }
+  function fillList(ol, list, fresh) {
+    clear(ol);
+    list.forEach(function (e, i) {
+      var li = document.createElement("li"); if (fresh && i === 0) li.className = "new";
+      var p = prof(e.profile);
+      var cells = [DAY[e.start.getDay()] + " " + e.start.getDate(), clock(e.start) + "–" + clock(e.end), p.name.charAt(0).toUpperCase()];
+      cells.forEach(function (txt) { var s = document.createElement("span"); s.textContent = txt; li.appendChild(s); });
+      // An entry that ends on a later day says how many days later, small after its end time: "21:30–07:00 +1"
+      var later = daysLater(e.start, e.end);
+      if (later) { var up = document.createElement("sup"); up.className = "later"; up.textContent = "+" + later; li.children[1].appendChild(up); }
+      // The letter in its profile's base colour, so each profile's rows are found at a glance
+      li.children[2].style.color = p.colour;
+      var tag = document.createElement("span");
+      if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + lengthText(e.brk); }
+      li.appendChild(tag);
+      var d = document.createElement("span"); d.className = "dur"; d.textContent = hmPlain(dur(e)); li.appendChild(d);
+      // Placeholder: a row opens the entries popup on that entry, where it will be edited on its line.
+      li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Öppna posten " + cells[0] + " " + cells[1]);
+      li.addEventListener("click", function () { openEntry(e); });
+      li.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openEntry(e); } });
+      li._entry = e;
+      ol.appendChild(li);
+    });
+  }
+
+  // ---- Motion: numbers count to their new value ----
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function tweenTo(target) {
+    var from = { balance: shown.balance, used: shown.used, pay: shown.pay }, t0 = performance.now(), D = reduce ? 0 : 900;
+    function frame(now) {
+      var k = D ? Math.min(1, (now - t0) / D) : 1, e = 1 - Math.pow(1 - k, 3);
+      for (var key in target) shown[key] = from[key] + (target[key] - from[key]) * e;
+      drawFigures();
+      if (k < 1) requestAnimationFrame(frame); else { for (var key2 in target) shown[key2] = target[key2]; drawFigures(); }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // ---- Controls ----
+  function drawControls() {
+    drawPie();
+    var p = prof(onScreen);
+    $("profileDot").textContent = p.name.charAt(0).toUpperCase();
+    $("profileDot").classList.toggle("waiting", onboarding || app.classList.contains("locked") && $("profileDot").classList.contains("waiting"));
+    $("profileDot").style.color = stateColours(onScreen).letter; drawHueRing();
+    app.style.setProperty("--accent", profColour(onScreen));
+    app.style.setProperty("--state", stateColours(onScreen).letter);
+    if (running) app.style.setProperty("--run", profColour(running.profile));
+    $("profileBtn").setAttribute("aria-disabled", String(activeProfiles().length < 2));
+    var mine = running && running.profile === onScreen;
+    swapText($("startLabel"), function (el) { el.textContent = mine ? "Stoppa jobb" : "Starta jobb"; });
+    $("startBtn").classList.toggle("running", !!mine);
+    $("pauseBtn").disabled = !mine;
+    $("exportBtn").disabled = $("importBtn").disabled = !!running; // no handover while any job runs
+    if (!mine) closePause();
+    refreshTip();
+    swapText($("status"), function (st) {
+      st.textContent = "";
+      if (running) { var dot = document.createElement("span"); dot.className = "live"; dot.textContent = "● "; st.append(dot, prof(running.profile).name + " pågår sedan " + clock(running.start)); }
+    });
+  }
+  // A text that changes swaps at once; an unchanged text is left alone.
+  function swapText(el, fill) {
+    var probe = el.cloneNode(true); fill(probe);
+    if (probe.innerHTML === el.innerHTML) return;
+    fill(el);
+  }
+  // The pointer light: the position goes into two CSS variables, at most once a frame.
+  (function () {
+    var c = document.querySelector(".controls"), x = 0, y = 0, queued = false;
+    c.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      x = e.clientX; y = e.clientY; c.classList.add("lit");
+      if (!queued) { queued = true; requestAnimationFrame(function () { queued = false; c.style.setProperty("--mx", x + "px"); c.style.setProperty("--my", y + "px"); }); }
+    });
+    c.addEventListener("pointerleave", function () { c.classList.remove("lit"); });
+  })();
+  function stopRunning() {
+    var r = running, end = new Date(), start = r.real ? r.start : new Date(end.getTime() - 135 * 60000);
+    entries.unshift({ start: start, end: end, profile: r.profile, brk: r.brk || 0 });
+    running = null;
+    var p = prof(r.profile), t = { balance: balance, used: used, pay: pay + 135 / 60 * (p.rate || 0) };
+    if (p.balance) t.balance = balance + 15; else { t.used = used + 135; addUsed(p.id, 135); }
+    balance = t.balance; used = t.used; pay = t.pay; syncSim();
+    drawEntries(true); settleScale(Math.abs(t.balance), true); tweenTo(t); drawControls();
+  }
+  $("startBtn").addEventListener("click", function () {
+    var snap = snapshot(), at = clock(new Date()), label;
+    if (running && running.profile === onScreen) { stopRunning(); label = "stopp " + at; }
+    else if (running) { var was = prof(running.profile).name; stopRunning(); running = { profile: onScreen, start: new Date() }; label = "byte " + at + " (" + was + " → " + prof(onScreen).name + ")"; }
+    else { running = { profile: onScreen, start: new Date() }; label = "start " + at; }
+    offerUndo(label, snap);
+    drawControls();
+  });
+
+  // ---- Undo: only the latest click, only within its minute ----
+  var undo = null;   // { label, snap, timer }
+  function snapshot() {
+    return { running: running ? { profile: running.profile, start: running.start, brk: running.brk || 0 } : null,
+             n: entries.length, balance: balance, used: used, pay: pay, log: JSON.stringify(usedLog) };
+  }
+  function undoMs() {
+    var v = getComputedStyle(document.documentElement).getPropertyValue("--undo-time").trim();
+    var n = parseFloat(v); if (!n) return 15000;
+    return /ms$/.test(v) ? n : n * 1000;   // "15s" and "15000ms" both work
+  }
+  function offerUndo(label, snap) {
+    if (undo) { clearTimeout(undo.timer); cancelAnimationFrame(undo.raf); }
+    var b = $("undoBtn");
+    // One clock: the deadline. The fade's end and a backup timer both end the undo, and a press checks the deadline,
+    // since a browser may delay timers in a hidden window.
+    var ms = undoMs();
+    undo = { label: label, snap: snap, deadline: performance.now() + ms, timer: setTimeout(clearUndo, ms + 50), raf: 0 };
+    b.disabled = false; b.style.setProperty("--undo-fill", profColour(onScreen));
+    b.classList.remove("live"); void b.offsetWidth; b.classList.add("live");   // restart the shrink
+  }
+  function clearUndo() {
+    if (undo) { clearTimeout(undo.timer); cancelAnimationFrame(undo.raf); } undo = null;
+    var b = $("undoBtn"); b.disabled = true; b.classList.remove("live");
+    if (tipFor === "undo") { tipPt = null; refreshTip(); }
+  }
+  // A reload may bring the button back as the browser left it; the page sets its own state from the start.
+  $("undoBtn").disabled = true;
+  function undoExpired() { return !undo || performance.now() >= undo.deadline; }
+  $("undoBtn").addEventListener("animationend", function (e) { if (e.animationName === "undo-fade") clearUndo(); });
+  document.addEventListener("visibilitychange", function () { if (undo && undoExpired()) clearUndo(); });
+  $("undoBtn").addEventListener("click", function () {
+    if (undoExpired()) { clearUndo(); return; }
+    var s = undo.snap;
+    running = s.running;
+    while (entries.length > s.n) entries.shift();
+    balance = s.balance; used = s.used; pay = s.pay; usedLog = JSON.parse(s.log); syncSim();
+    drawEntries(false); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay });
+    clearUndo(); drawControls();
+  });
+  // The warning label: appears at once on pointer enter, follows the pointer, shows under the button on keyboard focus.
+  var tipPt = null, tipFocus = null, tipFor = "start";   // tipFocus: which button has keyboard focus, if any
+  function tipText() {
+    if (tipFor === "import" || tipFor === "rcimport") return "från fil";
+    if (tipFor === "undo") return undo ? "Ångra: " + undo.label : "";
+    return running && running.profile !== onScreen ? "stoppar " + prof(running.profile).name : "";
+  }
+  function refreshTip() {
+    var tip = $("tip"), txt = tipText();
+    // With the pointer gone, the label belongs to the button with keyboard focus, if there is one.
+    if (!tipPt) { if (tipFocus) { tipFor = tipFocus; txt = tipText(); } else txt = ""; }
+    if (!txt) { tip.classList.remove("show"); return; }
+    tip.textContent = txt; tip.style.setProperty("--tipc", tipFor === "start" ? profColour(running.profile) : profColour(onScreen)); tip.classList.add("show");
+    // By the pointer: to its right, centred on its height. With keyboard focus: under the button.
+    if (tipPt) { tip.style.left = "calc(" + tipPt.x + "px + var(--tip-x))"; tip.style.top = "calc(" + tipPt.y + "px + var(--tip-y))"; tip.style.translate = "0 -50%"; }
+    else { var r = $({ undo: "undoBtn", start: "startBtn", import: "obImport", rcimport: "rcImport" }[tipFor]).getBoundingClientRect(); tip.style.left = r.left + "px"; tip.style.top = "calc(" + r.bottom + "px + var(--tip-focus-gap))"; tip.style.translate = "0 0"; }
+  }
+  [["startBtn", "start"], ["undoBtn", "undo"], ["obImport", "import"], ["rcImport", "rcimport"]].forEach(function (pair) {
+    var b = $(pair[0]);
+    ["pointerenter", "pointermove"].forEach(function (ev) {
+      b.addEventListener(ev, function (e) { if (e.pointerType === "touch") return; tipFor = pair[1]; tipPt = { x: e.clientX, y: e.clientY }; refreshTip(); });
+    });
+    b.addEventListener("pointerleave", function () { tipPt = null; refreshTip(); });
+    // Only keyboard focus anchors the label under a button; a mouse click does not.
+    b.addEventListener("focus", function () { if (b.matches(":focus-visible")) { tipFocus = pair[1]; refreshTip(); } });
+    b.addEventListener("blur", function () { if (tipFocus === pair[1]) tipFocus = null; refreshTip(); });
+  });
+  window.addEventListener("scroll", function () { if (!tipPt) refreshTip(); }, { passive: true });
+
+  // A length in words, the unit against its number: "5min", "1h 20min", "23h" ("Entering a length of time").
+  function lengthText(mins) {
+    var a = Math.abs(Math.round(mins)), h = Math.floor(a / 60), m = a % 60;
+    return (h ? h + "h" : "") + (h && m ? " " : "") + (m || !h ? m + "min" : "");
+  }
+  // Only these characters reach a length field, and only in its shape: anything else typed or pasted does not appear,
+  // and a keystroke that would break the shape (a third digit of minutes) is refused.
+  function keepOnly(input, allowed, shape) {
+    var last = "";
+    input.addEventListener("input", function () {
+      var kept = this.value.split("").filter(function (c) { return allowed.test(c); }).join("");
+      if (!shape.test(kept)) kept = last;
+      if (kept !== this.value) { var at = Math.max(0, this.selectionStart - (this.value.length - kept.length)); this.value = kept; this.setSelectionRange(at, at); }
+      last = kept;
+    });
+    input.addEventListener("focus", function () { last = this.value; });
+  }
+  // A break: minutes alone, up to three digits, or hours and minutes, two digits each, the minutes at most 59.
+  keepOnly($("pauseInput"), /[0-9:]/, /^(\d{0,3}|\d{0,2}:([0-5]\d?)?)$/);
+  // "Lägg till paus": a length typed in place ("45" is minutes, "1:20" is hours and minutes).
+  function readLength(s) {
+    s = s.trim(); var m = /^(\d{1,2}):(\d{1,2})$/.exec(s), n = /^\d{1,3}$/.exec(s);
+    if (m) return +m[1] * 60 + +m[2]; if (n) return +s; return null;
+  }
+  function closePause() { $("pauseField").hidden = true; $("pauseBtn").hidden = false; $("pauseInput").value = ""; $("pauseReading").textContent = ""; }
+  $("pauseBtn").addEventListener("click", function () { $("pauseBtn").hidden = true; $("pauseField").hidden = false; $("pauseInput").focus(); });
+  // Enter adds the break (the form's submit); Esc, or clicking away, cancels.
+  $("pauseInput").addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closePause(); } });
+  $("pauseInput").addEventListener("blur", function () { setTimeout(closePause, 0); });
+  $("pauseInput").addEventListener("input", function () {
+    var v = readLength(this.value); $("pauseReading").textContent = v === null ? "" : lengthText(v);
+  });
+  $("pauseField").addEventListener("submit", function (e) {
+    e.preventDefault(); var v = readLength($("pauseInput").value);
+    if (!v || !running) return;
+    if ((running.brk || 0) + v >= 135) { $("pauseReading").textContent = "längre än posten"; return; }
+    running.brk = (running.brk || 0) + v; closePause(); toast("Paus " + hmPlain(v) + " tillagd");
+  });
+
+  $("profileBtn").addEventListener("click", function () {
+    if (activeProfiles().length < 2) return;
+    var list = $("popupList"); clear(list);
+    activeProfiles().forEach(function (q) {
+      var b = document.createElement("button"); b.type = "button"; if (q.id === onScreen) b.setAttribute("aria-current", "true");
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = stateColours(q.id).letter; d.style.borderColor = stateColours(q.id).ring;
+      b.append(d, q.name + (running && running.profile === q.id ? "  ●" : ""));
+      b.addEventListener("click", function () { onScreen = q.id; $("scrim").hidden = true; recolour(); });
+      list.appendChild(b);
+    });
+    $("scrim").hidden = false;
+  });
+  $("scrim").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
+  function toast(msg) { $("toast").textContent = msg; clearTimeout(toast.t); toast.t = setTimeout(function () { $("toast").textContent = ""; }, 2200); }
+  $("exportBtn").addEventListener("click", function () { toast("Exporterar överlämningsfilen (skiss)"); });
+  $("importBtn").addEventListener("click", function () { toast("Importerar och frågar först (skiss)"); });
+  $("pruneYes").addEventListener("click", function () { toast("Rensar efter en kopia (skiss)"); $("prune").style.visibility = "hidden"; });
+  $("pruneNo").addEventListener("click", function () { $("prune").style.visibility = "hidden"; });
+  $("moreBtn").addEventListener("click", function () { openEntry(null); });
+  // Opens the entries popup; with an entry, that row is marked and scrolled into view.
+  function openEntry(e) {
+    $("allPop").hidden = false;
+    Array.prototype.forEach.call($("allList").children, function (li) {
+      var on = !!e && li._entry === e; li.classList.toggle("picked", on);
+      if (on) li.scrollIntoView({ block: "nearest" });
+    });
+  }
+  $("allClose").addEventListener("click", function () { $("allPop").hidden = true; });
+  $("allPop").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
+
+  // Menu
+  // ---- The onboarding: the menu's panel, locked open, at the first start ----
+  var onboarding = false;
+  function obStep(name) {
+    Array.prototype.forEach.call(document.querySelectorAll(".ob-step"), function (st) { st.classList.toggle("on", st.dataset.step === name); });
+    var focus = { choice: "obFresh", balance: "obBal", name: "obName" }[name];
+    if (focus) setTimeout(function () { $(focus).focus(); }, 0);
+  }
+  // The balance as typed: a length as in "Lägg till paus", with a sign in front and up to three digits of hours.
+  function readBalance(s) {
+    var m = /^([+-]?)(?:(\d{1,3}):(\d{1,2})|(\d{1,3}))$/.exec(s.trim());
+    if (!m) return null;
+    var mins = m[4] !== undefined ? +m[4] : +m[2] * 60 + +m[3];
+    return m[1] === "-" ? -mins : mins;
+  }
+  // The balance profile's colour for where a balance stands: the neon in plus, the base at 0 or below.
+  function obColour(v) { var p = profPair(balanceProfile()); return v > 0 ? p.over : p.base; }
+  function startOnboarding() {
+    onboarding = true;
+    entries = []; balance = 0; used = 0; usedLog = []; pay = 0; shown.balance = 0; shown.used = 0; shown.pay = 0;
+    running = null; onScreen = balanceProfile().id; syncSim(); settleScale(0, false);
+    $("obBal").value = ""; $("obBalRead").textContent = ""; $("obName").value = "";
+    $("obBal").style.color = $("obName").style.color = obColour(0);
+    $("recover").hidden = true; $("copyLabel").hidden = true; recoverKind = null;
+    $("onboard").hidden = false; $("menu").classList.add("onboarding", "ob-solid");
+    setMenu(true); $("menuBody").inert = true;
+    drawEntries(false); recolour(); obStep("choice");
+  }
+  // The balance: a sign, then minutes alone or hours and minutes, up to three digits of hours, the minutes at most 59.
+  keepOnly($("obBal"), /[0-9:+\-]/, /^[+-]?(\d{0,3}|\d{0,3}:([0-5]\d?)?)$/);
+  $("obBal").addEventListener("input", function () {
+    var v = readBalance(this.value), s = this.value.trim();
+    var sign = s.charAt(0) === "-" ? -1 : 1;
+    this.style.color = $("obName").style.color = obColour(v !== null ? v : sign < 0 ? -1 : /[1-9]/.test(s) ? 1 : 0);
+    $("obBalRead").textContent = v === null ? "" : (v < 0 ? "−" : v > 0 ? "+" : "") + lengthText(v);
+  });
+  // The dashboard takes a balance on Enter, counting to it as it does at a stop.
+  function obSetBalance(v) {
+    if (v === balance) return;
+    balance = v; syncSim(); settleScale(Math.abs(v), true); tweenTo({ balance: v, used: used, pay: pay });
+  }
+  $("obFresh").addEventListener("click", function () { obStep("balance"); });
+  $("obBal").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); var v = readBalance(this.value); if (v !== null) { obSetBalance(v); obStep("name"); } }
+    if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); obSetBalance(0); obStep("choice"); }
+  });
+  $("obName").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); if (this.value.trim()) finishOnboarding(this.value.trim()); }
+    if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); obStep("balance"); }
+  });
+  // The ending: the text fades, the panel shrinks into the menu button, the light sweeps across the button block, and
+  // then, after --ob-letter-delay, the letter fades in, the last thing; nothing can be pressed until it has.
+  function finishOnboarding(name) {
+    balanceProfile().name = name; obStep(null); app.classList.add("locked");
+    var css = getComputedStyle(app), secs = function (n) { return parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
+    var fade = secs("--speed-ui"), shrink = secs("--speed-menu"), delay = secs("--ob-letter-delay"), arrive = secs("--ob-letter-fade");
+    var frostIn = secs("--ob-frost-in");
+    // The text fades; the solid panel turns to frost; then the panel shrinks into the menu button.
+    setTimeout(function () {
+      $("menu").classList.add("ob-frosting"); $("menu").classList.remove("ob-solid");
+      setTimeout(function () { $("menu").classList.remove("ob-frosting"); closing(); }, frostIn);
+    }, fade);
+    function closing() {
+      onboarding = false; setMenu(false);
+      setTimeout(function () {
+        $("menu").classList.remove("onboarding"); $("onboard").hidden = true;
+        // The light sweeps across the block, and the letter fades in --ob-letter-delay after the light is gone, timed
+        // from the sweep's start so a negative delay starts it while the light is still leaving. The screen unlocks once
+        // both are done.
+        setTimeout(function () {
+          var sweepDone = false, letterDone = false, unlock = function () { if (sweepDone && letterDone) app.classList.remove("locked"); };
+          sweep(secs("--ob-sweep"), function () { sweepDone = true; unlock(); });
+          var gone = reduce ? 0 : secs("--ob-sweep") + secs("--ob-sweep-fade");
+          setTimeout(function () {
+            $("profileDot").classList.add("arriving"); $("profileDot").classList.remove("waiting"); drawControls();
+            setTimeout(function () { $("profileDot").classList.remove("arriving"); letterDone = true; unlock(); }, arrive);
+          }, Math.max(0, gone + delay));
+        }, secs("--ob-sweep-delay"));
+      }, shrink);
+    }
+  }
+  // The pointer light crosses the button block once, left to right, at its middle, fading in at the start and out at the
+  // end: the same light, moved by the app instead of the pointer, small at the edges (--ob-sweep-ends), growing toward
+  // the block's middle (--ob-sweep-grow) and shrinking again past it, arcing down from above the block's middle to below
+  // it (--ob-sweep-rise, --ob-sweep-drop). Used once, at the onboarding's end.
+  function sweep(duration, done) {
+    if (reduce) { done(); return; }
+    var c = document.querySelector(".controls"), b = document.querySelector(".block").getBoundingClientRect();
+    var css = getComputedStyle(app), reach = parseFloat(css.getPropertyValue("--glow-r")) || 70;
+    var grow = parseFloat(css.getPropertyValue("--ob-sweep-grow")) || 1, ends = parseFloat(css.getPropertyValue("--ob-sweep-ends")) || 1;
+    var rise = parseFloat(css.getPropertyValue("--ob-sweep-rise")) || 0, drop = parseFloat(css.getPropertyValue("--ob-sweep-drop")) || 0;
+    var from = b.left - reach * ends, to = b.right + reach * ends, middle = b.top + b.height / 2, t0 = performance.now();
+    var top = middle - rise, bottom = middle + drop;
+    c.style.setProperty("--my", top + "px"); c.style.setProperty("--mx", from + "px"); c.classList.add("lit");
+    (function step(now) {
+      var k = duration ? Math.min(1, (now - t0) / duration) : 1, e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      c.style.setProperty("--mx", from + (to - from) * e + "px");
+      c.style.setProperty("--my", top + (bottom - top) * (1 - Math.pow(1 - e, 2)) + "px");
+      c.style.setProperty("--glow-r", reach * (ends + (grow - ends) * Math.sin(Math.PI * e)) + "px");
+      if (k < 1) { requestAnimationFrame(step); return; }
+      // The end: the light shrinks to nothing where it stands, over --ob-sweep-fade, so no fade lagging behind can flash.
+      // Only once it is gone does it lose its strength and take its usual size back.
+      var out = (parseFloat(css.getPropertyValue("--ob-sweep-fade")) || 0) * 1000, t1 = performance.now(), last = reach * ends;
+      (function shrink(now) {
+        var q = out ? Math.min(1, (now - t1) / out) : 1;
+        c.style.setProperty("--glow-r", last * (1 - q) + "px");
+        if (q < 1) { requestAnimationFrame(shrink); return; }
+        // Gone: what comes next can start now, while the light loses its strength and takes its size back unseen.
+        done();
+        c.classList.remove("lit");
+        setTimeout(function () { c.style.removeProperty("--glow-r"); }, 2 * (parseFloat(css.getPropertyValue("--speed-ui")) || 0.2) * 1000);
+      })(t1);
+    })(t0);
+  }
+  $("simOnboard").addEventListener("click", startOnboarding);
+
+  // ---- A record that cannot be read: the locked panel offers the newest copy, which the dashboard shows ----
+  var DAYS_LONG = ["söndag", "måndag", "tisdag", "onsdag", "torsdag", "fredag", "lördag"];
+  var MONTHS = ["januari", "februari", "mars", "april", "maj", "juni", "juli", "augusti", "september", "oktober", "november", "december"];
+  var recoverKind = null;
+  // kind: "copy" (the file is broken and yesterday's copy is offered), "bare" (broken, no copy yet), "newer" (too new).
+  function startRecovery(kind) {
+    recoverKind = kind; onboarding = true;
+    if (kind !== "copy") {
+      entries = []; balance = 0; used = 0; usedLog = []; pay = 0; shown.balance = 0; shown.used = 0; shown.pay = 0;
+      running = null; syncSim(); settleScale(0, false); drawEntries(false);
+    }
+    var copyDay = new Date(Date.now() - 24 * 3600 * 1000);
+    var words = {
+      // The dashboard sits right of the panel, or above it in a narrow window
+      copy: ["Programmet kunde ej startas.", "Din data är korrupt. Dashboarden " + (app.classList.contains("narrow") ? "ovanför" : "till höger") + " visar senaste bra kopian, från " + DAYS_LONG[copyDay.getDay()] + " " + copyDay.getDate() + " " + MONTHS[copyDay.getMonth()] + ".", "Använd kopian", "Inget ändras förrän du väljer."],
+      bare: ["Programmet kunde ej startas.", "Din data är korrupt, och appen hann aldrig spara någon kopia, men det hände tidigt: ladda bara om filen du importerade, eller starta om och fyll i för hand om något försvann.", "Starta nytt", "Den skadade filen ersätts när du är klar."],
+      newer: ["Din fil kommer från en nyare version.", "Den här versionen av TimeFold kan inte öppna den. Hämta den senaste versionen och starta appen igen.", "Hämta senaste", "Appen stängs när du klickar på knappen, så att du kan installera om."]
+    }[kind];
+    $("rcTitle").textContent = words[0]; $("rcLine").textContent = words[1]; $("rcMainLabel").textContent = words[2]; $("rcNote").textContent = words[3];
+    $("rcImport").hidden = kind === "newer";
+    $("recover").hidden = false; $("recover").classList.remove("fading"); $("onboard").hidden = true;
+    $("menu").classList.add("onboarding", "ob-solid"); setMenu(true); $("menuBody").inert = true; recolour();
+    var label = $("copyLabel");
+    label.hidden = kind !== "copy";
+    if (kind === "copy") {
+      label.textContent = "Kopia · " + DAY[copyDay.getDay()] + " " + copyDay.getDate() + " " + MONTHS[copyDay.getMonth()].slice(0, 3);
+      label.classList.remove("pulse"); void label.offsetWidth; label.classList.add("pulse");
+    }
+    setTimeout(function () { $("rcMain").focus(); }, 0);
+  }
+  // The copy taken, or the onboarding started instead of it. For a newer record the button opens the releases page and
+  // closes the app, so the installer can replace it; the prototype can only open the page.
+  $("rcMain").addEventListener("click", function () {
+    if (recoverKind === "newer") { window.open("https://github.com/J-manLans/TimeFold/releases", "_blank"); return; }
+    if (recoverKind === "bare") { $("recover").hidden = true; $("onboard").hidden = false; $("obBal").value = ""; $("obName").value = ""; $("obBalRead").textContent = ""; obStep("balance"); return; }
+    // "Använd kopian": the words fade, the panel turns to frost and folds away, as at the onboarding's end
+    var css = getComputedStyle(app), secs = function (n) { return parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
+    $("recover").classList.add("fading"); app.classList.add("locked");
+    setTimeout(function () {
+      $("menu").classList.add("ob-frosting"); $("menu").classList.remove("ob-solid");
+      setTimeout(function () {
+        $("menu").classList.remove("ob-frosting"); onboarding = false; setMenu(false); $("copyLabel").hidden = true;
+        setTimeout(function () { $("menu").classList.remove("onboarding"); $("recover").hidden = true; app.classList.remove("locked"); recoverKind = null; }, secs("--speed-menu"));
+      }, secs("--ob-frost-in"));
+    }, secs("--speed-ui"));
+  });
+  $("simBroken").addEventListener("click", function () { startRecovery("copy"); });
+  $("simBrokenBare").addEventListener("click", function () { startRecovery("bare"); });
+  $("simNewer").addEventListener("click", function () { startRecovery("newer"); });
+
+  function setMenu(open) {
+    if (!open && typeof closePicker === "function") closePicker(false);
+    if (open) { selectTab("profiler"); renderMenu(); }
+    $("menu").classList.toggle("open", open); $("menuBody").inert = !open;
+    document.querySelector(".controls").classList.toggle("menu-open", open);
+    $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
+  }
+  $("menuBtn").addEventListener("click", function () { setMenu(!$("menu").classList.contains("open")); });
+  // A click anywhere outside the open menu closes it, as Esc does.
+  document.addEventListener("pointerdown", function (e) {
+    if ($("menu").classList.contains("open") && !onboarding && !$("menu").contains(e.target)) setMenu(false);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !onboarding) { setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true; } });
+  $("addProfile").addEventListener("click", function () {
+    var n = $("newName").value.trim(); if (!n) return;
+    var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
+    setHue(q, nextProfileHue(profiles.map(function (x) { return x.id; })));
+    profiles.push(q); $("newName").value = ""; openRow = q.id; renderProfiles(); drawControls();
+  });
+
+  // ---- Menu: tabs, counting values locked behind "Ändra", profile rows that open in place ----
+  function selectTab(name) {
+    document.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.tab === name)); });
+    document.querySelectorAll(".tabpanel").forEach(function (pnl) {
+      var on = pnl.dataset.panel === name;
+      if (on && pnl.hidden) { pnl.hidden = false; pnl.style.animation = "none"; void pnl.offsetWidth; pnl.style.animation = ""; }
+      else if (!on) pnl.hidden = true;
+    });
+  }
+  document.querySelectorAll(".tab").forEach(function (b) { b.addEventListener("click", function () { selectTab(b.dataset.tab); }); });
+
+  var MONTHS = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+  function isoDay(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function fmtDay(s) { var x = s.split("-"); return (+x[2]) + " " + MONTHS[+x[1] - 1] + " " + x[0]; }
+  function hLen(m) { return Math.floor(m / 60) + (m % 60 ? ":" + String(m % 60).padStart(2, "0") : "") + "h"; }
+  function readHours(s) { s = s.trim(); var m = /^(\d{1,2}):(\d{2})$/.exec(s); if (m) return +m[1] * 60 + +m[2]; if (/^\d{1,2}$/.test(s)) return +s * 60; return null; }
+  function now(h) { return h[h.length - 1].v; }
+  // Counting settings change from a date; each keeps its history.
+  var settings = {
+    fullTime: [{ from: "2026-01-01", v: 480 }],
+    split: [{ from: "2026-01-01", v: 360 }],      // janitor's expected minutes a day; the ceiling gets the rest
+    monthStart: [{ from: "2026-01-01", v: 1 }]
+  };
+  profiles.forEach(function (q) {
+    q.pay = q.salary ? { kind: "salary", hist: [{ from: "2026-01-01", v: q.salary }] } : { kind: "rate", hist: q.rate ? [{ from: "2026-01-01", v: q.rate }] : [] };
+    q.category = q.balance ? "Månadslön" : "Timlön"; q.archived = false;
+  });
+  function activeProfiles() { return profiles.filter(function (q) { return !q.archived; }); }
+  setHue(balanceProfile(), NEON.start);
+  profiles.forEach(function (q) { if (!q.colour) setHue(q, nextProfileHue(profiles.filter(function (x) { return x !== q && x.colour; }).map(function (x) { return x.id; }))); });
+
+  // A locked counting value: text with "Ändra"; "Ändra" opens the editor; Enter confirms and asks "Gäller från"
+  // (today unless moved); Esc aborts at any step. "Tidigare värden (n)" lists the earlier values.
+  // Only one value is open for editing at a time: "Ändra" on another aborts the open one.
+  var openEdit = null;
+  function lockedValue(o) {
+    var wrap = document.createElement("div"); wrap.className = "lv";
+    var row = document.createElement("div"); row.className = "lv-row";
+    var lab = document.createElement("span"); lab.className = "lv-label"; lab.textContent = o.label;
+    var val = document.createElement("span"); val.className = "lv-val";
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
+    var keys = document.createElement("span"); keys.className = "keys"; keys.hidden = true;
+    row.append(lab, val, btn, keys); wrap.appendChild(row);
+    var slider = null, legend = null, input = null, date = null, stage = "locked", pending = null;
+    if (o.slider) {
+      var box = document.createElement("div"); box.className = "split";
+      slider = document.createElement("input"); slider.type = "range"; slider.min = 0; slider.max = o.slider.max(); slider.step = 15; slider.disabled = true;
+      slider.setAttribute("aria-label", o.label);
+      legend = document.createElement("div"); legend.className = "split-legend";
+      box.append(slider, legend); wrap.appendChild(box);
+      slider.addEventListener("input", function () { legend.textContent = ""; o.slider.legend(+slider.value, legend); });
+    }
+    var histBtn = document.createElement("button"); histBtn.type = "button"; histBtn.className = "lv-hist-btn";
+    var hist = document.createElement("ul"); hist.className = "lv-hist"; hist.hidden = true;
+    wrap.append(histBtn, hist);
+    histBtn.addEventListener("click", function () { hist.hidden = !hist.hidden; });
+    function show() {
+      var h = o.hist(); val.textContent = h.length ? o.show(now(h)) : "Inget satt"; keys.hidden = true; btn.hidden = false;
+      if (input) { input.remove(); input = null; } if (date) { date.remove(); date = null; }
+      val.hidden = false;
+      if (slider) { slider.max = o.slider.max(); slider.value = h.length ? now(h) : 0; slider.disabled = true; legend.textContent = ""; o.slider.legend(+slider.value, legend); }
+      var older = h.slice(0, -1).reverse();
+      histBtn.textContent = "Tidigare värden (" + older.length + ")"; histBtn.hidden = !older.length;
+      clear(hist);
+      older.forEach(function (e, k) {
+        var until = h[h.length - 1 - k].from, li = document.createElement("li");
+        li.textContent = o.show(e.v) + ", från " + fmtDay(e.from) + " till " + fmtDay(isoDay(new Date(new Date(until).getTime() - 864e5)));
+        hist.appendChild(li);
+      });
+      stage = "locked"; if (openEdit === me) openEdit = null;
+    }
+    function abort() { show(); btn.focus(); }
+    var me = { abort: function () { show(); } };
+    function askDate(v) {
+      pending = v; stage = "date";
+      if (input) { input.remove(); input = null; }
+      if (slider) slider.disabled = true;
+      val.hidden = false; val.textContent = o.show(v) + "  ·  Gäller från";
+      date = document.createElement("input"); date.type = "date"; date.value = isoDay(new Date());
+      date.setAttribute("aria-label", "Gäller från");
+      row.insertBefore(date, btn); btn.hidden = true;
+      keys.textContent = "Enter sparar · Esc avbryter"; keys.hidden = false; date.focus();
+    }
+    function commit() {
+      if (!date || !date.value) return;
+      var h = o.hist(), from = date.value;
+      for (var k = h.length - 1; k >= 0; k--) if (h[k].from === from) h.splice(k, 1);
+      h.push({ from: from, v: pending }); h.sort(function (a, b) { return a.from < b.from ? -1 : 1; });
+      show(); if (o.onCommit) o.onCommit(); btn.focus();
+    }
+    btn.addEventListener("click", function () {
+      if (openEdit && openEdit !== me) openEdit.abort();
+      openEdit = me;
+      stage = "edit"; btn.hidden = true; keys.textContent = "Enter fortsätter · Esc avbryter"; keys.hidden = false;
+      if (slider) { slider.disabled = false; slider.focus(); return; }
+      val.hidden = true;
+      input = document.createElement("input"); input.type = "text"; input.value = o.hist().length ? o.toText(now(o.hist())) : "";
+      input.setAttribute("aria-label", o.label); row.insertBefore(input, btn); input.focus(); input.select();
+    });
+    wrap.addEventListener("keydown", function (e) {
+      if (stage === "locked") return;
+      if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); abort(); }
+      else if (e.key === "Enter") {
+        e.preventDefault();
+        if (stage === "edit") {
+          var v = slider ? +slider.value : o.parse(input.value);
+          if (v === null || v === undefined || (typeof v === "number" && isNaN(v))) return;
+          if (o.undated) { o.save(v); show(); if (o.onCommit) o.onCommit(); btn.focus(); }
+          else askDate(v);
+        }
+        else if (stage === "date") commit();
+      }
+    });
+    show(); wrap.refresh = function () { if (stage === "locked") show(); }; return wrap;
+  }
+
+  // ---- The app's own colour picker: a hue strip of base colours, and the pair's codes; always inside the menu ----
+  function hsvToRgb(h, s, v) {
+    var f = function (n) { var k = (n + h / 60) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); };
+    return [f(5), f(3), f(1)];
+  }
+  function rgbToHsv(r, g, b) {
+    var max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min, h = 0;
+    if (d) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    return [(h * 60 + 360) % 360, max ? d / max : 0, max];
+  }
+  var pick = null;   // { el, anchor, h, onChange, owner }
+  // Each place on the strip (0-360) with its base and neon, worked out once, so a drag only looks them up.
+  var STRIP = null;
+  function stripTable() {
+    if (STRIP) return STRIP;
+    STRIP = [];
+    for (var at = 0; at <= 360; at++) { var h = stripHue(at % 360); STRIP.push({ base: baseColour(h), neon: neonColour(h) }); }
+    return STRIP;
+  }
+  function stripAt(h) { return stripTable()[Math.round(Math.min(360, Math.max(0, h)))]; }
+  function buildPicker() {
+    var el = document.createElement("div"); el.className = "cpick"; el.hidden = true; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Välj färg");
+    el.innerHTML = '<input class="hue" type="range" min="0" max="360" step="1" aria-label="Kulör">' +
+      '<div class="cp-pair">' +
+      '<div class="cp-row"><span class="cp-now cp-base"></span><input class="cp-hex cp-base-hex" type="text" readonly aria-label="Grundfärgens kod" spellcheck="false"></div>' +
+      '<div class="cp-row"><span class="cp-now cp-neon"></span><input class="cp-hex cp-neon-hex" type="text" readonly aria-label="Neonfärgens kod" spellcheck="false"></div>' +
+      '</div>';
+    $("menu").appendChild(el);
+    var hue = el.querySelector(".hue"), t = stripTable(), stops = [];
+    for (var at = 0; at <= 360; at += 10) stops.push(t[at].base + " " + (at / 3.6).toFixed(2) + "%");
+    hue.style.setProperty("--cp-strip", "linear-gradient(to right, " + stops.join(", ") + ")");
+    // Dragging moves only the circle, filled with the neon of where it sits; the rows and the app follow on release.
+    hue.addEventListener("input", function () { pick.h = +hue.value; drawThumb(); });
+    hue.addEventListener("change", function () { drawRows(); apply(); });
+    // The codes are only read: a click selects one, ready to copy.
+    el.querySelectorAll(".cp-hex").forEach(function (f) { f.addEventListener("focus", function () { f.select(); }); });
+    el.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); closePicker(true); } });
+    return el;
+  }
+  function drawThumb() { pick.el.querySelector(".hue").style.setProperty("--cp-neon", stripAt(pick.h).neon); }
+  function drawRows() {
+    var c = stripAt(pick.h), el = pick.el;
+    el.querySelector(".cp-base").style.background = c.base; el.querySelector(".cp-base-hex").value = c.base;
+    el.querySelector(".cp-neon").style.background = c.neon; el.querySelector(".cp-neon-hex").value = c.neon;
+  }
+  function drawPicker() { pick.el.querySelector(".hue").value = Math.round(pick.h); drawThumb(); drawRows(); }
+  // Each release keeps the colour; Esc, a click outside or scrolling the menu only closes the picker.
+  function apply() { pick.onChange(stripAt(pick.h).base, pick.h); }
+  // strip: where the hue strip starts, for a colour that remembers it; otherwise read from the colour.
+  // owner: the profile whose colour is picked; it gets the wheel while the picker is open.
+  function openPicker(anchor, hex, onChange, strip, owner) {
+    var el = (pick && pick.el) || buildPicker();
+    var c = hexToRgb(hex), h = strip === undefined ? rgbToHsv(c[0], c[1], c[2])[0] : strip;
+    pick = { el: el, anchor: anchor, h: h, onChange: onChange, owner: owner };
+    el.hidden = false;
+    // Place it under the swatch, kept inside the menu on every side.
+    var m = $("menu").getBoundingClientRect(), a = anchor.getBoundingClientRect(), w = el.offsetWidth, ht = el.offsetHeight;
+    var left = Math.min(Math.max(8, a.left - m.left), m.width - w - 8);
+    var topPos = a.bottom - m.top + 6; if (topPos + ht > m.height - 8) topPos = Math.max(8, a.top - m.top - ht - 6);
+    el.style.left = left + "px"; el.style.top = topPos + "px";
+    drawPicker(); recolour(); el.querySelector(".hue").focus();
+  }
+  function closePicker(refocus) {
+    if (!pick || pick.el.hidden) return;
+    pick.el.hidden = true; recolour(); if (refocus) pick.anchor.focus();
+  }
+  // A click outside the picker (and outside its swatch) closes it.
+  document.addEventListener("pointerdown", function (e) {
+    if (pick && !pick.el.hidden && !pick.el.contains(e.target) && e.target !== pick.anchor) closePicker(false);
+  }, true);
+  $("menuBody").addEventListener("scroll", function () { closePicker(false); });
+  // A profile's colour field: the pair it wears, the base and the neon as two small swatches that are always true
+  // whatever the balance, and "Ändra", which opens the picker beside it; a second press closes it.
+  function colourField(q, onChange) {
+    var wrap = document.createElement("div"); wrap.className = "lv";
+    var row = document.createElement("div"); row.className = "lv-row";
+    var lab = document.createElement("span"); lab.className = "lv-label"; lab.textContent = "Färg";
+    var val = document.createElement("span"); val.className = "lv-val pair";
+    var base = document.createElement("span"), neon = document.createElement("span"); val.append(base, neon);
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
+    row.append(lab, val, btn); wrap.appendChild(row);
+    function sync() { base.style.background = q.colour; neon.style.background = profColour(q.id); }
+    btn.addEventListener("click", function () {
+      if (pick && !pick.el.hidden && pick.anchor === btn) { closePicker(true); return; }
+      openPicker(btn, q.colour, function (hex, h) { onChange(hex, h); sync(); }, q.strip, q.id);
+    });
+    sync();
+    return wrap;
+  }
+
+  var openRow = null;
+  function renderProfiles() {
+    var ul = $("plist"); clear(ul);
+    profiles.forEach(function (q) {
+      var li = document.createElement("li"); li.className = "prow" + (openRow === q.id ? " open" : "") + (q.archived ? " archived" : "");
+      var head = document.createElement("button"); head.type = "button"; head.className = "prow-head"; head.setAttribute("aria-expanded", String(openRow === q.id));
+      var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = stateColours(q.id).letter; d.style.borderColor = stateColours(q.id).ring;
+      var nm = document.createElement("span"); nm.textContent = q.name;
+      head.append(d, nm);
+      if (q.archived) { var ar = document.createElement("span"); ar.className = "mark"; ar.textContent = "arkiverad"; head.appendChild(ar); }
+      var chev = document.createElement("span"); chev.className = "chev"; chev.textContent = "›"; head.appendChild(chev);
+      // Opening a row folds any other open row; both move with an animation, nothing is rebuilt.
+      head.addEventListener("click", function () {
+        var opening = openRow !== q.id;
+        document.querySelectorAll(".prow.open").forEach(function (r) {
+          r.classList.remove("open"); r.querySelector(".prow-head").setAttribute("aria-expanded", "false"); r.querySelector(".prow-wrap").inert = true;
+        });
+        if (opening && openEdit) openEdit.abort();
+        openRow = opening ? q.id : null;
+        if (opening) { li.classList.add("open"); head.setAttribute("aria-expanded", "true"); wrap.inert = false; }
+      });
+      li.appendChild(head);
+      var wrap = document.createElement("div"); wrap.className = "prow-wrap"; wrap.inert = openRow !== q.id;
+      {
+        var body = document.createElement("div"); body.className = "prow-body";
+        // Name and pay category change at once: no count depends on them.
+        // Name and pay category: behind "Ändra" like every field; no "Gäller från", since no count depends on them.
+        var f1 = lockedValue({
+          label: "Namn", undated: true, hist: function () { return [{ v: q.name }]; },
+          show: function (v) { return v; }, toText: function (v) { return v; },
+          parse: function (s) { return s.trim() ? s.trim() : null; },
+          save: function (v) { q.name = v; },
+          onCommit: function () { nm.textContent = q.name; d.textContent = q.name.charAt(0).toUpperCase(); drawControls(); }
+        });
+        var f2 = lockedValue({
+          label: "Lönekategori", undated: true, hist: function () { return [{ v: q.category }]; },
+          show: function (v) { return v || "Ingen"; }, toText: function (v) { return v; },
+          parse: function (s) { return s.trim(); },
+          save: function (v) { q.category = v; }
+        });
+        var pay = lockedValue({
+          label: q.pay.kind === "salary" ? "Månadslön" : "Timpris",
+          hist: function () { return q.pay.hist; },
+          show: function (v) { return v.toLocaleString("sv-SE") + (q.pay.kind === "salary" ? " € / månad" : " € / h"); },
+          toText: function (v) { return String(v); },
+          parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; }
+        });
+        var fc = colourField(q, function (hex, h) { q.colour = hex; q.strip = h; q.hue = stripHue(h); syncOver(); recolour(); });
+        function syncOver() { var c = stateColours(q.id); d.style.color = c.letter; d.style.borderColor = c.ring; }
+        body.append(f1, fc, pay, f2);
+        if (!q.balance) {
+          var f3 = document.createElement("div"); f3.className = "field";
+          var arch = document.createElement("button"); arch.type = "button"; arch.className = "small";
+          arch.textContent = q.archived ? "Återställ" : "Arkivera";
+          arch.addEventListener("click", function () {
+            q.archived = !q.archived;
+            if (q.archived && onScreen === q.id) onScreen = activeProfiles()[0].id;
+            renderProfiles(); recolour();
+          });
+          var sp = document.createElement("span"); f3.append(sp, arch); body.appendChild(f3);
+        }
+        var clip = document.createElement("div"); clip.className = "prow-clip";
+        clip.appendChild(body); wrap.appendChild(clip); li.appendChild(wrap);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function renderSettings() {
+    var wt = $("workTime"); clear(wt); var splitCtl;
+    wt.appendChild(lockedValue({
+      label: "Heltid", hist: function () { return settings.fullTime; }, show: hLen,
+      toText: function (v) { return hLen(v).replace("h", ""); }, parse: readHours,
+      // A new full time only refreshes the split beside it; nothing is rebuilt, so no other edit or focus is lost.
+      onCommit: function () { if (splitCtl) splitCtl.refresh(); }
+    }));
+    wt.appendChild(splitCtl = lockedValue({
+      label: "Fördelning", hist: function () { return settings.split; },
+      show: function (v) { return hLen(v) + " | " + hLen(now(settings.fullTime) - v); },
+      slider: {
+        max: function () { return now(settings.fullTime); },
+        legend: function (v, el) {
+          var a = document.createElement("span"); a.textContent = profiles[0].name + " " + hLen(v);
+          var b = document.createElement("span"); b.textContent = "Tak " + hLen(now(settings.fullTime) - v) + " / vardag";
+          el.append(a, b);
+        }
+      }
+    }));
+    var ms = $("monthStart"); clear(ms);
+    ms.appendChild(lockedValue({
+      label: "Månaden börjar", hist: function () { return settings.monthStart; },
+      show: function (v) { return "den " + v + ":e"; }, toText: function (v) { return String(v); },
+      parse: function (s) { var n = +s.trim(); return /^\d{1,2}$/.test(s.trim()) && n >= 1 && n <= 28 ? n : null; }
+    }));
+  }
+  function renderMenu() { renderProfiles(); renderSettings(); }
+  // Sketch only: where the profiles' hues sit on the colour circle.
+  function drawHueRing() {
+    var svg = $("hueRing"); if (!svg) return; clear(svg);
+    svg.appendChild(el("circle", { cx: 30, cy: 30, r: 22, fill: "none", stroke: "currentColor", "stroke-opacity": 0.25, "stroke-width": 1 }));
+    profiles.forEach(function (q) {
+      if (q.archived) return;
+      var hex = q.colour, h = labToLch(rgbToOklab(hexToRgb(hex)))[2] * Math.PI / 180;
+      svg.appendChild(el("circle", { cx: 30 + 22 * Math.sin(h), cy: 30 - 22 * Math.cos(h), r: 5, fill: hex }));
+    });
+  }
+  // Theme: "system" follows the computer; the dark tokens live in one block, .app.dark.
+  var darkMq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+  function applyTheme() {
+    var th = app.dataset.appTheme; app.classList.toggle("dark", th === "dark" || (th === "system" && !!darkMq && darkMq.matches));
+    if (typeof drawFigures === "function") { applyColours(); drawFigures(); }
+  }
+  if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", applyTheme);
+  applyTheme();
+  // The theme button: only Ljust (sun) and Mörkt (moon), each click to the other. A fresh install follows the system
+  // until the first click; the button shows the theme in force either way.
+  var THEMES = [["light", "Ljust"], ["dark", "Mörkt"]];
+  function themeInForce() { return app.classList.contains("dark") ? "dark" : "light"; }
+  function drawThemeIcon() {
+    var th = themeInForce(), svg = $("themeIcon"); clear(svg);
+    var ink = "currentColor";
+    if (th === "light") {
+      svg.appendChild(el("circle", { cx: 12, cy: 12, r: 4, fill: "none", stroke: ink, "stroke-width": 1.8 }));
+      for (var k = 0; k < 8; k++) { var a = k * Math.PI / 4; svg.appendChild(el("line", { x1: 12 + 7 * Math.cos(a), y1: 12 + 7 * Math.sin(a), x2: 12 + 9.5 * Math.cos(a), y2: 12 + 9.5 * Math.sin(a), stroke: ink, "stroke-width": 1.8, "stroke-linecap": "round" })); }
+    } else {
+      svg.appendChild(el("path", { d: "M15.5 3.5a8.5 8.5 0 1 0 5 13.4A7 7 0 0 1 15.5 3.5z", fill: "none", stroke: ink, "stroke-width": 1.8, "stroke-linejoin": "round" }));
+    }
+    var name = THEMES.filter(function (x) { return x[0] === th; })[0][1];
+    $("themeLabel").textContent = name; $("themeBtn").setAttribute("aria-label", "Tema: " + name + ". Klicka för nästa.");
+  }
+  $("themeBtn").addEventListener("click", function () {
+    app.dataset.appTheme = themeInForce() === "dark" ? "light" : "dark"; applyTheme(); drawThemeIcon();
+  });
+  if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", drawThemeIcon);
+  drawThemeIcon();
+  // Sketch only: back to a fresh install's theme, following the system.
+  $("simSystemTheme").addEventListener("click", function () { app.dataset.appTheme = "system"; applyTheme(); drawThemeIcon(); });
+
+  // ---- A running entry from an earlier day: the app opens on a later date and says so ----
+  // Asked only when the app opens, never while it runs. Stoppa stops the running entry as the start/stop button does,
+  // undo included, whichever profile is on screen; Fortfarande igång closes it, and nothing is remembered.
+  function showLate() {
+    $("lateLine").textContent = prof(running.profile).name + " pågår sedan igår " + clock(running.start) + ".";
+    $("lateScrim").hidden = false; $("lateStop").focus();
+  }
+  $("lateStop").addEventListener("click", function () {
+    var snap = snapshot(), at = clock(new Date());
+    $("lateScrim").hidden = true; stopRunning(); offerUndo("stopp " + at, snap); drawControls();
+  });
+  $("lateGo").addEventListener("click", function () { $("lateScrim").hidden = true; });
+  // Sketch only: as if the app were opened this morning with janitor work running since 21:30 yesterday.
+  $("simLate").addEventListener("click", function () {
+    if (onboarding || app.classList.contains("locked")) return;
+    setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true;
+    var start = new Date(); start.setDate(start.getDate() - 1); start.setHours(21, 30, 0, 0);
+    running = { profile: balanceProfile().id, start: start, real: true };   // Stoppa records it from 21:30 yesterday
+    drawControls(); showLate();
+  });
+
+  // ---- Today's pie: one slice per expected hour of the balance profile, live while it runs ----
+  // A slice clicks in whole as its hour is worked and lights; past the expected hours the next lap fills over the last,
+  // the neon and the base by turns; the slice filling at the end of a lap, the last of the first, grows in thirds. Counted again once a minute while that profile runs. Sketch only:
+  // "Worked today" in the toolbar stands for the day's earlier entries.
+  var EXPECTED = 360, pieShown = null, todayBase = 232;
+  function workedToday() {
+    var q = balanceProfile(), day = new Date().toDateString(), m = todayBase;
+    entries.forEach(function (e) { if (e.profile === q.id && e.start.toDateString() === day) m += dur(e); });
+    if (running && running.profile === q.id && !running.real) m += Math.max(0, (Date.now() - running.start) / 60000);
+    return Math.floor(m);
+  }
+  // A slice from a0 to a1, its gap set in along both sides; gEnd 0 ends it straight inside a slice, as a part's fill does
+  function pieSlice(a0, a1, ri, ro, g, gEnd) {
+    var end = gEnd === undefined ? g : gEnd;
+    var pt = function (a, r) { return [50 + r * Math.sin(a), 50 - r * Math.cos(a)]; };
+    var off = function (gg, r) { return Math.asin(Math.min(1, gg / 2 / r)); };
+    var o0 = pt(a0 + off(g, ro), ro), o1 = pt(a1 - off(end, ro), ro), i1 = pt(a1 - off(end, ri), ri), i0 = pt(a0 + off(g, ri), ri);
+    return "M" + o0 + " A" + ro + " " + ro + " 0 0 1 " + o1 + " L" + i1 + " A" + ri + " " + ri + " 0 0 0 " + i0 + " Z";
+  }
+  // The pie's state, as the app's todaySlices(): each lap of slices is a slice's worth of the expected time per slice;
+  // laps take the base and the neon by turns; the slice filling at the end of a lap, the last of the first, grows in parts
+  function pieState(worked, expected, parts) {
+    // In whole minutes times slices and parts, so a part clicks in on its exact minute, with no rounding drift
+    var slices = Math.max(1, Math.round(expected / 60)), whole = Math.floor(worked * slices / expected);
+    var lap = Math.floor(whole / slices), filled = whole % slices, split = lap === 0 ? slices - 1 : filled;
+    var into = worked * slices * parts - (lap * slices + split) * expected * parts;
+    var partsFilled = into > 0 ? Math.min(parts - 1, Math.floor(into / expected)) : 0;
+    return { slices: slices, lap: lap, filled: filled, split: split, parts: parts, partsFilled: partsFilled };
+  }
+  function lapClass(lap) { return lap % 2 === 0 ? "done" : "over"; }
+  function sliceClass(k, st) { return k < st.filled ? lapClass(st.lap) : st.lap === 0 ? "empty" : lapClass(st.lap - 1); }
+  function drawPie() {
+    if (!EXPECTED) return;   // drawControls can run before the pie's state is set up
+    var svg = $("todayPie"), q = balanceProfile(), p = profPair(q), worked = workedToday();
+    // Shown only while the balance profile works
+    svg.style.display = running && running.profile === q.id ? "" : "none";
+    var st = pieState(worked, EXPECTED, PIE.parts), n = st.slices, step = 2 * Math.PI / n, ri = 49 * PIE.inner / 100;
+    var was = pieShown, fresh = was && (st.lap !== was.lap || st.filled !== was.filled) ? (st.filled + n - 1) % n : -1;
+    var freshPart = was && fresh === -1 && st.partsFilled > was.partsFilled;
+    pieShown = st;
+    svg.style.setProperty("--pie-base", p.base); svg.style.setProperty("--pie-neon", p.over);
+    clear(svg);
+    for (var k = 0; k < n; k++) {
+      var path = el("path", { d: pieSlice(k * step, (k + 1) * step, ri, 49, PIE.gap) });
+      path.setAttribute("class", sliceClass(k, st));
+      if (k === fresh) path.classList.add("fresh");
+      svg.appendChild(path);
+    }
+    // The split slice's fill, a part at a time, straight where it stops inside the slice
+    if (st.partsFilled > 0) {
+      var a0 = st.split * step, part = el("path", { d: pieSlice(a0, a0 + step * st.partsFilled / st.parts, ri, 49, PIE.gap, 0) });
+      part.setAttribute("class", lapClass(st.lap)); if (freshPart) part.classList.add("fresh");
+      svg.appendChild(part);
+    }
+    $("simTodayVal").textContent = hmPlain(worked);
+  }
+
+  setInterval(function () { if (running) drawPie(); }, 60000);
+  $("simToday").addEventListener("input", function () { todayBase = +this.value; drawPie(); });
+
+  // Sketch toolbar
+  function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
+  $("simBal").addEventListener("input", function () { balance = +this.value; shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); restate(); });
+  $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); drawFigures(); restate(); });
+  // Where the profiles stand changed: the letter, the focus rings and the open menu's circles follow.
+  function restate() {
+    drawControls(); if ($("menu").classList.contains("open")) renderProfiles();
+    // The open profile popup's circles too; its buttons are the active profiles, in order.
+    if (!$("scrim").hidden) Array.prototype.forEach.call($("popupList").children, function (b, i) {
+      var c = stateColours(activeProfiles()[i].id), d = b.querySelector(".mini-dot"); d.style.color = c.letter; d.style.borderColor = c.ring;
+    });
+  }
+  function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
+  $("divLine").addEventListener("click", function () { setDivider("line"); });
+  $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
+  app.classList.toggle("glow-discs", $("simDiscGlow").checked);
+  $("simDiscGlow").addEventListener("change", function () { app.classList.toggle("glow-discs", this.checked); });
+  // Narrow: the box, or a page too narrow for the two sides
+  var narrowPage = window.matchMedia("(max-width: 760px)");
+  function setNarrow() { app.classList.toggle("narrow", $("simNarrow").checked || narrowPage.matches); }
+  $("simNarrow").addEventListener("change", setNarrow);
+  narrowPage.addEventListener("change", setNarrow);
+  setNarrow();
+  $("simPrune").addEventListener("change", function () { $("prune").style.visibility = this.checked ? "visible" : "hidden"; });
+
+  scale = pickScale(Math.abs(balance));
+  applyColours(); syncSim(); drawControls(); drawEntries(false); drawFigures();
+})();
+</script>
