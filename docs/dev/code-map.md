@@ -86,3 +86,6 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `vite.config.ts`: the dev server Tauri loads, and the aliases `$lib` for `src/lib` and `$tests` for `tests` (also in
   `tsconfig.app.json`); `svelte.config.js`; `tsconfig.json` with `tsconfig.app.json` (the interface) and
   `tsconfig.node.json` (the config files).
+- `.github/workflows/release.yml`: the release build. A pushed version tag checks that the tag and the three versions
+  agree, then builds the Windows and Linux installers with Tauri's action onto a draft release
+  (`docs/dev/procedures/release.md`).

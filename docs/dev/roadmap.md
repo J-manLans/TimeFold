@@ -25,6 +25,7 @@ Phase 1: Clocking, in vibe mode once the owner starts it: the steps below, then 
 | The pointer light                                                                                                                                        | written | run: in the app window on Linux                                                                                             |
 | The dashboard: the balance and the flex bar, the ceiling wheel and the pay estimate, the five recent entries, "Visa alla" and its popup                  | written | run: the rules in tests; the record's upgrade and the screen in the app window on Linux, which the owner found right        |
 | The onboarding: the locked panel, the balance and the name, the record saved on the name, the ending with its light sweep                                | written | run: the duration rules in tests; the screen not yet seen                                                                   |
+| The release: the GitHub action building the Windows and Linux installers from a version tag, and its procedure                                           | written | written: never run                                                                                                          |
 | The popup for a running entry from an earlier day: asked at opening, Stoppa with its undo, Fortfarande igång                                             | written | run: the rules and the words in tests; the screen not yet seen                                                              |
 | The recovery: the daily copy at start (31 kept, none the same as the newest), the screen for a record that cannot be read with the copy on the dashboard | written | run: the copy rules in Rust tests, the newest copy and the recovery's choice in tests; the screen not yet seen              |
 
@@ -41,9 +42,9 @@ Windows and Linux").
 
 **Produces:** an app that starts, stops and keeps janitor work, with the balance in view.
 
-1. The window's minimum size ("A narrow window stacks the dashboard over the controls"), tuned on the app. Then the
-   release ("The app reaches each machine as an installer from a GitHub release"): the GitHub action building the
-   Windows and Linux installers from a version tag, `docs/dev/procedures/release.md`, and `v0.1.0`.
+1. The window's minimum size ("A narrow window stacks the dashboard over the controls"), tuned on the app from its first
+   value. Then `v0.1.0` ("The app reaches each machine as an installer from a GitHub release"), by
+   `docs/dev/procedures/release.md`.
 
    The owner makes the `v0.1.0` release by hand, start to finish: raising the version, pushing the tag, publishing the
    draft. It is the owner's first release, a step in their developer career, and the agent only guides. Something to

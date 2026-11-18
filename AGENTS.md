@@ -75,8 +75,9 @@ Scaled to the task:
    `docs/dev/design-decisions/README.md` and the area files the opinion touches, and `docs/dev/open-questions.md`.
 3. Before building or tuning the prototype, in any design pass: `docs/dev/procedures/prototype.md`.
 4. In debug mode: `docs/dev/procedures/debugging.md`.
-5. Before reading code: the code map.
-6. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
+5. Before a release: `docs/dev/procedures/release.md`.
+6. Before reading code: the code map.
+7. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 
 ## Where things go
 

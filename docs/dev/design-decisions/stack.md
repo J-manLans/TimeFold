@@ -110,7 +110,7 @@ and check on the first click.
 
 ## The app reaches each machine as an installer from a GitHub release (2026-11-16)
 
-**Built by:** Clocking, for the build, the first release and the link to it; Reports, for the updater.
+**Built by:** Clocking, for the first release; Reports, for the updater.
 
 **Decision:** the owner builds only on Linux. A release is made by pushing a version tag, such as `v0.2.0`; GitHub then
 builds the installers with Tauri's action, for Windows and for Linux, and puts them on a draft release on the repo's
