@@ -35,7 +35,8 @@
 
   .screen {
     display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    /* 3 : 2, the dashboard stopping at its launch width */
+    grid-template-columns: minmax(0, 1fr) minmax(0, min(40%, var(--dashboard-max-width)));
     min-height: 100vh;
   }
 

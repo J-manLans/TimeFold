@@ -25,7 +25,8 @@ at the divider, and the menu's content fades in once it is open; the three lines
 same spot, where the menu closes, shrinking back into the button; Esc or a click anywhere outside the menu closes it
 too. The panel is frosted: slightly see-through, with the controls side lightly blurred behind it, and in the light
 theme tinted a little darker than the controls side so it stands out. The figures stay sharp and in view while settings
-change. New profiles are made from the menu. The right side is narrower, about two fifths of the window, and is the
+change. New profiles are made from the menu. The right side is narrower, two fifths of the window up to its launch width
+of 440 px, beyond which the controls side takes the extra room, its figures spread down its full height; it is the
 living one, changing at each stop, and looks like a modern terminal dashboard, not a retro one: a near-black panel in
 the dark theme and a deep slate-blue one (#2c3e5c) in the light theme, its rows a step darker and its text light,
 numbers in a monospaced font with their digits lined up, thin lines, small uppercase labels, and small, precise motion

@@ -9,9 +9,9 @@ How the screen stacks in a narrow window, and the window's minimum size. Each de
 set width, they stack, the dashboard on top and the controls side under it, each the window's full width. The window has
 a minimum size, small enough to stand as a strip beside another window and large enough that the stacked screen fits
 without scrolling, so the start button is always in view. The sides stack below 640 px; the window is at least 400 px
-wide and 640 px tall, tuned on the app. In a narrow window the menu button sits in the controls side's lower left corner
-instead of the top left, so the row it kept at the top goes; the panel grows from that corner, and its heading takes the
-top row. The width lives in the component's media query, since CSS cannot read a custom property there.
+wide and 650 px tall, its height at launch. In a narrow window the menu button sits in the controls side's lower left
+corner instead of the top left, so the row it kept at the top goes; the panel grows from that corner, and its heading
+takes the top row. The width lives in the component's media query, since CSS cannot read a custom property there.
 
 **Why:** the owner keeps the app on a second screen, often squeezed beside another window: tall and thin, the screen's
 full height but little of its width. There it is mostly looked at, and the figures are what is looked at, so they come

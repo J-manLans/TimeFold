@@ -83,7 +83,7 @@
   .dashboard {
     position: relative;
     display: grid;
-    align-content: start;
+    align-content: var(--dashboard-spread);
     gap: var(--dashboard-gap);
     padding: var(--dashboard-padding);
     overflow-y: auto;

@@ -148,7 +148,9 @@
   --dashboard-font-weight: 400;
   --dashboard-label-tracking: 0.14em;
   --dashboard-padding: 22px 26px 18px 30px;
-  --dashboard-gap: 18px;
+  --dashboard-gap: 0px;
+  --dashboard-max-width: 440px; /* its width at launch, two fifths of the 1100 px window; the controls take the rest */
+  --dashboard-spread: space-evenly; /* the figures up and down its height: center, space-between, space-around, space-evenly, start */
   --dashboard-inner-gap: 6px; /* inside a figure: the number and its bar, a label and its list */
   --divider-width: 1px; /* the line between the two sides, in --dashboard-line */
 
