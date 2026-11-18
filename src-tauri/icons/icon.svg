@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1024" height="1024">
+  <!-- TimeFold icon: the ceiling wheel as the app draws it, simplified for small sizes -->
+  <rect x="6" y="6" width="188" height="188" rx="44" fill="#0d1014"/>
+  <!-- inner face -->
+  <circle cx="100" cy="100" r="49" fill="#0d1014"/>
+  <g transform="rotate(-90 100 100)" fill="none" stroke-width="28">
+    <!-- the unused part of the month's lap -->
+    <circle cx="100" cy="100" r="66" stroke="#7ed6d5"/>
+    <!-- worked hours, lit in the profile's neon -->
+    <circle cx="100" cy="100" r="66" stroke="#fc0055" stroke-dasharray="269.4 414.7"/>
+  </g>
+  <!-- the face's ticks, a long one every quarter -->
+  <g stroke="#2c3440" stroke-width="2.2" stroke-linecap="round" ><line x1="113.60" y1="58.15" x2="112.05" y2="62.91"/><line x1="125.86" y1="64.40" x2="122.92" y2="68.45"/><line x1="135.60" y1="74.14" x2="131.55" y2="77.08"/><line x1="141.85" y1="86.40" x2="137.09" y2="87.95"/><line x1="141.85" y1="113.60" x2="137.09" y2="112.05"/><line x1="135.60" y1="125.86" x2="131.55" y2="122.92"/><line x1="125.86" y1="135.60" x2="122.92" y2="131.55"/><line x1="113.60" y1="141.85" x2="112.05" y2="137.09"/><line x1="86.40" y1="141.85" x2="87.95" y2="137.09"/><line x1="74.14" y1="135.60" x2="77.08" y2="131.55"/><line x1="64.40" y1="125.86" x2="68.45" y2="122.92"/><line x1="58.15" y1="113.60" x2="62.91" y2="112.05"/><line x1="58.15" y1="86.40" x2="62.91" y2="87.95"/><line x1="64.40" y1="74.14" x2="68.45" y2="77.08"/><line x1="74.14" y1="64.40" x2="77.08" y2="68.45"/><line x1="86.40" y1="58.15" x2="87.95" y2="62.91"/></g>
+  <g stroke="#2c3440" stroke-width="4.5" stroke-linecap="round">
+    <line x1="100" y1="58" x2="100" y2="70"/>
+    <line x1="142" y1="100" x2="130" y2="100"/>
+    <line x1="100" y1="142" x2="100" y2="130"/>
+    <line x1="58" y1="100" x2="70" y2="100"/>
+  </g>
+</svg>

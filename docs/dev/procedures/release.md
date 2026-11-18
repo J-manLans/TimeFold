@@ -25,8 +25,8 @@ the day the app is finished and the Excel backup goes.
 4. **Tag and push the tag:** `git tag v0.1.0`, then `git push origin v0.1.0`. This starts the build.
 5. **Watch the build** on the repo's Actions page. It first checks that the tag and the three versions agree, then
    builds on Windows and on Linux, each in about ten to fifteen minutes.
-6. **Publish:** on the releases page, the draft "TimeFold v0.1.0" holds the installers: for Windows an `.msi` and an
-   `-setup.exe`, for Linux a `.deb`, an `.rpm` and an `.AppImage`. Read it over, then "Publish release".
+6. **Publish:** on the releases page, the draft "TimeFold v0.1.0" holds the installers: for Windows a `-setup.exe`, for
+   Linux a `.deb`, an `.rpm` and an `.AppImage`. Read it over, then "Publish release".
 7. **Install** on each machine from the releases page: on Windows the `-setup.exe`, on Linux the `.deb`. A newer
    installer updates the program in place and leaves the record, its copies and the settings untouched.
 

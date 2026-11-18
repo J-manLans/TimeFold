@@ -121,7 +121,7 @@ fn save_settings(app: AppHandle, json: String) -> Result<(), String> {
 // ======================================
 
 /// The app's data folder (named by the identifier in tauri.conf.json), made if it does not exist yet. Used by every
-/// command: on Linux, `~/.local/share/TimeFold`.
+/// command: on Linux, `~/.local/share/io.github.j-manlans.timefold`.
 fn data_folder(app: &AppHandle) -> Result<PathBuf, String> {
     let folder = app.path().app_data_dir().map_err(|e| e.to_string())?;
     std::fs::create_dir_all(&folder).map_err(|e| e.to_string())?;

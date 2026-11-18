@@ -51,8 +51,8 @@ compiled styles into one CSS file.
 **Fix, in order:**
 
 1. Stop `npm run tauri dev` and start it again.
-2. If the layout is still gone, delete `~/.local/share/TimeFold/WebKitCache` (the window's cached pages only; the record
-   and settings are beside it, not in it) and start again.
+2. If the layout is still gone, delete `~/.local/share/io.github.j-manlans.timefold/WebKitCache` (the window's cached
+   pages only; the record and settings are beside it, not in it) and start again.
 3. If it keeps coming back, compile every component when the dev server starts, by adding
    `warmup: { clientFiles: ['./src/**/*.svelte'] }` under `server` in `vite.config.ts`. It is dev-only and costs well
    under a second; it is code, so it waits for the owner's go.

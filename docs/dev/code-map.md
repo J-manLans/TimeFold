@@ -77,7 +77,8 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   commands that build the interface.
 - `capabilities/`: what the interface may ask of the Rust half and its plugins, such as closing the window and opening
   the releases page (the opener plugin).
-- `Cargo.toml`: the Rust half's packages; `icons/`: the app's icons.
+- `Cargo.toml`: the Rust half's packages; `icons/`: the app's and the installers' icons, made from `icons/icon.svg`, the
+  only one drawn by hand, with `npx tauri icon src-tauri/icons/icon.svg`.
 
 ## Configuration at the root
 

@@ -6,7 +6,10 @@ next, not the branch name.
 
 ## Next
 
-Phase 2: Breaks and flex days, in design mode, starting from its **Settle first**.
+`v0.1.1`, the patch with the capped dashboard, the NSIS-only Windows installer and the new identifier, by
+`docs/dev/procedures/release.md`. On Windows, uninstall `v0.1.0` first: its old identifier keeps it from updating in
+place. The record starts fresh in the new data folder; the old one held no real numbers. Then Phase 2: Breaks and flex
+days, in design mode, starting from its **Settle first**.
 
 ## State
 
