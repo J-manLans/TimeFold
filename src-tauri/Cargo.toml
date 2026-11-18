@@ -1,6 +1,6 @@
 [package]
 name = "timefold"
-version = "0.1.0"
+version = "0.1.1"
 description = "TimeFold: flex time and hours per kind of work"
 edition = "2024"
 rust-version = "1.90"
