@@ -114,7 +114,11 @@ and check on the first click.
 
 **Decision:** the owner builds only on Linux. A release is made by pushing a version tag, such as `v0.2.0`; GitHub then
 builds the installers with Tauri's action, for Windows and for Linux, and puts them on a draft release on the repo's
-releases page, which the owner publishes. The action stops if the tag and the app's version disagree. The owner installs
+releases page, which the owner publishes. For Windows it builds two installers, both in Swedish: a `-setup.exe`, which
+installs for the Windows user alone and needs no admin rights, and is the one the owner installs; and an `.msi`, which
+installs for the whole machine and needs admin rights, a backup should the `.exe` fail, and the form an IT department
+deploys. One machine gets one of them, never both, or it holds two copies of the program. Either way the record is the
+Windows user's own, in their data folder. The action stops if the tag and the app's version disagree. The owner installs
 on each machine from that page; a newer installer updates the program in place and leaves the app's data folder (the
 record, its copies and the settings) untouched, and uninstalling keeps it unless the owner ticks to delete it. The
 version is major.minor.patch, raised by hand in `tauri.conf.json`, `package.json` and `Cargo.toml` alike, by the release
@@ -127,11 +131,13 @@ release and offers to install it.
 machine will every time the app changes. A tag builds only what the owner means to use. Releases for Linux too mean the
 home machine runs what the work machine runs. The data folder is separate from the program, so updating can never cost
 the record; the refusal of a newer record keeps an old installer from harming it, and its link says where to go. A minor
-version per phase names each step on the way, and 1.0 marks the app standing alone, without the Excel backup.
+version per phase names each step on the way, and 1.0 marks the app standing alone, without the Excel backup. The `.exe`
+installs on a work machine without admin rights; the `.msi` costs nothing to build and keeps a wider rollout open.
 
 **Rejected:** building on Windows: a second dev setup to keep up. A build on every push: slow, and installers nobody
-meant to use. The updater from the start: signing keys and setup for a problem that does not exist while one person
-installs by hand.
+meant to use. The `.exe` alone: no backup if it fails, and no form for an IT department. A per-user `.msi`: Tauri's
+installs per machine. The updater from the start: signing keys and setup for a problem that does not exist while one
+person installs by hand.
 
 **Revisit if:** releases come so often that installing by hand is a chore, before the last phase.
 

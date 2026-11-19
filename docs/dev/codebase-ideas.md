@@ -87,3 +87,13 @@ since a copy costs nothing and an identical one is dropped: at the first save af
 its own record from memory, valid by construction, to write as the day's copy. Not built: the owner closes the app every
 evening, and it would be a second way of making copies for a case that barely happens. Rejected for it: an offer on the
 prune line ("no copy today, make one?"), a question whose only answer is yes.
+
+## The app for the whole school
+
+**Returns when:** the school, or colleagues, want to use the app.
+
+The app is built for the owner alone: one janitor balance, the owner's own pay categories and report. A school rollout
+would ask what in it is the owner's and what each teacher sets for themselves, and how IT installs it. The installing
+part is ready: each release has an `.msi`, the form an IT department deploys to many machines, and the record is already
+each Windows user's own ("The app reaches each machine as an installer from a GitHub release", in `design-decisions/`).
+The rest is a question for the vision.
