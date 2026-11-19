@@ -58,6 +58,12 @@ export interface LockedPanel {
   letter: boolean
 }
 
+/**
+ * The computer's reduced-motion setting, which the motion follows while it is "System". Above the class, since its
+ * fields read it when `app` is made
+ */
+const REDUCED_MOTION = '(prefers-reduced-motion: reduce)'
+
 class AppState {
   // === State ===
 
@@ -343,9 +349,6 @@ async function readNewestCopy(): Promise<Copy | null> {
     return null
   }
 }
-
-/** The computer's reduced-motion setting, which the motion follows while it is "System" */
-const REDUCED_MOTION = '(prefers-reduced-motion: reduce)'
 
 /** The locked panel as it opens, before any step of its ending */
 const PANEL_OPEN: LockedPanel = { ending: false, frosted: false, folded: false, sweeping: false, letter: false }
