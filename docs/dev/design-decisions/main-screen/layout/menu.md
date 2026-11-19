@@ -5,8 +5,7 @@ cited by its title.
 
 ## The menu has tabs, with every value locked behind "Ändra" (2026-11-17)
 
-**Built by:** Breaks and flex days, for the tab row and the Tid tab with the flex-day calendar; Profiles, for the
-Profiler and Orsaker tabs, the working time in Tid, and the reasons.
+**Built by:** Profiles, for the Profiler and Orsaker tabs, the working time in Tid, and the reasons.
 
 **Decision:** the menu has three tabs across its top: **Profiler**, **Tid** and **Orsaker**. Profiler is selected when
 the menu opens, and one tab's content shows at a time; switching fades from one to the next. Beside the "Meny" heading

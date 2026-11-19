@@ -67,8 +67,6 @@ shows what runs, but opening on the running profile is what the owner expects.
 
 ## The last click can be undone for a few seconds (2026-11-15)
 
-**Built by:** Breaks and flex days, for an added break.
-
 **Decision:** a round undo button sits beside "Lägg till paus", the two centred together under the button block, drawn
 like the profile button's disc in its dent with a turning-back arrow. It is faded out when there is nothing to undo, and
 eases between faded and awake in 0.2 seconds rather than snapping. After a start, a stop or a break set ("Time away is a
