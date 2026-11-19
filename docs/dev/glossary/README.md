@@ -8,7 +8,7 @@ a term by its name, never at a part.
 copy, Dashboard, Day total, Design token, Dimmed colour, Entry, Entry line, Errand, Expected hours.
 
 **[F–O](f-o.md):** Faded, Flex bar, Flex day, Focus outline, Full time, Gap, Handover, Hue (a profile's), Lit, Locked
-panel, Month, Month line, Neon, Onboarding, Opening figures.
+panel, Month, Month line, Motion (Animerat, Stilla), Neon, Onboarding, Opening figures.
 
 **[P–Z](p-z.md):** Padlock, Pay category, Pay estimate, Peek, Pointer light, Profile, Prototype, Prune, Reason (an
 edit's), Recovery screen, Release, Report, Settings file, Sketch, Small deviations, Standing (a profile's), Tip, Today's

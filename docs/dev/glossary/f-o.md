@@ -42,6 +42,10 @@ and pruning count by it.
 **Month line.** In the "Visa alla" popup, the quiet line where the list crosses into a month, naming it and its year
 ("november 2026"). The recent list has none.
 
+**Motion.** The app's own setting for whether anything moves: **Animerat** or **Stilla** (nothing moves), set with the
+motion switch beside the theme button and following the system's reduced-motion setting until it is first clicked; in
+the settings file.
+
 **Neon.** A profile's colour for "more than expected": hours over the ceiling, a plus balance, and the numbers that show
 them; the opposite of the profile's hue at its most vivid, never picked. The one hot accent.
 

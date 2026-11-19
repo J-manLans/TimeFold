@@ -36,8 +36,8 @@ Linux on the repo's releases page ("The app reaches each machine as an installer
 
 **Report.** A period's record, exported from the app for the owner to send to their boss.
 
-**Settings file.** Each machine's own `settings.json` beside the record, holding what belongs to that computer, such as
-the theme; never in the record or the handover.
+**Settings file.** Each machine's own `settings.json` beside the record, holding what belongs to that computer: the
+theme and the motion; never in the record or the handover.
 
 **Standing (a profile's).** Where a profile's figure is: past its line (the balance in plus, or the ceiling passed) or
 not (at 0 or below). Its letter, its small circle and the focus outline wear it, the neon past the line and the base
