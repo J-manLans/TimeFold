@@ -1,13 +1,14 @@
 <!--
-  The menu ("The menu has two tabs, with every value locked behind "Ändra""): folded, it is the button in the controls
+  The menu ("The menu has tabs, with every value locked behind "Ändra""): folded, it is the button in the controls
   side's top-left corner; open, it grows from that corner into a frosted panel over the whole controls side, with the
-  "Meny" heading and the theme button. A click on the button, a click outside or Esc closes it. The tabs come with
-  Profiles. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
+  "Meny" heading, the theme button, and the tab row with Tid, holding the flex-day calendar. A click on the button, a
+  click outside or Esc closes it. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
   imports"), or with the screen for a record that cannot be read: solid while it asks, then frost, then folded into its
   button.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import FlexCalendar from './FlexCalendar.svelte'
   import Onboarding from './Onboarding.svelte'
   import Recovery from './Recovery.svelte'
   import ThemeButton from './ThemeButton.svelte'
@@ -76,7 +77,19 @@
         <h2>Meny</h2>
         <ThemeButton />
       </div>
-      <!-- TODO: the two tabs, Profiler and Tid, in Profiles -->
+      <!-- TODO: Profiler, first and open when the menu opens, and Orsaker, in Profiles -->
+      <div class="tabs" role="tablist" aria-label="Menyns delar">
+        <button class="tab" role="tab" type="button" aria-selected="true">Tid</button>
+      </div>
+      <div class="panel" role="tabpanel" aria-label="Tid">
+        <section>
+          <span class="label">Flexledig</span>
+          <!-- Drawn anew each time the menu opens, so the padlock is shut again and today's month shows -->
+          {#key open}
+            <FlexCalendar />
+          {/key}
+        </section>
+      </div>
     </div>
   {/if}
 </div>
@@ -168,7 +181,46 @@
     font-weight: var(--menu-heading-weight);
   }
 
+  .tabs {
+    display: flex;
+    gap: var(--menu-tab-gap);
+    border-bottom: 1px solid var(--menu-line);
+  }
+
+  .tab {
+    margin-bottom: -1px;
+    padding: var(--menu-tab-padding);
+    border: 0;
+    border-bottom: var(--menu-tab-line) solid transparent;
+    background: none;
+    color: var(--menu-text-muted);
+    font: inherit;
+    font-size: var(--menu-tab-size);
+    cursor: pointer;
+  }
+
+  .panel {
+    display: grid;
+    align-content: start;
+    gap: var(--menu-panel-gap);
+  }
+
+  section {
+    display: grid;
+    gap: var(--menu-section-gap);
+  }
+
+  .label {
+    min-width: var(--menu-label-width);
+    color: var(--menu-text-muted);
+  }
+
   /* === States === */
+
+  .tab[aria-selected='true'] {
+    border-bottom-color: var(--profile-neon, var(--menu-text));
+    color: var(--menu-text);
+  }
 
   .menu.open {
     clip-path: inset(0 round 0);

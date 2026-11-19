@@ -245,6 +245,37 @@
   --menu-inset: 12px; /* where the folded menu button sits */
   --menu-padding: 16px 18px 24px;
   --menu-gap: 20px;
+  --menu-tab-padding: 7px 10px;
+  --menu-tab-gap: 2px; /* between the tabs */
+  --menu-tab-line: 2px; /* under the selected tab, in the neon of the profile on screen */
+  --menu-panel-gap: 14px; /* between the parts of a tab */
+  --menu-section-gap: 10px; /* between a part's label and what it holds */
+  --menu-label-width: 110px; /* a value's label: "Heltid", "Fördelning", "Flexledig" */
+
+  /* === Controls: the flex-day calendar in the Tid tab === */
+  --calendar-cell: 30px; /* each day's square */
+  --calendar-gap: 4px; /* between the days, and between the lines of the list */
+  --calendar-head-height: 28px; /* the month and its arrows */
+  --calendar-head-gap: 8px; /* between the month and the weekday names */
+  --calendar-weekday-height: 16px; /* with the two above, sets where the list's first line starts */
+  --calendar-side-gap: 24px; /* between the calendar and the list of marked days on its right */
+  --calendar-wrap-gap: 16px;
+  --calendar-nav-gap: 6px;
+  --calendar-nav-size: 16px; /* ‹ and › */
+  --calendar-title-size: 13px;
+  --calendar-weekday-size: 10.5px;
+  --calendar-day-size: 12px;
+  --calendar-today-weight: 700;
+  --calendar-marked-text: #10141a; /* a day's number on the base colour */
+  --calendar-lock-size: 14px; /* the padlock beside the month name, which unlocks the days gone by */
+  --calendar-lock-pad: 4px;
+  --calendar-lock-stroke: 2.2;
+  --calendar-list-size: 12px;
+  --calendar-list-gap: 8px; /* between a month's name and its days, and between the days */
+  --calendar-list-min-width: 110px;
+  --calendar-month-column: 3.5ch;
+  --calendar-year-size: 11px;
+  --calendar-year-weight: 700;
 
   /* === Controls: the onboarding, the menu's panel locked open at the first start === */
   --onboarding-panel: light-dark(rgb(208 216 230), rgb(26 28 32)); /* the frost's tint, made solid */

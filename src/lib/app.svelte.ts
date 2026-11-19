@@ -16,6 +16,7 @@ import {
   type Recovery,
   type TimeRecord,
 } from '$lib/modules/shared/record'
+import { toggleFlexDay } from '$lib/modules/menu/flexDays'
 import { nextTheme, shownTheme, type ShownTheme, type Theme } from '$lib/modules/menu/settings'
 import {
   copyRecord,
@@ -164,6 +165,19 @@ class AppState {
     this.lastClick = done.click
     await saveRecord(done.record)
     return null
+  }
+
+  /**
+   * A day clicked in the flex-day calendar: marked as a flex day, or unmarked, and saved; the balance on screen follows
+   * at once. A weekend, or a day gone by while the padlock is shut, is left as it is. Used by each day in the calendar
+   * @param unlocked - whether the calendar's padlock is open
+   */
+  async toggleFlexDay(day: Day, unlocked: boolean): Promise<void> {
+    if (this.record === null) return
+    const done = toggleFlexDay(this.record, day, localDay(Date.now()), unlocked)
+    if (!done.ok) return
+    this.record = done.record
+    await saveRecord(done.record)
   }
 
   /** The undo pressed. Used by the undo button: reverses the last click if its time is not up, then saves */
