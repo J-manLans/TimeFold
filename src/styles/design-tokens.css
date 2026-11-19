@@ -125,6 +125,10 @@
   --field-background: light-dark(#ffffff, #2a2d33); /* fields: text 16:1 */
   --field-height: 28px;
   --pause-field-width: 72px;
+  --pause-field-padding: 0 8px;
+  --pause-field-tracking: 0.02em;
+  --pause-field-focus-offset: 1px; /* the field's focus ring, in the running profile's neon */
+  --pause-reading-gap: 4px; /* from the field down to how it reads what is typed */
   --undo-time: 15s; /* how long a click can be undone; the logic reads it from here */
   --undo-afterglow: 0.65; /* how strong the neon's afterglow is when the undo wakes; it fades to nothing */
 
@@ -187,6 +191,8 @@
   --entry-later-gap: 2px;
   --entry-cell-gap: 10px;
   --entry-tag-size: 11px;
+  --entry-tag-padding: 0 5px;
+  --entry-tag-radius: 4px;
   --entry-padding: 5px 8px;
   --entry-gap: 2px;
   --entry-hover: 10%; /* how much of the text colour lights a hovered row */

@@ -1,11 +1,13 @@
 /**
- * What a click on the start/stop button does to the record, and how the last click is undone ("One start/stop button
- * and a profile list"; "The last click can be undone for a few seconds"), and the entry left running from an earlier
- * day ("A running entry from an earlier day asks"). Pure: each function returns a new record.
+ * What a click on the start/stop button does to the record, and how the last click, an added break among them, is
+ * undone ("One start/stop button and a profile list"; "The last click can be undone for a few seconds"), and the entry
+ * left running from an earlier day ("A running entry from an earlier day asks"). Pure: each function returns a new
+ * record.
  */
 
 import { localDay, timeOfDay } from '$lib/modules/shared/counting'
 import { dayInWords } from '$lib/modules/shared/dates'
+import { durationText } from '$lib/modules/shared/timeInput'
 import { type Entry, type Timestamp, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
@@ -17,6 +19,7 @@ export type Click =
   | { kind: 'start'; at: Timestamp; started: string }
   | { kind: 'stop'; at: Timestamp; stopped: string }
   | { kind: 'switch'; at: Timestamp; stopped: string; started: string }
+  | { kind: 'break'; at: Timestamp; entry: string; minutes: number }
 
 /**
  * The start/stop button pressed with `profileId` on screen, at `now`: stops that profile's running entry, or else
@@ -85,10 +88,15 @@ export function lateWords(record: TimeRecord, entry: Entry, now: Date): { headin
 /**
  * Reverses `click` exactly, if `now` is less than `windowSeconds` after it; otherwise the record is left as it is.
  * Compares with the clock, so a window hidden past the time cannot undo a late click. Used by the undo button:
- * a stop at 15:40 undone at 15:40:10 runs on.
+ * a stop at 15:40 undone at 15:40:10 runs on; an added break undone is gone from its entry.
  */
 export function undo(record: TimeRecord, click: Click, now: Date, windowSeconds: number): TimeRecord {
   if (now.getTime() - Date.parse(click.at) >= windowSeconds * 1000) return record
+
+  if (click.kind === 'break') {
+    const withoutLast = (e: Entry): Entry => ({ ...e, breaks: e.breaks.slice(0, -1) })
+    return { ...record, entries: record.entries.map((e) => (e.id === click.entry ? withoutLast(e) : e)) }
+  }
 
   const runsOn = (e: Entry): Entry => ({ ...e, stop: null })
   let entries = record.entries
@@ -98,15 +106,28 @@ export function undo(record: TimeRecord, click: Click, now: Date, windowSeconds:
 }
 
 /**
- * What the undo would undo, for its label after "Ångra: ": the click's kind and time, and for a switch the profile
- * stopped and the one started. Used by the undo button's tip: "stopp 15:40", "byte 13:00 (Vaktis →
- * Utvecklingsgruppen)"
+ * What the undo would undo, for its label after "Ångra: ": the click's kind and time, for a switch the profile
+ * stopped and the one started, and for a break its length. Used by the undo button's tip: "stopp 15:40", "byte 13:00
+ * (Vaktis → Utvecklingsgruppen)", "paus 20min"
  */
 export function clickLabel(record: TimeRecord, click: Click): string {
+  if (click.kind === 'break') return `paus ${durationText(click.minutes)}`
   const time = timeOfDay(click.at)
   if (click.kind === 'start') return `start ${time}`
   if (click.kind === 'stop') return `stopp ${time}`
   return `byte ${time} (${profileName(record, click.stopped)} → ${profileName(record, click.started)})`
+}
+
+/**
+ * A moment written as the record keeps it: to the second, with this machine's offset. Used by `press` for every start
+ * and stop, and for the moment of every click: 2026-11-16T08:02:15+02:00
+ */
+export function toTimestamp(now: Date): Timestamp {
+  const two = (n: number): string => String(Math.floor(Math.abs(n))).padStart(2, '0')
+  const offset = -now.getTimezoneOffset()
+  const day = `${now.getFullYear()}-${two(now.getMonth() + 1)}-${two(now.getDate())}`
+  const time = `${two(now.getHours())}:${two(now.getMinutes())}:${two(now.getSeconds())}`
+  return `${day}T${time}${offset >= 0 ? '+' : '-'}${two(offset / 60)}:${two(offset % 60)}`
 }
 
 // ======================================
@@ -117,18 +138,6 @@ export function clickLabel(record: TimeRecord, click: Click): string {
 function profileName(record: TimeRecord, entryId: string): string {
   const profileId = record.entries.find((e) => e.id === entryId)?.profile
   return record.profiles.find((p) => p.id === profileId)?.name ?? ''
-}
-
-/**
- * A moment written as the record keeps it: to the second, with this machine's offset. Used by `press` for every start
- * and stop: 2026-11-16T08:02:15+02:00
- */
-function toTimestamp(now: Date): Timestamp {
-  const two = (n: number): string => String(Math.floor(Math.abs(n))).padStart(2, '0')
-  const offset = -now.getTimezoneOffset()
-  const day = `${now.getFullYear()}-${two(now.getMonth() + 1)}-${two(now.getDate())}`
-  const time = `${two(now.getHours())}:${two(now.getMinutes())}:${two(now.getSeconds())}`
-  return `${day}T${time}${offset >= 0 ? '+' : '-'}${two(offset / 60)}:${two(offset % 60)}`
 }
 
 /** The next free entry id after the highest `eN` in the record. Used by `press` for a new entry: e1 and e2 give e3 */

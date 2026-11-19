@@ -12,6 +12,7 @@
   import { neonColour } from '$lib/modules/shared/colours'
   import ButtonBlock from './ButtonBlock.svelte'
   import LatePopup from './LatePopup.svelte'
+  import PauseField from './PauseField.svelte'
   import PruneLine from './PruneLine.svelte'
   import StatusLine from './StatusLine.svelte'
   import UndoButton from './UndoButton.svelte'
@@ -132,8 +133,7 @@
     </div>
     <StatusLine />
     <div class="pause-row">
-      <!-- TODO: "Lägg till paus" works in Phase 2 -->
-      <button class="pause" type="button" disabled>Lägg till paus</button>
+      <PauseField />
       <UndoButton />
     </div>
   </div>
@@ -189,20 +189,6 @@
     height: var(--pause-row-height);
   }
 
-  .pause {
-    background-attachment: fixed;
-    height: var(--pause-height);
-    padding: var(--pause-padding);
-    border: 0;
-    border-radius: var(--radius-button);
-    background: var(--button-background);
-    color: var(--button-text);
-    box-shadow: var(--shadow-button);
-    font: inherit;
-    font-size: var(--pause-text-size);
-    font-weight: var(--pause-font-weight);
-  }
-
   /* === States === */
 
   .controls.lit {
@@ -216,14 +202,6 @@
 
   .controls.menu-open > :global(:not(.menu)) {
     --glow-strength: 0;
-  }
-
-  .pause:not(:disabled) {
-    background-image: var(--pointer-light);
-  }
-
-  .pause:disabled {
-    opacity: var(--opacity-disabled);
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -3,8 +3,9 @@
  * dashboard"). The five most recent and the "Visa alla" popup read the same rows.
  */
 
-import { localDay, shownMinutes, timeOfDay } from '$lib/modules/shared/counting'
+import { localDay, secondsByDay, shownMinutes, timeOfDay } from '$lib/modules/shared/counting'
 import { dayShort } from '$lib/modules/shared/dates'
+import { durationText } from '$lib/modules/shared/timeInput'
 import { type Day, type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
@@ -23,7 +24,9 @@ export interface EntryRow {
   letter: string
   /** Its profile's base colour, which the letter wears so each profile's rows are found at a glance */
   base: string
-  /** Its length in hours and minutes: "3:32" */
+  /** Its added breaks together, as a tag: "paus 20min"; empty with none */
+  tag: string
+  /** Its length worked in hours and minutes, its breaks taken off: "3:32" */
   length: string
 }
 
@@ -37,21 +40,25 @@ export function stoppedEntries(record: TimeRecord): Entry[] {
 
 /**
  * What a stopped entry's row says. Used by every row in both lists: Monday 16 November 07:58 to 11:30 for the janitor
- * gives { day: 'mån 16', times: '07:58–11:30', later: 0, letter: 'V', base: '#7ed6d5', length: '3:32' }. An entry
- * across midnight reads on the day it started, with its whole length, and says how many days later it stops.
+ * gives { day: 'mån 16', times: '07:58–11:30', later: 0, letter: 'V', base: '#7ed6d5', tag: '', length: '3:32' }. An
+ * entry across midnight reads on the day it started, with its whole length, and says how many days later it stops;
+ * its added breaks come off the length and show together as one tag.
  */
 export function entryRow(entry: Entry, record: TimeRecord): EntryRow {
   const start = new Date(entry.start)
   const stop = entry.stop ?? entry.start
   const profile = record.profiles.find((p) => p.id === entry.profile)
   const name = profile?.name ?? ''
-  const minutes = shownMinutes((Date.parse(stop) - start.getTime()) / 1000)
+  const worked = [...secondsByDay({ ...entry, stop })].reduce((sum, [, seconds]) => sum + seconds, 0)
+  const minutes = shownMinutes(worked)
+  const breakMinutes = entry.breaks.reduce((sum, b) => sum + b.minutes, 0)
   return {
     day: dayShort(localDay(start.getTime())),
     times: `${timeOfDay(entry.start)}–${timeOfDay(stop)}`,
     later: daysBetween(localDay(start.getTime()), localDay(Date.parse(stop))),
     letter: name.charAt(0).toUpperCase(),
     base: profile?.base ?? '',
+    tag: breakMinutes > 0 ? `paus ${durationText(breakMinutes)}` : '',
     length: `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}`,
   }
 }

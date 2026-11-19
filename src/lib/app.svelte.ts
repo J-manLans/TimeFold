@@ -4,6 +4,7 @@
  * component that reads a field follow it when it changes.
  */
 
+import { addBreak, type BreakRefusal } from '$lib/modules/controls/breaks'
 import { press, runningSinceEarlierDay, stopRunning, undo, type Click } from '$lib/modules/controls/clock'
 import { localDay } from '$lib/modules/shared/counting'
 import {
@@ -148,6 +149,21 @@ class AppState {
   /** The popup's "Fortfarande igång": the entry runs on and the popup closes, remembering nothing. Used by the popup */
   keepLate(): void {
     this.late = null
+  }
+
+  /**
+   * A break of `minutes` added to the running entry of the profile on screen, which the undo can take back, then saved.
+   * Used by "Lägg till paus" on Enter
+   * @returns why it was refused, or null once added
+   */
+  async addBreak(minutes: number): Promise<BreakRefusal | null> {
+    if (this.record === null) return 'nothing-runs'
+    const done = addBreak(this.record, this.onScreen, minutes, new Date())
+    if (!done.ok) return done.why
+    this.record = done.record
+    this.lastClick = done.click
+    await saveRecord(done.record)
+    return null
   }
 
   /** The undo pressed. Used by the undo button: reverses the last click if its time is not up, then saves */

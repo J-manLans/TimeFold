@@ -10,7 +10,7 @@
   import { onMount, tick, untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
-  import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/menu/timeInput'
+  import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
   import ChoiceButton from '$lib/components/shared/ChoiceButton.svelte'
 
   // === Props ===
