@@ -2,6 +2,9 @@
 
 Terms P–Z, in alphabetical order. The index and the rules for terms are in `README.md`.
 
+**Padlock.** In the flex-day calendar, the small lock beside the month name: opened, days gone by can be marked or
+unmarked as flex days; it shuts again when the menu closes. A weekend and a day worked stay locked either way.
+
 **Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
 
 **Pay estimate.** A rough figure of the month's pay: salaries plus hours times rates, for the owner only; never in the

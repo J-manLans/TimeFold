@@ -4,8 +4,6 @@ What the app is built with. Each decision follows the template in `README.md`, a
 
 ## Tauri, desktop on Windows and Linux (2026-11-14)
 
-**Built by:** Clocking, for the program on Windows.
-
 **Decision:** the app is built with Tauri: a web-style interface on the system's webview, with a Rust backend, packaged
 as one small program for Windows and Linux.
 
@@ -112,7 +110,7 @@ and check on the first click.
 
 ## The app reaches each machine as an installer from a GitHub release (2026-11-16)
 
-**Built by:** Clocking, for the first release; Reports, for the updater.
+**Built by:** Reports, for the updater.
 
 **Decision:** the owner builds only on Linux. A release is made by pushing a version tag, such as `v0.2.0`; GitHub then
 builds the installers with Tauri's action, for Windows and for Linux, and puts them on a draft release on the repo's

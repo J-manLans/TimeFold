@@ -1483,14 +1483,17 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
   }
   $("menuBtn").addEventListener("click", function () { setMenu(!$("menu").classList.contains("open")); });
-  // A click anywhere outside the open menu closes it, as Esc does.
+  // A click anywhere outside the open menu closes it, as Esc does; "Visa alla" and its popup keep it open, so closing
+  // the popup comes back to the menu.
   document.addEventListener("pointerdown", function (e) {
+    if (e.target === $("moreBtn") || $("allPop").contains(e.target)) return;
     if ($("menu").classList.contains("open") && !onboarding && !$("menu").contains(e.target)) setMenu(false);
   });
-  // Esc closes an open "Ändra" first, wherever the focus is, and only the next Esc closes the menu.
+  // Esc closes an open "Ändra" or the "Visa alla" popup first, wherever the focus is, and only the next Esc the menu.
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape" || onboarding) return;
     if (openEdit) { e.preventDefault(); openEdit.escape(); return; }
+    if (!$("allPop").hidden) { $("allPop").hidden = true; return; }
     setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true;
   });
   $("addProfile").addEventListener("click", function () {
@@ -1830,12 +1833,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var grid = document.createElement("div"); grid.className = "cal-grid";
     ["mån", "tis", "ons", "tor", "fre", "lör", "sön"].forEach(function (w) { var s = document.createElement("span"); s.className = "cal-wd"; s.textContent = w; grid.appendChild(s); });
     var lead = (new Date(y, m, 1).getDay() + 6) % 7, count = new Date(y, m + 1, 0).getDate(), today = isoDay(new Date());
+    var worked = {};
+    entries.forEach(function (e) { if (prof(e.profile).balance) worked[isoDay(e.start)] = true; });
+    if (running && prof(running.profile).balance) worked[isoDay(running.start)] = true;
     for (var i = 0; i < lead; i++) grid.appendChild(document.createElement("span"));
     for (var d = 1; d <= count; d++) (function (d) {
       var date = new Date(y, m, d), key = isoDay(date), marked = !!flexDays[key];
       var b = document.createElement("button"); b.type = "button"; b.className = "cal-day"; b.textContent = d; b.dataset.key = key;
       // A weekend owes no hours, so it is never a flex day; a day gone by is history, marked or unmarked only unlocked.
-      if (date.getDay() === 0 || date.getDay() === 6 || (key < today && !calUnlocked)) b.disabled = true;
+      // A day janitor work started on is charged its hours already, so it is locked too, padlock or not.
+      if (date.getDay() === 0 || date.getDay() === 6 || worked[key] || (key < today && !calUnlocked)) b.disabled = true;
       if (key === today) b.classList.add("today");
       if (marked) b.classList.add("marked");
       b.addEventListener("click", function () {
