@@ -1,8 +1,9 @@
 <!--
   The onboarding ("A first install starts fresh or imports"), in the menu's panel locked open: one centred prompt at a
   time, fading from one to the next. First "Starta nytt" and "Importera", the latter greyed out until Handover with its
-  tip, "från fil", and under them, when the computer asks for reduced motion, a note with the motion switch ("Motion
-  can be switched off in the app"); then "Nuvarande flextimmar?" and "Profilnamn?", typed with no field, only the caret. The balance
+  tip, "från fil", and under them, when the app opens the onboarding in Stilla, a note with the motion switch ("Motion
+  can be switched off in the app"); once its switch is clicked, the sentence gives way to the switch's label, as in
+  the menu; then "Nuvarande flextimmar?" and "Profilnamn?", typed with no field, only the caret. The balance
   takes only a duration's shape and wears where it stands; the dashboard counts to it on Enter. The name is typed in
   the balance's colour. Esc goes back a step. After the name the record is saved and the ending plays: the text fades,
   the panel turns to frost and folds, the light sweeps across the buttons, and the letter arrives last.
@@ -35,6 +36,10 @@
   let fresh: ChoiceButton | undefined = $state()
   let balanceInput: HTMLInputElement | undefined = $state()
   let nameInput: HTMLInputElement | undefined = $state()
+  // Read once, as the onboarding opens, so the note stays when its switch is clicked
+  const stillAtStart = untrack(() => app.still)
+  // Whether the note's switch has been clicked, which turns its sentence into the switch's label for good
+  let clicked = $state(false)
 
   let profile = $derived(app.record?.profiles[0])
   let minutes = $derived(readDuration(balanceText, BALANCE))
@@ -126,10 +131,12 @@
     <ChoiceButton label="Starta nytt" onclick={() => show('balance')} bind:this={fresh} />
     <!-- TODO: Importera works in Handover; until then greyed out, its tip still showing -->
     <ChoiceButton label="Importera" greyed tip="från fil" />
-    {#if app.systemStill}
+    {#if stillAtStart}
       <div class="note">
-        <MotionButton label={false} />
-        <p>Appen är i stilla läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen.</p>
+        <MotionButton label={clicked} onswitch={() => (clicked = true)} />
+        <p class:gone={clicked}>
+          Appen är i stilla läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen.
+        </p>
       </div>
     {/if}
   </div>
@@ -208,12 +215,23 @@
     margin-top: calc(var(--onboarding-note-space) - var(--block-gap));
   }
 
+  /* The sentence and, once clicked, the switch's label share a cell; the sentence keeps its room, so nothing moves */
+  .note p,
+  .note :global(.name) {
+    grid-area: 1 / 2;
+    justify-self: start;
+  }
+
   .note p {
     margin: 0;
     color: var(--menu-text-muted);
     font-size: var(--text-size-note);
     line-height: var(--onboarding-note-line);
     text-wrap: pretty;
+  }
+
+  .note p.gone {
+    visibility: hidden;
   }
 
   .prompt {

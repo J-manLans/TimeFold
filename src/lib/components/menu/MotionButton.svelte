@@ -3,7 +3,8 @@
   with three staggered speed lines for Animerat that fold into one flat line for Stilla, and a label naming the state
   in force. Folding is instant and opening eases, since Stilla takes the transitions away in the same moment Animerat
   gives them back. Its disc catches the pointer light in Stilla too. Each click switches to the other and saves it.
-  In the menu's heading with its label, and in the onboarding's note without: <MotionButton label={false} />
+  In the menu's heading with its label, and in the onboarding's note, which shows the label only once it has been
+  clicked: <MotionButton label={clicked} onswitch={() => (clicked = true)} />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
@@ -14,9 +15,12 @@
 
   let {
     label = true,
+    onswitch,
   }: {
     /** Whether the label naming the state in force shows after the button */
     label?: boolean
+    /** Runs after each click, once the motion has switched */
+    onswitch?: () => void
   } = $props()
 
   // === State ===
@@ -29,7 +33,10 @@
   class:moving={app.shownMotion === 'on'}
   type="button"
   aria-label="Rörelse: {name}. Klicka för att byta."
-  onclick={() => app.switchMotion()}
+  onclick={() => {
+    void app.switchMotion()
+    onswitch?.()
+  }}
 >
   <Disc size="var(--small-disc-size)" dent="var(--small-disc-dent)" light="1">
     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">

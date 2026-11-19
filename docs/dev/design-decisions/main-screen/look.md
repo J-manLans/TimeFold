@@ -125,11 +125,12 @@ the ceiling wheel's counts land at once, and the onboarding's and the recovery s
 order. The "KOPIA" label holds still in the colour it breathes into. In Animerat the app animates even where the system
 asks for reduced motion.
 
-When the system asks for reduced motion on a first start, the onboarding's first step shows a quiet note under "Starta
-nytt" and "Importera", as wide as the two together: the switch on the left, centred on the words' height, and "Appen är
-i stilla läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen." The note stays after a click,
-the switch showing the new state, and the rest of the onboarding follows it. On a system without reduced motion there is
-no note, and the switch is only in the menu.
+When the app is in Stilla on a first start, the onboarding's first step shows a quiet note under "Starta nytt" and
+"Importera", as wide as the two together: the switch on the left, centred on the words' height, and "Appen är i stilla
+läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen." After the first click the sentence
+gives way to the switch's label, "Animerat" or "Stilla" as in the menu, in the sentence's place and keeping its room so
+nothing above moves; the rest of the onboarding follows the state chosen. On a system without reduced motion there is no
+note, and the switch is only in the menu.
 
 **Why:** the school's computers have reduced motion on by default, so a teacher would never see the app's motion without
 knowing where the system setting is. A switch in the app is one click and touches nothing else on the machine. Following
@@ -151,7 +152,10 @@ step is enough. Pointing at the menu in words: the switch is hidden there during
 - System does not ask for reduced motion, the switch turned off: a stop makes the numbers jump to their new values, and
   the menu opens at once.
 - The switch flipped with the app open: the next animation follows it, with no restart.
-- A first start on a system with reduced motion: the onboarding shows the note; the switch clicked there, the
-  onboarding's ending plays animated. On a system without it, no note.
+- A first start with the app in Stilla, from a fresh settings file or one that chose Stilla, shows the note; one that
+  chose Animerat on a system with reduced motion shows none.
+- A first start on a system with reduced motion: the onboarding shows the note; the switch clicked there, the sentence
+  turns to "Animerat", a second click to "Stilla", the buttons above stay put, and the ending follows the state chosen.
+  On a system without it, no note.
 - The switch's label swapping between Animerat and Stilla: the theme button and the switch stay where they are.
 - A handover imported: the motion state stays as the machine had it.
