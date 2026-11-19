@@ -477,8 +477,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @media (prefers-reduced-motion: reduce) { .tabpanel { animation: none; } }
 
 /* The app's own colour picker */
-.pair { display: inline-flex; gap: 4px; }
-.pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
+.swatch-pair { display: inline-flex; gap: 4px; }
+.swatch-pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
 .cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
 .cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: var(--cp-strip-h); margin: 0; border-radius: calc(var(--cp-strip-h) / 2); background: var(--cp-strip); }
 .cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4); }
@@ -1698,7 +1698,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var wrap = document.createElement("div"); wrap.className = "lv";
     var row = document.createElement("div"); row.className = "lv-row";
     var lab = document.createElement("span"); lab.className = "lv-label"; lab.textContent = "Färg";
-    var val = document.createElement("span"); val.className = "lv-val pair";
+    var val = document.createElement("span"); val.className = "lv-val swatch-pair";
     var base = document.createElement("span"), neon = document.createElement("span"); val.append(base, neon);
     var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
     row.append(lab, val, btn); wrap.appendChild(row);
