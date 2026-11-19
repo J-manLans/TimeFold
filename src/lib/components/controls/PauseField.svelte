@@ -18,7 +18,7 @@
   let refused = $state(false)
   let input: HTMLInputElement | undefined = $state()
   let minutes = $derived(readDuration(text, BREAK))
-  let reading = $derived(refused ? 'längre än posten' : minutes === null ? '' : durationText(minutes))
+  let reading = $derived(refused ? 'för lång paus' : minutes === null ? '' : durationText(minutes))
 
   // === Logic ===
 

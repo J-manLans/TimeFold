@@ -1273,7 +1273,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("pauseField").addEventListener("submit", function (e) {
     e.preventDefault(); var v = readLength($("pauseInput").value);
     if (!v || !running) return;
-    if ((running.brk || 0) + v >= 135) { $("pauseReading").textContent = "längre än posten"; return; }
+    if ((running.brk || 0) + v >= 135) { $("pauseReading").textContent = "för lång paus"; return; }
     var snap = snapshot();
     running.brk = (running.brk || 0) + v; closePause(); toast("Paus " + hmPlain(v) + " tillagd");
     offerUndo("paus " + lengthText(v), snap); drawControls();
