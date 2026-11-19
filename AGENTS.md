@@ -234,3 +234,5 @@ A short pointer per trap; the detail lives in the owning file.
   `docs/dev/procedures/debugging.md`.
 - **The built app's theme follows only the desktop** while dev works: "Known traps" in
   `docs/dev/procedures/debugging.md`.
+- **A fade leaves its last frame on screen on Linux** until a resize: "Known traps" in
+  `docs/dev/procedures/debugging.md`.

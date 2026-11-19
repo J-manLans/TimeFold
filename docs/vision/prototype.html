@@ -68,6 +68,7 @@
   --ob-prompt: 16px;    /* "Nuvarande flextimmar?" and "Profilnamn?" */
   --ob-name: 26px;      /* the name as it is typed; the balance is typed at the dashboard's --size-balance */
   --ob-gap: 14px;       /* between a prompt, what is typed and how it is read */
+  --ob-step-fade: 0.1s; /* a step fading out, then the next fading in after it: twice this in all */
   --ob-frost-in: 0.8s;  /* after the name: the solid panel turning to frost, before it shrinks into the menu button */
   --ob-choice-pad: 24px;  /* each side of the words on "Starta nytt" and "Importera", before the scale */
   --ob-choice-scale: 0.8;   /* the two buttons against Starta jobb, height, text and sides alike: 0.8 is 80% */
@@ -348,8 +349,11 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu.onboarding .body { display: none; }
 .menu.onboarding .menu-toggle { opacity: 0; pointer-events: none; }
 .onboard { position: absolute; inset: 0; display: grid; place-items: center; }
-.ob-step { grid-area: 1 / 1; display: grid; justify-items: center; gap: var(--ob-gap); width: min(320px, 80%); opacity: 0; pointer-events: none; transition: opacity var(--speed-ui) ease; }
-.ob-step.on { opacity: 1; pointer-events: auto; }
+.ob-step { grid-area: 1 / 1; display: grid; justify-items: center; gap: var(--ob-gap); width: min(320px, 80%); opacity: 0; pointer-events: none; transition: opacity var(--ob-step-fade) ease; }
+/* The step shown waits for the one leaving to be gone, then fades in: no cross-fade */
+.ob-step.on { opacity: 1; pointer-events: auto; transition-delay: var(--ob-step-fade); }
+/* The two buttons leave at once, with no fade (the app's window on Linux leaves a fading focus ring on screen) */
+.ob-step[data-step="choice"]:not(.on) { transition: none; }
 .ob-step[data-step="choice"] { grid-template-columns: max-content max-content; justify-content: center; gap: var(--block-gap); width: auto; }
 /* The two choices: Starta jobb's height and font, each as wide as its words. */
 .ob-choice { height: calc(var(--start-h) * var(--ob-choice-scale)); width: max-content; padding: 0 calc(var(--ob-choice-pad) * var(--ob-choice-scale)); display: grid; place-content: center; justify-items: center; }

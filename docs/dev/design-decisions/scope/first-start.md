@@ -10,9 +10,10 @@ follows the template in `../README.md`, and is cited by its title.
 **Decision:** an app with no data asks once how to start, in the menu's panel ("The main screen has a controls side and
 a dashboard") grown open over the controls side in a locked stage: no ×, and no click outside or Esc closes it. While
 the prompts show, the panel is solid, in the frost's tint made opaque. The dashboard stays sharp beside it, empty at
-first. One centred prompt shows at a time, and each step fades out as the next fades in, over the interface's transition
-time. First, two buttons in "Starta jobb"'s style, its height and font, each as wide as its words: **"Starta nytt"**,
-and **"Importera"**, greyed out until Handover yet still showing its tip, "från fil", on hover and keyboard focus.
+first. One centred prompt shows at a time, and each step fades out before the next fades in, 0.1 s each, so the two
+never show together; the two buttons leave at once, with no fade. First, two buttons in "Starta jobb"'s style, its
+height and font, each as wide as its words: **"Starta nytt"**, and **"Importera"**, greyed out until Handover yet still
+showing its tip, "från fil", on hover and keyboard focus.
 
 **Starta nytt** makes the first profile at once, the one with the balance (janitor work), in its default colours ("Each
 profile carries its colours"), and then asks two things, with no fields: a lone blinking caret, the browser's own, under

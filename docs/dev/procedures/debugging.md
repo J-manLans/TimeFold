@@ -70,3 +70,20 @@ so it never shows there.
 **Fix:** `build.cssTarget` in `vite.config.ts` names engines new enough for `light-dark()` (WebKitGTK and WebView2 are),
 so the build leaves it alone. To check a build, the CSS in `dist/assets/` should hold `light-dark(` and no
 `lightningcss-`.
+
+### A fade leaves its last frame on screen on Linux
+
+**Seen as:** in the window on Linux, something that has faded out stays on screen under what comes next, such as the
+onboarding's balance step under its name step, or the buttons and the focus ring of "Starta nytt" under the balance,
+until the window is resized or Esc is pressed; nothing sticks in Stilla, where nothing animates.
+
+**Cause:** WebKitGTK's DMA-BUF renderer on the owner's laptop (NVIDIA and AMD graphics, Wayland, Pop!_OS 24.04 with
+WebKitGTK 2.52) sometimes never shows the last frame of an animation, and does not redraw a focus ring's spot or a
+`background-attachment: fixed` surface after a fade. A change with no animation is always drawn in full. Turning the
+renderer off (`WEBKIT_DISABLE_DMABUF_RENDERER=1`) cures it but loses `backdrop-filter`, so the menu's frost goes; it is
+not used.
+
+**Fix:** in the element that fades: let one step fade out before the next fades in, never both at once; turn the faded
+one `visibility: hidden` as its fade ends, which forces the redraw; drop a `fixed` background from what is leaving; and
+let anything holding the focus ring leave at once, with no fade. The onboarding's steps (`Onboarding.svelte`) do all
+four.

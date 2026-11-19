@@ -286,6 +286,7 @@
   --onboarding-reading-size: 12px; /* how a typed balance is read, under it */
   --onboarding-width: 320px; /* the most a prompt and its answer take */
   --onboarding-gap: 14px; /* between a prompt, what is typed and how it is read */
+  --onboarding-step-fade: 0.1s; /* a step fading out, then the next fading in after it: twice this in all */
   --onboarding-note-space: 22px; /* above the motion note under "Starta nytt" and "Importera" */
   --onboarding-note-gap: 12px; /* between the motion switch and the note's words */
   --onboarding-note-line: 1.5; /* the note's line height */

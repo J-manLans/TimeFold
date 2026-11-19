@@ -1,6 +1,6 @@
 <!--
   The onboarding ("A first install starts fresh or imports"), in the menu's panel locked open: one centred prompt at a
-  time, fading from one to the next. First "Starta nytt" and "Importera", the latter greyed out until Handover with its
+  time, the one leaving fading out before the next fades in. First "Starta nytt" and "Importera", the latter greyed out until Handover with its
   tip, "från fil", and under them, when the app opens the onboarding in Stilla, a note with the motion switch ("Motion
   can be switched off in the app"); once its switch is clicked, the sentence gives way to the switch's label, as in
   the menu; then "Nuvarande flextimmar?" and "Profilnamn?", typed with no field, only the caret. The balance
@@ -193,7 +193,10 @@
     gap: var(--onboarding-gap);
     width: min(var(--onboarding-width), 80%);
     opacity: 0;
-    transition: opacity var(--speed-ui) ease;
+    visibility: hidden;
+    transition:
+      opacity var(--onboarding-step-fade) ease,
+      visibility 0s linear var(--onboarding-step-fade);
   }
 
   .choices {
@@ -274,8 +277,28 @@
 
   /* === States === */
 
+  /* The step shown waits for the one leaving to be gone, then fades in: no cross-fade. The one leaving turns hidden
+     as its fade ends, which makes the window redraw it: on Linux the last frame of a fade can otherwise stay on
+     screen. The one shown turns visible at once, still at opacity 0, so its field can take the focus */
+  /* A step leaving drops its buttons' pointer light and its fixed attachment, which WebKitGTK draws apart and
+     otherwise leaves on screen on Linux after the fade */
+  .step:not(.on) :global(.choice) {
+    background-image: none;
+    background-attachment: scroll;
+  }
+
+  /* The two buttons leave at once, with no fade: WebKitGTK on Linux leaves the focus ring's spot undrawn after a fade,
+     and a change with no animation it always draws in full */
+  .step.choices:not(.on) {
+    transition: none;
+  }
+
   .step.on {
     opacity: 1;
+    visibility: visible;
+    transition:
+      opacity var(--onboarding-step-fade) ease var(--onboarding-step-fade),
+      visibility 0s;
   }
 
   .lone:focus,
