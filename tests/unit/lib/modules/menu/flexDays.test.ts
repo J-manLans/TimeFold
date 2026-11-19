@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { calendarMonth, daysAhead, monthAfter, toggleFlexDay } from '$lib/modules/menu/flexDays'
+import { calendarMonth, daysAhead, monthAfter, toggleFlexDay, workedDays } from '$lib/modules/menu/flexDays'
 import { type TimeRecord } from '$lib/modules/shared/record'
-import { RECORD } from '$tests/helpers/records'
+import { at, entry, RECORD } from '$tests/helpers/records'
 
 // === Constants ===
 
@@ -55,12 +55,45 @@ describe('days gone by are locked until the padlock is opened', () => {
 
   it('marks yesterday, and unmarks a past flex day, once unlocked', () => {
     const marked = toggleFlexDay(withFlexDays([]), '2026-11-18', TODAY, true)
-    const unmarked = toggleFlexDay(withFlexDays(['2026-11-16']), '2026-11-16', TODAY, true)
+    const unmarked = toggleFlexDay(withFlexDays(['2026-11-13']), '2026-11-13', TODAY, true)
 
     expect([marked.ok && flexDaysOf(marked.record), unmarked.ok && flexDaysOf(unmarked.record)]).toEqual([
       ['2026-11-18'],
       [],
     ])
+  })
+})
+
+describe('a day janitor work started on is never a flex day, padlock or not', () => {
+  it('refuses today once a job has started on it, and a past day worked, even unlocked', () => {
+    const record = {
+      ...withFlexDays([]),
+      entries: [entry(at('2026-11-17', '08:00'), at('2026-11-17', '14:00')), entry(at(TODAY, '08:00'), null)],
+    }
+
+    expect([toggleFlexDay(record, TODAY, TODAY, false), toggleFlexDay(record, '2026-11-17', TODAY, true)]).toEqual([
+      { ok: false, why: 'worked' },
+      { ok: false, why: 'worked' },
+    ])
+  })
+
+  it('leaves today open until work starts, and out of the lock another profile’s work', () => {
+    const record = {
+      ...withFlexDays([]),
+      entries: [entry(at(TODAY, '08:00'), at(TODAY, '10:00'), { profile: 'p2' })],
+    }
+    const done = toggleFlexDay(record, TODAY, TODAY, false)
+
+    expect(done.ok && flexDaysOf(done.record)).toEqual([TODAY])
+  })
+
+  it('names the days janitor work started on, a running entry’s too', () => {
+    const record = {
+      ...RECORD,
+      entries: [entry(at('2026-11-17', '22:00'), at('2026-11-18', '01:00')), entry(at(TODAY, '08:00'), null)],
+    }
+
+    expect([...workedDays(record)]).toEqual(['2026-11-17', TODAY])
   })
 })
 

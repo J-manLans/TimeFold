@@ -5,7 +5,7 @@ decision follows the template in `README.md`, and is cited by its title.
 
 ## Profiles label the hours (2026-11-14)
 
-**Built by:** Profiles; entries carry a profile from Clocking.
+**Built by:** Profiles.
 
 **Decision:** every entry belongs to one profile (such as janitor work or the development group). Switching is done as
 in "One start/stop button and a profile list". A day can mix profiles, and the owner adds profiles as new kinds of work

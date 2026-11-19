@@ -95,30 +95,33 @@ It shows one month, the weeks starting on Monday, with ‹ and › to the months
 packed close with a small gap, and a marked day is filled with the base colour of the profile with the balance ("Each
 profile carries its colours"). One click on a weekday, today or ahead, marks it, and a click on a marked day unmarks it,
 giving its hours back; the balance follows at once, with no range and no confirm. Weekends are greyed out and cannot be
-clicked, since they owe no hours. Days gone by are greyed out and locked too, a past flex day keeping its fill; a small
-padlock beside the month name unlocks them, to mark a day off that was forgotten or unmark one, and asks no reason. It
-locks again when the owner leaves the tab or closes the menu, and stays open while paging months. To the calendar's
-right, every marked day from today on is listed, a line per month: the short month name, then the days as numbers in the
-text colour, each jumping the calendar to its month; a month's days wrap under its first day, and a year gets its own
-bold line where the list crosses into it. Each line is a day square's height with the days' gap, so it sits level with a
-week; in the narrow window the list sits under the calendar. The calendar is the one place flex days are seen: "Visa
-alla" lists entries only. The balance on the main screen counts every marked day at once, ahead ones included, so the
-flex bar shows the balance as planned: with a day marked ahead and too little balance to cover it, the bar goes minus,
-and the minus is the time still to work before that day. If the day comes and the balance is still short, nothing
-special happens: the balance carries the minus as any other. A day costs the expected hours in force on its own date
-("Settings change from a date"), so a later change to them changes what a marked day ahead costs. Work recorded on a
-flex day adds to it as usual, so a flex day that is worked counts as any workday, and needs no unmarking. The report
-counts only days up to its own end: the month's last day, or today for the current month; a flex day ahead is not in it
-until the month it falls in ("The report lists the days the balance moved"). Both are one count with two end dates; the
-screen's simply runs to the last marked day.
+clicked, since they owe no hours, and so is a day janitor work started on, padlock or not: it is charged its hours
+already, so marking it would change nothing, and a flex day marked ahead and then worked keeps its fill, greyed out.
+Today stays open until work starts on it. Days gone by are greyed out and locked too, a past flex day keeping its fill;
+a small padlock beside the month name unlocks them, to mark a day off that was forgotten or unmark one, and asks no
+reason. It locks again when the owner leaves the tab or closes the menu, and stays open while paging months. To the
+calendar's right, every marked day from today on is listed, a line per month: the short month name, then the days as
+numbers in the text colour, each jumping the calendar to its month; a month's days wrap under its first day, and a year
+gets its own bold line where the list crosses into it. Each line is a day square's height with the days' gap, so it sits
+level with a week; in the narrow window the list sits under the calendar. The calendar is the one place flex days are
+seen: "Visa alla" lists entries only. The balance on the main screen counts every marked day at once, ahead ones
+included, so the flex bar shows the balance as planned: with a day marked ahead and too little balance to cover it, the
+bar goes minus, and the minus is the time still to work before that day. If the day comes and the balance is still
+short, nothing special happens: the balance carries the minus as any other. A day costs the expected hours in force on
+its own date ("Settings change from a date"), so a later change to them changes what a marked day ahead costs. Work
+recorded on a flex day adds to it as usual, so a flex day that is worked counts as any workday, and needs no unmarking.
+The report counts only days up to its own end: the month's last day, or today for the current month; a flex day ahead is
+not in it until the month it falls in ("The report lists the days the balance moved"). Both are one count with two end
+dates; the screen's simply runs to the last marked day.
 
 **Why:** the owner plans days off weeks or months ahead; with the hours taken at once, the flex bar always shows the
 planned truth, and the minus says how much is left to work for it with no other figure. In the owner's Excel a day off
 is a typed zero day on the day itself; marking ahead replaces both the zero day and the sum in the head. Counting the
 report only to its end keeps each report true to what happened in its month. A click with the flex bar beside it makes
 the change and its result one glance, and a second click is the undo. Five clicks are a week, and skip the weekend by
-themselves. Locking the past keeps a stray click from changing history, and the padlock makes changing it a choice,
-which is intention enough. The list finds a day months ahead without paging.
+themselves. A worked day is locked because the count already charges it, so a click there would show nothing happening.
+Locking the past keeps a stray click from changing history, and the padlock makes changing it a choice, which is
+intention enough. The list finds a day months ahead without paging.
 
 **Rejected:** a range of days: a second way to pick, which would charge the weekend. An "OK" confirming the picks, with
 picked days in a neon border: a step with nothing to protect, since the bar shows a mistake at once. Days ahead as
@@ -142,6 +145,8 @@ as today's balance.
 - The same day clicked again in the calendar: the bar is back at +4:37, and the day is gone from the list.
 - Saturday in the calendar: greyed out; a click does nothing. Saturday 21 November marked by any other way: refused, so
   a weekend is never a flex day.
+- Today with nothing worked: open; a click marks it and the bar drops 6 h. Today once a job has started: greyed out.
+- Tuesday, worked 6 h, the padlock open: greyed out; a click does nothing.
 - Yesterday, a weekday: greyed out; a click does nothing. Padlock opened, a click marks it and the bar drops 6 h; the
   Profiler tab and back: locked again.
 - Days marked on 7 and 8 December 2026 and 19 March 2027, seen in November 2026: the list reads "dec 7 8", then "2027",

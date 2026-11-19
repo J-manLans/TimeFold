@@ -39,7 +39,8 @@
   }
 </script>
 
-<button class="more" type="button" {disabled} onclick={show}>Visa alla</button>
+<!-- It keeps an open menu open, so closing the popup comes back to it -->
+<button class="more" type="button" data-keeps-menu {disabled} onclick={show}>Visa alla</button>
 
 <dialog bind:this={popup} aria-label="Alla poster" onclick={closeOutside} onclose={() => (open = false)}>
   <div class="card">

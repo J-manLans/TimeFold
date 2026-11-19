@@ -2,7 +2,7 @@
   The menu ("The menu has tabs, with every value locked behind "Ändra""): folded, it is the button in the controls
   side's top-left corner; open, it grows from that corner into a frosted panel over the whole controls side, with the
   "Meny" heading, the theme button, and the tab row with Tid, holding the flex-day calendar. A click on the button, a
-  click outside or Esc closes it. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
+  click outside or Esc closes it; "Visa alla" and its popup keep it open, and Esc there closes the popup first. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
   imports"), or with the screen for a record that cannot be read: solid while it asks, then frost, then folded into its
   button.
 -->
@@ -30,14 +30,17 @@
     if (app.panel !== null) open = !app.panel.folded
   })
 
-  // While open, a press outside the menu or Esc closes it, unless it is locked for the onboarding
+  // While open, a press outside the menu or Esc closes it, unless it is locked for the onboarding. "Visa alla" and its
+  // popup keep it open, so closing the popup comes back to the menu; Esc in the popup closes only the popup
   $effect(() => {
     if (!open || locked) return
     const outside = (event: PointerEvent): void => {
-      if (menu && !menu.contains(event.target as Node)) open = false
+      const target = event.target as Element
+      if (target.closest('[data-keeps-menu], dialog[open]')) return
+      if (menu && !menu.contains(target)) open = false
     }
     const escape = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape') open = false
+      if (event.key === 'Escape' && document.querySelector('dialog[open]') === null) open = false
     }
     document.addEventListener('pointerdown', outside)
     document.addEventListener('keydown', escape)

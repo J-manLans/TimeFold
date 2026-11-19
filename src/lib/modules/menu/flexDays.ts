@@ -1,9 +1,11 @@
 /**
  * Flex days as the calendar in the menu's Tid tab marks them ("A flex day can be marked ahead, and the screen counts it
- * at once"): a weekday per click, today or ahead, or past once the padlock is opened; never a weekend. Also the month
- * the calendar shows and the list of marked days beside it. Pure: each function returns a new record.
+ * at once"): a weekday per click, today or ahead, or past once the padlock is opened; never a weekend, nor a day janitor
+ * work started on, which is charged its hours already. Also the month the calendar shows and the list of marked days
+ * beside it. Pure: each function returns a new record.
  */
 
+import { localDay } from '$lib/modules/shared/counting'
 import { monthShort } from '$lib/modules/shared/dates'
 import { type Day, type TimeRecord } from '$lib/modules/shared/record'
 
@@ -11,8 +13,11 @@ import { type Day, type TimeRecord } from '$lib/modules/shared/record'
 //                 API
 // ======================================
 
-/** Why a click could not mark or unmark a day: a weekend owes no hours, and a day gone by is locked */
-export type FlexRefusal = 'weekend' | 'past'
+/**
+ * Why a click could not mark or unmark a day: a weekend owes no hours, a day janitor work started on is charged them
+ * already, and a day gone by is locked
+ */
+export type FlexRefusal = 'weekend' | 'worked' | 'past'
 
 /** What a click on a day gives: the changed record, or why the day cannot be clicked */
 export type FlexResult = { ok: true; record: TimeRecord } | { ok: false; why: FlexRefusal }
@@ -29,12 +34,14 @@ export type AheadLine =
 
 /**
  * A click on `day` in the calendar: marks it as a flex day of the profile with the balance, or unmarks it if marked.
- * A weekend is refused always; a day before `today` while the padlock is shut. Used by every day in the calendar:
- * Friday 11 December clicked on 19 November is marked; Saturday 21 November is refused.
+ * A weekend, or a day janitor work started on, is refused always; a day before `today` while the padlock is shut.
+ * Used by every day in the calendar: Friday 11 December clicked on 19 November is marked; Saturday 21 November is
+ * refused, and so is today once a job has started on it.
  * @param unlocked - whether the padlock is open, which lets days gone by be marked or unmarked
  */
 export function toggleFlexDay(record: TimeRecord, day: Day, today: Day, unlocked: boolean): FlexResult {
   if (isWeekend(day)) return { ok: false, why: 'weekend' }
+  if (workedDays(record).has(day)) return { ok: false, why: 'worked' }
   if (day < today && !unlocked) return { ok: false, why: 'past' }
 
   const profiles = record.profiles.map((profile) => {
@@ -53,6 +60,17 @@ export function toggleFlexDay(record: TimeRecord, day: Day, today: Day, unlocked
 export function isWeekend(day: Day): boolean {
   const weekday = noon(day).getUTCDay()
   return weekday === 0 || weekday === 6
+}
+
+/**
+ * The days an entry of the profile with the balance started on, a running one's too: each is charged its expected
+ * hours already ("A day owes its expected hours only when work started on it"), so marking it would change nothing.
+ * Used by `toggleFlexDay` and by the calendar, which greys them out: Tuesday 22:00 to Wednesday 01:00 gives Tuesday
+ */
+export function workedDays(record: TimeRecord): Set<Day> {
+  const janitor = record.profiles.find((p) => p.expectedMinutes !== undefined)
+  const started = record.entries.filter((e) => e.profile === janitor?.id).map((e) => localDay(Date.parse(e.start)))
+  return new Set(started)
 }
 
 /**
