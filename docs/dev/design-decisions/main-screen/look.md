@@ -130,7 +130,8 @@ When the app is in Stilla on a first start, the onboarding's first step shows a 
 läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen." After the first click the sentence
 gives way to the switch's label, "Animerat" or "Stilla" as in the menu, in the sentence's place and keeping its room so
 nothing above moves; the rest of the onboarding follows the state chosen. On a system without reduced motion there is no
-note, and the switch is only in the menu.
+note, and the switch is only in the menu. The recovery screen's "Starta nytt", which skips the first step, shows no
+note: the path is rare, and the switch is in the menu.
 
 **Why:** the school's computers have reduced motion on by default, so a teacher would never see the app's motion without
 knowing where the system setting is. A switch in the app is one click and touches nothing else on the machine. Following

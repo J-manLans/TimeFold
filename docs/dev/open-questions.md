@@ -42,14 +42,6 @@ logic, the view growing when the handle nears its edge and shrinking only once i
 
 **See:** Editing an entry on its line; The flex bar.
 
-### The motion note after the recovery screen's "Starta nytt" (2026-11-19)
-
-A record that cannot be read and has no copy leads from the recovery screen's "Starta nytt" straight to the onboarding's
-balance, past its first step, so on a machine in Stilla that path never shows the motion note. The agent leans to
-leaving it: the path is rare, and the switch is in the menu.
-
-**See:** Motion can be switched off in the app; A record that cannot be read offers the newest copy.
-
 ## Phase 4: Profiles
 
 ### Whose the opening ceiling hours are (2026-11-15)
