@@ -95,6 +95,11 @@
 
   /* === States === */
 
+  /* A choice that can be used catches the pointer light, as the controls' buttons do */
+  .choice:not([aria-disabled='true']) {
+    background-image: var(--pointer-light);
+  }
+
   .choice:not([aria-disabled='true']):hover {
     background-color: var(--button-background-hover);
   }
