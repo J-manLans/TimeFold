@@ -3,7 +3,7 @@
  * as text ("The flex bar"). Works in seconds, as the counting does; what is shown goes by the whole minutes shown.
  */
 
-import { balance, ceilingMonth, shownMinutes } from '$lib/modules/shared/counting'
+import { balanceOnScreen, ceilingMonth, shownMinutes } from '$lib/modules/shared/counting'
 import { type Day, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
@@ -70,7 +70,7 @@ export function balanceText(seconds: number): string {
 export function standsOver(record: TimeRecord, profileId: string, day: Day): boolean {
   const profile = record.profiles.find((p) => p.id === profileId)
   if (profile === undefined) throw new Error(`No profile ${profileId} in the record`)
-  if (profile.expectedMinutes !== undefined) return barSide(balance(record, profileId, day)) === 'plus'
+  if (profile.expectedMinutes !== undefined) return barSide(balanceOnScreen(record, profileId, day)) === 'plus'
   const month = ceilingMonth(record, day)
   return month.used > month.ceiling
 }

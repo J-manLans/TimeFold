@@ -78,5 +78,5 @@ nothing to tune yet. Every day listed: the days page does that, when asked for (
 - A day started 1 h late and ended 1 h late: net 0, not listed.
 - A day exactly +0:05: listed.
 - Small days summing to +0:00 after rounding: no closing line.
-- A flex day on 12 December: listed in December's report as "Flexledig", 12 December, −6h.
+- A flex day on 11 December: listed in December's report as "Flexledig", 11 December, −6h.
 - A listed day with one entry edited, reason "Glömde stämpla ut": the line carries "Glömde stämpla ut".

@@ -13,7 +13,7 @@ import { FIRST_HUE, baseColour } from '$lib/modules/shared/colours'
 export const RECORD_FORMAT = 'timefold-record'
 
 /** The shape's version; it goes up whenever the shape changes */
-export const RECORD_VERSION = 2
+export const RECORD_VERSION = 3
 
 /** The janitor's expected minutes a working day, as a fresh record starts them ("Expected hours: 6 a day, Monday to Friday") */
 const EXPECTED_MINUTES = 6 * 60
@@ -42,6 +42,11 @@ export interface Profile {
   expectedMinutes?: FromDay<{ minutes: number }>[]
   /** A monthly salary or a rate per hour, for the pay estimate ("A pay estimate per profile"); none leaves it out */
   pay?: FromDay<Pay>[]
+  /**
+   * Only the profile with a balance has flex days: weekdays off, each taking that day's expected hours off the balance
+   * ("A flex day can be marked ahead, and the screen counts it at once"), in order
+   */
+  flexDays?: Day[]
 }
 
 /** What a profile pays, in euros: a salary once a month, or a rate for each hour worked */
@@ -70,6 +75,14 @@ export interface Entry {
   start: Timestamp
   stop: Timestamp | null
   made: Made
+  /** Time away taken off it, in the order added ("Time away is a gap or an added break") */
+  breaks: Break[]
+}
+
+/** A length of time taken off an entry, and the day it was added; not when it happened */
+export interface Break {
+  day: Day
+  minutes: number
 }
 
 /** The whole record */
@@ -135,6 +148,7 @@ export function readRecord(text: string): ReadResult {
 
   try {
     if (data.version === 1) upgradeFromOne(data)
+    if (data.version === 2) upgradeFromTwo(data)
     checkRecord(data)
   } catch (error) {
     if (error instanceof ShapeError) return { ok: false, problem: { kind: 'wrong-shape', where: error.where } }
@@ -163,6 +177,7 @@ export function freshRecord(profileName: string, openingMinutes: number, firstDa
         hue: FIRST_HUE,
         base: baseColour(FIRST_HUE),
         expectedMinutes: [{ from: firstDay, minutes: EXPECTED_MINUTES }],
+        flexDays: [],
       },
     ],
     openings: [{ profile: 'p1', day: firstDay, balanceMinutes: openingMinutes }],
@@ -197,7 +212,7 @@ const PAY_KINDS: readonly PayKind[] = ['salary', 'rate']
 const MINUTES_A_DAY = 24 * 60
 
 /**
- * Brings a version 1 record to this version: full time, which it did not have, starts at 8 h from its first opening.
+ * Brings a version 1 record to version 2: full time, which it did not have, starts at 8 h from its first opening.
  * Used by `readRecord` before the check, which then judges the result; a record with no opening is left for it to name
  */
 function upgradeFromOne(data: Fields): void {
@@ -208,7 +223,21 @@ function upgradeFromOne(data: Fields): void {
     .sort()
   if (days.length === 0) throw new ShapeError('openings')
   data.fullTime = [{ from: days[0], minutes: FULL_TIME_MINUTES }]
-  data.version = RECORD_VERSION
+  data.version = 2
+}
+
+/**
+ * Brings a version 2 record to version 3: every entry gains its added breaks and the profile with a balance its flex
+ * days, none of either. Used by `readRecord` before the check; parts of the wrong shape are left for it to name
+ */
+function upgradeFromTwo(data: Fields): void {
+  for (const entry of Array.isArray(data.entries) ? data.entries : []) {
+    if (isObject(entry)) entry.breaks = []
+  }
+  for (const profile of Array.isArray(data.profiles) ? data.profiles : []) {
+    if (isObject(profile) && profile.expectedMinutes !== undefined) profile.flexDays = []
+  }
+  data.version = 3
 }
 
 /** Whether a value is a string. Used by `upgradeFromOne` to keep only the openings' days */
@@ -245,6 +274,10 @@ function checkRecord(data: Fields): void {
         amount(item.amount, `${where}.amount`)
       })
     }
+    if (profile.flexDays !== undefined) {
+      if (!Array.isArray(profile.flexDays)) throw new ShapeError(`${at}.flexDays`)
+      profile.flexDays.forEach((flex, i) => day(flex, `${at}.flexDays[${i}]`))
+    }
   })
   list(data.openings, 'openings', (opening, at) => {
     text(opening.profile, `${at}.profile`)
@@ -261,6 +294,10 @@ function checkRecord(data: Fields): void {
     timestamp(entry.start, `${at}.start`)
     if (entry.stop !== null) timestamp(entry.stop, `${at}.stop`)
     if (!MADE.includes(entry.made as Made)) throw new ShapeError(`${at}.made`)
+    list(entry.breaks, `${at}.breaks`, (item, where) => {
+      day(item.day, `${where}.day`)
+      whole(item.minutes, `${where}.minutes`, 1)
+    })
   })
 }
 
@@ -276,7 +313,7 @@ function amount(value: unknown, where: string): void {
 
 /**
  * A value as a list, each item checked by `check` with its place, such as entries[1]. Used for profiles,
- * openings, entries, expected minutes, pay and full time
+ * openings, entries, expected minutes, pay, full time and added breaks
  */
 function list(value: unknown, where: string, check: (item: Fields, at: string) => void): void {
   if (!Array.isArray(value)) throw new ShapeError(where)
@@ -288,7 +325,7 @@ function text(value: unknown, where: string): void {
   if (typeof value !== 'string' || value === '') throw new ShapeError(where)
 }
 
-/** A real day written YYYY-MM-DD, or a ShapeError at `where`. Used for openings and from-dates: 16.11.2026 fails */
+/** A real day written YYYY-MM-DD, or a ShapeError at `where`. Used for openings, from-dates, breaks and flex days: 16.11.2026 fails */
 function day(value: unknown, where: string): void {
   if (typeof value !== 'string' || !DAY.test(value) || Number.isNaN(Date.parse(value))) throw new ShapeError(where)
 }

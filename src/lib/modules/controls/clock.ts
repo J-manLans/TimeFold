@@ -33,7 +33,14 @@ export function press(record: TimeRecord, profileId: string, now: Date): { recor
   }
 
   const stoppedFirst = record.entries.map((e) => (e === running ? { ...e, stop: at } : e))
-  const started: Entry = { id: nextId(record.entries), profile: profileId, start: at, stop: null, made: 'clicked' }
+  const started: Entry = {
+    id: nextId(record.entries),
+    profile: profileId,
+    start: at,
+    stop: null,
+    made: 'clicked',
+    breaks: [],
+  }
   const entries = [...stoppedFirst, started]
   const click: Click = running
     ? { kind: 'switch', at, stopped: running.id, started: started.id }

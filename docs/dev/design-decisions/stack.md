@@ -100,8 +100,8 @@ and check on the first click.
 - The file edited by hand into invalid JSON: the app names the problem and offers the newest copy.
 - Valid JSON with an entry missing its start: the app names the problem and offers the newest copy.
 - No record file: no record yet; nothing is reported as wrong.
-- The owner's version 1 record opened by the app with added breaks and flex days: upgraded to the new version, with no
-  breaks and no flex days, and every entry, profile, setting and the balance as before.
+- The owner's version 2 record opened by the app with added breaks and flex days: upgraded to version 3, with no breaks
+  and no flex days, and every entry, profile, setting and the balance as before.
 - A record of version 3 opened, or imported, by an app that knows version 2: refused with the message to update and a
   link to the releases page; the file is unchanged.
 - The 32nd copy: the oldest of the 31 is deleted.
