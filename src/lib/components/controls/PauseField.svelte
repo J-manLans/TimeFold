@@ -1,14 +1,16 @@
 <!--
   "Lägg till paus" ("Time away is a gap or an added break"): a quiet button, greyed out unless the profile on screen
-  runs, whose length field opens in its place, text from the left ("Entering a length of time"). A plain number is
+  runs, whose length field opens in its place, text from the left ("Entering a length of time"). The field holds the
+  running entry's whole break: it opens on what is there so far, selected, so typing replaces it. A plain number is
   minutes, "1:20" hours and minutes; a keystroke that breaks the shape does not appear, and how the field reads what is
-  typed shows just under it, so the field stays where it is. Enter adds the break to the running entry; Esc, or a
-  click away, closes the field. A break longer than its entry is refused, and the reading says so.
+  typed shows just under it, so the field stays where it is. Enter sets the new total, a lower one taking time back;
+  Esc, or a click away, closes the field. A total longer than its entry is refused, and the reading says so.
 -->
 <script lang="ts">
   import { tick } from 'svelte'
   import { app } from '$lib/app.svelte'
-  import { BREAK, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
+  import { breakSoFar } from '$lib/modules/controls/breaks'
+  import { BREAK, durationInField, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
 
   // === State ===
 
@@ -29,14 +31,16 @@
 
   // === Helpers ===
 
-  /** The button pressed: the field opens in its place, empty, with the caret in it */
+  /** The button pressed: the field opens in its place on the break so far, selected, or empty with none */
   async function openField(): Promise<void> {
+    text = app.record ? durationInField(breakSoFar(app.record, app.onScreen)) : ''
     open = true
     await tick()
     input?.focus()
+    input?.select()
   }
 
-  /** The field closes, empty, and the button is back. Used on Esc, a click away, and once a break is added */
+  /** The field closes, empty, and the button is back. Used on Esc, a click away, and once a total is set */
   function close(): void {
     open = false
     text = ''
@@ -56,15 +60,15 @@
     field.setSelectionRange(caret, caret)
   }
 
-  /** Enter adds a whole length, Esc closes. Used on the field's keys */
+  /** Enter sets a whole length as the total, Esc closes. Used on the field's keys */
   async function keys(event: KeyboardEvent): Promise<void> {
     if (event.key === 'Escape') {
       event.stopPropagation()
       close()
     }
     if (event.key !== 'Enter' || minutes === null) return
-    const why = await app.addBreak(minutes)
-    if (why === null) close()
+    const why = await app.setBreak(minutes)
+    if (why === null || why === 'no-change') close()
     else if (why === 'too-long') refused = true
   }
 </script>

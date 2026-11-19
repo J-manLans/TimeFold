@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { BALANCE, BREAK, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
+import { BALANCE, BREAK, durationInField, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
 
 // === Tests ===
 
@@ -49,5 +49,16 @@ describe('a duration in words has its unit against its number', () => {
 
   it('writes the sign when asked: −12h 30min and +12h 30min', () => {
     expect([durationText(-750, true), durationText(750, true)]).toEqual(['−12h 30min', '+12h 30min'])
+  })
+})
+
+describe('a duration is written back into a field as it would be typed', () => {
+  it('writes 20 as 20, 80 as 1:20, 125 as 2:05, and 0 as nothing', () => {
+    expect([durationInField(20), durationInField(80), durationInField(125), durationInField(0)]).toEqual([
+      '20',
+      '1:20',
+      '2:05',
+      '',
+    ])
   })
 })
