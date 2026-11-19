@@ -1,6 +1,7 @@
 /**
- * Days in Swedish words, as the app writes them: "måndag 16 november" in a sentence, "mån 16" on an entry's row, and
- * "mån 16 nov" in a label. A day is a calendar date with no clock, so no time zone can move it.
+ * Days and months in Swedish words, as the app writes them: "måndag 16 november" in a sentence, "mån 16" on an
+ * entry's row, "mån 16 nov" in a label, "november 2026" over a month, and "nov" in a short list. A day is a calendar
+ * date with no clock, so no time zone can move it.
  */
 
 import { type Day } from '$lib/modules/shared/record'
@@ -25,6 +26,19 @@ export function dayShort(day: Day): string {
 export function dayLabel(day: Day): string {
   const { month } = parts(day)
   return `${dayShort(day)} ${MONTHS[month].slice(0, 3)}`
+}
+
+/**
+ * A day's month and year, for a line naming a month. Used by the month lines in "Visa alla" and the flex-day
+ * calendar's heading: 2026-11-16 is "november 2026"
+ */
+export function monthInWords(day: Day): string {
+  return `${MONTHS[parts(day).month]} ${day.slice(0, 4)}`
+}
+
+/** A day's month cut short. Used by the flex-day calendar's list of days ahead: 2026-12-07 is "dec" */
+export function monthShort(day: Day): string {
+  return MONTHS[parts(day).month].slice(0, 3)
 }
 
 // ======================================

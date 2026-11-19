@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dayInWords, dayLabel, dayShort } from '$lib/modules/shared/dates'
+import { dayInWords, dayLabel, dayShort, monthInWords, monthShort } from '$lib/modules/shared/dates'
 
 // === Tests ===
 
@@ -14,5 +14,11 @@ describe('a day reads in Swedish words, long, short or as a label', () => {
 
   it('reads a Sunday at the turn of the year', () => {
     expect(dayInWords('2027-01-03')).toBe('söndag 3 januari')
+  })
+})
+
+describe('a month reads in Swedish words, with its year or cut short', () => {
+  it('reads 2026-11-16 as november 2026 and nov', () => {
+    expect([monthInWords('2026-11-16'), monthShort('2026-11-16')]).toEqual(['november 2026', 'nov'])
   })
 })

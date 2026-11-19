@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { entryRow, stoppedEntries } from '$lib/modules/dashboard/entries'
+import { entryRow, stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
 import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 // === Helpers ===
@@ -65,5 +65,33 @@ describe("an entry's row reads its day, its times, its profile and its length", 
     const row = entryRow(entry(at('2026-11-14', '21:30'), at('2026-11-16', '07:00')), RECORD)
 
     expect(row).toMatchObject({ day: 'lör 14', times: '21:30–07:00', later: 2 })
+  })
+})
+
+describe('"Visa alla" opens each month with a line naming it and its year', () => {
+  it('puts november, oktober and september 2026 above their entries, newest first', () => {
+    const nov = entry(at('2026-11-17', '08:00'), at('2026-11-17', '12:00'), { id: 'nov' })
+    const oct = entry(at('2026-10-21', '08:00'), at('2026-10-21', '12:00'), { id: 'oct' })
+    const oct2 = entry(at('2026-10-20', '08:00'), at('2026-10-20', '12:00'), { id: 'oct2' })
+    const sep = entry(at('2026-09-28', '08:00'), at('2026-09-28', '12:00'), { id: 'sep' })
+
+    const items = withMonthLines([nov, oct, oct2, sep]).map((item) =>
+      item.kind === 'month' ? item.label : item.entry.id,
+    )
+
+    expect(items).toEqual(['november 2026', 'nov', 'oktober 2026', 'oct', 'oct2', 'september 2026', 'sep'])
+  })
+
+  it('names the year again where the list crosses into another', () => {
+    const jan = entry(at('2027-01-04', '08:00'), at('2027-01-04', '12:00'), { id: 'jan' })
+    const dec = entry(at('2026-12-30', '08:00'), at('2026-12-30', '12:00'), { id: 'dec' })
+
+    const labels = withMonthLines([jan, dec]).filter((item) => item.kind === 'month')
+
+    expect(labels.map((item) => item.kind === 'month' && item.label)).toEqual(['januari 2027', 'december 2026'])
+  })
+
+  it('gives an empty list nothing', () => {
+    expect(withMonthLines([])).toEqual([])
   })
 })

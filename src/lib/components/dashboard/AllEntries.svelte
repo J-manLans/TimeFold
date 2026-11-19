@@ -1,12 +1,13 @@
 <!--
   "Visa alla" and the popup it opens: every stopped entry, newest first, in a card centred on the window over a dark
-  scrim ("The main screen has a controls side and a dashboard"). "Stäng", a click on the scrim or Esc closes it, and the
+  scrim ("The main screen has a controls side and a dashboard"), with a quiet line naming each month and its year
+  where the list crosses into it. "Stäng", a click on the scrim or Esc closes it, and the
   focus goes back to "Visa alla". The rows only show their entries until editing comes ("Editing an entry on its
   line"). With no entry yet, "Visa alla" is greyed out: <AllEntries disabled={entries.length === 0} />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { stoppedEntries } from '$lib/modules/dashboard/entries'
+  import { stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
   import EntryRow from './EntryRow.svelte'
 
   // === Props ===
@@ -22,7 +23,7 @@
 
   let popup: HTMLDialogElement | undefined = $state()
   let open = $state(false)
-  let entries = $derived(open && app.record ? stoppedEntries(app.record) : [])
+  let items = $derived(open && app.record ? withMonthLines(stoppedEntries(app.record)) : [])
 
   // === Helpers ===
 
@@ -47,8 +48,12 @@
       <button class="more" type="button" onclick={() => popup?.close()}>Stäng</button>
     </header>
     <ol>
-      {#each entries as entry (entry.id)}
-        <EntryRow {entry} />
+      {#each items as item (item.kind === 'month' ? item.key : item.entry.id)}
+        {#if item.kind === 'month'}
+          <li class="month">{item.label}</li>
+        {:else}
+          <EntryRow entry={item.entry} />
+        {/if}
       {/each}
     </ol>
   </div>
@@ -112,6 +117,18 @@
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  /* A month's line: no row behind it, a little room above, the rows under it as in the recent list */
+  .month {
+    padding: var(--entry-month-gap) var(--entry-month-inset) var(--entry-month-under);
+    color: var(--dashboard-text-muted);
+    font-size: var(--entry-month-size);
+    font-weight: var(--entry-month-weight);
+  }
+
+  .month:first-child {
+    padding-top: 0;
   }
 
   /* === States === */

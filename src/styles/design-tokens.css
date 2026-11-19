@@ -190,6 +190,11 @@
   --entry-later-size: 0.72em; /* the "+1" after the end time of an entry that stops on a later day */
   --entry-later-gap: 2px;
   --entry-cell-gap: 10px;
+  --entry-month-gap: 12px; /* in "Visa alla", above the line naming a new month */
+  --entry-month-under: 2px; /* under it, before its first row */
+  --entry-month-inset: 8px; /* in from the card's edge, as a row's text */
+  --entry-month-size: 11px;
+  --entry-month-weight: 700;
   --entry-tag-size: 11px;
   --entry-tag-padding: 0 5px;
   --entry-tag-radius: 4px;

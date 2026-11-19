@@ -4,7 +4,7 @@
  */
 
 import { localDay, secondsByDay, shownMinutes, timeOfDay } from '$lib/modules/shared/counting'
-import { dayShort } from '$lib/modules/shared/dates'
+import { dayShort, monthInWords } from '$lib/modules/shared/dates'
 import { durationText } from '$lib/modules/shared/timeInput'
 import { type Day, type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
@@ -36,6 +36,27 @@ export interface EntryRow {
  */
 export function stoppedEntries(record: TimeRecord): Entry[] {
   return record.entries.filter((entry) => entry.stop !== null).sort((a, b) => Date.parse(b.start) - Date.parse(a.start))
+}
+
+/** A line of "Visa alla": a month's line, naming it, or an entry's row */
+export type ListItem = { kind: 'month'; key: string; label: string } | { kind: 'entry'; entry: Entry }
+
+/**
+ * Entries with a line opening each month they fall in, by the day each started, in the order given. Used by "Visa
+ * alla", newest first: entries from November back to September give "november 2026", its rows, "oktober 2026", and so
+ * on. The recent list has no month lines.
+ */
+export function withMonthLines(entries: Entry[]): ListItem[] {
+  const items: ListItem[] = []
+  let last = ''
+  for (const entry of entries) {
+    const day = localDay(Date.parse(entry.start))
+    const month = day.slice(0, 7)
+    if (month !== last) items.push({ kind: 'month', key: month, label: monthInWords(day) })
+    last = month
+    items.push({ kind: 'entry', entry })
+  }
+  return items
 }
 
 /**
