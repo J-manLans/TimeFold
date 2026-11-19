@@ -122,7 +122,8 @@ component; only the values are central.
   The balance profile's greys are tokens.
 - **Motion:** times are written in seconds. `--speed-ui: 0.2s` is every small transition's ("The look: a fresh display
   face, mono text and soft buttons"); a longer animation that tells something has its own token, such as the peek's 0.3s
-  ("The ceiling wheel"). `prefers-reduced-motion` is always respected.
+  ("The ceiling wheel"). The app's own Animerat or Stilla decides, following the system's reduced-motion setting until
+  the switch is first clicked ("Motion can be switched off in the app").
 
 **Why:** one file is the tuning panel for the whole look, as the prototype's knobs were, and the look is tuned far more
 often than a component is read; a token's name and go-to-definition make the second file cheap. Custom properties

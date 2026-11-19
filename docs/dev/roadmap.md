@@ -17,7 +17,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3: Corrections, starting with its **Settle first** in design mode.
+Phase 3: Corrections, its patch first: steps 1 and 2, released as `0.2.1` for the school. Then the rest of its **Settle
+first** in design mode, on a fresh branch off `main`.
 
 ## The phases
 
@@ -34,18 +35,17 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line; the line's
 zoom (`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the
-prototype (its "Visa alla" popup only notes where it goes); the motion switch's place, its first state and whether the
-handover carries it (`open-questions.md`), and the switch and the onboarding's note drawn in the prototype.
+prototype (its "Visa alla" popup only notes where it goes).
 
-1. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
-   shortening, the profile, the confirm; the rows' hover with it.
-2. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
-   chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
-3. The motion switch ("Motion can be switched off in the app"): every animation, delay, count and timed step follows it,
-   and the onboarding's note when the system asks for reduced motion. Seen on the owner's Linux machine and on a school
-   computer with reduced motion on.
-4. Patch: the first month's ceiling is whole ("The other profiles share a ceiling"); a fresh start counted it only from
+1. Patch: the motion switch ("Motion can be switched off in the app"): every animation, delay, count and timed step
+   follows it, and the onboarding's note when the system asks for reduced motion. Seen on the owner's Linux machine and
+   on a school computer with reduced motion on.
+2. Patch: the first month's ceiling is whole ("The other profiles share a ceiling"); a fresh start counted it only from
    its first day.
+3. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
+   shortening, the profile, the confirm; the rows' hover with it.
+4. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
+   chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows; and on a school computer with reduced motion on, the switch brings the motion back

@@ -77,6 +77,8 @@
   --ob-sweep: 1.2s;         /* the pointer light crossing the button block, left to right */
   --ob-sweep-ends: 0.3;   /* how large the light is as it enters and leaves the block, against its usual --glow-r */
   --ob-sweep-grow: 2;     /* how large it grows at the block's middle, against --glow-r */
+  --ob-note-space: 22px;  /* above the motion note under "Starta nytt" and "Importera" (only when the system asks for reduced motion) */
+  --ob-note-gap: 12px;    /* between the motion switch and the note's words */
   --ob-sweep-rise: 60px;  /* how far above the block's middle the light starts */
   --ob-sweep-fade: 0.3s;  /* after the arc, the light shrinking from its end size to nothing */
   --ob-sweep-drop: 60px;  /* how far below it the light ends; between, it arcs down, quickest at first, levelling off */
@@ -262,7 +264,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .profile-btn { grid-area: prof; display: grid; place-items: center; isolation: isolate; }
 /* The profile circle: a raised light disc sitting in a recessed well, after the CodePen pen
    "bthehuman/pen/zGKBvm" (MIT), scaled down and put on theme tokens. */
-.profile-btn .dot, .theme-btn .dot, .undo-btn .dot {
+.profile-btn .dot, .theme-btn .dot, .motion-btn .dot, .undo-btn .dot {
   position: relative; width: var(--dot-size); height: var(--dot-size); border-radius: 50%;
   background-color: var(--dot-face); background-image: var(--dot-bg);
   box-shadow: 0 2px 5px var(--dot-drop), var(--dot-inner);
@@ -271,7 +273,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 }
 /* The profile letter is trimmed to its capital, so centring the box centres the letter itself, not its line. */
 .profile-btn .dot { text-box: trim-both cap alphabetic; }
-.profile-btn .dot::before, .theme-btn .dot::before, .undo-btn .dot::before {
+.profile-btn .dot::before, .theme-btn .dot::before, .motion-btn .dot::before, .undo-btn .dot::before {
   content: ""; position: absolute; inset: calc(-1 * var(--dent)); border-radius: 50%; z-index: -1;
   background: var(--well-bg); border-top: 1px solid var(--well-edge);
   box-shadow: inset 0 4px 14px var(--well-shade), 0 1px 0 var(--well-lip);
@@ -283,7 +285,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* The warning label that follows the pointer over the start button */
 .tip { position: fixed; z-index: 50; pointer-events: none; padding: 4px 9px; border-radius: var(--r-small); font-size: 12px; background: rgba(13, 16, 20, 0.78); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); color: #e6eaf0; border: 1px solid var(--tipc, #e80003); white-space: nowrap; opacity: 0; transition: opacity var(--speed-fade) ease; }
 .tip.show { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+.app.still .tip { transition: none; }
 .status { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; } /* keeps its room even when empty */
 .pause-area { height: 36px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 /* The undo: a disc like the profile's, faded when there is nothing to undo; a ring drains over its minute */
@@ -297,7 +299,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .undo-btn.live .dot::after { animation: undo-fade var(--undo-time) linear forwards; }
 @keyframes undo-fade { from { opacity: var(--undo-afterglow); } to { opacity: 0; } }
 .undo-btn .undo-icon { position: relative; z-index: 3; }
-@media (prefers-reduced-motion: reduce) { .undo-btn.live .dot::after { animation: none; opacity: var(--undo-afterglow); } }
+.app.still .undo-btn.live .dot::after { animation: none; opacity: var(--undo-afterglow); }
 .pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
 .pair .plastic:disabled { opacity: var(--disabled-o); cursor: default; }
 .pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
@@ -315,7 +317,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .today-pie path.over { fill: var(--pie-neon); }
 .today-pie path.fresh { animation: pie-click var(--pie-flash) ease-out; }
 @keyframes pie-click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
-@media (prefers-reduced-motion: reduce) { .today-pie path.fresh { animation: none; } }
+.app.still .today-pie path.fresh { animation: none; }
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
 .prune .spacer { flex: 1; }
@@ -355,6 +357,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* Importera, greyed out until Handover, still takes the pointer and the focus, so its tip ("från fil") can show. */
 .ob-choice[aria-disabled="true"] { opacity: var(--disabled-o); cursor: default; }
 .ob-prompt { font-size: var(--ob-prompt); font-weight: 600; color: var(--c-fg); }
+/* The motion note, under the two choices and as wide as they are together; the switch centred on the words' height. */
+.ob-motion { grid-column: 1 / -1; width: 0; min-width: 100%; margin-top: calc(var(--ob-note-space) - var(--block-gap)); display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--ob-note-gap); }
+.ob-motion p { margin: 0; font-size: var(--size-note); line-height: 1.5; color: var(--c-muted); text-align: left; text-wrap: pretty; }
 /* No field: only the caret shows. Written strongly enough to win over the menu's own fields and the focus ring. */
 .app .menu .onboard input.ob-lone { width: 100%; border: 0; border-radius: 0; padding: 0; background: transparent; box-shadow: none; text-align: center; color: inherit; text-transform: none; letter-spacing: normal; }
 .app .menu .onboard input.ob-lone:focus, .app .menu .onboard input.ob-lone:focus-visible { outline: none; }
@@ -391,8 +396,26 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu h2 { margin: 0; font-size: 16px; font-weight: 600; line-height: 32px; }
 .menu-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px 52px; min-height: 40px; }
 /* The theme button: drawn like the profile button's disc in its dent, smaller */
-.theme-btn { --dot-size: 26px; --dent: 4px; --dot-face: var(--theme-face); width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--theme-ink); }
-.theme-label { font-size: var(--size-note); color: var(--c-muted); }
+.theme-btn, .motion-btn { --dot-size: 26px; --dent: 4px; --dot-face: var(--theme-face); flex: none; width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--theme-ink); }
+.theme-label, .motion-label { font-size: var(--size-note); color: var(--c-muted); }
+/* A label holds both its words stacked, only the one in force showing, so it is always as wide as the longer one and
+   the button after it never moves. The word swaps at once. */
+.state-label { display: inline-grid; }
+.state-label > span { grid-area: 1 / 1; visibility: hidden; }
+.state-label > span.on { visibility: visible; }
+/* The motion switch: speed lines for Animerat, which fold into one flat line for Stilla. Folding is instant; opening
+   eases over --speed-ui, since Stilla turns off the transitions in the same moment and Animerat turns them on. */
+.motion-icon line { stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; transition: transform var(--speed-ui) ease; }
+.app.still .motion-icon line { transform: none !important; }
+.motion-icon .l1 { transform: translate(-1px, -4.5px); }
+.motion-icon .l3 { transform: translate(2px, 4.5px); }
+/* Its disc always catches the pointer light, in Stilla too: a hint of what Animerat brings. */
+.motion-btn .dot {
+  background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
+      color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent),
+    var(--dot-bg);
+  background-attachment: fixed, scroll;
+}
 .menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity var(--speed-ui) ease; }
 .menu.open .body { opacity: 1; transition: opacity var(--speed-ui) ease calc(var(--speed-ui) / 2); }
 .menu section { display: grid; gap: 10px; }
@@ -471,10 +494,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .prow-clip { min-height: 0; overflow: hidden; opacity: 0; transition: opacity var(--speed-row) ease; }
 .prow.open .prow-clip { opacity: 1; }
 .prow-body { padding: 2px 12px 12px; display: grid; gap: 2px; }
-@media (prefers-reduced-motion: reduce) { .prow-wrap, .prow-clip { transition: none; } }
+.app.still .prow-wrap, .app.still .prow-clip { transition: none; }
 .prow-body .field { display: flex; align-items: center; gap: 10px; min-height: 34px; }
 .prow-body .field > span:first-child { min-width: 110px; color: var(--c-muted); }
-@media (prefers-reduced-motion: reduce) { .tabpanel { animation: none; } }
+.app.still .tabpanel { animation: none; }
 
 /* The app's own colour picker */
 .swatch-pair { display: inline-flex; gap: 4px; }
@@ -538,18 +561,21 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
 /* Inside the app, every focus ring takes the colour of the profile on screen. */
 .app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--state, #4b8bff); }
-@media (prefers-reduced-motion: reduce) { .menu, .menu .body, .menu.open .body, .menu-toggle span { transition: none; } .entries li.new, .zero { animation: none; } }
+.app.still .menu, .app.still .menu .body, .app.still .menu.open .body, .app.still .menu-toggle span { transition: none; }
+.app.still .entries li.new, .app.still .zero { animation: none; }
+/* "KOPIA" holds still in the balance's colour, the pulse's strong end. */
+.app.still .copy-label.pulse { animation: none; color: var(--state, var(--f-fg)); }
 
 /* Everything else that changes state eases over --speed-ui too: theme colours, the profile letter's colour, tabs,
    rows, swatches, the popup. A text that changes swaps at once. */
 .controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more {
   transition: background-color var(--speed-ui) ease, color var(--speed-ui) ease, border-color var(--speed-ui) ease;
 }
-.profile-btn .dot, .theme-btn .dot, .undo-btn .dot { transition: color var(--speed-ui) ease, background-color var(--speed-ui) ease; }
-@media (prefers-reduced-motion: reduce) {
-  .controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more, .start .label, .status,
-  .profile-btn .dot, .theme-btn .dot, .undo-btn .dot, .plastic, .undo-btn { transition: none; }
-}
+.profile-btn .dot, .theme-btn .dot, .motion-btn .dot, .undo-btn .dot { transition: color var(--speed-ui) ease, background-color var(--speed-ui) ease; }
+/* Stilla ("Motion can be switched off in the app"): the app's own setting, following the system until the motion
+   switch is first clicked. Nothing moves: every rule below and the scripts' still() take the motion out. */
+.app.still :is(.controls, .figures, .popup, .tab, .prow, .swatch, .menu-toggle, .cp-now, .entries li, .entries .more, .start .label, .status,
+  .profile-btn .dot, .theme-btn .dot, .motion-btn .dot, .motion-icon line, .undo-btn .dot, .plastic, .undo-btn) { transition: none; }
 
 
 /* A soft, matte light follows the pointer over the control side. One light for all buttons: each active button face
@@ -570,7 +596,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     radial-gradient(circle var(--glow-r) at var(--mx) var(--my), color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);
   background-attachment: scroll, fixed;
 }
-@media (prefers-reduced-motion: reduce) { .controls .plastic { background-image: none !important; } }
+.app.still .controls .plastic { background-image: none !important; }
 
 /* TRIAL, easy to revert: with .glow-discs on the app (the "Light on discs" box in the sketch bar), the discs of active
    buttons catch the pointer light too, on top of their own sheen. Remove this block to drop it. */
@@ -582,6 +608,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var(--dot-bg);
   background-attachment: fixed, scroll;
 }
+/* In Stilla the discs lose the light with the faces. */
+.app.still.glow-discs .profile-btn .dot, .app.still.glow-discs .undo-btn .dot, .app.still.glow-discs .theme-btn .dot { background-image: var(--dot-bg); }
+.app.still.glow-discs .undo-btn:not(:disabled)::after { content: none; }
 /* Only the profile disc catches the light more weakly, which keeps the profile button a little apart. */
 .app.glow-discs .profile-btn .dot { --disc-glow: var(--glow-disc); }
 /* The undo disc's afterglow would hide the light, so while the afterglow is there the light is laid on top of it too, under
@@ -626,6 +655,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     <button type="button" id="simNewer">Newer record</button>
     <button type="button" id="simLate">Running since yesterday</button>
     <button type="button" id="simSystemTheme">Theme as installed</button>
+    <label for="simReduce"><input type="checkbox" id="simReduce"> System: reduced motion</label>
+    <button type="button" id="simSystemMotion">Motion as installed</button>
     <span>Each stop records 2 h 15 min.</span>
     <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
@@ -664,7 +695,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <div class="menu-head">
             <h2>Meny</h2>
             <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema"><span class="dot"><svg id="themeIcon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"></svg></span></button>
-            <span class="theme-label" id="themeLabel"></span>
+            <span class="theme-label state-label" id="themeLabel"><span data-v="light">Ljust</span><span data-v="dark">Mörkt</span></span>
+            <button class="motion-btn" type="button"><span class="dot"><svg class="motion-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><line class="l1" x1="7" y1="12" x2="17" y2="12"/><line class="l2" x1="4" y1="12" x2="20" y2="12"/><line class="l3" x1="9" y1="12" x2="20" y2="12"/></svg></span></button>
+            <span class="motion-label state-label"><span data-v="on">Animerat</span><span data-v="off">Stilla</span></span>
           </div>
           <div class="tabs" role="tablist" aria-label="Menyns delar">
             <button class="tab" role="tab" type="button" data-tab="profiler" aria-selected="true">Profiler</button>
@@ -690,6 +723,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <div class="ob-step" data-step="choice">
             <button class="plastic ob-choice" id="obFresh" type="button"><span class="label">Starta nytt</span></button>
             <button class="plastic ob-choice" id="obImport" type="button" aria-disabled="true"><span class="label">Importera</span></button>
+            <div class="ob-motion" id="obMotion" hidden>
+              <button class="motion-btn" type="button"><span class="dot"><svg class="motion-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><line class="l1" x1="7" y1="12" x2="17" y2="12"/><line class="l2" x1="4" y1="12" x2="20" y2="12"/><line class="l3" x1="9" y1="12" x2="20" y2="12"/></svg></span></button>
+              <p>Appen är i stilla läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen.</p>
+            </div>
           </div>
           <div class="ob-step" data-step="balance">
             <label class="ob-prompt" for="obBal">Nuvarande flextimmar?</label>
@@ -852,6 +889,26 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // ---- State ----
   var $ = function (id) { return document.getElementById(id); };
   var app = $("app");
+  // ---- Motion ("Motion can be switched off in the app"): Animerat or Stilla, following the system until the switch is
+  // first clicked; the sketch bar's box stands in for the system's setting. ----
+  var reduceMq = window.matchMedia ? matchMedia("(prefers-reduced-motion: reduce)") : null;
+  $("simReduce").checked = !!reduceMq && reduceMq.matches;
+  app.dataset.appMotion = "system";
+  function systemStill() { return $("simReduce").checked; }
+  function still() { return app.classList.contains("still"); }
+  // A label's word in force: the one whose data-v matches.
+  function showWord(label, v) { Array.prototype.forEach.call(label.children, function (w) { w.classList.toggle("on", w.dataset.v === v); }); }
+  function applyMotion() {
+    var m = app.dataset.appMotion; app.classList.toggle("still", m === "off" || (m === "system" && systemStill()));
+    var v = still() ? "off" : "on", name = v === "on" ? "Animerat" : "Stilla";
+    Array.prototype.forEach.call(document.querySelectorAll(".motion-label"), function (l) { showWord(l, v); });
+    Array.prototype.forEach.call(document.querySelectorAll(".motion-btn"), function (b) { b.setAttribute("aria-label", "Rörelse: " + name + ". Klicka för att byta."); });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".motion-btn"), function (b) {
+    b.addEventListener("click", function () { app.dataset.appMotion = still() ? "on" : "off"; applyMotion(); });
+  });
+  $("simReduce").addEventListener("change", applyMotion);
+  applyMotion();
   // Janitor work has a monthly salary (its hours move the balance, not the pay); the others a rate per hour.
   var profiles = [{ id: "v", name: "Vaktmästare", balance: true, salary: 1700 }, { id: "u", name: "Utveckling", rate: 26 }];
   var onScreen = "v", running = null; // running: { profile, start }
@@ -966,7 +1023,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   function settleScale(abs, animate) {
     var next = pickScale(abs); if (next === scale) return;
-    var from = shown.scale || scale, t0 = performance.now(), D = animate && !reduce ? 500 : 0; scale = next;
+    var from = shown.scale || scale, t0 = performance.now(), D = animate && !still() ? 500 : 0; scale = next;
     (function frame(now) { var k = D ? Math.min(1, (now - t0) / D) : 1; shown.scale = from + (next - from) * (1 - Math.pow(1 - k, 3)); drawBar(); if (k < 1) requestAnimationFrame(frame); })(performance.now());
   }
   function drawBar() {
@@ -1044,7 +1101,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var peekAmt = 0, peekTo = 0, peekRaf = 0;
   function peek(on) {
     peekTo = on ? 1 : 0;
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { peekAmt = peekTo; drawWheel(); return; }
+    if (still()) { peekAmt = peekTo; drawWheel(); return; }
     cancelAnimationFrame(peekRaf);
     var from = peekAmt, t0 = performance.now();
     (function step(now) {
@@ -1100,9 +1157,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
 
   // ---- Motion: numbers count to their new value ----
-  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function tweenTo(target) {
-    var from = { balance: shown.balance, used: shown.used, pay: shown.pay }, t0 = performance.now(), D = reduce ? 0 : 900;
+    var from = { balance: shown.balance, used: shown.used, pay: shown.pay }, t0 = performance.now(), D = still() ? 0 : 900;
     function frame(now) {
       var k = D ? Math.min(1, (now - t0) / D) : 1, e = 1 - Math.pow(1 - k, 3);
       for (var key in target) shown[key] = from[key] + (target[key] - from[key]) * e;
@@ -1342,6 +1398,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     $("obBal").value = ""; $("obBalRead").textContent = ""; $("obName").value = "";
     $("obBal").style.color = $("obName").style.color = obColour(0);
     $("recover").hidden = true; $("copyLabel").hidden = true; recoverKind = null;
+    $("obMotion").hidden = !systemStill();
     $("onboard").hidden = false; $("menu").classList.add("onboarding", "ob-solid");
     setMenu(true); $("menuBody").inert = true;
     drawEntries(false); recolour(); obStep("choice");
@@ -1372,7 +1429,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // then, after --ob-letter-delay, the letter fades in, the last thing; nothing can be pressed until it has.
   function finishOnboarding(name) {
     balanceProfile().name = name; obStep(null); app.classList.add("locked");
-    var css = getComputedStyle(app), secs = function (n) { return parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
+    var css = getComputedStyle(app), secs = function (n) { return still() ? 0 : parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
     var fade = secs("--speed-ui"), shrink = secs("--speed-menu"), delay = secs("--ob-letter-delay"), arrive = secs("--ob-letter-fade");
     var frostIn = secs("--ob-frost-in");
     // The text fades; the solid panel turns to frost; then the panel shrinks into the menu button.
@@ -1390,7 +1447,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         setTimeout(function () {
           var sweepDone = false, letterDone = false, unlock = function () { if (sweepDone && letterDone) app.classList.remove("locked"); };
           sweep(secs("--ob-sweep"), function () { sweepDone = true; unlock(); });
-          var gone = reduce ? 0 : secs("--ob-sweep") + secs("--ob-sweep-fade");
+          var gone = still() ? 0 : secs("--ob-sweep") + secs("--ob-sweep-fade");
           setTimeout(function () {
             $("profileDot").classList.add("arriving"); $("profileDot").classList.remove("waiting"); drawControls();
             setTimeout(function () { $("profileDot").classList.remove("arriving"); letterDone = true; unlock(); }, arrive);
@@ -1404,7 +1461,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // the block's middle (--ob-sweep-grow) and shrinking again past it, arcing down from above the block's middle to below
   // it (--ob-sweep-rise, --ob-sweep-drop). Used once, at the onboarding's end.
   function sweep(duration, done) {
-    if (reduce) { done(); return; }
+    if (still()) { done(); return; }
     var c = document.querySelector(".controls"), b = document.querySelector(".block").getBoundingClientRect();
     var css = getComputedStyle(app), reach = parseFloat(css.getPropertyValue("--glow-r")) || 70;
     var grow = parseFloat(css.getPropertyValue("--ob-sweep-grow")) || 1, ends = parseFloat(css.getPropertyValue("--ob-sweep-ends")) || 1;
@@ -1470,7 +1527,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (recoverKind === "newer") { window.open("https://github.com/J-manLans/TimeFold/releases", "_blank"); return; }
     if (recoverKind === "bare") { $("recover").hidden = true; $("onboard").hidden = false; $("obBal").value = ""; $("obName").value = ""; $("obBalRead").textContent = ""; obStep("balance"); return; }
     // "Använd kopian": the words fade, the panel turns to frost and folds away, as at the onboarding's end
-    var css = getComputedStyle(app), secs = function (n) { return parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
+    var css = getComputedStyle(app), secs = function (n) { return still() ? 0 : parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
     $("recover").classList.add("fading"); app.classList.add("locked");
     setTimeout(function () {
       $("menu").classList.add("ob-frosting"); $("menu").classList.remove("ob-solid");
@@ -1916,7 +1973,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       svg.appendChild(el("path", { d: "M15.5 3.5a8.5 8.5 0 1 0 5 13.4A7 7 0 0 1 15.5 3.5z", fill: "none", stroke: ink, "stroke-width": 1.8, "stroke-linejoin": "round" }));
     }
     var name = THEMES.filter(function (x) { return x[0] === th; })[0][1];
-    $("themeLabel").textContent = name; $("themeBtn").setAttribute("aria-label", "Tema: " + name + ". Klicka för nästa.");
+    showWord($("themeLabel"), th); $("themeBtn").setAttribute("aria-label", "Tema: " + name + ". Klicka för nästa.");
   }
   $("themeBtn").addEventListener("click", function () {
     app.dataset.appTheme = themeInForce() === "dark" ? "light" : "dark"; applyTheme(); drawThemeIcon();
@@ -1925,6 +1982,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   drawThemeIcon();
   // Sketch only: back to a fresh install's theme, following the system.
   $("simSystemTheme").addEventListener("click", function () { app.dataset.appTheme = "system"; applyTheme(); drawThemeIcon(); });
+  $("simSystemMotion").addEventListener("click", function () { app.dataset.appMotion = "system"; applyMotion(); });
 
   // ---- A running entry from an earlier day: the app opens on a later date and says so ----
   // Asked only when the app opens, never while it runs. Stoppa stops the running entry as the start/stop button does,

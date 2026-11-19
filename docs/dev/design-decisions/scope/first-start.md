@@ -89,7 +89,7 @@ seen every day. "Importera från min andra dator": long, and tied to a machine.
 - The name entered: the text fades, the panel turns to frost with the buttons blurred behind it, shrinks into the menu
   button, the light sweeps across the buttons, and the letter fades in as the light leaves; nothing can be pressed until
   it has.
-- Reduced motion: no light sweep; the letter follows the panel's closing.
+- Stilla ("Motion can be switched off in the app"): no light sweep; the letter follows the panel's closing.
 - Second machine, first start: "Importera" brings the whole record, opening figures and profile colours included, and
   asks nothing more.
 
