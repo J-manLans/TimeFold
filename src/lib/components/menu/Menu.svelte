@@ -1,7 +1,7 @@
 <!--
   The menu ("The menu has tabs, with every value locked behind "Ändra""): folded, it is the button in the controls
   side's top-left corner; open, it grows from that corner into a frosted panel over the whole controls side, with the
-  "Meny" heading, the theme button, and the tab row with Tid, holding the flex-day calendar. A click on the button, a
+  "Meny" heading, the theme button and the motion switch, and the tab row with Tid, holding the flex-day calendar. A click on the button, a
   click outside or Esc closes it; "Visa alla" and its popup keep it open, and Esc there closes the popup first. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
   imports"), or with the screen for a record that cannot be read: solid while it asks, then frost, then folded into its
   button.
@@ -11,6 +11,7 @@
   import FlexCalendar from './FlexCalendar.svelte'
   import Onboarding from './Onboarding.svelte'
   import Recovery from './Recovery.svelte'
+  import MotionButton from './MotionButton.svelte'
   import ThemeButton from './ThemeButton.svelte'
 
   // === Props ===
@@ -79,6 +80,7 @@
       <div class="head">
         <h2>Meny</h2>
         <ThemeButton />
+        <MotionButton />
       </div>
       <!-- TODO: Profiler, first and open when the menu opens, and Orsaker, in Profiles -->
       <div class="tabs" role="tablist" aria-label="Menyns delar">

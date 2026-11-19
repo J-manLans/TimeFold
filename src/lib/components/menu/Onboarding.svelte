@@ -1,7 +1,8 @@
 <!--
   The onboarding ("A first install starts fresh or imports"), in the menu's panel locked open: one centred prompt at a
   time, fading from one to the next. First "Starta nytt" and "Importera", the latter greyed out until Handover with its
-  tip, "från fil"; then "Nuvarande flextimmar?" and "Profilnamn?", typed with no field, only the caret. The balance
+  tip, "från fil", and under them, when the computer asks for reduced motion, a note with the motion switch ("Motion
+  can be switched off in the app"); then "Nuvarande flextimmar?" and "Profilnamn?", typed with no field, only the caret. The balance
   takes only a duration's shape and wears where it stands; the dashboard counts to it on Enter. The name is typed in
   the balance's colour. Esc goes back a step. After the name the record is saved and the ending plays: the text fades,
   the panel turns to frost and folds, the light sweeps across the buttons, and the letter arrives last.
@@ -12,6 +13,7 @@
   import { neonColour } from '$lib/modules/shared/colours'
   import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
   import ChoiceButton from '$lib/components/shared/ChoiceButton.svelte'
+  import MotionButton from './MotionButton.svelte'
 
   // === Props ===
 
@@ -124,6 +126,12 @@
     <ChoiceButton label="Starta nytt" onclick={() => show('balance')} bind:this={fresh} />
     <!-- TODO: Importera works in Handover; until then greyed out, its tip still showing -->
     <ChoiceButton label="Importera" greyed tip="från fil" />
+    {#if app.systemStill}
+      <div class="note">
+        <MotionButton label={false} />
+        <p>Appen är i stilla läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen.</p>
+      </div>
+    {/if}
   </div>
 
   <div class="step" class:on={step === 'balance'} inert={step !== 'balance'}>
@@ -186,6 +194,26 @@
     justify-content: center;
     gap: var(--block-gap);
     width: auto;
+  }
+
+  /* The motion note: as wide as the two choices together, the switch centred on the words' height */
+  .note {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--onboarding-note-gap);
+    width: 0;
+    min-width: 100%;
+    margin-top: calc(var(--onboarding-note-space) - var(--block-gap));
+  }
+
+  .note p {
+    margin: 0;
+    color: var(--menu-text-muted);
+    font-size: var(--text-size-note);
+    line-height: var(--onboarding-note-line);
+    text-wrap: pretty;
   }
 
   .prompt {

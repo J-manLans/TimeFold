@@ -1,7 +1,8 @@
 <!--
   The theme button beside the menu's heading, and the label naming the theme in force ("A light or dark theme,
   following the system"): a small disc in its dent, with a sun for Ljust and a moon for Mörkt, the theme in force
-  whether chosen or followed from the computer. Each click switches to the other and saves it.
+  whether chosen or followed from the computer. Each click switches to the other and saves it. The label is as wide as
+  its longer word, so the motion switch after it never moves.
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
@@ -38,7 +39,11 @@
     </svg>
   </Disc>
 </button>
-<span class="name">{name}</span>
+<!-- Both words lie on one another, only the one in force showing -->
+<span class="name" aria-hidden="true">
+  <span class:on={app.shownTheme === 'light'}>{themeName('light')}</span>
+  <span class:on={app.shownTheme === 'dark'}>{themeName('dark')}</span>
+</span>
 
 <style>
   /* === Layout === */
@@ -68,7 +73,19 @@
   }
 
   .name {
+    display: inline-grid;
     font-size: var(--text-size-note);
     color: var(--menu-text-muted);
+  }
+
+  .name > span {
+    grid-area: 1 / 1;
+    visibility: hidden;
+  }
+
+  /* === States === */
+
+  .name > .on {
+    visibility: visible;
   }
 </style>

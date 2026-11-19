@@ -151,8 +151,6 @@ step is enough. Pointing at the menu in words: the switch is hidden there during
 - System does not ask for reduced motion, the switch turned off: a stop makes the numbers jump to their new values, and
   the menu opens at once.
 - The switch flipped with the app open: the next animation follows it, with no restart.
-- A fresh install on a system with reduced motion: Stilla; the system turning it off before the switch is ever clicked:
-  Animerat. After one click, the system's setting changes nothing.
 - A first start on a system with reduced motion: the onboarding shows the note; the switch clicked there, the
   onboarding's ending plays animated. On a system without it, no note.
 - The switch's label swapping between Animerat and Stilla: the theme button and the switch stay where they are.
