@@ -131,7 +131,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in every mode.
   - **Design mode:** questions, decisions, the vision, building and tuning the prototype; no code. A rethink of the
     design runs in it, and so does the design pass for a screen the prototype does not show. Spitball before verdicts,
-    and before lists: one topic at a time as a conversation; say what you are thinking and ask one open question.
+    and before lists: one topic at a time as a conversation; say what you are thinking and ask one open question. A
+    phase's design pass opens with what is left of its **Settle first** as a numbered list of headings, the quickest
+    decision first, so the owner can pick by their energy.
   - **Learning mode:** side by side, for a new framework or a part the owner wants to understand. The owner writes the
     parts they want to learn by doing, or steers or reviews what the agent writes; the agent does the rest, the tedious
     parts first (installs, config, moving code, removing files), explains the why, gives one step at a time and waits

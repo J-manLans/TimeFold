@@ -101,7 +101,12 @@
   --pie-flash: 1.2s;      /* a slice clicking in lights and fades, as a new entry's row does */
   /* The entry rows */
   --entry-month-gap: 12px;  /* in "Visa alla", above the line naming a new month */
-  --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
+  --entry-later: 0.72em;
+  /* The entry line in "Alla poster", where a picked entry is edited (EDIT_SNAP and EDIT_PAD in the script) */
+  --el-h: 34px;         /* the line's height, the handles' room */
+  --el-bar: 14px;       /* the entry's bar, and the blocked time of other entries */
+  --el-handle-w: 6px;   /* a handle */
+  --el-handle-h: 30px;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
   /* The flex-day calendar in the menu's Tid tab */
   --cal-cell: 30px;     /* each day's square */
   --cal-gap: 4px;       /* between the days */
@@ -196,7 +201,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --f-row:       light-dark(#233350, #141920);   /* the entry rows, a step darker              violet: #2d2a52 */
   --f-line:      light-dark(#4a6185, #232a33);   /* thin lines and borders                     violet: #57528a */
   --f-fg:        light-dark(#eef2f8, #d9dee6);   /* main text: entries, the balance            violet: #f0eef8 */
-  --f-muted:     light-dark(#a9b8cf, #7b8592);   /* grey text: pay estimate, "Senaste", tags   violet: #b7b1d6 */
+  --f-muted:     light-dark(#a9b8cf, #7b8592);
+  --el-add:      light-dark(#4cc47a, #3fb96f);   /* the entry line: time added, green */
+  --el-cut:      light-dark(#ff7a70, #f0605a);   /* the entry line: time taken away, red */   /* grey text: pay estimate, "Senaste", tags   violet: #b7b1d6 */
   --f-ink:       light-dark(#b8c5d9, #7b8592);   /* small marks: the bar's scale, "AV 42:00 H" violet: #c6c1e2 */
   --f-tick:      light-dark(#6a82a8, #2c3440);   /* the wheel's tick marks                     violet: #736ea6 */
   --f-zero:      light-dark(#e6ecf5, #c9d1db);   /* the bar's 0 line                           violet: #ebe8f5 */
@@ -553,6 +560,43 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .allpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 8; }
 .allpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; border: 1px solid var(--f-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: 10px; }
 .allpop .card header { display: flex; justify-content: space-between; align-items: center; }
+.edit { display: grid; gap: 10px; padding: 12px 14px; border: 1px solid var(--f-line); border-radius: var(--r-small); background: var(--f-row); }
+.ed-head { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+.ed-head .spacer { flex: 1; }
+.ed-head select { font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 2px 6px; }
+.ed-times { font-size: 12px; color: var(--f-muted); min-height: 1.3em; }
+.ed-times b { color: var(--f-fg); font-weight: 400; }
+.ed-line { position: relative; height: var(--el-h); margin: 18px 6px 18px; touch-action: none; cursor: pointer; }
+.ed-line::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--f-line); }
+.ed-tick { position: absolute; bottom: -16px; transform: translateX(-50%); font-size: 10px; color: var(--f-muted); pointer-events: none; }
+.ed-tick::before { content: ""; position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--f-line); }
+.ed-other, .ed-seg { position: absolute; top: 50%; height: var(--el-bar); transform: translateY(-50%); border-radius: 3px; }
+.ed-other { background: repeating-linear-gradient(45deg, var(--f-line) 0 3px, transparent 3px 6px); pointer-events: none; }
+.ed-other.same { background: color-mix(in srgb, var(--p) 30%, transparent); }
+.ed-other.dock { outline: 1px solid var(--el-add); outline-offset: 1px; }
+.ed-seg.keep { background: var(--p); cursor: grab; }
+.ed-seg.add { background: var(--el-add); pointer-events: none; }
+.ed-seg.cut { background: repeating-linear-gradient(45deg, var(--el-cut) 0 3px, color-mix(in srgb, var(--el-cut) 30%, transparent) 3px 6px); pointer-events: none; }
+.ed-now { position: absolute; top: 2px; bottom: 2px; width: 1px; background: var(--f-muted); pointer-events: none; }
+.ed-handle { position: absolute; top: 50%; width: var(--el-handle-w); height: var(--el-handle-h); transform: translate(-50%, -50%); background: var(--f-fg); border-radius: 3px; cursor: ew-resize; touch-action: none; z-index: 1; }
+.ed-handle::after { content: ""; position: absolute; inset: -4px -8px; }
+.ed-hlabel { position: absolute; top: -17px; transform: translateX(-50%); font-size: 11px; color: var(--f-fg); white-space: nowrap; pointer-events: none; }
+.ed-reason { display: grid; gap: 6px; justify-items: start; }
+.ed-pick { font: inherit; font-size: 12px; background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: 4px; padding: 4px 10px; cursor: pointer; }
+.ed-pick.chosen { color: var(--f-fg); }
+.ed-list { display: grid; gap: 1px; justify-items: start; }
+.ed-list button { font: inherit; font-size: 12px; background: none; border: 0; color: var(--f-fg); padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+.ed-list button:hover { background: var(--f-bg); }
+.ed-reason input { font: inherit; font-size: 12px; width: 100%; box-sizing: border-box; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 4px 8px; }
+.ed-actions { display: flex; gap: 8px; align-items: center; }
+.ed-actions .spacer { flex: 1; }
+.ed-actions button { font: inherit; font-size: 12px; border: 1px solid var(--f-line); background: none; color: var(--f-fg); border-radius: var(--r-small); padding: 4px 12px; cursor: pointer; }
+#edSave { background: var(--f-fg); color: var(--f-bg); border-color: var(--f-fg); }
+#edSave:disabled { opacity: var(--disabled-o); cursor: default; }
+#edDel { color: var(--f-muted); border-color: transparent; }
+#edDel.ask { color: var(--el-cut); border-color: var(--el-cut); }
+.ed-hint { font-size: 12px; color: var(--f-muted); margin: 0; }
+.entries li .reason { grid-column: 1 / -1; font-size: 11px; color: var(--f-muted); margin-top: -4px; }
 .allpop .note { font-size: 12px; color: var(--f-muted); border: 1px dashed var(--f-line); border-radius: var(--r-small); padding: 8px 10px; }
 .entries { display: grid; gap: 6px; }
 .entries ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
@@ -807,7 +851,21 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         <header><span class="flabel">Alla poster</span>
           <button class="more" id="allClose" type="button">Stäng</button>
         </header>
-        <p class="note">Här redigeras posterna: den valda posten öppnas på sin linje med handtag i båda ändar. Inte byggt i skissen; den markerade raden är den du klickade på.</p>
+        <p class="ed-hint" id="edHint">Klicka på en post för att ändra den på sin linje.</p>
+        <div class="edit" id="edit" hidden>
+          <div class="ed-head"><span id="edDay"></span><span class="spacer"></span><select id="edProf" aria-label="Profil"></select></div>
+          <div class="ed-times" id="edTimes"></div>
+          <div class="ed-line" id="edLine"></div>
+          <div class="ed-reason">
+            <button class="ed-pick" id="edPick" type="button">Välj orsak</button>
+            <div class="ed-list" id="edList" hidden></div>
+            <input id="edOther" type="text" placeholder="Skriv orsaken" autocomplete="off" hidden>
+          </div>
+          <div class="ed-actions">
+            <button type="button" id="edDel">Ta bort</button><span class="spacer"></span>
+            <button type="button" id="edCancel">Avbryt</button><button type="button" id="edSave" disabled>Spara</button>
+          </div>
+        </div>
         <div class="entries"><ol id="allList"></ol></div>
       </div>
     </div>
@@ -1165,6 +1223,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Öppna posten " + cells[0] + " " + cells[1]);
       li.addEventListener("click", function () { openEntry(e); });
       li.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openEntry(e); } });
+      if (months && e.reason) { var why = document.createElement("span"); why.className = "reason"; why.textContent = "ändrad: " + e.reason; li.appendChild(why); }
       li._entry = e;
       ol.appendChild(li);
     });
@@ -1377,14 +1436,184 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("pruneYes").addEventListener("click", function () { toast("Rensar efter en kopia (skiss)"); $("prune").style.visibility = "hidden"; });
   $("pruneNo").addEventListener("click", function () { $("prune").style.visibility = "hidden"; });
   $("moreBtn").addEventListener("click", function () { openEntry(null); });
-  // Opens the entries popup; with an entry, that row is marked and scrolled into view.
+  // Opens the entries popup; with an entry, that row is marked and the entry opens on its line above the list.
   function openEntry(e) {
     $("allPop").hidden = false;
+    markPicked(e);
+    if (e) startEdit(e); else closeEdit();
+  }
+  function markPicked(e) {
     Array.prototype.forEach.call($("allList").children, function (li) {
       var on = !!e && li._entry === e; li.classList.toggle("picked", on);
       if (on) li.scrollIntoView({ block: "nearest" });
     });
   }
+
+  // ---- The entry line ("Editing an entry on its line", "Two entries join by docking") ----
+  // A handle snaps to EDIT_SNAP minutes of the clock (to try: "Exact minutes on the line"); the view starts EDIT_PAD
+  // minutes (or 15% of the entry) either side, and grows only on the side being dragged ("The line's zoom", to try).
+  var EDIT_SNAP = 5, EDIT_PAD = 30, MIN = 60000;
+  var REASONS = ["Glömde stämpla in", "Glömde stämpla ut", "Fel profil", "Ärende"];
+  var ed = null;
+  function startEdit(e) {
+    var s0 = +e.start, e0 = +e.end, prev = null, next = null;
+    entries.forEach(function (x) {
+      if (x === e) return;
+      if (+x.end <= s0 && (!prev || +x.end > +prev.end)) prev = x;
+      if (+x.start >= e0 && (!next || +x.start < +next.start)) next = x;
+    });
+    var pad = Math.max(EDIT_PAD * MIN, (e0 - s0) * 0.15);
+    ed = { e: e, s: s0, en: e0, o1: s0, o2: e0, profile: e.profile, mode: "gap", prev: prev, next: next,
+           view: { a: s0 - pad, b: e0 + pad }, pad: pad, reason: null, del: false };
+    var sel = $("edProf"); clear(sel);
+    profiles.forEach(function (q) { if (q.archived && q.id !== e.profile) return; var o = document.createElement("option"); o.value = q.id; o.textContent = q.name; sel.appendChild(o); });
+    sel.value = e.profile;
+    $("edDay").textContent = DAYS_LONG[e.start.getDay()] + " " + e.start.getDate() + " " + MONTH_FULL[e.start.getMonth()];
+    $("edPick").textContent = "Välj orsak"; $("edPick").classList.remove("chosen");
+    $("edList").hidden = true; $("edOther").hidden = true; $("edOther").value = "";
+    $("edDel").textContent = "Ta bort"; $("edDel").classList.remove("ask");
+    $("edHint").hidden = true; $("edit").hidden = false;
+    drawEdit();
+  }
+  function closeEdit() { ed = null; $("edit").hidden = true; $("edHint").hidden = false; }
+  function edLo() { return ed.prev ? +ed.prev.end : -Infinity; }
+  function edHi() { return ed.next ? +ed.next.start : Date.now(); }
+  function snapT(t) { var q = EDIT_SNAP * MIN, off = new Date(t).getTimezoneOffset() * MIN; return Math.round((t - off) / q) * q + off; }
+  function inward() { return ed.s > ed.o1 && ed.en < ed.o2; }
+  function docked() {
+    return { l: !!ed.prev && ed.s === +ed.prev.end && ed.prev.profile === ed.profile,
+             r: !!ed.next && ed.en === +ed.next.start && ed.next.profile === ed.profile };
+  }
+  // What the entry becomes: one or two stretches, joined with a docked neighbour.
+  function edResult() {
+    var parts = inward() && ed.mode === "gap" ? [{ a: ed.o1, b: ed.s }, { a: ed.en, b: ed.o2 }] : [{ a: ed.s, b: ed.en }];
+    var d = docked();
+    if (d.l) parts[0].a = +ed.prev.start;
+    if (d.r) parts[parts.length - 1].b = +ed.next.end;
+    return parts;
+  }
+  // Kept, added (green) and taken away (red) stretches, against the entry as it was.
+  function edSegments() {
+    var o1 = ed.o1, o2 = ed.o2, s = ed.s, e = ed.en, out = [];
+    function seg(a, b, k) { if (b > a) out.push({ a: a, b: b, k: k }); }
+    if (inward()) {
+      if (ed.mode === "gap") { seg(o1, s, "keep"); seg(s, e, "cut"); seg(e, o2, "keep"); }
+      else { seg(o1, s, "cut"); seg(s, e, "keep"); seg(e, o2, "cut"); }
+      return out;
+    }
+    var ka = Math.max(o1, s), kb = Math.min(o2, e);
+    if (kb > ka) { seg(ka, kb, "keep"); seg(s, o1, "add"); seg(o2, e, "add"); seg(o1, s, "cut"); seg(e, o2, "cut"); }
+    else { seg(o1, o2, "cut"); seg(s, e, "add"); }
+    return out;
+  }
+  function edChanged() { return ed.s !== ed.o1 || ed.en !== ed.o2 || ed.profile !== ed.e.profile; }
+  function edReasonOk() { return ed.reason && (ed.reason !== "other" || $("edOther").value.trim() !== ""); }
+  function drawEdit() {
+    var line = $("edLine"); clear(line);
+    var a = ed.view.a, b = ed.view.b, pct = function (t) { return ((t - a) / (b - a) * 100) + "%"; };
+    var p = prof(ed.profile); line.style.setProperty("--p", p.colour);
+    // Hour ticks: every 1, 2, 3 or 6 hours, by the span; midnight names its day.
+    var span = (b - a) / 3600000, step = span <= 7 ? 1 : span <= 14 ? 2 : span <= 26 ? 3 : 6;
+    var t = new Date(a); t.setMinutes(0, 0, 0);
+    for (; +t <= b; t.setHours(t.getHours() + 1)) {
+      if (+t < a || t.getHours() % step) continue;
+      var tk = document.createElement("span"); tk.className = "ed-tick"; tk.style.left = pct(+t);
+      tk.textContent = t.getHours() === 0 ? DAY[t.getDay()] : String(t.getHours()).padStart(2, "0"); line.appendChild(tk);
+    }
+    var d = docked();
+    entries.forEach(function (x) {
+      if (x === ed.e || +x.end < a || +x.start > b) return;
+      var o = document.createElement("div"); o.className = "ed-other";
+      if (x.profile === ed.profile) { o.classList.add("same"); o.style.setProperty("--p", prof(x.profile).colour); }
+      if ((d.l && x === ed.prev) || (d.r && x === ed.next)) o.classList.add("dock");
+      o.style.left = pct(Math.max(+x.start, a)); o.style.width = "calc(" + pct(Math.min(+x.end, b)) + " - " + pct(Math.max(+x.start, a)) + ")";
+      line.appendChild(o);
+    });
+    var now = Date.now();
+    if (now > a && now < b) { var n = document.createElement("div"); n.className = "ed-now"; n.style.left = pct(now); line.appendChild(n); }
+    edSegments().forEach(function (g) {
+      var el2 = document.createElement("div"); el2.className = "ed-seg " + g.k;
+      el2.style.left = pct(g.a); el2.style.width = "calc(" + pct(g.b) + " - " + pct(g.a) + ")";
+      if (g.k === "keep") el2.dataset.k = "bar";
+      line.appendChild(el2);
+    });
+    [["a", ed.s], ["b", ed.en]].forEach(function (h) {
+      var hd = document.createElement("div"); hd.className = "ed-handle"; hd.dataset.k = h[0]; hd.style.left = pct(h[1]); line.appendChild(hd);
+      var lb = document.createElement("span"); lb.className = "ed-hlabel"; lb.textContent = clock(new Date(h[1])); lb.style.left = pct(h[1]); line.appendChild(lb);
+    });
+    // The result in words, under the day
+    var res = edResult(), words = res.map(function (r) { return clock(new Date(r.a)) + "–" + clock(new Date(r.b)); }).join(" och ");
+    var mins = res.reduce(function (sum, r) { return sum + Math.round((r.b - r.a) / MIN); }, 0);
+    var extra = d.l || d.r ? " · slås ihop med grannen" : inward() ? (ed.mode === "gap" ? " · hål i posten (klicka på linjen: korta)" : " · kortare post (klicka på linjen: hål)") : "";
+    $("edTimes").innerHTML = edChanged() ? "<b>" + words + "</b> · " + hmPlain(mins) + extra : clock(new Date(ed.o1)) + "–" + clock(new Date(ed.o2)) + " · " + hmPlain(Math.round((ed.o2 - ed.o1) / MIN));
+    $("edSave").disabled = !(edChanged() && edReasonOk());
+  }
+  (function () {
+    var line = $("edLine"), drag = null;
+    function timeAt(x) { var r = line.getBoundingClientRect(); return ed.view.a + (x - r.left) / r.width * (ed.view.b - ed.view.a); }
+    function grow(t) { if (t < ed.view.a + ed.pad / 2) ed.view.a = t - ed.pad; if (t > ed.view.b - ed.pad / 2) ed.view.b = t + ed.pad; }
+    line.addEventListener("pointerdown", function (ev) {
+      if (!ed) return;
+      var k = ev.target.dataset.k || null;
+      drag = { k: k, x: ev.clientX, t0: timeAt(ev.clientX), s0: ed.s, e0: ed.en, moved: false };
+      if (k) { line.setPointerCapture(ev.pointerId); ev.preventDefault(); }
+    });
+    line.addEventListener("pointermove", function (ev) {
+      if (!drag || !drag.k || !ed) return;
+      if (Math.abs(ev.clientX - drag.x) > 2) drag.moved = true;
+      var t = timeAt(ev.clientX), q = EDIT_SNAP * MIN, lo = edLo(), hi = edHi();
+      if (drag.k === "a") { ed.s = Math.min(Math.max(snapT(t), lo), ed.en - q); grow(ed.s); }
+      else if (drag.k === "b") { ed.en = Math.max(Math.min(snapT(t), hi), ed.s + q); grow(ed.en); }
+      else { var dt = Math.round((t - drag.t0) / q) * q; dt = Math.max(lo - drag.s0, Math.min(hi - drag.e0, dt)); ed.s = drag.s0 + dt; ed.en = drag.e0 + dt; grow(ed.s); grow(ed.en); }
+      // Docked, the whole joined entry is the entry being changed, so it all fits in view
+      var r = edResult(); grow(r[0].a); grow(r[r.length - 1].b);
+      drawEdit();
+    });
+    line.addEventListener("pointerup", function () {
+      // A click on the line, not a drag, switches a gap and a shortening
+      if (drag && !drag.moved && ed && inward()) { ed.mode = ed.mode === "gap" ? "shorten" : "gap"; drawEdit(); }
+      drag = null;
+    });
+  })();
+  $("edProf").addEventListener("change", function () { ed.profile = this.value; drawEdit(); });
+  $("edPick").addEventListener("click", function () {
+    var list = $("edList"); list.hidden = !list.hidden; if (list.hidden) return; clear(list);
+    REASONS.concat(["Annan orsak"]).forEach(function (r) {
+      var bt = document.createElement("button"); bt.type = "button"; bt.textContent = r;
+      bt.addEventListener("click", function () {
+        ed.reason = r === "Annan orsak" ? "other" : r; list.hidden = true;
+        $("edPick").textContent = r; $("edPick").classList.add("chosen");
+        $("edOther").hidden = ed.reason !== "other"; if (ed.reason === "other") $("edOther").focus();
+        drawEdit();
+      });
+      list.appendChild(bt);
+    });
+  });
+  $("edOther").addEventListener("input", function () { drawEdit(); });
+  $("edCancel").addEventListener("click", function () { closeEdit(); markPicked(null); });
+  // The simulated figures follow: janitor minutes move the balance, the others the ceiling.
+  function bump(id, mins) {
+    if (!mins) return;
+    if (prof(id).balance) balance += mins; else { used = Math.max(0, used + mins); if (mins > 0) addUsed(id, mins); }
+  }
+  function refigure() { syncSim(); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay }); drawEntries(false); }
+  $("edSave").addEventListener("click", function () {
+    if (!ed || this.disabled) return;
+    var d = docked(), old = [ed.e].concat(d.l ? [ed.prev] : []).concat(d.r ? [ed.next] : []);
+    var why = ed.reason === "other" ? $("edOther").value.trim() : ed.reason;
+    var brk = old.reduce(function (sum, x) { return sum + (x.brk || 0); }, 0);
+    var made = edResult().map(function (r, i) { return { start: new Date(r.a), end: new Date(r.b), profile: ed.profile, brk: i === 0 ? Math.min(brk, Math.round((r.b - r.a) / MIN)) : 0, how: "edited", reason: why }; });
+    old.forEach(function (x) { bump(x.profile, -dur(x)); entries.splice(entries.indexOf(x), 1); });
+    made.forEach(function (x) { bump(x.profile, dur(x)); entries.push(x); });
+    entries.sort(function (x, y) { return y.start - x.start; });
+    closeEdit(); refigure(); markPicked(made[0]);
+  });
+  $("edDel").addEventListener("click", function () {
+    if (!ed) return;
+    if (!ed.del) { ed.del = true; this.textContent = "Ta bort?"; this.classList.add("ask"); return; }
+    bump(ed.e.profile, -dur(ed.e)); entries.splice(entries.indexOf(ed.e), 1);
+    closeEdit(); refigure();
+  });
   $("allClose").addEventListener("click", function () { $("allPop").hidden = true; });
   $("allPop").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
 

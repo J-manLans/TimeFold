@@ -33,9 +33,9 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
-**Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line; the line's
-zoom (`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the
-prototype (its "Visa alla" popup only notes where it goes).
+**Settle first:** deleting and writing a forgotten entry; exact minutes on the line; the line's zoom
+(`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the prototype
+(its "Visa alla" popup only notes where it goes).
 
 1. `[written]` `[tests]` `[seen: linux]` Patch: the motion switch ("Motion can be switched off in the app"): every
    animation, delay, count and timed step follows it, and the onboarding's note when the system asks for reduced motion.

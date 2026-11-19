@@ -107,6 +107,7 @@ title.
 ### [Corrections](corrections.md)
 
 - Editing an entry on its line
+- Two entries join by docking
 - Entries remember how they were made
 - Every edit carries a reason
 
