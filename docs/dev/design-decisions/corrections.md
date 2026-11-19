@@ -12,17 +12,18 @@ How the record is put right afterwards, and how an entry remembers it. Each deci
 either side. The view zooms out as a handle is dragged, so the whole entry, as it is being changed, always fits with
 some padding at both sides. The zoom grows the view only on the side being dragged: the other end stays where it is on
 screen, and the line does not re-centre; the only hard stops are another entry, of any profile, shown as blocked time
-when in view, and now. Moving one handle outward adds time at that end, and inward takes it away. Moving both outward
-adds at both ends; moving both the same way moves the entry, its length unchanged. Moving both inward does one of two
-things, and a click on the line switches between them: by default it cuts a gap, removing the middle and splitting the
-entry in two, the gap being a break; or it shortens the entry, removing both ends. Colour shows the change: green for
-time added, red for time taken away; a gap shows a red middle, a shortening red ends, and green never appears there. No
-handle can be dragged into another entry or past now. Midnight is no stop: the line edits the stored stretch, so an
-entry across midnight opens whole, whichever day it was chosen from, and either handle crosses midnight freely; the
-counting still splits it there ("Time counts on the day it was worked"). A running entry's end is now and does not move.
-The line also shows the entry's profile, which can be changed there to move the whole entry, times unchanged, to another
-profile ("Every edit carries a reason"); an entry across midnight changes profile as one, both days' parts together. The
-colours are a preview: nothing changes until the owner confirms, and a cancel leaves the entry as it was.
+when in view, and now. A neighbour of the same profile is docked to and can be joined ("Two entries join by docking").
+Moving one handle outward adds time at that end, and inward takes it away. Moving both outward adds at both ends; moving
+both the same way moves the entry, its length unchanged. Moving both inward does one of two things, and a click on the
+line switches between them: by default it cuts a gap, removing the middle and splitting the entry in two, the gap being
+a break; or it shortens the entry, removing both ends. Colour shows the change: green for time added, red for time taken
+away; a gap shows a red middle, a shortening red ends, and green never appears there. No handle can be dragged into
+another entry or past now. Midnight is no stop: the line edits the stored stretch, so an entry across midnight opens
+whole, whichever day it was chosen from, and either handle crosses midnight freely; the counting still splits it there
+("Time counts on the day it was worked"). A running entry's end is now and does not move. The line also shows the
+entry's profile, which can be changed there to move the whole entry, times unchanged, to another profile ("Every edit
+carries a reason"); an entry across midnight changes profile as one, both days' parts together. The colours are a
+preview: nothing changes until the owner confirms, and a cancel leaves the entry as it was.
 
 **Why:** the owner adds breaks during the day; one found after stop, a late start, an early end or the wrong profile are
 all fixed in the same place, seeing the whole entry and the time around it. A handle that cannot reach a clash needs no
@@ -58,6 +59,34 @@ could not be pulled back across midnight from either day, and the counting split
   Wednesday's 00:00–01:00.
 - Running entry: the right handle is now and does not move.
 - Cancel after dragging: the entry is unchanged.
+
+## Two entries join by docking (2026-11-19)
+
+**Built by:** Corrections.
+
+**Decision:** two entries of the same profile join on the line ("Editing an entry on its line"): a handle dragged to the
+neighbour's near end docks there, the gap between them fills in green as time added, and on confirm the two become one
+entry, with a reason as for any edit ("Every edit carries a reason"). A neighbour of another profile stays a stop, and
+nothing joins. Either entry may be running; the joined entry then runs on. Their added breaks on the same day add up
+into the joined entry's one break for that day ("Time away is a gap or an added break"). The joined entry is one entry
+for the counting: it owes its expected hours on the day it starts ("A day owes its expected hours only when work started
+on it").
+
+**Why:** joining fixes a stop that was not a break: the owner stops for a break, work comes up, and the entry is started
+again later; the gap was work. Dragging across the gap is the move the hand makes anyway, and the stop at the neighbour
+is already there, so joining needs no action of its own.
+
+**Rejected:** a "join" action on two neighbouring entries picked in a list: one more control for what the line already
+does, and the gap's time would not show as it is added.
+
+**Revisit if:** joining is wanted between entries of different profiles.
+
+**Cases:**
+
+- 08:00–10:00 and 10:25–12:00, same profile, the first's end docked on the second: 08:00–12:00, one entry.
+- The same with the second running: one entry from 08:00, still running.
+- Paus 15min on the first and paus 20min on the second, the same day, joined: one entry with paus 35min.
+- 08:00–10:00 and an entry of another profile from 10:25: the handle stops at 10:25, nothing joins.
 
 ## Entries remember how they were made (2026-11-14)
 

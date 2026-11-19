@@ -6,13 +6,6 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 
 ## Phase 3: Corrections
 
-### Joining two entries (2026-11-14)
-
-Removing a gap between two entries, such as after a stop and start by mistake. Options: dragging one entry's handle to
-meet the other on the line, which then join; or a "join" action on two neighbouring entries of the same profile.
-
-**See:** Editing an entry on its line.
-
 ### Deleting an entry, and writing a forgotten one (2026-11-14)
 
 How an entry is removed, and how a whole forgotten entry is written by hand. Known: a delete asks "Ta bort?" and needs

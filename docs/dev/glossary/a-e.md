@@ -43,6 +43,9 @@ tokens hold every value of the look").
 **Dimmed colour.** A profile's base colour faded toward the panel it sits on: the unused part of a figure, such as the
 flex bar's track. Worked out, never picked ("Each profile carries its colours"). Not **Faded**.
 
+**Docking.** On the entry line, a handle dragged onto the neighbouring entry of the same profile, which joins the two on
+confirm.
+
 **Entry.** One stretch of work, from a start to a stop. Clicked in the app, or written by hand.
 
 **Entry line.** An entry opened for editing: a line centred on the entry, a handle at each end, zooming out as a handle
