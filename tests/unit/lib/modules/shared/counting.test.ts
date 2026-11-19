@@ -12,7 +12,14 @@ import {
   shownMinutes,
   timeOfDay,
 } from '$lib/modules/shared/counting'
-import { RECORD_FORMAT, RECORD_VERSION, type Entry, type Profile, type TimeRecord } from '$lib/modules/shared/record'
+import {
+  freshRecord,
+  RECORD_FORMAT,
+  RECORD_VERSION,
+  type Entry,
+  type Profile,
+  type TimeRecord,
+} from '$lib/modules/shared/record'
 
 // === Constants ===
 
@@ -227,6 +234,28 @@ describe('the other profiles share a ceiling: the rest of full time, on each wee
 
   it('uses 2 h of it for two hours of development work on a Sunday', () => {
     expect(ceilingMonth(workRecord([work('2026-05-03', 2, DEV.id)]), '2026-05-10').used).toBe(2 * HOUR)
+  })
+})
+
+describe('the month the app is first started in has its whole ceiling, whatever day that is', () => {
+  // 19 November 2026 is a Thursday, eight weekdays from the month's end
+  const FIRST_DAY = '2026-11-19'
+
+  it('gives November its 42 h, its 21 weekdays times 2 h, not the 16 h of the eight left', () => {
+    expect(ceilingMonth(freshRecord('Vaktmästare', 0, FIRST_DAY), FIRST_DAY).ceiling).toBe(42 * HOUR)
+  })
+
+  it('carries nothing into December after 20 h of other work, which starts at 0 of its 46 h', () => {
+    const fresh = freshRecord('Vaktmästare', 0, FIRST_DAY)
+    const withDev = { ...fresh, profiles: [...fresh.profiles, DEV], entries: [work(FIRST_DAY, 20, DEV.id)] }
+
+    expect(ceilingMonth(withDev, '2026-12-10')).toMatchObject({ ceiling: 46 * HOUR, used: 0 })
+  })
+
+  it('leaves the balance alone: a day before the first owes nothing', () => {
+    const janitor = freshRecord('Vaktmästare', 0, FIRST_DAY).profiles[0]
+
+    expect(expectedSecondsOn('2026-11-16', janitor)).toBe(0)
   })
 })
 

@@ -59,12 +59,6 @@ ceiling per calendar day: a month would allow more than full time, which is a we
 **Revisit if:** another profile gets hours of its own to work, or the limits apply to all hours together in a way the
 ceiling does not show.
 
-**Cases:**
-
-- A fresh start on Thursday 19 November 2026, 8 h full time and 6 h janitor: November's ceiling is 42 h, its 21 weekdays
-  times 2 h, not the 16 h of the 8 weekdays left.
-- The same start, 20 h of other work in November: nothing carries into December, which starts at 0 of its 46 h.
-
 ## A pay estimate per profile (2026-11-14)
 
 **Built by:** Profiles, for pay set in the menu.

@@ -49,10 +49,10 @@ describe('a profile stands over its line in plus, or past the ceiling; at 0 it d
   /** The shared record with the janitor's opening at `minutes` and a development profile's work. Used below */
   function standing(minutes: number, devHours = 0): TimeRecord {
     const dev = { id: 'p2', name: 'Utveckling', hue: 285, base: '#a99cf0' }
+    const end = new Date(2026, 10, 17, 8 + devHours)
+    const endDay = `2026-11-${String(end.getDate()).padStart(2, '0')}`
     const work =
-      devHours > 0
-        ? [entry(at('2026-11-17', '08:00'), at('2026-11-18', `${8 + devHours - 24}:00`), { profile: dev.id })]
-        : []
+      devHours > 0 ? [entry(at('2026-11-17', '08:00'), at(endDay, `${end.getHours()}:00`), { profile: dev.id })] : []
     return {
       ...RECORD,
       profiles: [...RECORD.profiles, dev],
@@ -67,9 +67,9 @@ describe('a profile stands over its line in plus, or past the ceiling; at 0 it d
     expect([300, 0, -180].map((minutes) => standsOver(standing(minutes), 'p1', day))).toEqual([true, false, false])
   })
 
-  it('puts another profile over once the month’s 22 h ceiling is passed', () => {
+  it('puts another profile over once the month’s 42 h ceiling is passed', () => {
     const day = '2026-11-20'
 
-    expect([standsOver(standing(0, 23), 'p2', day), standsOver(standing(0, 21), 'p2', day)]).toEqual([true, false])
+    expect([standsOver(standing(0, 43), 'p2', day), standsOver(standing(0, 41), 'p2', day)]).toEqual([true, false])
   })
 })

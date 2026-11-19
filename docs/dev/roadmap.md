@@ -40,8 +40,8 @@ prototype (its "Visa alla" popup only notes where it goes).
 1. Patch: the motion switch ("Motion can be switched off in the app"): every animation, delay, count and timed step
    follows it, and the onboarding's note when the system asks for reduced motion. Seen on the owner's Linux machine and
    on a school computer with reduced motion on.
-2. Patch: the first month's ceiling is whole ("The other profiles share a ceiling"); a fresh start counted it only from
-   its first day.
+2. `[written]` `[tests]` Patch: the first month's ceiling is whole ("The other profiles share a ceiling"); a fresh start
+   counted it only from its first day.
 3. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
    shortening, the profile, the confirm; the rows' hover with it.
 4. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,

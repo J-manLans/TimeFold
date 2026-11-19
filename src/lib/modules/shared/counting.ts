@@ -258,16 +258,29 @@ function firstDay(record: TimeRecord, worked: DayPiece[]): Day | undefined {
   return days[0]
 }
 
-/** A month's ceiling in seconds: full time less the janitor's expected hours, on each weekday. Used by `ceilingMonth` */
+/**
+ * A month's ceiling in seconds: full time less the janitor's expected hours, on each weekday. The month the app was
+ * first started in has its whole ceiling: its weekdays before the first setting take the first setting. Used by
+ * `ceilingMonth`
+ */
 function ceilingOf(record: TimeRecord, janitor: Profile | undefined, month: Month): number {
   if (janitor === undefined) return 0
   let total = 0
   for (let day = month.first; day <= month.last; day = dayAfter(day)) {
     if (!isWeekday(day)) continue
-    const full = (inForce(record.fullTime, day)?.minutes ?? 0) * 60
-    total += Math.max(0, full - expectedSecondsOn(day, janitor))
+    const full = (settingOn(record.fullTime, day)?.minutes ?? 0) * 60
+    const expected = (settingOn(janitor.expectedMinutes ?? [], day)?.minutes ?? 0) * 60
+    total += Math.max(0, full - expected)
   }
   return total
+}
+
+/**
+ * The value in force on a day, or the first value for a day before any, so the first month's ceiling is whole. Used
+ * by `ceilingOf` only: the balance owes nothing before the first day
+ */
+function settingOn<T extends { from: Day }>(values: T[], day: Day): T | undefined {
+  return inForce(values, day) ?? [...values].sort((a, b) => (a.from < b.from ? -1 : 1))[0]
 }
 
 /** Pieces with neighbours of the same profile joined into one. Used by `ceilingMonth` */
