@@ -56,14 +56,20 @@ describe('a higher total adds the difference, dated the day it is added', () => 
     expect(done.ok && done.record.entries[0].breaks).toEqual([{ day: '2026-11-18', minutes: 45 }])
   })
 
-  it('makes 20 into 30 by adding 10, and gives the click for the undo', () => {
+  it('makes 20 into 30 the same day by growing that day’s break, and gives the click for the undo', () => {
     const done = setBreak(runningWith([{ day: '2026-11-16', minutes: 20 }]), JANITOR, 30, moment('2026-11-16', '11:00'))
 
-    expect(done.ok && done.record.entries[0].breaks).toEqual([
-      { day: '2026-11-16', minutes: 20 },
-      { day: '2026-11-16', minutes: 10 },
-    ])
+    expect(done.ok && done.record.entries[0].breaks).toEqual([{ day: '2026-11-16', minutes: 30 }])
     expect(done.ok && done.click).toMatchObject({ kind: 'break', entry: 'e1', from: 20, to: 30 })
+  })
+
+  it('keeps Monday’s 30 apart when 45 is set on Tuesday, adding 15 dated Tuesday', () => {
+    const done = setBreak(runningWith([{ day: '2026-11-16', minutes: 30 }]), JANITOR, 45, moment('2026-11-17', '09:00'))
+
+    expect(done.ok && done.record.entries[0].breaks).toEqual([
+      { day: '2026-11-16', minutes: 30 },
+      { day: '2026-11-17', minutes: 15 },
+    ])
   })
 })
 
