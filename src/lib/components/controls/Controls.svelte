@@ -7,7 +7,6 @@
 -->
 <script lang="ts">
   import { untrack } from 'svelte'
-  import { prefersReducedMotion } from 'svelte/motion'
   import { app } from '$lib/app.svelte'
   import Menu from '$lib/components/menu/Menu.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
@@ -63,11 +62,11 @@
   /**
    * The pointer light crossing the button block once, by itself: from above its middle on the left, arcing down to
    * below it on the right, quickest at first; small at the edges and largest at the middle; then shrinking to nothing
-   * where it ends, so nothing can flash as it goes. Skipped when the system asks for reduced motion. Used once, at the
+   * where it ends, so nothing can flash as it goes. Skipped in Stilla. Used once, at the
    * onboarding's end
    */
   function sweep(): void {
-    if (!side || !block || prefersReducedMotion.current) return
+    if (!side || !block || app.still) return
     const host = side
     const tokens = getComputedStyle(document.documentElement)
     const number = (name: string): number => parseFloat(tokens.getPropertyValue(name)) || 0
@@ -205,10 +204,9 @@
     --glow-strength: 0;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .controls.lit {
-      --glow-strength: 0;
-    }
+  /* Stilla: no pointer light, but on the motion switch (MotionButton.svelte) */
+  :global(:root[data-still]) .controls.lit {
+    --glow-strength: 0;
   }
 
   /* A narrow window (App.svelte; CSS cannot read a token here): the menu button moves to the lower left corner, so

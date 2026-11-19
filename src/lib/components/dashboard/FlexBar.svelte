@@ -32,7 +32,7 @@
 
 <script lang="ts">
   import { onMount, untrack } from 'svelte'
-  import { prefersReducedMotion, Tween } from 'svelte/motion'
+  import { Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
   import { colourRoles } from '$lib/modules/shared/colours'
@@ -85,7 +85,7 @@
       seconds,
       untrack(() => scale),
     )
-    const opening = first || untrack(() => prefersReducedMotion.current)
+    const opening = first || untrack(() => app.still)
     first = false
     scale = next
     void shown.set(seconds, { duration: opening ? 0 : motion.count })

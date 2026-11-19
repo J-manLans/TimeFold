@@ -1,6 +1,6 @@
 /**
- * The app's state while it runs: the record in memory, the machine's theme, and the actions that change them and save
- * them. Components read it and call its actions; nothing else changes the record. Svelte's $state makes every
+ * The app's state while it runs: the record in memory, the machine's theme and motion, and the actions that change them
+ * and save them. Components read it and call its actions; nothing else changes the record. Svelte's $state makes every
  * component that reads a field follow it when it changes.
  */
 
@@ -17,7 +17,16 @@ import {
   type TimeRecord,
 } from '$lib/modules/shared/record'
 import { toggleFlexDay } from '$lib/modules/menu/flexDays'
-import { nextTheme, shownTheme, type ShownTheme, type Theme } from '$lib/modules/menu/settings'
+import {
+  nextMotion,
+  nextTheme,
+  shownMotion,
+  shownTheme,
+  type Motion,
+  type ShownMotion,
+  type ShownTheme,
+  type Theme,
+} from '$lib/modules/menu/settings'
 import {
   copyRecord,
   loadRecord,
@@ -70,6 +79,10 @@ class AppState {
   theme = $state<Theme>('system')
   /** Whether the computer asks for the dark theme, which "System" follows */
   systemDark = $state(matchMedia('(prefers-color-scheme: dark)').matches)
+  /** This machine's motion, from its settings file */
+  motion = $state<Motion>('system')
+  /** Whether the computer asks for reduced motion, which "System" follows */
+  systemStill = $state(matchMedia(REDUCED_MOTION).matches)
   /**
    * The entry found running from an earlier day when the app opened, for its popup; null once answered, or when none
    * was ("A running entry from an earlier day asks")
@@ -80,6 +93,10 @@ class AppState {
 
   /** The theme in force on screen */
   shownTheme: ShownTheme = $derived(shownTheme(this.theme, this.systemDark))
+  /** The motion in force: Animerat ('on') or Stilla ('off') */
+  shownMotion: ShownMotion = $derived(shownMotion(this.motion, this.systemStill))
+  /** Whether the app is in Stilla, where nothing moves ("Motion can be switched off in the app") */
+  still: boolean = $derived(this.shownMotion === 'off')
   /** The entry that runs, if any; at most one does */
   running: Entry | null = $derived(this.record?.entries.find((e) => e.stop === null) ?? null)
 
@@ -92,7 +109,14 @@ class AppState {
    */
   async load(): Promise<void> {
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => (this.systemDark = e.matches))
-    this.#applyTheme((await loadSettings()).theme)
+    matchMedia(REDUCED_MOTION).addEventListener('change', (e) => {
+      this.systemStill = e.matches
+      this.#applyMotion(this.motion)
+    })
+    this.#applyMotion(this.motion)
+    const settings = await loadSettings()
+    this.#applyTheme(settings.theme)
+    this.#applyMotion(settings.motion)
     const result = await loadRecord()
     if (result === null) {
       this.record = freshRecord('', 0, localDay(Date.now()))
@@ -259,7 +283,16 @@ class AppState {
    */
   async switchTheme(): Promise<void> {
     this.#applyTheme(nextTheme(this.theme, this.systemDark))
-    await saveSettings({ theme: this.theme })
+    await saveSettings({ theme: this.theme, motion: this.motion })
+  }
+
+  /**
+   * The motion switch pressed. Used by the switch, in the menu's heading and in the onboarding's note: switches to the
+   * other of the motion in force, shows it at once, then saves it, so the app stops following the computer
+   */
+  async switchMotion(): Promise<void> {
+    this.#applyMotion(nextMotion(this.motion, this.systemStill))
+    await saveSettings({ theme: this.theme, motion: this.motion })
   }
 
   // === Helpers ===
@@ -271,6 +304,15 @@ class AppState {
   #applyTheme(theme: Theme): void {
     this.theme = theme
     document.documentElement.style.colorScheme = theme === 'system' ? 'light dark' : theme
+  }
+
+  /**
+   * Shows `motion`: data-still on the page while it is Stilla, which takes every transition, animation and delay away
+   * (base.css), in the same moment the state changes. Used by `load`, its listener and `switchMotion`
+   */
+  #applyMotion(motion: Motion): void {
+    this.motion = motion
+    document.documentElement.toggleAttribute('data-still', shownMotion(motion, this.systemStill) === 'off')
   }
 
   /** Shows the main screen on `record`, with its first profile on screen. Used by `load` */
@@ -301,6 +343,9 @@ async function readNewestCopy(): Promise<Copy | null> {
     return null
   }
 }
+
+/** The computer's reduced-motion setting, which the motion follows while it is "System" */
+const REDUCED_MOTION = '(prefers-reduced-motion: reduce)'
 
 /** The locked panel as it opens, before any step of its ending */
 const PANEL_OPEN: LockedPanel = { ending: false, frosted: false, folded: false, sweeping: false, letter: false }

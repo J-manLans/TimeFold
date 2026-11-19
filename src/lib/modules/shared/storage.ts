@@ -62,7 +62,7 @@ export async function newestCopy(): Promise<Copy | null> {
 
 /**
  * Loads this machine's settings. A file that is missing or cannot be read gives the defaults, with no error, since it
- * only holds the theme. Used once, when the app starts.
+ * only holds the theme and the motion. Used once, when the app starts.
  */
 export async function loadSettings(): Promise<Settings> {
   try {
@@ -73,7 +73,8 @@ export async function loadSettings(): Promise<Settings> {
 }
 
 /**
- * Saves this machine's settings, safely. Used after each change of them, such as a click on the theme button; the next
+ * Saves this machine's settings, safely. Used after each change of them, a click on the theme button or the motion
+ * switch; the next
  * change after a broken file writes a sound one.
  */
 export async function saveSettings(settings: Settings): Promise<void> {

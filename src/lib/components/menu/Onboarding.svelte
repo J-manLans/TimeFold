@@ -8,7 +8,6 @@
 -->
 <script lang="ts">
   import { onMount, tick, untrack } from 'svelte'
-  import { prefersReducedMotion } from 'svelte/motion'
   import { app } from '$lib/app.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
   import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
@@ -111,11 +110,11 @@
   }
 
   /**
-   * A time token in milliseconds; negative times are kept. 0 while the system asks for reduced motion, so the ending's
+   * A time token in milliseconds; negative times are kept. 0 in Stilla, so the ending's
    * steps all land at once, in order. Used by `finish`
    */
   function time(name: string): number {
-    if (prefersReducedMotion.current) return 0
+    if (app.still) return 0
     return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) * 1000 || 0
   }
 </script>

@@ -104,6 +104,12 @@
     animation: breathe var(--recovery-breath) ease-in-out infinite;
   }
 
+  /* Stilla: the label holds still in the colour it breathes into */
+  :global(:root[data-still]) .copy {
+    animation: none;
+    color: var(--profile-state);
+  }
+
   @keyframes breathe {
     50% {
       color: var(--profile-state);

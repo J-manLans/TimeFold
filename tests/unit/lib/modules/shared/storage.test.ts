@@ -91,25 +91,25 @@ describe('loading the settings reads the machine’s own file', () => {
   it('gives the theme from the file', async () => {
     rust.mockResolvedValue('{"theme":"light"}')
 
-    expect(await loadSettings()).toEqual({ theme: 'light' })
+    expect(await loadSettings()).toEqual({ theme: 'light', motion: 'system' })
     expect(rust).toHaveBeenCalledWith('load_settings')
   })
 
   it('gives System, with no error, when the file cannot be read', async () => {
     rust.mockRejectedValue('Permission denied')
 
-    expect(await loadSettings()).toEqual({ theme: 'system' })
+    expect(await loadSettings()).toEqual({ theme: 'system', motion: 'system' })
   })
 })
 
 describe('saving the settings sends them as JSON', () => {
-  it('sends the theme', async () => {
+  it('sends the theme and the motion', async () => {
     rust.mockResolvedValue(undefined)
 
-    await saveSettings({ theme: 'dark' })
+    await saveSettings({ theme: 'dark', motion: 'on' })
 
     const sent = rust.mock.calls[0][1] as { json: string }
     expect(rust.mock.calls[0][0]).toBe('save_settings')
-    expect(JSON.parse(sent.json)).toEqual({ theme: 'dark' })
+    expect(JSON.parse(sent.json)).toEqual({ theme: 'dark', motion: 'on' })
   })
 })

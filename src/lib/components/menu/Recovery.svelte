@@ -102,8 +102,9 @@
     setTimeout(() => app.unlock(), fade + frostIn + fade)
   }
 
-  /** A time token in milliseconds. Used by `choose` */
+  /** A time token in milliseconds; 0 in Stilla, so the ending's steps all land at once, in order. Used by `choose` */
   function time(name: string): number {
+    if (app.still) return 0
     return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) * 1000 || 0
   }
 </script>

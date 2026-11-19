@@ -1,4 +1,4 @@
-/* The reset, the fonts, the body, and the pointer light's strength. Every value comes from design-tokens.css */
+/* The reset, the fonts, the body, the pointer light's strength, and Stilla. Every value comes from design-tokens.css */
 
 /* The two fonts, bundled with the app; Bricolage Grotesque's "standard" file carries its width axis */
 @import '@fontsource-variable/bricolage-grotesque/standard.css';
@@ -32,14 +32,14 @@ body {
   initial-value: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0s !important;
-    transition-delay: 0s !important;
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
-    animation-iteration-count: 1 !important;
-  }
+/* Stilla ("Motion can be switched off in the app"): nothing moves. data-still is set by the app's state, following
+   the computer's reduced-motion setting until the motion switch is first clicked */
+:root[data-still] *,
+:root[data-still] *::before,
+:root[data-still] *::after {
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
 }

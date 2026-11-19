@@ -22,9 +22,10 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   screen stands, which the profile letter and every focus ring wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
-  the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `setBreak`, `undo`,
-  `stopLate`, `keepLate` and `switchTheme` change them through the rules and save them. The theme is shown by setting
-  `color-scheme` on the page. Components read it and call its actions.
+  the profile on screen, the last click and the machine's theme and motion; its actions `load`, `press`, `setBreak`,
+  `undo`, `stopLate`, `keepLate`, `switchTheme` and `switchMotion` change them through the rules and save them. The
+  theme is shown by setting `color-scheme` on the page, Stilla by setting `data-still` on it; scripts that time
+  something read `app.still`. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
   controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine` with
   `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field), `UndoButton` with its
@@ -53,20 +54,22 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   (`withMonthLines`). `menu/`: `flexDays.ts`, a click on a day of the calendar marking or unmarking it, weekends, days
   janitor work started on (`workedDays`) and, while locked, days gone by refused (`toggleFlexDay`), the month it draws
   (`calendarMonth`, `monthAfter`) and the list of marked days ahead (`daysAhead`); `settings.ts`, the machine's own
-  settings (the theme), their defaults, the check on reading, the theme in force and the theme button's switch.
-  `shared/`: `record.ts`, the record's shape as types, `readRecord`, the check on opening that turns a file's text into
-  a record or names what is wrong with it, upgrading an older version first, and `recoveryFor`, what a problem leads to;
-  `colours.ts`, the colour rule from the prototype, a profile's base, dimmed and neon by role, and the faded colour;
-  `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result,
-  each entry's seconds by day less its added breaks, expected hours charged on days work started or flex days, the app's
-  month, the ceiling with its carry and pieces, and the pay estimate, worked out in seconds from the record, and a
-  moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words ("måndag 16 november", "mån
-  16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and
-  `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy;
-  `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke checked against the
-  field's shape, read into minutes, and written back in words ("1h 20min") or into a field ("1:20").
+  settings (the theme and the motion), their defaults, the check on reading each apart, the theme and the motion in
+  force, and each button's switch. `shared/`: `record.ts`, the record's shape as types, `readRecord`, the check on
+  opening that turns a file's text into a record or names what is wrong with it, upgrading an older version first, and
+  `recoveryFor`, what a problem leads to; `colours.ts`, the colour rule from the prototype, a profile's base, dimmed and
+  neon by role, and the faded colour; `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex
+  days ahead), each day's result, each entry's seconds by day less its added breaks, expected hours charged on days work
+  started or flex days, the app's month, the ceiling with its carry and pieces, and the pay estimate, worked out in
+  seconds from the record, and a moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish
+  words ("måndag 16 november", "mån 16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`,
+  `newestCopy`, `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the
+  local date that names a day's copy; `timeInput.ts`, typed durations for the onboarding's balance and a break's length,
+  each keystroke checked against the field's shape, read into minutes, and written back in words ("1h 20min") or into a
+  field ("1:20").
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
-  the reset, the fonts, the body, and the registered `--glow-strength` the pointer light fades by.
+  the reset, the fonts, the body, the registered `--glow-strength` the pointer light fades by, and Stilla: under
+  `data-still` every transition, animation and delay is zero.
 
 ## The tests: `tests/`
 

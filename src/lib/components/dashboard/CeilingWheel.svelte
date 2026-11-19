@@ -31,7 +31,7 @@
 
 <script lang="ts">
   import { onMount, untrack } from 'svelte'
-  import { prefersReducedMotion, Tween } from 'svelte/motion'
+  import { Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
   import { colourRoles, dimmed, faded } from '$lib/modules/shared/colours'
@@ -158,11 +158,11 @@
   }
 
   /**
-   * A motion time in milliseconds, or 0 while the system asks for reduced motion, read at each use so a change made with
-   * the app open counts at once. Used for every Tween here
+   * A motion time in milliseconds, or 0 in Stilla, read at each use so a change made with the app open counts at once.
+   * Used for every Tween here
    */
   function moving(ms: number): number {
-    return prefersReducedMotion.current ? 0 : ms
+    return app.still ? 0 : ms
   }
 
   /** Seconds as hours and minutes with no sign. Used for the used hours and the ceiling: 42:00 */

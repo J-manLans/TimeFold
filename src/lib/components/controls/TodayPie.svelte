@@ -161,9 +161,7 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .fresh {
-      animation: none;
-    }
+  :global(:root[data-still]) .fresh {
+    animation: none;
   }
 </style>

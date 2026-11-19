@@ -143,6 +143,12 @@
     animation: fade var(--undo-time) linear forwards;
   }
 
+  /* Stilla: the afterglow holds at its strength for as long as the undo is live */
+  :global(:root[data-still]) .afterglow.live {
+    animation: none;
+    opacity: var(--undo-afterglow);
+  }
+
   @keyframes fade {
     from {
       opacity: var(--undo-afterglow);
