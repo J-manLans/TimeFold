@@ -17,7 +17,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 2: Breaks and flex days, settled and drawn in the prototype; built from its cases, in the mode the owner names.
+Phase 2: Breaks and flex days, written and tested; the owner's review and the checks by eye, then a real day from the
+Excel for its **Done when**.
 
 ## The phases
 
@@ -32,12 +33,12 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** time away taken off the day, and days off paid for with the balance.
 
-1. "Lägg till paus" with its length field, an added break undone with the undo, and the break tags in the entry list;
-   the record's new version, with breaks and flex days, upgrading the owner's.
-2. Flex days, a weekday per click in the calendar under "Flexledig", in the menu's tab row and its Tid tab, built here
-   with the calendar alone: the padlock for days gone by and the list of days ahead beside it; taken off the balance on
-   screen at once, and unmarked with a second click.
-3. The month lines in "Visa alla".
+1. `[written]` `[tests]` "Lägg till paus" with its length field, an added break undone with the undo, and the break tags
+   in the entry list; the record's new version, with breaks and flex days, upgrading the owner's.
+2. `[written]` `[tests]` Flex days, a weekday per click in the calendar under "Flexledig", in the menu's tab row and its
+   Tid tab, built here with Tid the row's only tab and the calendar alone in it: the padlock for days gone by and the
+   list of days ahead beside it; taken off the balance on screen at once, and unmarked with a second click.
+3. `[written]` `[tests]` The month lines in "Visa alla".
 4. `[written]` The Windows installer wears the app's icon. Seen on Windows, in a built installer.
 
 **Done when:** a day with errands and a flex day count as agreed in their cases, checked against the owner's Excel, and
