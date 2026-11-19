@@ -30,8 +30,8 @@
 </script>
 
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { Tween } from 'svelte/motion'
+  import { onMount, untrack } from 'svelte'
+  import { prefersReducedMotion, Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
   import { colourRoles, dimmed, faded } from '$lib/modules/shared/colours'
@@ -77,8 +77,7 @@
 
   onMount(() => {
     const tokens = getComputedStyle(document.documentElement)
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-    const time = (name: string): number => (still ? 0 : parseFloat(tokens.getPropertyValue(name)) * 1000 || 0)
+    const time = (name: string): number => parseFloat(tokens.getPropertyValue(name)) * 1000 || 0
     motion = { count: time('--balance-count'), peek: time('--wheel-peek') }
     band = parseFloat(tokens.getPropertyValue('--wheel-band'))
     greys = {
@@ -92,7 +91,7 @@
   $effect(() => {
     const used = month.used
     const estimate = pay
-    const duration = first ? 0 : motion.count
+    const duration = first ? 0 : untrack(() => moving(motion.count))
     first = false
     void shownUsed.set(used, { duration })
     void shownPay.set(estimate, { duration })
@@ -155,7 +154,15 @@
   function setPeek(on: boolean): void {
     if (on === peeking) return
     peeking = on
-    void peek.set(on ? 1 : 0, { duration: motion.peek })
+    void peek.set(on ? 1 : 0, { duration: moving(motion.peek) })
+  }
+
+  /**
+   * A motion time in milliseconds, or 0 while the system asks for reduced motion, read at each use so a change made with
+   * the app open counts at once. Used for every Tween here
+   */
+  function moving(ms: number): number {
+    return prefersReducedMotion.current ? 0 : ms
   }
 
   /** Seconds as hours and minutes with no sign. Used for the used hours and the ceiling: 42:00 */

@@ -7,6 +7,7 @@
 -->
 <script lang="ts">
   import { untrack } from 'svelte'
+  import { prefersReducedMotion } from 'svelte/motion'
   import { app } from '$lib/app.svelte'
   import Menu from '$lib/components/menu/Menu.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
@@ -66,7 +67,7 @@
    * onboarding's end
    */
   function sweep(): void {
-    if (!side || !block || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!side || !block || prefersReducedMotion.current) return
     const host = side
     const tokens = getComputedStyle(document.documentElement)
     const number = (name: string): number => parseFloat(tokens.getPropertyValue(name)) || 0

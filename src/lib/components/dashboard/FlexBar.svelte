@@ -32,7 +32,7 @@
 
 <script lang="ts">
   import { onMount, untrack } from 'svelte'
-  import { Tween } from 'svelte/motion'
+  import { prefersReducedMotion, Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
   import { colourRoles } from '$lib/modules/shared/colours'
@@ -73,8 +73,7 @@
 
   onMount(() => {
     const tokens = getComputedStyle(document.documentElement)
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-    const time = (name: string): number => (still ? 0 : parseFloat(tokens.getPropertyValue(name)) * 1000 || 0)
+    const time = (name: string): number => parseFloat(tokens.getPropertyValue(name)) * 1000 || 0
     motion = { count: time('--balance-count'), scale: time('--bar-scale-change') }
     thickness = parseFloat(tokens.getPropertyValue('--wheel-band')) * parseFloat(tokens.getPropertyValue('--bar-share'))
   })
@@ -86,7 +85,7 @@
       seconds,
       untrack(() => scale),
     )
-    const opening = first
+    const opening = first || untrack(() => prefersReducedMotion.current)
     first = false
     scale = next
     void shown.set(seconds, { duration: opening ? 0 : motion.count })

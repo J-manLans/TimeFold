@@ -8,6 +8,7 @@
 -->
 <script lang="ts">
   import { onMount, tick, untrack } from 'svelte'
+  import { prefersReducedMotion } from 'svelte/motion'
   import { app } from '$lib/app.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
   import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
@@ -98,8 +99,7 @@
     void show(null)
     await app.finishStart(entered)
     const fade = time('--speed-ui')
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-    const gone = still ? 0 : time('--onboarding-sweep') + time('--onboarding-sweep-fade')
+    const gone = time('--onboarding-sweep') + time('--onboarding-sweep-fade')
     const sweepAt = fade + time('--onboarding-frost-in') + fade + time('--onboarding-sweep-delay')
     const letterAt = sweepAt + Math.max(0, gone + time('--onboarding-letter-delay'))
     const readyAt = Math.max(sweepAt + gone + 2 * fade, letterAt + time('--onboarding-letter-fade'))
@@ -110,8 +110,12 @@
     setTimeout(() => app.unlock(), readyAt)
   }
 
-  /** A time token in milliseconds; negative times are kept. Used by `finish` */
+  /**
+   * A time token in milliseconds; negative times are kept. 0 while the system asks for reduced motion, so the ending's
+   * steps all land at once, in order. Used by `finish`
+   */
   function time(name: string): number {
+    if (prefersReducedMotion.current) return 0
     return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) * 1000 || 0
   }
 </script>
