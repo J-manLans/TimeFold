@@ -1263,8 +1263,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (m) return +m[1] * 60 + +m[2]; if (n) return +s; return null;
   }
   function closePause() { $("pauseField").hidden = true; $("pauseBtn").hidden = false; $("pauseInput").value = ""; $("pauseReading").textContent = ""; }
-  $("pauseBtn").addEventListener("click", function () { $("pauseBtn").hidden = true; $("pauseField").hidden = false; $("pauseInput").focus(); });
-  // Enter adds the break (the form's submit); Esc, or clicking away, cancels.
+  // The field holds the running entry's whole break: it opens on what is there ("20", "1:20"), selected, so typing
+  // replaces it; Enter sets the new total, a lower number taking time back. Esc, or clicking away, cancels.
+  function lengthField(m) { return m >= 60 ? Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0") : m ? String(m) : ""; }
+  $("pauseBtn").addEventListener("click", function () {
+    $("pauseBtn").hidden = true; $("pauseField").hidden = false;
+    var inp = $("pauseInput"); inp.value = lengthField(running ? running.brk || 0 : 0);
+    $("pauseReading").textContent = inp.value ? lengthText(readLength(inp.value)) : "";
+    inp.focus(); inp.select();
+  });
   $("pauseInput").addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closePause(); } });
   $("pauseInput").addEventListener("blur", function () { setTimeout(closePause, 0); });
   $("pauseInput").addEventListener("input", function () {
@@ -1272,11 +1279,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   });
   $("pauseField").addEventListener("submit", function (e) {
     e.preventDefault(); var v = readLength($("pauseInput").value);
-    if (!v || !running) return;
-    if ((running.brk || 0) + v >= 135) { $("pauseReading").textContent = "för lång paus"; return; }
+    if (v === null || !running) return;
+    var was = running.brk || 0;
+    if (v === was) { closePause(); return; }
+    if (v > 135) { $("pauseReading").textContent = "för lång paus"; return; }
     var snap = snapshot();
-    running.brk = (running.brk || 0) + v; closePause(); toast("Paus " + hmPlain(v) + " tillagd");
-    offerUndo("paus " + lengthText(v), snap); drawControls();
+    running.brk = v; closePause();
+    offerUndo(was ? "paus " + lengthText(was) + " → " + lengthText(v) : "paus " + lengthText(v), snap); drawControls();
   });
 
   $("profileBtn").addEventListener("click", function () {

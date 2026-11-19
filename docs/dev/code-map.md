@@ -22,7 +22,7 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   screen stands, which the profile letter and every focus ring wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
-  the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `addBreak`, `undo`,
+  the profile on screen, the last click and the machine's theme; its actions `load`, `press`, `setBreak`, `undo`,
   `stopLate`, `keepLate` and `switchTheme` change them through the rules and save them. The theme is shown by setting
   `color-scheme` on the page. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
@@ -43,27 +43,28 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
-  break among them (`undo`), and what the undo's label says (`clickLabel`); `breaks.ts`, an added break on the running
-  entry of the profile on screen, refused when nothing runs or it is longer than the entry (`addBreak`); the entry
-  running from an earlier day when the app opens (`runningSinceEarlierDay`), stopping it whichever profile is on screen
-  (`stopRunning`) and the popup's words (`lateWords`); `today.ts`, today's pie, the slices filled and lapped
-  (`todaySlices`), a running entry counted to now. `dashboard/`: `figures.ts`, the flex bar's scale, reach and side, and
-  the balance as text; `entries.ts`, the entry lists' stopped entries, newest first, what a row says, its break tag
-  among it, and the month lines of "Visa alla" (`withMonthLines`). `menu/`: `flexDays.ts`, a click on a day of the
-  calendar marking or unmarking it, weekends, days janitor work started on (`workedDays`) and, while locked, days gone
-  by refused (`toggleFlexDay`), the month it draws (`calendarMonth`, `monthAfter`) and the list of marked days ahead
-  (`daysAhead`); `settings.ts`, the machine's own settings (the theme), their defaults, the check on reading, the theme
-  in force and the theme button's switch. `shared/`: `record.ts`, the record's shape as types, `readRecord`, the check
-  on opening that turns a file's text into a record or names what is wrong with it, upgrading an older version first,
-  and `recoveryFor`, what a problem leads to; `colours.ts`, the colour rule from the prototype, a profile's base, dimmed
-  and neon by role, and the faded colour; `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the
-  flex days ahead), each day's result, each entry's seconds by day less its added breaks, expected hours charged on days
-  work started or flex days, the app's month, the ceiling with its carry and pieces, and the pay estimate, worked out in
-  seconds from the record, and a moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish
-  words ("måndag 16 november", "mån 16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`,
-  `newestCopy`, `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the
-  local date that names a day's copy; `timeInput.ts`, typed durations for the onboarding's balance and a break's length,
-  each keystroke checked against the field's shape, read into minutes, and written back in words ("1h 20min").
+  break among them (`undo`), and what the undo's label says (`clickLabel`); `breaks.ts`, the running entry's whole break
+  so far (`breakSoFar`) and a new total set on it, adding the difference or taking time back, refused when nothing runs
+  or it is longer than the entry (`setBreak`); the entry running from an earlier day when the app opens
+  (`runningSinceEarlierDay`), stopping it whichever profile is on screen (`stopRunning`) and the popup's words
+  (`lateWords`); `today.ts`, today's pie, the slices filled and lapped (`todaySlices`), a running entry counted to now.
+  `dashboard/`: `figures.ts`, the flex bar's scale, reach and side, and the balance as text; `entries.ts`, the entry
+  lists' stopped entries, newest first, what a row says, its break tag among it, and the month lines of "Visa alla"
+  (`withMonthLines`). `menu/`: `flexDays.ts`, a click on a day of the calendar marking or unmarking it, weekends, days
+  janitor work started on (`workedDays`) and, while locked, days gone by refused (`toggleFlexDay`), the month it draws
+  (`calendarMonth`, `monthAfter`) and the list of marked days ahead (`daysAhead`); `settings.ts`, the machine's own
+  settings (the theme), their defaults, the check on reading, the theme in force and the theme button's switch.
+  `shared/`: `record.ts`, the record's shape as types, `readRecord`, the check on opening that turns a file's text into
+  a record or names what is wrong with it, upgrading an older version first, and `recoveryFor`, what a problem leads to;
+  `colours.ts`, the colour rule from the prototype, a profile's base, dimmed and neon by role, and the faded colour;
+  `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result,
+  each entry's seconds by day less its added breaks, expected hours charged on days work started or flex days, the app's
+  month, the ceiling with its carry and pieces, and the pay estimate, worked out in seconds from the record, and a
+  moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words ("måndag 16 november", "mån
+  16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and
+  `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy;
+  `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke checked against the
+  field's shape, read into minutes, and written back in words ("1h 20min") or into a field ("1:20").
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, and the registered `--glow-strength` the pointer light fades by.
 

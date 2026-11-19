@@ -55,6 +55,17 @@ export function durationText(minutes: number, signed = false): string {
   return sign + words
 }
 
+/**
+ * Minutes written back into a duration field as they would be typed: minutes alone under an hour, else hours and two
+ * digits of minutes, and nothing for 0. Used by "Lägg till paus", whose field opens on the break so far: 20 is "20",
+ * 80 is "1:20", 125 is "2:05".
+ */
+export function durationInField(minutes: number): string {
+  if (minutes <= 0) return ''
+  if (minutes < 60) return String(minutes)
+  return `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}`
+}
+
 // ======================================
 //               Helpers
 // ======================================

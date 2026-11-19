@@ -4,7 +4,7 @@
  * component that reads a field follow it when it changes.
  */
 
-import { addBreak, type BreakRefusal } from '$lib/modules/controls/breaks'
+import { setBreak, type BreakRefusal } from '$lib/modules/controls/breaks'
 import { press, runningSinceEarlierDay, stopRunning, undo, type Click } from '$lib/modules/controls/clock'
 import { localDay } from '$lib/modules/shared/counting'
 import {
@@ -153,13 +153,13 @@ class AppState {
   }
 
   /**
-   * A break of `minutes` added to the running entry of the profile on screen, which the undo can take back, then saved.
-   * Used by "Lägg till paus" on Enter
-   * @returns why it was refused, or null once added
+   * The running entry of the profile on screen given a whole break of `minutes`, which the undo can take back, then
+   * saved. Used by "Lägg till paus" on Enter
+   * @returns why it was refused, or null once set
    */
-  async addBreak(minutes: number): Promise<BreakRefusal | null> {
+  async setBreak(minutes: number): Promise<BreakRefusal | null> {
     if (this.record === null) return 'nothing-runs'
-    const done = addBreak(this.record, this.onScreen, minutes, new Date())
+    const done = setBreak(this.record, this.onScreen, minutes, new Date())
     if (!done.ok) return done.why
     this.record = done.record
     this.lastClick = done.click

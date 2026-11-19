@@ -13,10 +13,13 @@ it falls on. Time away that happens during a running entry, unplanned (such as o
 is an **added break**: a length of time taken off an entry, added when back, with a quiet "add break" control. An added
 break holds its length and the day it was added, not when it happened. It comes off its entry's time on that day first,
 and any rest off the entry's time on the day before, since midnight only cuts the counting, not the stretch. It goes to
-the running entry of the profile on screen. The control is always shown, so the app always shows what it can do; it is
-active only while that entry runs, and greyed out otherwise. A break found after the entry has stopped is an edit on the
-entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry so far: the field then reads
-"för lång paus" and stays open. The field closes when its entry stops, as at a click away. The five most recent entries,
+the running entry of the profile on screen. Its field holds that entry's whole break: it opens on what is there so far
+("20", "1:20"), selected so typing replaces it, or empty with none, and Enter sets the new total. A higher number adds
+the difference, dated the day it is added; a lower one takes time back, off the latest break first, and 0 takes it all;
+the same number changes nothing. The control is always shown, so the app always shows what it can do; it is active only
+while that entry runs, and greyed out otherwise. A break found after the entry has stopped is an edit on the entry's
+line ("Editing an entry on its line"). The total cannot be longer than its whole entry so far: the field then reads "för
+lång paus" and stays open. The field closes when its entry stops, as at a click away. The five most recent entries,
 whatever their day, are listed under the flex bar and the ceiling wheel, with their added breaks as small tags among
 them, and "Visa alla" under the list opens the history. A tag is a label: clicking it does what clicking its row does. A
 break added by mistake is taken back with the undo while it is the latest click ("The last click can be undone for a few
@@ -27,14 +30,15 @@ file today, so the day added places a break in the stretch it belongs to. An "ad
 would make the owner wonder whether work is still running. A hasty mistake must be fixed where it is seen, not dug out
 of an editor.
 
-**Rejected:** a tag opening the length field on its row, to change or remove the break: the row is too thin for the
-field's reading, the tag would fight the row's own click, and every tag is on a stopped entry, whose changes are
-corrections with a reason. A slider for the break's length: a break holds no place in its entry to drag. Start-break and
-end-break clicks: a stop and a start do the same with no new control, and an unplanned break cannot be clicked as it
-happens. Recording when an added break happened: the day is enough. Splitting a running entry into two stored entries at
-midnight: the running entry would restart each day, and the question for a running entry from an earlier day would never
-be asked. Adding a break to a stopped entry from this control: it blurs whether work is running, and the entry's line
-does it better.
+**Rejected:** each press adding a break of its own, the field empty every time: the owner had to add up in their head,
+and a slip noticed after the undo's seconds had no way back while the entry ran. A tag opening the length field on its
+row, to change or remove the break: the row is too thin for the field's reading, the tag would fight the row's own
+click, and every tag is on a stopped entry, whose changes are corrections with a reason. A slider for the break's
+length: a break holds no place in its entry to drag. Start-break and end-break clicks: a stop and a start do the same
+with no new control, and an unplanned break cannot be clicked as it happens. Recording when an added break happened: the
+day is enough. Splitting a running entry into two stored entries at midnight: the running entry would restart each day,
+and the question for a running entry from an earlier day would never be asked. Adding a break to a stopped entry from
+this control: it blurs whether work is running, and the entry's line does it better.
 
 **Revisit if:** the report needs breaks shown by time or kind.
 
@@ -50,6 +54,11 @@ does it better.
 - Stop Tuesday 23:30, start Wednesday 00:15: the gap counts on neither day, with no special rule; Tuesday ends at 23:30,
   Wednesday starts at 00:15.
 - A break changed from 45 to 35 min: the entry's worked time grows by 10 min.
+- 20 min of break so far, "Lägg till paus": the field opens on "20", selected; 30 typed and Enter: the break is 30 min,
+  the 10 added dated today.
+- 20 min so far, 10 typed: the break is 10 min. 0 typed: no break.
+- Running since Tuesday 22:00, 30 min added Tuesday and 15 min Wednesday, 30 typed on Wednesday: Wednesday's 15 comes
+  off, Tuesday's 30 stays.
 
 ## Entering a length of time (2026-11-14)
 

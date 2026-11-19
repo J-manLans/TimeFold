@@ -8,7 +8,7 @@
 import { localDay, timeOfDay } from '$lib/modules/shared/counting'
 import { dayInWords } from '$lib/modules/shared/dates'
 import { durationText } from '$lib/modules/shared/timeInput'
-import { type Entry, type Timestamp, type TimeRecord } from '$lib/modules/shared/record'
+import { type Break, type Entry, type Timestamp, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API
@@ -19,7 +19,7 @@ export type Click =
   | { kind: 'start'; at: Timestamp; started: string }
   | { kind: 'stop'; at: Timestamp; stopped: string }
   | { kind: 'switch'; at: Timestamp; stopped: string; started: string }
-  | { kind: 'break'; at: Timestamp; entry: string; minutes: number }
+  | { kind: 'break'; at: Timestamp; entry: string; before: Break[]; from: number; to: number }
 
 /**
  * The start/stop button pressed with `profileId` on screen, at `now`: stops that profile's running entry, or else
@@ -88,14 +88,14 @@ export function lateWords(record: TimeRecord, entry: Entry, now: Date): { headin
 /**
  * Reverses `click` exactly, if `now` is less than `windowSeconds` after it; otherwise the record is left as it is.
  * Compares with the clock, so a window hidden past the time cannot undo a late click. Used by the undo button:
- * a stop at 15:40 undone at 15:40:10 runs on; an added break undone is gone from its entry.
+ * a stop at 15:40 undone at 15:40:10 runs on; a break set undone leaves its entry's breaks as they were.
  */
 export function undo(record: TimeRecord, click: Click, now: Date, windowSeconds: number): TimeRecord {
   if (now.getTime() - Date.parse(click.at) >= windowSeconds * 1000) return record
 
   if (click.kind === 'break') {
-    const withoutLast = (e: Entry): Entry => ({ ...e, breaks: e.breaks.slice(0, -1) })
-    return { ...record, entries: record.entries.map((e) => (e.id === click.entry ? withoutLast(e) : e)) }
+    const asBefore = (e: Entry): Entry => ({ ...e, breaks: click.before })
+    return { ...record, entries: record.entries.map((e) => (e.id === click.entry ? asBefore(e) : e)) }
   }
 
   const runsOn = (e: Entry): Entry => ({ ...e, stop: null })
@@ -107,11 +107,14 @@ export function undo(record: TimeRecord, click: Click, now: Date, windowSeconds:
 
 /**
  * What the undo would undo, for its label after "Ångra: ": the click's kind and time, for a switch the profile
- * stopped and the one started, and for a break its length. Used by the undo button's tip: "stopp 15:40", "byte 13:00
- * (Vaktis → Utvecklingsgruppen)", "paus 20min"
+ * stopped and the one started, and for a break its total, what it was before when there was one. Used by the undo button's
+ * tip: "stopp 15:40", "byte 13:00 (Vaktis → Utvecklingsgruppen)", "paus 20min", "paus 20min → 30min"
  */
 export function clickLabel(record: TimeRecord, click: Click): string {
-  if (click.kind === 'break') return `paus ${durationText(click.minutes)}`
+  if (click.kind === 'break') {
+    const to = durationText(click.to)
+    return click.from === 0 ? `paus ${to}` : `paus ${durationText(click.from)} → ${to}`
+  }
   const time = timeOfDay(click.at)
   if (click.kind === 'start') return `start ${time}`
   if (click.kind === 'stop') return `stopp ${time}`

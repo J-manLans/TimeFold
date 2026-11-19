@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { clickLabel, lateWords, press, runningSinceEarlierDay, stopRunning, undo } from '$lib/modules/controls/clock'
-import { addBreak } from '$lib/modules/controls/breaks'
+import { setBreak } from '$lib/modules/controls/breaks'
 import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 import { at, entry, RECORD } from '$tests/helpers/records'
 
@@ -90,25 +90,38 @@ describe('the undo reverses exactly the last click within its seconds', () => {
   })
 })
 
-describe('the undo takes back an added break within its seconds', () => {
+describe('the undo takes back a break set within its seconds', () => {
   it('removes a 20 min break added by mistake, and the entry runs on as before', () => {
     const before = record([entry(at('2026-11-16', '07:58'), null, { id: 'e1' })])
-    const done = addBreak(before, JANITOR, 20, moment('2026-11-16', '10:30'))
+    const done = setBreak(before, JANITOR, 20, moment('2026-11-16', '10:30'))
     if (!done.ok) throw new Error('the break was refused')
 
     expect(undo(done.record, done.click, moment('2026-11-16', '10:30:12'), UNDO_SECONDS)).toEqual(before)
   })
 
-  it('says "paus 20min" in its label', () => {
-    const done = addBreak(
-      record([entry(at('2026-11-16', '07:58'), null, { id: 'e1' })]),
-      JANITOR,
-      20,
-      moment('2026-11-16', '10:30'),
-    )
+  it('puts a break of 20 set to 10 back to 20', () => {
+    const before = record([
+      entry(at('2026-11-16', '07:58'), null, { id: 'e1', breaks: [{ day: '2026-11-16', minutes: 20 }] }),
+    ])
+    const done = setBreak(before, JANITOR, 10, moment('2026-11-16', '10:30'))
     if (!done.ok) throw new Error('the break was refused')
 
-    expect(clickLabel(done.record, done.click)).toBe('paus 20min')
+    expect(undo(done.record, done.click, moment('2026-11-16', '10:30:12'), UNDO_SECONDS)).toEqual(before)
+  })
+
+  it('says "paus 20min" for a first break, and "paus 20min → 30min" for a change', () => {
+    const none = record([entry(at('2026-11-16', '07:58'), null, { id: 'e1' })])
+    const twenty = record([
+      entry(at('2026-11-16', '07:58'), null, { id: 'e1', breaks: [{ day: '2026-11-16', minutes: 20 }] }),
+    ])
+    const first = setBreak(none, JANITOR, 20, moment('2026-11-16', '10:30'))
+    const more = setBreak(twenty, JANITOR, 30, moment('2026-11-16', '10:30'))
+    if (!first.ok || !more.ok) throw new Error('the break was refused')
+
+    expect([clickLabel(first.record, first.click), clickLabel(more.record, more.click)]).toEqual([
+      'paus 20min',
+      'paus 20min → 30min',
+    ])
   })
 })
 
