@@ -57,8 +57,6 @@ to a minute's truth for a match the owner does not need.
 
 ## A day owes its expected hours only when work started on it (2026-11-14)
 
-**Built by:** Breaks and flex days, for flex days.
-
 **Decision:** for a profile with a balance, each day adds the hours worked on it. A day is also charged its expected
 hours only if one of the profile's entries started on it, or it is a flex day. A flex day, a weekday marked in the
 calendar ("A flex day can be marked ahead, and the screen counts it at once"), takes off the full expected hours. Any
@@ -86,8 +84,6 @@ after midnight would charge the next day's expected hours, even a day of leave.
 - A flex day still marked, 6 h worked on it: the day adds 6 − 6 = 0, as any workday.
 
 ## A flex day can be marked ahead, and the screen counts it at once (2026-11-17)
-
-**Built by:** Breaks and flex days.
 
 **Decision:** a flex day ("A day owes its expected hours only when work started on it") is marked in the calendar under
 "Flexledig" in the menu's **Tid** tab ("The menu has tabs, with every value locked behind "Ändra""), always open there.

@@ -101,7 +101,7 @@ autostart ("A tray icon, with autostart", in `codebase-ideas.md`).
 
 ## What the app does (2026-11-14)
 
-**Built by:** Breaks and flex days, Profiles, Corrections and Reports.
+**Built by:** Profiles, Corrections and Reports.
 
 **Decision:** the app starts and stops an entry with one click; records errands, taken off the day's total; lets the
 owner write entries by hand and edit clicked ones; keeps past entries, at least the last three years ("Old history is
