@@ -178,6 +178,8 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   dates live in `docs/dev/levels.md`, gitignored, since they belong to a person, not the project.
 - **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
+- **An idea that comes back opens with a verdict:** bad, okay or good, as it stands, before anything else, so the owner
+  knows whether to rethink it or only read what is added. The owner's own ideas too.
 - **Argue for the owner's hunch** before defending the proposal.
 - **Make the work reviewable.** List each file touched and what changed, what was run and what was only read, and
   anything written against code that does not exist yet.

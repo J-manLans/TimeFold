@@ -24,10 +24,13 @@ other entries and midnight.
 ### Exact minutes on the line (2026-11-14)
 
 Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock picker for
-precision. The clock picker, from the owner's first draft, is an analogue 24-hour dial: the hours on an inner and an
-outer ring, the minutes picked in a second step, with no AM/PM and no digital fields. It was meant for editing; the line
-may replace it there, or work beside it. The owner's idea, to try on the prototype: − and + at the chosen handle, one
-minute per press, its time shown between them; the arrow keys could do the same, and holding a button repeat.
+precision. In the Excel the owner writes a fixed time to the nearest 5 minutes. The clock picker, from the owner's first
+draft, is an analogue 24-hour dial: the hours on an inner and an outer ring, the minutes picked in a second step, with
+no AM/PM and no digital fields. It was meant for editing; the line may replace it there, or work beside it. The owner's
+idea, to try on the prototype: − and + at the chosen handle, one minute per press, its time shown between them; the
+arrow keys could do the same, and holding a button repeat. The agent holds it good as it stands, and leans to try two
+additions with it: the drag snapping to 5 minutes, the owner's Excel habit, for the rough move, the − and + for the
+exact one; and a held button speeding up the longer it is held. A time set by hand would then have its seconds at :00.
 
 **See:** Editing an entry on its line.
 

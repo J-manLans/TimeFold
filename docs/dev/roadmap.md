@@ -17,7 +17,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3: Corrections, starting with its **Settle first** in design mode, once Phase 2's branch is merged into `main`.
+Phase 3: Corrections, starting with its **Settle first** in design mode.
 
 ## The phases
 
