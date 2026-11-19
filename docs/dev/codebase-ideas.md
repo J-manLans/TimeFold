@@ -92,8 +92,29 @@ prune line ("no copy today, make one?"), a question whose only answer is yes.
 
 **Returns when:** the school, or colleagues, want to use the app.
 
-The app is built for the owner alone: one janitor balance, the owner's own pay categories and report. A school rollout
-would ask what in it is the owner's and what each teacher sets for themselves, and how IT installs it. The installing
-part is ready: each release has an `.msi`, the form an IT department deploys to many machines, and the record is already
-each Windows user's own ("The app reaches each machine as an installer from a GitHub release", in `design-decisions/`).
-The rest is a question for the vision.
+The app is built for the owner alone. A release for the school is a list of jobs, none needed while it stays the
+owner's:
+
+1. **What is whose.** One janitor balance, the owner's pay categories and report: what each teacher sets for themselves,
+   and whether that changes the vision. Decided in design mode before anything below.
+2. **Installing.** Ready: each release has an `.msi`, the form an IT department deploys, installing per machine, and the
+   record is each Windows user's own ("The app reaches each machine as an installer from a GitHub release", in
+   `design-decisions/`). The owner's own work machine then moves from the `.exe` to IT's `.msi`: the record exported
+   first, the `.exe` uninstalled with its data kept, and the record found in place by the `.msi`. The home Windows keeps
+   the `.exe` and tries each release before IT gets it.
+3. **Signing.** Unsigned installers make Windows warn "Windows protected your PC" on a downloaded file. A certificate
+   proves who published the installer, not that the app is good; nobody reviews the code. It is rented, not bought: an
+   OV certificate costs about $220–450 a year (2026), on a hardware token or a cloud key, renewed at least every 460
+   days; Microsoft's signing service is cheaper per month, but in 2026 took individuals only in the USA and Canada, so
+   it would be the school's, as an organisation. Paid by the school, as it is its rollout. IT may skip it: an installer
+   it deploys itself does not meet the download warning, and some IT departments sign with a certificate of their own.
+   Asked of IT first.
+4. **Hardening.** A Content Security Policy in `tauri.conf.json`, now `null`, tested against the pointer light and the
+   fonts; the Rust side refusing a copy's date not shaped `YYYY-MM-DD`; two-factor login on the GitHub account the
+   installers come from.
+5. **Updating.** The updater, planned for the last phase, signs releases with a key of its own, kept out of the repo.
+   For machines IT installs, IT may rather push each `.msi` itself; asked of IT.
+6. **Upkeep.** Who answers questions and fixes faults, and on whose time. The owner's lean: the hours already spent
+   building the app are counted as development hours, and upkeep after the rollout is a standing deal paid as
+   development hours, recorded on the development group's profile like any other work. Agreed with the school before the
+   rollout, with what upkeep covers (faults, new Windows versions, small requests) and what is new work.
