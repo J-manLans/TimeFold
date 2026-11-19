@@ -122,6 +122,7 @@ title.
 
 - The look: a fresh display face, mono text and soft buttons
 - A light or dark theme, following the system
+- Motion can be switched off in the app
 
 **Figures (`main-screen/figures/`)**
 

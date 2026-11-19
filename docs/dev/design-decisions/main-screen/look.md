@@ -103,3 +103,32 @@ choice made once.
   dark later changes nothing.
 - The theme changed while the tip or the undo's afterglow shows: both take the new theme's colours, and nothing
   restarts.
+
+## Motion can be switched off in the app (2026-11-19)
+
+**Built by:** Corrections, as a step of its own.
+
+**Decision:** the app has a switch for its motion, on or off, that takes effect at once, with no restart. It overrides
+the system's reduced-motion setting for this app only and leaves the system's setting as it is. With motion off, nothing
+moves: no transition, animation or delay, the flex bar's and the ceiling wheel's counts land at once, and the
+onboarding's ending reaches each of its steps at once, in order. With motion on, the app animates even where the system
+asks for reduced motion. When the system asks for reduced motion on a first start, the onboarding says in a short note
+that the app works as it is, and where the switch is to turn the animations on.
+
+**Why:** the school's computers have reduced motion on by default, so a teacher would never see the app's motion without
+knowing where the system setting is. A switch in the app is one click and touches nothing else on the machine.
+
+**Rejected:** a link from the onboarding that opens the system's animation settings, with a tip per system: it changes
+every app on the machine, sends the user out of TimeFold, and needs a different route on each Linux desktop; Linux users
+set their own system anyway.
+
+**Revisit if:** some motion has to stay with motion off, such as a signal that cannot be shown still.
+
+**Cases:**
+
+- System asks for reduced motion, the switch turned on: a stop makes the flex bar and the ceiling wheel count, and the
+  menu grows open.
+- System does not ask for reduced motion, the switch turned off: a stop makes the numbers jump to their new values, and
+  the menu opens at once.
+- The switch flipped with the app open: the next animation follows it, with no restart.
+- A first start on a system with reduced motion: the onboarding shows the note; on a system without it, no note.

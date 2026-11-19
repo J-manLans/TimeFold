@@ -23,11 +23,11 @@ ceiling the same order goes on in the over lap, lit pieces in the neon and the r
 crosses the ceiling splits there. Carried hours are lit for the profile that worked them. The grey wheel is one grey,
 with nothing lit or faded. While the pointer rests on the ring's band (not its corners or its middle), the over lap
 winds back to 12 o'clock in 0.3 s and the first lap shows whole; when the pointer leaves, it winds forward again (both
-at once when the system asks for reduced motion). Up to the ceiling the centre number is in the base colour; past it, it
-takes the neon, as the flex bar's number does past 0. Either way it is at full strength whoever worked the hours. While
-the over lap is wound back the number is in the base colour, and takes the neon again when the lap returns; the ring
-keeps its colours. Under the ceiling there is no lap to wind back, and the pointer on the band changes nothing. The
-wheel's numbers never depend on its colours: switching profile changes only how it looks.
+at once when motion is off, "Motion can be switched off in the app"). Up to the ceiling the centre number is in the base
+colour; past it, it takes the neon, as the flex bar's number does past 0. Either way it is at full strength whoever
+worked the hours. While the over lap is wound back the number is in the base colour, and takes the neon again when the
+lap returns; the ring keeps its colours. Under the ceiling there is no lap to wind back, and the pointer on the band
+changes nothing. The wheel's numbers never depend on its colours: switching profile changes only how it looks.
 
 **Why:** the over lap shows the excess the moment it happens, and a full ring always means the ceiling; one ring reads
 at a glance. The number turns with the over lap, so the neon means only "over", on the wheel as on the bar, and the two

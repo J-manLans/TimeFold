@@ -31,7 +31,8 @@ work is done has no bearing on the counts.
 
 ## The other profiles share a ceiling (2026-11-14)
 
-**Built by:** Profiles, for the full-time slider and the opening ceiling hours.
+**Built by:** Profiles, for the full-time slider and the opening ceiling hours; Corrections, as a patch, for the first
+month's whole ceiling.
 
 **Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles together
 share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but follows
@@ -39,10 +40,11 @@ from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 
 period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the same
 whenever they are worked: night or day, weekday or weekend. Full time and janitor's expected hours are set together with
 one slider that splits full time between them (6 | 2); how it looks is settled with the look and feel. The ceiling's
-period is the month ("The app's month is the calendar month"). Hours over a month's ceiling carry into the next month,
-which starts with them already used; hours left unused do not carry, and the next month starts from zero. The ceiling is
-never owed: working under it costs nothing, and the janitor balance has no cap either. The front page shows how much of
-it is used on the ceiling wheel, beside the flex bar ("The ceiling wheel"). It never blocks a click.
+period is the month ("The app's month is the calendar month"), and the month the app is first started in has its whole
+ceiling, whatever day that is. Hours over a month's ceiling carry into the next month, which starts with them already
+used; hours left unused do not carry, and the next month starts from zero. The ceiling is never owed: working under it
+costs nothing, and the janitor balance has no cap either. The front page shows how much of it is used on the ceiling
+wheel, beside the flex bar ("The ceiling wheel"). It never blocks a click.
 
 **Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
 balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree. Showing
@@ -56,6 +58,12 @@ ceiling per calendar day: a month would allow more than full time, which is a we
 
 **Revisit if:** another profile gets hours of its own to work, or the limits apply to all hours together in a way the
 ceiling does not show.
+
+**Cases:**
+
+- A fresh start on Thursday 19 November 2026, 8 h full time and 6 h janitor: November's ceiling is 42 h, its 21 weekdays
+  times 2 h, not the 16 h of the 8 weekdays left.
+- The same start, 20 h of other work in November: nothing carries into December, which starts at 0 of its 46 h.
 
 ## A pay estimate per profile (2026-11-14)
 

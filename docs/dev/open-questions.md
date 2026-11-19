@@ -42,6 +42,19 @@ logic, the view growing when the handle nears its edge and shrinking only once i
 
 **See:** Editing an entry on its line; The flex bar.
 
+### The motion switch: where, its first state, and the handover (2026-11-19)
+
+"Motion can be switched off in the app" settles the switch, not three things about it. Where it sits: a round button
+beside the theme button in the menu's heading, drawn the same way, or a value in a tab. Its first state: following the
+system until first clicked, as the theme does, or on from the start, so the school's computers show the motion at once.
+Whether the handover carries it: the theme stays with each machine. The agent leans to the heading, beside the theme
+button, since the onboarding's note can then point at something always in view; to following the system first, as the
+theme does, since someone who set reduced motion on purpose gets what they asked for; and to keeping it on each machine,
+as the theme is. The note's words, and where in the onboarding it shows, are drawn with it.
+
+**See:** Motion can be switched off in the app; A light or dark theme, following the system; A first install starts
+fresh or imports.
+
 ## Phase 4: Profiles
 
 ### Whose the opening ceiling hours are (2026-11-15)

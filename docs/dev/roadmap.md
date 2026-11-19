@@ -34,15 +34,22 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** joining two entries; deleting and writing a forgotten entry; exact minutes on the line; the line's
 zoom (`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the
-prototype (its "Visa alla" popup only notes where it goes).
+prototype (its "Visa alla" popup only notes where it goes); the motion switch's place, its first state and whether the
+handover carries it (`open-questions.md`), and the switch and the onboarding's note drawn in the prototype.
 
 1. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
    shortening, the profile, the confirm; the rows' hover with it.
 2. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
    chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
+3. The motion switch ("Motion can be switched off in the app"): every animation, delay, count and timed step follows it,
+   and the onboarding's note when the system asks for reduced motion. Seen on the owner's Linux machine and on a school
+   computer with reduced motion on.
+4. Patch: the first month's ceiling is whole ("The other profiles share a ceiling"); a fresh start counted it only from
+   its first day.
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
-its reason, and the balance follows.
+its reason, and the balance follows; and on a school computer with reduced motion on, the switch brings the motion back
+at once.
 
 ### Phase 4: Profiles
 

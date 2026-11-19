@@ -13,13 +13,14 @@ outer end, square against the 0 line. It is half as thick as the ceiling wheel's
 keeps its full height and stands out above and below it. It takes the colours of the profile with the balance ("Each
 profile carries its colours"): minus (hours to work in) in its base colour; plus (hours to take out) in its neon;
 exactly 0 a marker centred on the 0 line, a little wider than a thin mark, in the base colour dimmed, slowly and
-slightly growing and shrinking; the motion stops when the system asks for reduced motion. The number above follows the
-bar: base colour for minus, neon for plus, the main text colour at exactly 0. The bar's full width is one of four
-scales, ±10, ±20, ±40 or ±80 h, with ten small marks on each side from the 0 line to the scale's end, the end mark
-taller and labelled in small text; each side's end mark and its label wear that side's colour (minus the base, plus the
-over), the other marks stay grey. The scale is the smallest whose 90% holds the balance. Crossing into a larger scale
-changes it with a short animation; it goes back down only once the balance is within 80% of the smaller scale, so it
-does not flicker at a boundary. Beyond ±80 h the bar stays full at its end. A large minus gets no warning.
+slightly growing and shrinking; the motion stops when motion is off ("Motion can be switched off in the app"). The
+number above follows the bar: base colour for minus, neon for plus, the main text colour at exactly 0. The bar's full
+width is one of four scales, ±10, ±20, ±40 or ±80 h, with ten small marks on each side from the 0 line to the scale's
+end, the end mark taller and labelled in small text; each side's end mark and its label wear that side's colour (minus
+the base, plus the over), the other marks stay grey. The scale is the smallest whose 90% holds the balance. Crossing
+into a larger scale changes it with a short animation; it goes back down only once the balance is within 80% of the
+smaller scale, so it does not flicker at a boundary. Beyond ±80 h the bar stays full at its end. A large minus gets no
+warning.
 
 **Why:** one meaning per colour: the neon is "more than expected", which a plus balance is; minus is work still to do,
 in the calm base colour; dimmed is "nothing either way". The bar is always janitor work, so it always wears the balance
