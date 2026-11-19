@@ -15,11 +15,12 @@ break holds its length and the day it was added, not when it happened. It comes 
 and any rest off the entry's time on the day before, since midnight only cuts the counting, not the stretch. It goes to
 the running entry of the profile on screen. The control is always shown, so the app always shows what it can do; it is
 active only while that entry runs, and greyed out otherwise. A break found after the entry has stopped is an edit on the
-entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry. The five most recent entries,
-whatever their day, are listed under the flex bar and the ceiling wheel, with their added breaks as small tags among
-them, and "Visa alla" under the list opens the history. A tag is a label: clicking it does what clicking its row does. A
-break added by mistake is taken back with the undo while it is the latest click ("The last click can be undone for a few
-seconds"); after that, a break is changed or removed on its entry's line.
+entry's line ("Editing an entry on its line"). It cannot be longer than its whole entry so far: the field then reads
+"längre än posten" and stays open. The field closes when its entry stops, as at a click away. The five most recent
+entries, whatever their day, are listed under the flex bar and the ceiling wheel, with their added breaks as small tags
+among them, and "Visa alla" under the list opens the history. A tag is a label: clicking it does what clicking its row
+does. A break added by mistake is taken back with the undo while it is the latest click ("The last click can be undone
+for a few seconds"); after that, a break is changed or removed on its entry's line.
 
 **Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
 file today, so the day added places a break in the stretch it belongs to. An "add break" that stays active after stop
@@ -42,7 +43,8 @@ does it better.
 - Entry 08:00–12:00 with a 45 min added break: 3 h 15 min.
 - Nothing running on the profile on screen: "add break" is shown, greyed out.
 - A running, B on screen: "add break" is greyed out.
-- A 5 h break on an entry that has run 2 h: refused.
+- A 5 h break on an entry that has run 2 h: refused; the field reads "längre än posten".
+- The field open, "Stoppa jobb" pressed: the field closes and the job stops.
 - Entry Tuesday 22:00 to Wednesday 01:00, 30 min break added at 00:30 while it runs: Tuesday 2 h, Wednesday 30 min.
 - Entry running since Tuesday 22:00, 45 min break added at Wednesday 00:20: Wednesday 0, Tuesday 1 h 35.
 - Stop Tuesday 23:30, start Wednesday 00:15: the gap counts on neither day, with no special rule; Tuesday ends at 23:30,
