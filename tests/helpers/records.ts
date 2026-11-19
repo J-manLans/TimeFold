@@ -1,6 +1,6 @@
 /** Records several test files share */
 
-import { RECORD_FORMAT, RECORD_VERSION, type Entry, type TimeRecord } from '$lib/modules/shared/record'
+import { RECORD_FORMAT, RECORD_VERSION, type Break, type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 /**
  * A sound record of this version: full time, one profile with a balance and a salary, an opening, a stopped entry and
@@ -17,13 +17,21 @@ export const RECORD: TimeRecord = {
       base: '#7ed6d5',
       expectedMinutes: [{ from: '2026-11-16', minutes: 360 }],
       pay: [{ from: '2026-11-16', kind: 'salary', amount: 1700 }],
+      flexDays: [],
     },
   ],
   fullTime: [{ from: '2026-11-16', minutes: 480 }],
   openings: [{ profile: 'p1', day: '2026-11-16', balanceMinutes: 750 }],
   entries: [
-    { id: 'e1', profile: 'p1', start: '2026-11-16T07:58:00+02:00', stop: '2026-11-16T11:30:00+02:00', made: 'clicked' },
-    { id: 'e2', profile: 'p1', start: '2026-11-17T08:01:00+02:00', stop: null, made: 'clicked' },
+    {
+      id: 'e1',
+      profile: 'p1',
+      start: '2026-11-16T07:58:00+02:00',
+      stop: '2026-11-16T11:30:00+02:00',
+      made: 'clicked',
+      breaks: [{ day: '2026-11-16', minutes: 20 }],
+    },
+    { id: 'e2', profile: 'p1', start: '2026-11-17T08:01:00+02:00', stop: null, made: 'clicked', breaks: [] },
   ],
 }
 
@@ -44,14 +52,14 @@ export function at(day: string, time: string): string {
 let ids = 0
 
 /**
- * A clicked entry, of the janitor unless another profile is given, running when there is no stop. Used by every test
- * that needs work: entry(at('2026-11-16', '08:00'), null) is still running
+ * A clicked entry, of the janitor unless another profile is given, running when there is no stop, with any added
+ * breaks. Used by every test that needs work: entry(at('2026-11-16', '08:00'), null) is still running
  */
 export function entry(
   start: string,
   stop: string | null,
-  { profile = 'p1', id }: { profile?: string; id?: string } = {},
+  { profile = 'p1', id, breaks = [] }: { profile?: string; id?: string; breaks?: Break[] } = {},
 ): Entry {
   ids += 1
-  return { id: id ?? `t${ids}`, profile, start, stop, made: 'clicked' }
+  return { id: id ?? `t${ids}`, profile, start, stop, made: 'clicked', breaks }
 }

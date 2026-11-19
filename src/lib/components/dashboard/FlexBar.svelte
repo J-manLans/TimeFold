@@ -36,7 +36,7 @@
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
   import { colourRoles } from '$lib/modules/shared/colours'
-  import { balance, localDay } from '$lib/modules/shared/counting'
+  import { balanceOnScreen, localDay } from '$lib/modules/shared/counting'
   import { balanceText, barReach, barScale, barSide } from '$lib/modules/dashboard/figures'
 
   // === Props ===
@@ -53,7 +53,7 @@
   // The balance profile is the one with expected hours; the bar always wears its colours
   let profile = $derived(app.record?.profiles.find((p) => p.expectedMinutes !== undefined) ?? null)
   let roles = $derived(profile ? colourRoles(profile, panel) : null)
-  let seconds = $derived(app.record && profile ? balance(app.record, profile.id, localDay(Date.now())) : 0)
+  let seconds = $derived(app.record && profile ? balanceOnScreen(app.record, profile.id, localDay(Date.now())) : 0)
   let scale = $state<number | null>(null)
 
   // What is drawn: the balance and the scale on their way to their new values

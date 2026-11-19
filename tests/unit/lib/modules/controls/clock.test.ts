@@ -35,7 +35,7 @@ describe('pressing start with nothing running starts an entry', () => {
 
     expect(after.entries).toEqual([
       ...before.entries,
-      { id: 'e2', profile: JANITOR, start: at('2026-11-16', '08:02:15'), stop: null, made: 'clicked' },
+      { id: 'e2', profile: JANITOR, start: at('2026-11-16', '08:02:15'), stop: null, made: 'clicked', breaks: [] },
     ])
     expect(click).toEqual({ kind: 'start', at: at('2026-11-16', '08:02:15'), started: 'e2' })
   })
@@ -60,7 +60,7 @@ describe('starting one profile while another runs switches, so at most one runs'
 
     expect(after.entries).toEqual([
       { ...before.entries[0], stop: at('2026-11-16', '13:00') },
-      { id: 'e2', profile: DEVELOPMENT, start: at('2026-11-16', '13:00'), stop: null, made: 'clicked' },
+      { id: 'e2', profile: DEVELOPMENT, start: at('2026-11-16', '13:00'), stop: null, made: 'clicked', breaks: [] },
     ])
     expect(click).toEqual({ kind: 'switch', at: at('2026-11-16', '13:00'), stopped: 'e1', started: 'e2' })
   })

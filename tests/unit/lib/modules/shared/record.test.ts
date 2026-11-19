@@ -22,16 +22,42 @@ describe('a record of this version is read as it was written', () => {
   })
 })
 
+/** The record as an older version wrote it: no added breaks on its entries and no flex days. Used by the upgrades */
+function beforeBreaks(r: Record<string, unknown>): void {
+  for (const e of r.entries as Record<string, unknown>[]) delete e.breaks
+  for (const p of r.profiles as Record<string, unknown>[]) delete p.flexDays
+}
+
+/** The test record with its breaks gone, as an upgrade leaves a record that had none */
+const UPGRADED = {
+  ...RECORD,
+  entries: RECORD.entries.map((e) => ({ ...e, breaks: [] })),
+}
+
 describe('a record of version 1 is upgraded to this version', () => {
-  it('gains full time, 8 h from its first opening, and keeps the rest', () => {
+  it('gains full time, 8 h from its first opening, no breaks and no flex days, and keeps the rest', () => {
     const result = readRecord(
       text((r) => {
         r.version = 1
         delete r.fullTime
+        beforeBreaks(r)
       }),
     )
 
-    expect(result).toEqual({ ok: true, record: RECORD })
+    expect(result).toEqual({ ok: true, record: UPGRADED })
+  })
+})
+
+describe('a record of version 2, as the owner keeps it, is upgraded to this version', () => {
+  it('gains no breaks and no flex days, and keeps every entry, profile and setting as it was', () => {
+    const result = readRecord(
+      text((r) => {
+        r.version = 2
+        beforeBreaks(r)
+      }),
+    )
+
+    expect(result).toEqual({ ok: true, record: UPGRADED })
   })
 })
 
@@ -90,6 +116,26 @@ describe('a record of the wrong shape names where', () => {
     expect(result).toEqual({ ok: false, problem: { kind: 'wrong-shape', where: 'profiles[0].pay[0].kind' } })
   })
 
+  it('names an added break of no length', () => {
+    const broken = text((r) => {
+      ;(r.entries as { breaks: { minutes: number }[] }[])[0].breaks[0].minutes = 0
+    })
+    expect(readRecord(broken)).toEqual({
+      ok: false,
+      problem: { kind: 'wrong-shape', where: 'entries[0].breaks[0].minutes' },
+    })
+  })
+
+  it('names a flex day not written YYYY-MM-DD', () => {
+    const broken = text((r) => {
+      ;(r.profiles as { flexDays: string[] }[])[0].flexDays = ['11.12.2026']
+    })
+    expect(readRecord(broken)).toEqual({
+      ok: false,
+      problem: { kind: 'wrong-shape', where: 'profiles[0].flexDays[0]' },
+    })
+  })
+
   it('names a way of making an entry the app does not know', () => {
     const broken = text((r) => {
       ;(r.entries as Record<string, unknown>[])[0].made = 'guessed'
@@ -99,11 +145,13 @@ describe('a record of the wrong shape names where', () => {
 })
 
 describe('a fresh start makes a record of one profile with its opening', () => {
-  it('holds the profile with 6 h a day and full time of 8 h from the first day, the opening that day, no entries', () => {
+  it('holds the profile with 6 h a day and no flex days, full time of 8 h from the first day, the opening that day, no entries', () => {
     expect(freshRecord('Vaktmästare', 12 * 60 + 30, '2026-11-16')).toMatchObject({
       format: RECORD_FORMAT,
       version: RECORD_VERSION,
-      profiles: [{ id: 'p1', name: 'Vaktmästare', expectedMinutes: [{ from: '2026-11-16', minutes: 360 }] }],
+      profiles: [
+        { id: 'p1', name: 'Vaktmästare', expectedMinutes: [{ from: '2026-11-16', minutes: 360 }], flexDays: [] },
+      ],
       openings: [{ profile: 'p1', day: '2026-11-16', balanceMinutes: 750 }],
       fullTime: [{ from: '2026-11-16', minutes: 480 }],
       entries: [],

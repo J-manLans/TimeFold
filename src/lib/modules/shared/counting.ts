@@ -29,8 +29,10 @@ export interface CeilingMonth {
 }
 
 /**
- * An entry's seconds on each calendar day it touches, split at this machine's midnight ("Time counts on the day it
- * was worked"). Used for every day's hours: Tuesday 22:00 to Wednesday 01:00 gives Tuesday 2 h and Wednesday 1 h.
+ * An entry's seconds worked on each calendar day it touches, split at this machine's midnight ("Time counts on the day
+ * it was worked"), less its added breaks: each comes off the day it was added, and any rest off the days before
+ * ("Time away is a gap or an added break"). Used for every day's hours: Tuesday 22:00 to Wednesday 01:00 gives Tuesday
+ * 2 h and Wednesday 1 h; with 30 min added on Wednesday, Wednesday 30 min.
  * @param entry - a stopped entry; a running one has no seconds yet
  * @returns seconds by day, in order
  */
@@ -44,6 +46,7 @@ export function secondsByDay(entry: Entry): Map<Day, number> {
     split.set(localDay(from), Math.round((to - from) / 1000))
     from = to
   }
+  for (const taken of entry.breaks) takeBreak(split, taken.day, taken.minutes * 60)
   return split
 }
 
@@ -62,37 +65,50 @@ export function expectedSecondsOn(day: Day, profile: Profile): number {
 
 /**
  * What a day adds to a profile's balance: the seconds worked on it, less its expected seconds if one of the
- * profile's entries started on it ("A day owes its expected hours only when work started on it"). Used to show what
- * today added at a stop: 7 h worked on a Monday adds +1:00.
+ * profile's entries started on it or it is a flex day, charged once either way ("A day owes its expected hours only
+ * when work started on it"). Used to show what a day added: 7 h worked on a Monday adds +1:00, a flex day −6:00, and
+ * a flex day worked 6 h 0.
  * @param entries - all entries; other profiles' and running ones are left out
  */
 export function dayResult(day: Day, profile: Profile, entries: Entry[]): number {
-  const { worked, started } = workedDays(profile.id, entries)
-  return (worked.get(day) ?? 0) - (started.has(day) ? expectedSecondsOn(day, profile) : 0)
+  const { worked, charged } = workedDays(profile, entries)
+  return (worked.get(day) ?? 0) - (charged.has(day) ? expectedSecondsOn(day, profile) : 0)
 }
 
 /**
- * A profile's balance in seconds: its openings, plus every day's result up to and including `today`. Running entries
- * count only once stopped. Used for the flex bar, when the app starts and at each stop: an opening of +12:30 and a 7 h
- * Monday give +13:30.
+ * A profile's balance in seconds: its openings, plus every day's result up to and including `last`. Running entries
+ * count only once stopped. Used by `balanceOnScreen`, and for any count that ends on a day, such as a report's: an
+ * opening of +12:30 and a 7 h Monday give +13:30.
  * @throws if the record has no profile `profileId`
  */
-export function balance(record: TimeRecord, profileId: string, today: Day): number {
+export function balance(record: TimeRecord, profileId: string, last: Day): number {
   const profile = record.profiles.find((p) => p.id === profileId)
   if (profile === undefined) throw new Error(`No profile ${profileId} in the record`)
-  const { worked, started } = workedDays(profileId, record.entries)
+  const { worked, charged } = workedDays(profile, record.entries)
 
   let total = 0
   for (const opening of record.openings) {
-    if (opening.profile === profileId && opening.day <= today) total += opening.balanceMinutes * 60
+    if (opening.profile === profileId && opening.day <= last) total += opening.balanceMinutes * 60
   }
   for (const [day, seconds] of worked) {
-    if (day <= today) total += seconds
+    if (day <= last) total += seconds
   }
-  for (const day of started) {
-    if (day <= today) total -= expectedSecondsOn(day, profile)
+  for (const day of charged) {
+    if (day <= last) total -= expectedSecondsOn(day, profile)
   }
   return total
+}
+
+/**
+ * The balance as the main screen shows it: up to today, and every flex day marked ahead taken at once ("A flex day can
+ * be marked ahead, and the screen counts it at once"). Used for the flex bar and where the profile stands: +4:37 on
+ * 17 November with a flex day on 11 December shows −1:23.
+ * @throws if the record has no profile `profileId`
+ */
+export function balanceOnScreen(record: TimeRecord, profileId: string, today: Day): number {
+  const flexDays = record.profiles.find((p) => p.id === profileId)?.flexDays ?? []
+  const last = flexDays.reduce((latest, day) => (day > latest ? day : latest), today)
+  return balance(record, profileId, last)
 }
 
 /**
@@ -174,18 +190,33 @@ export function timeOfDay(stamp: Timestamp): string {
 // ======================================
 
 /**
- * A profile's stopped entries, as seconds worked per day and the days work started on. Used by `dayResult` and
- * `balance`, so the two count alike.
+ * A profile's stopped entries, as seconds worked per day, and the days charged their expected hours: those work
+ * started on, and its flex days, each once. Used by `dayResult` and `balance`, so the two count alike.
  */
-function workedDays(profileId: string, entries: Entry[]): { worked: Map<Day, number>; started: Set<Day> } {
+function workedDays(profile: Profile, entries: Entry[]): { worked: Map<Day, number>; charged: Set<Day> } {
   const worked = new Map<Day, number>()
-  const started = new Set<Day>()
+  const charged = new Set<Day>(profile.flexDays ?? [])
   for (const entry of entries) {
-    if (entry.profile !== profileId || entry.stop === null) continue
-    started.add(localDay(Date.parse(entry.start)))
+    if (entry.profile !== profile.id || entry.stop === null) continue
+    charged.add(localDay(Date.parse(entry.start)))
     for (const [day, seconds] of secondsByDay(entry)) worked.set(day, (worked.get(day) ?? 0) + seconds)
   }
-  return { worked, started }
+  return { worked, charged }
+}
+
+/**
+ * An added break taken off an entry's days: off `day` first, then off each day before it, never below 0. Used by
+ * `secondsByDay` for each break in turn; a break added on a day the entry did not reach starts from its last day
+ */
+function takeBreak(split: Map<Day, number>, day: Day, seconds: number): void {
+  let left = seconds
+  const days = [...split.keys()].filter((d) => d <= day).reverse()
+  for (const d of days) {
+    if (left <= 0) return
+    const taken = Math.min(left, split.get(d) ?? 0)
+    split.set(d, (split.get(d) ?? 0) - taken)
+    left -= taken
+  }
 }
 
 /**

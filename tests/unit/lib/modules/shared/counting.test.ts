@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { at, entry } from '$tests/helpers/records'
 import {
   balance,
+  balanceOnScreen,
   ceilingMonth,
   dayResult,
   expectedSecondsOn,
@@ -29,11 +30,11 @@ const JANITOR: Profile = {
 // === Helpers ===
 
 /** A record of the janitor alone, with an opening on its first day. Used by the balance tests */
-function record(entries: Entry[], openingMinutes = 0): TimeRecord {
+function record(entries: Entry[], openingMinutes = 0, flexDays: string[] = []): TimeRecord {
   return {
     format: RECORD_FORMAT,
     version: RECORD_VERSION,
-    profiles: [JANITOR],
+    profiles: [{ ...JANITOR, flexDays }],
     openings: [{ profile: JANITOR.id, day: '2026-11-16', balanceMinutes: openingMinutes }],
     fullTime: [{ from: '2026-01-01', minutes: 480 }],
     entries,
@@ -281,5 +282,107 @@ describe("the pay estimate is the month's salaries plus its hours times their ra
     const entries = [work('2026-02-27', 3, DEV.id)]
 
     expect(payEstimate(workRecord(entries, JANITOR, [raised]), '2026-02-28')).toBe(60)
+  })
+})
+
+describe('an added break comes off its entry on the day it was added, and any rest off the day before', () => {
+  it('leaves 3 h 15 min of 08:00–12:00 with a 45 min break', () => {
+    const e = entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), {
+      breaks: [{ day: '2026-11-16', minutes: 45 }],
+    })
+
+    expect(secondsByDay(e)).toEqual(new Map([['2026-11-16', 3 * HOUR + 15 * 60]]))
+  })
+
+  it('gives Tuesday 2 h and Wednesday 30 min for Tuesday 22:00 to Wednesday 01:00 with 30 min added on Wednesday', () => {
+    const e = entry(at('2026-11-17', '22:00'), at('2026-11-18', '01:00'), {
+      breaks: [{ day: '2026-11-18', minutes: 30 }],
+    })
+
+    expect(secondsByDay(e)).toEqual(
+      new Map([
+        ['2026-11-17', 2 * HOUR],
+        ['2026-11-18', 30 * 60],
+      ]),
+    )
+  })
+
+  it('gives Wednesday 0 and Tuesday 1 h 35 min for 45 min added at Wednesday 00:20 to an entry since Tuesday 22:00', () => {
+    const e = entry(at('2026-11-17', '22:00'), at('2026-11-18', '00:20'), {
+      breaks: [{ day: '2026-11-18', minutes: 45 }],
+    })
+
+    expect(secondsByDay(e)).toEqual(
+      new Map([
+        ['2026-11-17', HOUR + 35 * 60],
+        ['2026-11-18', 0],
+      ]),
+    )
+  })
+
+  it('counts 10 min more for a break of 35 min than one of 45', () => {
+    const day = (minutes: number): number =>
+      secondsByDay(
+        entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), { breaks: [{ day: '2026-11-16', minutes }] }),
+      ).get('2026-11-16') ?? 0
+
+    expect(day(35) - day(45)).toBe(10 * 60)
+  })
+})
+
+describe('a flex day takes off the full expected hours, and is charged once even when worked', () => {
+  const flex = { ...JANITOR, flexDays: ['2026-11-18'] }
+
+  it('adds −6 for a flex day with nothing worked', () => {
+    expect(dayResult('2026-11-18', flex, [])).toBe(-6 * HOUR)
+  })
+
+  it('adds 3 − 6 = −3 for three hours worked on a flex day', () => {
+    const entries = [entry(at('2026-11-18', '08:00'), at('2026-11-18', '11:00'))]
+
+    expect(dayResult('2026-11-18', flex, entries)).toBe(-3 * HOUR)
+  })
+
+  it('adds 6 − 6 = 0 for a flex day still marked and worked 6 h, as any workday', () => {
+    const entries = [entry(at('2026-11-18', '08:00'), at('2026-11-18', '14:00'))]
+
+    expect(dayResult('2026-11-18', flex, entries)).toBe(0)
+  })
+})
+
+describe('the balance on screen counts every flex day at once, ahead ones included', () => {
+  // +4:37 on 17 November, from the opening alone
+  const opening = 4 * 60 + 37
+
+  it('shows −1:23 at once for a flex day on 11 December marked on 17 November', () => {
+    const r = record([], opening, ['2026-12-11'])
+
+    expect(balanceOnScreen(r, JANITOR.id, '2026-11-17')).toBe(-(HOUR + 23 * 60))
+  })
+
+  it('is back at +4:37 once the day is unmarked', () => {
+    expect(balanceOnScreen(record([], opening), JANITOR.id, '2026-11-17')).toBe(opening * 60)
+  })
+
+  it('stays −1:23 after the day when nothing more was worked beyond the expected hours', () => {
+    const r = record([], opening, ['2026-12-11'])
+
+    expect(balanceOnScreen(r, JANITOR.id, '2026-12-14')).toBe(-(HOUR + 23 * 60))
+  })
+
+  it('costs 5 h for a day marked ahead when expected hours change to 5 from 1 December', () => {
+    const r = record([], 0, ['2026-12-11'])
+    r.profiles[0].expectedMinutes = [
+      { from: '2026-01-01', minutes: 360 },
+      { from: '2026-12-01', minutes: 300 },
+    ]
+
+    expect(balanceOnScreen(r, JANITOR.id, '2026-11-17')).toBe(-5 * HOUR)
+  })
+
+  it('leaves a flex day ahead out of a balance counted to an earlier day', () => {
+    const r = record([], opening, ['2026-12-11'])
+
+    expect(balance(r, JANITOR.id, '2026-11-30')).toBe(opening * 60)
   })
 })
