@@ -31,8 +31,7 @@ work is done has no bearing on the counts.
 
 ## The other profiles share a ceiling (2026-11-14)
 
-**Built by:** Profiles, for the full-time slider and the opening ceiling hours; Corrections, as a patch, for the first
-month's whole ceiling.
+**Built by:** Profiles, for the full-time slider and the opening ceiling hours.
 
 **Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles together
 share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but follows
