@@ -323,13 +323,11 @@
   --popup-pick: light-dark(#5f789e, #343840); /* the chosen or hovered profile, a lighter step */
   --popup-muted: 70%; /* how much of the text colour its quiet text keeps */
   --popup-min-width: 220px;
-  --popup-shadow: 0 12px 30px rgb(0 0 0 / 0.25);
 
   /* === Controls: the colour picker === */
   --picker-background: light-dark(#e6ecf4, #2a2d33);
   --picker-width: 236px;
   --picker-map-height: 140px;
-  --picker-shadow: 0 12px 30px rgb(0 0 0 / 0.28);
 
   /* === Dashboard: every entry ("Visa alla") === */
   --all-entries-scrim: rgb(0 0 0 / 0.45);
