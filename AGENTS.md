@@ -5,8 +5,8 @@ state, progress, decisions or history here; each has its own home (see "Where th
 
 ## Hard rules
 
-1. **Code is never committed before the owner says so.** A go to write it is not a go to commit it, except in vibe
-   coding mode, which is that say-so. See "Commits".
+1. **Code is never committed before the owner says so.** A go to write it is not a go to commit it, except in vibe and
+   pop-in mode, which are that say-so. See "Commits".
 2. **An open question is not a decision.** Something is decided when the owner says so. See
    `docs/dev/open-questions.md`.
 3. **Written is not run.** A step still in `docs/dev/roadmap.md` is not done; its tags say how far it got. Check it
@@ -14,25 +14,25 @@ state, progress, decisions or history here; each has its own home (see "Where th
 4. **Every fact has one owning file.** When two docs disagree, the owning file wins and the other is fixed. When a doc
    and the code disagree, the code wins, and say so.
 5. **Agree on where a new file or folder goes before creating it,** for code and for `docs/vision/`. Show the tree it
-   gives. Renames and moves too. In vibe mode, a file in a place the code map already has needs no stop; a new folder or
-   a file outside the layout is agreed while the phase is settled, or stops the work. In `docs/dev/`, the agent's
-   workspace, the agent places, moves and renames files itself, by "Where things go" and "How docs grow", and reports
-   the tree it gives.
+   gives. Renames and moves too. In vibe and pop-in mode, a file in a place the code map already has needs no stop; a
+   new folder or a file outside the layout is agreed while the phase is settled, or stops the work. In `docs/dev/`, the
+   agent's workspace, the agent places, moves and renames files itself, by "Where things go" and "How docs grow", and
+   reports the tree it gives.
 
 ## Doc map
 
-| Doc                                   | For                                                                              |
-| ------------------------------------- | -------------------------------------------------------------------------------- |
-| `AGENTS.md`                           | How an agent works here (this file)                                              |
-| `docs/vision/vision.md`               | Where the project is heading, and the questions to ask of a new idea             |
-| `docs/dev/roadmap.md`                 | **Next**, the phases with each step's tag, what is not on the roadmap            |
-| `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area            |
-| `docs/dev/open-questions.md`          | What is not decided, grouped by the phase (or part) that needs the answer        |
-| `docs/dev/glossary/README.md`         | The project's terms by part; read the part you need before writing about the app |
-| `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                         |
-| `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**            |
-| `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when  |
-| `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains; gitignored   |
+| Doc                                   | For                                                                                                          |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `AGENTS.md`                           | How an agent works here (this file)                                                                          |
+| `docs/vision/vision.md`               | Where the project is heading, and the questions to ask of a new idea                                         |
+| `docs/dev/roadmap.md`                 | **Next**, the phases with each step's tag, what is not on the roadmap                                        |
+| `docs/dev/design-decisions/README.md` | The decision template, the principles, every decision's title by area                                        |
+| `docs/dev/open-questions.md`          | What is not decided, grouped by the phase (or part) that needs the answer                                    |
+| `docs/dev/glossary/README.md`         | The project's terms by part; read the part you need before writing about the app                             |
+| `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                                                     |
+| `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**                                        |
+| `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when                              |
+| `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains, and what they were told once; gitignored |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
@@ -83,35 +83,35 @@ Scaled to the task:
 
 ## Where things go
 
-| When                                             | Update                                                                                       |
-| ------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| A decision is made                               | its area's file in `design-decisions/`, present tense, **Built by** until built; index title |
-| A question is answered                           | remove it from `open-questions.md`; the answer goes to its area's `design-decisions/` file   |
-| A question comes up                              | `open-questions.md`, under the phase (or part) that needs it                                 |
-| A concrete case is agreed                        | the **Cases** line of the decision it mainly checks                                          |
-| A case becomes a test                            | remove it from its decision's **Cases**                                                      |
-| Code for a roadmap step is written, tested, seen | a tag added to the step in the roadmap                                                       |
-| A roadmap step is seen everywhere it must work   | remove it from the roadmap; trim each **Built by** it built                                  |
-| A word is coined                                 | its part in `docs/dev/glossary/`, and its name in the index                                  |
-| A file is added, moved or renamed                | the code map, in the same change                                                             |
-| A look to try before deciding it                 | a page in `docs/dev/sketches/`; what it settles goes to its decision                         |
-| An idea that is not a problem now                | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                |
-| How an occasional job is done                    | its file in `docs/dev/procedures/`                                                           |
-| An investigation closes, and would cost to redo  | `docs/dev/archive/`; otherwise delete it                                                     |
-| What was done, and what was run                  | the commit message                                                                           |
+| When                                             | Update                                                                                           |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| A decision is made                               | its area's file in `design-decisions/`, present tense, **Built by** until built; index title     |
+| A question is answered                           | remove it from `open-questions.md`; the answer goes to its area's `design-decisions/` file       |
+| A question comes up                              | `open-questions.md`, under the phase (or part) that needs it                                     |
+| A concrete case is agreed, and its test waits    | the **Cases** line of the decision it mainly checks; written now, it goes straight into the test |
+| A case becomes a test                            | remove it from its decision's **Cases**                                                          |
+| Code for a roadmap step is written, tested, seen | a tag added to the step in the roadmap                                                           |
+| A roadmap step is seen everywhere it must work   | remove it from the roadmap; trim each **Built by** it built                                      |
+| A word is coined                                 | its part in `docs/dev/glossary/`, and its name in the index                                      |
+| A file is added, moved or renamed                | the code map, in the same change                                                                 |
+| A look to try before deciding it                 | a page in `docs/dev/sketches/`; what it settles goes to its decision                             |
+| An idea that is not a problem now                | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                    |
+| How an occasional job is done                    | its file in `docs/dev/procedures/`                                                               |
+| An investigation closes, and would cost to redo  | `docs/dev/archive/`; otherwise delete it                                                         |
+| What was done, and what was run                  | the commit message                                                                               |
 
 Docs say what is true now. A doc that tells its own story ("we used to…", "as of Tuesday") is rewritten to the present.
 Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## Commits
 
-- **Docs are the agent's to commit; code waits for the owner,** except in vibe mode (below). Docs not about code under
-  review are committed when done, naming the files (`git commit -- <files>`), into the session's docs commit. Docs about
-  code under review are staged and go in one commit with the code when the owner says commit.
+- **Docs are the agent's to commit; code waits for the owner,** except in vibe and pop-in mode (below). Docs not about
+  code under review are committed when done, naming the files (`git commit -- <files>`), into the session's docs commit.
+  Docs about code under review are staged and go in one commit with the code when the owner says commit.
 - **Code** is anything that does something: source, config, build files. A comment or docstring the owner asked for
   counts as docs.
-- **In vibe mode, code is committed per small batch** once `tidy` and `test` pass, docs about it in the same commit; the
-  message carries what was built, why, and what was run.
+- **In vibe and pop-in mode, code is committed per small batch** once `tidy` and `test` pass, docs about it in the same
+  commit; the message carries what was built, why, and what was run.
 - **One commit per batch.** Later changes in the same batch are amended into its commit. Amending anything else, such as
   an earlier batch's commit, waits for the owner's go-ahead. A pushed commit is never amended, except a session's docs
   commit (below). Check `git status -sb` before every amend.
@@ -125,10 +125,11 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## How to work with the owner
 
-- **Four modes, switched by name.** Design decides what to build; learning builds it side by side so the owner
-  understands it; vibe has the agent build what is settled while the owner reviews; debug finds why something is wrong
-  before anything changes. The owner decides; the mode lasts until the owner names another ("learning mode for Phase 3",
-  "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in every mode.
+- **Five modes, switched by name.** Design decides what to build; learning builds it side by side so the owner
+  understands it; vibe has the agent build what is settled while the owner reviews; pop-in is vibe with features the
+  owner writes; debug finds why something is wrong before anything changes. The owner decides; the mode lasts until the
+  owner names another ("learning mode for Phase 3", "back to design mode"), and when it is unclear which applies, ask.
+  The docs are the agent's to write in every mode.
   - **Design mode:** questions, decisions, the vision, building and tuning the prototype; no code. A rethink of the
     design runs in it, and so does the design pass for a screen the prototype does not show. Spitball before verdicts,
     and before lists: one topic at a time as a conversation; say what you are thinking and ask one open question. A
@@ -153,6 +154,18 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     `design-tokens.css` or asks the agent for anything bigger. Vibe mode ends when the phase or step it was started for
     is built; the review that follows is learning mode, tuning included ("While tuning, just change the code"), until
     the owner names another mode.
+  - **Pop-in mode:** vibe mode with features held back for the owner to write, started by the owner by name for a phase.
+    The agent mentions it once, as the first vibe phase the owner works in is about to start: that it exists, how it
+    works in short, and that they can start it before any vibe phase; it notes the mention under **Told once** in
+    `levels.md` and never brings it up again. At the end of the phase's design pass, when the owner asks, the agent
+    lists the features the phase builds, and the owner picks as many as they want. The agent then builds, as in vibe
+    mode, everything that does not depend on a picked feature, and stops where something does. For each picked feature
+    it writes the skeleton: the files, the function and method signatures, each with a short `TODO` comment of its steps
+    (pseudocode where it is complex), what it reads and who calls it; and it lists the files and their method names for
+    the owner. The agent writes the feature's tests first, as its spec, unless the owner says when starting the mode
+    that they write them; then the tests get the same skeletons and go on the list. The agent never asks about the
+    tests. When the owner says a feature is done, the agent reviews it as in learning mode, commits it as its own commit
+    once `tidy` and `test` pass, and builds what waited on it. Everything else, the end included, is as in vibe mode.
   - **Debug mode:** for a bug the owner has seen. The agent hunts it: reproduces it before any code changes (a fault in
     a rule as a test seen to fail, a fault seen on screen by eye), finds the cause from evidence rather than guesses,
     then reports the cause, its evidence and the planned fix, and waits for the owner's go before changing code, every
@@ -174,10 +187,10 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   themselves step it up. A step takes a clear pattern over several exchanges, never one moment; it moves one level at a
   time; and after a shift the area holds for at least the rest of the session, so it does not flicker, as a thermostat
   that turns on at one mark turns off only at a lower one. Every shift is offered, not made: at the end of a reply in
-  conversation, never during a vibe build, where there is nothing to read it from, a question to tick, about the
-  explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and free text (the question tool, where
-  the agent has one). Only a Yes shifts the level, and the owner's word overrides it at any time. The levels and their
-  dates live in `docs/dev/levels.md`, gitignored, since they belong to a person, not the project.
+  conversation, never during a vibe or pop-in build, where there is nothing to read it from, a question to tick, about
+  the explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and free text (the question tool,
+  where the agent has one). Only a Yes shifts the level, and the owner's word overrides it at any time. The levels and
+  their dates live in `docs/dev/levels.md`, gitignored, since they belong to a person, not the project.
 - **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
 - **An idea that comes back opens with a verdict:** bad, okay or good, as it stands, before anything else, so the owner

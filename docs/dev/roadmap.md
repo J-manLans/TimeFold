@@ -35,13 +35,13 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** deleting and writing a forgotten entry; exact minutes on the line; the line's zoom
 (`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the prototype
-(its "Visa alla" popup only notes where it goes).
+as its own popup, its line not yet tuned.
 
 1. `[written]` `[tests]` `[seen: linux]` Patch: the motion switch ("Motion can be switched off in the app"): every
    animation, delay, count and timed step follows it, and the onboarding's note when the system asks for reduced motion.
    Seen on the owner's Linux machine and on a school computer with reduced motion on.
-2. Editing an entry on its line, opened from the recent entries and the "Visa alla" popup: handles, the zoom, gaps and
-   shortening, the profile, the confirm; the rows' hover with it.
+2. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
+   peek at the list behind: handles, the zoom, gaps and shortening, the profile, the confirm; the rows' hover with it.
 3. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
    chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
 
