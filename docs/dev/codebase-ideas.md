@@ -23,14 +23,6 @@ the app starting at login into the tray only, through Tauri's autostart plugin (
 in `~/.config/autostart/` on Linux). On GNOME, tray icons need an extension. Mainly a way for the owner to learn the
 process; the app gains little ("A plain window app", in `design-decisions/`).
 
-## Tab content growing out of its tab
-
-**Returns when:** the menu is built.
-
-Switching tabs in the menu ("The menu has tabs, with every value locked behind "Ändra"", in `design-decisions/`) starts
-as a fade. Something more playful to try: the new tab's content grows out of the tab that was clicked, as the menu grows
-out of its button. To try in the menu's coding session, against the fade.
-
 ## Winding the wheel back by dragging
 
 **Returns when:** the peek on the ceiling wheel proves unclear in use ("The ceiling wheel", in `design-decisions/`).
@@ -90,13 +82,21 @@ prune line ("no copy today, make one?"), a question whose only answer is yes.
 
 ## The app for the whole school
 
-**Returns when:** the school, or colleagues, want to use the app.
+**Returns when:** the principal agrees to the owner working as the school's developer, with hours of their own; until
+then the app stays the owner's alone.
 
 The app is built for the owner alone. A release for the school is a list of jobs, none needed while it stays the
 owner's:
 
-1. **What is whose.** One janitor balance, the owner's pay categories and report: what each teacher sets for themselves,
-   and whether that changes the vision. Decided in design mode before anything below.
+1. **What is whose.** One janitor balance, the owner's pay categories and report: what each person sets for themselves,
+   and whether that changes the vision. Decided in design mode before anything below. The owner's picture: the first
+   start offers a setup, Vaktmästare or Ledning to begin with, later perhaps Lärare, or students who want to track their
+   study time and scroll less. A setup decides which settings the record starts with, and what has no setting is not
+   shown: no flex bar or flex calendar with no expected hours, no pay estimate with no pay. Ledning is for the vice
+   principal, who wants to see how much she works at home: one profile and a target of hours, with the ceiling wheel
+   working as it does, the target per working day over the month's weekdays, hours over it carried into the next month,
+   and raised for a busy month from a date. Open: what sets the wheel's amount with no full time, and what each later
+   setup holds. Phase 4 is where the code stops assuming one janitor profile.
 2. **Installing.** Ready: each release has an `.msi`, the form an IT department deploys, installing per machine, and the
    record is each Windows user's own ("The app reaches each machine as an installer from a GitHub release", in
    `design-decisions/`). The owner's own work machine then moves from the `.exe` to IT's `.msi`: the record exported
@@ -118,3 +118,7 @@ owner's:
    building the app are counted as development hours, and upkeep after the rollout is a standing deal paid as
    development hours, recorded on the development group's profile like any other work. Agreed with the school before the
    rollout, with what upkeep covers (faults, new Windows versions, small requests) and what is new work.
+7. **Phones.** The others want it on Android or iPhone. Tauri builds the same app for both: Android on the owner's Linux
+   machine, handed out as a local install such as through Wilma, after asking IT; iOS needs a Mac to build on, and
+   reaches iPhones only through Apple's own channels. How the record moves with no second machine to carry a file to is
+   open. The agent's lean: Android first.
