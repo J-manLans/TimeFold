@@ -95,14 +95,19 @@ title.
 - A pay estimate per profile
 - Settings change from a date
 
-### [Time](time.md)
+### Time (`time/`)
+
+**[Counting](time/counting.md)**
 
 - Expected hours: 6 a day, Monday to Friday
 - Time counts on the day it was worked
 - Time is counted to the second and shown to the minute
 - A day owes its expected hours only when work started on it
-- A flex day can be marked ahead, and the screen counts it at once
 - The app's month is the calendar month
+
+**[Flex days](time/flex-days.md)**
+
+- A flex day can be marked ahead, and the screen counts it at once
 
 ### [Corrections](corrections.md)
 

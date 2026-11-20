@@ -240,6 +240,8 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
 - **A look's values come from its decision and the prototype,** never from a draft in the chat: check the decision's
   numbers and **Cases** before writing a colour, size or time into code.
 - **A claim goes into a commit message only after it was run.** Run the check first, then write what it showed.
+- **The branch may have moved since the last look.** Other sessions push to it too: fetch and compare with GitHub before
+  the first edit after a pause, judged by the clock, and before every commit and push.
 
 ## Traps
 
