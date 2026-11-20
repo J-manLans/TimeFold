@@ -8,34 +8,51 @@ How the record is put right afterwards, and how an entry remembers it. Each deci
 **Built by:** Corrections.
 
 **Decision:** an entry is chosen from the list under the flex bar and the ceiling wheel (earlier days from the popup
-"Visa alla" opens) and opens as a line centred on the entry, with a handle at its start and its end and a little time
-either side. The view zooms out as a handle is dragged, so the whole entry, as it is being changed, always fits with
-some padding at both sides. The zoom grows the view only on the side being dragged: the other end stays where it is on
-screen, and the line does not re-centre; the only hard stops are another entry, of any profile, shown as blocked time
-when in view, and now. A neighbour of the same profile is docked to and can be joined ("Two entries join by docking").
-Moving one handle outward adds time at that end, and inward takes it away. Moving both outward adds at both ends; moving
-both the same way moves the entry, its length unchanged. Moving both inward does one of two things, and a click on the
-line switches between them: by default it cuts a gap, removing the middle and splitting the entry in two, the gap being
-a break; or it shortens the entry, removing both ends. Colour shows the change: green for time added, red for time taken
-away; a gap shows a red middle, a shortening red ends, and green never appears there. No handle can be dragged into
-another entry or past now. Midnight is no stop: the line edits the stored stretch, so an entry across midnight opens
-whole, whichever day it was chosen from, and either handle crosses midnight freely; the counting still splits it there
-("Time counts on the day it was worked"). A running entry's end is now and does not move. The line also shows the
-entry's profile, which can be changed there to move the whole entry, times unchanged, to another profile ("Every edit
-carries a reason"); an entry across midnight changes profile as one, both days' parts together. The colours are a
-preview: nothing changes until the owner confirms, and a cancel leaves the entry as it was.
+"Visa alla" opens) and opens in an edit popup of its own, centred, 480 px wide, a little narrower than the list's: from
+"Senaste" alone, over the dimmed screen; from "Visa alla" on top of the list, which dims a little further (25% black)
+and keeps its place and the chosen row outlined, so closing the edit comes back to it. Resting the pointer on the list
+behind, outside the edit, is a peek: after a quarter second (at once in Stilla) the edit fades to 20% and the extra
+dimming lifts, so the list reads through; moving back onto the edit brings it back. A dragged handle keeps the pointer
+on the line, so a drag never peeks. A click outside the edit cancels it, as "Avbryt" and Esc do and as any popup closes,
+nothing saved: from the list it comes back to the list, so while peeking one click returns to the list and the next
+opens the row wanted. Esc cancels the edit before the next one closes the list. In the popup the entry shows as a line
+centred on the entry, with a handle at its start and its end and a little time either side. The view zooms out as a
+handle is dragged, so the whole entry, as it is being changed, always fits with some padding at both sides. The zoom
+grows the view only on the side being dragged: the other end stays where it is on screen, and the line does not
+re-centre; the only hard stops are another entry, of any profile, shown as blocked time when in view, and now. A
+neighbour of the same profile is docked to and can be joined ("Two entries join by docking"). Moving one handle outward
+adds time at that end, and inward takes it away. Moving both outward adds at both ends; moving both the same way moves
+the entry, its length unchanged. Moving both inward does one of two things, and a click on the line switches between
+them: by default it cuts a gap, removing the middle and splitting the entry in two, the gap being a break; or it
+shortens the entry, removing both ends. Colour shows the change: green for time added, red for time taken away; a gap
+shows a red middle, a shortening red ends, and green never appears there. No handle can be dragged into another entry or
+past now. Midnight is no stop: the line edits the stored stretch, so an entry across midnight opens whole, whichever day
+it was chosen from, and either handle crosses midnight freely; the counting still splits it there ("Time counts on the
+day it was worked"). A running entry's end is now and does not move. The line also shows the entry's profile, which can
+be changed there to move the whole entry, times unchanged, to another profile ("Every edit carries a reason"); an entry
+across midnight changes profile as one, both days' parts together. The colours are a preview: nothing changes until the
+owner confirms, and a cancel leaves the entry as it was.
 
 **Why:** the owner adds breaks during the day; one found after stop, a late start, an early end or the wrong profile are
 all fixed in the same place, seeing the whole entry and the time around it. A handle that cannot reach a clash needs no
-error message. Centring on the entry keeps the view small when the nearest neighbour is days away. With no wall at
-midnight, an entry stopped the morning after is shortened back to the evening before in one drag, the way "A running
-entry from an earlier day asks" sends the owner to correct it.
+error message. Centring on the entry keeps the view small when the nearest neighbour is days away. One popup for both
+ways in keeps the edit the same everywhere: a fix from "Senaste" needs no detour through the list, and from the list the
+popup gives the line room of its own while the list keeps the owner's place for the next fix. The peek shows the list
+without leaving the edit, as resting on the ceiling wheel's band shows its hidden lap. With no wall at midnight, an
+entry stopped the morning after is shortened back to the evening before in one drag, the way "A running entry from an
+earlier day asks" sends the owner to correct it.
 
 **Rejected:** a separate "add break" for stopped entries: see "Time away is a gap or an added break". Editing start and
 end with the clock alone: it shows one time, not the entry and its neighbours. A break typed as a length on a stopped
 entry: a from–to on the line places it where it happened. A line showing the whole day: most of it is empty, and the
-entry is small in it. Midnight as a wall, each day's part edited from its own day: an entry stopped the morning after
-could not be pulled back across midnight from either day, and the counting splits at midnight without the editor's help.
+entry is small in it. The edit inside the "Visa alla" popup, above the list: it had to be reached through the list from
+"Senaste" too, and shared the list's room. The edit placed beside the chosen row instead of centred: it would flip above
+or below by where the row sits, the window's height and the scroll, many cases for little gain. A click on the list
+behind switching the edit to that entry, even with nothing changed: closing and clicking the row is two short clicks,
+and keeps the app's language clear. A click outside doing nothing, to keep a stray click from losing a drag: the edit
+would be the one popup a click outside does not close, and an unsaved edit is quick to redo. Midnight as a wall, each
+day's part edited from its own day: an entry stopped the morning after could not be pulled back across midnight from
+either day, and the counting splits at midnight without the editor's help.
 
 **Revisit if:** dragging proves too imprecise; see "Exact minutes on the line", in `open-questions.md`.
 

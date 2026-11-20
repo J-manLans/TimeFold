@@ -10,7 +10,8 @@ unmarked as flex days; it shuts again when the menu closes. A weekend and a day 
 **Pay estimate.** A rough figure of the month's pay: salaries plus hours times rates, for the owner only; never in the
 report.
 
-**Peek.** Resting the pointer on the ceiling wheel's band, which winds the over lap back so the first lap shows whole.
+**Peek.** Resting the pointer on something to see what it hides: on the ceiling wheel's band, which winds the over lap
+back so the first lap shows whole; on the list behind the edit popup, which fades the edit so the list reads through.
 
 **Pointer light.** The soft light that follows the pointer over the controls side, lying only on the buttons and discs
 that can be used ("The look: a fresh display face, mono text and soft buttons").

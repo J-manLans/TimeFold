@@ -29,7 +29,8 @@ prototype:
   top. Small controls and fields have 6 px corners, panels and popups 12 px. Around them, the light theme's controls
   side is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; fields are white
   and the colour picker `#e6ecf4`. The profile popup takes the button colour, with the chosen or hovered profile a
-  lighter step (`#5f789e` in the light theme), as in the dark theme.
+  lighter step (`#5f789e` in the light theme), as in the dark theme. No popup has a shadow, in either theme: the dimmed
+  layer behind each lifts it, and every popup is styled alike.
 - **Profile circle:** a raised disc in the button's own colour, lit by a soft round glow toward its top, its letter in
   the colour of where the profile stands ("Each profile carries its colours"; if a colour reads poorly on the button,
   the owner changes it with the picker), trimmed to its capital so it sits dead centre, sitting in a soft dent 6 px wide
@@ -71,7 +72,7 @@ little of both. A fine grain over the panels: tried, it added nothing. A near-wh
 blue one sits better with the other buttons. A top-down gradient on the disc in the light theme, beside the glow in the
 dark: the glow looks better, and one shape keeps the theme a matter of colours. Loading the fonts from Google Fonts: the
 app works offline. A changing text fading out, swapping and fading back in: the owner prefers the snappier change at
-once.
+once. A shadow under the popups: muddy in the dark theme, and popups share one look, so none has one.
 
 **Revisit if:** the mono is hard to read at small sizes, or the pointer light repaints too slowly there.
 

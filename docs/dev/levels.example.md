@@ -7,3 +7,7 @@ area. No decisions, progress or history here: a shift replaces its line.
 
 | Area | Level | Since | Owner's note |
 | ---- | ----- | ----- | ------------ |
+
+## Told once
+
+What the agent mentions to the owner only once, with the date, so a later session does not repeat it.

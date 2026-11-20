@@ -102,7 +102,11 @@
   /* The entry rows */
   --entry-month-gap: 12px;  /* in "Visa alla", above the line naming a new month */
   --entry-later: 0.72em;
-  /* The entry line in "Alla poster", where a picked entry is edited (EDIT_SNAP and EDIT_PAD in the script) */
+  /* The edit popup: an entry edited on its line, opened alone from "Senaste" or on top of "Alla poster" (EDIT_SNAP,
+     EDIT_PAD and PEEK_DELAY in the script) */
+  --ed-stack-dim: rgba(0, 0, 0, 0.25);  /* over "Alla poster": the extra dimming of the list behind the edit */
+  --ed-peek: 0.2;       /* the pointer resting on the list behind: how much of the edit popup still shows (0 gone, 1 all) */
+  --ed-width: 480px;    /* the edit popup's width, a little narrower than the list's 560px */
   --el-h: 34px;         /* the line's height, the handles' room */
   --el-bar: 14px;       /* the entry's bar, and the blocked time of other entries */
   --el-handle-w: 6px;   /* a handle */
@@ -138,14 +142,11 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-.page h1 { font-size: 1.2rem; margin: 0; font-weight: 600; }
-.page > p { margin: 0; color: var(--page-muted); max-width: 70ch; }
 
 /* Sketch toolbar */
 .toolbar { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 12px 14px; border: 1px dashed var(--page-line); border-radius: 8px; font-size: 13px; color: var(--page-muted); }
 .toolbar label { display: flex; align-items: center; gap: 8px; }
 .toolbar input[type="range"] { width: 140px; }
-.toolbar .huering { display: inline-flex; align-items: center; gap: 6px; }
 .toolbar .val { font-family: var(--mono); color: var(--page-fg); min-width: 6ch; }
 .toolbar button { font: inherit; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--page-line); background: transparent; color: var(--page-fg); cursor: pointer; }
 
@@ -243,7 +244,6 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .app.narrow .prune .spacer { display: none; }
 .app.narrow .prune button { grid-column: 2; }
 .app.narrow .divider { top: auto; bottom: 0; left: 0; right: 0; width: auto; height: 1px; }
-.app.narrow[data-divider="gradient"] .divider { width: auto; height: 56px; background: linear-gradient(to top, var(--c-bg), transparent); }
 
 /* Control side */
 .controls { position: relative; background: var(--c-bg); color: var(--c-fg); display: grid; grid-template-rows: auto 1fr auto; min-height: 420px; overflow: hidden; }
@@ -441,9 +441,6 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu .line > span:first-child { min-width: 86px; }
 .menu input[type="color"] { width: 40px; height: 30px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); padding: 2px; background: var(--c-btn); cursor: pointer; }
 .menu .small { font: inherit; font-size: 12px; background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
-.seg { display: inline-flex; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); overflow: hidden; }
-.seg button { font: inherit; font-size: 13px; padding: 5px 12px; border: 0; background: var(--c-btn); color: var(--c-fg); cursor: pointer; }
-.seg button[aria-pressed="true"] { background: var(--c-fg); color: var(--c-bg); }
 .menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); width: 150px; }
 .plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .plist li { display: flex; align-items: center; gap: 10px; }
@@ -519,7 +516,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* The app's own colour picker */
 .swatch-pair { display: inline-flex; gap: 4px; }
 .swatch-pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
-.cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+.cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); }
 .cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: var(--cp-strip-h); margin: 0; border-radius: calc(var(--cp-strip-h) / 2); background: var(--cp-strip); }
 .cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4); }
 .cpick .hue::-moz-range-thumb { width: var(--cp-thumb); height: var(--cp-thumb); box-sizing: border-box; border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); }
@@ -530,8 +527,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
-.popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
-.late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+.popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; }
+.late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; }
 .late h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
 .late p { margin: 0; max-width: var(--late-width); text-wrap: balance; }
 .late .late-line { font-size: var(--late-line); }
@@ -543,8 +540,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* Divider */
 .figures { position: relative; }
+/* The panel's colour without its ease: on a theme switch the colours worked out against the panel (the wheel's unused
+   part, the faded colours) take the new theme at once, as everything else does, not after the panel's ease. */
+.panel-probe { background: var(--f-bg); transition: none; }
 .divider { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--f-line); z-index: 1; pointer-events: none; }
-.app[data-divider="gradient"] .divider { width: 56px; background: linear-gradient(to right, var(--c-bg), transparent); }
 
 /* Figures side: dark in every theme */
 .figures { background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; padding: 22px 26px 18px 30px; display: grid; gap: 18px; align-content: start; overflow-y: auto; }
@@ -558,9 +557,17 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .wheelbox svg { width: 200px; height: 200px; display: block; }
 .pay { font-size: 13px; color: var(--f-muted); font-variant-numeric: tabular-nums; }
 .allpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 8; }
-.allpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; border: 1px solid var(--f-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: 10px; }
+.allpop .card, .edpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; border: 1px solid var(--f-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: 10px; }
 .allpop .card header { display: flex; justify-content: space-between; align-items: center; }
-.edit { display: grid; gap: 10px; padding: 12px 14px; border: 1px solid var(--f-line); border-radius: var(--r-small); background: var(--f-row); }
+/* The edit popup: over the screen from "Senaste", over the list from "Alla poster". With the pointer resting on the list
+   behind, the popup fades to --ed-peek and the extra dimming lifts, so the list reads through. */
+.edpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 9; transition: background-color var(--speed-ui) ease; }
+.edpop.stacked { background: var(--ed-stack-dim); }
+.edpop.stacked.peek { background: transparent; }
+.edpop .card { width: min(var(--ed-width), 88%); transition: opacity var(--speed-ui) ease; }
+.edpop.peek .card { opacity: var(--ed-peek); }
+.app.still .edpop, .app.still .edpop .card { transition: none; }
+.edit { display: grid; gap: 10px; }
 .ed-head { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
 .ed-head .spacer { flex: 1; }
 .ed-head select { font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 2px 6px; }
@@ -652,8 +659,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 }
 .app.still .controls .plastic { background-image: none !important; }
 
-/* TRIAL, easy to revert: with .glow-discs on the app (the "Light on discs" box in the sketch bar), the discs of active
-   buttons catch the pointer light too, on top of their own sheen. Remove this block to drop it. */
+/* With .glow-discs on the app, the discs of active buttons catch the pointer light too, on top of their own sheen. */
 .app.glow-discs .profile-btn:not([aria-disabled="true"]) .dot,
 .app.glow-discs .undo-btn:not(:disabled) .dot,
 .app.glow-discs .theme-btn .dot {
@@ -663,12 +669,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   background-attachment: fixed, scroll;
 }
 /* In Stilla the discs lose the light with the faces. */
-.app.still.glow-discs .profile-btn .dot, .app.still.glow-discs .undo-btn .dot, .app.still.glow-discs .theme-btn .dot { background-image: var(--dot-bg); }
+.app.still.glow-discs .profile-btn .dot, .app.still.glow-discs .undo-btn .dot, .app.still.glow-discs .theme-btn .dot { background-image: var(--dot-bg); background-attachment: scroll; }
 .app.still.glow-discs .undo-btn:not(:disabled)::after { content: none; }
 /* Only the profile disc catches the light more weakly, which keeps the profile button a little apart. */
 .app.glow-discs .profile-btn .dot { --disc-glow: var(--glow-disc); }
 /* The undo disc's afterglow would hide the light, so while the afterglow is there the light is laid on top of it too, under
-   the arrow. Part of the same trial. */
+   the arrow. */
 .app.glow-discs .undo-btn:not(:disabled)::after {
   content: ""; position: absolute; inset: 5px; border-radius: 50%; z-index: 2; pointer-events: none;
   background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
@@ -688,34 +694,20 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 </style>
 
 <div class="page">
-  <h1>Main Screen Sketch</h1>
-  <p>Built from the owner's drawing and the decisions so far. The app window below works: start and stop, switch profile, open the menu, change theme and colours. The dashed bar above it is for the sketch only.</p>
-
   <div class="toolbar" aria-label="Sketch controls">
-    <label for="simBal">Balance <input type="range" id="simBal" min="-6000" max="6000" step="15" value="270"><span class="val" id="simBalVal"></span></label>
+    <label for="simBal">Balance <input type="range" id="simBal" min="-1000" max="1000" step="1" value="356" list="simBalZero"><datalist id="simBalZero"><option value="0"></option></datalist><span class="val" id="simBalVal"></span></label>
     <label for="simToday">Worked today <input type="range" id="simToday" min="0" max="900" step="10" value="232"><span class="val" id="simTodayVal"></span></label>
     <label for="simUsed">Ceiling hours used <input type="range" id="simUsed" min="0" max="3600" step="30" value="2280"><span class="val" id="simUsedVal"></span></label>
-    <label>Divider
-      <span class="seg" style="--c-btn: transparent; --c-btn-line: var(--page-line); --c-fg: var(--page-fg); --c-bg: var(--page-bg);">
-        <button type="button" id="divLine" aria-pressed="true">Line</button><button type="button" id="divGrad" aria-pressed="false">Gradient</button>
-      </span>
-    </label>
-    <label for="simPrune"><input type="checkbox" id="simPrune" checked> Prune line</label>
-    <label for="simDiscGlow"><input type="checkbox" id="simDiscGlow" checked> Light on discs</label>
     <label for="simNarrow"><input type="checkbox" id="simNarrow"> Narrow window</label>
     <button type="button" id="simOnboard">Replay onboarding</button>
     <button type="button" id="simBroken">Broken record</button>
     <button type="button" id="simBrokenBare">Broken, no copy</button>
     <button type="button" id="simNewer">Newer record</button>
     <button type="button" id="simLate">Running since yesterday</button>
-    <button type="button" id="simSystemTheme">Theme as installed</button>
     <label for="simReduce"><input type="checkbox" id="simReduce"> System: reduced motion</label>
-    <button type="button" id="simSystemMotion">Motion as installed</button>
-    <span>Each stop records 2 h 15 min.</span>
-    <span class="huering">Profile base hues <svg id="hueRing" viewBox="0 0 60 60" width="44" height="44" aria-label="Profile hues"></svg></span>
   </div>
 
-  <div class="app" id="app" data-app-theme="system" data-divider="line">
+  <div class="app glow-discs" id="app" data-app-theme="system">
     <div class="controls">
       <div class="top"></div>
       <div class="center">
@@ -829,6 +821,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
     <div class="tip" id="tip" role="tooltip"></div>
     <div class="figures" id="figures">
+      <span class="panel-probe" id="panelProbe" hidden></span>
       <div class="divider"></div>
       <span class="flabel copy-label" id="copyLabel" hidden></span>
       <div class="balance">
@@ -852,7 +845,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <button class="more" id="allClose" type="button">Stäng</button>
         </header>
         <p class="ed-hint" id="edHint">Klicka på en post för att ändra den på sin linje.</p>
-        <div class="edit" id="edit" hidden>
+        <div class="entries"><ol id="allList"></ol></div>
+      </div>
+    </div>
+
+    <div class="edpop" id="edPop" hidden>
+      <div class="card" role="dialog" aria-label="Ändra posten">
+        <div class="edit" id="edit">
           <div class="ed-head"><span id="edDay"></span><span class="spacer"></span><select id="edProf" aria-label="Profil"></select></div>
           <div class="ed-times" id="edTimes"></div>
           <div class="ed-line" id="edLine"></div>
@@ -866,7 +865,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
             <button type="button" id="edCancel">Avbryt</button><button type="button" id="edSave" disabled>Spara</button>
           </div>
         </div>
-        <div class="entries"><ol id="allList"></ol></div>
       </div>
     </div>
   </div>
@@ -878,7 +876,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var RED_HUE = 29, CEILING = 42 * 60;
   // The figures panel's actual background, as the colour rule's "background" (it changes with the theme).
   function panelBg() {
-    var s = getComputedStyle(document.getElementById("figures")).backgroundColor, m;
+    var s = getComputedStyle(document.getElementById("panelProbe")).backgroundColor, m;
     if ((m = s.match(/^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/))) return [+m[1], +m[2], +m[3]];
     if ((m = s.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/))) return [m[1] / 255, m[2] / 255, m[3] / 255];
     return [13 / 255, 16 / 255, 20 / 255];
@@ -1219,7 +1217,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + lengthText(e.brk); }
       li.appendChild(tag);
       var d = document.createElement("span"); d.className = "dur"; d.textContent = hmPlain(dur(e)); li.appendChild(d);
-      // Placeholder: a row opens the entries popup on that entry, where it will be edited on its line.
+      // A row opens the edit popup: alone from "Senaste", on top of the list from "Alla poster".
       li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Öppna posten " + cells[0] + " " + cells[1]);
       li.addEventListener("click", function () { openEntry(e); });
       li.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openEntry(e); } });
@@ -1247,7 +1245,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var p = prof(onScreen);
     $("profileDot").textContent = p.name.charAt(0).toUpperCase();
     $("profileDot").classList.toggle("waiting", onboarding || app.classList.contains("locked") && $("profileDot").classList.contains("waiting"));
-    $("profileDot").style.color = stateColours(onScreen).letter; drawHueRing();
+    $("profileDot").style.color = stateColours(onScreen).letter; 
     app.style.setProperty("--accent", profColour(onScreen));
     app.style.setProperty("--state", stateColours(onScreen).letter);
     if (running) app.style.setProperty("--run", profColour(running.profile));
@@ -1437,10 +1435,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("pruneNo").addEventListener("click", function () { $("prune").style.visibility = "hidden"; });
   $("moreBtn").addEventListener("click", function () { openEntry(null); });
   // Opens the entries popup; with an entry, that row is marked and the entry opens on its line above the list.
+  // Opens "Alla poster" with no entry; with one, the edit popup, on top of the list when a row of the list was clicked.
   function openEntry(e) {
-    $("allPop").hidden = false;
-    markPicked(e);
-    if (e) startEdit(e); else closeEdit();
+    if (!e) { $("allPop").hidden = false; markPicked(null); return; }
+    var fromList = !$("allPop").hidden;
+    markPicked(fromList ? e : null);
+    startEdit(e, fromList);
   }
   function markPicked(e) {
     Array.prototype.forEach.call($("allList").children, function (li) {
@@ -1455,7 +1455,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var EDIT_SNAP = 5, EDIT_PAD = 30, MIN = 60000;
   var REASONS = ["Glömde stämpla in", "Glömde stämpla ut", "Fel profil", "Ärende"];
   var ed = null;
-  function startEdit(e) {
+  function startEdit(e, stacked) {
     var s0 = +e.start, e0 = +e.end, prev = null, next = null;
     entries.forEach(function (x) {
       if (x === e) return;
@@ -1472,10 +1472,30 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     $("edPick").textContent = "Välj orsak"; $("edPick").classList.remove("chosen");
     $("edList").hidden = true; $("edOther").hidden = true; $("edOther").value = "";
     $("edDel").textContent = "Ta bort"; $("edDel").classList.remove("ask");
-    $("edHint").hidden = true; $("edit").hidden = false;
+    var pop = $("edPop"); pop.classList.toggle("stacked", !!stacked); pop.classList.remove("peek"); pop.hidden = false;
     drawEdit();
   }
-  function closeEdit() { ed = null; $("edit").hidden = true; $("edHint").hidden = false; }
+  function closeEdit() { ed = null; clearTimeout(peekT); $("edPop").classList.remove("peek"); $("edPop").hidden = true; }
+
+  // ---- Peeking at the list behind the edit popup ----
+  // The pointer resting on the list, outside the edit, fades the edit after PEEK_DELAY ms; never mid-drag, since a
+  // dragged handle keeps the pointer on the line. A click outside the edit cancels it, as Esc does and as any popup
+  // closes; it counts only when the press began outside too, so a press inside let go outside closes nothing.
+  var PEEK_DELAY = 250, peekT = null;
+  $("edPop").addEventListener("pointermove", function (ev) {
+    var pop = this, behind = ev.target === pop && pop.classList.contains("stacked");
+    if (!behind) { clearTimeout(peekT); peekT = null; pop.classList.remove("peek"); return; }
+    if (pop.classList.contains("peek") || peekT) return;
+    peekT = setTimeout(function () { peekT = null; pop.classList.add("peek"); }, still() ? 0 : PEEK_DELAY);
+  });
+  $("edPop").addEventListener("pointerleave", function () { clearTimeout(peekT); peekT = null; this.classList.remove("peek"); });
+  var pressedBehind = false;
+  $("edPop").addEventListener("pointerdown", function (ev) { pressedBehind = ev.target === this; });
+  $("edPop").addEventListener("click", function (ev) {
+    if (ev.target === this && pressedBehind && ed) { closeEdit(); markPicked(null); }
+    pressedBehind = false;
+  });
+
   function edLo() { return ed.prev ? +ed.prev.end : -Infinity; }
   function edHi() { return ed.next ? +ed.next.start : Date.now(); }
   function snapT(t) { var q = EDIT_SNAP * MIN, off = new Date(t).getTimezoneOffset() * MIN; return Math.round((t - off) / q) * q + off; }
@@ -1795,13 +1815,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // A click anywhere outside the open menu closes it, as Esc does; "Visa alla" and its popup keep it open, so closing
   // the popup comes back to the menu.
   document.addEventListener("pointerdown", function (e) {
-    if (e.target === $("moreBtn") || $("allPop").contains(e.target)) return;
+    if (e.target === $("moreBtn") || $("allPop").contains(e.target) || $("edPop").contains(e.target)) return;
     if ($("menu").classList.contains("open") && !onboarding && !$("menu").contains(e.target)) setMenu(false);
   });
   // Esc closes an open "Ändra" or the "Visa alla" popup first, wherever the focus is, and only the next Esc the menu.
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape" || onboarding) return;
     if (openEdit) { e.preventDefault(); openEdit.escape(); return; }
+    if (!$("edPop").hidden) { closeEdit(); markPicked(null); return; }
     if (!$("allPop").hidden) { $("allPop").hidden = true; return; }
     setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true;
   });
@@ -2184,16 +2205,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (focusKey) { var again = grid.querySelector('[data-key="' + focusKey + '"]'); if (again) again.focus(); }
   }
   function renderMenu() { renderProfiles(); renderSettings(); calMonth = null; calUnlocked = false; renderCal(); }
-  // Sketch only: where the profiles' hues sit on the colour circle.
-  function drawHueRing() {
-    var svg = $("hueRing"); if (!svg) return; clear(svg);
-    svg.appendChild(el("circle", { cx: 30, cy: 30, r: 22, fill: "none", stroke: "currentColor", "stroke-opacity": 0.25, "stroke-width": 1 }));
-    profiles.forEach(function (q) {
-      if (q.archived) return;
-      var hex = q.colour, h = labToLch(rgbToOklab(hexToRgb(hex)))[2] * Math.PI / 180;
-      svg.appendChild(el("circle", { cx: 30 + 22 * Math.sin(h), cy: 30 - 22 * Math.cos(h), r: 5, fill: hex }));
-    });
-  }
   // Theme: "system" follows the computer; the dark tokens live in one block, .app.dark.
   var darkMq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
   function applyTheme() {
@@ -2202,6 +2213,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", applyTheme);
   applyTheme();
+
   // The theme button: only Ljust (sun) and Mörkt (moon), each click to the other. A fresh install follows the system
   // until the first click; the button shows the theme in force either way.
   var THEMES = [["light", "Ljust"], ["dark", "Mörkt"]];
@@ -2224,8 +2236,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   if (darkMq && darkMq.addEventListener) darkMq.addEventListener("change", drawThemeIcon);
   drawThemeIcon();
   // Sketch only: back to a fresh install's theme, following the system.
-  $("simSystemTheme").addEventListener("click", function () { app.dataset.appTheme = "system"; applyTheme(); drawThemeIcon(); });
-  $("simSystemMotion").addEventListener("click", function () { app.dataset.appMotion = "system"; applyMotion(); });
 
   // ---- A running entry from an earlier day: the app opens on a later date and says so ----
   // Asked only when the app opens, never while it runs. Stoppa stops the running entry as the start/stop button does,
@@ -2309,8 +2319,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("simToday").addEventListener("input", function () { todayBase = +this.value; drawPie(); });
 
   // Sketch toolbar
-  function syncSim() { $("simBal").value = balance; $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
-  $("simBal").addEventListener("input", function () { balance = +this.value; shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); restate(); });
+  // Sketch only: the balance slider is curved, fine near 0 and coarse toward the ends. Its handle runs -1000 to 1000;
+  // the balance is the handle's share of the way out, raised to SIM_BAL_CURVE, times SIM_BAL_MAX.
+  var SIM_BAL_MAX = 6000;   // minutes at either end: 100 h
+  var SIM_BAL_CURVE = 3;    // 1 is even; higher gives finer steps around 0 and coarser at the ends
+  function balFromHandle(x) { return Math.sign(x) * Math.round(SIM_BAL_MAX * Math.pow(Math.abs(x) / 1000, SIM_BAL_CURVE)); }
+  function handleFromBal(b) { return Math.sign(b) * Math.round(1000 * Math.pow(Math.min(Math.abs(b), SIM_BAL_MAX) / SIM_BAL_MAX, 1 / SIM_BAL_CURVE)); }
+  function syncSim() { $("simBal").value = handleFromBal(balance); $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
+  $("simBal").addEventListener("input", function () { balance = balFromHandle(+this.value); shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); restate(); });
   $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); drawFigures(); restate(); });
   // Where the profiles stand changed: the letter, the focus rings and the open menu's circles follow.
   function restate() {
@@ -2320,18 +2336,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var c = stateColours(activeProfiles()[i].id), d = b.querySelector(".mini-dot"); d.style.color = c.letter; d.style.borderColor = c.ring;
     });
   }
-  function setDivider(kind) { app.dataset.divider = kind; $("divLine").setAttribute("aria-pressed", String(kind === "line")); $("divGrad").setAttribute("aria-pressed", String(kind === "gradient")); }
-  $("divLine").addEventListener("click", function () { setDivider("line"); });
-  $("divGrad").addEventListener("click", function () { setDivider("gradient"); });
-  app.classList.toggle("glow-discs", $("simDiscGlow").checked);
-  $("simDiscGlow").addEventListener("change", function () { app.classList.toggle("glow-discs", this.checked); });
   // Narrow: the box, or a page too narrow for the two sides
   var narrowPage = window.matchMedia("(max-width: 760px)");
   function setNarrow() { app.classList.toggle("narrow", $("simNarrow").checked || narrowPage.matches); }
   $("simNarrow").addEventListener("change", setNarrow);
   narrowPage.addEventListener("change", setNarrow);
   setNarrow();
-  $("simPrune").addEventListener("change", function () { $("prune").style.visibility = this.checked ? "visible" : "hidden"; });
 
   scale = pickScale(Math.abs(balance));
   applyColours(); syncSim(); drawControls(); drawEntries(false); drawFigures();
