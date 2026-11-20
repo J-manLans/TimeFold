@@ -59,7 +59,6 @@
     background: var(--popup-background);
     color: var(--popup-text);
     text-align: center;
-    box-shadow: var(--popup-shadow);
   }
 
   h3 {
