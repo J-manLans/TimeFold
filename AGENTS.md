@@ -31,6 +31,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/glossary/README.md`         | The project's terms by part; read the part you need before writing about the app                             |
 | `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                                                     |
 | `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**                                        |
+| `docs/dev/friction.md`                | Snags in how we work, noted as they happen, cleared at the docs sweep                                        |
 | `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when                              |
 | `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains, and what they were told once; gitignored |
 
@@ -97,6 +98,7 @@ Scaled to the task:
 | A look to try before deciding it                 | a page in `docs/dev/sketches/`; what it settles goes to its decision                             |
 | An idea that is not a problem now                | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                    |
 | How an occasional job is done                    | its file in `docs/dev/procedures/`                                                               |
+| A rule or doc makes the agent guess or redo work | `friction.md`, as it happens                                                                     |
 | An investigation closes, and would cost to redo  | `docs/dev/archive/`; otherwise delete it                                                         |
 | What was done, and what was run                  | the commit message                                                                               |
 
@@ -214,9 +216,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   question about where things stand), offer it once. Check, in order: the roadmap and open questions against what was
   done, and each **Built by** (one naming a finished phase or part is stale); decisions from the session missing from
   their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas (built
-  ones move to decisions, dropped ones go). Report only what needs the owner, flagging borderline calls (decision or
-  still open, idea or problem) instead of guessing; what changed is in the commit message, and what was checked and
-  found fine is left out. The same goes for any report on docs.
+  ones move to decisions, dropped ones go); the friction, as counts by kind with a fix for each. Report only what needs
+  the owner, flagging borderline calls (decision or still open, idea or problem) instead of guessing; what changed is in
+  the commit message, and what was checked and found fine is left out. The same goes for any report on docs.
 - **Add a rule only when its absence has cost something.**
 
 ## Commands, and what each kind of change runs
