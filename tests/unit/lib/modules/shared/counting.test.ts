@@ -313,12 +313,12 @@ describe("the pay estimate is the month's salaries plus its hours times their ra
     expect(payEstimate(workRecord(entries, JANITOR, [raised]), '2026-02-28')).toBe(60)
   })
 
-  it('gives June 1 726 € after 46 h in May and 1 h in June: the 4 h carried on the wheel were paid in May', () => {
+  it('gives June 2 024 € after 46 h in May and 1 h in June: the 4 h carried on the wheel were paid in May', () => {
     const entries = [work('2026-05-04', 46, DEV.id), work('2026-06-02', 1, DEV.id)]
     const june = workRecord(entries, salaried, [rated])
 
     expect(ceilingMonth(june, '2026-06-10').used).toBe(5 * HOUR)
-    expect(payEstimate(june, '2026-06-10')).toBe(1726)
+    expect(payEstimate(june, '2026-06-10')).toBe(2024)
   })
 })
 
