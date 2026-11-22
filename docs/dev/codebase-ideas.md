@@ -49,12 +49,21 @@ Until then the owner's cases, written first and seen red, carry it.
 ## Property-based testing
 
 **Returns when:** a bug is "sometimes wrong" and a few hand-picked cases do not catch it, or a rule grows too many
-inputs to pick cases for by hand.
+inputs to pick cases for by hand; or Phase 3's edit is built, whose rules met in orders no case had planned for while it
+was tuned on the prototype.
 
 A test states a rule, such as "two undos leave the balance as it was", and the tool tries hundreds of generated inputs,
 shrinking a failure to the smallest one. fast-check for TypeScript, which runs inside Vitest, and proptest for Rust. The
 counting, being pure rules over dates and seconds, would gain most. One of the tools in a bug hunt
 (`procedures/debugging.md`).
+
+The edit on the entry line is the strongest candidate: model-based, fast-check generates random sequences of moves (a
+handle dragged, a dock, a walk, a drag back, a profile switched, a break set, a save or "Avbryt") and checks after each
+that the rules hold: no two entries overlap; none ends after now; the total before, plus what showed green, minus what
+showed red, is the total after; no break is longer than its entry; an undone join or walk, or "Avbryt", leaves the
+record exactly as it was; and nothing is removed on save that did not show red. It asks for the edit's logic in plain
+functions, the record and a move in and the record out, as the code decisions already want; fast-check is a new
+dependency, the owner's to decide.
 
 ## A second line beside the focus rings
 
