@@ -87,3 +87,13 @@ not used.
 one `visibility: hidden` as its fade ends, which forces the redraw; drop a `fixed` background from what is leaving; and
 let anything holding the focus ring leave at once, with no fade. The onboarding's steps (`Onboarding.svelte`) do all
 four.
+
+### A glitch seen only in VS Code's built-in browser
+
+**Seen as:** in the prototype, opened in VS Code's built-in browser, something tears or is left behind on hover-off,
+such as around the always-shown "+" in "Visa alla".
+
+**Cause:** that browser is a Chromium webview inside an editor panel, with paint quirks of its own; the same page in
+Firefox shows nothing wrong. The app runs in neither.
+
+**Fix:** none in the page. Check a prototype glitch in Firefox before hunting it in the code.

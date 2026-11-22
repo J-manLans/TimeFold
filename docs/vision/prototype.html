@@ -104,7 +104,9 @@
   --pie-flash: 1.2s;      /* a slice clicking in lights and fades, as a new entry's row does */
   /* The entry rows */
   --entry-month-gap: 12px;  /* in "Visa alla", above the line naming a new month */
-  --ins-gap: 14px;      /* in "Visa alla", the space between rows, where the "+" for a forgotten entry shows */
+  --ins-gap: 2px;       /* in "Visa alla", the gap's own room between rows, as thin as the rows' spacing */
+  --ins-hit: 10px;      /* its hover strip, overlapping the rows a little so a thin gap is still easy to land on */
+  --ins-open: 12px;     /* how much more a gap opens while hovered, half upward and half downward (0: it stays) */
   --entry-time-w: 13.5ch;  /* the times' column: "21:30–07:00" and the "+1" after it */
   --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
   /* The edit popup: an entry edited on its line, opened alone from "Senaste" or on top of "Alla poster" (EDIT_SNAP,
@@ -684,18 +686,28 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* "Visa alla": every gap between rows the same, --ins-gap tall, and the gap where a forgotten entry is written: a centred
    "+" with a line growing out of it to both sides. The top one's "+" always shows and its line grows at once on hover;
    the others show both after --peek-delay. In Stilla they just appear. */
-.entries li.ins { display: flex; align-items: center; gap: 6px; height: var(--ins-gap); margin: 0; padding: 0 8px; background: none; border-radius: 0; cursor: pointer; }
+.entries li.ins { display: flex; align-items: center; gap: 6px; height: var(--ins-hit); margin: calc((var(--ins-gap) - var(--ins-hit)) / 2) 0; padding: 0 8px; background: none; border-radius: 0; cursor: pointer; }
 .entries li.ins .rule { flex: 1; height: 1px; background: var(--f-muted); transform: scaleX(0); transition: transform var(--speed-ui) ease; }
 .entries li.ins .rule.l { transform-origin: right; }
 .entries li.ins .rule.r { transform-origin: left; }
 .entries li.ins .plus { font-size: 12px; line-height: 1; color: var(--f-muted); opacity: 0; transition: opacity var(--speed-ui) ease; }
 .entries li.ins:hover .rule { transform: scaleX(1); transition-delay: var(--peek-delay); }
 .entries li.ins:hover .plus { opacity: 1; transition-delay: var(--peek-delay); }
-.entries li.ins.top .plus { opacity: 1; }
+/* The always-shown "+" sits in a gap always open, so nothing moves around it; hovered, its lines grow and it lights */
+.entries li.ins.top { height: calc(var(--ins-gap) + var(--ins-open)); margin: 0; }
+.entries li.ins.top .plus { opacity: 1; transition: opacity var(--speed-ui) ease, color var(--speed-ui) ease; }
+.entries li.ins.top:hover .plus { color: var(--f-fg); }
 .entries li.ins.top:hover .rule, .entries li.ins.top:hover .plus { transition-delay: 0s; }
 .entries li.ins.spacer { cursor: default; }
 .entries li.ins.spacer > * { visibility: hidden; }
 .app.still .entries li.ins .rule, .app.still .entries li.ins .plus { transition: none; }
+/* Hovered, a gap opens evenly around the pointer: the rows above shift up by half of --ins-open and the rows below down
+   by half, as a shift of their look only, so the list's height and everything farther off stay put */
+#allList > li { transition: transform var(--speed-ui) ease, background-color var(--speed-ui) ease; }
+/* The always-open top gap takes no part in it, so hovering it touches nothing but its own line and "+" */
+#allList > li:has(~ li.ins:not(.spacer):not(.top):hover) { transform: translateY(calc(var(--ins-open) / -2)); transition-delay: var(--peek-delay); }
+#allList > li.ins:not(.spacer):not(.top):hover ~ li { transform: translateY(calc(var(--ins-open) / 2)); transition-delay: var(--peek-delay); }
+.app.still #allList > li { transition: none; }
 .entries .later { font-size: var(--entry-later); vertical-align: super; line-height: 0; margin-left: 2px; color: var(--f-muted); }
 @keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
 .entries .tags { display: flex; gap: 4px; justify-self: start; }
@@ -1285,23 +1297,34 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function fillList(ol, list, fresh, months) {
     clear(ol); var lastMonth = null;
     if (running) { running.isRunning = true; list = [running].concat(list); }
+    // The always-shown "+" is the first gap that can hold an entry: over the newest finished row, up to now; with
+    // something running, the first gap below it with room (a switch of profile leaves none right under it)
+    var topAt = -1;
+    for (var k = 0; k < list.length && topAt < 0; k++) {
+      if (list[k].isRunning) continue;
+      if (!list[k - 1] || +list[k - 1].start > +list[k].end) topAt = k;
+    }
     list.forEach(function (e, i) {
-      // "Visa alla": a forgotten entry is written in the gap where it belongs, a "+" with a line growing out to both
-      // sides. Over the newest finished row the "+" always shows, its line growing at once on hover; between rows both
-      // show after --peek-delay. With something running, nothing goes above it: the always-shown "+" is the next gap
-      // down. Rows that touch keep the same space between them, with nothing to click.
-      if (months && !(i === 0 && e.isRunning)) {
-        var newer = list[i - 1], gap = { a: +e.end, b: newer ? +newer.start : Date.now() };
-        var top = i === 0 || (i === 1 && list[0].isRunning);
-        var ins = document.createElement("li"); ins.className = "ins" + (top ? " top" : "") + (gap.b > gap.a ? "" : " spacer");
-        ins.innerHTML = '<span class="rule l"></span><span class="plus">+</span><span class="rule r"></span>';
-        if (gap.b > gap.a) ins.addEventListener("click", function () { markPicked(null); startNew(gap, true); });
-        ol.appendChild(ins);
-      }
       var ym = e.start.getFullYear() * 12 + e.start.getMonth();
       if (months && ym !== lastMonth) {
         var ml = document.createElement("li"); ml.className = "month"; ml.textContent = MONTH_FULL[e.start.getMonth()] + " " + e.start.getFullYear();
         ol.appendChild(ml); lastMonth = ym;
+      }
+      // "Visa alla": a forgotten entry is written in the gap where it belongs, a "+" with a line growing out to both
+      // sides. Over the newest finished row the "+" always shows, its line growing at once on hover; between rows both
+      // show after --peek-delay. With something running, nothing goes above it: the always-shown "+" is the next gap
+      // down. Rows that touch keep the same space between them, with nothing to click. A gap sits just above its row,
+      // under the month's line when the row opens a month.
+      if (months && !(i === 0 && e.isRunning)) {
+        var newer = list[i - 1], gap = { a: +e.end, b: newer ? +newer.start : Date.now() };
+        var top = i === topAt, open = top || gap.b > gap.a;
+        var ins = document.createElement("li"); ins.className = "ins" + (top ? " top" : "") + (open ? "" : " spacer");
+        ins.innerHTML = '<span class="rule l"></span><span class="plus">+</span><span class="rule r"></span>';
+        // The top gap is never hidden: up to now, it is measured when clicked, so it shows even just after a stop
+        if (open) ins.addEventListener("click", function () {
+          markPicked(null); startNew(newer ? gap : { a: +e.end, b: Math.max(Date.now(), +e.end + MIN) }, true);
+        });
+        ol.appendChild(ins);
       }
       var li = document.createElement("li"); if (fresh && i === 0) li.className = "new";
       var p = prof(e.profile);
