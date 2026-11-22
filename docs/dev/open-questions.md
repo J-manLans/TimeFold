@@ -6,15 +6,6 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 
 ## Phase 3: Corrections
 
-### A worked flex day: a plain square, or a hint of the plan (2026-11-20)
-
-A flex day that is worked loses its circle and shows as a worked day ("A flex day can be marked ahead, and the screen
-counts it at once"). Open: whether its square is plain grey like any worked day, or keeps a hint of the base colour,
-such as its outline, so a day off planned there can still be seen. The agent has no lean yet: plain grey keeps the rule
-simple, a hint keeps the history.
-
-**See:** A flex day can be marked ahead, and the screen counts it at once.
-
 ### Deleting an entry, and writing a forgotten one (2026-11-14)
 
 How an entry is removed, and how a whole forgotten entry is written by hand. Known: a delete asks "Ta bort?" and needs
