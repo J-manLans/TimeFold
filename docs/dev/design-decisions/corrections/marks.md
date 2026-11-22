@@ -53,12 +53,15 @@ text stays while the edit is open: after another reason is chosen, the list show
 click opens it again; a cancel drops it. An empty field is no reason. The other reasons are in alphabetical order, the
 Swedish way, with Å, Ä and Ö after Z, so one added in "Orsaker" lands where it can be guessed. The entry stores the
 reason's text, not a link to the list, and keeps only its latest one, as it keeps one mark ("Entries remember how they
-were made"). Undo needs no reason: it puts back what was. Deleting an entry needs none either, only "Ta bort?" to
-confirm. The reasons live in their own tab in the menu, "Orsaker" ("The menu has tabs, with every value locked behind
-"Ändra""), where the owner adds, renames and removes them; renaming or removing one changes no entry. The tab also lists
-the "Annan orsak" texts written at least three times, most common first with their counts, matched after lowercasing and
-dropping punctuation and extra spaces, so a reason that keeps coming up can be added to the list. "Visa alla" shows each
-edited entry's reason; the report shows it only on a day it lists ("The report lists the days the balance moved").
+were made"). An edit that divides an entry gives every entry it makes the "edited" mark: the new entry in a filled gap
+carries the reason chosen, and the parts around it an automatic one naming what divided them, "Delad av Utveckling";
+with a plain gap, both parts carry the reason chosen. The automatic text is never counted among the "Annan orsak" texts.
+Undo needs no reason: it puts back what was. Deleting an entry needs none either, only "Ta bort?" to confirm. The
+reasons live in their own tab in the menu, "Orsaker" ("The menu has tabs, with every value locked behind "Ändra""),
+where the owner adds, renames and removes them; renaming or removing one changes no entry. The tab also lists the "Annan
+orsak" texts written at least three times, most common first with their counts, matched after lowercasing and dropping
+punctuation and extra spaces, so a reason that keeps coming up can be added to the list. "Visa alla" shows each edited
+entry's reason; the report shows it only on a day it lists ("The report lists the days the balance moved").
 
 **Why:** honesty in reporting: a time set by hand comes with why, so the owner and the boss can trust it. A short list
 keeps the reason one click and keeps notes readable; a required free text after "Annan orsak" stops it becoming an empty
@@ -66,8 +69,8 @@ way past the field. The closed field keeps the edit uncluttered, and with the fi
 control to open and confirm. Greying the chosen reason in place and ordering by letter keep the list still, so each
 reason stays where the hand remembers it. Stored text keeps old entries as they were given, as settings that change from
 a date leave past days alone. Counting the free texts turns "this keeps coming up" into something the owner can see. A
-break found afterwards is among the commonest fixes, so "Glömd paus" starts on the list rather than waiting to be
-counted.
+divided part saying what divided it explains itself where the chosen reason, about the new entry, would not. A break
+found afterwards is among the commonest fixes, so "Glömd paus" starts on the list rather than waiting to be counted.
 
 **Rejected:** a free-text note alone: notes decay into "fix" and a full stop. Keeping every edit's reason: more than
 honesty needs, as with old times. A reason for undo: it changes nothing that was true. The reasons ordered by how often
@@ -102,5 +105,7 @@ slipping past the count.
 - An entry deleted: "Ta bort?", and no reason.
 - An entry moved from janitor work to the development group: the confirm waits for a reason, such as "Fel profil".
 - A break changed from 20 to 35 min in the edit: the confirm waits for a reason, such as "Glömd paus".
+- 08:00–12:00 janitor work divided by "Utveckling" at 10:00–10:40, reason "Ärende": the development entry "Ärende", both
+  janitor parts "Delad av Utveckling", all three marked edited.
 - The starting list, opened: "Fel profil", "Glömd paus", "Glömde stämpla in", "Glömde stämpla ut", "Ärende", "Annan
   orsak".

@@ -14,14 +14,6 @@ buttons"). A new entry could be drawn on a line in free time, with the same stop
 
 **See:** Editing an entry on its line.
 
-### A divided entry's reason, and the profiles its picker offers (2026-11-22)
-
-An edit can make up to three entries: two parts and another profile's entry in the gap ("Editing an entry on its line").
-Open: whether the one reason given, and the "edited" mark, go on every entry it makes; and whether the picker offers
-every profile but archived ones, as it does for moving a whole entry. The agent leans yes to both.
-
-**See:** Editing an entry on its line; Every edit carries a reason.
-
 ## Phase 4: Profiles
 
 ### A click outside a locked value in the menu (2026-11-22)
