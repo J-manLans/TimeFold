@@ -35,8 +35,7 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
-**Settle first:** deleting and writing a forgotten entry (`open-questions.md`); a divided entry's reason, and the
-profiles its picker offers (`open-questions.md`).
+**Settle first:** deleting and writing a forgotten entry (`open-questions.md`).
 
 1. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
    peek at the list behind: handles, the zoom, gaps and shortening, the profile, the break's tag, the confirm; the rows'

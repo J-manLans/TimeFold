@@ -1995,7 +1995,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var d = docked(), old = [ed.e].concat(d.l ? [ed.prev] : []).concat(d.r ? [ed.next] : []).concat(ed.joinL ? [ed.joinL] : []).concat(ed.joinR ? [ed.joinR] : []);
     var why = ed.reason === "other" ? ed.other.trim() : ed.reason;
     var res = edResult(), shares = edShares(res);
-    var made = res.map(function (r, i) { return { start: new Date(r.a), end: new Date(r.b), profile: ed.profile, brk: shares[i], how: "edited", reason: why }; });
+    // Parts divided by another profile say so themselves; the new entry carries the reason chosen
+    var partWhy = ed.mid ? "Delad av " + prof(ed.mid).name : why;
+    var made = res.map(function (r, i) { return { start: new Date(r.a), end: new Date(r.b), profile: ed.profile, brk: shares[i], how: "edited", reason: partWhy }; });
     if (ed.mid) made.push({ start: new Date(ed.s), end: new Date(ed.en), profile: ed.mid, brk: 0, how: "edited", reason: why });
     old.forEach(function (x) { bump(x.profile, -dur(x)); entries.splice(entries.indexOf(x), 1); });
     made.forEach(function (x) { bump(x.profile, dur(x)); entries.push(x); });
