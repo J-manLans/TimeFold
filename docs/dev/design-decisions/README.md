@@ -124,6 +124,10 @@ title.
 
 - Two entries join by docking
 
+**[A running entry](corrections/running.md)**
+
+- A running entry is edited at its start
+
 **[Writing and deleting](corrections/writing.md)**
 
 - A forgotten entry is written in the gap where it belongs
