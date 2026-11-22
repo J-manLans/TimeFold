@@ -1654,7 +1654,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return out;
   }
   // What is being edited: the entry as it was and as it is becoming
-  function edSpan() { return { a: Math.min(ed.s, ed.o1), b: Math.max(ed.en, ed.o2) }; }
+  function edSpan() { return ed.isNew ? { a: ed.s, b: ed.en } : { a: Math.min(ed.s, ed.o1), b: Math.max(ed.en, ed.o2) }; }
   // The view fitted to it, centred, filling EDIT_FILL of the line
   function fittedView() {
     var sp = edSpan(), w = (sp.b - sp.a) / EDIT_FILL, c = (sp.a + sp.b) / 2;
@@ -1790,6 +1790,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function edChanged() { if (ed.isNew) return !ed.placing; return ed.s !== ed.o1 || ed.en !== ed.o2 || ed.profile !== ed.e.profile || (ed.brk !== null && ed.brk !== (ed.e.brk || 0)) || !!ed.mid; }
   function edReasonOk() { return ed.reason && (ed.reason !== "other" || ed.other.trim() !== ""); }
   function drawEdit() {
+    // A new entry has no original: what it was is always what it is, so it fits alone at EDIT_FILL wherever it is walked
+    // and shows no time added or taken away
+    if (ed.isNew && !ed.placing) { ed.o1 = ed.s; ed.o2 = ed.en; }
     // Another profile fills only a gap: once the handles no longer make one, the entry is its own profile again
     if (ed.mid && !filling()) { ed.mid = null; $("edProf").value = ed.profile; }
     // A gap lives only while both handles are inward, or while another profile fills it; otherwise the default,
