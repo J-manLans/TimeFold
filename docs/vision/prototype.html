@@ -1654,7 +1654,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return out;
   }
   // What is being edited: the entry as it was and as it is becoming
-  function edSpan() { return ed.isNew ? { a: ed.s, b: ed.en } : { a: Math.min(ed.s, ed.o1), b: Math.max(ed.en, ed.o2) }; }
+  // The original stays in view while the entry still overlaps it, so a shortening shows where it started; once the
+  // entry has left it altogether, or never had one, the view fits the entry alone
+  function edSpan() {
+    var overlaps = !ed.isNew && ed.s < ed.o2 && ed.en > ed.o1;
+    return overlaps ? { a: Math.min(ed.s, ed.o1), b: Math.max(ed.en, ed.o2) } : { a: ed.s, b: ed.en };
+  }
   // The view fitted to it, centred, filling EDIT_FILL of the line
   function fittedView() {
     var sp = edSpan(), w = (sp.b - sp.a) / EDIT_FILL, c = (sp.a + sp.b) / 2;
@@ -1753,11 +1758,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   // Let go docked to a neighbour of the same profile: the two are one entry from then on, the handle at its far end
   // and the view fitted to it all. Undoing a join is "Avbryt" and opening the entry again.
-  function absorbDocked() {
+  // Only what a handle was dragged into joins: the start handle moving earlier onto the neighbour before, the end
+  // handle moving later onto the one after; a handle walking away and stopping on an edge takes nothing in
+  function absorbDocked(drag) {
+    // Docked back on its original, the entry takes its original time back, as any join does
+    if (!ed.isNew && drag.s0 >= ed.o2 && ed.s === ed.o2 && ed.s < drag.s0) { ed.s = ed.o1; return; }
+    if (!ed.isNew && drag.e0 <= ed.o1 && ed.en === ed.o1 && ed.en > drag.e0) { ed.en = ed.o2; return; }
     var d = docked();
-    // A neighbour just walked past is not taken in again for touching where it ends
-    if (d.l && ed.prev === ed.walked) d.l = false;
-    if (d.r && ed.next === ed.walked) d.r = false;
+    if (d.l && !(ed.s < drag.s0)) d.l = false;
+    if (d.r && !(ed.en > drag.e0)) d.r = false;
     if (d.l) {
       ed.joinL = ed.prev; ed.s = +ed.prev.start;
       ed.prev = entries.filter(function (x) { return x !== ed.joinL && +x.end <= ed.s; }).sort(function (x, y) { return y.end - x.end; })[0] || null;
@@ -1901,6 +1910,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       ed.refused = false;
       // Nothing is dragged past the view's edges; let go, the view opens up if needed
       var t = timeAt(ev.clientX), q = EDIT_SNAP * MIN, lo = Math.max(edLo(), ed.view.a), hi = Math.min(edHi(), ed.view.b), was = { s: ed.s, en: ed.en };
+      // An entry moved clear of where it started meets its original as a neighbour of its own profile: the handle
+      // facing it stops at its near edge, and docks there
+      if (!ed.isNew && drag.k === "a" && drag.s0 >= ed.o2) lo = Math.max(lo, ed.o2);
+      if (!ed.isNew && drag.k === "b" && drag.e0 <= ed.o1) hi = Math.min(hi, ed.o1);
       if (drag.k === "a") ed.s = Math.min(Math.max(snapT(t), lo), ed.en - q);
       else if (drag.k === "b") ed.en = Math.max(Math.min(snapT(t), hi), ed.s + q);
       else { var dt = Math.round((t - drag.t0) / q) * q; dt = Math.max(lo - drag.s0, Math.min(hi - drag.e0, dt)); ed.s = drag.s0 + dt; ed.en = drag.e0 + dt; }
@@ -1914,12 +1927,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (ed.joinL && ed.s > +ed.joinL.end) { ed.prev = ed.joinL; ed.joinL = null; ed.s = Math.max(ed.s, +ed.prev.end); }
       if (ed.joinR && ed.en < +ed.joinR.start) { ed.next = ed.joinR; ed.joinR = null; ed.en = Math.min(ed.en, +ed.next.start); }
       // The other handle passing over all of a joined neighbour lets it go whole too, and the entry walks on past it
-      if (ed.joinR && ed.s >= +ed.joinR.end) { ed.prev = ed.joinR; ed.walked = ed.joinR; ed.joinR = null; }
-      if (ed.joinL && ed.en <= +ed.joinL.start) { ed.next = ed.joinL; ed.walked = ed.joinL; ed.joinL = null; }
+      if (ed.joinR && ed.s >= +ed.joinR.end) { ed.prev = ed.joinR; ed.joinR = null; }
+      if (ed.joinL && ed.en <= +ed.joinL.start) { ed.next = ed.joinL; ed.joinL = null; }
       drawEdit();
     });
     line.addEventListener("pointerup", function () {
-      if (drag && drag.moved && ed) { absorbDocked(); settleView(); }
+      if (drag && drag.moved && ed) { absorbDocked(drag); settleView(); }
       // A click on a handle, not a drag, grows it into the pill; the other handle's pill, if open, shrinks
       if (drag && !drag.moved && ed && (drag.k === "a" || drag.k === "b")) { if (ed.pill !== drag.k) openPill(drag.k); drag = null; return; }
       // A click on the middle, not a drag, switches a shortening and a gap
