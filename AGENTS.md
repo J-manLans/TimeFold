@@ -205,8 +205,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 - **Number what the owner must answer.** Once a topic is talked through, the concrete questions, borderline calls and
   choices left are a numbered list, never bullets, so the owner can reply "1. yes, 2. no". Numbering restarts with each
   message.
-- **Write to the docs in batches,** not after every answer. Judge the batch: a topic talked through, a decision made, a
-  session ending, or the owner asking. Write before context runs short, so nothing said is lost.
+- **Write on the owner's go.** While a topic is talked through, nothing is written: no code, no prototype, no docs. The
+  agreed changes are held, and on the owner's go they are written in one batch, each file listed. The one exception:
+  before context runs short, write what is agreed so nothing said is lost, and say so.
 - **While tuning, just change the code.** When the owner fine-tunes how something looks or feels, on a sketch, the
   prototype or in the app, the code holds the values meanwhile and the conversation the reasons, so no decision edits or
   commits between tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching

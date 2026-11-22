@@ -5,7 +5,7 @@ in `../README.md`, and is cited by its title.
 
 ## The look: a fresh display face, mono text and soft buttons (2026-11-15)
 
-**Built by:** Profiles, for its popups.
+**Built by:** Profiles, for its popups; Corrections, for the removal red.
 
 **Decision:** the app's look, from the owner's art direction references (kept locally, not in git) and settled on the
 prototype:
@@ -21,7 +21,13 @@ prototype:
   balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same ratio, and
   stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1 (light), lines
   at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons at about 2.7:1
-  and 2.0:1, as measured on the prototype.
+  and 2.0:1, as measured on the prototype. Red means removal or a warning: time taken away on the entry line, "Ta bort"
+  and "Rensa", and a break tag in the edit at its limit. A button that removes is red text with no border; the first
+  click adds a red border and a question mark ("Ta bort?", "Rensa?"), the second removes, and a click or the focus going
+  elsewhere turns it back. The button keeps room for its "?" from the start, so it never changes width and nothing
+  beside it moves. The red is a coral `#ff7a70` on the light dashboard (4.2:1) and a deeper `#c8372d` on the light
+  controls side (4.7:1), `#f0605a` on both in dark. There is no other warning colour. A profile with red colours keeps
+  them: removal and warnings are told by their place, not their hue.
 - **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper, `#4f688e`,
   with near-white text at 5.2:1, hovered `#40577b` at 6.8:1; in the dark theme a dark grey with light text; a little
   bolder text on the smaller buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset

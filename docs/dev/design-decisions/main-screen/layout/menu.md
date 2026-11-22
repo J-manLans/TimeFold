@@ -23,14 +23,13 @@ sits the theme button ("A light or dark theme, following the system").
   reason").
 
 Every value is locked: it shows as text with "Ändra" beside it. "Ändra" opens it; Enter confirms, and Esc or a click
-anywhere outside the open value aborts, as in "Entering a length of time". Esc closes only the open value, wherever the
-focus is, and the next Esc closes the menu. The flex-day calendar is not a value and has no "Ändra". Values that change
-the counting (full time, the split, a salary or rate) then ask "Gäller från", today unless the owner picks an earlier
-date ("Settings change from a date"), and under each, "Tidigare värden" with a count opens its earlier values and the
-dates they held from. A name and a pay category are saved at once on Enter, with no date and no history, since no count
-depends on them. Only one value is open for editing at a time: "Ändra" on another aborts the open one, and saving one
-value never resets another or moves the focus away from where the owner is. Colours and the theme change at once, from
-their pickers and button.
+anywhere outside the open value aborts. Esc closes only the open value, wherever the focus is, and the next Esc closes
+the menu. The flex-day calendar is not a value and has no "Ändra". Values that change the counting (full time, the
+split, a salary or rate) then ask "Gäller från", today unless the owner picks an earlier date ("Settings change from a
+date"), and under each, "Tidigare värden" with a count opens its earlier values and the dates they held from. A name and
+a pay category are saved at once on Enter, with no date and no history, since no count depends on them. Only one value
+is open for editing at a time: "Ändra" on another aborts the open one, and saving one value never resets another or
+moves the focus away from where the owner is. Colours and the theme change at once, from their pickers and button.
 
 **Why:** tabs keep the names in a fixed place while the content swaps calmly below them. A value that changes past and
 future counts should not move by a stray click, and Enter and Esc work as they do everywhere else. The earlier values

@@ -48,8 +48,8 @@ confirm.
 
 **Entry.** One stretch of work, from a start to a stop. Clicked in the app, or written by hand.
 
-**Entry line.** An entry opened for editing: a line centred on the entry, a handle at each end, zooming out as a handle
-is dragged so the whole entry stays in view; other entries and midnight stop the handles.
+**Entry line.** An entry opened for editing: a line centred on the entry, a handle at each end, its view stepping in and
+out as the handles move; other entries and now stop the handles, and midnight does not.
 
 **Errand.** Time away during the work day that is not work. Recorded as the gap between a stop and the next start, as an
 added break, or afterwards as a gap cut on the entry line.

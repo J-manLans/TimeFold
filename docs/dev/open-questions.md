@@ -9,33 +9,29 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 ### Deleting an entry, and writing a forgotten one (2026-11-14)
 
 How an entry is removed, and how a whole forgotten entry is written by hand. Known: a delete asks "Ta bort?" and needs
-no reason ("Every edit carries a reason"). A new entry could be drawn on a line in free time, with the same stops at
-other entries and midnight.
+no reason ("Every edit carries a reason"), as removal red asks ("The look: a fresh display face, mono text and soft
+buttons"). A new entry could be drawn on a line in free time, with the same stops at other entries and now.
 
 **See:** Editing an entry on its line.
 
-### Exact minutes on the line (2026-11-14)
+### A divided entry's reason, and the profiles its picker offers (2026-11-22)
 
-Whether the handles snap (such as to 5 minutes), and whether a time can also be typed or set with the clock picker for
-precision. In the Excel the owner writes a fixed time to the nearest 5 minutes. The clock picker, from the owner's first
-draft, is an analogue 24-hour dial: the hours on an inner and an outer ring, the minutes picked in a second step, with
-no AM/PM and no digital fields. It was meant for editing; the line may replace it there, or work beside it. The owner's
-idea, to try on the prototype: − and + at the chosen handle, one minute per press, its time shown between them; the
-arrow keys could do the same, and holding a button repeat. The agent holds it good as it stands, and leans to try two
-additions with it: the drag snapping to 5 minutes, the owner's Excel habit, for the rough move, the − and + for the
-exact one; and a held button speeding up the longer it is held. A time set by hand would then have its seconds at :00.
+An edit can make up to three entries: two parts and another profile's entry in the gap ("Editing an entry on its line").
+Open: whether the one reason given, and the "edited" mark, go on every entry it makes; and whether the picker offers
+every profile but archived ones, as it does for moving a whole entry. The agent leans yes to both.
 
-**See:** Editing an entry on its line.
-
-### The line's zoom (2026-11-18)
-
-With no wall at midnight, a handle can be dragged towards a neighbour days away, and a view that follows it exactly
-would pump in and out as the handle moves back and forth. The owner's idea, to try on the prototype: the flex bar's
-logic, the view growing when the handle nears its edge and shrinking only once it is well back.
-
-**See:** Editing an entry on its line; The flex bar.
+**See:** Editing an entry on its line; Every edit carries a reason.
 
 ## Phase 4: Profiles
+
+### A click outside a locked value in the menu (2026-11-22)
+
+A length field keeps what is typed on a click away, and only Esc cancels ("Entering a length of time"). The menu's
+values behind "Ändra" still abort on a click outside, so that future counts do not move by a stray click ("The menu has
+tabs, with every value locked behind "Ändra""). The owner wants the menu aligned with the rest of the app; open is how,
+since a value kept by a stray click there has no undo.
+
+**See:** Entering a length of time; The menu has tabs, with every value locked behind "Ändra".
 
 ### Whose the opening ceiling hours are (2026-11-15)
 
