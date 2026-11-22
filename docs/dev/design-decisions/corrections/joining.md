@@ -13,12 +13,15 @@ entry from then on in the edit: the handle moves to the neighbour's far end, the
 entry's, only the stretch dragged across stays green, and the view refits to the whole joined entry ("The line's view
 holds still while a handle is dragged"). Dragged back over the neighbour, the handle trims it, its time taken away in
 red stripes as on any entry; dragged past the neighbour's end, the join undoes itself and the neighbour is whole again,
-a wall as before. The meeting point is where the neighbour's colour meets the green; with no gap between them, a thin
-line in the bar marks it. On confirm the two are saved as one entry, with a reason as for any edit ("Every edit carries
-a reason"). A neighbour of another profile stays a stop, and nothing joins. Either entry may be running; the joined
-entry then runs on. Their added breaks on the same day add up into the joined entry's one break for that day ("Time away
-is a gap or an added break"). The joined entry is one entry for the counting: it owes its expected hours on the day it
-starts ("A day owes its expected hours only when work started on it").
+a wall as before. The other handle passing over all of the neighbour lets it go whole too, and the entry walks on past
+it: an entry docks, stretches past its neighbour, and brings its other handle over, to step across it; the time it
+leaves behind shows red, and a neighbour just walked past is not taken in again for touching where it ends. The meeting
+point is where the neighbour's colour meets the green; with no gap between them, a thin line in the bar marks it. On
+confirm the two are saved as one entry, with a reason as for any edit ("Every edit carries a reason"). A neighbour of
+another profile stays a stop, and nothing joins. Either entry may be running; the joined entry then runs on. Their added
+breaks on the same day add up into the joined entry's one break for that day ("Time away is a gap or an added break").
+The joined entry is one entry for the counting: it owes its expected hours on the day it starts ("A day owes its
+expected hours only when work started on it").
 
 **Why:** joining fixes a stop that was not a break: the owner stops for a break, work comes up, and the entry is started
 again later; the gap was work. Dragging across the gap is the move the hand makes anyway, and the stop at the neighbour
@@ -40,6 +43,8 @@ counting.
 - The same with the second running: one entry from 08:00, still running.
 - The first's end docked on the second and let go: the handle moves to 12:00, 10:00–10:25 stays green, and the view fits
   08:00–12:00.
+- A new 10 min entry at 09:00–09:10 docked onto 09:10–10:00, stretched to 10:30, its start dragged past 10:00: the
+  neighbour is whole again, and the new entry is 10:00–10:30.
 - That handle dragged back to 11:00: 11:00–12:00 in red stripes; on to 10:20, past the neighbour's start: the join
   undoes itself, 10:25–12:00 is whole again, and the handle is at 10:20 with 10:00–10:20 green.
 - Paus 15min on the first and paus 20min on the second, the same day, joined: one entry with paus 35min.

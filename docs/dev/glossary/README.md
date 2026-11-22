@@ -12,4 +12,4 @@ panel, Month, Month line, Motion (Animerat, Stilla), Neon, Onboarding, Opening f
 
 **[P–Z](p-z.md):** Padlock, Pay category, Pay estimate, Peek, Pointer light, Profile, Prototype, Prune, Reason (an
 edit's), Recovery screen, Release, Report, Settings file, Sketch, Small deviations, Standing (a profile's), Tip, Today's
-pie.
+pie, Walk (an entry).

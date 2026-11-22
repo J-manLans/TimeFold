@@ -4,16 +4,6 @@ What is not decided, grouped under the phase that needs the answer, so a phase's
 entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question leaves;
 its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
-## Phase 3: Corrections
-
-### Deleting an entry, and writing a forgotten one (2026-11-14)
-
-How an entry is removed, and how a whole forgotten entry is written by hand. Known: a delete asks "Ta bort?" and needs
-no reason ("Every edit carries a reason"), as removal red asks ("The look: a fresh display face, mono text and soft
-buttons"). A new entry could be drawn on a line in free time, with the same stops at other entries and now.
-
-**See:** Editing an entry on its line.
-
 ## Phase 4: Profiles
 
 ### A click outside a locked value in the menu (2026-11-22)

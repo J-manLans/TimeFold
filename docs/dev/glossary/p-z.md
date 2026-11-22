@@ -55,3 +55,6 @@ to work today, filling as each is worked, live, and the neon lapping over it pas
 
 **Tip.** The small label that follows the pointer over a button, to its right, edged in a profile's colour: what the
 undo would undo, or what the start button would stop. With keyboard focus it shows under the button.
+
+**Walk (an entry).** On the entry line, to move an entry past a neighbour of its own profile: dock onto it, stretch past
+it, and bring the other handle over; the neighbour is let go whole and the entry carries on beyond it.
