@@ -107,8 +107,6 @@ choice made once.
 
 ## Motion can be switched off in the app (2026-11-19)
 
-**Built by:** Corrections, as a patch.
-
 **Decision:** the app has a switch for its motion, **Animerat** or **Stilla**, that takes effect at once, with no
 restart. A fresh install follows the system's reduced-motion setting, and goes on following it until the switch is first
 clicked; from then on the app keeps the state chosen, overriding the system for this app only and leaving the system's

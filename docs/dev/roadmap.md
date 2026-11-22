@@ -40,19 +40,15 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 as its own popup, its line not yet tuned; the flex calendar's circle drawn in the prototype, and how a worked flex day
 looks (`open-questions.md`).
 
-1. `[written]` `[tests]` `[seen: linux]` Patch: the motion switch ("Motion can be switched off in the app"): every
-   animation, delay, count and timed step follows it, and the onboarding's note when the system asks for reduced motion.
-   Seen on the owner's Linux machine and on a school computer with reduced motion on.
-2. Patch: a flex day in the calendar is a circle ("A flex day can be marked ahead, and the screen counts it at once"),
+1. Patch: a flex day in the calendar is a circle ("A flex day can be marked ahead, and the screen counts it at once"),
    greyed once past, and a square once worked, so a past day off can be told from a day worked.
-3. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
+2. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
    peek at the list behind: handles, the zoom, gaps and shortening, the profile, the confirm; the rows' hover with it.
-4. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
+3. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
    chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
-its reason, and the balance follows; and on a school computer with reduced motion on, the switch brings the motion back
-at once.
+its reason, and the balance follows.
 
 ### Phase 4: Profiles
 
