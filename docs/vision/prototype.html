@@ -83,9 +83,12 @@
   --ob-sweep-rise: 60px;  /* how far above the block's middle the light starts */
   --ob-sweep-fade: 0.3s;  /* after the arc, the light shrinking from its end size to nothing */
   --ob-sweep-drop: 60px;  /* how far below it the light ends; between, it arcs down, quickest at first, levelling off */
+  /* Every round knob that is dragged: the entry line's handles and the colour picker's circle */
+  --knob: 22px;
+  --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);   /* its only edge: no border or ring; each knob keeps its own fill */
   /* The colour picker: only the hue is picked, on a strip of base colours */
   --cp-strip-h: 14px;   /* the hue strip's height */
-  --cp-thumb: 18px;     /* the circle dragged along it, filled with the neon of where it sits */
+  --cp-thumb: var(--knob);  /* the circle dragged along it, filled with the neon of where it sits */
   --cp-swatch: 20px;    /* the small swatch before each code */
   /* The popup for a running entry from an earlier day ("Running since yesterday" in the toolbar) */
   --late-gap: 12px;     /* between the heading, the line, the note and the buttons */
@@ -101,16 +104,21 @@
   --pie-flash: 1.2s;      /* a slice clicking in lights and fades, as a new entry's row does */
   /* The entry rows */
   --entry-month-gap: 12px;  /* in "Visa alla", above the line naming a new month */
-  --entry-later: 0.72em;
+  --entry-later: 0.72em;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
   /* The edit popup: an entry edited on its line, opened alone from "Senaste" or on top of "Alla poster" (EDIT_SNAP,
-     EDIT_PAD and PEEK_DELAY in the script) */
+     EDIT_FILL, EDIT_MIN_VIEW, EDIT_TICKS, STEP_DELAY and PEEK_DELAY in the script) */
   --ed-stack-dim: rgba(0, 0, 0, 0.25);  /* over "Alla poster": the extra dimming of the list behind the edit */
   --ed-peek: 0.2;       /* the pointer resting on the list behind: how much of the edit popup still shows (0 gone, 1 all) */
   --ed-width: 480px;    /* the edit popup's width, a little narrower than the list's 560px */
   --el-h: 34px;         /* the line's height, the handles' room */
   --el-bar: 14px;       /* the entry's bar, and the blocked time of other entries */
-  --el-handle-w: 6px;   /* a handle */
-  --el-handle-h: 30px;  /* the "+1" after the end time of an entry that ends on a later day, against the row's text */
+  --el-pill: calc(var(--knob) * 2.1);  /* a clicked handle grown into its pill, − and + at its ends */
+  --el-pill-ease: cubic-bezier(.34, 1.56, .64, 1);  /* its growing and shrinking: overshoots a little and settles, a soft bounce (1.56: higher bounces more, 1 none) */
+  --el-pill-time: calc(var(--speed-ui) * 1.5);      /* a bounce needs a little longer than a plain ease to read */
+  --el-pill-breath: 1.2;  /* as it grows it also takes a breath: its height swells to this share and settles (1: none) */
+  --el-handle: var(--knob);  /* a handle: the same round knob as the colour picker's */
+  --ed-tag-gap: 6px;    /* between an entry's times and its "paus" tag in the edit */
+  --ed-pick-max: 17ch;  /* "Välj orsak" with a reason chosen: the longest it shows before "…" ("Glömde stämpla ut") */
   /* The flex-day calendar in the menu's Tid tab */
   --cal-cell: 30px;     /* each day's square */
   --cal-gap: 4px;       /* between the days */
@@ -161,6 +169,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --c-muted:     light-dark(#556070, #8f949d);   /* light: 5.8:1 on the page */
   --c-line:      light-dark(#d9dfe8, #2c2f35);
   --c-scrim:     light-dark(rgba(20, 26, 36, 0.25), rgba(0, 0, 0, 0.45));
+  --c-remove:    light-dark(#c8372d, #f0605a);   /* removal red on this side: "Rensa"; light: 4.7:1 on the page */
   /* Buttons. Light theme: the dashboard's blue, a step deeper so light text reads well. */
   --c-btn:       light-dark(#4f688e, #2a2d33);   /* light: text 5.2:1 on it */
   --c-btn-line:  light-dark(#3f5578, #3a3e45);
@@ -202,9 +211,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --f-row:       light-dark(#233350, #141920);   /* the entry rows, a step darker              violet: #2d2a52 */
   --f-line:      light-dark(#4a6185, #232a33);   /* thin lines and borders                     violet: #57528a */
   --f-fg:        light-dark(#eef2f8, #d9dee6);   /* main text: entries, the balance            violet: #f0eef8 */
-  --f-muted:     light-dark(#a9b8cf, #7b8592);
+  --f-muted:     light-dark(#a9b8cf, #7b8592);   /* grey text: pay estimate, "Senaste", tags   violet: #b7b1d6 */
   --el-add:      light-dark(#4cc47a, #3fb96f);   /* the entry line: time added, green */
-  --el-cut:      light-dark(#ff7a70, #f0605a);   /* the entry line: time taken away, red */   /* grey text: pay estimate, "Senaste", tags   violet: #b7b1d6 */
+  --f-remove:    light-dark(#ff7a70, #f0605a);   /* removal red: the line's time taken away, "Ta bort"; light: 4.2:1 on the panel */
   --f-ink:       light-dark(#b8c5d9, #7b8592);   /* small marks: the bar's scale, "AV 42:00 H" violet: #c6c1e2 */
   --f-tick:      light-dark(#6a82a8, #2c3440);   /* the wheel's tick marks                     violet: #736ea6 */
   --f-zero:      light-dark(#e6ecf5, #c9d1db);   /* the bar's 0 line                           violet: #ebe8f5 */
@@ -329,6 +338,12 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
 .prune .spacer { flex: 1; }
+/* "Rensa" removes, as "Ta bort" does: red text, and a red border with "Rensa?" once clicked */
+#pruneYes { color: var(--c-remove); border-color: transparent; }
+#pruneYes.ask { border-color: var(--c-remove); }
+/* A removal button keeps room for its "?" from the start, so it never changes width when it asks */
+#pruneYes .q, #edDel .q { visibility: hidden; }
+#pruneYes.ask .q, #edDel.ask .q { visibility: visible; }
 .toast { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; text-align: center; }
 
 /* Menu: slides in from the left and stops at the divider */
@@ -518,8 +533,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .swatch-pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
 .cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); }
 .cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: var(--cp-strip-h); margin: 0; border-radius: calc(var(--cp-strip-h) / 2); background: var(--cp-strip); }
-.cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4); }
-.cpick .hue::-moz-range-thumb { width: var(--cp-thumb); height: var(--cp-thumb); box-sizing: border-box; border-radius: 50%; background: var(--cp-neon, #fff); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); }
+.cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 0; box-shadow: var(--knob-shadow); }
+.cpick .hue::-moz-range-thumb { width: var(--cp-thumb); height: var(--cp-thumb); box-sizing: border-box; border-radius: 50%; background: var(--cp-neon, #fff); border: 0; box-shadow: var(--knob-shadow); }
 .cpick .cp-pair { display: grid; gap: 6px; }
 .cpick .cp-row { display: flex; align-items: center; gap: 8px; }
 .cpick .cp-now { width: var(--cp-swatch); height: var(--cp-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); flex: none; }
@@ -573,7 +588,17 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-head select { font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 2px 6px; }
 .ed-times { font-size: 12px; color: var(--f-muted); min-height: 1.3em; }
 .ed-times b { color: var(--f-fg); font-weight: 400; }
-.ed-line { position: relative; height: var(--el-h); margin: 18px 6px 18px; touch-action: none; cursor: pointer; }
+/* The break after the time: the list's "paus" tag, here also its control; "+ paus" quiet with none. Red while a
+   handle sits where the entry can no longer hold it. */
+.ed-times .tag, .ed-times .brk-in { margin-left: var(--ed-tag-gap); }
+.ed-times .tag { font: inherit; font-size: 11px; color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; cursor: pointer; }
+.ed-times .tag.add { color: var(--f-muted); border-color: transparent; }
+.ed-times .tag.warn { color: var(--f-remove); border-color: var(--f-remove); }
+.ed-times .tag.still { color: var(--f-muted); cursor: default; }
+.ed-times .nb { color: var(--f-muted); }   /* the parts left around a new entry: grey, as neighbours */
+.ed-times .brk-in { font: inherit; font-size: 11px; width: 6ch; background: none; color: var(--f-fg); border: 0; padding: 0; outline: none; }
+.ed-times .brk-in.warn { color: var(--f-remove); }
+.ed-line { position: relative; height: var(--el-h); margin: 18px 6px 18px; touch-action: none; }
 .ed-line::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--f-line); }
 .ed-tick { position: absolute; bottom: -16px; transform: translateX(-50%); font-size: 10px; color: var(--f-muted); pointer-events: none; }
 .ed-tick::before { content: ""; position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--f-line); }
@@ -583,25 +608,66 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-other.dock { outline: 1px solid var(--el-add); outline-offset: 1px; }
 .ed-seg.keep { background: var(--p); cursor: grab; }
 .ed-seg.add { background: var(--el-add); pointer-events: none; }
-.ed-seg.cut { background: repeating-linear-gradient(45deg, var(--el-cut) 0 3px, color-mix(in srgb, var(--el-cut) 30%, transparent) 3px 6px); pointer-events: none; }
+.ed-seg.cut { background: repeating-linear-gradient(45deg, var(--f-remove) 0 3px, color-mix(in srgb, var(--f-remove) 30%, transparent) 3px 6px); pointer-events: none; }
+/* Both handles inward: a click on the middle switches shortening and a gap, the pointer saying it can be clicked. With
+   a gap given another profile, the middle wears that profile and the ends turn grey, as any neighbour on the line. */
+.ed-seg.pick { pointer-events: auto; cursor: pointer; }
+.ed-seg.grey { background: repeating-linear-gradient(45deg, var(--f-line) 0 3px, transparent 3px 6px); pointer-events: none; }
+.ed-seg.mid { background: var(--pm); }
+.ed-join { position: absolute; top: 50%; height: var(--el-bar); width: 1px; transform: translate(-50%, -50%); background: var(--f-bg); pointer-events: none; z-index: 1; }
 .ed-now { position: absolute; top: 2px; bottom: 2px; width: 1px; background: var(--f-muted); pointer-events: none; }
-.ed-handle { position: absolute; top: 50%; width: var(--el-handle-w); height: var(--el-handle-h); transform: translate(-50%, -50%); background: var(--f-fg); border-radius: 3px; cursor: ew-resize; touch-action: none; z-index: 1; }
+.ed-handle { position: absolute; top: 50%; width: var(--el-handle); height: var(--el-handle); box-sizing: border-box; transform: translate(-50%, -50%); background: var(--f-fg); border-radius: 50%; box-shadow: var(--knob-shadow); cursor: ew-resize; touch-action: none; z-index: 1; }
 .ed-handle::after { content: ""; position: absolute; inset: -4px -8px; }
+/* A clicked handle: a pill with − and + at its ends, grown from the circle and shrunk back to it */
+.ed-handle { transition: width var(--el-pill-time) var(--el-pill-ease); }
+/* Its − and + fade in once it has mostly grown */
+.ed-handle.fresh .pm { animation: pmIn var(--el-pill-time) ease both; }
+.ed-handle.fresh { animation: pillBreath var(--el-pill-time) ease-out; }
+@keyframes pillBreath { 0%, 100% { height: var(--el-handle); } 40% { height: calc(var(--el-handle) * var(--el-pill-breath)); } }
+.app.still .ed-handle.fresh { animation: none; }
+@keyframes pmIn { 0%, 40% { opacity: 0; } 100% { opacity: 1; } }
+.app.still .ed-handle .pm { animation: none; }
+.ed-handle.pill { width: var(--el-pill); border-radius: 999px; display: flex; align-items: center; justify-content: space-between; cursor: grab; z-index: 2; }
+.ed-handle.pill.shut, .ed-handle.shut { width: var(--el-handle); }
+.ed-handle .pm { position: relative; z-index: 1; width: calc(var(--knob) * 0.7); height: 100%; display: grid; place-items: center; font-size: 13px; font-weight: 700; line-height: 1; color: var(--pm-ink, var(--f-bg)); cursor: pointer; user-select: none; }
+.app.still .ed-handle { transition: none; }
+.ed-hlabel.lean-l { transform: translateX(calc(-100% + 2px)); }
+.ed-hlabel.lean-r { transform: translateX(-2px); }
 .ed-hlabel { position: absolute; top: -17px; transform: translateX(-50%); font-size: 11px; color: var(--f-fg); white-space: nowrap; pointer-events: none; }
-.ed-reason { display: grid; gap: 6px; justify-items: start; }
+.ed-reason { display: grid; justify-items: start; }
 .ed-pick { font: inherit; font-size: 12px; background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: 4px; padding: 4px 10px; cursor: pointer; }
 .ed-pick.chosen { color: var(--f-fg); }
-.ed-list { display: grid; gap: 1px; justify-items: start; }
+.ed-pick { box-sizing: content-box; max-width: var(--ed-pick-max); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The list grows open at --speed-ui, then its reasons fade in after the same time; closing, they fade out first, then
+   it shrinks. Closed, nothing in it can be reached. */
+.ed-wrap { justify-self: stretch; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 0fr; transition: grid-template-rows var(--speed-ui) cubic-bezier(.2, .7, .2, 1) var(--speed-ui); }
+.ed-reason.open .ed-wrap { grid-template-rows: 1fr; transition-delay: 0s; }
+.ed-clip { min-height: 0; min-width: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: opacity var(--speed-ui) ease, visibility 0s linear var(--speed-ui); }
+.ed-reason.open .ed-clip { opacity: 1; visibility: visible; transition: opacity var(--speed-ui) ease var(--speed-ui), visibility 0s; }
+.app.still .ed-wrap, .app.still .ed-clip { transition: none; }
+/* "Annan orsak" is a field that looks like the other reasons: their text, and a faint underline saying it takes typing.
+   The script sizes it to the text it shows: "Annan orsak" while empty, else the text, growing and shrinking as it is
+   typed in, up to the popup's padding. At rest a longer text stops at --ed-pick-max with "…", as the picker does;
+   clicked, it opens to the whole text again. The text sits where the other reasons' text does. */
+.ed-list .other { font: inherit; font-size: 12px; text-overflow: ellipsis; max-width: calc(100% - 8px); box-sizing: content-box; margin: 3px 0 3px 8px; background: none; color: var(--f-fg); border: 0; border-bottom: 1px solid var(--f-line); border-radius: 0; padding: 0; cursor: text; }
+.ed-list .other::placeholder { color: var(--f-fg); opacity: 1; }
+.ed-list .other:focus { outline: none; border-bottom-color: var(--f-fg); }
+.ed-list .other:focus::placeholder { color: var(--f-muted); }
+/* One column no wider than the popup, so a long "Annan orsak" scrolls inside itself and never pushes the list aside */
+.ed-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; justify-items: start; padding-top: 6px; }
 .ed-list button { font: inherit; font-size: 12px; background: none; border: 0; color: var(--f-fg); padding: 3px 8px; border-radius: 4px; cursor: pointer; }
-.ed-list button:hover { background: var(--f-bg); }
-.ed-reason input { font: inherit; font-size: 12px; width: 100%; box-sizing: border-box; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 4px 8px; }
+/* The chosen reason stays in its place, greyed, and a click on it does nothing; a typed one greyed the same, but
+   clicked, it turns white to be edited */
+.ed-list button:disabled { opacity: var(--disabled-o); cursor: default; }
+.ed-list .other.current:not(:focus) { opacity: var(--disabled-o); }
+.ed-list button:hover:not(:disabled) { background: var(--f-bg); }
 .ed-actions { display: flex; gap: 8px; align-items: center; }
 .ed-actions .spacer { flex: 1; }
 .ed-actions button { font: inherit; font-size: 12px; border: 1px solid var(--f-line); background: none; color: var(--f-fg); border-radius: var(--r-small); padding: 4px 12px; cursor: pointer; }
 #edSave { background: var(--f-fg); color: var(--f-bg); border-color: var(--f-fg); }
 #edSave:disabled { opacity: var(--disabled-o); cursor: default; }
-#edDel { color: var(--f-muted); border-color: transparent; }
-#edDel.ask { color: var(--el-cut); border-color: var(--el-cut); }
+#edDel { color: var(--f-remove); border-color: transparent; }
+#edDel.ask { color: var(--f-remove); border-color: var(--f-remove); }
 .ed-hint { font-size: 12px; color: var(--f-muted); margin: 0; }
 .entries li .reason { grid-column: 1 / -1; font-size: 11px; color: var(--f-muted); margin-top: -4px; }
 .allpop .note { font-size: 12px; color: var(--f-muted); border: 1px dashed var(--f-line); border-radius: var(--r-small); padding: 8px 10px; }
@@ -614,7 +680,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .entries li.month:first-child { padding-top: 0; }
 .entries .later { font-size: var(--entry-later); vertical-align: super; line-height: 0; margin-left: 2px; color: var(--f-muted); }
 @keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
-.entries .tag { font-size: 11px; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; justify-self: start; }
+.entries .tags { display: flex; gap: 4px; justify-self: start; }
+.entries .tag { font-size: 11px; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; }
 .entries .dur { text-align: right; }
 .entries .more { justify-self: start; font: inherit; font-size: 12px; color: var(--f-muted); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 4px 10px; cursor: pointer; }
 .entries .more:hover { border-color: var(--f-muted); }
@@ -731,7 +798,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       </div>
       <div class="prune" id="prune">
         <span>Du har över tre års historik. Rensa de äldsta 2 månaderna?</span><span class="spacer"></span>
-        <button type="button" id="pruneYes">Rensa</button><button type="button" id="pruneNo">Inte nu</button>
+        <button type="button" id="pruneYes">Rensa<span class="q">?</span></button><button type="button" id="pruneNo">Inte nu</button>
       </div>
 
       <!-- The menu is its own button, folded: open, it grows from the top-left corner into a frosted panel. -->
@@ -857,11 +924,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <div class="ed-line" id="edLine"></div>
           <div class="ed-reason">
             <button class="ed-pick" id="edPick" type="button">Välj orsak</button>
-            <div class="ed-list" id="edList" hidden></div>
-            <input id="edOther" type="text" placeholder="Skriv orsaken" autocomplete="off" hidden>
+            <div class="ed-wrap"><div class="ed-clip"><div class="ed-list" id="edList"></div></div></div>
           </div>
           <div class="ed-actions">
-            <button type="button" id="edDel">Ta bort</button><span class="spacer"></span>
+            <button type="button" id="edDel">Ta bort<span class="q">?</span></button><span class="spacer"></span>
             <button type="button" id="edCancel">Avbryt</button><button type="button" id="edSave" disabled>Spara</button>
           </div>
         </div>
@@ -1213,15 +1279,17 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (later) { var up = document.createElement("sup"); up.className = "later"; up.textContent = "+" + later; li.children[1].appendChild(up); }
       // The letter in its profile's base colour, so each profile's rows are found at a glance
       li.children[2].style.color = p.colour;
-      var tag = document.createElement("span");
-      if (e.brk) { tag.className = "tag"; tag.textContent = "paus " + lengthText(e.brk); }
-      li.appendChild(tag);
+      // The tags: its break, and [e] when it was not clicked but edited or written afterwards
+      var tags = document.createElement("span"); tags.className = "tags";
+      if (e.brk) { var tg = document.createElement("span"); tg.className = "tag"; tg.textContent = "paus " + lengthText(e.brk); tags.appendChild(tg); }
+      if (e.how === "edited" || e.how === "hand") { var te = document.createElement("span"); te.className = "tag"; te.textContent = "e"; tags.appendChild(te); }
+      li.appendChild(tags);
       var d = document.createElement("span"); d.className = "dur"; d.textContent = hmPlain(dur(e)); li.appendChild(d);
       // A row opens the edit popup: alone from "Senaste", on top of the list from "Alla poster".
       li.tabIndex = 0; li.setAttribute("role", "button"); li.setAttribute("aria-label", "Öppna posten " + cells[0] + " " + cells[1]);
       li.addEventListener("click", function () { openEntry(e); });
       li.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openEntry(e); } });
-      if (months && e.reason) { var why = document.createElement("span"); why.className = "reason"; why.textContent = "ändrad: " + e.reason; li.appendChild(why); }
+      if (months && e.reason) { var why = document.createElement("span"); why.className = "reason"; why.textContent = (e.how === "hand" ? "tillagd: " : "ändrad: ") + e.reason; li.appendChild(why); }
       li._entry = e;
       ol.appendChild(li);
     });
@@ -1391,7 +1459,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   function closePause() { $("pauseField").hidden = true; $("pauseBtn").hidden = false; $("pauseInput").value = ""; $("pauseReading").textContent = ""; }
   // The field holds the running entry's whole break: it opens on what is there ("20", "1:20"), selected, so typing
-  // replaces it; Enter sets the new total, a lower number taking time back. Esc, or clicking away, cancels.
+  // replaces it; Enter, or a click away, sets the new total, a lower number taking time back; Esc alone cancels. A
+  // length too long for the entry is refused: the field stays open, reading "för lång paus".
   function lengthField(m) { return m >= 60 ? Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0") : m ? String(m) : ""; }
   $("pauseBtn").addEventListener("click", function () {
     $("pauseBtn").hidden = true; $("pauseField").hidden = false;
@@ -1400,20 +1469,21 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     inp.focus(); inp.select();
   });
   $("pauseInput").addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closePause(); } });
-  $("pauseInput").addEventListener("blur", function () { setTimeout(closePause, 0); });
+  $("pauseInput").addEventListener("blur", function () { setTimeout(function () { if (!$("pauseField").hidden) keepPause(); }, 0); });
   $("pauseInput").addEventListener("input", function () {
     var v = readLength(this.value); $("pauseReading").textContent = v === null ? "" : lengthText(v);
   });
-  $("pauseField").addEventListener("submit", function (e) {
-    e.preventDefault(); var v = readLength($("pauseInput").value);
-    if (v === null || !running) return;
+  $("pauseField").addEventListener("submit", function (e) { e.preventDefault(); keepPause(); });
+  function keepPause() {
+    var v = readLength($("pauseInput").value);
+    if (v === null || !running) { closePause(); return; }
     var was = running.brk || 0;
     if (v === was) { closePause(); return; }
     if (v > 135) { $("pauseReading").textContent = "för lång paus"; return; }
     var snap = snapshot();
     running.brk = v; closePause();
     offerUndo(was ? "paus " + lengthText(was) + " → " + lengthText(v) : "paus " + lengthText(v), snap); drawControls();
-  });
+  }
 
   $("profileBtn").addEventListener("click", function () {
     if (activeProfiles().length < 2) return;
@@ -1431,7 +1501,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function toast(msg) { $("toast").textContent = msg; clearTimeout(toast.t); toast.t = setTimeout(function () { $("toast").textContent = ""; }, 2200); }
   $("exportBtn").addEventListener("click", function () { toast("Exporterar överlämningsfilen (skiss)"); });
   $("importBtn").addEventListener("click", function () { toast("Importerar och frågar först (skiss)"); });
-  $("pruneYes").addEventListener("click", function () { toast("Rensar efter en kopia (skiss)"); $("prune").style.visibility = "hidden"; });
+  // "Rensa" asks once, as "Ta bort" does: "Rensa?" in a red border, back to "Rensa" when the focus or a click goes
+  // elsewhere
+  function disarmPrune() { $("pruneYes").classList.remove("ask"); }
+  $("pruneYes").addEventListener("click", function () {
+    if (!this.classList.contains("ask")) { this.classList.add("ask"); return; }
+    disarmPrune(); toast("Rensar efter en kopia (skiss)"); $("prune").style.visibility = "hidden";
+  });
+  $("pruneYes").addEventListener("focusout", disarmPrune);
+  document.addEventListener("pointerdown", function (ev) { if (!$("pruneYes").contains(ev.target)) disarmPrune(); });
   $("pruneNo").addEventListener("click", function () { $("prune").style.visibility = "hidden"; });
   $("moreBtn").addEventListener("click", function () { openEntry(null); });
   // Opens the entries popup; with an entry, that row is marked and the entry opens on its line above the list.
@@ -1450,10 +1528,22 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
 
   // ---- The entry line ("Editing an entry on its line", "Two entries join by docking") ----
-  // A handle snaps to EDIT_SNAP minutes of the clock (to try: "Exact minutes on the line"); the view starts EDIT_PAD
-  // minutes (or 15% of the entry) either side, and grows only on the side being dragged ("The line's zoom", to try).
-  var EDIT_SNAP = 5, EDIT_PAD = 30, MIN = 60000;
-  var REASONS = ["Glömde stämpla in", "Glömde stämpla ut", "Fel profil", "Ärende"];
+  // A dragged handle snaps to EDIT_SNAP minutes of the clock; a clicked one grows into a pill whose − and + step one
+  // minute. A drag stops at the view's edges, and the view never changes during it. Let go, it always eases to fit what
+  // is being edited to EDIT_FILL of its width, centred; it is never narrower than EDIT_MIN_VIEW minutes. The scale under
+  // it shows at most EDIT_TICKS labels, in the smallest unit that fits: hours, days, weeks, months, then years.
+  var EDIT_SNAP = 5, MIN = 60000, EDIT_FILL = 0.65, EDIT_MIN_VIEW = 60, EDIT_TICKS = 8;
+  // The pill wears the neon of the profile in colour; its − and + are black, turning white when black on that neon falls
+  // below PILL_INK_MIN contrast (WCAG: luminance from linear RGB, then (lighter + 0.05) / (darker + 0.05)). At 4.5,
+  // white is then always at least about 4.6:1, so the signs always read.
+  var PILL_INK_MIN = 4.5;
+  function luminance(hex) {
+    return hexToRgb(hex).map(function (c) { return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); })
+      .reduce(function (sum, c, i) { return sum + c * [0.2126, 0.7152, 0.0722][i]; }, 0);
+  }
+  function pillInk(neon) { return (luminance(neon) + 0.05) / 0.05 >= PILL_INK_MIN ? "#000" : "#fff"; }
+  var STEP_DELAY = 400, STEP_FASTEST = 30, STEP_SPEEDUP = 0.85;   // a held − or +: the wait before it repeats, and how it speeds up
+  var REASONS = ["Glömde stämpla in", "Glömde stämpla ut", "Fel profil", "Ärende", "Glömd paus"];
   var ed = null;
   function startEdit(e, stacked) {
     var s0 = +e.start, e0 = +e.end, prev = null, next = null;
@@ -1462,18 +1552,68 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (+x.end <= s0 && (!prev || +x.end > +prev.end)) prev = x;
       if (+x.start >= e0 && (!next || +x.start < +next.start)) next = x;
     });
-    var pad = Math.max(EDIT_PAD * MIN, (e0 - s0) * 0.15);
-    ed = { e: e, s: s0, en: e0, o1: s0, o2: e0, profile: e.profile, mode: "gap", prev: prev, next: next,
-           view: { a: s0 - pad, b: e0 + pad }, pad: pad, reason: null, del: false };
+    var w0 = Math.max(EDIT_MIN_VIEW * MIN, (e0 - s0) / EDIT_FILL);
+    ed = { e: e, s: s0, en: e0, o1: s0, o2: e0, profile: e.profile, mode: "shorten", prev: prev, next: next,
+           view: { a: (s0 + e0) / 2 - w0 / 2, b: (s0 + e0) / 2 + w0 / 2 }, pill: null, joinL: null, joinR: null, reason: null, other: "", del: false, brk: null, brkEditing: false, mid: null, refused: false };
     var sel = $("edProf"); clear(sel);
     profiles.forEach(function (q) { if (q.archived && q.id !== e.profile) return; var o = document.createElement("option"); o.value = q.id; o.textContent = q.name; sel.appendChild(o); });
     sel.value = e.profile;
     $("edDay").textContent = DAYS_LONG[e.start.getDay()] + " " + e.start.getDate() + " " + MONTH_FULL[e.start.getMonth()];
-    $("edPick").textContent = "Välj orsak"; $("edPick").classList.remove("chosen");
-    $("edList").hidden = true; $("edOther").hidden = true; $("edOther").value = "";
-    $("edDel").textContent = "Ta bort"; $("edDel").classList.remove("ask");
+    listOpen(false); showReason(); disarmDel();
     var pop = $("edPop"); pop.classList.toggle("stacked", !!stacked); pop.classList.remove("peek"); pop.hidden = false;
     drawEdit();
+  }
+  // ---- The scale under the line ----
+  // The smallest unit and step whose labels number at most EDIT_TICKS across the view: hours (midnight naming its day),
+  // days, weeks (Mondays), months (January naming its year), years.
+  var TICK_MON = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+  function isoWeek(d) {
+    var t = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 3 - (d.getDay() + 6) % 7);
+    var jan4 = new Date(t.getFullYear(), 0, 4);
+    return 1 + Math.round(((t - jan4) / 86400000 - 3 + (jan4.getDay() + 6) % 7) / 7);
+  }
+  function tickMarks(a, b) {
+    var H = 3600000, D = 24 * H, units = [["h", 1], ["h", 2], ["h", 3], ["h", 6], ["h", 12], ["d", 1], ["d", 2], ["w", 1],
+      ["m", 1], ["m", 3], ["m", 6], ["y", 1], ["y", 2], ["y", 5], ["y", 10]];
+    var len = { h: H, d: D, w: 7 * D, m: 30.44 * D, y: 365.25 * D };
+    var u = units.filter(function (x) { return (b - a) / (len[x[0]] * x[1]) <= EDIT_TICKS; })[0];
+    for (var n = 20; !u; n *= 2) if ((b - a) / (len.y * n) <= EDIT_TICKS) u = ["y", n];
+    var kind = u[0], step = u[1], out = [], t = new Date(a);
+    if (kind === "h") t.setMinutes(0, 0, 0); else t.setHours(0, 0, 0, 0);
+    if (kind === "m" || kind === "y") t.setDate(1);
+    if (kind === "y") t.setMonth(0);
+    if (kind === "w") t.setDate(t.getDate() - (t.getDay() + 6) % 7);
+    for (var i = 0; +t <= b && i < 500; i++) {
+      var keep = +t >= a && (kind === "h" ? t.getHours() % step === 0 : kind === "d" ? Math.round(+t / D) % step === 0 :
+        kind === "m" ? t.getMonth() % step === 0 : kind === "y" ? t.getFullYear() % step === 0 : true);
+      if (keep) out.push({ t: +t, label: kind === "h" ? (t.getHours() === 0 ? DAY[t.getDay()] : String(t.getHours()).padStart(2, "0"))
+        : kind === "d" ? DAY[t.getDay()] + " " + t.getDate() : kind === "w" ? "v. " + isoWeek(t)
+        : kind === "m" ? (t.getMonth() === 0 ? String(t.getFullYear()) : TICK_MON[t.getMonth()]) : String(t.getFullYear()) });
+      if (kind === "h") t.setHours(t.getHours() + 1); else if (kind === "d") t.setDate(t.getDate() + 1);
+      else if (kind === "w") t.setDate(t.getDate() + 7); else if (kind === "m") t.setMonth(t.getMonth() + 1); else t.setFullYear(t.getFullYear() + 1);
+    }
+    return out;
+  }
+  // What is being edited: the entry as it was and as it is becoming
+  function edSpan() { return { a: Math.min(ed.s, ed.o1), b: Math.max(ed.en, ed.o2) }; }
+  // The view fitted to it, centred, filling EDIT_FILL of the line
+  function fittedView() {
+    var sp = edSpan(), w = Math.max(EDIT_MIN_VIEW * MIN, (sp.b - sp.a) / EDIT_FILL), c = (sp.a + sp.b) / 2;
+    return { a: c - w / 2, b: c + w / 2 };
+  }
+  // After a drag or a step: the view refits, eased over --speed-ui (at once in Stilla), so the line always looks the same
+  var settleRun = 0;
+  function settleView() {
+    var from = { a: ed.view.a, b: ed.view.b }, to = fittedView(), run = ++settleRun;
+    var ms = still() ? 0 : parseFloat(getComputedStyle(app).getPropertyValue("--speed-ui")) * 1000 || 200;
+    if (!ms) { ed.view = to; drawEdit(); return; }
+    var t0 = performance.now();
+    (function frame(now) {
+      if (!ed || run !== settleRun) return;
+      var k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3);
+      ed.view = { a: from.a + (to.a - from.a) * e, b: from.b + (to.b - from.b) * e }; drawEdit();
+      if (k < 1) requestAnimationFrame(frame);
+    })(t0);
   }
   function closeEdit() { ed = null; clearTimeout(peekT); $("edPop").classList.remove("peek"); $("edPop").hidden = true; }
 
@@ -1490,7 +1630,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   });
   $("edPop").addEventListener("pointerleave", function () { clearTimeout(peekT); peekT = null; this.classList.remove("peek"); });
   var pressedBehind = false;
-  $("edPop").addEventListener("pointerdown", function (ev) { pressedBehind = ev.target === this; });
+  $("edPop").addEventListener("pointerdown", function (ev) {
+    pressedBehind = ev.target === this;
+    if (!$("edDel").contains(ev.target)) disarmDel();
+    if (ed && ed.pill && !ev.target.closest(".ed-handle")) closePill();
+  });
   $("edPop").addEventListener("click", function (ev) {
     if (ev.target === this && pressedBehind && ed) { closeEdit(); markPicked(null); }
     pressedBehind = false;
@@ -1500,15 +1644,21 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function edHi() { return ed.next ? +ed.next.start : Date.now(); }
   function snapT(t) { var q = EDIT_SNAP * MIN, off = new Date(t).getTimezoneOffset() * MIN; return Math.round((t - off) / q) * q + off; }
   function inward() { return ed.s > ed.o1 && ed.en < ed.o2; }
+  // A gap filled by another profile may reach the entry's edges and go on past them, as any handle, to the next entry
+  // or now: the new entry then takes that end, the part of the entry's own on that side goes, and time past the old
+  // edge is added
+  function filling() { return !!ed.mid && ed.mode === "gap"; }
+  function divided() { return (inward() && ed.mode === "gap") || filling(); }
   function docked() {
+    if (ed.mid) return { l: false, r: false };
     return { l: !!ed.prev && ed.s === +ed.prev.end && ed.prev.profile === ed.profile,
              r: !!ed.next && ed.en === +ed.next.start && ed.next.profile === ed.profile };
   }
   // What the entry becomes: one or two stretches, joined with a docked neighbour.
   function edResult() {
-    var parts = inward() && ed.mode === "gap" ? [{ a: ed.o1, b: ed.s }, { a: ed.en, b: ed.o2 }] : [{ a: ed.s, b: ed.en }];
+    var parts = divided() ? [{ a: ed.o1, b: ed.s }, { a: ed.en, b: ed.o2 }].filter(function (r) { return r.b > r.a; }) : [{ a: ed.s, b: ed.en }];
     var d = docked();
-    if (d.l) parts[0].a = +ed.prev.start;
+    if (d.l && parts.length) parts[0].a = +ed.prev.start;
     if (d.r) parts[parts.length - 1].b = +ed.next.end;
     return parts;
   }
@@ -1516,6 +1666,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function edSegments() {
     var o1 = ed.o1, o2 = ed.o2, s = ed.s, e = ed.en, out = [];
     function seg(a, b, k) { if (b > a) out.push({ a: a, b: b, k: k }); }
+    if (filling()) {
+      seg(o1, s, "keep"); seg(Math.max(s, o1), Math.min(e, o2), "cut"); seg(e, o2, "keep"); seg(s, o1, "add"); seg(o2, e, "add");
+      return out;
+    }
     if (inward()) {
       if (ed.mode === "gap") { seg(o1, s, "keep"); seg(s, e, "cut"); seg(e, o2, "keep"); }
       else { seg(o1, s, "cut"); seg(s, e, "keep"); seg(e, o2, "cut"); }
@@ -1524,92 +1678,311 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var ka = Math.max(o1, s), kb = Math.min(o2, e);
     if (kb > ka) { seg(ka, kb, "keep"); seg(s, o1, "add"); seg(o2, e, "add"); seg(o1, s, "cut"); seg(e, o2, "cut"); }
     else { seg(o1, o2, "cut"); seg(s, e, "add"); }
+    // A joined neighbour's own time is kept, not added; only the stretch dragged across to reach it is green
+    [ed.joinL, ed.joinR].forEach(function (j) {
+      if (!j) return;
+      var x = Math.max(+j.start, s), y = Math.min(+j.end, e);
+      out = out.reduce(function (acc, g) {
+        if (g.k !== "add" || g.b <= x || g.a >= y) { acc.push(g); return acc; }
+        if (g.a < x) acc.push({ a: g.a, b: x, k: "add" });
+        if (g.b > y) acc.push({ a: y, b: g.b, k: "add" });
+        return acc;
+      }, []);
+      seg(x, y, "keep"); seg(+j.start, Math.min(x, +j.end), "cut"); seg(Math.max(y, +j.start), +j.end, "cut");
+    });
     return out;
   }
-  function edChanged() { return ed.s !== ed.o1 || ed.en !== ed.o2 || ed.profile !== ed.e.profile; }
-  function edReasonOk() { return ed.reason && (ed.reason !== "other" || $("edOther").value.trim() !== ""); }
+  // Let go docked to a neighbour of the same profile: the two are one entry from then on, the handle at its far end
+  // and the view fitted to it all. Undoing a join is "Avbryt" and opening the entry again.
+  function absorbDocked() {
+    var d = docked();
+    if (d.l) {
+      ed.joinL = ed.prev; ed.s = +ed.prev.start;
+      ed.prev = entries.filter(function (x) { return x !== ed.joinL && +x.end <= ed.s; }).sort(function (x, y) { return y.end - x.end; })[0] || null;
+    }
+    if (d.r) {
+      ed.joinR = ed.next; ed.en = +ed.next.end;
+      ed.next = entries.filter(function (x) { return x !== ed.joinR && +x.start >= ed.en; }).sort(function (x, y) { return x.start - y.start; })[0] || null;
+    }
+  }
+  // ---- The break in the edit ----
+  // The break the result carries: the entry's own, plus a docked neighbour's when they join, unless set with the tag.
+  // Divided, it goes whole to the larger part if it fits there; if not, it fills the larger part and the rest goes to
+  // the other. A handle stops where the parts can no longer hold it.
+  function edBreak() {
+    if (ed.brk !== null) return ed.brk;
+    var d = docked(); return (ed.e.brk || 0) + (d.l ? ed.prev.brk || 0 : 0) + (d.r ? ed.next.brk || 0 : 0)
+      + (ed.joinL ? ed.joinL.brk || 0 : 0) + (ed.joinR ? ed.joinR.brk || 0 : 0);
+  }
+  function partMins(r) { return Math.round((r.b - r.a) / MIN); }
+  function edShares(parts) {
+    var total = edBreak(), lens = parts.map(partMins), out = lens.map(function () { return 0; });
+    if (!parts.length) return out;
+    var big = lens.indexOf(Math.max.apply(null, lens));
+    out[big] = Math.min(total, lens[big]);
+    if (total > lens[big] && lens.length > 1) out[1 - big] = total - lens[big];
+    return out;
+  }
+  function edKept() { return edResult().reduce(function (sum, r) { return sum + partMins(r); }, 0); }
+  function edFits() { return edKept() >= edBreak(); }
+  function edChanged() { return ed.s !== ed.o1 || ed.en !== ed.o2 || ed.profile !== ed.e.profile || (ed.brk !== null && ed.brk !== (ed.e.brk || 0)) || !!ed.mid; }
+  function edReasonOk() { return ed.reason && (ed.reason !== "other" || ed.other.trim() !== ""); }
   function drawEdit() {
+    // Another profile fills only a gap: once the handles no longer make one, the entry is its own profile again
+    if (ed.mid && !filling()) { ed.mid = null; $("edProf").value = ed.profile; }
+    // A gap lives only while both handles are inward, or while another profile fills it; otherwise the default,
+    // shortening, comes back, so an old gap never returns unasked
+    if (!inward() && !filling()) ed.mode = "shorten";
     var line = $("edLine"); clear(line);
     var a = ed.view.a, b = ed.view.b, pct = function (t) { return ((t - a) / (b - a) * 100) + "%"; };
     var p = prof(ed.profile); line.style.setProperty("--p", p.colour);
-    // Hour ticks: every 1, 2, 3 or 6 hours, by the span; midnight names its day.
-    var span = (b - a) / 3600000, step = span <= 7 ? 1 : span <= 14 ? 2 : span <= 26 ? 3 : 6;
-    var t = new Date(a); t.setMinutes(0, 0, 0);
-    for (; +t <= b; t.setHours(t.getHours() + 1)) {
-      if (+t < a || t.getHours() % step) continue;
-      var tk = document.createElement("span"); tk.className = "ed-tick"; tk.style.left = pct(+t);
-      tk.textContent = t.getHours() === 0 ? DAY[t.getDay()] : String(t.getHours()).padStart(2, "0"); line.appendChild(tk);
-    }
+    tickMarks(a, b).forEach(function (m) {
+      var tk = document.createElement("span"); tk.className = "ed-tick"; tk.style.left = pct(m.t); tk.textContent = m.label; line.appendChild(tk);
+    });
     var d = docked();
     entries.forEach(function (x) {
-      if (x === ed.e || +x.end < a || +x.start > b) return;
+      if (x === ed.e || x === ed.joinL || x === ed.joinR || +x.end < a || +x.start > b) return;
       var o = document.createElement("div"); o.className = "ed-other";
       if (x.profile === ed.profile) { o.classList.add("same"); o.style.setProperty("--p", prof(x.profile).colour); }
       if ((d.l && x === ed.prev) || (d.r && x === ed.next)) o.classList.add("dock");
       o.style.left = pct(Math.max(+x.start, a)); o.style.width = "calc(" + pct(Math.min(+x.end, b)) + " - " + pct(Math.max(+x.start, a)) + ")";
       line.appendChild(o);
     });
+    // Where a joined neighbour meets the entry with no gap between, a thin line shows it, the point past which a drag
+    // back undoes the join
+    if (ed.joinL && +ed.joinL.end === ed.o1) { var jl = document.createElement("div"); jl.className = "ed-join"; jl.style.left = pct(ed.o1); line.appendChild(jl); }
+    if (ed.joinR && +ed.joinR.start === ed.o2) { var jr = document.createElement("div"); jr.className = "ed-join"; jr.style.left = pct(ed.o2); line.appendChild(jr); }
     var now = Date.now();
     if (now > a && now < b) { var n = document.createElement("div"); n.className = "ed-now"; n.style.left = pct(now); line.appendChild(n); }
+    var inw = inward() || filling(), mid = filling() && ed.mid;
+    if (mid) line.style.setProperty("--pm", prof(ed.mid).colour);
     edSegments().forEach(function (g) {
-      var el2 = document.createElement("div"); el2.className = "ed-seg " + g.k;
+      var k = g.k, middle = inw && g.a === ed.s && g.b === ed.en;
+      // Filled, the taken middle wears the new profile, time past the old edges stays green, the parts go grey
+      if (mid) k = k === "cut" ? "mid" : k === "keep" ? "grey" : k;
+      // Only red can be clicked: a filled middle is a new entry, not a gap
+      var el2 = document.createElement("div"); el2.className = "ed-seg " + k + (middle && !mid ? " pick" : "");
       el2.style.left = pct(g.a); el2.style.width = "calc(" + pct(g.b) + " - " + pct(g.a) + ")";
-      if (g.k === "keep") el2.dataset.k = "bar";
+      if (k === "keep") el2.dataset.k = "bar";
       line.appendChild(el2);
     });
     [["a", ed.s], ["b", ed.en]].forEach(function (h) {
+      // Every handle wears the neon of the profile in colour, as the colour picker's knob wears its neon
       var hd = document.createElement("div"); hd.className = "ed-handle"; hd.dataset.k = h[0]; hd.style.left = pct(h[1]); line.appendChild(hd);
-      var lb = document.createElement("span"); lb.className = "ed-hlabel"; lb.textContent = clock(new Date(h[1])); lb.style.left = pct(h[1]); line.appendChild(lb);
+      var neon = profPair(prof(ed.mid || ed.profile)).over;
+      hd.style.background = neon; hd.style.setProperty("--pm-ink", pillInk(neon));
+      if (ed.pillShrink === h[0] && !still()) { hd.classList.add("pill"); void hd.offsetWidth; hd.classList.add("shut"); }
+      if (ed.pill === h[0]) {
+        hd.classList.add("pill");
+        [["−", -1], ["+", 1]].forEach(function (b) { var pm = document.createElement("span"); pm.className = "pm"; pm.textContent = b[0]; pm.dataset.step = b[1]; hd.appendChild(pm); });
+        // Grown from a circle the first time it is drawn, not at every step
+        if (ed.pillGrow && !still()) { hd.classList.add("shut", "fresh"); void hd.offsetWidth; hd.classList.remove("shut"); }
+      }
+      var lb = document.createElement("span"); lb.className = "ed-hlabel"; lb.dataset.k = h[0]; lb.textContent = clock(new Date(h[1])); lb.style.left = pct(h[1]); line.appendChild(lb);
     });
+    // Handles closer than a label's width: the labels lean away from each other, the start's ending at its handle and
+    // the end's starting at its, so they never touch; further apart they stay centred
+    var la = line.querySelector('.ed-hlabel[data-k="a"]'), lbb = line.querySelector('.ed-hlabel[data-k="b"]');
+    var gapPx = (ed.en - ed.s) / (b - a) * line.clientWidth;
+    if (gapPx < (la.offsetWidth + lbb.offsetWidth) / 2 + 4) { la.classList.add("lean-l"); lbb.classList.add("lean-r"); }
+    ed.pillGrow = false; ed.pillShrink = null;
     // The result in words, under the day
     var res = edResult(), words = res.map(function (r) { return clock(new Date(r.a)) + "–" + clock(new Date(r.b)); }).join(" och ");
     var mins = res.reduce(function (sum, r) { return sum + Math.round((r.b - r.a) / MIN); }, 0);
-    var extra = d.l || d.r ? " · slås ihop med grannen" : inward() ? (ed.mode === "gap" ? " · hål i posten (klicka på linjen: korta)" : " · kortare post (klicka på linjen: hål)") : "";
-    $("edTimes").innerHTML = edChanged() ? "<b>" + words + "</b> · " + hmPlain(mins) + extra : clock(new Date(ed.o1)) + "–" + clock(new Date(ed.o2)) + " · " + hmPlain(Math.round((ed.o2 - ed.o1) / MIN));
+    // Each part's times, then its break as its tag, with no length: "07:58–12:10 paus 20min"
+    var shares = edShares(res), warn = ed.refused || (edBreak() > 0 && edKept() === edBreak()), changed = edChanged();
+    function tagHtml(m, i) {
+      // The field opens where the clicked tag was
+      if (ed.brkEditing && i === ed.brkAt) return '<input class="brk-in" id="edBrkIn" placeholder="00:00" autocomplete="off" value="' + lengthField(edBreak()) + '">';
+      if (!m) return i === 0 && !edBreak() && !ed.mid ? '<button type="button" class="tag add" data-i="0">+ paus</button>' : "";
+      return '<button type="button" class="tag' + (ed.mid ? " still" : warn ? " warn" : "") + '" data-i="' + i + '">paus ' + lengthText(m) + "</button>";
+    }
+    var times = res.map(function (r) { return clock(new Date(r.a)) + "–" + clock(new Date(r.b)); });
+    // Divided, the parts are set apart by a centred dot. With the gap filled by another profile, the text follows the
+    // line: the parts grey, as neighbours, and the new entry's time in that profile's base colour.
+    var parts = res.map(function (r, i) { return ed.mid ? '<span class="nb">' + times[i] + tagHtml(shares[i], i) + "</span>" : "<b>" + times[i] + "</b>" + tagHtml(shares[i], i); });
+    if (ed.mid) parts.splice(ed.s > ed.o1 ? 1 : 0, 0, '<b style="color: ' + prof(ed.mid).colour + '">' + clock(new Date(ed.s)) + "–" + clock(new Date(ed.en)) + "</b>");
+    var html = res.length === 1 && !ed.mid
+      ? (changed ? "<b>" + times[0] + "</b>" : times[0]) + tagHtml(shares[0], 0)
+      : parts.join(" · ");
+    $("edTimes").innerHTML = html;
+    // The same shape as every length field ("Entering a length of time"); no reading under it, the tag shows it on Enter
+    if (ed.brkEditing) { var bi = $("edBrkIn"); keepOnly(bi, /[0-9:]/, /^(\d{0,3}|\d{0,2}:([0-5]\d?)?)$/); bi.focus(); bi.select(); }
     $("edSave").disabled = !(edChanged() && edReasonOk());
   }
   (function () {
     var line = $("edLine"), drag = null;
     function timeAt(x) { var r = line.getBoundingClientRect(); return ed.view.a + (x - r.left) / r.width * (ed.view.b - ed.view.a); }
-    function grow(t) { if (t < ed.view.a + ed.pad / 2) ed.view.a = t - ed.pad; if (t > ed.view.b - ed.pad / 2) ed.view.b = t + ed.pad; }
     line.addEventListener("pointerdown", function (ev) {
       if (!ed) return;
+      // The pill's − or +: one minute, repeating while held
+      if (ev.target.dataset.step) { ev.preventDefault(); holdStep(ev.target.parentNode.dataset.k, +ev.target.dataset.step); return; }
       var k = ev.target.dataset.k || null;
       drag = { k: k, x: ev.clientX, t0: timeAt(ev.clientX), s0: ed.s, e0: ed.en, moved: false };
       if (k) { line.setPointerCapture(ev.pointerId); ev.preventDefault(); }
     });
     line.addEventListener("pointermove", function (ev) {
       if (!drag || !drag.k || !ed) return;
-      if (Math.abs(ev.clientX - drag.x) > 2) drag.moved = true;
-      var t = timeAt(ev.clientX), q = EDIT_SNAP * MIN, lo = edLo(), hi = edHi();
-      if (drag.k === "a") { ed.s = Math.min(Math.max(snapT(t), lo), ed.en - q); grow(ed.s); }
-      else if (drag.k === "b") { ed.en = Math.max(Math.min(snapT(t), hi), ed.s + q); grow(ed.en); }
-      else { var dt = Math.round((t - drag.t0) / q) * q; dt = Math.max(lo - drag.s0, Math.min(hi - drag.e0, dt)); ed.s = drag.s0 + dt; ed.en = drag.e0 + dt; grow(ed.s); grow(ed.en); }
-      // Docked, the whole joined entry is the entry being changed, so it all fits in view
-      var r = edResult(); grow(r[0].a); grow(r[r.length - 1].b);
+      if (Math.abs(ev.clientX - drag.x) > 2) { drag.moved = true; ed.pill = null; }
+      if (!drag.moved) return;
+      ed.refused = false;
+      // Nothing is dragged past the view's edges; let go, the view opens up if needed
+      var t = timeAt(ev.clientX), q = EDIT_SNAP * MIN, lo = Math.max(edLo(), ed.view.a), hi = Math.min(edHi(), ed.view.b), was = { s: ed.s, en: ed.en };
+      if (drag.k === "a") ed.s = Math.min(Math.max(snapT(t), lo), ed.en - q);
+      else if (drag.k === "b") ed.en = Math.max(Math.min(snapT(t), hi), ed.s + q);
+      else { var dt = Math.round((t - drag.t0) / q) * q; dt = Math.max(lo - drag.s0, Math.min(hi - drag.e0, dt)); ed.s = drag.s0 + dt; ed.en = drag.e0 + dt; }
+      // The break is a wall too: step back toward where the handle was until the parts can hold it
+      for (var n = 0; !edFits() && n < 2000; n++) {
+        if (drag.k === "a" && ed.s !== was.s) ed.s += ed.s < was.s ? Math.min(q, was.s - ed.s) : -Math.min(q, ed.s - was.s);
+        else if (drag.k === "b" && ed.en !== was.en) ed.en += ed.en < was.en ? Math.min(q, was.en - ed.en) : -Math.min(q, ed.en - was.en);
+        else { ed.s = was.s; ed.en = was.en; break; }
+      }
+      // Dragged back past a joined neighbour's end, the join undoes itself: the neighbour is whole again, a wall
+      if (ed.joinL && ed.s > +ed.joinL.end) { ed.prev = ed.joinL; ed.joinL = null; ed.s = Math.max(ed.s, +ed.prev.end); }
+      if (ed.joinR && ed.en < +ed.joinR.start) { ed.next = ed.joinR; ed.joinR = null; ed.en = Math.min(ed.en, +ed.next.start); }
       drawEdit();
     });
     line.addEventListener("pointerup", function () {
-      // A click on the line, not a drag, switches a gap and a shortening
-      if (drag && !drag.moved && ed && inward()) { ed.mode = ed.mode === "gap" ? "shorten" : "gap"; drawEdit(); }
+      if (drag && drag.moved && ed) { absorbDocked(); settleView(); }
+      // A click on a handle, not a drag, grows it into the pill; the other handle's pill, if open, shrinks
+      if (drag && !drag.moved && ed && (drag.k === "a" || drag.k === "b")) { if (ed.pill !== drag.k) openPill(drag.k); drag = null; return; }
+      // A click on the middle, not a drag, switches a shortening and a gap
+      if (drag && !drag.moved && ed && !ed.mid && inward() && drag.t0 > ed.s && drag.t0 < ed.en) {
+        ed.mode = ed.mode === "gap" ? "shorten" : "gap";
+        // A switch the break cannot fit in is refused, and the tag says why, red until the next change
+        ed.refused = !edFits();
+        if (ed.refused) ed.mode = ed.mode === "gap" ? "shorten" : "gap";
+        if (ed.mode === "shorten" && ed.mid) { ed.mid = null; $("edProf").value = ed.profile; }
+        drawEdit();
+      }
       drag = null;
     });
   })();
-  $("edProf").addEventListener("change", function () { ed.profile = this.value; drawEdit(); });
+  // ---- The handle's pill: exact minutes ----
+  // A clicked handle grows into a pill, − on its left and + on its right, each one minute that way, as are the arrow
+  // keys; held, a − or + repeats, faster the longer it is held. Dragging it, a click elsewhere or Esc shrinks it back.
+  // The line is drawn afresh at every change, so a pill shrinking back is drawn wide and then told to shrink, as a
+  // growing one is drawn round and told to grow; opening one pill shrinks the other in the same draw
+  function openPill(k) { if (ed.pill && ed.pill !== k) ed.pillShrink = ed.pill; ed.pill = k; ed.pillGrow = true; drawEdit(); }
+  function closePill() {
+    if (!ed || !ed.pill) return;
+    ed.pillShrink = ed.pill; ed.pill = null; drawEdit();
+  }
+  function stepHandle(k, d) {
+    var was = { s: ed.s, en: ed.en };
+    if (k === "a") ed.s = Math.min(Math.max(ed.s + d * MIN, edLo()), ed.en - MIN);
+    else ed.en = Math.max(Math.min(ed.en + d * MIN, edHi()), ed.s + MIN);
+    ed.refused = !edFits();
+    if (ed.refused) { ed.s = was.s; ed.en = was.en; }
+    settleView();
+  }
+  var holdT = null;
+  function holdStep(k, d) {
+    var wait = STEP_DELAY;
+    function again() { stepHandle(k, d); holdT = setTimeout(again, wait); wait = Math.max(STEP_FASTEST, wait * STEP_SPEEDUP); }
+    stepHandle(k, d); holdT = setTimeout(function () { wait = STEP_DELAY * STEP_SPEEDUP; again(); }, STEP_DELAY);
+  }
+  window.addEventListener("pointerup", function () { clearTimeout(holdT); holdT = null; });
+  window.addEventListener("pointercancel", function () { clearTimeout(holdT); holdT = null; });
+  // Keys reach the pill first, wherever the focus is
+  document.addEventListener("keydown", function (e) {
+    if (!ed || !ed.pill || e.target.tagName === "INPUT") return;
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") { e.preventDefault(); stepHandle(ed.pill, e.key === "ArrowLeft" ? -1 : 1); }
+    else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); closePill(); }
+  }, true);
+  // The picker names what is in colour: with a gap, the profile that fills it (the entry's own empties it again);
+  // otherwise the whole entry's
+  $("edProf").addEventListener("change", function () {
+    ed.refused = false;
+    if ((inward() || ed.mid) && ed.mode === "gap") ed.mid = this.value === ed.profile ? null : this.value;
+    else { ed.profile = this.value; ed.mid = null; }
+    drawEdit();
+  });
+  // The tag sets the whole break, as the field under "Lägg till paus" does: Enter or a click away keeps it, Esc
+  // leaves it as it was. Dated the day the entry stops (in the app; the sketch keeps
+  // only its length).
+  $("edTimes").addEventListener("click", function (ev) {
+    if (!ed || !ev.target.classList.contains("tag") || ev.target.classList.contains("still")) return;
+    ed.brkEditing = true; ed.brkAt = +ev.target.dataset.i || 0; drawEdit();
+  });
+  // A length longer than the time kept is refused, its text red, the field left open until fixed or dropped with Esc
+  function closeBrk(keep) {
+    if (!ed || !ed.brkEditing) return;
+    var bi = $("edBrkIn"), v = keep ? readLength(bi.value || "0") : null;
+    if (v !== null && v > edKept()) { bi.classList.add("warn"); return; }
+    ed.brkEditing = false; ed.refused = false;
+    if (v !== null) ed.brk = v;
+    drawEdit();
+  }
+  $("edTimes").addEventListener("input", function (ev) { if (ev.target.id === "edBrkIn") ev.target.classList.remove("warn"); });
+  $("edTimes").addEventListener("keydown", function (ev) {
+    if (ev.target.id !== "edBrkIn") return;
+    if (ev.key === "Enter") { ev.preventDefault(); closeBrk(true); }
+    else if (ev.key === "Escape") { ev.preventDefault(); ev.stopPropagation(); closeBrk(false); }
+  });
+  $("edTimes").addEventListener("focusout", function (ev) { if (ev.target.id === "edBrkIn") setTimeout(function () { closeBrk(true); }, 0); });
+  // ---- The reason ----
+  // "Annan orsak" is itself a field in the list. Typed into, it is the reason from the first character; Enter, or a
+  // click elsewhere, keeps the text, and the picker shows it. Esc puts back the text it had
+  // when clicked. The text stays while the edit is open, so choosing another reason and coming back finds it again.
+  // The picker cuts a long reason with "…" at --ed-pick-max.
+  function listOpen(open) { $("edPick").parentNode.classList.toggle("open", open); }
+  function isListOpen() { return $("edPick").parentNode.classList.contains("open"); }
+  // The text is monospaced, so its length in ch is its width; at rest no more than --ed-pick-max, and back at the
+  // text's start
+  function sizeOther(el, typing) {
+    var cap = parseFloat(getComputedStyle(el).getPropertyValue("--ed-pick-max")) || 17;
+    var n = el.value ? el.value.length : el.placeholder.length;
+    el.style.width = (typing ? n : Math.min(n, cap)) + "ch";
+    if (!typing) el.scrollLeft = 0;
+  }
+  function showReason() {
+    var pick = $("edPick"), r = ed.reason;
+    pick.textContent = !r ? "Välj orsak" : r === "other" ? ed.other : r;
+    pick.classList.toggle("chosen", !!r);
+    $("edList").querySelectorAll("button").forEach(function (b) { b.disabled = b.textContent === r; });
+    var other = $("edList").querySelector(".other"); if (other) other.classList.toggle("current", r === "other");
+  }
+  function keepOther() {
+    ed.other = ed.other.trim();
+    if (ed.other) ed.reason = "other"; else if (ed.reason === "other") ed.reason = null;
+    showReason(); drawEdit();
+  }
   $("edPick").addEventListener("click", function () {
-    var list = $("edList"); list.hidden = !list.hidden; if (list.hidden) return; clear(list);
-    REASONS.concat(["Annan orsak"]).forEach(function (r) {
+    var list = $("edList");
+    if (isListOpen()) { listOpen(false); return; }
+    clear(list);
+    // In alphabetical order, the Swedish way (Å, Ä, Ö after Z); "Annan orsak" always last
+    REASONS.slice().sort(function (x, y) { return x.localeCompare(y, "sv"); }).forEach(function (r) {
       var bt = document.createElement("button"); bt.type = "button"; bt.textContent = r;
-      bt.addEventListener("click", function () {
-        ed.reason = r === "Annan orsak" ? "other" : r; list.hidden = true;
-        $("edPick").textContent = r; $("edPick").classList.add("chosen");
-        $("edOther").hidden = ed.reason !== "other"; if (ed.reason === "other") $("edOther").focus();
-        drawEdit();
-      });
+      bt.addEventListener("click", function () { ed.reason = r; listOpen(false); showReason(); drawEdit(); });
       list.appendChild(bt);
     });
+    var other = document.createElement("input"); other.className = "other"; other.type = "text";
+    other.placeholder = "Annan orsak"; other.autocomplete = "off"; other.value = ed.other;
+    sizeOther(other, false);
+    var was = null;
+    other.addEventListener("focus", function () {
+      was = { text: ed.other, reason: ed.reason }; sizeOther(this, true);
+      var el = this; setTimeout(function () { el.setSelectionRange(el.value.length, el.value.length); el.scrollLeft = el.scrollWidth; });
+    });
+    other.addEventListener("input", function () {
+      ed.other = this.value; sizeOther(this, true);
+      if (ed.other.trim()) ed.reason = "other"; else if (ed.reason === "other") ed.reason = null;
+      showReason(); drawEdit();
+    });
+    other.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); listOpen(false); keepOther(); this.blur(); }
+      else if (e.key === "Escape") {
+        e.preventDefault(); e.stopPropagation();
+        ed.other = was.text; ed.reason = was.reason; this.value = was.text; listOpen(false); showReason(); drawEdit(); this.blur();
+      }
+    });
+    // Enter and Esc close the list first, so the blur that follows changes nothing
+    other.addEventListener("blur", function () { sizeOther(this, false); if (ed && isListOpen()) keepOther(); });
+    list.appendChild(other);
+    showReason(); listOpen(true);
   });
-  $("edOther").addEventListener("input", function () { drawEdit(); });
   $("edCancel").addEventListener("click", function () { closeEdit(); markPicked(null); });
   // The simulated figures follow: janitor minutes move the balance, the others the ceiling.
   function bump(id, mins) {
@@ -1619,18 +1992,22 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function refigure() { syncSim(); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay }); drawEntries(false); }
   $("edSave").addEventListener("click", function () {
     if (!ed || this.disabled) return;
-    var d = docked(), old = [ed.e].concat(d.l ? [ed.prev] : []).concat(d.r ? [ed.next] : []);
-    var why = ed.reason === "other" ? $("edOther").value.trim() : ed.reason;
-    var brk = old.reduce(function (sum, x) { return sum + (x.brk || 0); }, 0);
-    var made = edResult().map(function (r, i) { return { start: new Date(r.a), end: new Date(r.b), profile: ed.profile, brk: i === 0 ? Math.min(brk, Math.round((r.b - r.a) / MIN)) : 0, how: "edited", reason: why }; });
+    var d = docked(), old = [ed.e].concat(d.l ? [ed.prev] : []).concat(d.r ? [ed.next] : []).concat(ed.joinL ? [ed.joinL] : []).concat(ed.joinR ? [ed.joinR] : []);
+    var why = ed.reason === "other" ? ed.other.trim() : ed.reason;
+    var res = edResult(), shares = edShares(res);
+    var made = res.map(function (r, i) { return { start: new Date(r.a), end: new Date(r.b), profile: ed.profile, brk: shares[i], how: "edited", reason: why }; });
+    if (ed.mid) made.push({ start: new Date(ed.s), end: new Date(ed.en), profile: ed.mid, brk: 0, how: "edited", reason: why });
     old.forEach(function (x) { bump(x.profile, -dur(x)); entries.splice(entries.indexOf(x), 1); });
     made.forEach(function (x) { bump(x.profile, dur(x)); entries.push(x); });
     entries.sort(function (x, y) { return y.start - x.start; });
     closeEdit(); refigure(); markPicked(made[0]);
   });
+  // "Ta bort" asks once: "Ta bort?" in a red border, back to "Ta bort" when the focus or a click goes elsewhere
+  function disarmDel() { if (ed) ed.del = false; $("edDel").classList.remove("ask"); }
+  $("edDel").addEventListener("focusout", disarmDel);
   $("edDel").addEventListener("click", function () {
     if (!ed) return;
-    if (!ed.del) { ed.del = true; this.textContent = "Ta bort?"; this.classList.add("ask"); return; }
+    if (!ed.del) { ed.del = true; this.classList.add("ask"); return; }
     bump(ed.e.profile, -dur(ed.e)); entries.splice(entries.indexOf(ed.e), 1);
     closeEdit(); refigure();
   });

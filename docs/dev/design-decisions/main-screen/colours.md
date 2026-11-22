@@ -15,8 +15,9 @@ swatch and a code: the base's, then the neon's. The picker is as wide as the row
 be selected and copied but not typed in. The picker is placed so it always fits inside the menu; only "Ändra" opens it.
 
 - **The hue** is where the strip sits. The strip shows each hue as its base colour, so what is picked is what the
-  profile wears. The circle dragged along it is filled with the neon of where it sits, following the drag; nothing else
-  changes until the pointer is released. The strip is remembered with the profile.
+  profile wears. The circle dragged along it is filled with the neon of where it sits, following the drag, with no
+  border or ring, only a soft shadow, the same size and edge as the entry line's handles ("A clicked handle steps by the
+  minute"); nothing else changes until the pointer is released. The strip is remembered with the profile.
 - **The base colour** is the hue muted: 55% of the chroma of the hue at its most vivid (full saturation and value), at a
   lightness 40% of the way from that colour's own toward 0.70.
 - **The neon**, in OKLCH: the hue opposite the strip's colour (its hue plus 180°), at the lightness where that hue is

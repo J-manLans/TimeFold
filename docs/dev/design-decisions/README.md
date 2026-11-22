@@ -109,10 +109,23 @@ title.
 
 - A flex day can be marked ahead, and the screen counts it at once
 
-### [Corrections](corrections.md)
+### Corrections (`corrections/`)
+
+**[Editing](corrections/editing.md)**
 
 - Editing an entry on its line
+
+**[The line](corrections/line.md)**
+
+- The line's view holds still while a handle is dragged
+- A clicked handle steps by the minute
+
+**[Joining](corrections/joining.md)**
+
 - Two entries join by docking
+
+**[Marks and reasons](corrections/marks.md)**
+
 - Entries remember how they were made
 - Every edit carries a reason
 

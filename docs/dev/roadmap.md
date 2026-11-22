@@ -35,12 +35,14 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
-**Settle first:** deleting and writing a forgotten entry; exact minutes on the line; the line's zoom
-(`open-questions.md`); editing an entry on its line, with its profile and its "Välj orsak" field, drawn in the prototype
-as its own popup, its line not yet tuned.
+**Settle first:** deleting and writing a forgotten entry (`open-questions.md`); a divided entry's reason, and the
+profiles its picker offers (`open-questions.md`).
 
 1. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
-   peek at the list behind: handles, the zoom, gaps and shortening, the profile, the confirm; the rows' hover with it.
+   peek at the list behind: handles, the zoom, gaps and shortening, the profile, the break's tag, the confirm; the rows'
+   hover with it. The tag's field keeps its shape through one Svelte attachment in its own file,
+   `src/lib/modules/shared/durationShape.ts`, which the pause field and the onboarding's balance move to from their own
+   copies; the pause field then keeps what is typed on a click away ("Entering a length of time").
 2. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
    chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
 
@@ -51,7 +53,8 @@ its reason, and the balance follows.
 
 **Produces:** every kind of work counted apart, the ceiling wheel, and the menu.
 
-**Settle first:** how the full-time slider is drawn.
+**Settle first:** how the full-time slider is drawn; whether the menu's locked values keep a value on a click outside,
+as length fields do (`open-questions.md`).
 
 1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving; the
    warning label on the start button while another profile runs.

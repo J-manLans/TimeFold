@@ -61,10 +61,11 @@ Its cases are tested with set dates.
 old, a quiet line at the bottom of the main screen offers to prune ("Du har över tre års historik. Vill du rensa den
 äldsta?"), saying how many months it would remove. In a narrow window the line starts right of the menu button in the
 corner, its words wrapping over the left and its two buttons stacked on the right. Nothing is pruned without the owner's
-yes; "not now" hides the line until the next month. A prune cuts at the start of a month: the balance and the ceiling
-hours carried into that month are frozen as opening figures dated the month's first day ("The app's month is the
-calendar month"), as at a first install ("A first install starts fresh or imports"), and every entry before it is
-deleted. A copy of the record is saved first.
+yes, and "Rensa" asks once more, as "Ta bort" does ("The look: a fresh display face, mono text and soft buttons"); "not
+now" hides the line until the next month. A prune cuts at the start of a month: the balance and the ceiling hours
+carried into that month are frozen as opening figures dated the month's first day ("The app's month is the calendar
+month"), as at a first install ("A first install starts fresh or imports"), and every entry before it is deleted. A copy
+of the record is saved first.
 
 **Why:** the owner does not want the record to grow forever, and the opening figures already carry a balance over a cut,
 so pruning reuses them. Cutting at a month's start keeps every remaining month whole, so its report can still be made,
@@ -82,6 +83,8 @@ without a word. Cutting mid-month: that month's report and ceiling would be spli
   31 January 2027 and the ceiling hours carried into February become opening figures dated 1 February 2027, and
   January's entries are deleted.
 - "Not now" on 3 February 2030: the line returns on 1 March 2030, offering two months.
+- "Rensa" clicked: it turns to "Rensa?" in a red border; a click elsewhere turns it back; clicked twice, the prune runs
+  after a copy.
 
 ## A plain window app (2026-11-14)
 
