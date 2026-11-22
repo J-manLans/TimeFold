@@ -124,6 +124,11 @@ title.
 
 - Two entries join by docking
 
+**[Writing and deleting](corrections/writing.md)**
+
+- A forgotten entry is written in the gap where it belongs
+- An entry is deleted from its edit
+
 **[Marks and reasons](corrections/marks.md)**
 
 - Entries remember how they were made

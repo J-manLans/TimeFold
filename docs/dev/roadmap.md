@@ -35,15 +35,16 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
 
-**Settle first:** deleting and writing a forgotten entry (`open-questions.md`).
+**Settle first:** settled.
 
 1. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
    peek at the list behind: handles, the zoom, gaps and shortening, the profile, the break's tag, the confirm; the rows'
    hover with it. The tag's field keeps its shape through one Svelte attachment in its own file,
    `src/lib/modules/shared/durationShape.ts`, which the pause field and the onboarding's balance move to from their own
    copies; the pause field then keeps what is typed on a click away ("Entering a length of time").
-2. Deleting, and writing a forgotten entry; each entry's mark of how it was made, and the reason every time edit needs,
-   chosen from the starting list or written after "Annan orsak", and shown in "Visa alla".
+2. Deleting, and writing a forgotten entry in its gap in "Visa alla"; walking an entry past a neighbour; each entry's
+   mark of how it was made and its "e" tag, and the reason every time edit needs, chosen from the starting list or
+   written after "Annan orsak", or given alone, shown in "Visa alla".
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows.
