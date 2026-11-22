@@ -1297,12 +1297,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function fillList(ol, list, fresh, months) {
     clear(ol); var lastMonth = null;
     if (running) { running.isRunning = true; list = [running].concat(list); }
-    // The always-shown "+" is the first gap that can hold an entry: over the newest finished row, up to now; with
-    // something running, the first gap below it with room (a switch of profile leaves none right under it)
-    var topAt = -1;
+    // A gap shows its "+" only with room for the smallest entry, EDIT_SNAP minutes; a smaller one is spaced as rows that
+    // touch, with nothing to click. The always-shown "+" is the first gap with that room: over the newest finished row,
+    // up to now, or further down (just after a stop, or below a running entry after a switch of profile, there is none)
+    var room = EDIT_SNAP * MIN, topAt = -1;
+    function upper(k) { return list[k - 1] ? +list[k - 1].start : Date.now(); }
     for (var k = 0; k < list.length && topAt < 0; k++) {
       if (list[k].isRunning) continue;
-      if (!list[k - 1] || +list[k - 1].start > +list[k].end) topAt = k;
+      if (upper(k) - +list[k].end >= room) topAt = k;
     }
     list.forEach(function (e, i) {
       var ym = e.start.getFullYear() * 12 + e.start.getMonth();
@@ -1317,12 +1319,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       // under the month's line when the row opens a month.
       if (months && !(i === 0 && e.isRunning)) {
         var newer = list[i - 1], gap = { a: +e.end, b: newer ? +newer.start : Date.now() };
-        var top = i === topAt, open = top || gap.b > gap.a;
+        var top = i === topAt, open = gap.b - gap.a >= room;
         var ins = document.createElement("li"); ins.className = "ins" + (top ? " top" : "") + (open ? "" : " spacer");
         ins.innerHTML = '<span class="rule l"></span><span class="plus">+</span><span class="rule r"></span>';
-        // The top gap is never hidden: up to now, it is measured when clicked, so it shows even just after a stop
+        // The gap up to now is measured again when clicked, since now has moved on since the list was drawn
         if (open) ins.addEventListener("click", function () {
-          markPicked(null); startNew(newer ? gap : { a: +e.end, b: Math.max(Date.now(), +e.end + MIN) }, true);
+          markPicked(null); startNew(newer ? gap : { a: +e.end, b: Date.now() }, true);
         });
         ol.appendChild(ins);
       }
@@ -1404,7 +1406,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     c.addEventListener("pointerleave", function () { c.classList.remove("lit"); });
   })();
   function stopRunning() {
-    var r = running, end = new Date(), start = r.real ? r.start : new Date(end.getTime() - 135 * 60000);
+    // Sketch only: a job not given a real start is made to look 2 h 15 long, but never reaching back past where the
+    // newest entry ends, so quick starts and stops give short entries in a row, never overlapping ones
+    var r = running, end = new Date(), start = r.real ? r.start : new Date(Math.max(end.getTime() - 135 * 60000, entries.length ? +entries[0].end : 0));
     entries.unshift({ start: start, end: end, profile: r.profile, brk: r.brk || 0, how: r.how, reason: r.reason });
     running = null;
     var p = prof(r.profile), t = { balance: balance, used: used, pay: pay + 135 / 60 * (p.rate || 0) };
