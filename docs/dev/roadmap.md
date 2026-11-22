@@ -37,18 +37,21 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** settled.
 
-1. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
-   peek at the list behind: handles and their pill, the view, gaps and shortening, joining and walking, the profile, the
-   break's tag, the confirm; the rows' hover with it; a running entry heading both lists in its neon, edited at its
-   start; the rows' times column wide enough for the "+1"; and first of all, in the Tauri window on Linux, the gaps in
-   "Visa alla" opening evenly on hover, since WebKitGTK there can drop an animation's last frame ("A fade leaves its
-   last frame on screen on Linux", in `docs/dev/procedures/debugging.md`): if a redraw at the end does not cure it, they
-   stay static (`--ins-open: 0`). The tag's field keeps its shape through one Svelte attachment in its own file,
-   `src/lib/modules/shared/durationShape.ts`, which the pause field and the onboarding's balance move to from their own
-   copies; the pause field then keeps what is typed on a click away ("Entering a length of time").
-2. Deleting, and writing a forgotten entry in its gap in "Visa alla"; walking an entry past a neighbour; each entry's
-   mark of how it was made and its "e" tag, and the reason every time edit needs, chosen from the starting list or
-   written after "Annan orsak", or given alone, shown in "Visa alla".
+1. The Linux check, first of all: in the Tauri window on the owner's Linux machine, the gaps in "Visa alla" opening
+   evenly on hover, since WebKitGTK there can drop an animation's last frame ("A fade leaves its last frame on screen on
+   Linux", in `docs/dev/procedures/debugging.md`); if a redraw at the end does not cure it, they stay static
+   (`--ins-open: 0`).
+2. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
+   peek at the list behind: the handles and their pill, the view and its scale, shortening and gaps, the profile and a
+   gap filled by another, joining and walking, the break's tag, the confirm. The tag's field keeps its shape through one
+   Svelte attachment in its own file, `src/lib/modules/shared/durationShape.ts`, which the pause field and the
+   onboarding's balance move to from their own copies; the pause field then keeps what is typed on a click away
+   ("Entering a length of time").
+3. The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag and its reason under
+   the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
+4. Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each entry's mark of how it was
+   made, and the reason every time edit needs, chosen from the starting list or written after "Annan orsak", or given
+   alone. The record learns to keep an entry's reason, so its version goes up and an older record still reads.
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows.
