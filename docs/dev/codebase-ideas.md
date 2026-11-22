@@ -114,7 +114,5 @@ owner's:
    installers come from.
 5. **Updating.** The updater, planned for the last phase, signs releases with a key of its own, kept out of the repo.
    For machines IT installs, IT may rather push each `.msi` itself; asked of IT.
-6. **Upkeep.** Who answers questions and fixes faults, and on whose time. The owner's lean: the hours already spent
-   building the app are counted as development hours, and upkeep after the rollout is a standing deal paid as
-   development hours, recorded on the development group's profile like any other work. Agreed with the school before the
-   rollout, with what upkeep covers (faults, new Windows versions, small requests) and what is new work.
+6. **Upkeep.** Who answers questions and fixes faults, and on whose time. Agreed with the school before the rollout,
+   with what upkeep covers (faults, new Windows versions, small requests) and what is new work.
