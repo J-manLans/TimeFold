@@ -16,7 +16,7 @@ export const RECORD: TimeRecord = {
       hue: 195,
       base: '#7ed6d5',
       expectedMinutes: [{ from: '2026-11-16', minutes: 360 }],
-      pay: [{ from: '2026-11-16', kind: 'salary', amount: 1700 }],
+      pay: [{ from: '2026-11-16', kind: 'salary', amount: 2000 }],
       flexDays: [],
     },
   ],

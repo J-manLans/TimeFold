@@ -924,10 +924,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("simReduce").addEventListener("change", applyMotion);
   applyMotion();
   // Janitor work has a monthly salary (its hours move the balance, not the pay); the others a rate per hour.
-  var profiles = [{ id: "v", name: "Vaktmästare", balance: true, salary: 1700 }, { id: "u", name: "Utveckling", rate: 26 }];
+  var profiles = [{ id: "v", name: "Vaktmästare", balance: true, salary: 2000 }, { id: "u", name: "Utveckling", rate: 24 }];
   var onScreen = "v", running = null; // running: { profile, start }
-  var balance = 270, used = 2280, pay = 1739; // minutes, minutes, euro (1 700 salary + 1.5 h × 26)
-  var shown = { balance: 270, used: 2280, pay: 1739 };
+  var balance = 270, used = 2280, pay = 2036; // minutes, minutes, euro (2 000 salary + 1.5 h × 24)
+  var shown = { balance: 270, used: 2280, pay: 2036 };
   // The ceiling's hours in the order they were worked, each piece with its profile; `used` is their sum.
   var usedLog = [{ p: "u", mins: 2280 }];
   function addUsed(id, mins) {

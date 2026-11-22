@@ -287,17 +287,17 @@ describe('hours over a month’s ceiling carry into the next, first and with the
 })
 
 describe("the pay estimate is the month's salaries plus its hours times their rates", () => {
-  const salaried = { ...JANITOR, pay: [{ from: '2026-05-16', kind: 'salary' as const, amount: 1700 }] }
-  const rated = { ...DEV, pay: [{ from: SINCE_NEW_YEAR, kind: 'rate' as const, amount: 26 }] }
+  const salaried = { ...JANITOR, pay: [{ from: '2026-05-16', kind: 'salary' as const, amount: 2000 }] }
+  const rated = { ...DEV, pay: [{ from: SINCE_NEW_YEAR, kind: 'rate' as const, amount: 24 }] }
 
-  it('gives 1 700 € for the janitor salary alone, from the middle of the month', () => {
-    expect(payEstimate(workRecord([], salaried, [rated]), '2026-05-20')).toBe(1700)
+  it('gives 2 000 € for the janitor salary alone, from the middle of the month', () => {
+    expect(payEstimate(workRecord([], salaried, [rated]), '2026-05-20')).toBe(2000)
   })
 
-  it('gives 1 960 € after 10 h of development at 26 €/h, and no more for an 8 h janitor day', () => {
+  it('gives 2 240 € after 10 h of development at 24 €/h, and no more for an 8 h janitor day', () => {
     const entries = [work('2026-05-18', 10, DEV.id), work('2026-05-19', 8, JANITOR.id)]
 
-    expect(payEstimate(workRecord(entries, salaried, [rated]), '2026-05-20')).toBe(1960)
+    expect(payEstimate(workRecord(entries, salaried, [rated]), '2026-05-20')).toBe(2240)
   })
 
   it('keeps February’s hours at 20 €/h when the rate rises to 22 from 1 March', () => {

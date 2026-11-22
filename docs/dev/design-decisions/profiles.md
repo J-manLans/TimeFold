@@ -64,7 +64,7 @@ ceiling does not show.
 **Built by:** Profiles, for pay set in the menu.
 
 **Decision:** each profile may have a monthly salary or a rate per hour, settings that change from a date ("Settings
-change from a date"). A salary counts once per month whatever the hours; janitor work has one (such as 1 700 €), since
+change from a date"). A salary counts once per month whatever the hours; janitor work has one (such as 2 000 €), since
 its hours move the balance, not the pay. A rate counts the profile's hours that month. A profile with neither is left
 out. The estimate is the month's salaries plus its hours times rates ("The app's month is the calendar month"), shown as
 one number with no label under the ceiling wheel ("The main screen has a controls side and a dashboard"), and updated

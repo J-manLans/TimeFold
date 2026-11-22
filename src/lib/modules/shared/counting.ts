@@ -148,7 +148,7 @@ export function ceilingMonth(record: TimeRecord, day: Day): CeilingMonth {
 /**
  * A rough figure of the month's pay, in euros ("A pay estimate per profile"): each salary in force in the month once,
  * plus each rated profile's hours times the rate in force the day they were worked. Running entries count once
- * stopped. Used for the pay estimate under the ceiling wheel: a 1 700 € salary and 10 h at 26 €/h give 1 960.
+ * stopped. Used for the pay estimate under the ceiling wheel: a 2 000 € salary and 10 h at 24 €/h give 2 240.
  */
 export function payEstimate(record: TimeRecord, day: Day): number {
   const month = monthOf(day)
