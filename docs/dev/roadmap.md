@@ -1,8 +1,9 @@
 # Roadmap
 
-What comes next, the phases with how far each step has got, and what is not on the roadmap. Read every session. Nothing
-done stays here: a step is removed once it is seen working, and what was done goes in the commit message. **Next** says
-what comes next, not the branch name; work outside a phase, such as a patch, is a step under it.
+What comes next, the phases with how far each step has got, the phases done, and what is not on the roadmap. Read every
+session. Nothing done stays here but a line per finished phase: a step is removed once it is seen working, and what was
+done goes in the commit message. **Next** says what comes next, not the branch name; work outside a phase, such as a
+patch, is a step under it.
 
 A step's tags, at its start, say how far it has got; they stack, each added as it comes true, none taken away. Written
 is not run.
@@ -13,7 +14,8 @@ is not run.
 - `[seen: <where>]`: seen working, and where: `[seen: linux]`, `[seen: windows]`, `[seen: release]`.
 
 A step is removed once it is seen everywhere it has to work, which is the owner's Linux machine unless a short note
-after the step names more. A phase whose steps are gone and whose **Done when** holds goes too.
+after the step names more. A phase whose steps are gone and whose **Done when** holds goes too, leaving one line under
+**Done**: its name, what it produced, and its release, so what a past phase held is found in its release's commits.
 
 ## Next
 
@@ -117,6 +119,14 @@ and the look, the menu with its locked values, and the field for entering a leng
 
 **Done when:** the folder's tests pass on their own, nothing in its code names TimeFold's work, profiles or hours, the
 owner has read it through and knows what each part is for, and the prompt reads as the owner means it.
+
+## Done
+
+- **Phase 0: Questioning.** The vision, the decisions, the stack and the prototype; no code.
+- **Phase 1: Clocking.** An app that starts, stops and keeps janitor work, with the balance in view; it laid the
+  foundation: the Tauri project, the tools, the record and its save, and the first screen. Released as `v0.1.0`.
+- **Phase 2: Breaks and flex days.** Time away taken off the day, and days off paid for with the balance. Released as
+  `v0.2.0`.
 
 ## Not on this roadmap
 

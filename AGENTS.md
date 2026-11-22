@@ -80,7 +80,6 @@ Scaled to the task:
 4. In debug mode: `docs/dev/procedures/debugging.md`.
 5. Before a release: `docs/dev/procedures/release.md`.
 6. Before reading code: the code map.
-7. On the owner's machine, the first edit of a session waits for the owner to confirm they have pulled.
 
 ## Where things go
 
@@ -93,6 +92,7 @@ Scaled to the task:
 | A case becomes a test                            | remove it from its decision's **Cases**                                                          |
 | Code for a roadmap step is written, tested, seen | a tag added to the step in the roadmap                                                           |
 | A roadmap step is seen everywhere it must work   | remove it from the roadmap; trim each **Built by** it built                                      |
+| A phase is done                                  | its line under **Done** in the roadmap: its name, what it produced, its release                  |
 | A word is coined                                 | its part in `docs/dev/glossary/`, and its name in the index                                      |
 | A file is added, moved or renamed                | the code map, in the same change                                                                 |
 | A look to try before deciding it                 | a page in `docs/dev/sketches/`; what it settles goes to its decision                             |
@@ -109,7 +109,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 - **Docs are the agent's to commit; code waits for the owner,** except in vibe and pop-in mode (below). Docs not about
   code under review are committed when done, naming the files (`git commit -- <files>`), into the session's docs commit.
-  Docs about code under review are staged and go in one commit with the code when the owner says commit.
+  Docs about code under review are staged and go in one commit with the code when the owner says commit. Work that is
+  docs and code together waits whole: none of its docs is committed on its own, since the owner amends the code into the
+  last commit when the two belong together.
 - **Code** is anything that does something: source, config, build files. A comment or docstring the owner asked for
   counts as docs.
 - **In vibe and pop-in mode, code is committed per small batch** once `tidy` and `test` pass, docs about it in the same
