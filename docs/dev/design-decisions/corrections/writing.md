@@ -16,8 +16,9 @@ The first click in free time drops a 10-minute entry centred on the click, cut s
 ("The line's view holds still while a handle is dragged"); further clicks on the empty line do nothing. From then on it
 is edited as any entry: its handles, the pill, its break, its profile, which starts on the active profile, and a reason
 ("Every edit carries a reason"). It is moved by dragging its middle, or walked past a neighbour ("Two entries join by
-docking"); anything else, "Avbryt" and start over. Saved, it is marked written by hand ("Entries remember how they were
-made").
+docking"); anything else, "Avbryt" and start over. A new entry has no original: the view fits it alone, at the usual
+share, wherever it is walked, and nothing of it shows as added or taken away. Saved, it is marked written by hand
+("Entries remember how they were made").
 
 **Why:** a forgotten entry belongs between two known ones, so the gap clicked says when, with no way to travel the line
 to another day. The one always visible "+" keeps the rule that the app shows what it can do, and its line growing on
@@ -36,6 +37,7 @@ and walking already do. Thirty minutes to start: on a fitted line, ten is as eas
   opens on 11:40–13:05.
 - In that gap, a click at 12:30: 12:25–12:35, the view fitting it; at 11:42: 11:40–11:50, cut at the wall.
 - A click inside an existing entry: nothing is placed.
+- A new entry walked from 09:00 past a neighbour to 14:00–14:10: the view fits only 14:00–14:10.
 - Saved with "Glömd post": the row shows "e", and "Visa alla" "tillagd: Glömd post".
 
 ## An entry is deleted from its edit (2026-11-22)
