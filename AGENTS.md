@@ -258,3 +258,5 @@ A short pointer per trap; the detail lives in the owning file.
   `docs/dev/procedures/debugging.md`.
 - **A fade leaves its last frame on screen on Linux** until a resize: "Known traps" in
   `docs/dev/procedures/debugging.md`.
+- **A prototype glitch seen only in VS Code's built-in browser:** check it in Firefox first; "Known traps" in
+  `docs/dev/procedures/debugging.md`.
