@@ -29,6 +29,5 @@ a correction, a new start and a join. Its end editable too: it is now, and still
   in", saved: it runs on from 08:00, marked edited.
 - Started on "Utveckling" by mistake: opened, "Vaktmästare" picked, "Fel profil", saved: it runs on as janitor work from
   the same start.
-- Running since 13:00, an entry of its profile 11:00–12:30 before it: its start docked onto 12:30 and let go: one entry
-  from 11:00, still running, 12:30–13:00 green.
-- Opened: no handle at its end, no "Ta bort", its middle not draggable.
+
+- Opened: no "Ta bort".
