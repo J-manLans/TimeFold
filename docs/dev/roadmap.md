@@ -19,8 +19,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3: Corrections, built on `phase-3-corrections`: step 1, editing an entry on its line. The gaps in "Visa alla"
-already open on hover, seen on Linux; step 3 gives them their click.
+Phase 3: Corrections, built on `phase-3-corrections` and under the owner's review: step 4's fix first, then the review's
+questions in `open-questions.md`, then each step seen by eye on Linux.
 
 ## The phases
 
@@ -49,6 +49,9 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
    and its reason under the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
 3. `[written]` `[tests]` Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each
    entry's mark of how it was made, and a reason given alone, with nothing else changed.
+4. Fix, found in review: a short entry's handles cannot grow it. The view's edges stop a handle on the 5-minute mark
+   inside them, and an entry of a few seconds or 10 minutes has none between its handle and the edge, so it is stuck. A
+   handle always reaches the next 5-minute mark past it, even just outside the view, which refits on let go.
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows.
