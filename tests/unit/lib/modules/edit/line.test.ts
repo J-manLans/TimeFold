@@ -267,8 +267,9 @@ describe('the break is a wall, and divided it goes to the larger part first', ()
 
   it('shares 30 min over 10:00–10:20 and 10:40–11:00 as 20 and 10', () => {
     const line = openLine(span('10:00', '11:00', { breakMinutes: 30 }), [], t('17:00'))
-    const gap = clickMiddle(drag(drag(line, 'start', t('10:20')), 'end', t('10:40')))
+    const gap = drag(clickMiddle(drag(drag(line, 'start', t('10:20')), 'end', t('10:50'))), 'end', t('10:40'))
 
+    expect(times(resultParts(gap))).toEqual(['10:00–10:20', '10:40–11:00'])
     expect(breakShares(gap)).toEqual([20, 10])
   })
 

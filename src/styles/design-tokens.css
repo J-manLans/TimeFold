@@ -29,7 +29,7 @@
   /* === Motion === */
   --speed-ui: 0.2s; /* every small transition: hover, press, fades, the menu, tabs, rows, the theme */
   --ease-grow: cubic-bezier(0.2, 0.7, 0.2, 1); /* things that grow out of their place: the menu, a profile row */
-  --peek-delay: 0.25s; /* resting on a gap in "Visa alla" before it opens and its "+" shows */
+  --peek-delay: 0.25s; /* resting on the list behind the edit before it fades, and on a gap in "Visa alla" before it opens */
 
   /* === Shadows and effects === */
   --shadow-button: 2px 3px 12px 0 rgb(0 0 0 / 0.14);
@@ -344,4 +344,51 @@
   --insert-inset: 0 8px; /* the line's ends, in from the card's edge as a row's text */
   --insert-spacing: 6px; /* between the "+" and the line on each side */
   --insert-plus-size: 12px;
+
+  /* === Dashboard: the edit popup, an entry edited on its line === */
+  --edit-width: 480px; /* a little narrower than the list's 560px */
+  --edit-share: 88%; /* of the window, when that is narrower */
+  --edit-stack-dim: rgb(0 0 0 / 0.25); /* over "Alla poster": the extra dimming of the list behind the edit */
+  --edit-peek: 0.2; /* the pointer resting on the list behind: how much of the edit still shows (0 gone, 1 all) */
+  --edit-head-size: 12.5px; /* the day and the profile picker */
+  --edit-words-size: 12px; /* the result in words under the day */
+  --edit-tag-gap: 6px; /* between a part's times and its "paus" tag */
+  --edit-picker-padding: 2px 6px;
+  /* The line */
+  --edit-line-height: 34px; /* the handles' room */
+  --edit-line-margin: 18px 6px; /* room above for the time labels and below for the scale */
+  --edit-bar: 14px; /* the entry's bar, and the blocked time of other entries */
+  --edit-bar-radius: 3px;
+  --edit-stripe: 3px; /* the width of each stripe in time taken away and blocked time */
+  --edit-add: light-dark(#4cc47a, #3fb96f); /* time added, green */
+  --edit-remove: light-dark(#ff7a70, #f0605a); /* removal red: time taken away, "Ta bort"; light: 4.2:1 on the panel */
+  --edit-same: 30%; /* how much of its colour a neighbour of the entry's profile shows */
+  --edit-tick-size: 10px;
+  --edit-tick-mark: 4px; /* the small mark above each label */
+  --edit-tick-below: -16px; /* the scale's labels, under the line */
+  --edit-label-size: 11px; /* a handle's time, above it */
+  --edit-label-above: -17px;
+  --edit-lean-overlap: 2px; /* how far leaning labels still reach past their handles */
+  --edit-now-inset: 2px; /* the now-line, short of the line's room at both ends */
+  /* The handles: every dragged knob in the app is this one */
+  --knob: 22px;
+  --knob-shadow: 0 1px 3px rgb(0 0 0 / 0.4); /* its only edge: no border or ring */
+  --knob-reach: -4px -8px; /* the knob's grip beyond its circle */
+  --edit-pill: calc(var(--knob) * 2.1); /* a clicked handle grown into its pill, − and + at its ends */
+  --edit-pill-ease: cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoots a little and settles: a soft bounce (1: none) */
+  --edit-pill-time: calc(var(--speed-ui) * 1.5); /* a bounce needs a little longer than a plain ease to read */
+  --edit-pill-breath: 1.2; /* as it grows its height swells to this share and settles (1: none) */
+  --edit-sign-size: 13px; /* the pill's − and + */
+  --edit-sign-share: 0.7; /* each sign's room, of the knob */
+  /* The reason and the buttons */
+  --edit-pick-max: 17ch; /* a chosen reason shows this long before "…" ("Glömde stämpla ut") */
+  --edit-pick-padding: 4px 10px;
+  --edit-list-gap: 1px;
+  --edit-list-top: 6px; /* above the list, under the closed field */
+  --edit-other-margin: 3px 0 3px 8px; /* "Annan orsak", in line with the reasons' text */
+  --edit-other-inset: 8px;
+  --edit-reason-padding: 3px 8px;
+  --edit-button-size: 12px;
+  --edit-button-gap: 8px;
+  --edit-button-padding: 4px 12px;
 }

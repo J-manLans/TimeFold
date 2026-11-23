@@ -46,7 +46,7 @@
     {#if recent.length > 0}
       <ol class="list">
         {#each recent as entry (entry.id)}
-          <EntryRow {entry} fresh={entry.id === freshId} />
+          <EntryRow {entry} fresh={entry.id === freshId} onpick={() => app.openEdit(entry.id, false)} />
         {/each}
       </ol>
     {:else}

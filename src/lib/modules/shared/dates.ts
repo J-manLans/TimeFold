@@ -22,6 +22,11 @@ export function dayShort(day: Day): string {
   return `${WEEKDAYS[weekday].slice(0, 3)} ${date}`
 }
 
+/** A day's weekday cut short. Used by the entry line's scale at midnight: 2026-11-19 is "tor" */
+export function weekdayShort(day: Day): string {
+  return WEEKDAYS[parts(day).weekday].slice(0, 3)
+}
+
 /** A day for a small label, weekday and month cut short. Used for the "KOPIA" label: 2026-11-16 is "mån 16 nov" */
 export function dayLabel(day: Day): string {
   const { month } = parts(day)

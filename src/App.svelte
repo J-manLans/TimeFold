@@ -3,6 +3,7 @@
   import { app } from '$lib/app.svelte'
   import Controls from '$lib/components/controls/Controls.svelte'
   import Dashboard from '$lib/components/dashboard/Dashboard.svelte'
+  import EditPopup from '$lib/components/edit/EditPopup.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
   import { localDay } from '$lib/modules/shared/counting'
   import { standsOver } from '$lib/modules/dashboard/figures'
@@ -27,6 +28,7 @@
   <main class="screen" style:--profile-state={stateColour} inert={app.panel?.ending ?? false}>
     <Controls />
     <Dashboard />
+    <EditPopup />
   </main>
 {/if}
 

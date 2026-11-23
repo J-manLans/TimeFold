@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { colourRoles, dimmed, faded, FIRST_HUE, hueOfStrip, baseColour, neonColour } from '$lib/modules/shared/colours'
+import {
+  colourRoles,
+  dimmed,
+  faded,
+  FIRST_HUE,
+  hueOfStrip,
+  baseColour,
+  inkOn,
+  neonColour,
+} from '$lib/modules/shared/colours'
 
 // === Constants ===
 
@@ -53,5 +62,11 @@ describe('a profile’s colours by role', () => {
     const profile = { id: 'p1', name: 'Vaktmästare', hue: 195, base: '#7ed6d5' }
 
     expect(colourRoles(profile, DARK_PANEL)).toEqual({ base: '#7ed6d5', dimmed: '#2c4346', neon: '#fc0055' })
+  })
+})
+
+describe('the pill writes black on a neon where it reads, white otherwise', () => {
+  it('writes white on #3d5afe, where black is 4.1:1, and black on #00e4fd', () => {
+    expect([inkOn('#3d5afe'), inkOn('#00e4fd')]).toEqual(['#ffffff', '#000000'])
   })
 })

@@ -90,6 +90,20 @@ export function colourRoles(profile: Profile, panel: string): ColourRoles {
   return { base: profile.base, dimmed: dimmed(profile.base, panel), neon: neonColour(profile.hue) }
 }
 
+/** The least contrast black must reach on a colour to be written on it (WCAG AA for text) */
+const INK_CONTRAST = 4.5
+
+/**
+ * Black or white, whichever reads on a colour: black while it reaches 4.5:1 there (WCAG: luminance from linear RGB,
+ * then (lighter + 0.05) / (darker + 0.05)), white otherwise, which is then about 4.6:1 or better. Used by the pill's
+ * − and + on a profile's neon: on #3d5afe white, on #00e4fd black.
+ */
+export function inkOn(colour: string): '#000000' | '#ffffff' {
+  const [r, g, b] = hexToRgb(colour).map(toLinear)
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  return (luminance + 0.05) / 0.05 >= INK_CONTRAST ? '#000000' : '#ffffff'
+}
+
 // ======================================
 //               Helpers
 // ======================================
