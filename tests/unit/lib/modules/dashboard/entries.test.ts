@@ -51,12 +51,8 @@ describe("an entry's row reads its day, its times, its profile and its length", 
     expect(row).toMatchObject({ day: 'tis 17', times: '22:00–01:00', later: 1, length: '3:00' })
   })
 
-  it('takes its added breaks off its length, and tags them together: 08:00–12:00 with 20 and 25 min', () => {
-    const breaks = [
-      { day: '2026-11-16', minutes: 20 },
-      { day: '2026-11-16', minutes: 25 },
-    ]
-    const row = entryRow(entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), { breaks }), RECORD)
+  it('takes its added break off its length, and tags it: 08:00–12:00 with 45 min', () => {
+    const row = entryRow(entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), { breakMinutes: 45 }), RECORD)
 
     expect(row).toMatchObject({ tag: 'paus 45min', length: '3:15' })
   })

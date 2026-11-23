@@ -24,14 +24,14 @@ describe('a record of this version is read as it was written', () => {
 
 /** The record as an older version wrote it: no added breaks on its entries and no flex days. Used by the upgrades */
 function beforeBreaks(r: Record<string, unknown>): void {
-  for (const e of r.entries as Record<string, unknown>[]) delete e.breaks
+  for (const e of r.entries as Record<string, unknown>[]) delete e.breakMinutes
   for (const p of r.profiles as Record<string, unknown>[]) delete p.flexDays
 }
 
 /** The test record with its breaks gone, as an upgrade leaves a record that had none */
 const UPGRADED = {
   ...RECORD,
-  entries: RECORD.entries.map((e) => ({ ...e, breaks: [] })),
+  entries: RECORD.entries.map((e) => ({ ...e, breakMinutes: 0 })),
 }
 
 describe('a record of version 1 is upgraded to this version', () => {
@@ -58,6 +58,36 @@ describe('a record of version 2, as the owner keeps it, is upgraded to this vers
     )
 
     expect(result).toEqual({ ok: true, record: UPGRADED })
+  })
+})
+
+describe('a record of version 3 is upgraded to this version', () => {
+  /** The record as version 3 wrote it, its first entry with breaks of 20 min Monday and 15 min Tuesday */
+  const versionThree = (minutes: number): string =>
+    text((r) => {
+      r.version = 3
+      const entries = r.entries as Record<string, unknown>[]
+      for (const e of entries) {
+        delete e.breakMinutes
+        e.breaks = []
+      }
+      entries[0].breaks = [
+        { day: '2026-11-16', minutes: 20 },
+        { day: '2026-11-17', minutes },
+      ]
+    })
+
+  it('sums each entry’s breaks into one, 20 and 15 into 35, and keeps the rest', () => {
+    const upgraded = { ...RECORD, entries: RECORD.entries.map((e, i) => ({ ...e, breakMinutes: i === 0 ? 35 : 0 })) }
+
+    expect(readRecord(versionThree(15))).toEqual({ ok: true, record: upgraded })
+  })
+
+  it('names an added break of no length', () => {
+    expect(readRecord(versionThree(0))).toEqual({
+      ok: false,
+      problem: { kind: 'wrong-shape', where: 'entries[0].breaks[1].minutes' },
+    })
   })
 })
 
@@ -116,14 +146,18 @@ describe('a record of the wrong shape names where', () => {
     expect(result).toEqual({ ok: false, problem: { kind: 'wrong-shape', where: 'profiles[0].pay[0].kind' } })
   })
 
-  it('names an added break of no length', () => {
-    const broken = text((r) => {
-      ;(r.entries as { breaks: { minutes: number }[] }[])[0].breaks[0].minutes = 0
+  it('names a break of minus minutes, and a reason with nothing in it', () => {
+    const minus = text((r) => {
+      ;(r.entries as { breakMinutes: number }[])[0].breakMinutes = -5
     })
-    expect(readRecord(broken)).toEqual({
-      ok: false,
-      problem: { kind: 'wrong-shape', where: 'entries[0].breaks[0].minutes' },
+    const empty = text((r) => {
+      ;(r.entries as { reason: string }[])[0].reason = ''
     })
+
+    expect([readRecord(minus), readRecord(empty)]).toEqual([
+      { ok: false, problem: { kind: 'wrong-shape', where: 'entries[0].breakMinutes' } },
+      { ok: false, problem: { kind: 'wrong-shape', where: 'entries[0].reason' } },
+    ])
   })
 
   it('names a flex day not written YYYY-MM-DD', () => {

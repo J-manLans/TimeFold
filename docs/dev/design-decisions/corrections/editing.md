@@ -102,14 +102,10 @@ drag knob in the app is the same one.
 - That gap filled, a 20 min break on the entry: "paus 20min" on 08:00–10:00, grey and not clickable; the new entry has
   none.
 
-- 22:00–23:30, right handle dragged to 00:30: 22:00–00:30, one entry, counted 2 h on the first day and 30 min on the
-  next.
 - Entry Tuesday 22:00 to Wednesday 01:00, opened on Tuesday or on Wednesday: the line shows the whole entry, and both
   handles move.
 - Entry Tuesday 21:30 to Wednesday 07:00, stopped the morning after, right handle dragged back to Tuesday 23:10:
   21:30–23:10 on Tuesday.
-- Entry Tuesday 22:00 to Wednesday 01:00, moved to another profile: the whole entry moves, Tuesday's 22:00–24:00 and
-  Wednesday's 00:00–01:00.
 
 - Cancel after dragging: the entry is unchanged.
 - 07:58–12:10 with a 20 min break: "07:58–12:10 paus 20min".

@@ -25,9 +25,4 @@ a correction, a new start and a join. Its end editable too: it is now, and still
 
 **Cases:**
 
-- Janitor work started at 08:25, really begun at 08:00: opened from its row, the start dragged to 08:00, "Glömde stämpla
-  in", saved: it runs on from 08:00, marked edited.
-- Started on "Utveckling" by mistake: opened, "Vaktmästare" picked, "Fel profil", saved: it runs on as janitor work from
-  the same start.
-
 - Opened: no "Ta bort".

@@ -24,7 +24,7 @@ export interface EntryRow {
   letter: string
   /** Its profile's base colour, which the letter wears so each profile's rows are found at a glance */
   base: string
-  /** Its added breaks together, as a tag: "paus 20min"; empty with none */
+  /** Its added break, as a tag: "paus 20min"; empty with none */
   tag: string
   /** Its length worked in hours and minutes, its breaks taken off: "3:32" */
   length: string
@@ -96,7 +96,7 @@ export function gapsAbove(entries: Entry[], upTo: number): Gap[] {
  * What a stopped entry's row says. Used by every row in both lists: Monday 16 November 07:58 to 11:30 for the janitor
  * gives { day: 'mån 16', times: '07:58–11:30', later: 0, letter: 'V', base: '#7ed6d5', tag: '', length: '3:32' }. An
  * entry across midnight reads on the day it started, with its whole length, and says how many days later it stops;
- * its added breaks come off the length and show together as one tag.
+ * its added break comes off the length and shows as a tag.
  */
 export function entryRow(entry: Entry, record: TimeRecord): EntryRow {
   const start = new Date(entry.start)
@@ -105,7 +105,7 @@ export function entryRow(entry: Entry, record: TimeRecord): EntryRow {
   const name = profile?.name ?? ''
   const worked = [...secondsByDay({ ...entry, stop })].reduce((sum, [, seconds]) => sum + seconds, 0)
   const minutes = shownMinutes(worked)
-  const breakMinutes = entry.breaks.reduce((sum, b) => sum + b.minutes, 0)
+  const breakMinutes = entry.breakMinutes
   return {
     day: dayShort(localDay(start.getTime())),
     times: `${timeOfDay(entry.start)}–${timeOfDay(stop)}`,

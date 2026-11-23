@@ -26,9 +26,6 @@ edit.
 
 **Cases:**
 
-- Start and stop clicked: the entry is marked clicked.
-- An entry's start dragged on its line and confirmed: it is marked edited.
-- A forgotten entry written afterwards: it is marked written by hand.
 - An edited entry with a 20 min break, in "Senaste": "paus 20min" and "e"; in "Visa alla" also "ändrad: Glömd paus".
 - A written entry in "Visa alla": "e", and "tillagd: …" under it.
 
@@ -94,7 +91,6 @@ slipping past the count.
 
 **Cases:**
 
-- An entry's end dragged from 12:00 to 12:30: the confirm stays greyed out until a reason is chosen.
 - Enter in an empty "Annan orsak": no reason; the confirm stays greyed out.
 - "Hämtade nycklar hos rektorn" typed: the confirm lights at the first letter, and the underline grows with each letter
   and shrinks with each one deleted; Enter shows it cut with "…" at the length of "Glömde stämpla ut".
@@ -110,8 +106,6 @@ slipping past the count.
 - An entry deleted: "Ta bort?", and no reason.
 - An entry moved from janitor work to the development group: the confirm waits for a reason, such as "Fel profil".
 - A break changed from 20 to 35 min in the edit: the confirm waits for a reason, such as "Glömd paus".
-- 08:00–12:00 janitor work divided by "Utveckling" at 10:00–10:40, reason "Ärende": the development entry "Ärende", both
-  janitor parts "Delad av Utveckling", all three marked edited.
 - The starting list, opened: "Fel profil", "Glömd paus", "Glömd post", "Glömde stämpla in", "Glömde stämpla ut",
   "Ärende", "Annan orsak".
 - A clicked entry given only "Stannade kvar och monterade barngrind hos Bantis": no "e"; "Visa alla" shows the text

@@ -1,6 +1,6 @@
 /** Records several test files share */
 
-import { RECORD_FORMAT, RECORD_VERSION, type Break, type Entry, type TimeRecord } from '$lib/modules/shared/record'
+import { RECORD_FORMAT, RECORD_VERSION, type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 /**
  * A sound record of this version: full time, one profile with a balance and a salary, an opening, a stopped entry and
@@ -29,9 +29,10 @@ export const RECORD: TimeRecord = {
       start: '2026-11-16T07:58:00+02:00',
       stop: '2026-11-16T11:30:00+02:00',
       made: 'clicked',
-      breaks: [{ day: '2026-11-16', minutes: 20 }],
+      breakMinutes: 20,
+      reason: 'Glömd paus',
     },
-    { id: 'e2', profile: 'p1', start: '2026-11-17T08:01:00+02:00', stop: null, made: 'clicked', breaks: [] },
+    { id: 'e2', profile: 'p1', start: '2026-11-17T08:01:00+02:00', stop: null, made: 'clicked', breakMinutes: 0 },
   ],
 }
 
@@ -53,13 +54,13 @@ let ids = 0
 
 /**
  * A clicked entry, of the janitor unless another profile is given, running when there is no stop, with any added
- * breaks. Used by every test that needs work: entry(at('2026-11-16', '08:00'), null) is still running
+ * break. Used by every test that needs work: entry(at('2026-11-16', '08:00'), null) is still running
  */
 export function entry(
   start: string,
   stop: string | null,
-  { profile = 'p1', id, breaks = [] }: { profile?: string; id?: string; breaks?: Break[] } = {},
+  { profile = 'p1', id, breakMinutes = 0 }: { profile?: string; id?: string; breakMinutes?: number } = {},
 ): Entry {
   ids += 1
-  return { id: id ?? `t${ids}`, profile, start, stop, made: 'clicked', breaks }
+  return { id: id ?? `t${ids}`, profile, start, stop, made: 'clicked', breakMinutes }
 }

@@ -322,19 +322,15 @@ describe("the pay estimate is the month's salaries plus its hours times their ra
   })
 })
 
-describe('an added break comes off its entry on the day it was added, and any rest off the day before', () => {
+describe('an added break comes off its entry’s last day first, and any rest off the day before', () => {
   it('leaves 3 h 15 min of 08:00–12:00 with a 45 min break', () => {
-    const e = entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), {
-      breaks: [{ day: '2026-11-16', minutes: 45 }],
-    })
+    const e = entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), { breakMinutes: 45 })
 
     expect(secondsByDay(e)).toEqual(new Map([['2026-11-16', 3 * HOUR + 15 * 60]]))
   })
 
-  it('gives Tuesday 2 h and Wednesday 30 min for Tuesday 22:00 to Wednesday 01:00 with 30 min added on Wednesday', () => {
-    const e = entry(at('2026-11-17', '22:00'), at('2026-11-18', '01:00'), {
-      breaks: [{ day: '2026-11-18', minutes: 30 }],
-    })
+  it('gives Tuesday 2 h and Wednesday 30 min for Tuesday 22:00 to Wednesday 01:00 with 30 min', () => {
+    const e = entry(at('2026-11-17', '22:00'), at('2026-11-18', '01:00'), { breakMinutes: 30 })
 
     expect(secondsByDay(e)).toEqual(
       new Map([
@@ -344,10 +340,8 @@ describe('an added break comes off its entry on the day it was added, and any re
     )
   })
 
-  it('gives Wednesday 0 and Tuesday 1 h 35 min for 45 min added at Wednesday 00:20 to an entry since Tuesday 22:00', () => {
-    const e = entry(at('2026-11-17', '22:00'), at('2026-11-18', '00:20'), {
-      breaks: [{ day: '2026-11-18', minutes: 45 }],
-    })
+  it('gives Wednesday 0 and Tuesday 1 h 35 min for Tuesday 22:00 to Wednesday 00:20 with 45 min', () => {
+    const e = entry(at('2026-11-17', '22:00'), at('2026-11-18', '00:20'), { breakMinutes: 45 })
 
     expect(secondsByDay(e)).toEqual(
       new Map([
@@ -359,9 +353,9 @@ describe('an added break comes off its entry on the day it was added, and any re
 
   it('counts 10 min more for a break of 35 min than one of 45', () => {
     const day = (minutes: number): number =>
-      secondsByDay(
-        entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), { breaks: [{ day: '2026-11-16', minutes }] }),
-      ).get('2026-11-16') ?? 0
+      secondsByDay(entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), { breakMinutes: minutes })).get(
+        '2026-11-16',
+      ) ?? 0
 
     expect(day(35) - day(45)).toBe(10 * 60)
   })
