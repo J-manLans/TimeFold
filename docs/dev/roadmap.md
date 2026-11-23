@@ -19,8 +19,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3: Corrections, built on `phase-3-corrections` and under the owner's review: step 4's fix first, then the review's
-questions in `open-questions.md`, then each step seen by eye on Linux.
+Phase 3: Corrections, built on `phase-3-corrections` and under the owner's review: step 5, each part's own break, first,
+then step 4's fix, then the review's questions in `open-questions.md`, then each step seen by eye on Linux.
 
 ## The phases
 
@@ -52,6 +52,11 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 4. Fix, found in review: a short entry's handles cannot grow it. The view's edges stop a handle on the 5-minute mark
    inside them, and an entry of a few seconds or 10 minutes has none between its handle and the edge, so it is stuck. A
    handle always reaches the next 5-minute mark past it, even just outside the view, which refits on let go.
+5. Change, found in review: in a divided entry each part owns its break ("Editing an entry on its line"). A part's tag
+   opens a field on that part's break alone, not the sum, and the wall holds per part; a part with no break offers its
+   own "Lägg till paus", or "+ paus" if the words do not fit. The prototype is changed to match first, so the owner sees
+   whether "Lägg till paus" fits. The tag field in `src/lib/components/edit/EditPopup.svelte`, and the break's shares in
+   `src/lib/modules/edit/edit.ts` and `line.ts`.
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows.
