@@ -3,19 +3,21 @@
   forgotten entry, edited on its line in a popup of its own, centred. From "Senaste" it sits over the dimmed screen;
   from "Visa alla" on top of the list, which dims a little further. Resting the pointer on the list behind is a peek:
   after a moment the edit fades and the extra dimming lifts. Under the day and the profile, the result reads in words;
-  under the line, the reason; "Spara" waits for one. "Avbryt", Esc or a click outside cancels, nothing saved. Opened
+  under the line, the reason; "Spara" waits for one. A part's "paus" tag, or "+ paus" with none, opens the break's
+  length field in its place. "Avbryt", Esc or a click outside cancels, nothing saved. Opened
   and closed through `app.editing`: <EditPopup />
 -->
 <script lang="ts">
-  import { untrack } from 'svelte'
+  import { tick, untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
   import EditLine from './EditLine.svelte'
   import ReasonPicker from './ReasonPicker.svelte'
   import { canSave, lineForEntry, lineForGap, resultWords } from '$lib/modules/edit/edit'
-  import { atLimit, pickProfile, type LineState } from '$lib/modules/edit/line'
+  import { atLimit, breakTotal, pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
+  import { durationShape } from '$lib/modules/shared/durationShape'
   import { localDay } from '$lib/modules/shared/counting'
   import { dayInWords } from '$lib/modules/shared/dates'
-  import { durationText } from '$lib/modules/shared/timeInput'
+  import { BREAK, durationInField, durationText, readDuration } from '$lib/modules/shared/timeInput'
 
   // === State ===
 
@@ -27,6 +29,11 @@
   let peeking: ReturnType<typeof setTimeout> | null = null
   /** Whether the last press began outside the card, so only a click begun there closes the popup */
   let pressedOutside = false
+  /** The break's field, open where its tag was clicked: which part's, what it holds, and whether it was refused */
+  let tagAt = $state<number | null>(null)
+  let tagText = $state('')
+  let tagRefused = $state(false)
+  let tagField: HTMLInputElement | undefined = $state()
 
   let profiles = $derived(app.record?.profiles ?? [])
   let words = $derived(line ? resultWords(line, profiles) : [])
@@ -52,6 +59,7 @@
             : null
         reason = ''
         peek = false
+        tagAt = null
         if (line && !popup.open) popup.showModal()
       } else {
         line = null
@@ -110,6 +118,55 @@
     event.currentTarget.value = line.fill ?? line.profile
   }
 
+  /** A tag clicked: the field opens in its place on the whole break, selected, or empty with none */
+  async function openTag(at: number): Promise<void> {
+    if (!line) return
+    tagText = durationInField(breakTotal(line))
+    tagRefused = false
+    tagAt = at
+    await tick()
+    tagField?.focus()
+    tagField?.select()
+  }
+
+  /** A text the field's shape lets through; a refusal's red goes. Used by the field's attachment */
+  function typedTag(text: string): void {
+    tagText = text
+    tagRefused = false
+  }
+
+  /**
+   * The field kept: the whole break set to what it reads, empty taking it away; longer than the time kept, it is
+   * refused, red, and stays open until fixed or dropped with Esc. Used by Enter and a click away
+   */
+  function keepTag(): void {
+    if (!line || tagAt === null) return
+    const minutes = readDuration(tagText || '0', BREAK)
+    if (minutes === null) {
+      tagAt = null
+      return
+    }
+    const next = setBreak(line, minutes)
+    if (next === null) {
+      tagRefused = true
+      return
+    }
+    line = next
+    tagAt = null
+  }
+
+  /** Enter keeps the field; Esc leaves the break as it was, and closes the field, not the edit */
+  function tagKeys(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      keepTag()
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      event.stopPropagation()
+      tagAt = null
+    }
+  }
+
   /** "Spara": what the line shows goes into the record */
   function save(): void {
     if (line && canSave(line, reason)) void app.saveEdit(line, reason)
@@ -151,10 +208,25 @@
             {#if i > 0}<span class="dot"> · </span>{/if}
             <span class:grey={word.kind === 'grey'}
               ><b class:changed={word.bold} style:color={word.kind === 'fill' ? word.colour : undefined}>{word.times}</b
-              >{#if word.tag !== null}<span
-                  class="tag"
-                  class:warn={warn && word.kind === 'own'}
-                  class:still={word.kind === 'grey'}>paus {durationText(word.tag)}</span
+              >{#if tagAt === i}<input
+                  class="field"
+                  class:warn={tagRefused}
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="00:00"
+                  autocomplete="off"
+                  spellcheck="false"
+                  aria-label="Pausens längd, Enter sparar, Esc avbryter"
+                  value={tagText}
+                  bind:this={tagField}
+                  {@attach durationShape(BREAK, typedTag)}
+                  onkeydown={tagKeys}
+                  onblur={keepTag}
+                />{:else if word.tag !== null && word.kind === 'grey'}<span class="tag still"
+                  >paus {durationText(word.tag)}</span
+                >{:else if word.tag !== null}<button class="tag" class:warn type="button" onclick={() => openTag(i)}
+                  >paus {durationText(word.tag)}</button
+                >{:else if word.addBreak}<button class="tag add" type="button" onclick={() => openTag(i)}>+ paus</button
                 >{/if}</span
             >
           {/each}
@@ -238,6 +310,30 @@
     font-size: var(--entry-tag-size);
   }
 
+  button.tag {
+    background: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .add {
+    border-color: transparent;
+    color: var(--dashboard-text-muted);
+  }
+
+  /* The break's field, in the tag's place, the same shape as every length field */
+  .field {
+    width: var(--edit-field-width);
+    margin-left: var(--edit-tag-gap);
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: none;
+    color: var(--dashboard-text);
+    font: inherit;
+    font-size: var(--entry-tag-size);
+  }
+
   .actions {
     display: flex;
     justify-content: flex-end;
@@ -288,6 +384,10 @@
 
   .warn {
     border-color: var(--edit-remove);
+    color: var(--edit-remove);
+  }
+
+  .field.warn {
     color: var(--edit-remove);
   }
 

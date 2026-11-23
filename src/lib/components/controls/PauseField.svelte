@@ -3,14 +3,16 @@
   runs, whose length field opens in its place, text from the left ("Entering a length of time"). The field holds the
   running entry's whole break: it opens on what is there so far, selected, so typing replaces it. A plain number is
   minutes, "1:20" hours and minutes; a keystroke that breaks the shape does not appear, and how the field reads what is
-  typed shows just under it, so the field stays where it is. Enter sets the new total, a lower one taking time back;
-  Esc, or a click away, closes the field. A total longer than its entry is refused, and the reading says so.
+  typed shows just under it, so the field stays where it is. Enter, or a click away, sets the new total, a lower one
+  taking time back; Esc closes the field. A total longer than its entry is refused, and the reading says so, the field
+  left open.
 -->
 <script lang="ts">
   import { tick } from 'svelte'
   import { app } from '$lib/app.svelte'
   import { breakSoFar } from '$lib/modules/controls/breaks'
-  import { BREAK, durationInField, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
+  import { durationShape } from '$lib/modules/shared/durationShape'
+  import { BREAK, durationInField, durationText, readDuration } from '$lib/modules/shared/timeInput'
 
   // === State ===
 
@@ -47,29 +49,34 @@
     refused = false
   }
 
-  /** A keystroke or paste that would break the shape is undone, the caret kept where it was. Used on the field's input */
-  function keepShape(event: Event): void {
-    const field = event.currentTarget as HTMLInputElement
-    if (fitsShape(field.value, BREAK)) {
-      text = field.value
-      refused = false
-      return
-    }
-    const caret = Math.max(0, (field.selectionStart ?? 0) - (field.value.length - text.length))
-    field.value = text
-    field.setSelectionRange(caret, caret)
+  /** A text the field's shape lets through. Used by the field's attachment */
+  function typed(next: string): void {
+    text = next
+    refused = false
   }
 
-  /** Enter sets a whole length as the total, Esc closes. Used on the field's keys */
-  async function keys(event: KeyboardEvent): Promise<void> {
+  /**
+   * A whole length set as the total, and the field closes; one too long is refused, the field left open with the
+   * reading saying so. Nothing whole typed closes the field as it was. Used by Enter and a click away
+   */
+  async function keep(): Promise<void> {
+    if (!open) return
+    if (minutes === null) {
+      close()
+      return
+    }
+    const why = await app.setBreak(minutes)
+    if (why === null || why === 'no-change') close()
+    else if (why === 'too-long') refused = true
+  }
+
+  /** Enter keeps, Esc closes. Used on the field's keys */
+  function keys(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       event.stopPropagation()
       close()
     }
-    if (event.key !== 'Enter' || minutes === null) return
-    const why = await app.setBreak(minutes)
-    if (why === null || why === 'no-change') close()
-    else if (why === 'too-long') refused = true
+    if (event.key === 'Enter') void keep()
   }
 </script>
 
@@ -84,9 +91,9 @@
       autocomplete="off"
       spellcheck="false"
       aria-label="Pausens längd, Enter lägger till, Esc avbryter"
-      oninput={keepShape}
+      {@attach durationShape(BREAK, typed)}
       onkeydown={keys}
-      onblur={close}
+      onblur={keep}
     />
     <span class="reading" aria-live="polite">{reading}</span>
   </div>

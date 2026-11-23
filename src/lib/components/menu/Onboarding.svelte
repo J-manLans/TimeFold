@@ -12,7 +12,8 @@
   import { onMount, tick, untrack } from 'svelte'
   import { app } from '$lib/app.svelte'
   import { neonColour } from '$lib/modules/shared/colours'
-  import { BALANCE, durationText, fitsShape, readDuration } from '$lib/modules/shared/timeInput'
+  import { durationShape } from '$lib/modules/shared/durationShape'
+  import { BALANCE, durationText, readDuration } from '$lib/modules/shared/timeInput'
   import ChoiceButton from '$lib/components/shared/ChoiceButton.svelte'
   import MotionButton from './MotionButton.svelte'
 
@@ -64,18 +65,6 @@
     if (next === 'choice') fresh?.focus()
     if (next === 'balance') balanceInput?.focus()
     if (next === 'name') nameInput?.focus()
-  }
-
-  /** A keystroke or paste that would break the balance's shape is undone. Used on the balance's input */
-  function keepShape(event: Event): void {
-    const input = event.currentTarget as HTMLInputElement
-    if (fitsShape(input.value, BALANCE)) {
-      balanceText = input.value
-      return
-    }
-    const caret = Math.max(0, (input.selectionStart ?? 0) - (input.value.length - balanceText.length))
-    input.value = balanceText
-    input.setSelectionRange(caret, caret)
   }
 
   /** Enter moves on from a whole balance, counting the dashboard to it; Esc goes back to the two buttons */
@@ -153,7 +142,7 @@
       value={balanceText}
       style:color={colour}
       bind:this={balanceInput}
-      oninput={keepShape}
+      {@attach durationShape(BALANCE, (text) => (balanceText = text))}
       onkeydown={balanceKeys}
     />
     <span class="reading">{reading}</span>
