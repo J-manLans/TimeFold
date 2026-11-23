@@ -138,7 +138,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
     design runs in it, and so does the design pass for a screen the prototype does not show. Spitball before verdicts,
     and before lists: one topic at a time as a conversation; say what you are thinking and ask one open question. A
     phase's design pass opens with what is left of its **Settle first** as a numbered list of headings, the quickest
-    decision first, so the owner can pick by their energy.
+    decision first, so the owner can pick by their energy. Each new part's design pass also asks, before it is decided,
+    whether the part could stand alone in a setup and how hard that would be ("The app for the whole school", in
+    `codebase-ideas.md`).
   - **Learning mode:** side by side, for a new framework or a part the owner wants to understand. The owner writes the
     parts they want to learn by doing, or steers or reviews what the agent writes; the agent does the rest, the tedious
     parts first (installs, config, moving code, removing files), explains the why, gives one step at a time and waits

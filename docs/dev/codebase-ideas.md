@@ -100,12 +100,17 @@ owner's:
 1. **What is whose.** One janitor balance, the owner's pay categories and report: what each person sets for themselves,
    and whether that changes the vision. Decided in design mode before anything below. The owner's picture: the first
    start offers a setup, Vaktmästare or Ledning to begin with, later perhaps Lärare, or students who want to track their
-   study time and scroll less. A setup decides which settings the record starts with, and what has no setting is not
-   shown: no flex bar or flex calendar with no expected hours, no pay estimate with no pay. Ledning is for staff who
-   want to see how much they work at home: one profile and a target of hours, with the ceiling wheel working as it does,
-   the target per working day over the month's weekdays, hours over it carried into the next month, and raised for a
-   busy month from a date. Open: what sets the wheel's amount with no full time, and what each later setup holds. Phase
-   4 is where the code stops assuming one janitor profile.
+   study time and scroll less. A setup decides which settings the record starts with, and which of the app's parts it
+   shows: for the owner the flex bar, the ceiling wheel, the edit and "Senaste"; for Ledning perhaps the ceiling wheel
+   alone. A part shown has what it needs: no flex bar or flex calendar with no expected hours, no pay estimate with no
+   pay. A variant of a part is an option on it, not a copy, and a part a new need turns up joins the set. Still one user
+   per machine with their own record, and no shared state. Each new part's design pass asks whether it could stand alone
+   (`AGENTS.md`, design mode); the refactor that slots the existing parts into setups comes before the rollout, once a
+   real second setup draws the seams. Ledning is for staff who want to see how much they work at home: one profile and a
+   target of hours, with the ceiling wheel working as it does, the target per working day over the month's weekdays,
+   hours over it carried into the next month, and raised for a busy month from a date. Open: what sets the wheel's
+   amount with no full time, and what each later setup holds. Phase 4 is where the code stops assuming one janitor
+   profile.
 2. **Installing.** Ready: each release has an `.msi`, the form an IT department deploys, installing per machine, and the
    record is each Windows user's own ("The app reaches each machine as an installer from a GitHub release", in
    `design-decisions/`). The owner's own work machine then moves from the `.exe` to IT's `.msi`: the record exported
