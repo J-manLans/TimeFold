@@ -4,7 +4,7 @@
   from "Visa alla" on top of the list, which dims a little further. Resting the pointer on the list behind is a peek:
   after a moment the edit fades and the extra dimming lifts. Under the day and the profile, the result reads in words;
   under the line, the reason; "Spara" waits for one. A part's "paus" tag, or "+ paus" with none, opens the break's
-  length field in its place. "Avbryt", Esc or a click outside cancels, nothing saved. Opened
+  length field in its place. "Ta bort" asks once, "Ta bort?", and deletes on the second click. "Avbryt", Esc or a click outside cancels, nothing saved. Opened
   and closed through `app.editing`: <EditPopup />
 -->
 <script lang="ts">
@@ -34,6 +34,8 @@
   let tagText = $state('')
   let tagRefused = $state(false)
   let tagField: HTMLInputElement | undefined = $state()
+  /** "Ta bort" asking "Ta bort?", after its first click */
+  let asking = $state(false)
 
   let profiles = $derived(app.record?.profiles ?? [])
   let words = $derived(line ? resultWords(line, profiles) : [])
@@ -60,6 +62,7 @@
         reason = ''
         peek = false
         tagAt = null
+        asking = false
         if (line && !popup.open) popup.showModal()
       } else {
         line = null
@@ -94,9 +97,16 @@
     peek = false
   }
 
-  /** A press: whether it began outside the card */
+  /** A press: whether it began outside the card; anywhere but on "Ta bort" turns its question back */
   function pressed(event: PointerEvent): void {
     pressedOutside = event.target === popup
+    if (!(event.target as HTMLElement).closest('.remove')) asking = false
+  }
+
+  /** "Ta bort": the first click asks, the second deletes the entry */
+  function remove(): void {
+    if (asking) void app.deleteEdited()
+    else asking = true
   }
 
   /** A click outside the card, begun there too, cancels the edit, as any popup closes */
@@ -240,6 +250,12 @@
       {/key}
 
       <div class="actions">
+        {#if !line.isNew && !line.running}
+          <button class="remove" class:asking type="button" onclick={remove} onfocusout={() => (asking = false)}
+            >Ta bort<span class="question">?</span></button
+          >
+        {/if}
+        <span class="spacer"></span>
         <button type="button" onclick={() => popup?.close()}>Avbryt</button>
         <button class="save" type="button" disabled={!canSave(line, reason)} onclick={save}>Spara</button>
       </div>
@@ -336,8 +352,11 @@
 
   .actions {
     display: flex;
-    justify-content: flex-end;
     gap: var(--edit-button-gap);
+  }
+
+  .spacer {
+    flex: 1;
   }
 
   .actions button {
@@ -389,6 +408,24 @@
 
   .field.warn {
     color: var(--edit-remove);
+  }
+
+  /* "Ta bort" in removal red; asking, its "?" shows in the room it kept and a red border comes */
+  .actions .remove {
+    border-color: transparent;
+    color: var(--edit-remove);
+  }
+
+  .question {
+    visibility: hidden;
+  }
+
+  .actions .asking {
+    border-color: var(--edit-remove);
+  }
+
+  .asking .question {
+    visibility: visible;
   }
 
   .actions .save:disabled {

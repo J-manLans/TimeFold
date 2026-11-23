@@ -16,7 +16,7 @@ import {
   type Recovery,
   type TimeRecord,
 } from '$lib/modules/shared/record'
-import { saveLine } from '$lib/modules/edit/edit'
+import { deleteEntry, saveLine } from '$lib/modules/edit/edit'
 import { type LineState, type View } from '$lib/modules/edit/line'
 import { toggleFlexDay } from '$lib/modules/menu/flexDays'
 import {
@@ -249,6 +249,16 @@ class AppState {
   async saveEdit(line: LineState, reason: string): Promise<void> {
     if (this.record === null) return
     this.record = saveLine(this.record, line, reason)
+    this.lastClick = null
+    this.editing = null
+    await saveRecord(this.record)
+  }
+
+  /** The entry being edited deleted and saved; the popup closes. Used by "Ta bort" on its second click */
+  async deleteEdited(): Promise<void> {
+    const id = this.editing?.entryId
+    if (this.record === null || !id) return
+    this.record = deleteEntry(this.record, id)
     this.lastClick = null
     this.editing = null
     await saveRecord(this.record)

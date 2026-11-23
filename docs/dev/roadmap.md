@@ -47,8 +47,8 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
    of time").
 2. `[written]` `[tests]` The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag
    and its reason under the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
-3. Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each entry's mark of how it was
-   made, and a reason given alone, with nothing else changed.
+3. `[written]` `[tests]` Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each
+   entry's mark of how it was made, and a reason given alone, with nothing else changed.
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows.

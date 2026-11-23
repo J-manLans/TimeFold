@@ -2,7 +2,15 @@ import fc from 'fast-check'
 import { describe, expect, it } from 'vitest'
 import { applyMove, DAY_OF_SPANS, MOVE, RUNS } from '$tests/helpers/lines'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { canSave, lineForEntry, lineForGap, reasonList, resultWords, saveLine } from '$lib/modules/edit/edit'
+import {
+  canSave,
+  deleteEntry,
+  lineForEntry,
+  lineForGap,
+  reasonList,
+  resultWords,
+  saveLine,
+} from '$lib/modules/edit/edit'
 import {
   clickMiddle,
   dragTo,
@@ -243,6 +251,14 @@ describe('entries of a profile found touching are saved as one', () => {
     const r = record(work('e1', '06:00', '06:05'), work('e2', '06:05', '06:10'))
 
     expect(rows(saveLine(r, open(r, 'e1'), 'Ärende'))).toEqual(['p1 06:00–06:10 edited: Ärende'])
+  })
+})
+
+describe('an entry is deleted from its edit', () => {
+  it('removes the entry and leaves the rest as they were, with no reason', () => {
+    const r = record(work('e1', '08:00', '10:00'), work('e2', '10:25', '12:00'))
+
+    expect(rows(deleteEntry(r, 'e1'))).toEqual(['p1 10:25–12:00 clicked'])
   })
 })
 
