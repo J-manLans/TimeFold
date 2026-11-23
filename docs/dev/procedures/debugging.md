@@ -38,8 +38,8 @@ A tool that is not installed is code to add, and is asked for first.
 
 ### The dev window loses its layout
 
-**Seen as:** in `npm run tauri dev`, the window shows every element stacked down the middle with no grid, flex or gaps,
-and the terminal says `[vite-plugin-svelte:load] failed to load virtual css module …?svelte&type=style&lang.css` for the
+**Seen as:** in `npm start`, the window shows every element stacked down the middle with no grid, flex or gaps, and the
+terminal says `[vite-plugin-svelte:load] failed to load virtual css module …?svelte&type=style&lang.css` for the
 components.
 
 **Cause:** in dev, each component's styles are their own request. When the window asks for a component's styles before
@@ -50,7 +50,7 @@ compiled styles into one CSS file.
 
 **Fix, in order:**
 
-1. Stop `npm run tauri dev` and start it again.
+1. Stop `npm start` and start it again.
 2. If the layout is still gone, delete `~/.local/share/io.github.j-manlans.timefold/WebKitCache` (the window's cached
    pages only; the record and settings are beside it, not in it) and start again.
 3. If it keeps coming back, compile every component when the dev server starts, by adding
