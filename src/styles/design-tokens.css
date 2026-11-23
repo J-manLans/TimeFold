@@ -353,6 +353,7 @@
   --edit-head-size: 12.5px; /* the day and the profile picker */
   --edit-words-size: 12px; /* the result in words under the day */
   --edit-tag-gap: 6px; /* between a part's times and its "paus" tag */
+  --edit-field-width: 6ch; /* the break's field, in the tag's place */
   --edit-picker-padding: 2px 6px;
   /* The line */
   --edit-line-height: 34px; /* the handles' room */

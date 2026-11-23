@@ -81,7 +81,8 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   16 november", "mån 16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`,
   `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that
   names a day's copy; `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke
-  checked against the field's shape, read into minutes, and written back in words ("1h 20min") or into a field ("1:20").
+  checked against the field's shape (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field
+  wears, applies as it is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20").
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, the registered `--glow-strength` the pointer light fades by, and Stilla: under
   `data-still` every transition, animation and delay is zero.
