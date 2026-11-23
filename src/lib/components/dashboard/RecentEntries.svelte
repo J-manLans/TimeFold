@@ -1,8 +1,8 @@
 <!--
   The five most recent entries under the label "Senaste", newest first, with "Visa alla" under them ("The main screen
   has a controls side and a dashboard"). The list always keeps five rows' room, so "Visa alla" never moves; with no
-  entry yet, "Inga poster ännu" sits centred in that room and "Visa alla" is greyed out. An entry that stops lights
-  its row as it arrives; one that runs is left out until it stops.
+  entry yet, "Inga poster ännu" sits centred in that room and "Visa alla" is greyed out. A running entry heads the
+  list ("A running entry is edited at its start"). An entry that stops lights its row as it arrives.
 -->
 <script lang="ts" module>
   /** How many entries the list shows */
@@ -14,23 +14,24 @@
 
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { stoppedEntries } from '$lib/modules/dashboard/entries'
+  import { listedEntries, stoppedEntries } from '$lib/modules/dashboard/entries'
   import AllEntries from './AllEntries.svelte'
   import EntryRow from './EntryRow.svelte'
 
   // === State ===
 
-  let recent = $derived(app.record ? stoppedEntries(app.record).slice(0, RECENT) : [])
+  let recent = $derived(app.record ? listedEntries(app.record).slice(0, RECENT) : [])
+  let newestStopped = $derived(app.record ? (stoppedEntries(app.record)[0]?.id ?? null) : null)
   /** The entry that arrived at the top since the list was first shown, which lights as it appears */
   let freshId = $state<string | null>(null)
   let seen: Set<string> | null = null
 
   // === Logic ===
 
-  // A new entry at the top, one not seen before, is fresh; what the list opens with is not
+  // An entry newly stopped is fresh, one not stopped before; what the list opens with is not, nor a start
   $effect(() => {
-    const ids = recent.map((e) => e.id)
-    if (seen !== null && ids.length > 0 && !seen.has(ids[0])) freshId = ids[0]
+    const ids = app.record ? stoppedEntries(app.record).map((e) => e.id) : []
+    if (seen !== null && newestStopped !== null && !seen.has(newestStopped)) freshId = newestStopped
     seen = new Set(ids)
   })
 </script>
