@@ -8,16 +8,16 @@ template in `../README.md`, and is cited by its title.
 **Built by:** Corrections.
 
 **Decision:** the entry line shows what is being edited, the entry as it was and as it is becoming, centred and filling
-65% of the line. While a handle is dragged the view does not change, and the handle stops at its edges, as at another
-entry. Each time a handle is let go, or a minute is stepped, the view eases, at the interface's speed (at once in
-Stilla), to that fit again, growing or shrinking, so the line always looks the same. A docked neighbour is never fitted;
-it runs off the edge as any other entry does, and the joined result is spelled out under the day. A move beyond the view
-is made in turns: drag to the edge, let go, and drag again. While the entry still overlaps where it started, the view
-holds the original too, so a shortened entry shows where it began; once it has left its original altogether, or never
-had one, the view fits the entry alone. The scale under the line shows at most eight labels, in the smallest unit and
-step that fits: minutes every 5, 10, 15 or 30 ("10:05"); hours every 1, 2, 3, 6 or 12 ("08", midnight as its day,
-"tor"); days every 1 or 2 ("tor 20"); weeks, on Mondays ("v. 47"); months every 1, 3 or 6 ("nov", January as its year,
-"2027"); years every 1, 2, 5 or 10, and wider steps beyond.
+65% of the line. While a handle is dragged the view does not change, and the handle stops at its edges, on the 5-minute
+mark just inside, as at another entry. Each time a handle is let go, or a minute is stepped, the view eases, at the
+interface's speed (at once in Stilla), to that fit again, growing or shrinking, so the line always looks the same. A
+docked neighbour is never fitted; it runs off the edge as any other entry does, and the joined result is spelled out
+under the day. A move beyond the view is made in turns: drag to the edge, let go, and drag again. While the entry still
+overlaps where it started, the view holds the original too, so a shortened entry shows where it began; once it has left
+its original altogether, or never had one, the view fits the entry alone. The scale under the line shows at most eight
+labels, in the smallest unit and step that fits: minutes every 5, 10, 15 or 30 ("10:05"); hours every 1, 2, 3, 6 or 12
+("08", midnight as its day, "tor"); days every 1 or 2 ("tor 20"); weeks, on Mondays ("v. 47"); months every 1, 3 or 6
+("nov", January as its year, "2027"); years every 1, 2, 5 or 10, and wider steps beyond.
 
 **Why:** a view that changes under a dragged handle changes the time the pointer reads, which moves the handle and so
 the view again: it ran away growing or shrinking, and every patch on it added a feel to learn. Held still, the line

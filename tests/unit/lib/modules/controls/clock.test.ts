@@ -36,7 +36,7 @@ describe('pressing start with nothing running starts an entry', () => {
 
     expect(after.entries).toEqual([
       ...before.entries,
-      { id: 'e2', profile: JANITOR, start: at('2026-11-16', '08:02:15'), stop: null, made: 'clicked', breaks: [] },
+      { id: 'e2', profile: JANITOR, start: at('2026-11-16', '08:02:15'), stop: null, made: 'clicked', breakMinutes: 0 },
     ])
     expect(click).toEqual({ kind: 'start', at: at('2026-11-16', '08:02:15'), started: 'e2' })
   })
@@ -61,7 +61,14 @@ describe('starting one profile while another runs switches, so at most one runs'
 
     expect(after.entries).toEqual([
       { ...before.entries[0], stop: at('2026-11-16', '13:00') },
-      { id: 'e2', profile: DEVELOPMENT, start: at('2026-11-16', '13:00'), stop: null, made: 'clicked', breaks: [] },
+      {
+        id: 'e2',
+        profile: DEVELOPMENT,
+        start: at('2026-11-16', '13:00'),
+        stop: null,
+        made: 'clicked',
+        breakMinutes: 0,
+      },
     ])
     expect(click).toEqual({ kind: 'switch', at: at('2026-11-16', '13:00'), stopped: 'e1', started: 'e2' })
   })
@@ -100,9 +107,7 @@ describe('the undo takes back a break set within its seconds', () => {
   })
 
   it('puts a break of 20 set to 10 back to 20', () => {
-    const before = record([
-      entry(at('2026-11-16', '07:58'), null, { id: 'e1', breaks: [{ day: '2026-11-16', minutes: 20 }] }),
-    ])
+    const before = record([entry(at('2026-11-16', '07:58'), null, { id: 'e1', breakMinutes: 20 })])
     const done = setBreak(before, JANITOR, 10, moment('2026-11-16', '10:30'))
     if (!done.ok) throw new Error('the break was refused')
 
@@ -111,9 +116,7 @@ describe('the undo takes back a break set within its seconds', () => {
 
   it('says "paus 20min" for a first break, and "paus 20min → 30min" for a change', () => {
     const none = record([entry(at('2026-11-16', '07:58'), null, { id: 'e1' })])
-    const twenty = record([
-      entry(at('2026-11-16', '07:58'), null, { id: 'e1', breaks: [{ day: '2026-11-16', minutes: 20 }] }),
-    ])
+    const twenty = record([entry(at('2026-11-16', '07:58'), null, { id: 'e1', breakMinutes: 20 })])
     const first = setBreak(none, JANITOR, 20, moment('2026-11-16', '10:30'))
     const more = setBreak(twenty, JANITOR, 30, moment('2026-11-16', '10:30'))
     if (!first.ok || !more.ok) throw new Error('the break was refused')

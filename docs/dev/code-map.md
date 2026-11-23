@@ -48,22 +48,25 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
   break among them (`undo`), and what the undo's label says (`clickLabel`); `breaks.ts`, the running entry's whole break
-  so far (`breakSoFar`) and a new total set on it, adding the difference or taking time back, refused when nothing runs
-  or it is longer than the entry (`setBreak`); the entry running from an earlier day when the app opens
-  (`runningSinceEarlierDay`), stopping it whichever profile is on screen (`stopRunning`) and the popup's words
-  (`lateWords`); `today.ts`, today's pie, the slices filled and lapped (`todaySlices`), a running entry counted to now.
-  `dashboard/`: `figures.ts`, the flex bar's scale, reach and side, and the balance as text; `entries.ts`, the entry
-  lists' stopped entries, newest first, what a row says, its break tag among it, the month lines of "Visa alla"
-  (`withMonthLines`) and the gap above each of its rows (`gapsAbove`). `edit/`: `line.ts`, the entry line's rules as
-  plain state and moves: opening an entry or a gap, placing a new entry, dragging and stepping its handles against the
-  walls (other entries, now, the view's edge, the break), shortening and gaps, a gap filled by another profile, joining
-  and walking, the break and its sharing, the colours of the line and the view's fit. `menu/`: `flexDays.ts`, a click on
-  a day of the calendar marking or unmarking it, weekends, days janitor work started on (`workedDays`) and, while
-  locked, days gone by refused (`toggleFlexDay`), the month it draws (`calendarMonth`, `monthAfter`) and the list of
-  marked days ahead (`daysAhead`); `settings.ts`, the machine's own settings (the theme and the motion), their defaults,
-  the check on reading each apart, the theme and the motion in force, and each button's switch. `shared/`: `record.ts`,
-  the record's shape as types, `readRecord`, the check on opening that turns a file's text into a record or names what
-  is wrong with it, upgrading an older version first, and `recoveryFor`, what a problem leads to; `colours.ts`, the
+  so far (`breakSoFar`) and a new total set on it, refused when nothing runs or it is longer than the entry
+  (`setBreak`); the entry running from an earlier day when the app opens (`runningSinceEarlierDay`), stopping it
+  whichever profile is on screen (`stopRunning`) and the popup's words (`lateWords`); `today.ts`, today's pie, the
+  slices filled and lapped (`todaySlices`), a running entry counted to now. `dashboard/`: `figures.ts`, the flex bar's
+  scale, reach and side, and the balance as text; `entries.ts`, the entry lists' stopped entries, newest first, what a
+  row says, its break tag among it, the month lines of "Visa alla" (`withMonthLines`) and the gap above each of its rows
+  (`gapsAbove`). `edit/`: `line.ts`, the entry line's rules as plain state and moves: opening an entry or a gap, placing
+  a new entry, dragging and stepping its handles against the walls (other entries, now, the view's edge, the break),
+  shortening and gaps, a gap filled by another profile, joining and walking, the break and its sharing, the colours of
+  the line and the view's fit; `edit.ts`, an entry of the record or a gap opened on the line (`lineForEntry`,
+  `lineForGap`), whether the confirm can save (`canSave`), and the save (`saveLine`), which writes the line's result
+  into the record with its marks and reasons and makes one entry of a profile's entries left touching. `menu/`:
+  `flexDays.ts`, a click on a day of the calendar marking or unmarking it, weekends, days janitor work started on
+  (`workedDays`) and, while locked, days gone by refused (`toggleFlexDay`), the month it draws (`calendarMonth`,
+  `monthAfter`) and the list of marked days ahead (`daysAhead`); `settings.ts`, the machine's own settings (the theme
+  and the motion), their defaults, the check on reading each apart, the theme and the motion in force, and each button's
+  switch. `shared/`: `record.ts`, the record's shape as types, `readRecord`, the check on opening that turns a file's
+  text into a record or names what is wrong with it, upgrading an older version first, `recoveryFor`, what a problem
+  leads to, and `toTimestamp` and `nextId`, a moment and a new entry's id as the record writes them; `colours.ts`, the
   colour rule from the prototype, a profile's base, dimmed and neon by role, and the faded colour; `counting.ts`, the
   balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result, each entry's seconds
   by day less its added breaks, expected hours charged on days work started or flex days, the app's month, the ceiling
@@ -81,8 +84,9 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 
 - `unit/`, mirroring `src/` with one test file per source file; `integration/`, the hand-offs between parts; `helpers/`,
   setup several test files share ("Code style"), such as `records.ts` with a sound record and `at` and `entry` for
-  building moments and entries. Each starts with its first file. Vitest finds every `*.test.ts`; Rust's tests sit beside
-  their code.
+  building moments and entries, and `lines.ts` with random days and moves for the edit's property tests, whose runs
+  `FC_RUNS` raises (`FC_RUNS=50000 npm test`). Each starts with its first file. Vitest finds every `*.test.ts`; Rust's
+  tests sit beside their code.
 
 ## The Rust half: `src-tauri/`
 

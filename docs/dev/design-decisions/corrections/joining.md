@@ -27,9 +27,10 @@ at its near edge and docks there, and let go, the entry takes its original time 
 The meeting point is where the neighbour's colour meets the green; with no gap between them, a thin line in the bar
 marks it. On confirm the two are saved as one entry, with a reason as for any edit ("Every edit carries a reason"). A
 neighbour of another profile stays a stop, and nothing joins. Either entry may be running; the joined entry then runs
-on. Their added breaks add up into the joined entry's one break ("Time away is a gap or an added break"). The joined
-entry is one entry for the counting: it owes its expected hours on the day it starts ("A day owes its expected hours
-only when work started on it").
+on, its end now with no handle, as a running entry's ("A running entry is edited at its start"). Their added breaks add
+up into the joined entry's one break ("Time away is a gap or an added break"). The joined entry is one entry for the
+counting: it owes its expected hours on the day it starts ("A day owes its expected hours only when work started on
+it").
 
 **Why:** joining fixes a stop that was not a break: the owner stops for a break, work comes up, and the entry is started
 again later; the gap was work. Dragging across the gap is the move the hand makes anyway, and the stop at the neighbour
@@ -54,23 +55,12 @@ undo puts a slip right.
 
 **Cases:**
 
-Docking and letting go:
-
-- The same with the second running: one entry from 08:00, still running.
-
-- That handle dragged back to 13:30: 13:00–13:30 kept, 13:30–14:00 red; on to 12:30: 13:00–14:00 is whole again, a wall
-  at 13:00; on to 11:30: 11:30–12:00 red; on to 10:50: 11:00–12:00 whole again; each can be docked onto again.
-
-- 12:45–15:20 docked onto 08:02–12:00, its start dragged back to 12:00 and let go, then saved: one entry 08:02–15:20.
-
 Walking:
 
 - A new entry walked right past 10:00–11:00 and then past 12:00–13:00: each is let go whole in turn, nearest first.
 - Walked past 10:00–11:00 and, in the same drag, back to its end and let go: taken in again.
 - 08:00–10:00 walked right to 13:00–14:00, its start dragged back left: it stops and docks at 10:00; let go, the entry
   is 08:00–14:00, 10:00–13:00 green.
-- An existing 08:00–09:00 walked right past 09:00–10:00 to 10:00–11:00 and saved: 09:00–10:00 unchanged, the entry
-  10:00–11:00, 08:00–09:00 gone.
 
 Profiles, breaks and colours through a chain:
 

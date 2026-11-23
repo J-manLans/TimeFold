@@ -1,5 +1,6 @@
 import fc from 'fast-check'
 import { describe, expect, it } from 'vitest'
+import { applyMove, DAY_OF_SPANS, MOVE, RUNS } from '$tests/helpers/lines'
 import { at } from '$tests/helpers/records'
 import {
   atLimit,
@@ -97,8 +98,7 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
     const first = turn(openLine(span('08:00', '12:00'), [], t('17:00')), 'end', t('16:00'))
     const second = turn(first, 'end', t('16:00'))
 
-    expect(first.end).toBeLessThan(t('13:10'))
-    expect(first.end).toBeGreaterThan(t('13:00'))
+    expect(first.end).toBe(t('13:00'))
     expect(second.end).toBeGreaterThan(first.end + HOUR)
     expect(drag(first, 'end', t('16:00')).end).toBe(t('16:00'))
   })
@@ -121,6 +121,13 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
     const dragged = turn(stepped, 'end', stepped.view.from)
 
     expect(dragged.end).toBe(t('06:05'))
+  })
+
+  it("is never pushed by the view's edge: 06:02–06:07 against 06:07–06:12 of another profile, dragged by its middle", () => {
+    const line = openLine(span('06:02', '06:07'), [span('06:07', '06:12', { profile: 'p2' })], t('17:00'))
+    const moved = turn(line, 'middle', line.view.from)
+
+    expect(moved.end).toBeLessThanOrEqual(t('06:07'))
   })
 
   it('stops at now', () => {
@@ -370,6 +377,26 @@ describe('entries of a profile that touch are one', () => {
     expect(colours(chain)).toContain('add 12:00–13:00')
   })
 
+  it('lets a chain go outermost first as the handle is dragged back: 13:30, 12:30, 11:30, 10:50', () => {
+    const line = openLine(span('10:00', '11:00'), [span('11:00', '12:00'), span('13:00', '14:00')], t('17:00'))
+    const chain = drag(drag(line, 'end', t('11:00')), 'end', t('13:00'))
+    const steps = ['13:30', '12:30', '11:30', '10:50'].map((time) => t(time))
+    const seen: string[][] = []
+    let back = chain
+    for (const time of steps) {
+      back = drag(back, 'end', time)
+      seen.push([...colours(back).filter((c) => c.startsWith('cut')), `joined ${back.joinsAfter.length}`])
+    }
+
+    expect(seen).toEqual([
+      ['cut 13:30–14:00', 'joined 2'],
+      ['joined 1'],
+      ['cut 11:30–12:00', 'joined 1'],
+      ['cut 10:50–11:00', 'joined 0'],
+    ])
+    expect(back.end).toBe(t('10:50'))
+  })
+
   it('joins on both sides: 10:00–11:00 between 08:00–09:00 and 12:00–13:00 gives 08:00–13:00', () => {
     const line = openLine(span('10:00', '11:00'), [span('08:00', '09:00'), span('12:00', '13:00')], t('17:00'))
     const both = drag(drag(line, 'start', t('09:00')), 'end', t('12:00'))
@@ -450,64 +477,6 @@ describe('a forgotten entry is placed by its first click', () => {
 })
 
 describe('whatever is dragged, stepped or picked, the line keeps its rules', () => {
-  /** How many random edits each property tries, FC_RUNS raising it for a deeper hunt; a millisecond each at most */
-  const RUNS = Number(import.meta.env.FC_RUNS ?? 100)
-
-  /** A day of entries back to back with gaps, some to the second, of two profiles, each with a break it can hold */
-  const day = fc
-    .array(
-      fc.record({
-        gap: fc.integer({ min: 0, max: 120 }),
-        length: fc.integer({ min: 5, max: 240 }),
-        seconds: fc.integer({ min: 0, max: 59 }),
-        profile: fc.constantFrom('p1', 'p2'),
-        breakShare: fc.double({ min: 0, max: 0.6, noNaN: true }),
-      }),
-      { minLength: 1, maxLength: 6 },
-    )
-    .map((rows) => {
-      let time = t('06:00')
-      return rows.map((row, i) => {
-        const start = time + row.gap * 60_000 + (i % 2 === 0 ? row.seconds * 1000 : 0)
-        const stop = start + row.length * 60_000
-        time = stop
-        return { id: `e${i}`, profile: row.profile, start, stop, breakMinutes: Math.floor(row.length * row.breakShare) }
-      })
-    })
-
-  /** One move on the line, with where a drag goes as a share of the view */
-  const move = fc.oneof(
-    fc.record({
-      kind: fc.constant('drag' as const),
-      grip: fc.constantFrom<Grip>('start', 'end', 'middle'),
-      to: fc.array(fc.double({ min: -0.2, max: 1.2, noNaN: true }), { minLength: 1, maxLength: 3 }),
-    }),
-    fc.record({
-      kind: fc.constant('step' as const),
-      handle: fc.constantFrom('start' as const, 'end' as const),
-      by: fc.constantFrom(-1 as const, 1 as const),
-    }),
-    fc.record({ kind: fc.constant('middle' as const) }),
-    fc.record({ kind: fc.constant('pick' as const), profile: fc.constantFrom('p1', 'p2', 'p3') }),
-    fc.record({ kind: fc.constant('break' as const), minutes: fc.integer({ min: 0, max: 120 }) }),
-  )
-
-  type Move = typeof move extends fc.Arbitrary<infer M> ? M : never
-
-  /** A move done on the line. Used by the property */
-  function apply(line: LineState, m: Move): LineState {
-    if (m.kind === 'step') return stepHandle(line, m.handle, m.by)
-    if (m.kind === 'middle') return clickMiddle(line)
-    if (m.kind === 'pick') return pickProfile(line, m.profile)
-    if (m.kind === 'break') return setBreak(line, m.minutes) ?? line
-    const from = m.grip === 'end' ? line.end : m.grip === 'start' ? line.start : (line.start + line.end) / 2
-    const held = grab(line, m.grip, from)
-    if (!held) return line
-    let moved = line
-    for (const share of m.to) moved = dragTo(moved, held, line.view.from + share * (line.view.to - line.view.from))
-    return letGo(moved)
-  }
-
   /** The rules every state of the line keeps. Used after every move */
   function keepsItsRules(line: LineState): void {
     expect(line.end - line.start).toBeGreaterThanOrEqual(60_000)
@@ -524,11 +493,11 @@ describe('whatever is dragged, stepped or picked, the line keeps its rules', () 
     () => {
       fc.assert(
         fc.property(
-          day,
+          DAY_OF_SPANS,
           fc.nat(),
           fc.boolean(),
           fc.integer({ min: 0, max: 120 }),
-          fc.array(move, { maxLength: 25 }),
+          fc.array(MOVE, { maxLength: 25 }),
           (entries, pick, running, after, moves) => {
             const chosen = entries[pick % entries.length]
             const last = entries[entries.length - 1]
@@ -541,7 +510,7 @@ describe('whatever is dragged, stepped or picked, the line keeps its rules', () 
             let line = openLine(chosen, others, now, runs)
             keepsItsRules(line)
             for (const m of moves) {
-              line = apply(line, m)
+              line = applyMove(line, m)
               keepsItsRules(line)
             }
             expect(others).toEqual(before)

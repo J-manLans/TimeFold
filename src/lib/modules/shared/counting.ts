@@ -30,9 +30,9 @@ export interface CeilingMonth {
 
 /**
  * An entry's seconds worked on each calendar day it touches, split at this machine's midnight ("Time counts on the day
- * it was worked"), less its added breaks: each comes off the day it was added, and any rest off the days before
- * ("Time away is a gap or an added break"). Used for every day's hours: Tuesday 22:00 to Wednesday 01:00 gives Tuesday
- * 2 h and Wednesday 1 h; with 30 min added on Wednesday, Wednesday 30 min.
+ * it was worked"), less its added break: off its last day first, and any rest off the days before ("Time away is a gap
+ * or an added break"). Used for every day's hours: Tuesday 22:00 to Wednesday 01:00 gives Tuesday 2 h and Wednesday
+ * 1 h; with a 30 min break, Wednesday 30 min.
  * @param entry - a stopped entry; a running one has no seconds yet
  * @returns seconds by day, in order
  */
@@ -46,7 +46,7 @@ export function secondsByDay(entry: Entry): Map<Day, number> {
     split.set(localDay(from), Math.round((to - from) / 1000))
     from = to
   }
-  for (const taken of entry.breaks) takeBreak(split, taken.day, taken.minutes * 60)
+  takeBreak(split, entry.breakMinutes * 60)
   return split
 }
 
@@ -205,12 +205,12 @@ function workedDays(profile: Profile, entries: Entry[]): { worked: Map<Day, numb
 }
 
 /**
- * An added break taken off an entry's days: off `day` first, then off each day before it, never below 0. Used by
- * `secondsByDay` for each break in turn; a break added on a day the entry did not reach starts from its last day
+ * An entry's break taken off its days: off its last day first, then off each day before it, never below 0. Used by
+ * `secondsByDay`
  */
-function takeBreak(split: Map<Day, number>, day: Day, seconds: number): void {
+function takeBreak(split: Map<Day, number>, seconds: number): void {
   let left = seconds
-  const days = [...split.keys()].filter((d) => d <= day).reverse()
+  const days = [...split.keys()].reverse()
   for (const d of days) {
     if (left <= 0) return
     const taken = Math.min(left, split.get(d) ?? 0)

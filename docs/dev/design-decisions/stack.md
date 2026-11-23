@@ -100,8 +100,6 @@ and check on the first click.
 - No record file: no record yet; nothing is reported as wrong.
 - The owner's version 2 record opened by the app with added breaks and flex days: upgraded to version 3, with no breaks
   and no flex days, and every entry, profile, setting and the balance as before.
-- A version 3 record with an entry holding breaks of 20 min Monday and 15 min Tuesday: upgraded to version 4, the entry
-  holding one break of 35 min, and no entry with a reason.
 - A record of version 3 opened, or imported, by an app that knows version 2: refused with the message to update and a
   link to the releases page; the file is unchanged.
 - The 32nd copy: the oldest of the 31 is deleted.

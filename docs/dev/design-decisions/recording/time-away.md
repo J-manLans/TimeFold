@@ -48,19 +48,14 @@ common.
 
 **Cases:**
 
-- Entry 08:00–12:00 with a 45 min added break: 3 h 15 min.
 - Nothing running on the profile on screen: "add break" is shown, greyed out.
 - A running, B on screen: "add break" is greyed out.
 - A 5 h break on an entry that has run 2 h: refused; the field reads "för lång paus".
 - The field open with "30" typed, "Stoppa jobb" pressed: the break becomes 30 min, the field closes and the job stops.
 - The field open with "30" typed, a click elsewhere: the break becomes 30 min; Esc instead: it stays as it was.
-- Entry Tuesday 22:00 to Wednesday 01:00, 30 min break added at 00:30 while it runs: Tuesday 2 h, Wednesday 30 min.
-- Entry running since Tuesday 22:00, 45 min break added at Wednesday 00:20: Wednesday 0, Tuesday 1 h 35.
 - Stop Tuesday 23:30, start Wednesday 00:15: the gap counts on neither day, with no special rule; Tuesday ends at 23:30,
   Wednesday starts at 00:15.
-- A break changed from 45 to 35 min: the entry's worked time grows by 10 min.
 - 20 min of break so far, "Lägg till paus": the field opens on "20", selected; 30 typed and Enter: the break is 30 min.
-- 20 min so far, 10 typed: the break is 10 min. 0 typed: no break.
 - Running since Monday 22:00, 20 min added Monday and raised to 45 on Tuesday, stopped Tuesday 03:00: one break of 45
   min, all off Tuesday's 3 h, which leaves Monday 2 h and Tuesday 2 h 15.
 

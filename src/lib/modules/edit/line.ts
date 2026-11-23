@@ -10,13 +10,14 @@
 //                 API
 // ======================================
 
-/** One entry as the line sees it: its stretch, its profile and its added break */
+/** One entry as the line sees it: its stretch, its profile and its added break; a running one stops at now */
 export interface Span {
   id: string
   profile: string
   start: number
   stop: number
   breakMinutes: number
+  running?: boolean
 }
 
 /** The stretch of time the line shows, from its left edge to its right */
@@ -41,7 +42,7 @@ export interface LineState {
   isNew: boolean
   /** A new entry not yet placed: the first click on free time places it */
   placing: boolean
-  /** The entry runs: its end is now, with no handle */
+  /** The entry runs, or has taken in one that does: its end is now, with no handle */
   running: boolean
   /** Every other entry, a running one stopping at now */
   others: Span[]
@@ -102,7 +103,7 @@ export const NEW_MINUTES = 10
 export function openLine(entry: Span, others: Span[], now: number, running = false): LineState {
   const end = running ? now : entry.stop
   const state: LineState = {
-    entry: { ...entry, stop: end },
+    entry: { ...entry, stop: end, running },
     isNew: false,
     placing: false,
     running,
@@ -206,8 +207,10 @@ export function grab(state: LineState, grip: Grip, at: number): Drag | null {
  */
 export function dragTo(state: LineState, drag: Drag, at: number): LineState {
   const step = SNAP_MINUTES * MINUTE
-  let low = Math.max(wallBefore(state), state.view.from)
-  let high = Math.min(wallAfter(state), state.view.to)
+  // The view's edges stop a handle on the 5-minute mark just inside them, as a drag always lands on one, but never
+  // push one that is already further out
+  let low = Math.max(wallBefore(state), Math.min(snap(state.view.from, 'up'), state.start))
+  let high = Math.min(wallAfter(state), Math.max(snap(state.view.to, 'down'), state.end))
   // An entry moved clear of where it started meets its original as a neighbour of its own profile
   if (!state.isNew && drag.grip === 'start' && drag.startWas >= state.originalEnd)
     low = Math.max(low, state.originalEnd)
@@ -449,12 +452,16 @@ export function atLimit(state: LineState): boolean {
 }
 
 /**
- * Whether anything that needs a reason has changed: a time, the profile, the break or a filled gap. Used by the
- * confirm, with the reason; a new entry counts once placed.
+ * Whether anything that needs a reason has changed: a time, the profile, the break, a filled gap, or a neighbour of
+ * its profile it touches, which the line shows as one with it. Used by the confirm, with the reason; a new entry counts
+ * once placed.
  */
 export function isChanged(state: LineState): boolean {
   if (state.isNew) return !state.placing
+  const docks = docked(state)
   return (
+    docks.before ||
+    docks.after ||
     state.start !== state.originalStart ||
     state.end !== state.originalEnd ||
     state.profile !== state.entry.profile ||
@@ -505,12 +512,14 @@ export function fittedView(state: LineState): View {
 }
 
 /**
- * A time snapped to 5 minutes of this machine's clock. Used by drags and placing: 10:07:40 gives 10:10.
+ * A time snapped to 5 minutes of this machine's clock, to the nearest mark or the next one up or down. Used by drags,
+ * placing and the view's edges: 10:07:40 gives 10:10, or 10:05 down.
  */
-export function snap(time: number): number {
+export function snap(time: number, way: 'nearest' | 'up' | 'down' = 'nearest'): number {
   const step = SNAP_MINUTES * MINUTE
   const offset = new Date(time).getTimezoneOffset() * MINUTE
-  return Math.round((time - offset) / step) * step + offset
+  const round = way === 'up' ? Math.ceil : way === 'down' ? Math.floor : Math.round
+  return round((time - offset) / step) * step + offset
 }
 
 // ======================================
@@ -566,7 +575,7 @@ function towards(from: number, to: number, step: number): number {
 
 /**
  * What every move ends with, as the prototype's drawing did: a new entry's own time is what lies between its joins;
- * a filling profile goes once there is no gap to fill; a gap goes once both handles are no longer inward, so an old gap
+ * an entry that runs, or has taken in one that does, ends at now; a filling profile goes once there is no gap to fill; a gap goes once both handles are no longer inward, so an old gap
  * never comes back unasked
  */
 function normalised(state: LineState): LineState {
@@ -575,6 +584,8 @@ function normalised(state: LineState): LineState {
     next.originalStart = next.joinsBefore.length > 0 ? next.joinsBefore[0].stop : next.start
     next.originalEnd = next.joinsAfter.length > 0 ? next.joinsAfter[0].start : next.end
   }
+  next.running = next.entry.running === true || next.joinsAfter.some((j) => j.running === true)
+  if (next.running) next.end = next.now
   if (next.fill && !isFilling(next)) next.fill = null
   if (!isInward(next) && !isFilling(next)) next.mode = 'shorten'
   return next

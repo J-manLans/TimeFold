@@ -13,7 +13,7 @@ import { FIRST_HUE, baseColour } from '$lib/modules/shared/colours'
 export const RECORD_FORMAT = 'timefold-record'
 
 /** The shape's version; it goes up whenever the shape changes */
-export const RECORD_VERSION = 3
+export const RECORD_VERSION = 4
 
 /** The janitor's expected minutes a working day, as a fresh record starts them ("Expected hours: 6 a day, Monday to Friday") */
 const EXPECTED_MINUTES = 6 * 60
@@ -75,14 +75,10 @@ export interface Entry {
   start: Timestamp
   stop: Timestamp | null
   made: Made
-  /** Time away taken off it, in the order added ("Time away is a gap or an added break") */
-  breaks: Break[]
-}
-
-/** A length of time taken off an entry, and the day it was added; not when it happened */
-export interface Break {
-  day: Day
-  minutes: number
+  /** Time away taken off it, its length alone, 0 with none ("Time away is a gap or an added break") */
+  breakMinutes: number
+  /** Why it was last edited or written by hand, or why it ran as it did; none until one is given ("Every edit carries a reason") */
+  reason?: string
 }
 
 /** The whole record */
@@ -149,6 +145,7 @@ export function readRecord(text: string): ReadResult {
   try {
     if (data.version === 1) upgradeFromOne(data)
     if (data.version === 2) upgradeFromTwo(data)
+    if (data.version === 3) upgradeFromThree(data)
     checkRecord(data)
   } catch (error) {
     if (error instanceof ShapeError) return { ok: false, problem: { kind: 'wrong-shape', where: error.where } }
@@ -184,6 +181,27 @@ export function freshRecord(profileName: string, openingMinutes: number, firstDa
     fullTime: [{ from: firstDay, minutes: FULL_TIME_MINUTES }],
     entries: [],
   }
+}
+
+/**
+ * A moment written as the record keeps it: to the second, with this machine's offset. Used for every start and stop,
+ * clicked or edited, and for the moment of every click: 2026-11-16T08:02:15+02:00
+ */
+export function toTimestamp(now: Date): Timestamp {
+  const two = (n: number): string => String(Math.floor(Math.abs(n))).padStart(2, '0')
+  const offset = -now.getTimezoneOffset()
+  const day = `${now.getFullYear()}-${two(now.getMonth() + 1)}-${two(now.getDate())}`
+  const time = `${two(now.getHours())}:${two(now.getMinutes())}:${two(now.getSeconds())}`
+  return `${day}T${time}${offset >= 0 ? '+' : '-'}${two(offset / 60)}:${two(offset % 60)}`
+}
+
+/**
+ * The next free entry id after the highest `eN` among the entries. Used for every new entry, clicked or written by
+ * hand: e1 and e2 give e3
+ */
+export function nextId(entries: Entry[]): string {
+  const highest = Math.max(0, ...entries.map((e) => Number(/^e(\d+)$/.exec(e.id)?.[1] ?? 0)))
+  return `e${highest + 1}`
 }
 
 // ======================================
@@ -240,6 +258,27 @@ function upgradeFromTwo(data: Fields): void {
   data.version = 3
 }
 
+/**
+ * Brings a version 3 record to version 4: each entry's added breaks, a list of lengths by day, become its one break,
+ * their sum; no entry has a reason yet. Used by `readRecord` before the check; breaks of the wrong shape are named
+ * here, since the list is gone once summed
+ */
+function upgradeFromThree(data: Fields): void {
+  const entries = Array.isArray(data.entries) ? data.entries : []
+  entries.forEach((entry, i) => {
+    if (!isObject(entry)) return
+    let sum = 0
+    list(entry.breaks, `entries[${i}].breaks`, (item, where) => {
+      day(item.day, `${where}.day`)
+      whole(item.minutes, `${where}.minutes`, 1)
+      sum += item.minutes as number
+    })
+    delete entry.breaks
+    entry.breakMinutes = sum
+  })
+  data.version = 4
+}
+
 /** Whether a value is a string. Used by `upgradeFromOne` to keep only the openings' days */
 function isText(value: unknown): value is string {
   return typeof value === 'string'
@@ -294,10 +333,8 @@ function checkRecord(data: Fields): void {
     timestamp(entry.start, `${at}.start`)
     if (entry.stop !== null) timestamp(entry.stop, `${at}.stop`)
     if (!MADE.includes(entry.made as Made)) throw new ShapeError(`${at}.made`)
-    list(entry.breaks, `${at}.breaks`, (item, where) => {
-      day(item.day, `${where}.day`)
-      whole(item.minutes, `${where}.minutes`, 1)
-    })
+    whole(entry.breakMinutes, `${at}.breakMinutes`, 0)
+    if (entry.reason !== undefined) text(entry.reason, `${at}.reason`)
   })
 }
 
@@ -313,7 +350,7 @@ function amount(value: unknown, where: string): void {
 
 /**
  * A value as a list, each item checked by `check` with its place, such as entries[1]. Used for profiles,
- * openings, entries, expected minutes, pay, full time and added breaks
+ * openings, entries, expected minutes, pay, full time and a version 3 record's added breaks
  */
 function list(value: unknown, where: string, check: (item: Fields, at: string) => void): void {
   if (!Array.isArray(value)) throw new ShapeError(where)
@@ -325,7 +362,7 @@ function text(value: unknown, where: string): void {
   if (typeof value !== 'string' || value === '') throw new ShapeError(where)
 }
 
-/** A real day written YYYY-MM-DD, or a ShapeError at `where`. Used for openings, from-dates, breaks and flex days: 16.11.2026 fails */
+/** A real day written YYYY-MM-DD, or a ShapeError at `where`. Used for openings, from-dates, a version 3 record's breaks and flex days: 16.11.2026 fails */
 function day(value: unknown, where: string): void {
   if (typeof value !== 'string' || !DAY.test(value) || Number.isNaN(Date.parse(value))) throw new ShapeError(where)
 }
