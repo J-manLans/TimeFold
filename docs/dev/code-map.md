@@ -6,8 +6,10 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 
 ## A run, from the command to the screen
 
-1. `npm run tauri dev` starts Tauri's CLI, which first runs `beforeDevCommand` from `src-tauri/tauri.conf.json`:
-   `npm run dev`, Vite serving the interface on port 5173 (`vite.config.ts`).
+1. `npm start` runs `tauri dev` with `src-tauri/tauri.dev.conf.json` laid over `tauri.conf.json`: its own identifier
+   gives dev a data folder of its own, so it never opens the installed app's record. Tauri's CLI first runs
+   `beforeDevCommand` from `src-tauri/tauri.conf.json`: `npm run dev`, Vite serving the interface on port 5173
+   (`vite.config.ts`).
 2. The CLI compiles the Rust half and starts it: `src-tauri/src/main.rs` calls `run()` in `src-tauri/src/lib.rs`, which
    builds the Tauri app and opens the window from `tauri.conf.json`, pointed at `devUrl`.
 3. The window loads `index.html`, which holds only `#app` and loads `src/main.ts`.
@@ -88,6 +90,8 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   bottom. The record, its `copies/` folder and `settings.json` live in the app's data folder.
 - `tauri.conf.json`: the app's name, its identifier (which names the folder the record lives in), the window, and the
   commands that build the interface.
+- `tauri.dev.conf.json`: what `npm start` lays over `tauri.conf.json` for dev: only the identifier, so dev keeps its
+  record in a folder of its own.
 - `capabilities/`: what the interface may ask of the Rust half and its plugins, such as closing the window and opening
   the releases page (the opener plugin).
 - `Cargo.toml`: the Rust half's packages; `icons/`: the app's and the installers' icons, made from `icons/icon.svg`, the
@@ -95,7 +99,7 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 
 ## Configuration at the root
 
-- `package.json`: the interface's packages and scripts (`dev`, `build`, `check`, `test`, `tidy`, `tauri`).
+- `package.json`: the interface's packages and scripts (`dev`, `start`, `build`, `check`, `test`, `tidy`, `tauri`).
 - `.prettierrc` and `.prettierignore`: Prettier's few settings and what it skips; `eslint.config.js`: ESLint's rule
   sets, with Prettier's switch-off and the globals for the webview and for Node.
 - `vite.config.ts`: the dev server Tauri loads, and the aliases `$lib` for `src/lib` and `$tests` for `tests` (also in
