@@ -19,8 +19,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3: Corrections, the rest of its **Settle first** in design mode, on a fresh branch off `main`. Step 1, released in
-`0.2.1`, waits to be seen on a school computer.
+Phase 3: Corrections, built on `phase-3-corrections`: step 1, editing an entry on its line. The gaps in "Visa alla"
+already open on hover, seen on Linux; step 3 gives them their click.
 
 ## The phases
 
@@ -37,19 +37,15 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** settled.
 
-1. The Linux check, first of all: in the Tauri window on the owner's Linux machine, the gaps in "Visa alla" opening
-   evenly on hover, since WebKitGTK there can drop an animation's last frame ("A fade leaves its last frame on screen on
-   Linux", in `docs/dev/procedures/debugging.md`); if a redraw at the end does not cure it, they stay static
-   (`--ins-open: 0`).
-2. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
+1. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
    peek at the list behind: the handles and their pill, the view and its scale, shortening and gaps, the profile and a
    gap filled by another, joining and walking, the break's tag, the confirm. The tag's field keeps its shape through one
    Svelte attachment in its own file, `src/lib/modules/shared/durationShape.ts`, which the pause field and the
    onboarding's balance move to from their own copies; the pause field then keeps what is typed on a click away
    ("Entering a length of time").
-3. The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag and its reason under
+2. The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag and its reason under
    the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
-4. Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each entry's mark of how it was
+3. Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each entry's mark of how it was
    made, and the reason every time edit needs, chosen from the starting list or written after "Annan orsak", or given
    alone. The record learns to keep an entry's reason, so its version goes up and an older record still reads.
 
