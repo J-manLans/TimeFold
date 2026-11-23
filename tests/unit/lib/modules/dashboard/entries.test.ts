@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { entryRow, stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
+import { entryRow, gapsAbove, stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
 import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 // === Helpers ===
@@ -93,5 +93,53 @@ describe('"Visa alla" opens each month with a line naming it and its year', () =
 
   it('gives an empty list nothing', () => {
     expect(withMonthLines([])).toEqual([])
+  })
+})
+
+describe('"Visa alla" has a gap above each row, with a "+" where an entry fits', () => {
+  it('opens the always-shown gap from the newest entry up to now: 11:40–13:05 at 15:20', () => {
+    const newest = entry(at('2026-11-19', '11:40'), at('2026-11-19', '13:05'))
+
+    const [gap] = gapsAbove([newest], Date.parse(at('2026-11-19', '15:20')))
+
+    expect(gap).toEqual({ from: Date.parse(newest.stop!), to: Date.parse(at('2026-11-19', '15:20')), kind: 'top' })
+  })
+
+  it('ends the always-shown gap at a running entry: 13:05–14:00 under work running since 14:00', () => {
+    const newest = entry(at('2026-11-19', '11:40'), at('2026-11-19', '13:05'))
+
+    const [gap] = gapsAbove([newest], Date.parse(at('2026-11-19', '14:00')))
+
+    expect(gap).toMatchObject({ to: Date.parse(at('2026-11-19', '14:00')), kind: 'top' })
+  })
+
+  it('gives the gap between 08:00–11:40 and 13:05–16:00 a "+" shown on hover, on 11:40–13:05', () => {
+    const late = entry(at('2026-11-19', '13:05'), at('2026-11-19', '16:00'))
+    const early = entry(at('2026-11-19', '08:00'), at('2026-11-19', '11:40'))
+
+    const gaps = gapsAbove([late, early], Date.parse(at('2026-11-19', '17:00')))
+
+    expect(gaps.map((g) => g.kind)).toEqual(['top', 'open'])
+    expect(gaps[1]).toMatchObject({ from: Date.parse(early.stop!), to: Date.parse(late.start) })
+  })
+
+  it('shuts gaps of seconds, and shows the "+" on the first gap below them with 5 minutes\' room', () => {
+    const third = entry(at('2026-11-19', '10:00:20'), at('2026-11-19', '10:00:30'))
+    const second = entry(at('2026-11-19', '10:00:05'), at('2026-11-19', '10:00:15'))
+    const first = entry(at('2026-11-19', '08:00'), at('2026-11-19', '09:00'))
+
+    const gaps = gapsAbove([third, second, first], Date.parse(at('2026-11-19', '10:00:40')))
+
+    expect(gaps.map((g) => g.kind)).toEqual(['shut', 'shut', 'top'])
+  })
+
+  it('gives exactly 5 minutes a "+", and 4:59 none', () => {
+    const newer = entry(at('2026-11-19', '10:05'), at('2026-11-19', '11:00'))
+    const older = entry(at('2026-11-19', '09:00'), at('2026-11-19', '10:00'))
+    const oldest = entry(at('2026-11-19', '08:00'), at('2026-11-19', '08:55:01'))
+
+    const gaps = gapsAbove([newer, older, oldest], Date.parse(at('2026-11-19', '11:00')))
+
+    expect(gaps.map((g) => g.kind)).toEqual(['shut', 'top', 'shut'])
   })
 })

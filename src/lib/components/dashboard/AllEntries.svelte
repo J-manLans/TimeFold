@@ -1,13 +1,13 @@
 <!--
   "Visa alla" and the popup it opens: every stopped entry, newest first, in a card centred on the window over a dark
   scrim ("The main screen has a controls side and a dashboard"), with a quiet line naming each month and its year
-  where the list crosses into it. "Stäng", a click on the scrim or Esc closes it, and the
-  focus goes back to "Visa alla". The rows only show their entries until editing comes ("Editing an entry on its
-  line"). With no entry yet, "Visa alla" is greyed out: <AllEntries disabled={entries.length === 0} />
+  where the list crosses into it, and a gap above each row where a forgotten entry is written ("A forgotten entry is
+  written in the gap where it belongs"). "Stäng", a click on the scrim or Esc closes it, and the
+  focus goes back to "Visa alla". With no entry yet, "Visa alla" is greyed out: <AllEntries disabled={entries.length === 0} />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
+  import { gapsAbove, stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
   import EntryRow from './EntryRow.svelte'
 
   // === Props ===
@@ -23,7 +23,13 @@
 
   let popup: HTMLDialogElement | undefined = $state()
   let open = $state(false)
-  let items = $derived(open && app.record ? withMonthLines(stoppedEntries(app.record)) : [])
+  let entries = $derived(open && app.record ? stoppedEntries(app.record) : [])
+  let items = $derived(withMonthLines(entries))
+  // The newest gap runs up to a running entry's start, or to the moment the popup opened
+  let gaps = $derived.by(() => {
+    const found = gapsAbove(entries, app.running ? Date.parse(app.running.start) : Date.now())
+    return Object.fromEntries(entries.map((entry, i) => [entry.id, found[i]]))
+  })
 
   // === Helpers ===
 
@@ -53,6 +59,17 @@
         {#if item.kind === 'month'}
           <li class="month">{item.label}</li>
         {:else}
+          {@const kind = gaps[item.entry.id].kind}
+          <!-- TODO: a click on a gap with a "+" opens the edit popup on its stretch of time, once that popup exists -->
+          <li
+            class="gap"
+            class:top={kind === 'top'}
+            class:open={kind === 'open'}
+            class:shut={kind === 'shut'}
+            aria-hidden="true"
+          >
+            <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
+          </li>
           <EntryRow entry={item.entry} />
         {/if}
       {/each}
@@ -132,6 +149,69 @@
     padding-top: 0;
   }
 
+  /* A gap: --insert-rest tall between the rows, its hover strip taller and reaching over their edges, with a "+" at its
+     centre and a line on each side, hidden until it is hovered */
+  .gap {
+    display: flex;
+    gap: var(--insert-spacing);
+    align-items: center;
+    height: var(--insert-hit);
+    margin: calc((var(--insert-rest) - var(--insert-hit)) / 2) 0;
+    padding: var(--insert-inset);
+    cursor: pointer;
+  }
+
+  .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--dashboard-text-muted);
+    transform: scaleX(0);
+    transition: transform var(--speed-ui) ease;
+  }
+
+  .rule.left {
+    transform-origin: right;
+  }
+
+  .rule.right {
+    transform-origin: left;
+  }
+
+  .plus {
+    color: var(--dashboard-text-muted);
+    font-size: var(--insert-plus-size);
+    line-height: 1;
+    opacity: 0;
+    transition: opacity var(--speed-ui) ease;
+  }
+
+  /* The always-shown "+" sits in a gap always open, so nothing moves around it */
+  .gap.top {
+    height: calc(var(--insert-rest) + var(--insert-open));
+    margin: 0;
+  }
+
+  .gap.top .plus {
+    opacity: 1;
+    transition:
+      opacity var(--speed-ui) ease,
+      color var(--speed-ui) ease;
+  }
+
+  /* With no room for an entry, a gap only keeps the rows' spacing */
+  .gap.shut {
+    cursor: default;
+  }
+
+  .gap.shut > * {
+    visibility: hidden;
+  }
+
+  /* Every line of the list slides as a gap opens: a shift of its look only, so the list's height stays put */
+  ol > :global(li) {
+    transition: transform var(--speed-ui) ease;
+  }
+
   /* === States === */
 
   .more:hover:enabled {
@@ -141,5 +221,35 @@
   .more:disabled {
     opacity: var(--opacity-disabled);
     cursor: default;
+  }
+
+  /* A rested pointer opens a gap: its line grows out of the "+", and the rows above shift up and those below down by
+     half of --insert-open each, so it opens evenly around the pointer. The always-shown gap only lights, at once. */
+  .gap:is(.top, .open):hover .rule {
+    transform: scaleX(1);
+    transition-delay: var(--peek-delay);
+  }
+
+  .gap.open:hover .plus {
+    opacity: 1;
+    transition-delay: var(--peek-delay);
+  }
+
+  .gap.top:hover .plus {
+    color: var(--dashboard-text);
+  }
+
+  .gap.top:hover .rule {
+    transition-delay: 0s;
+  }
+
+  ol > :global(li:has(~ li.open:hover)) {
+    transform: translateY(calc(var(--insert-open) / -2));
+    transition-delay: var(--peek-delay);
+  }
+
+  ol > .gap.open:hover ~ :global(li) {
+    transform: translateY(calc(var(--insert-open) / 2));
+    transition-delay: var(--peek-delay);
   }
 </style>

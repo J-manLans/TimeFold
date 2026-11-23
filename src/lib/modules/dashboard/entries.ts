@@ -60,6 +60,39 @@ export function withMonthLines(entries: Entry[]): ListItem[] {
 }
 
 /**
+ * A gap in "Visa alla", just above its row: the free time between that entry's stop and the next one's start
+ * ("A forgotten entry is written in the gap where it belongs"). `top` is the one whose "+" always shows, `open` shows
+ * its "+" on hover, and `shut` has no room for an entry and nothing to click.
+ */
+export interface Gap {
+  /** The older entry's stop, in milliseconds */
+  from: number
+  /** The newer entry's start, or for the newest row the moment given */
+  to: number
+  kind: 'top' | 'open' | 'shut'
+}
+
+/** The smallest entry a gap must hold for its "+", the edit line's snap */
+const GAP_ROOM = 5 * 60_000
+
+/**
+ * The gap above each of the stopped entries, given newest first, in the same order. The newest one's gap runs up to
+ * `upTo`: a running entry's start, or now. Used by "Visa alla": 11:40–13:05 at 15:20 gives [{ from: 13:05, to: 15:20,
+ * kind: 'top' }]. A gap has a "+" with 5 minutes' room or more; the first such gap from the top is the always-shown one.
+ */
+export function gapsAbove(entries: Entry[], upTo: number): Gap[] {
+  let topFound = false
+  return entries.map((entry, i) => {
+    const from = Date.parse(entry.stop ?? entry.start)
+    const to = i === 0 ? upTo : Date.parse(entries[i - 1].start)
+    if (to - from < GAP_ROOM) return { from, to, kind: 'shut' }
+    if (topFound) return { from, to, kind: 'open' }
+    topFound = true
+    return { from, to, kind: 'top' }
+  })
+}
+
+/**
  * What a stopped entry's row says. Used by every row in both lists: Monday 16 November 07:58 to 11:30 for the janitor
  * gives { day: 'mån 16', times: '07:58–11:30', later: 0, letter: 'V', base: '#7ed6d5', tag: '', length: '3:32' }. An
  * entry across midnight reads on the day it started, with its whole length, and says how many days later it stops;

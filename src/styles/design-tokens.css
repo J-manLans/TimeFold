@@ -29,6 +29,7 @@
   /* === Motion === */
   --speed-ui: 0.2s; /* every small transition: hover, press, fades, the menu, tabs, rows, the theme */
   --ease-grow: cubic-bezier(0.2, 0.7, 0.2, 1); /* things that grow out of their place: the menu, a profile row */
+  --peek-delay: 0.25s; /* resting on a gap in "Visa alla" before it opens and its "+" shows */
 
   /* === Shadows and effects === */
   --shadow-button: 2px 3px 12px 0 rgb(0 0 0 / 0.14);
@@ -336,4 +337,11 @@
   --all-entries-height: 80vh; /* the most it takes before it scrolls */
   --all-entries-padding: 16px 18px;
   --all-entries-gap: 10px;
+  /* The gaps between its rows, where a forgotten entry is written */
+  --insert-rest: 2px; /* a gap's own room between rows, as thin as the rows' spacing */
+  --insert-hit: 10px; /* its hover strip, overlapping the rows a little so a thin gap is still easy to land on */
+  --insert-open: 12px; /* how much more a gap opens while hovered, half upward and half downward (0: it stays) */
+  --insert-inset: 0 8px; /* the line's ends, in from the card's edge as a row's text */
+  --insert-spacing: 6px; /* between the "+" and the line on each side */
+  --insert-plus-size: 12px;
 }
