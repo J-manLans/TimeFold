@@ -3,7 +3,7 @@
 Terms A–E, in alphabetical order. The index and the rules for terms are in `README.md`.
 
 **Added break.** A length of time taken off a running entry when the owner is back, for unplanned time away during it.
-It holds its length and the day it was added, and comes off the entry's time on that day first, then the day before.
+An entry holds one, its length alone; across midnight it comes off the entry's last day first, then the day before.
 
 **Afterglow.** On the undo button, the glow in the profile on screen's neon that lies over the disc after a start or a
 stop and fades to nothing while the click can be undone ("The last click can be undone for a few seconds").

@@ -58,7 +58,7 @@ nearly as safe, but it cannot force the write, and it would leave Rust untried.
 **Built by:** Handover, for the handover file.
 
 **Decision:** each machine keeps the record in one JSON file, `record.json` in the app's data folder (named by the app's
-identifier): profiles, settings, entries with their added breaks, and opening figures, with a version number for its
+identifier): profiles, settings, entries with their added break, and opening figures, with a version number for its
 shape. A save writes a temporary file, forces it onto the disk, and then swaps it into place, so a crash leaves the old
 file whole. On opening, the app checks the file and says plainly what is wrong rather than guessing: a file that is not
 valid JSON, or not a record's shape, is named as such and the newest copy is offered ("A record that cannot be read
@@ -100,6 +100,8 @@ and check on the first click.
 - No record file: no record yet; nothing is reported as wrong.
 - The owner's version 2 record opened by the app with added breaks and flex days: upgraded to version 3, with no breaks
   and no flex days, and every entry, profile, setting and the balance as before.
+- A version 3 record with an entry holding breaks of 20 min Monday and 15 min Tuesday: upgraded to version 4, the entry
+  holding one break of 35 min, and no entry with a reason.
 - A record of version 3 opened, or imported, by an app that knows version 2: refused with the message to update and a
   link to the releases page; the file is unchanged.
 - The 32nd copy: the oldest of the 31 is deleted.

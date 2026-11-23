@@ -52,11 +52,11 @@ entry's time, with no name, in that profile's base colour ("08:00–10:00 paus 2
 centred dot appears only between entries. The tag is the break's control: clicked, it opens a length field on the whole
 break, as the field under "Lägg till paus" does; Enter or a click away keeps it, and Esc leaves it as it was; a length
 longer than the time kept is refused, its text red and the field left open, until it is fixed or Esc drops it; with no
-break, a quiet "+ paus" offers one. A break set there is dated the day the entry stops, and comes off as any added break
-does: that day's part first, the rest the day before ("Time away is a gap or an added break"). The break is a wall too:
-a handle stops where the time kept could no longer hold it, and while a handle sits at that limit the tag is red, text
-and border. An entry divided in two carries its break whole on the larger part if it fits there; if not, the break fills
-the larger part and the rest goes to the other; each part shows its own tag. With the gap filled by another profile, the
+break, a quiet "+ paus" offers one. A break set there is the entry's one break, and comes off as any added break does:
+the entry's last day first, the rest the day before ("Time away is a gap or an added break"). The break is a wall too: a
+handle stops where the time kept could no longer hold it, and while a handle sits at that limit the tag is red, text and
+border. An entry divided in two carries its break whole on the larger part if it fits there; if not, the break fills the
+larger part and the rest goes to the other; each part shows its own tag. With the gap filled by another profile, the
 parts' tags show grey and cannot be clicked, since the parts are no longer what is in colour, and the new entry has no
 break until it is saved and opened again. Joined, the tag shows the breaks' sum. The colours are a preview: nothing
 changes until the owner confirms, and a cancel leaves the entry as it was.
