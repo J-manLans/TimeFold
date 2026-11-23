@@ -50,17 +50,19 @@ tag, with no length, so no figure there can disagree with the list's counted tim
 it shows each part's times and tag, set apart by a centred dot, in white while the parts are the entry's own; with the
 gap filled by another profile the text follows the line: the parts grey, and the new entry's time, with no name, in that
 profile's base colour ("08:00–10:00 paus 20min · 10:00–10:40 · 10:40–12:00"); the centred dot appears only between
-entries. The tag is the break's control: clicked, it opens a length field on the whole break, as the field under "Lägg
-till paus" does; Enter or a click away keeps it, and Esc leaves it as it was; a length longer than the time kept is
-refused, its text red and the field left open, until it is fixed or Esc drops it; with no break, a quiet "+ paus" offers
-one. A break set there is the entry's one break, and comes off as any added break does: the entry's last day first, the
-rest the day before ("Time away is a gap or an added break"). The break is a wall too: a handle stops where the time
-kept could no longer hold it, and while a handle sits at that limit the tag is red, text and border. An entry divided in
-two carries its break whole on the larger part if it fits there; if not, the break fills the larger part and the rest
-goes to the other; each part shows its own tag. With the gap filled by another profile, the parts' tags show grey and
-cannot be clicked, since the parts are no longer what is in colour, and the new entry has no break until it is saved and
-opened again. Joined, the tag shows the breaks' sum. The colours are a preview: nothing changes until the owner
-confirms, and a cancel leaves the entry as it was.
+entries. The tag is the break's control: clicked, it opens a length field in its place, as the field under "Lägg till
+paus" does; Enter or a click away keeps it, and Esc leaves it as it was; a length longer than the time its part keeps is
+refused, its text red and the field left open, until it is fixed or Esc drops it; a part with no break shows a quiet
+"Lägg till paus" where its tag would be, or "+ paus" if the longer words do not fit. A break set there comes off as any
+added break does: the entry's last day first, the rest the day before ("Time away is a gap or an added break"). The
+break is a wall too: a handle stops where the time its part keeps could no longer hold its break, and while a handle
+sits at that limit that part's tag is red, text and border. An entry divided in two first carries its break whole on the
+larger part if it fits there; if not, the break fills the larger part and the rest goes to the other. From then on each
+part owns its own break, as each is saved as an entry of its own: its tag shows and sets that part's break alone, never
+the sum, and a part with none offers its own "Lägg till paus". With the gap filled by another profile, the parts' tags
+show grey and cannot be clicked, since the parts are no longer what is in colour, and the new entry has no break until
+it is saved and opened again. Joined, the tag shows the breaks' sum. The colours are a preview: nothing changes until
+the owner confirms, and a cancel leaves the entry as it was.
 
 **Why:** the owner adds breaks during the day; one found after stop, a late start, an early end or the wrong profile are
 all fixed in the same place, seeing the whole entry and the time around it. A handle that cannot reach a clash needs no
@@ -69,13 +71,17 @@ ways in keeps the edit the same everywhere: a fix from "Senaste" needs no detour
 popup gives the line room of its own while the list keeps the owner's place for the next fix. The peek shows the list
 without leaving the edit, as resting on the ceiling wheel's band shows its hidden lap. With no wall at midnight, an
 entry stopped the morning after is shortened back to the evening before in one drag, the way "A running entry from an
-earlier day asks" sends the owner to correct it.
+earlier day asks" sends the owner to correct it. Each part owning its break matches what a save makes, an entry per part
+with its own break, and the number clicked is the number in the field.
 
 **Rejected:** a separate "add break" for stopped entries on the main screen: see "Time away is a gap or an added break".
-Editing start and end with the clock alone: it shows one time, not the entry and its neighbours. A break found
-afterwards only as a gap cut on the line: a break needs only its length, so it is set the same way whether the entry
-runs or not. The editor showing the stretch with no word of its break: its length then disagreed with the list's, with
-nothing saying why. The break shrunk to fit when a handle shortens the entry: it changed what was not touched; the
+A part's tag opening a field on the whole break: "paus 15min" clicked showed the sum, a number that was in neither the
+tag nor the saved entries. "Lägg till paus" on the controls side dropped, now that the editor sets a running entry's
+break: an edit takes a reason and marks the entry edited, and a break taken during the day is recording, not a
+correction. Editing start and end with the clock alone: it shows one time, not the entry and its neighbours. A break
+found afterwards only as a gap cut on the line: a break needs only its length, so it is set the same way whether the
+entry runs or not. The editor showing the stretch with no word of its break: its length then disagreed with the list's,
+with nothing saying why. The break shrunk to fit when a handle shortens the entry: it changed what was not touched; the
 handle stops instead. A gap by default: a break found afterwards now has the tag, so a gap is rarer than a shortening. A
 row of choices under the line (shorten, gap, another profile), with no default and the confirm waiting on one: a row of
 controls and a click for an edit the line already previews. A hint in words on the middle ("klicka: hål"): cryptic to a
@@ -111,5 +117,11 @@ drag knob in the app is the same one.
 - 07:58–12:10 with a 20 min break: "07:58–12:10 paus 20min".
 
 - 10:00–11:00, "90" typed in the break's field and Enter: refused, the text red, the field still open.
+- 08:00–12:00 with no break, divided into 08:00–10:00 and 10:30–12:00: each part shows its own "Lägg till paus".
+- 08:00–12:00 with a 1 h 15 min break, divided into 08:00–10:00 and 10:30–11:30: the 2 h part carries it whole, "paus 1h
+  15min"; the other has "Lägg till paus".
+- Parts 08:00–10:00 with 1 h and 10:30–11:00 with 15 min, the 15 min tag clicked: the field holds 15, not 1:15; "20"
+  typed and Enter: that part 20 min, the other still 1 h.
+- Parts 08:00–10:00 and 10:30–11:00, "45" typed in the second part's field and Enter: refused, longer than its 30 min.
 
 - Tuesday 22:00 to Wednesday 00:45, its break raised in the edit from 3 min to 1 h: Wednesday 0, Tuesday 1:45.
