@@ -110,6 +110,14 @@ export function saveLine(record: TimeRecord, line: LineState, reason: string): T
   return { ...record, entries: joinedTouching([...kept, ...added], added) }
 }
 
+/**
+ * The entry taken out of the record ("An entry is deleted from its edit"); no reason is kept, since nothing is left to
+ * carry it. Used by "Ta bort" on its second click.
+ */
+export function deleteEntry(record: TimeRecord, entryId: string): TimeRecord {
+  return { ...record, entries: record.entries.filter((e) => e.id !== entryId) }
+}
+
 /** One stretch of the words under the day: its times, then its break as the list's tag */
 export interface WordPiece {
   /** "07:58–12:10", or for a running entry its start alone */
