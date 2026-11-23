@@ -1,10 +1,11 @@
 <!--
   One entry's row, as both entry lists show it: its day, its times (with a small "+1" when it stops a day later), its
-  profile's letter in the profile's base colour, its added breaks as a tag, and its length worked, on a row a step darker than the
-  panel. A fresh row, the entry just stopped, lights in the wheel's base colour and fades. A row with `onpick` opens
-  its entry in the edit popup ("Editing an entry on its line"), a step lighter on hover; the one being edited from
-  "Visa alla" is outlined. A blank row holds a row's height with nothing in it, so a short list keeps its room:
-  <EntryRow entry={e} fresh onpick={…} />, <EntryRow />
+  profile's letter in the profile's base colour, its tags (its break, and "e" when it was set by hand), and its length
+  worked, on a row a step darker than the panel. A running entry's row shows its start alone and "--:--", all in its
+  profile's neon. A fresh row, the entry just stopped, lights in the wheel's base colour and fades. The row opens its
+  entry in the edit popup ("Editing an entry on its line"), a step lighter on hover; the one being edited from "Visa
+  alla" is outlined, and there each row with a reason shows it under itself. A blank row holds a row's height with
+  nothing in it, so a short list keeps its room: <EntryRow entry={e} fresh onpick={…} />, <EntryRow />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
@@ -17,14 +18,17 @@
     entry = null,
     fresh = false,
     picked = false,
+    withReason = false,
     onpick,
   }: {
-    /** The stopped entry the row reads, or null for a blank row */
+    /** The entry the row reads, or null for a blank row */
     entry?: Entry | null
     /** Whether the entry just stopped, which lights the row as it appears */
     fresh?: boolean
     /** Whether the entry is open in the edit popup, which outlines the row */
     picked?: boolean
+    /** Whether the row shows its reason under itself, as "Visa alla" does */
+    withReason?: boolean
     /** What a click on the row does: opens its entry in the edit popup */
     onpick?: () => void
   } = $props()
@@ -34,20 +38,20 @@
   let row = $derived(entry && app.record ? entryRow(entry, app.record) : null)
 </script>
 
-{#if row && onpick}
+{#if row}
   <!-- The row is the button itself, so the list keeps its grid -->
   <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
   <li
     class:fresh
     class:picked
-    class="pickable"
     role="button"
     tabindex="0"
-    onclick={onpick}
+    style:color={row.running ? row.neon : undefined}
+    onclick={() => onpick?.()}
     onkeydown={(event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
-        onpick()
+        onpick?.()
       }
     }}
   >
@@ -55,23 +59,12 @@
     <span
       >{row.times}{#if row.later > 0}<sup class="later">+{row.later}</sup>{/if}</span
     >
-    <span style:color={row.base}>{row.letter}</span>
-    <span
-      >{#if row.tag}<span class="tag">{row.tag}</span>{/if}</span
+    <span style:color={row.running ? row.neon : row.base}>{row.letter}</span>
+    <span class="tags"
+      >{#if row.tag}<span class="tag">{row.tag}</span>{/if}{#if row.edited}<span class="tag">e</span>{/if}</span
     >
     <span class="length">{row.length}</span>
-  </li>
-{:else if row}
-  <li class:fresh>
-    <span>{row.day}</span>
-    <span
-      >{row.times}{#if row.later > 0}<sup class="later">+{row.later}</sup>{/if}</span
-    >
-    <span style:color={row.base}>{row.letter}</span>
-    <span
-      >{#if row.tag}<span class="tag">{row.tag}</span>{/if}</span
-    >
-    <span class="length">{row.length}</span>
+    {#if withReason && row.reason}<span class="reason">{row.reason}</span>{/if}
   </li>
 {:else}
   <li class="blank" aria-hidden="true"><span>&nbsp;</span></li>
@@ -94,6 +87,20 @@
 
   .length {
     text-align: right;
+  }
+
+  .tags {
+    display: flex;
+    gap: var(--entry-tag-gap);
+    justify-self: start;
+  }
+
+  /* Its reason, under the row in "Visa alla": "ändrad: Glömd paus" */
+  .reason {
+    grid-column: 1 / -1;
+    margin-top: var(--entry-reason-lift);
+    color: var(--dashboard-text-muted);
+    font-size: var(--entry-tag-size);
   }
 
   /* The added breaks: a label, which a click passes through to the row ("Time away is a gap or an added break") */
@@ -119,14 +126,14 @@
     visibility: hidden;
   }
 
-  /* A row that opens its entry: a step lighter on hover, a hand pointer; the one being edited outlined */
-  .pickable {
+  /* A row opens its entry: a step lighter on hover, a hand pointer; the one being edited outlined */
+  li[role='button'] {
     cursor: pointer;
     transition: background-color var(--speed-ui) ease;
   }
 
-  .pickable:hover,
-  .pickable:focus-visible {
+  li[role='button']:hover,
+  li[role='button']:focus-visible {
     outline: none;
     background: color-mix(in srgb, var(--dashboard-row), var(--dashboard-text) var(--entry-hover));
   }

@@ -5,6 +5,7 @@
 
 import { localDay, secondsByDay, shownMinutes, timeOfDay } from '$lib/modules/shared/counting'
 import { dayShort, monthInWords } from '$lib/modules/shared/dates'
+import { neonColour } from '$lib/modules/shared/colours'
 import { durationText } from '$lib/modules/shared/timeInput'
 import { type Day, type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
@@ -26,8 +27,16 @@ export interface EntryRow {
   base: string
   /** Its added break, as a tag: "paus 20min"; empty with none */
   tag: string
-  /** Its length worked in hours and minutes, its breaks taken off: "3:32" */
+  /** Its length worked in hours and minutes, its break taken off: "3:32"; "--:--" while it runs */
   length: string
+  /** Whether it runs, which shows its start alone and the whole row in its profile's neon */
+  running: boolean
+  /** Its profile's neon, which a running row wears */
+  neon: string
+  /** Whether it was edited or written by hand, not clicked, which tags it "e" ("Entries remember how they were made") */
+  edited: boolean
+  /** Its reason as "Visa alla" shows it under the row: "ändrad: …", "tillagd: …", or a clicked entry's alone; empty with none */
+  reason: string
 }
 
 /**
@@ -36,6 +45,15 @@ export interface EntryRow {
  */
 export function stoppedEntries(record: TimeRecord): Entry[] {
   return record.entries.filter((entry) => entry.stop !== null).sort((a, b) => Date.parse(b.start) - Date.parse(a.start))
+}
+
+/**
+ * The entries the lists show: the running one first, then the stopped ones newest first ("A running entry is edited
+ * at its start"). Used by both lists: the first five are the recent entries, and "Visa alla" shows them all.
+ */
+export function listedEntries(record: TimeRecord): Entry[] {
+  const running = record.entries.filter((e) => e.stop === null)
+  return [...running, ...stoppedEntries(record)]
 }
 
 /** A line of "Visa alla": a month's line, naming it, or an entry's row */
@@ -100,6 +118,7 @@ export function gapsAbove(entries: Entry[], upTo: number): Gap[] {
  */
 export function entryRow(entry: Entry, record: TimeRecord): EntryRow {
   const start = new Date(entry.start)
+  const running = entry.stop === null
   const stop = entry.stop ?? entry.start
   const profile = record.profiles.find((p) => p.id === entry.profile)
   const name = profile?.name ?? ''
@@ -108,18 +127,25 @@ export function entryRow(entry: Entry, record: TimeRecord): EntryRow {
   const breakMinutes = entry.breakMinutes
   return {
     day: dayShort(localDay(start.getTime())),
-    times: `${timeOfDay(entry.start)}–${timeOfDay(stop)}`,
+    times: running ? timeOfDay(entry.start) : `${timeOfDay(entry.start)}–${timeOfDay(stop)}`,
     later: daysBetween(localDay(start.getTime()), localDay(Date.parse(stop))),
     letter: name.charAt(0).toUpperCase(),
     base: profile?.base ?? '',
     tag: breakMinutes > 0 ? `paus ${durationText(breakMinutes)}` : '',
-    length: `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}`,
+    length: running ? '--:--' : `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}`,
+    running,
+    neon: profile ? neonColour(profile.hue) : '',
+    edited: entry.made !== 'clicked',
+    reason: entry.reason ? `${REASON_PREFIX[entry.made]}${entry.reason}` : '',
   }
 }
 
 // ======================================
 //               Helpers
 // ======================================
+
+/** What a reason opens with under its row in "Visa alla", by how the entry was made */
+const REASON_PREFIX: Record<Entry['made'], string> = { clicked: '', edited: 'ändrad: ', hand: 'tillagd: ' }
 
 /**
  * The calendar days from one day to a later one, counted on the dates alone, so no clock or summer time can move it.

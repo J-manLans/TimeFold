@@ -1,5 +1,5 @@
 <!--
-  "Visa alla" and the popup it opens: every stopped entry, newest first, in a card centred on the window over a dark
+  "Visa alla" and the popup it opens: a running entry first, then every stopped entry, newest first, in a card centred on the window over a dark
   scrim ("The main screen has a controls side and a dashboard"), with a quiet line naming each month and its year
   where the list crosses into it, and a gap above each row where a forgotten entry is written ("A forgotten entry is
   written in the gap where it belongs"). A row opens its entry in the edit popup, stacked on the list, and a gap's "+"
@@ -8,7 +8,7 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { gapsAbove, stoppedEntries, withMonthLines, type Gap } from '$lib/modules/dashboard/entries'
+  import { gapsAbove, listedEntries, withMonthLines, type Gap } from '$lib/modules/dashboard/entries'
   import EntryRow from './EntryRow.svelte'
 
   // === Props ===
@@ -24,12 +24,13 @@
 
   let popup: HTMLDialogElement | undefined = $state()
   let open = $state(false)
-  let entries = $derived(open && app.record ? stoppedEntries(app.record) : [])
+  let entries = $derived(open && app.record ? listedEntries(app.record) : [])
+  let stopped = $derived(entries.filter((e) => e.stop !== null))
   let items = $derived(withMonthLines(entries))
   // The newest gap runs up to a running entry's start, or to the moment the popup opened
   let gaps = $derived.by(() => {
-    const found = gapsAbove(entries, app.running ? Date.parse(app.running.start) : Date.now())
-    return Object.fromEntries(entries.map((entry, i) => [entry.id, found[i]]))
+    const found = gapsAbove(stopped, app.running ? Date.parse(app.running.start) : Date.now())
+    return Object.fromEntries(stopped.map((entry, i) => [entry.id, found[i]]))
   })
 
   // === Helpers ===
@@ -45,7 +46,7 @@
    * nothing running runs up to the moment it is clicked, since now has moved on since the list was drawn
    */
   function writeIn(gap: Gap): void {
-    const upToNow = entries.length > 0 && gap.from === Date.parse(entries[0].stop ?? '') && !app.running
+    const upToNow = stopped.length > 0 && gap.from === Date.parse(stopped[0].stop ?? '') && !app.running
     app.openGap({ from: gap.from, to: upToNow ? Date.now() : gap.to })
   }
 
@@ -69,8 +70,10 @@
         {#if item.kind === 'month'}
           <li class="month">{item.label}</li>
         {:else}
-          {@const gap = gaps[item.entry.id]}
-          {#if gap.kind === 'shut'}
+          {@const gap = gaps[item.entry.id] as Gap | undefined}
+          {#if !gap}
+            <!-- A running entry heads the list, with nothing to write above it -->
+          {:else if gap.kind === 'shut'}
             <li class="gap shut" aria-hidden="true">
               <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
             </li>
@@ -98,6 +101,7 @@
           <EntryRow
             entry={item.entry}
             picked={app.editing?.entryId === item.entry.id}
+            withReason
             onpick={() => app.openEdit(item.entry.id, true)}
           />
         {/if}

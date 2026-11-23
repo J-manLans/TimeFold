@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { entryRow, gapsAbove, stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
+import { entryRow, gapsAbove, listedEntries, stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
+import { neonColour } from '$lib/modules/shared/colours'
 import { type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 // === Helpers ===
@@ -42,6 +43,10 @@ describe("an entry's row reads its day, its times, its profile and its length", 
       base: '#7ed6d5',
       tag: '',
       length: '3:32',
+      running: false,
+      neon: neonColour(195),
+      edited: false,
+      reason: '',
     })
   })
 
@@ -61,6 +66,44 @@ describe("an entry's row reads its day, its times, its profile and its length", 
     const row = entryRow(entry(at('2026-11-14', '21:30'), at('2026-11-16', '07:00')), RECORD)
 
     expect(row).toMatchObject({ day: 'lör 14', times: '21:30–07:00', later: 2 })
+  })
+})
+
+describe('a running entry heads both lists, read by its start', () => {
+  it('puts the running entry first, then the stopped ones newest first', () => {
+    const stopped = entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00'), { id: 'stopped' })
+    const running = entry(at('2026-11-16', '13:00'), null, { id: 'running' })
+
+    expect(listedEntries(withEntries([stopped, running])).map((e) => e.id)).toEqual(['running', 'stopped'])
+  })
+
+  it('reads its start alone and "--:--" for its length', () => {
+    const row = entryRow(entry(at('2026-11-16', '13:00'), null), RECORD)
+
+    expect(row).toMatchObject({ times: '13:00', later: 0, length: '--:--', running: true })
+  })
+})
+
+describe('an entry set by hand carries "e", and "Visa alla" its reason', () => {
+  /** An entry made one way, with a reason. Used by the tests here */
+  const made = (how: Entry['made'], reason?: string): Entry => ({
+    ...entry(at('2026-11-16', '08:00'), at('2026-11-16', '12:00')),
+    made: how,
+    reason,
+  })
+
+  it('tags an edited and a written entry "e", and says "ändrad: …" and "tillagd: …"', () => {
+    expect([
+      entryRow(made('edited', 'Glömd paus'), RECORD),
+      entryRow(made('hand', 'Glömd post'), RECORD),
+    ]).toMatchObject([
+      { edited: true, reason: 'ändrad: Glömd paus' },
+      { edited: true, reason: 'tillagd: Glömd post' },
+    ])
+  })
+
+  it('shows a clicked entry\'s reason alone, with no "e"', () => {
+    expect(entryRow(made('clicked', 'Stannade kvar'), RECORD)).toMatchObject({ edited: false, reason: 'Stannade kvar' })
   })
 })
 

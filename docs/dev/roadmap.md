@@ -37,15 +37,16 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Settle first:** settled.
 
-1. Editing an entry on its line, in its own popup opened from the recent entries and the "Visa alla" popup, with the
-   peek at the list behind: the handles and their pill, the view and its scale, shortening and gaps, the profile and a
-   gap filled by another, joining and walking, the break's tag, the reason and the confirm. The record learns to keep an
-   entry's reason, and an entry's breaks become one number ("Time away is a gap or an added break"), so its version goes
-   up and an older record still reads. The tag's field keeps its shape through one Svelte attachment in its own file,
-   `src/lib/modules/shared/durationShape.ts`, which the pause field and the onboarding's balance move to from their own
-   copies; the pause field then keeps what is typed on a click away ("Entering a length of time").
-2. The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag and its reason under
-   the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
+1. `[written]` `[tests]` Editing an entry on its line, in its own popup opened from the recent entries and the "Visa
+   alla" popup, with the peek at the list behind: the handles and their pill, the view and its scale, shortening and
+   gaps, the profile and a gap filled by another, joining and walking, the break's tag, the reason and the confirm. The
+   record learns to keep an entry's reason, and an entry's breaks become one number ("Time away is a gap or an added
+   break"), so its version goes up and an older record still reads. The tag's field keeps its shape through one Svelte
+   attachment in its own file, `src/lib/modules/shared/durationShape.ts`, which the pause field and the onboarding's
+   balance move to from their own copies; the pause field then keeps what is typed on a click away ("Entering a length
+   of time").
+2. `[written]` `[tests]` The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag
+   and its reason under the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
 3. Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each entry's mark of how it was
    made, and a reason given alone, with nothing else changed.
 

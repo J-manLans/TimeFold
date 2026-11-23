@@ -187,7 +187,7 @@
   /* === The pay estimate and the entries === */
   --pay-text-size: 13px;
   --entry-text-size: 12.5px;
-  --entry-columns: 7ch 14ch 2ch minmax(0, 1fr) auto; /* day, times, letter, tag, length */
+  --entry-columns: 7ch 13.5ch 2ch minmax(0, 1fr) auto; /* day, times ("21:30–07:00" and its "+1"), letter, tags, length */
   --entry-later-size: 0.72em; /* the "+1" after the end time of an entry that stops on a later day */
   --entry-later-gap: 2px;
   --entry-cell-gap: 10px;
@@ -199,6 +199,8 @@
   --entry-tag-size: 11px;
   --entry-tag-padding: 0 5px;
   --entry-tag-radius: 4px;
+  --entry-tag-gap: 4px; /* between a row's tags: its break and "e" */
+  --entry-reason-lift: -4px; /* a reason under its row in "Visa alla", drawn up close to it */
   --entry-padding: 5px 8px;
   --entry-gap: 2px;
   --entry-hover: 10%; /* how much of the text colour lights a hovered row */
