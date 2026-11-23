@@ -130,7 +130,8 @@ owner has read it through and knows what each part is for, and the prompt reads 
 
 ## Not on this roadmap
 
-- More than one user, accounts, or sync between machines beyond the handover file.
+- More than one user per machine, accounts, shared state, or sync between machines beyond the handover file. Setups for
+  others at the school, each on their own machine, are "The app for the whole school", in `codebase-ideas.md`.
 - Tracking tasks finer than profiles: no projects, task lists or clients.
 - Calculating pay as payroll does, overtime rules or invoicing: the app counts hours per profile and shows a rough pay
   estimate; real pay is worked out outside it.
