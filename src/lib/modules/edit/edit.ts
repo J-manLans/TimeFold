@@ -6,6 +6,7 @@
 
 import {
   breakShares,
+  breakTotal,
   docked,
   isChanged,
   openGap,
@@ -15,7 +16,8 @@ import {
   type Span,
   type View,
 } from '$lib/modules/edit/line'
-import { nextId, toTimestamp, type Entry, type Made, type TimeRecord } from '$lib/modules/shared/record'
+import { timeOfDay } from '$lib/modules/shared/counting'
+import { nextId, toTimestamp, type Entry, type Made, type Profile, type TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API
@@ -108,9 +110,72 @@ export function saveLine(record: TimeRecord, line: LineState, reason: string): T
   return { ...record, entries: joinedTouching([...kept, ...added], added) }
 }
 
+/** One stretch of the words under the day: its times, then its break as the list's tag */
+export interface WordPiece {
+  /** "07:58–12:10", or for a running entry its start alone */
+  times: string
+  /** Its own part (in white), a part left around a filled gap (grey), or the gap's new entry (in its profile's colour) */
+  kind: 'own' | 'grey' | 'fill'
+  /** In the text colour, as a change: a changed or divided entry's parts, and the gap's new entry */
+  bold: boolean
+  /** The new entry's base colour, for the fill */
+  colour: string
+  /** The break this part carries, shown as "paus 20min"; null for none */
+  tag: number | null
+  /** Whether a quiet "+ paus" offers a break: on the first part when the result has none and no gap is filled */
+  addBreak: boolean
+}
+
+/**
+ * The result in words, under the day: each part's times and break, the parts set apart, and with a gap filled the new
+ * entry's times in its profile's colour between the grey parts. Used by the edit popup: 07:58–12:10 with 20 min reads
+ * "07:58–12:10 paus 20min".
+ */
+export function resultWords(line: LineState, profiles: Profile[]): WordPiece[] {
+  const parts = resultParts(line)
+  const shares = breakShares(line)
+  const none = breakTotal(line) === 0 && !line.fill
+  const changed = isChanged(line)
+  const words: WordPiece[] = parts.map((part, i) => ({
+    times: line.running ? clock(part.from) : `${clock(part.from)}–${clock(part.to)}`,
+    kind: line.fill ? 'grey' : 'own',
+    bold: !line.fill && (parts.length > 1 || changed),
+    colour: '',
+    tag: shares[i] > 0 ? shares[i] : null,
+    addBreak: i === 0 && none,
+  }))
+  if (line.fill) {
+    words.splice(line.start > line.originalStart ? 1 : 0, 0, {
+      times: `${clock(line.start)}–${clock(line.end)}`,
+      kind: 'fill',
+      bold: true,
+      colour: profiles.find((p) => p.id === line.fill)?.base ?? '',
+      tag: null,
+      addBreak: false,
+    })
+  }
+  return words
+}
+
+/** The reasons an edit can be given, before "Annan orsak" ("Every edit carries a reason") */
+const REASONS = ['Glömde stämpla in', 'Glömde stämpla ut', 'Fel profil', 'Ärende', 'Glömd paus', 'Glömd post']
+
+/**
+ * The reasons as the list shows them, in Swedish alphabetical order, Å, Ä and Ö after Z, so one is where it can be
+ * guessed. Used by the reason's list, which ends with "Annan orsak".
+ */
+export function reasonList(): string[] {
+  return [...REASONS].sort((a, b) => a.localeCompare(b, 'sv'))
+}
+
 // ======================================
 //               Helpers
 // ======================================
+
+/** A moment's time of day as the app shows it: "07:58". Used by the words */
+function clock(time: number): string {
+  return timeOfDay(toTimestamp(new Date(time)))
+}
 
 /** An entry as the line sees it, a running one stopping at now. Used for the entry and its walls */
 function spanOf(entry: Entry, now: number): Span {

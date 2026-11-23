@@ -16,6 +16,8 @@ import {
   type Recovery,
   type TimeRecord,
 } from '$lib/modules/shared/record'
+import { saveLine } from '$lib/modules/edit/edit'
+import { type LineState, type View } from '$lib/modules/edit/line'
 import { toggleFlexDay } from '$lib/modules/menu/flexDays'
 import {
   nextMotion,
@@ -59,6 +61,16 @@ export interface LockedPanel {
 }
 
 /**
+ * What the edit popup has open: an entry chosen from a list, or the gap a forgotten entry is written in, and whether it
+ * opened over "Visa alla" ("Editing an entry on its line")
+ */
+export interface Editing {
+  entryId: string | null
+  gap: View | null
+  stacked: boolean
+}
+
+/**
  * The computer's reduced-motion setting, which the motion follows while it is "System". Above the class, since its
  * fields read it when `app` is made
  */
@@ -96,6 +108,8 @@ class AppState {
   late = $state<Entry | null>(null)
   /** The menu's panel while it is locked open, at the first start or a record that cannot be read; null otherwise */
   panel = $state<LockedPanel | null>(null)
+  /** The edit popup's entry or gap, while it is open */
+  editing = $state<Editing | null>(null)
 
   /** The theme in force on screen */
   shownTheme: ShownTheme = $derived(shownTheme(this.theme, this.systemDark))
@@ -208,6 +222,36 @@ class AppState {
     if (!done.ok) return
     this.record = done.record
     await saveRecord(done.record)
+  }
+
+  /**
+   * An entry chosen from a list opens in the edit popup. Used by every row: from "Senaste" alone, from "Visa alla"
+   * stacked on the list
+   */
+  openEdit(entryId: string, stacked: boolean): void {
+    this.editing = { entryId, gap: null, stacked }
+  }
+
+  /** A gap's "+" in "Visa alla" opens the edit popup on it, for a forgotten entry. Used by the gaps */
+  openGap(gap: View): void {
+    this.editing = { entryId: null, gap, stacked: true }
+  }
+
+  /** The edit popup closes, nothing saved. Used by "Avbryt", Esc and a click outside */
+  closeEdit(): void {
+    this.editing = null
+  }
+
+  /**
+   * The edit confirmed: what the line shows goes into the record with its reason, and is saved; the popup closes. The
+   * last click can no longer be undone, since the entries it names may have changed. Used by "Spara"
+   */
+  async saveEdit(line: LineState, reason: string): Promise<void> {
+    if (this.record === null) return
+    this.record = saveLine(this.record, line, reason)
+    this.lastClick = null
+    this.editing = null
+    await saveRecord(this.record)
   }
 
   /** The undo pressed. Used by the undo button: reverses the last click if its time is not up, then saves */

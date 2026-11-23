@@ -1,8 +1,10 @@
 <!--
   One entry's row, as both entry lists show it: its day, its times (with a small "+1" when it stops a day later), its
   profile's letter in the profile's base colour, its added breaks as a tag, and its length worked, on a row a step darker than the
-  panel. A fresh row, the entry just stopped, lights in the wheel's base colour and fades. A blank row holds a row's height with nothing in it, so a short list keeps its room:
-  <EntryRow entry={e} fresh />, <EntryRow />
+  panel. A fresh row, the entry just stopped, lights in the wheel's base colour and fades. A row with `onpick` opens
+  its entry in the edit popup ("Editing an entry on its line"), a step lighter on hover; the one being edited from
+  "Visa alla" is outlined. A blank row holds a row's height with nothing in it, so a short list keeps its room:
+  <EntryRow entry={e} fresh onpick={…} />, <EntryRow />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
@@ -14,11 +16,17 @@
   let {
     entry = null,
     fresh = false,
+    picked = false,
+    onpick,
   }: {
     /** The stopped entry the row reads, or null for a blank row */
     entry?: Entry | null
     /** Whether the entry just stopped, which lights the row as it appears */
     fresh?: boolean
+    /** Whether the entry is open in the edit popup, which outlines the row */
+    picked?: boolean
+    /** What a click on the row does: opens its entry in the edit popup */
+    onpick?: () => void
   } = $props()
 
   // === State ===
@@ -26,7 +34,34 @@
   let row = $derived(entry && app.record ? entryRow(entry, app.record) : null)
 </script>
 
-{#if row}
+{#if row && onpick}
+  <!-- The row is the button itself, so the list keeps its grid -->
+  <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+  <li
+    class:fresh
+    class:picked
+    class="pickable"
+    role="button"
+    tabindex="0"
+    onclick={onpick}
+    onkeydown={(event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        onpick()
+      }
+    }}
+  >
+    <span>{row.day}</span>
+    <span
+      >{row.times}{#if row.later > 0}<sup class="later">+{row.later}</sup>{/if}</span
+    >
+    <span style:color={row.base}>{row.letter}</span>
+    <span
+      >{#if row.tag}<span class="tag">{row.tag}</span>{/if}</span
+    >
+    <span class="length">{row.length}</span>
+  </li>
+{:else if row}
   <li class:fresh>
     <span>{row.day}</span>
     <span
@@ -82,6 +117,22 @@
 
   .blank {
     visibility: hidden;
+  }
+
+  /* A row that opens its entry: a step lighter on hover, a hand pointer; the one being edited outlined */
+  .pickable {
+    cursor: pointer;
+    transition: background-color var(--speed-ui) ease;
+  }
+
+  .pickable:hover,
+  .pickable:focus-visible {
+    outline: none;
+    background: color-mix(in srgb, var(--dashboard-row), var(--dashboard-text) var(--entry-hover));
+  }
+
+  .picked {
+    box-shadow: inset 0 0 0 1px var(--dashboard-text-muted);
   }
 
   .fresh {

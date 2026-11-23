@@ -2,12 +2,13 @@
   "Visa alla" and the popup it opens: every stopped entry, newest first, in a card centred on the window over a dark
   scrim ("The main screen has a controls side and a dashboard"), with a quiet line naming each month and its year
   where the list crosses into it, and a gap above each row where a forgotten entry is written ("A forgotten entry is
-  written in the gap where it belongs"). "Stäng", a click on the scrim or Esc closes it, and the
+  written in the gap where it belongs"). A row opens its entry in the edit popup, stacked on the list, and a gap's "+"
+  opens it on that gap. "Stäng", a click on the scrim or Esc closes it, and the
   focus goes back to "Visa alla". With no entry yet, "Visa alla" is greyed out: <AllEntries disabled={entries.length === 0} />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { gapsAbove, stoppedEntries, withMonthLines } from '$lib/modules/dashboard/entries'
+  import { gapsAbove, stoppedEntries, withMonthLines, type Gap } from '$lib/modules/dashboard/entries'
   import EntryRow from './EntryRow.svelte'
 
   // === Props ===
@@ -39,6 +40,15 @@
     popup?.showModal()
   }
 
+  /**
+   * A gap's "+" clicked: the edit popup opens on its stretch for a forgotten entry. The gap over the newest row with
+   * nothing running runs up to the moment it is clicked, since now has moved on since the list was drawn
+   */
+  function writeIn(gap: Gap): void {
+    const upToNow = entries.length > 0 && gap.from === Date.parse(entries[0].stop ?? '') && !app.running
+    app.openGap({ from: gap.from, to: upToNow ? Date.now() : gap.to })
+  }
+
   /** A click on the scrim, outside the card, closes the popup. Used by the popup's click */
   function closeOutside(event: MouseEvent): void {
     if (event.target === popup) popup?.close()
@@ -59,18 +69,37 @@
         {#if item.kind === 'month'}
           <li class="month">{item.label}</li>
         {:else}
-          {@const kind = gaps[item.entry.id].kind}
-          <!-- TODO: a click on a gap with a "+" opens the edit popup on its stretch of time, once that popup exists -->
-          <li
-            class="gap"
-            class:top={kind === 'top'}
-            class:open={kind === 'open'}
-            class:shut={kind === 'shut'}
-            aria-hidden="true"
-          >
-            <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
-          </li>
-          <EntryRow entry={item.entry} />
+          {@const gap = gaps[item.entry.id]}
+          {#if gap.kind === 'shut'}
+            <li class="gap shut" aria-hidden="true">
+              <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
+            </li>
+          {:else}
+            <!-- Each gap stays an item of the list, as its hover's sibling rules need -->
+            <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+            <li
+              class="gap"
+              class:top={gap.kind === 'top'}
+              class:open={gap.kind === 'open'}
+              role="button"
+              tabindex="0"
+              aria-label="Lägg till en glömd post här"
+              onclick={() => writeIn(gap)}
+              onkeydown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  writeIn(gap)
+                }
+              }}
+            >
+              <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
+            </li>
+          {/if}
+          <EntryRow
+            entry={item.entry}
+            picked={app.editing?.entryId === item.entry.id}
+            onpick={() => app.openEdit(item.entry.id, true)}
+          />
         {/if}
       {/each}
     </ol>

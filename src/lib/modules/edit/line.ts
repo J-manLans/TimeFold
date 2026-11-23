@@ -548,9 +548,9 @@ function wallAfter(state: LineState): number {
   return state.next ? state.next.start : state.now
 }
 
-/** Whether a neighbour has been taken in. Used for the walls and the save */
+/** Whether a neighbour has been taken in, by its id. Used for the walls and the save */
 function isJoined(state: LineState, span: Span): boolean {
-  return state.joinsBefore.includes(span) || state.joinsAfter.includes(span)
+  return state.joinsBefore.some((j) => j.id === span.id) || state.joinsAfter.some((j) => j.id === span.id)
 }
 
 /** Whether the time kept still holds the break. Used as the break's wall */

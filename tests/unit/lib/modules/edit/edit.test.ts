@@ -2,7 +2,7 @@ import fc from 'fast-check'
 import { describe, expect, it } from 'vitest'
 import { applyMove, DAY_OF_SPANS, MOVE, RUNS } from '$tests/helpers/lines'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { canSave, lineForEntry, lineForGap, saveLine } from '$lib/modules/edit/edit'
+import { canSave, lineForEntry, lineForGap, reasonList, resultWords, saveLine } from '$lib/modules/edit/edit'
 import {
   clickMiddle,
   dragTo,
@@ -313,4 +313,65 @@ describe('whatever is saved, the record keeps its rules', () => {
     },
     Math.max(5000, RUNS),
   )
+})
+
+describe('the words under the day say what the entry becomes', () => {
+  /** The words as text, for reading: bold in *, grey in (), the fill's colour after @, "+ paus" offered as [+] */
+  const said = (line: LineState, r: TimeRecord): string =>
+    resultWords(line, r.profiles)
+      .map((w) => {
+        const times = w.kind === 'grey' ? `(${w.times})` : w.bold ? `*${w.times}*` : w.times
+        const tag = w.tag !== null ? ` paus ${w.tag}` : w.addBreak ? ' [+]' : ''
+        return `${times}${w.kind === 'fill' ? `@${w.colour}` : ''}${tag}`
+      })
+      .join(' · ')
+
+  it('reads "07:58–12:10 paus 20" for an entry untouched, and its times in bold once changed', () => {
+    const r = record(work('e1', '07:58', '12:10', { breakMinutes: 20 }))
+
+    expect(said(open(r, 'e1'), r)).toBe('07:58–12:10 paus 20')
+    expect(said(drag(open(r, 'e1'), 'end', t('12:30')), r)).toBe('*07:58–12:30* paus 20')
+  })
+
+  it('offers "+ paus" on an entry with no break', () => {
+    const r = record(work('e1', '08:00', '12:00'))
+
+    expect(said(open(r, 'e1'), r)).toBe('08:00–12:00 [+]')
+  })
+
+  it('reads a running entry by its start alone', () => {
+    const r = record(work('e1', '08:25', null))
+
+    expect(said(open(r, 'e1', t('10:00')), r)).toBe('08:25 [+]')
+  })
+
+  it('sets divided parts apart, each with its own tag', () => {
+    const r = record(work('e1', '10:00', '11:00', { breakMinutes: 30 }))
+    const gap = drag(clickMiddle(drag(drag(open(r, 'e1'), 'start', t('10:20')), 'end', t('10:50'))), 'end', t('10:40'))
+
+    expect(said(gap, r)).toBe('*10:00–10:20* paus 20 · *10:40–11:00* paus 10')
+  })
+
+  it("greys the parts around a filled gap, the new entry in its profile's colour with no tag", () => {
+    const r = record(work('e1', '08:00', '12:00', { breakMinutes: 20 }))
+    const filled = pickProfile(
+      clickMiddle(drag(drag(open(r, 'e1'), 'start', t('10:00')), 'end', t('10:40'))),
+      DEVELOPMENT,
+    )
+
+    expect(said(filled, r)).toBe('(08:00–10:00) paus 20 · *10:00–10:40*@#4f8fd6 · (10:40–12:00)')
+  })
+})
+
+describe('the reasons are listed in Swedish alphabetical order', () => {
+  it('lists the starting reasons with Ä after the rest', () => {
+    expect(reasonList()).toEqual([
+      'Fel profil',
+      'Glömd paus',
+      'Glömd post',
+      'Glömde stämpla in',
+      'Glömde stämpla ut',
+      'Ärende',
+    ])
+  })
 })
