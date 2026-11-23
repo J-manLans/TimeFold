@@ -8,41 +8,43 @@ How time away from work is recorded: gaps, added breaks, and typing a length. Ea
 **Decision:** time away is recorded in one of two ways, and both count on the day it happens ("Time counts on the day it
 was worked"). A planned break is a stop and a later start: the gap between them is not work, and falls on whichever day
 it falls on. Time away that happens during a running entry, unplanned (such as own errands slipped into a work errand),
-is an **added break**: a length of time taken off an entry, added when back, with a quiet "add break" control. An added
-break holds its length and the day it was added, not when it happened. It comes off its entry's time on that day first,
-and any rest off the entry's time on the day before, since midnight only cuts the counting, not the stretch. It goes to
-the running entry of the profile on screen. Its field holds that entry's whole break: it opens on what is there so far
-("20", "1:20"), selected so typing replaces it, or empty with none, and Enter sets the new total. A higher number adds
-the difference, dated the day it is added, to that day's break: an entry holds at most one break per day; a lower one
-takes time back, off the latest break first, and 0 takes it all; the same number changes nothing. The control is always
-shown, so the app always shows what it can do; it is active only while that entry runs, and greyed out otherwise. A
-break found after the entry has stopped is set in the entry's edit popup, through the "paus" tag after its times, dated
-the day the entry stops ("Editing an entry on its line"). The total cannot be longer than its whole entry so far: the
-field then reads "för lång paus" and stays open. Stopping the entry with the field open is a click away: what is typed
-is kept, then the entry stops. The five most recent entries, whatever their day, are listed under the flex bar and the
-ceiling wheel, with their added breaks as small tags among them, and "Visa alla" under the list opens the history. A tag
-is a label: clicking it does what clicking its row does. A break added by mistake is taken back with the undo while it
-is the latest click ("The last click can be undone for a few seconds"); after that, a break is changed or removed on its
-entry's line.
+is an **added break**: a length of time taken off an entry, added when back, with a quiet "add break" control. An entry
+holds one added break, its length alone, not when it happened or on which day. On an entry across midnight it comes off
+the entry's last day first, and any rest off the day before, since midnight only cuts the counting, not the stretch. It
+goes to the running entry of the profile on screen. Its field holds that entry's whole break: it opens on what is there
+so far ("20", "1:20"), selected so typing replaces it, or empty with none, and Enter sets the new total. The number kept
+is the entry's break: higher adds, lower takes time back, 0 takes it all, and the same number changes nothing. The
+control is always shown, so the app always shows what it can do; it is active only while that entry runs, and greyed out
+otherwise. A break found after the entry has stopped is set in the entry's edit popup, through the "paus" tag after its
+times ("Editing an entry on its line"). The total cannot be longer than its whole entry so far: the field then reads
+"för lång paus" and stays open. Stopping the entry with the field open is a click away: what is typed is kept, then the
+entry stops. The five most recent entries, whatever their day, are listed under the flex bar and the ceiling wheel, with
+their added breaks as small tags among them, and "Visa alla" under the list opens the history. A tag is a label:
+clicking it does what clicking its row does. A break added by mistake is taken back with the undo while it is the latest
+click ("The last click can be undone for a few seconds"); after that, a break is changed or removed on its entry's line.
 
 **Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
-file today, so the day added places a break in the stretch it belongs to. An "add break" that stays active after stop
-would make the owner wonder whether work is still running. A hasty mistake must be fixed where it is seen, not dug out
-of an editor.
+file today, as a length. One number per entry follows it through a split or a join with nothing to keep in step. On a
+night across a month's edge, a break may land a few minutes on the wrong side of midnight; the next month evens it out,
+and the pay is an estimate. An "add break" that stays active after stop would make the owner wonder whether work is
+still running. A hasty mistake must be fixed where it is seen, not dug out of an editor.
 
 **Rejected:** each press adding a break of its own, the field empty every time: the owner had to add up in their head,
 and a slip noticed after the undo's seconds had no way back while the entry ran. Each raise of the total stored as a
-break of its own: two breaks on one day count as their sum, so the split said nothing and left a correction a list to
-walk. A tag opening the length field on its row, to change or remove the break: the row is too thin for the field's
-reading, the tag would fight the row's own click, and every tag is on a stopped entry, whose changes are corrections
-with a reason. A slider for the break's length: a break holds no place in its entry to drag. Start-break and end-break
-clicks: a stop and a start do the same with no new control, and an unplanned break cannot be clicked as it happens.
-Recording when an added break happened: the day is enough. Splitting a running entry into two stored entries at
-midnight: the running entry would restart each day, and the question for a running entry from an earlier day would never
-be asked. Adding a break to a stopped entry from this control: it blurs whether work is running, and the entry's line
-does it better.
+break of its own: the breaks count as their sum, so the split said nothing and left a correction a list to walk. A break
+dated the day it was added, an entry holding one per day: it placed a break only roughly too, since a break is entered
+when back, and every split, join and edit had to keep the days in step. A break shared over the entry's days by the
+hours worked on each: fairer on average, but one more rule for a few minutes on rare nights. A tag opening the length
+field on its row, to change or remove the break: the row is too thin for the field's reading, the tag would fight the
+row's own click, and every tag is on a stopped entry, whose changes are corrections with a reason. A slider for the
+break's length: a break holds no place in its entry to drag. Start-break and end-break clicks: a stop and a start do the
+same with no new control, and an unplanned break cannot be clicked as it happens. Recording when an added break
+happened: its length is enough. Splitting a running entry into two stored entries at midnight: the running entry would
+restart each day, and the question for a running entry from an earlier day would never be asked. Adding a break to a
+stopped entry from this control: it blurs whether work is running, and the entry's line does it better.
 
-**Revisit if:** the report needs breaks shown by time or kind.
+**Revisit if:** the report needs breaks shown by time or kind, or nights with a break across a month's edge become
+common.
 
 **Cases:**
 
@@ -57,13 +59,10 @@ does it better.
 - Stop Tuesday 23:30, start Wednesday 00:15: the gap counts on neither day, with no special rule; Tuesday ends at 23:30,
   Wednesday starts at 00:15.
 - A break changed from 45 to 35 min: the entry's worked time grows by 10 min.
-- 20 min of break so far, "Lägg till paus": the field opens on "20", selected; 30 typed and Enter: the break is 30 min,
-  the 10 added dated today.
+- 20 min of break so far, "Lägg till paus": the field opens on "20", selected; 30 typed and Enter: the break is 30 min.
 - 20 min so far, 10 typed: the break is 10 min. 0 typed: no break.
-- 20 min added Monday, 25 more Monday: one break of 45 min dated Monday. 15 more Tuesday: a second break, 15 min dated
-  Tuesday.
-- Running since Tuesday 22:00, 30 min added Tuesday and 15 min Wednesday, 30 typed on Wednesday: Wednesday's 15 comes
-  off, Tuesday's 30 stays.
+- Running since Monday 22:00, 20 min added Monday and raised to 45 on Tuesday, stopped Tuesday 03:00: one break of 45
+  min, all off Tuesday's 3 h, which leaves Monday 2 h and Tuesday 2 h 15.
 
 ## Entering a length of time (2026-11-14)
 

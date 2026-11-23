@@ -1799,16 +1799,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // and the view fitted to it all. Each side keeps its joined neighbours in order, the nearest first, so a handle
   // dragged back lets them go one by one, outermost first, and the other handle walking over lets them go nearest first.
   function joined(x) { return ed.joinsL.indexOf(x) !== -1 || ed.joinsR.indexOf(x) !== -1; }
-  // Only what a handle was dragged into joins: the start handle last moving earlier onto the neighbour before, the
-  // end handle last moving later onto the one after; a handle walking away and stopping on an edge takes nothing in,
-  // and one that turns back to a neighbour it has just let go takes it in again
-  function absorbDocked(drag) {
+  // Let go, or stepped, onto the edge of a neighbour of its own profile, the entry takes it in, whichever way the handle
+  // was moving: entries of the same profile that touch are one. Dragging the handle back past the neighbour's edge
+  // lets it go again.
+  function absorbDocked() {
     // Docked back on its original, the entry takes its original time back, as any join does
-    if (!ed.isNew && drag.s0 >= ed.o2 && ed.s === ed.o2 && drag.dirS === -1) { ed.s = ed.o1; return; }
-    if (!ed.isNew && drag.e0 <= ed.o1 && ed.en === ed.o1 && drag.dirE === 1) { ed.en = ed.o2; return; }
+    if (!ed.isNew && ed.s === ed.o2) { ed.s = ed.o1; return; }
+    if (!ed.isNew && ed.en === ed.o1) { ed.en = ed.o2; return; }
     var d = docked();
-    if (d.l && drag.dirS !== -1) d.l = false;
-    if (d.r && drag.dirE !== 1) d.r = false;
     if (d.l) {
       ed.joinsL.push(ed.prev); ed.s = +ed.prev.start;
       ed.prev = entries.filter(function (x) { return x !== ed.e && !joined(x) && +x.end <= ed.s; }).sort(function (x, y) { return y.end - x.end; })[0] || null;
@@ -1817,6 +1815,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       ed.joinsR.push(ed.next); ed.en = +ed.next.end;
       ed.next = entries.filter(function (x) { return x !== ed.e && !joined(x) && +x.start >= ed.en; }).sort(function (x, y) { return x.start - y.start; })[0] || null;
     }
+  }
+  // Dragged or stepped back to a joined neighbour's end or past it, the join undoes itself: the neighbour is whole
+  // again, a wall, so a neighbour is never trimmed away to nothing; let go on its edge, it is taken in again. The other
+  // handle passing over all of a joined neighbour lets it go whole too, nearest first, and the entry walks on past it.
+  function releaseJoins() {
+    var jl = ed.joinsL, jr = ed.joinsR;
+    while (jl.length && ed.s >= +jl[jl.length - 1].end) { ed.prev = jl.pop(); ed.s = Math.max(ed.s, +ed.prev.end); }
+    while (jr.length && ed.en <= +jr[jr.length - 1].start) { ed.next = jr.pop(); ed.en = Math.min(ed.en, +ed.next.start); }
+    while (jr.length && ed.s >= +jr[0].end) ed.prev = jr.shift();
+    while (jl.length && ed.en <= +jl[0].start) ed.next = jl.shift();
   }
   // ---- The break in the edit ----
   // The break the result carries: the entry's own, plus a docked neighbour's when they join, unless set with the tag.
@@ -1950,7 +1958,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (ev.target.dataset.step) { ev.preventDefault(); holdStep(ev.target.parentNode.dataset.k, +ev.target.dataset.step); return; }
       var k = ev.target.dataset.k || null;
       if (ed.running && k === "bar") k = null;
-      drag = { k: k, x: ev.clientX, t0: timeAt(ev.clientX), s0: ed.s, e0: ed.en, moved: false, dirS: 0, dirE: 0 };
+      drag = { k: k, x: ev.clientX, t0: timeAt(ev.clientX), s0: ed.s, e0: ed.en, moved: false };
       if (k) { line.setPointerCapture(ev.pointerId); ev.preventDefault(); }
     });
     line.addEventListener("pointermove", function (ev) {
@@ -1973,21 +1981,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         else if (drag.k === "b" && ed.en !== was.en) ed.en += ed.en < was.en ? Math.min(q, was.en - ed.en) : -Math.min(q, ed.en - was.en);
         else { ed.s = was.s; ed.en = was.en; break; }
       }
-      // Dragged back past a joined neighbour's end, the join undoes itself: the neighbour is whole again, a wall
-      // Which way each handle last moved, by whole steps only, so a wobble as it is let go changes nothing
-      if (ed.s !== was.s) drag.dirS = ed.s < was.s ? -1 : 1;
-      if (ed.en !== was.en) drag.dirE = ed.en < was.en ? -1 : 1;
-      var jl = ed.joinsL, jr = ed.joinsR;
-      while (jl.length && ed.s > +jl[jl.length - 1].end) { ed.prev = jl.pop(); ed.s = Math.max(ed.s, +ed.prev.end); }
-      while (jr.length && ed.en < +jr[jr.length - 1].start) { ed.next = jr.pop(); ed.en = Math.min(ed.en, +ed.next.start); }
-      // The other handle passing over all of a joined neighbour lets it go whole too, nearest first, and the entry walks
-      // on past it
-      while (jr.length && ed.s >= +jr[0].end) ed.prev = jr.shift();
-      while (jl.length && ed.en <= +jl[0].start) ed.next = jl.shift();
+      releaseJoins();
       drawEdit();
     });
     line.addEventListener("pointerup", function () {
-      if (drag && drag.moved && ed) { absorbDocked(drag); settleView(); }
+      if (drag && drag.moved && ed) { absorbDocked(); settleView(); }
       // A click on a handle, not a drag, grows it into the pill; the other handle's pill, if open, shrinks
       if (drag && !drag.moved && ed && (drag.k === "a" || drag.k === "b")) { if (ed.pill !== drag.k) openPill(drag.k); drag = null; return; }
       // A click on the middle, not a drag, switches a shortening and a gap
@@ -2018,7 +2016,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     else ed.en = Math.max(Math.min(ed.en + d * MIN, edHi()), ed.s + MIN);
     ed.refused = !edFits();
     if (ed.refused) { ed.s = was.s; ed.en = was.en; }
-    settleView();
+    releaseJoins(); absorbDocked(); settleView();
   }
   var holdT = null;
   function holdStep(k, d) {
@@ -2043,8 +2041,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     drawEdit();
   });
   // The tag sets the whole break, as the field under "Lägg till paus" does: Enter or a click away keeps it, Esc
-  // leaves it as it was. Dated the day the entry stops (in the app; the sketch keeps
-  // only its length).
+  // leaves it as it was. An entry holds one break, its length alone.
   $("edTimes").addEventListener("click", function (ev) {
     if (!ed || !ev.target.classList.contains("tag") || ev.target.classList.contains("still")) return;
     ed.brkEditing = true; ed.brkAt = +ev.target.dataset.i || 0; drawEdit();
