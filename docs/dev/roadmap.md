@@ -79,8 +79,8 @@ every setting changes from a date as its cases say, and a prune on a set date cu
 
 **Produces:** the record moving between the work and home machines.
 
-**Settle first:** the question before an import replaces the record, drawn in the prototype (its import button only
-shows a note).
+**Settle first:** the question before an import replaces the record (`open-questions.md`), drawn in the prototype (its
+import button only shows a note).
 
 1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
 2. The onboarding's "Importera": it reads a handover file and asks nothing more.

@@ -13,6 +13,19 @@ The record marks each entry clicked, written by hand or edited ("Entries remembe
 balance moved"). The report could also show the mark itself, such as a small sign beside a hand-set time on the days
 page. Not vital: the reason already tells the boss a time was set afterwards, and a clean report may read better.
 
+## Merging two machines' records at import
+
+**Returns when:** the owner loses hours by clicking on one machine without importing first ("Handover between machines",
+in `design-decisions/`).
+
+An import that adds instead of replacing: every entry in the file that overlaps no local entry is added, which covers
+both the newer entries and those worked on the other machine in the local record's gaps; an entry with the same id that
+was edited on the other machine replaces the local one. Done properly it needs more than the entries: ids unique across
+machines (today's `e1`, `e2` and `p1` collide, so the record's shape changes, with an upgrade), the deleted ids carried
+in the file so an entry swallowed by docking on one machine does not come back from the other, a time on each change so
+an entry edited on both machines has a newest, and the same for profiles, settings, flex days and opening figures. Too
+big to slip into Handover, whose import replaces everything after asking.
+
 ## A tray icon, with autostart
 
 **Returns when:** the owner wants to learn how a tray app is made, or opens the app many times a day just to see what

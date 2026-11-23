@@ -24,9 +24,10 @@ leak. A phone app: the owner clicks at a computer, as with the Excel file today.
 **Decision:** the record moves between the two machines by handover. Export writes one file holding everything:
 profiles, settings, entries and balances; only the theme stays behind, as each machine's own; the profiles' colours
 travel with the profiles. Import reads such a file and replaces everything on that machine. Every import asks first,
-showing when the file was made and when this machine's data last changed, and the owner confirms or cancels. The owner
-carries the file (for example by email to themselves) and is responsible for importing before clicking on the other
-machine. Export and import are greyed out while any job runs, so a handover never carries or replaces a running entry.
+showing when the file was made and when this machine's data last changed, and the owner confirms with "Ersätt" or
+cancels with "Avbryt". The owner carries the file (for example by email to themselves) and is responsible for importing
+before clicking on the other machine. Export and import are greyed out while any job runs, so a handover never carries
+or replaces a running entry.
 
 **Why:** the owner works at school and sometimes at home, and uses one machine at a time. A full replace is simple and
 cannot double hours; showing both dates makes a wrong or stale file obvious before it overwrites anything.
