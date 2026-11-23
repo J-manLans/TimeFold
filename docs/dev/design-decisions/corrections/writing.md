@@ -51,8 +51,7 @@ fitted line, ten is as easy to grab.
   opens on 13:05–14:00.
 - The gap between 08:00–11:40 and 13:05–16:00, hovered: after a quarter second a line and "+" show; clicked, the line
   opens on 11:40–13:05.
-- In that gap, a click at 12:30: 12:25–12:35, the view fitting it; at 11:42: 11:40–11:50, cut at the wall.
-- A click inside an existing entry: nothing is placed.
+
 - Start and stop clicked a few times in a row: entries of a few seconds, each reading 0:00, gaps of seconds between them
   with no "+"; the always-shown "+" is the first gap below them with 5 minutes' room.
 - A new entry walked from 09:00 past a neighbour to 14:00–14:10: the view fits only 14:00–14:10.

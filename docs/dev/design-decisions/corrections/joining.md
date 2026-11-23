@@ -56,31 +56,15 @@ undo puts a slip right.
 
 Docking and letting go:
 
-- 08:00–10:00 and 10:25–12:00, same profile, the first's end docked on the second: 08:00–12:00, one entry.
 - The same with the second running: one entry from 08:00, still running.
-- The first's end docked on the second and let go: the handle moves to 12:00, 10:00–10:25 stays green, and the view fits
-  08:00–12:00.
-- That handle dragged back to 11:00: 11:00–12:00 in red stripes; on to 10:20, past the neighbour's start: the join
-  undoes itself, 10:25–12:00 is whole again, and the handle is at 10:20 with 10:00–10:20 green.
-- 10:00–11:00 docked right onto 11:00–12:00, then on onto 13:00–14:00: both joined, 12:00–13:00 green, a thin line at
-  11:00.
+
 - That handle dragged back to 13:30: 13:00–13:30 kept, 13:30–14:00 red; on to 12:30: 13:00–14:00 is whole again, a wall
   at 13:00; on to 11:30: 11:30–12:00 red; on to 10:50: 11:00–12:00 whole again; each can be docked onto again.
-- 10:00–11:00 with 08:00–09:00 before it and 12:00–13:00 after it, docked onto both: 08:00–13:00, 09:00–10:00 and
-  11:00–12:00 green.
-- A handle walked away from a neighbour and stopping on its edge, then let go: the neighbour is taken in again, the
-  handle at its far end.
-- 12:45–15:20 docked onto 08:02–12:00, then its start dragged back to 12:00 and let go: 08:02–12:00 is whole again and
-  taken in again, the handle back at 08:02; saved, one entry 08:02–15:20.
-- The same, let go at 12:05: 08:02–12:00 whole and apart, the entry 12:05–15:20.
-- Joined onto 08:02–12:00, the start's pill at 11:55, + pressed five times: at 12:00 the neighbour is whole and taken in
-  again, the handle at 08:02.
-- An entry's end stepped by the pill onto the start of a neighbour of its profile: they join.
+
+- 12:45–15:20 docked onto 08:02–12:00, its start dragged back to 12:00 and let go, then saved: one entry 08:02–15:20.
 
 Walking:
 
-- A new 10 min entry at 09:00–09:10 docked onto 09:10–10:00, stretched to 10:30, its start dragged past 10:00: the
-  neighbour is whole again, and the new entry is 10:00–10:30.
 - A new entry walked right past 10:00–11:00 and then past 12:00–13:00: each is let go whole in turn, nearest first.
 - Walked past 10:00–11:00 and, in the same drag, back to its end and let go: taken in again.
 - 08:00–10:00 walked right to 13:00–14:00, its start dragged back left: it stops and docks at 10:00; let go, the entry
@@ -95,7 +79,6 @@ Profiles, breaks and colours through a chain:
   4 h, the gaps counted as development work.
 - The same, before saving, a handle dragged back past 08:00–09:00: it is whole again as janitor work, a wall to the
   development entry.
-- Joined entries with breaks of 20 and 15 min: one break of 35 min; divided by a gap, the 35 min shared out as for any
-  divided entry.
+- Joined entries with breaks of 20 and 15 min, divided by a gap: the 35 min shared out as for any divided entry.
 - Through a chain: the joined pieces in the entry's colour, the stretches dragged across green, a trimmed piece red, a
   thin line where two pieces touch.

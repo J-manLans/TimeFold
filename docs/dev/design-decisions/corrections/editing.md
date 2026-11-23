@@ -34,32 +34,33 @@ and a click on it does nothing; the picker empties it first. Dragged to an edge 
 end and the part on that side goes; its handles go on past the edges as any handle does, to the next entry or now, the
 time beyond the old edge green as added. Dragged over both edges, the whole entry is the other profile's, unless the
 entry's break holds a part back; the picker with no gap moves the whole entry, its break with it, in one step. A switch
-between a gap and a shortening that the break cannot fit in is refused, and the tag shows why, red until the next
-change. Colour shows the change, and the line's colour is always what is being edited: the entry in its own colour,
-green for time added, red for time taken away; a shortening shows red ends, a gap a red middle, and green never appears
-there. A gap filled by another profile wears that profile's colour, and the two parts turn grey, as any neighbour on the
-line. No handle can be dragged into another entry or past now. Midnight is no stop: the line edits the stored stretch,
-so an entry across midnight opens whole, whichever day it was chosen from, and either handle crosses midnight freely;
-the counting still splits it there ("Time counts on the day it was worked"). A running entry is edited at its start and
-profile only ("A running entry is edited at its start"). The line also shows the entry's profile, which can be changed
-there to move the whole entry, times unchanged, to another profile ("Every edit carries a reason"); an entry across
-midnight changes profile as one, both days' parts together. The picker always names the profile in colour, and offers
-every profile but archived ones, the entry's own included. Under the day, the result reads in words: its times, then its
-break as the list's "paus" tag, with no length, so no figure there can disagree with the list's counted time
-("07:58–12:10 paus 20min"). Divided, it shows each part's times and tag, set apart by a centred dot, in white while the
-parts are the entry's own; with the gap filled by another profile the text follows the line: the parts grey, and the new
-entry's time, with no name, in that profile's base colour ("08:00–10:00 paus 20min · 10:00–10:40 · 10:40–12:00"); the
-centred dot appears only between entries. The tag is the break's control: clicked, it opens a length field on the whole
-break, as the field under "Lägg till paus" does; Enter or a click away keeps it, and Esc leaves it as it was; a length
-longer than the time kept is refused, its text red and the field left open, until it is fixed or Esc drops it; with no
-break, a quiet "+ paus" offers one. A break set there is the entry's one break, and comes off as any added break does:
-the entry's last day first, the rest the day before ("Time away is a gap or an added break"). The break is a wall too: a
-handle stops where the time kept could no longer hold it, and while a handle sits at that limit the tag is red, text and
-border. An entry divided in two carries its break whole on the larger part if it fits there; if not, the break fills the
-larger part and the rest goes to the other; each part shows its own tag. With the gap filled by another profile, the
-parts' tags show grey and cannot be clicked, since the parts are no longer what is in colour, and the new entry has no
-break until it is saved and opened again. Joined, the tag shows the breaks' sum. The colours are a preview: nothing
-changes until the owner confirms, and a cancel leaves the entry as it was.
+between a gap and a shortening that the break cannot fit in is refused, and so is a profile picked that it cannot fit
+in, as when the switch lets go of a neighbour it touched; the tag shows why, red until the next change. Colour shows the
+change, and the line's colour is always what is being edited: the entry in its own colour, green for time added, red for
+time taken away; a shortening shows red ends, a gap a red middle, and green never appears there. A gap filled by another
+profile wears that profile's colour, and the two parts turn grey, as any neighbour on the line. No handle can be dragged
+into another entry or past now. Midnight is no stop: the line edits the stored stretch, so an entry across midnight
+opens whole, whichever day it was chosen from, and either handle crosses midnight freely; the counting still splits it
+there ("Time counts on the day it was worked"). A running entry is edited at its start and profile only ("A running
+entry is edited at its start"). The line also shows the entry's profile, which can be changed there to move the whole
+entry, times unchanged, to another profile ("Every edit carries a reason"); an entry across midnight changes profile as
+one, both days' parts together. The picker always names the profile in colour, and offers every profile but archived
+ones, the entry's own included. Under the day, the result reads in words: its times, then its break as the list's "paus"
+tag, with no length, so no figure there can disagree with the list's counted time ("07:58–12:10 paus 20min"). Divided,
+it shows each part's times and tag, set apart by a centred dot, in white while the parts are the entry's own; with the
+gap filled by another profile the text follows the line: the parts grey, and the new entry's time, with no name, in that
+profile's base colour ("08:00–10:00 paus 20min · 10:00–10:40 · 10:40–12:00"); the centred dot appears only between
+entries. The tag is the break's control: clicked, it opens a length field on the whole break, as the field under "Lägg
+till paus" does; Enter or a click away keeps it, and Esc leaves it as it was; a length longer than the time kept is
+refused, its text red and the field left open, until it is fixed or Esc drops it; with no break, a quiet "+ paus" offers
+one. A break set there is the entry's one break, and comes off as any added break does: the entry's last day first, the
+rest the day before ("Time away is a gap or an added break"). The break is a wall too: a handle stops where the time
+kept could no longer hold it, and while a handle sits at that limit the tag is red, text and border. An entry divided in
+two carries its break whole on the larger part if it fits there; if not, the break fills the larger part and the rest
+goes to the other; each part shows its own tag. With the gap filled by another profile, the parts' tags show grey and
+cannot be clicked, since the parts are no longer what is in colour, and the new entry has no break until it is saved and
+opened again. Joined, the tag shows the breaks' sum. The colours are a preview: nothing changes until the owner
+confirms, and a cancel leaves the entry as it was.
 
 **Why:** the owner adds breaks during the day; one found after stop, a late start, an early end or the wrong profile are
 all fixed in the same place, seeing the whole entry and the time around it. A handle that cannot reach a clash needs no
@@ -98,26 +99,9 @@ drag knob in the app is the same one.
 
 **Cases:**
 
-- 08:00–12:00, left handle to 08:20: 08:20–12:00.
-- 08:00–12:00, right handle dragged toward 16:00 with nothing else that day: it stops at the view's edge, about 13:05;
-  let go, the view eases out, and a second drag reaches 16:00.
-- 08:00–12:00, right handle to 12:30, next entry starting 13:00: 08:00–12:30; the handle stops at 13:00.
-- 08:00–12:00, both handles inward to 10:00 and 10:40: shortened to 10:00–10:40 (default).
-- The same, the middle clicked: a gap, 08:00–10:00 and 10:40–12:00.
-- That gap, "Utveckling" picked: 08:00–10:00 and 10:40–12:00 janitor work, 10:00–10:40 development, the parts grey on
-  the line.
 - That gap filled, a 20 min break on the entry: "paus 20min" on 08:00–10:00, grey and not clickable; the new entry has
   none.
-- That gap filled, its middle clicked: nothing happens; "Vaktmästare" picked: the red gap again.
-- A filled gap dragged out to both edges, "Vaktmästare" picked, then both handles moved inward: a shortening, not a gap.
-- 08:00–12:00 with no break, a gap at 10:00–10:40 filled by "Utveckling", its end dragged to 12:00: 08:00–10:00 janitor
-  work and 10:00–12:00 development.
-- The same, its end dragged on to 12:30 with nothing after: 10:00–12:30 development, 12:00–12:30 green as added.
-- 08:00–12:00 with a 20 min break, a filled gap dragged toward both edges: it stops with 20 min of janitor work left,
-  and the tag turns red.
-- 10:00–11:00 with a 20 min break, a 15 min middle as a gap, clicked: it stays a gap, and the tag turns red.
-- 08:00–12:00, both handles moved 30 min later, nothing else that day: 08:30–12:30.
-- Previous entry ends 07:30: the left handle stops at 07:30.
+
 - 22:00–23:30, right handle dragged to 00:30: 22:00–00:30, one entry, counted 2 h on the first day and 30 min on the
   next.
 - Entry Tuesday 22:00 to Wednesday 01:00, opened on Tuesday or on Wednesday: the line shows the whole entry, and both
@@ -126,11 +110,10 @@ drag knob in the app is the same one.
   21:30–23:10 on Tuesday.
 - Entry Tuesday 22:00 to Wednesday 01:00, moved to another profile: the whole entry moves, Tuesday's 22:00–24:00 and
   Wednesday's 00:00–01:00.
-- Running entry: no handle at its end, which is the now-line.
+
 - Cancel after dragging: the entry is unchanged.
 - 07:58–12:10 with a 20 min break: "07:58–12:10 paus 20min".
-- 10:00–11:00 with a 30 min break, the start dragged later: it stops at 10:30, and the tag turns red.
+
 - 10:00–11:00, "90" typed in the break's field and Enter: refused, the text red, the field still open.
-- 08:00–12:00 with a 30 min break, a gap cut at 10:00–10:40: 08:00–10:00 carries the 30 min, 10:40–12:00 none.
-- 10:00–11:00 with a 30 min break, a gap cut at 10:20–10:40: 20 min on 10:00–10:20, 10 min on 10:40–11:00.
+
 - Tuesday 22:00 to Wednesday 00:45, its break raised in the edit from 3 min to 1 h: Wednesday 0, Tuesday 1:45.

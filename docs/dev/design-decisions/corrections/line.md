@@ -34,11 +34,8 @@ narrower than an hour: a short entry was a sliver, and the minutes on the scale 
 
 **Cases:**
 
-- A 2 h entry opened: a view of about 3 h, the entry filling 65% of it.
 - A 10 min entry opened: a view of about 15 min, labelled every 5 min.
-- A handle dragged to the view's edge and beyond: it stops at the edge; let go, the view eases out to fit again.
-- An 8 h entry shortened to 1 h: let go, the view stays wide enough for the 8 h, the 7 h taken away in red.
-- An entry walked clear of where it started: the view fits it alone; its original, red, may run out of view.
+
 - A view of 9 h: labels every 2 hours; of 5 days: one per day, "lör 21"; of 20 days: weeks, "v. 48".
 
 ## A clicked handle steps by the minute (2026-11-22)
@@ -59,7 +56,9 @@ back to a circle; that Esc does not close the edit. One pill is open at a time: 
 while the first shrinks back with the same bounce, and clicking an open pill again changes nothing. When the handles are
 closer than a time label's width, the labels above lean apart, the start's ending at its handle and the end's starting
 at its, so they never overlap; they move there at once, with no easing. A step meets the same walls as a drag: another
-entry, now, and the break the parts must hold, which turns the tag red. A time set by the minute has its seconds at :00.
+entry, now, and the break the parts must hold, which turns the tag red. A dragged handle keeps 5 minutes from the other,
+unless a wall is nearer, as after steps have left an entry shorter; it never passes a wall to keep them. A time set by
+the minute has its seconds at :00.
 
 **Why:** in the Excel file the owner writes times to the nearest 5 minutes, so the drag places a time roughly and the
 pill exactly, with nothing on the line until it is asked for. − and + point the way the handle moves on a line that runs
@@ -74,7 +73,6 @@ the entry and its neighbours.
 
 **Cases:**
 
-- A handle at 10:05 clicked, + pressed three times: 10:08.
 - The "+" held down: one step, a pause, then steps coming faster.
 - A pill open, the other handle clicked: the first shrinks back, the second opens, both bouncing.
 - An open pill clicked again: nothing happens.
@@ -82,4 +80,3 @@ the entry and its neighbours.
   are black, at 13.5:1.
 - Handles 10 min apart: "10:00" ends at the start handle, "10:10" starts at the end handle.
 - A pill open, Esc: the pill shrinks; Esc again: the edit closes.
-- A pill at the next entry's start, + pressed: nothing moves.
