@@ -11,10 +11,11 @@ result in words. Gaps and the break each have their own file beside this one. Ea
 **Decision:** an entry is chosen from the list under the flex bar and the ceiling wheel (earlier days from the popup
 "Visa alla" opens) and opens in an edit popup of its own, centred, 480 px wide, a little narrower than the list's: from
 "Senaste" alone, over the dimmed screen; from "Visa alla" on top of the list, which dims a little further (25% black)
-and keeps its place and the chosen row outlined, so closing the edit comes back to it. Resting the pointer on the list
-behind, outside the edit, is a peek: after a quarter second (at once in Stilla) the edit fades to 20% and the extra
-dimming lifts, so the list reads through; moving back onto the edit brings it back. A dragged handle keeps the pointer
-on the line, so a drag never peeks. A click outside the edit cancels it, as "Avbryt" and Esc do and as any popup closes,
+and keeps its place and the chosen row outlined, so closing the edit comes back to it. Resting the pointer on the "Visa
+alla" card behind, outside the edit, is a peek: after a quarter second (at once in Stilla) the edit fades to 20% and the
+extra dimming lifts, so the list reads through; moving back onto the edit, or onto the scrim around the card, brings it
+back. The scrim is no peek, so the way out of the window never fades the edit. A dragged handle keeps the pointer on the
+line, so a drag never peeks. A click outside the edit cancels it, as "Avbryt" and Esc do and as any popup closes,
 nothing saved: from the list it comes back to the list, so while peeking one click returns to the list and the next
 opens the row wanted. Esc cancels the edit before the next one closes the list. In the popup the entry shows as a line
 centred on the entry, with a round handle at its start and its end, the same knob the colour picker drags, in the neon
@@ -49,16 +50,18 @@ without leaving the edit, as resting on the ceiling wheel's band shows its hidde
 entry stopped the morning after is shortened back to the evening before in one drag, the way "A running entry from an
 earlier day asks" sends the owner to correct it.
 
-**Rejected:** editing start and end with the clock alone: it shows one time, not the entry and its neighbours. A line
-showing the whole day: most of it is empty, and the entry is small in it. The edit inside the "Visa alla" popup, above
-the list: it had to be reached through the list from "Senaste" too, and shared the list's room. The edit placed beside
-the chosen row instead of centred: it would flip above or below by where the row sits, the window's height and the
-scroll, many cases for little gain. A click on the list behind switching the edit to that entry, even with nothing
-changed: closing and clicking the row is two short clicks, and keeps the app's language clear. A click outside doing
-nothing, to keep a stray click from losing a drag: the edit would be the one popup a click outside does not close, and
-an unsaved edit is quick to redo. Midnight as a wall, each day's part edited from its own day: an entry stopped the
-morning after could not be pulled back across midnight from either day, and the counting splits at midnight without the
-editor's help. Handles as thin bars: a circle reads as a knob to drag, and every drag knob in the app is the same one.
+**Rejected:** the whole area outside the edit as the peek, the scrim around "Visa alla" included: the way out of the
+window crosses it, and faded the edit. Editing start and end with the clock alone: it shows one time, not the entry and
+its neighbours. A line showing the whole day: most of it is empty, and the entry is small in it. The edit inside the
+"Visa alla" popup, above the list: it had to be reached through the list from "Senaste" too, and shared the list's room.
+The edit placed beside the chosen row instead of centred: it would flip above or below by where the row sits, the
+window's height and the scroll, many cases for little gain. A click on the list behind switching the edit to that entry,
+even with nothing changed: closing and clicking the row is two short clicks, and keeps the app's language clear. A click
+outside doing nothing, to keep a stray click from losing a drag: the edit would be the one popup a click outside does
+not close, and an unsaved edit is quick to redo. Midnight as a wall, each day's part edited from its own day: an entry
+stopped the morning after could not be pulled back across midnight from either day, and the counting splits at midnight
+without the editor's help. Handles as thin bars: a circle reads as a knob to drag, and every drag knob in the app is the
+same one.
 
 **Revisit if:** fixing an entry takes more clicks than the owner's Excel did.
 

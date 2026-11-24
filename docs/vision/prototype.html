@@ -1747,12 +1747,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function closeEdit() { ed = null; clearTimeout(peekT); $("edPop").classList.remove("peek"); $("edPop").hidden = true; }
 
   // ---- Peeking at the list behind the edit popup ----
-  // The pointer resting on the list, outside the edit, fades the edit after PEEK_DELAY ms; never mid-drag, since a
+  // The pointer resting on the "Alla poster" card, outside the edit, fades the edit after PEEK_DELAY ms; the scrim around
+  // the card is no peek, so the way out of the window never fades it; never mid-drag, since a
   // dragged handle keeps the pointer on the line. A click outside the edit cancels it, as Esc does and as any popup
   // closes; it counts only when the press began outside too, so a press inside let go outside closes nothing.
   var PEEK_DELAY = (parseFloat(getComputedStyle(app).getPropertyValue("--peek-delay")) || 0.25) * 1000, peekT = null;
   $("edPop").addEventListener("pointermove", function (ev) {
-    var pop = this, behind = ev.target === pop && pop.classList.contains("stacked");
+    var pop = this, card = $("allPop").querySelector(".card").getBoundingClientRect();
+    var onCard = ev.clientX >= card.left && ev.clientX <= card.right && ev.clientY >= card.top && ev.clientY <= card.bottom;
+    var behind = ev.target === pop && pop.classList.contains("stacked") && onCard;
     if (!behind) { clearTimeout(peekT); peekT = null; pop.classList.remove("peek"); return; }
     if (pop.classList.contains("peek") || peekT) return;
     peekT = setTimeout(function () { peekT = null; pop.classList.add("peek"); }, still() ? 0 : PEEK_DELAY);
