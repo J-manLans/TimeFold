@@ -52,15 +52,15 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 4. Fix, found in review: a short entry's handles cannot grow it. The view's edges stop a handle on the 5-minute mark
    inside them, and an entry of a few seconds or 10 minutes has none between its handle and the edge, so it is stuck. A
    handle always reaches the next 5-minute mark past it, even just outside the view, which refits on let go.
-5. Change, found in review: in a divided entry each part owns its break ("An edited entry's break"), and a gap is left
-   only on purpose ("A gap divides an entry"). A part's tag opens a field on that part's break alone, not the sum; a
-   part with no break offers its own "Lägg till paus", or "+ paus" if the words do not fit. Until a tag is set, a drag
-   spills only the overflow to the other part; a set tag fixes both, and the wall then holds per part. A gap's edges
-   stay inside the entry: snapped onto each other they close it, and let go at the entry's end they drop that part,
-   leaving a shortening; either way its break is no longer set, and the part not dragged is outlined in the base colour
-   while a let go would do it. The prototype is changed to match first, so the owner sees whether "Lägg till paus" fits.
-   The tag field in `src/lib/components/edit/EditPopup.svelte`, and the break's shares in `src/lib/modules/edit/edit.ts`
-   and `line.ts`.
+5. `[written]` `[tests]` Change, found in review: in a divided entry each part owns its break ("An edited entry's
+   break"), and a gap is left only on purpose ("A gap divides an entry"). A part's tag opens a field on that part's
+   break alone, not the sum; a part with no break offers its own "Lägg till paus", or "+ paus" if the words do not fit.
+   Until a tag is set, a drag spills only the overflow to the other part; a set tag fixes both, and the wall then holds
+   per part. A gap's edges stay inside the entry: snapped onto each other they close it, and let go at the entry's end
+   they drop that part, leaving a shortening; either way its break is no longer set, and the part not dragged is
+   outlined in the base colour while a let go would do it. The prototype is changed to match first, so the owner sees
+   whether "Lägg till paus" fits. The tag field in `src/lib/components/edit/EditPopup.svelte`, and the break's shares in
+   `src/lib/modules/edit/edit.ts` and `line.ts`.
 
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows.

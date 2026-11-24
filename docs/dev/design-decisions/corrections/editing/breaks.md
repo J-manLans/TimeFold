@@ -52,25 +52,6 @@ with the list's counted time, needed the minus to explain why, and vanished once
 
 **Cases:**
 
-- 10:00–11:00, "90" typed in the break's field and Enter: refused, the text red, the field still open.
-- 08:00–12:00 with no break, divided into 08:00–10:00 and 10:30–12:00: each part shows its own "Lägg till paus".
-- 08:00–12:00 with a 1 h 15 min break, divided into 08:00–10:00 and 10:30–11:30: the 2 h part carries it whole, "paus 1h
-  15min"; the other has "Lägg till paus".
-- Parts 08:00–10:00 with 1 h and 10:30–11:00 with 15 min, the 15 min tag clicked: the field holds 15, not 1:15; "20"
-  typed and Enter: that part 20 min, the other still 1 h.
-- Parts 08:00–10:00 and 10:30–11:00, "45" typed in the second part's field and Enter: refused, longer than its 30 min.
-- 08:00–12:00 with a 1 h break, the gap made at 09:50–10:00: 10:00–12:00 carries it whole; no tag set, the gap's right
-  edge dragged to 11:30: 11:30–12:00 holds 30 min, 08:00–09:50 the other 30, each step of the snap moving 5 min.
-- 08:00–10:00 with a 1 h break, the gap made at 08:40–08:45, its right edge dragged to 09:20 with no tag set:
-  09:20–10:00 holds 40 min and reads 0:00, 08:00–08:40 holds 20.
-- The gap 09:50–10:00 on 08:00–12:00 with a 1 h break, the right part's tag kept at "1h" unchanged: the right edge
-  dragged right stops at 11:00, that tag red; nothing spills.
 - A tag opened, then Esc: nothing set, and the next drag still spills.
-- The gap 09:50–10:00 on 08:00–12:00 with a 20 min break, filled by another profile: "paus 20min" on 10:00–12:00, grey
-  and not clickable; the new entry has none.
-- That gap filled, no tag set, a 1 h break, its right edge dragged to 11:30: 30 min spills to 08:00–09:50, both tags
-  grey.
-- The gap 09:50–10:00, both tags set, its edges let go together: "paus 1h" on the whole entry, nothing set; a new gap at
-  10:00–10:10: 08:00–10:00 is the larger part and carries it whole.
 
 - Tuesday 22:00 to Wednesday 00:45, its break raised in the edit from 3 min to 1 h: Wednesday 0, Tuesday 1:45.

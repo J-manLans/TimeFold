@@ -3,8 +3,8 @@
   forgotten entry, edited on its line in a popup of its own, centred. From "Senaste" it sits over the dimmed screen;
   from "Visa alla" on top of the list, which dims a little further. Resting the pointer on the list behind is a peek:
   after a moment the edit fades and the extra dimming lifts. Under the day and the profile, the result reads in words;
-  under the line, the reason; "Spara" waits for one. A part's "paus" tag, or "+ paus" with none, opens the break's
-  length field in its place. "Ta bort" asks once, "Ta bort?", and deletes on the second click. "Avbryt", Esc or a click outside cancels, nothing saved. Opened
+  under the line, the reason; "Spara" waits for one. A part's "paus" tag, or "Lägg till paus" with none ("+ paus" where
+  the longer words would wrap), opens that part's length field in its place ("An edited entry's break"). "Ta bort" asks once, "Ta bort?", and deletes on the second click. "Avbryt", Esc or a click outside cancels, nothing saved. Opened
   and closed through `app.editing`: <EditPopup />
 -->
 <script lang="ts">
@@ -13,7 +13,7 @@
   import EditLine from './EditLine.svelte'
   import ReasonPicker from './ReasonPicker.svelte'
   import { canSave, lineForEntry, lineForGap, resultWords } from '$lib/modules/edit/edit'
-  import { atLimit, breakTotal, pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
+  import { pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
   import { durationShape } from '$lib/modules/shared/durationShape'
   import { localDay } from '$lib/modules/shared/counting'
   import { dayInWords } from '$lib/modules/shared/dates'
@@ -39,7 +39,9 @@
 
   let profiles = $derived(app.record?.profiles ?? [])
   let words = $derived(line ? resultWords(line, profiles) : [])
-  let warn = $derived(line ? atLimit(line) : false)
+  /** The words under the day, and whether "Lägg till paus" wrapped them, so it says "+ paus" instead */
+  let wordBox: HTMLDivElement | undefined = $state()
+  let addShort = $state(false)
   let day = $derived.by(() => {
     if (!line) return ''
     const at = line.isNew && line.placing ? line.view.to : line.isNew ? line.start : line.entry.start
@@ -128,10 +130,23 @@
     event.currentTarget.value = line.fill ?? line.profile
   }
 
-  /** A tag clicked: the field opens in its place on the whole break, selected, or empty with none */
+  // "Lägg till paus" where it fits on the line; "+ paus" where the longer words would wrap it, tried afresh each time the
+  // words change
+  $effect(() => {
+    void words
+    addShort = false
+    tick().then(() => {
+      const pieces = wordBox ? [...wordBox.children] : []
+      const first = pieces[0] as HTMLElement | undefined
+      const last = pieces[pieces.length - 1] as HTMLElement | undefined
+      if (wordBox?.querySelector('.add') && first && last && last.offsetTop > first.offsetTop) addShort = true
+    })
+  })
+
+  /** A tag clicked: the field opens in its place on that part's break, selected, or empty with none */
   async function openTag(at: number): Promise<void> {
     if (!line) return
-    tagText = durationInField(breakTotal(line))
+    tagText = durationInField(words[at]?.tag ?? 0)
     tagRefused = false
     tagAt = at
     await tick()
@@ -146,8 +161,9 @@
   }
 
   /**
-   * The field kept: the whole break set to what it reads, empty taking it away; longer than the time kept, it is
-   * refused, red, and stays open until fixed or dropped with Esc. Used by Enter and a click away
+   * The field kept: that part's break set to what it reads, empty taking it away, and a divided entry's breaks set
+   * where they stand; longer than the time the part keeps, it is refused, red, and stays open until fixed or dropped
+   * with Esc. Used by Enter and a click away
    */
   function keepTag(): void {
     if (!line || tagAt === null) return
@@ -156,7 +172,7 @@
       tagAt = null
       return
     }
-    const next = setBreak(line, minutes)
+    const next = setBreak(line, minutes, words[tagAt]?.part ?? 0)
     if (next === null) {
       tagRefused = true
       return
@@ -210,7 +226,7 @@
         </select>
       </div>
 
-      <div class="words">
+      <div class="words" bind:this={wordBox}>
         {#if line.placing}
           <span>Klicka där posten ska ligga</span>
         {:else}
@@ -234,9 +250,13 @@
                   onblur={keepTag}
                 />{:else if word.tag !== null && word.kind === 'grey'}<span class="tag still"
                   >paus {durationText(word.tag)}</span
-                >{:else if word.tag !== null}<button class="tag" class:warn type="button" onclick={() => openTag(i)}
-                  >paus {durationText(word.tag)}</button
-                >{:else if word.addBreak}<button class="tag add" type="button" onclick={() => openTag(i)}>+ paus</button
+                >{:else if word.tag !== null}<button
+                  class="tag"
+                  class:warn={word.warn}
+                  type="button"
+                  onclick={() => openTag(i)}>paus {durationText(word.tag)}</button
+                >{:else if word.addBreak}<button class="tag add" type="button" onclick={() => openTag(i)}
+                  >{addShort ? '+ paus' : 'Lägg till paus'}</button
                 >{/if}</span
             >
           {/each}

@@ -59,7 +59,11 @@ export const MOVE = fc.oneof(
   }),
   fc.record({ kind: fc.constant('middle' as const) }),
   fc.record({ kind: fc.constant('pick' as const), profile: fc.constantFrom('p1', 'p2', 'p3') }),
-  fc.record({ kind: fc.constant('break' as const), minutes: fc.integer({ min: 0, max: 120 }) }),
+  fc.record({
+    kind: fc.constant('break' as const),
+    minutes: fc.integer({ min: 0, max: 120 }),
+    part: fc.constantFrom(0, 1),
+  }),
 )
 
 /** A move on the line */
@@ -70,7 +74,7 @@ export function applyMove(line: LineState, move: Move): LineState {
   if (move.kind === 'step') return stepHandle(line, move.handle, move.by)
   if (move.kind === 'middle') return clickMiddle(line)
   if (move.kind === 'pick') return pickProfile(line, move.profile)
-  if (move.kind === 'break') return setBreak(line, move.minutes) ?? line
+  if (move.kind === 'break') return setBreak(line, move.minutes, move.part) ?? line
   const from = move.grip === 'end' ? line.end : move.grip === 'start' ? line.start : (line.start + line.end) / 2
   const held = grab(line, move.grip, from)
   if (!held) return line
