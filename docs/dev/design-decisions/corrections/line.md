@@ -56,9 +56,10 @@ back to a circle; that Esc does not close the edit. One pill is open at a time: 
 while the first shrinks back with the same bounce, and clicking an open pill again changes nothing. When the handles are
 closer than a time label's width, the labels above lean apart, the start's ending at its handle and the end's starting
 at its, so they never overlap; they move there at once, with no easing. A step meets the same walls as a drag: another
-entry, now, and the break the parts must hold, which turns the tag red. A dragged handle keeps 5 minutes from the other,
-unless a wall is nearer, as after steps have left an entry shorter; it never passes a wall to keep them. A time set by
-the minute has its seconds at :00.
+entry, now, and the break the parts must hold, which turns the tag red. While shortening, a dragged handle keeps 5
+minutes from the other, unless a wall is nearer, as after steps have left an entry shorter; it never passes a wall to
+keep them. A gap's two edges keep no distance: the other edge is a point the dragged one snaps to, even off the 5-minute
+marks, and meeting it closes the gap ("A gap divides an entry"). A time set by the minute has its seconds at :00.
 
 **Why:** in the Excel file the owner writes times to the nearest 5 minutes, so the drag places a time roughly and the
 pill exactly, with nothing on the line until it is asked for. − and + point the way the handle moves on a line that runs
@@ -79,4 +80,6 @@ the entry and its neighbours.
 - A profile whose neon is `#3d5afe`: black on it is 4.1:1, so its pill's signs are white, at 5.1:1; on `#00e4fd` they
   are black, at 13.5:1.
 - Handles 10 min apart: "10:00" ends at the start handle, "10:10" starts at the end handle.
+- Shortened to 09:50–10:00, the end dragged left: it stops at 09:55. A gap 09:50–10:00, its right edge dragged left: it
+  meets 09:50 and the gap closes.
 - A pill open, Esc: the pill shrinks; Esc again: the edit closes.
