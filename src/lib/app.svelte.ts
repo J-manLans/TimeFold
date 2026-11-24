@@ -16,7 +16,7 @@ import {
   type Recovery,
   type TimeRecord,
 } from '$lib/modules/shared/record'
-import { deleteEntry, saveLine } from '$lib/modules/edit/edit'
+import { deleteEntry, savedEntryId, saveLine } from '$lib/modules/edit/edit'
 import { type LineState, type View } from '$lib/modules/edit/line'
 import { toggleFlexDay } from '$lib/modules/menu/flexDays'
 import {
@@ -110,6 +110,8 @@ class AppState {
   panel = $state<LockedPanel | null>(null)
   /** The edit popup's entry or gap, while it is open */
   editing = $state<Editing | null>(null)
+  /** The entry a save from "Visa alla" left outlined there, until another row opens or the list closes */
+  savedId = $state<string | null>(null)
 
   /** The theme in force on screen */
   shownTheme: ShownTheme = $derived(shownTheme(this.theme, this.systemDark))
@@ -225,15 +227,20 @@ class AppState {
   }
 
   /**
-   * An entry chosen from a list opens in the edit popup. Used by every row: from "Senaste" alone, from "Visa alla"
-   * stacked on the list
+   * An entry chosen from a list opens in the edit popup; the last click can no longer be undone, whether the edit is
+   * saved or not ("The last click can be undone for a few seconds"). Used by every row: from "Senaste" alone, from
+   * "Visa alla" stacked on the list
    */
   openEdit(entryId: string, stacked: boolean): void {
+    this.lastClick = null
+    this.savedId = null
     this.editing = { entryId, gap: null, stacked }
   }
 
-  /** A gap's "+" in "Visa alla" opens the edit popup on it, for a forgotten entry. Used by the gaps */
+  /** A gap's "+" in "Visa alla" opens the edit popup on it, for a forgotten entry, the undo put out. Used by the gaps */
   openGap(gap: View): void {
+    this.lastClick = null
+    this.savedId = null
     this.editing = { entryId: null, gap, stacked: true }
   }
 
@@ -243,13 +250,14 @@ class AppState {
   }
 
   /**
-   * The edit confirmed: what the line shows goes into the record with its reason, and is saved; the popup closes. The
-   * last click can no longer be undone, since the entries it names may have changed. Used by "Spara"
+   * The edit confirmed: what the line shows goes into the record with its reason, and is saved; the popup closes. From
+   * "Visa alla", the saved entry's row stays outlined there. Used by "Spara"
    */
   async saveEdit(line: LineState, reason: string): Promise<void> {
     if (this.record === null) return
-    this.record = saveLine(this.record, line, reason)
-    this.lastClick = null
+    const before = this.record
+    this.record = saveLine(before, line, reason)
+    this.savedId = this.editing?.stacked ? savedEntryId(before, this.record, line) : null
     this.editing = null
     await saveRecord(this.record)
   }
@@ -259,7 +267,6 @@ class AppState {
     const id = this.editing?.entryId
     if (this.record === null || !id) return
     this.record = deleteEntry(this.record, id)
-    this.lastClick = null
     this.editing = null
     await saveRecord(this.record)
   }

@@ -4,28 +4,6 @@ What is not decided, grouped under the phase that needs the answer, so a phase's
 entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question leaves;
 its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
-## Phase 3: Corrections, the owner's review
-
-### The bugs the hunt found in the prototype too (2026-11-23)
-
-Four edge cases the property tests found while Phase 3 was built are in the prototype as well: a handle stopped by the
-view's edge lands on fractions of a second; 5 minutes kept between the handles pushes an end past now after minute
-steps; a profile switch that lets go of a touching neighbour can leave a break longer than the time kept; an entry
-joined to a running neighbour keeps an end handle that can trim it. The app fixes each. Options: fix them in the
-prototype too, so it stays the true reference, or leave it, as it goes once the app is validated. The agent's lean: fix
-them, a few lines each. **See:** "Editing an entry on its line", "Two entries join by docking".
-
-### The saved row in "Visa alla" (2026-11-23)
-
-After a save from "Visa alla", the prototype outlines the saved row and scrolls to it; the app closes the edit and
-outlines nothing. Options: as the prototype, or as the app. **See:** "Editing an entry on its line".
-
-### The undo after an edit (2026-11-23)
-
-Saving or deleting an edit clears the undo's last click, since the entries that click names may have changed. Options:
-keep it so, or let the undo still take back a click whose entry the edit did not touch. **See:** "The last click can be
-undone for a few seconds", "Every edit carries a reason".
-
 ## Phase 4: Profiles
 
 ### A click outside a locked value in the menu (2026-11-22)

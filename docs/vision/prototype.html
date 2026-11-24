@@ -1675,7 +1675,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     });
     settleView();
   }
+  // Opening an edit puts the undo out, whether the edit is saved or not ("The last click can be undone for a few seconds")
   function openEditUi(stacked) {
+    clearUndo();
     var e = ed.e, day = ed.isNew ? new Date(ed.view.b) : e.start;
     var sel = $("edProf"); clear(sel);
     profiles.forEach(function (q) { if (q.archived && q.id !== e.profile) return; var o = document.createElement("option"); o.value = q.id; o.textContent = q.name; sel.appendChild(o); });
@@ -1774,7 +1776,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   function edLo() { return ed.prev ? +ed.prev.end : -Infinity; }
   function edHi() { return ed.next ? +ed.next.start : Date.now(); }
-  function snapT(t) { var q = EDIT_SNAP * MIN, off = new Date(t).getTimezoneOffset() * MIN; return Math.round((t - off) / q) * q + off; }
+  function snapT(t, way) {
+    var q = EDIT_SNAP * MIN, off = new Date(t).getTimezoneOffset() * MIN, round = way === "up" ? Math.ceil : way === "down" ? Math.floor : Math.round;
+    return round((t - off) / q) * q + off;
+  }
+  // The first 5-minute mark past a time, one way: a time on a mark gives the next one out, so a handle always has one
+  function markPast(t, way) { var m = snapT(t, way < 0 ? "down" : "up"); return m === t ? t + way * EDIT_SNAP * MIN : m; }
   function inward() { return ed.s > ed.o1 && ed.en < ed.o2; }
   // A gap filled by another profile may reach the entry's edges and go on past them, as any handle, to the next entry
   // or now: the new entry then takes that end, the part of the entry's own on that side goes, and time past the old
@@ -2049,8 +2056,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (Math.abs(ev.clientX - drag.x) > 2) { drag.moved = true; ed.pill = null; }
       if (!drag.moved) return;
       ed.refused = false;
-      // Nothing is dragged past the view's edges; let go, the view opens up if needed
-      var t = timeAt(ev.clientX), q = EDIT_SNAP * MIN, lo = Math.max(edLo(), ed.view.a), hi = Math.min(edHi(), ed.view.b), was = { s: ed.s, en: ed.en };
+      // The view's edges stop a handle on the 5-minute mark just inside them, never on a fraction of a second, but a
+      // handle always reaches the next mark past it, so a short entry still grows; let go, the view opens up
+      var t = timeAt(ev.clientX), q = EDIT_SNAP * MIN, was = { s: ed.s, en: ed.en };
+      var lo = Math.max(edLo(), Math.min(snapT(ed.view.a, "up"), markPast(ed.s, -1)));
+      var hi = Math.min(edHi(), Math.max(snapT(ed.view.b, "down"), markPast(ed.en, 1)));
       // An entry moved clear of where it started meets its original as a neighbour of its own profile: the handle
       // facing it stops at its near edge, and docks there
       if (!ed.isNew && drag.k === "a" && drag.s0 >= ed.o2) lo = Math.max(lo, ed.o2);
@@ -2059,17 +2069,19 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       // the dragged one snaps to, even off the 5-minute marks, and meeting it closes the gap on let go
       // An open gap's edges stay inside the entry, and leave room for one part
       var open = gapOpen() && gapHolds(), snapped = snapT(t);
+      // An edge reaches the entry's end only while the other part keeps a minute, so what a let go there leaves is an entry
       if (open) {
-        lo = Math.max(lo, ed.en === ed.o2 && drag.k === "a" ? ed.o1 + q : ed.o1);
-        hi = Math.min(hi, ed.s === ed.o1 && drag.k === "b" ? ed.o2 - q : ed.o2);
+        lo = Math.max(lo, ed.o2 - ed.en < MIN && drag.k === "a" ? ed.o1 + q : ed.o1);
+        hi = Math.min(hi, ed.s - ed.o1 < MIN && drag.k === "b" ? ed.o2 - q : ed.o2);
       }
       ed.dragK = drag.k;
       if (drag.k === "a") {
         if (open && (snapped > ed.en || Math.abs(t - ed.en) < Math.abs(t - snapped))) snapped = ed.en;
-        ed.s = Math.min(Math.max(snapped, lo), open ? ed.en : ed.en - q);
+        // Keeping the handles apart never pushes one past a wall, as after minute steps left the entry short
+        ed.s = Math.max(Math.min(snapped, open ? ed.en : ed.en - q), Math.min(lo, ed.s));
       } else if (drag.k === "b") {
         if (open && (snapped < ed.s || Math.abs(t - ed.s) < Math.abs(t - snapped))) snapped = ed.s;
-        ed.en = Math.max(Math.min(snapped, hi), open ? ed.s : ed.s + q);
+        ed.en = Math.min(Math.max(snapped, open ? ed.s : ed.s + q), Math.max(hi, ed.en));
       }
       else { var dt = Math.round((t - drag.t0) / q) * q; dt = Math.max(lo - drag.s0, Math.min(hi - drag.e0, dt)); ed.s = drag.s0 + dt; ed.en = drag.e0 + dt; }
       // The break is a wall too: step back toward where the handle was until the parts can hold it
@@ -2147,8 +2159,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // otherwise the whole entry's
   $("edProf").addEventListener("change", function () {
     ed.refused = false;
+    var was = { profile: ed.profile, mid: ed.mid };
     if ((inward() || ed.mid) && ed.mode === "gap") ed.mid = this.value === ed.profile ? null : this.value;
     else { ed.profile = this.value; ed.mid = null; }
+    // A profile the break cannot fit in is refused, as when the switch lets go of a touching neighbour: the tag says why
+    if (!edFits()) { ed.profile = was.profile; ed.mid = was.mid; ed.refused = true; this.value = ed.mid || ed.profile; }
     drawEdit();
   });
   // The tag sets its part's break, as the field under "Lägg till paus" does: Enter or a click away keeps it, Esc
