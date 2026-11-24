@@ -5,8 +5,6 @@ cited by its title.
 
 ## Entries remember how they were made (2026-11-14)
 
-**Built by:** Corrections, for written and edited entries.
-
 **Decision:** every entry keeps one mark of how it was made: clicked, written by hand, or edited after it was recorded.
 The mark is stored from the first entry, and an edited or hand-written entry also keeps its reason ("Every edit carries
 a reason"). In the lists, an entry that was not clicked carries an "e" tag after its break's, from _editera_, in
@@ -31,7 +29,7 @@ edit.
 
 ## Every edit carries a reason (2026-11-17)
 
-**Built by:** Corrections, for the reason on the edit; Profiles, for the "Orsaker" tab.
+**Built by:** Profiles, for the "Orsaker" tab.
 
 **Decision:** an edit that changes an entry's time or its profile, on its line or by writing a forgotten entry by hand,
 needs a reason before it is saved. Under the entry line sits one closed field, "Välj orsak"; clicked, it opens the list

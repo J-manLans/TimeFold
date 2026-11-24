@@ -5,8 +5,6 @@ cited by its title.
 
 ## Two entries join by docking (2026-11-19)
 
-**Built by:** Corrections.
-
 **Decision:** two entries of the same profile join on the line ("Editing an entry on its line"): a handle dragged to the
 neighbour's near end docks there, and the gap between them fills in green as time added, the neighbour outlined 1 px
 just outside it in the colour of the stretch reaching it, green, as a gap's edges about to meet are in the entry's own

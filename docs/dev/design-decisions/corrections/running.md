@@ -5,8 +5,6 @@ its title.
 
 ## A running entry is edited at its start (2026-11-22)
 
-**Built by:** Corrections.
-
 **Decision:** a running entry heads both lists ("The main screen has a controls side and a dashboard") and opens in the
 edit popup as any row does, but only its start and its profile can change. Its end is now: the now-line on the line,
 with no handle and no time label of its own, and the result under the day shows its start alone. Its middle cannot be

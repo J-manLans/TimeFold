@@ -6,8 +6,6 @@ result in words. Gaps and the break each have their own file beside this one. Ea
 
 ## Editing an entry on its line (2026-11-14)
 
-**Built by:** Corrections.
-
 **Decision:** an entry is chosen from the list under the flex bar and the ceiling wheel (earlier days from the popup
 "Visa alla" opens) and opens in an edit popup of its own, centred, 480 px wide, a little narrower than the list's: from
 "Senaste" alone, over the dimmed screen; from "Visa alla" on top of the list, which dims a little further (25% black)
