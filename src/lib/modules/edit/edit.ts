@@ -1,12 +1,12 @@
 /**
  * An edit between the record and the entry line: an entry or a gap opened on the line, and what the line shows saved
- * back into the record with its mark and its reason ("Editing an entry on its line", "Every edit carries a reason",
- * "Entries remember how they were made"). Pure: the save returns a new record.
+ * back into the record with its mark and its reason ("Editing an entry on its line", "An edited entry's break", "Every
+ * edit carries a reason", "Entries remember how they were made"). Pure: the save returns a new record.
  */
 
 import {
+  atLimit,
   breakShares,
-  breakTotal,
   docked,
   isChanged,
   openGap,
@@ -130,19 +130,22 @@ export interface WordPiece {
   colour: string
   /** The break this part carries, shown as "paus 20min"; null for none */
   tag: number | null
-  /** Whether a quiet "+ paus" offers a break: on the first part when the result has none and no gap is filled */
+  /** Whether its tag is red: a handle at the limit this part's break sets, or a switch refused */
+  warn: boolean
+  /** Whether a quiet "Lägg till paus" offers a break: on each part with none, while no gap is filled */
   addBreak: boolean
+  /** Which of the result's parts it is, for its tag's field; null for the gap's new entry */
+  part: number | null
 }
 
 /**
- * The result in words, under the day: each part's times and break, the parts set apart, and with a gap filled the new
- * entry's times in its profile's colour between the grey parts. Used by the edit popup: 07:58–12:10 with 20 min reads
+ * The result in words, under the day: each part's times and break, or the offer of one, the parts set apart, and with
+ * a gap filled the new entry's times in its profile's colour between the grey parts. Used by the edit popup: 07:58–12:10 with 20 min reads
  * "07:58–12:10 paus 20min".
  */
 export function resultWords(line: LineState, profiles: Profile[]): WordPiece[] {
   const parts = resultParts(line)
   const shares = breakShares(line)
-  const none = breakTotal(line) === 0 && !line.fill
   const changed = isChanged(line)
   const words: WordPiece[] = parts.map((part, i) => ({
     times: line.running ? clock(part.from) : `${clock(part.from)}–${clock(part.to)}`,
@@ -150,7 +153,9 @@ export function resultWords(line: LineState, profiles: Profile[]): WordPiece[] {
     bold: !line.fill && (parts.length > 1 || changed),
     colour: '',
     tag: shares[i] > 0 ? shares[i] : null,
-    addBreak: i === 0 && none,
+    warn: atLimit(line, i),
+    addBreak: shares[i] === 0 && !line.fill,
+    part: i,
   }))
   if (line.fill) {
     words.splice(line.start > line.originalStart ? 1 : 0, 0, {
@@ -159,7 +164,9 @@ export function resultWords(line: LineState, profiles: Profile[]): WordPiece[] {
       bold: true,
       colour: profiles.find((p) => p.id === line.fill)?.base ?? '',
       tag: null,
+      warn: false,
       addBreak: false,
+      part: null,
     })
   }
   return words

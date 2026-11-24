@@ -11,6 +11,7 @@ import {
   fittedView,
   grab,
   keptMinutes as keptMinutesOf,
+  leaving,
   letGo,
   meetingPoints,
   openGap,
@@ -166,12 +167,88 @@ describe('both handles inward shorten, and a click on the middle makes a gap', (
     expect(times(resultParts(clickMiddle(gap)))).toEqual(['10:00–10:40'])
   })
 
-  it('shortens again once a handle moves out, so an old gap never comes back', () => {
+  it("shortens again once an edge is let go at the entry's end, so an old gap never comes back", () => {
     const gap = clickMiddle(inward)
     const out = drag(gap, 'end', t('12:00'))
 
     expect(out.mode).toBe('shorten')
+    expect(times(resultParts(out))).toEqual(['08:00–10:00'])
     expect(drag(out, 'end', t('11:00')).mode).toBe('shorten')
+  })
+})
+
+/**
+ * 08:00–12:00 with a 1 h break, a gap made at 09:00–10:00 (the shortening before it must hold the break), its left
+ * edge then dragged to 09:50: 10:00–12:00, the larger part at the click, carries the hour. Used by the gap's tests
+ */
+function made(): LineState {
+  const line = openLine(span('08:00', '12:00', { breakMinutes: 60 }), [], t('17:00'))
+  return drag(clickMiddle(drag(drag(line, 'start', t('09:00')), 'end', t('10:00'))), 'start', t('09:50'))
+}
+
+describe('a gap is left only on purpose', () => {
+  /** A drag held, not let go. Used to see the outline */
+  function held(state: LineState, grip: Grip, to: number): LineState {
+    const grabbed = grab(state, grip, grip === 'end' ? state.end : state.start)
+    return grabbed ? dragTo(state, grabbed, to) : state
+  }
+
+  it("closes when its edges meet: 08:00–09:50 outlined, dragged back out the gap returns, let go it's whole", () => {
+    const gap = made()
+    const meeting = held(gap, 'end', t('09:50'))
+
+    expect(times(resultParts(meeting))).toEqual(['08:00–12:00'])
+    expect(times([leaving(meeting, 'end') ?? { from: 0, to: 0 }])).toEqual(['08:00–09:50'])
+    expect(leaving(held(gap, 'end', t('09:55')), 'end')).toBeNull()
+    const whole = letGo(meeting)
+    expect([whole.start, whole.end, whole.mode]).toEqual([t('08:00'), t('12:00'), 'shorten'])
+    expect(breakShares(whole)).toEqual([60])
+  })
+
+  it('snaps an edge onto the other off the 5-minute marks: 09:52–10:00, dragged left, meets 09:52', () => {
+    const gap = stepHandle(stepHandle(made(), 'start', 1), 'start', 1)
+
+    expect(gap.start).toBe(t('09:52'))
+    expect(held(gap, 'end', t('09:56')).end).toBe(t('09:55'))
+    expect(held(gap, 'end', t('09:53')).end).toBe(t('09:52'))
+  })
+
+  it("stops an edge at the entry's start, and let go there leaves 10:00–12:00 as a shortening", () => {
+    const pulled = held(made(), 'start', t('07:00'))
+
+    expect(pulled.start).toBe(t('08:00'))
+    expect(pulled.mode).toBe('gap')
+    expect(times([leaving(pulled, 'start') ?? { from: 0, to: 0 }])).toEqual(['10:00–12:00'])
+    const left = letGo(pulled)
+    expect([left.start, left.end, left.mode]).toEqual([t('10:00'), t('12:00'), 'shorten'])
+    expect(breakTotal(left)).toBe(60)
+  })
+
+  it("holds when a set break stops the edge short of the entry's start: 10:50–11:00, the left part's tag kept", () => {
+    const line = openLine(span('08:00', '12:00', { breakMinutes: 60 }), [], t('17:00'))
+    const gap = drag(clickMiddle(drag(drag(line, 'start', t('10:00')), 'end', t('11:00'))), 'start', t('10:50'))
+    const set = setBreak(gap, 60, 0)
+    const pulled = set && held(set, 'start', t('07:00'))
+
+    expect(pulled?.start).toBe(t('09:00'))
+    expect(pulled?.mode).toBe('gap')
+    expect(pulled && atLimit(pulled, 0)).toBe(true)
+  })
+
+  it('closes when an edge is stepped onto the other by the minute', () => {
+    let gap = made()
+    for (let i = 0; i < 10; i++) gap = stepHandle(gap, 'end', -1)
+
+    expect([gap.start, gap.end, gap.mode]).toEqual([t('08:00'), t('12:00'), 'shorten'])
+  })
+
+  it("lets a filled gap's edge go past the entry: no break, its start dragged to 07:45", () => {
+    const line = openLine(span('08:00', '12:00'), [], t('17:00'))
+    const filled = pickProfile(clickMiddle(drag(drag(line, 'start', t('09:50')), 'end', t('10:00'))), 'p2')
+    const past = drag(filled, 'start', t('07:45'))
+
+    expect([past.start, past.end]).toEqual([t('07:45'), t('10:00')])
+    expect(times(resultParts(past))).toEqual(['10:00–12:00'])
   })
 })
 
@@ -244,10 +321,11 @@ describe('the break is a wall, and divided it goes to the larger part first', ()
     expect(atLimit(line)).toBe(true)
   })
 
-  it('keeps a gap whose start, dragged out, is stopped by the break: 06:00–06:14, a gap 06:01–06:05, 10 min', () => {
+  it('keeps a gap whose start, dragged out, is stopped by the break: 06:00–06:14, a gap 06:01–06:05, 1 and 9 min', () => {
     const line = openLine(span('06:00', '06:14'), [span('06:14', '06:19', { profile: 'p2' })], t('17:00'))
     const gap = clickMiddle(stepHandle(turn(line, 'end', line.view.from), 'start', 1))
-    const held = setBreak(gap, 10)
+    const both = setBreak(gap, 1, 0)
+    const held = both && setBreak(both, 9, 1)
     const tried = held && turn(held, 'start', held.view.from)
 
     expect(tried?.mode).toBe('gap')
@@ -280,6 +358,69 @@ describe('the break is a wall, and divided it goes to the larger part first', ()
 
     expect(tried.mode).toBe('gap')
     expect(atLimit(tried)).toBe(true)
+  })
+})
+
+describe('each part of a divided entry owns its break, spilling only until a tag is set', () => {
+  it('offers each part its own break: 08:00–12:00 divided into 08:00–10:00 and 10:30–12:00 has none on either', () => {
+    const line = openLine(span('08:00', '12:00'), [], t('17:00'))
+    const gap = clickMiddle(drag(drag(line, 'start', t('10:00')), 'end', t('10:30')))
+
+    expect(breakShares(gap)).toEqual([0, 0])
+    const added = setBreak(gap, 15, 1)
+    expect(added && breakShares(added)).toEqual([0, 15])
+  })
+
+  it('sets a part alone, never the sum: 1 h and 15 min, the 15 made 20, the other still 1 h', () => {
+    const line = openLine(span('08:00', '11:00'), [], t('17:00'))
+    const gap = clickMiddle(drag(drag(line, 'start', t('10:00')), 'end', t('10:30')))
+    const parts = setBreak(setBreak(gap, 60, 0) ?? gap, 15, 1) ?? gap
+
+    expect(breakShares(parts)).toEqual([60, 15])
+    expect(breakShares(setBreak(parts, 20, 1) ?? parts)).toEqual([60, 20])
+    expect(setBreak(parts, 45, 1)).toBeNull()
+  })
+
+  it('spills only the overflow while no tag is set, and takes it back when dragged back', () => {
+    const gap = made()
+
+    expect(breakShares(gap)).toEqual([0, 60])
+    const spilled = drag(gap, 'end', t('11:30'))
+    expect(breakShares(spilled)).toEqual([30, 30])
+    expect(breakShares(drag(spilled, 'end', t('10:00')))).toEqual([0, 60])
+  })
+
+  it('lets a part hold nothing but break, red only at the limit: 08:00–10:00 with 50 min, a gap made at 08:40–09:40', () => {
+    const line = openLine(span('08:00', '10:00', { breakMinutes: 50 }), [], t('17:00'))
+    const gap = clickMiddle(drag(drag(line, 'start', t('08:40')), 'end', t('09:40')))
+
+    expect(breakShares(gap)).toEqual([40, 10])
+    expect(atLimit(gap, 0)).toBe(false)
+  })
+
+  it("stops at a set part's own limit, nothing spilling: the right part kept at 1 h stops its edge at 11:00", () => {
+    const set = setBreak(made(), 60, 1) ?? made()
+    const pushed = drag(set, 'end', t('11:30'))
+
+    expect(pushed.end).toBe(t('11:00'))
+    expect(breakShares(pushed)).toEqual([0, 60])
+    expect(atLimit(pushed, 1)).toBe(true)
+  })
+
+  it('still spills with the gap filled while no tag is set', () => {
+    const filled = pickProfile(made(), 'p2')
+
+    expect(breakShares(drag(filled, 'end', t('11:30')))).toEqual([30, 30])
+  })
+
+  it('splits afresh after the gap closes, the lock gone', () => {
+    const gap = made()
+    const set = setBreak(setBreak(gap, 30, 0) ?? gap, 30, 1) ?? gap
+    const whole = drag(set, 'end', t('09:50'))
+    const again = clickMiddle(drag(drag(whole, 'start', t('10:00')), 'end', t('11:00')))
+
+    expect(breakShares(whole)).toEqual([60])
+    expect(again.breakSplit).toEqual({ minutes: [60, 0], set: false })
   })
 })
 
@@ -484,6 +625,11 @@ describe('whatever is dragged, stepped or picked, the line keeps its rules', () 
     expect(line.end).toBeLessThanOrEqual(line.now)
     for (const wall of walls(line)) expect(wall.stop <= line.start || wall.start >= line.end).toBe(true)
     expect(keptMinutesOf(line)).toBeGreaterThanOrEqual(breakTotal(line))
+    const shares = breakShares(line)
+    expect(shares.reduce((sum, m) => sum + m, 0)).toBe(breakTotal(line))
+    resultParts(line).forEach((part, i) =>
+      expect(shares[i]).toBeLessThanOrEqual(Math.round((part.to - part.from) / 60_000)),
+    )
     for (const joined of line.joinsBefore) expect(joined.stop).toBeGreaterThan(line.start)
     for (const joined of line.joinsAfter) expect(joined.start).toBeLessThan(line.end)
     if (line.running) expect(line.end).toBe(line.now)

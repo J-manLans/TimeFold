@@ -361,6 +361,13 @@ describe('the words under the day say what the entry becomes', () => {
     expect(said(open(r, 'e1', t('10:00')), r)).toBe('08:25 [+]')
   })
 
+  it('offers each divided part with no break its own', () => {
+    const r = record(work('e1', '08:00', '12:00'))
+    const gap = clickMiddle(drag(drag(open(r, 'e1'), 'start', t('10:00')), 'end', t('10:30')))
+
+    expect(said(gap, r)).toBe('*08:00–10:00* [+] · *10:30–12:00* [+]')
+  })
+
   it('sets divided parts apart, each with its own tag', () => {
     const r = record(work('e1', '10:00', '11:00', { breakMinutes: 30 }))
     const gap = drag(clickMiddle(drag(drag(open(r, 'e1'), 'start', t('10:20')), 'end', t('10:50'))), 'end', t('10:40'))

@@ -3,7 +3,8 @@
   added green and taken away red, other entries as blocked time, a handle at each end in the neon of the profile in
   colour, its time above it, and the scale under the line. A handle is dragged, snapped to 5 minutes, or clicked into a
   pill whose − and + step a minute ("A clicked handle steps by the minute"); the bar is dragged to move the entry, and
-  with both handles inward its middle clicked to switch shortening and a gap. Let go, the view eases to fit again.
+  with both handles inward its middle clicked to switch shortening and a gap ("A gap divides an entry"); while a let go
+  would leave the gap, the part not dragged is outlined in the entry's colour. Let go, the view eases to fit again.
   While a new entry waits for its place, a click on free time places it. The rules are the line's model; this draws
   it and turns the pointer into its moves: <EditLine bind:line profiles={record.profiles} />
 -->
@@ -26,6 +27,7 @@
     dragTo,
     grab,
     isInward,
+    leaving,
     letGo,
     meetingPoints,
     place,
@@ -68,6 +70,8 @@
   /** A press on the line: what it holds, where it began, and whether it has moved enough to be a drag */
   let press: { drag: Drag | null; grip: Grip | null; x: number; at: number; moved: boolean } | null = null
   let holding: ReturnType<typeof setTimeout> | null = null
+  /** The part outlined while a let go would leave the gap, or null */
+  let closing = $state<View | null>(null)
 
   let profile = $derived(profiles.find((p) => p.id === line.profile))
   let filler = $derived(profiles.find((p) => p.id === line.fill))
@@ -161,7 +165,10 @@
       press.moved = true
       pill = null
     }
-    if (press.moved) line = dragTo(line, press.drag, timeAt(event.clientX))
+    if (press.moved) {
+      line = dragTo(line, press.drag, timeAt(event.clientX))
+      closing = leaving(line, press.drag.grip)
+    }
   }
 
   /** The press let go: a drag is let go, a click on a handle opens its pill, one on the middle switches it */
@@ -169,6 +176,7 @@
     if (!press) return
     const { moved, grip, at, drag } = press
     press = null
+    closing = null
     if (moved && drag) line = letGo(line)
     else if (!moved && (grip === 'start' || grip === 'end')) openPill(grip)
     else if (!moved && !line.fill && isInward(line) && at > line.start && at < line.end) line = clickMiddle(line)
@@ -272,6 +280,14 @@
     {/if}
   {/each}
 
+  {#if closing && Math.min(closing.to, shown.to) > Math.max(closing.from, shown.from)}
+    <div
+      class="bar closing"
+      style:left={pct(Math.max(closing.from, shown.from))}
+      style:width={span(closing.from, closing.to)}
+    ></div>
+  {/if}
+
   {#each meetingPoints(line).filter((p) => p > shown.from && p < shown.to) as point (point)}
     <div class="meet" style:left={pct(point)}></div>
   {/each}
@@ -373,9 +389,16 @@
     background: color-mix(in srgb, var(--wall) var(--edit-same), transparent);
   }
 
-  .wall.dock {
+  /* A docked neighbour, and the part left when a gap is about to be left, outlined in the colour of the stretch
+     reaching it: green when docking adds time, the entry's own here */
+  .wall.dock,
+  .closing {
     outline: 1px solid var(--edit-add);
     outline-offset: 1px;
+  }
+
+  .closing {
+    outline-color: var(--own);
   }
 
   .now {
