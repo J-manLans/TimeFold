@@ -215,6 +215,11 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   commits between tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching
   topic, at a break, or when the conversation is getting long.
 - **Mention what is surprising; do not fix it unasked.**
+- **A fix says the rule it restores.** Before writing a fix, state in one sentence, in the app's terms, what should be
+  true ("the edit fades only while the pointer rests on the list"), and check that the code would read as that sentence.
+  If the fix needs an "except when…", or it is the second fix for the same problem, stop: undo the last attempt, ask
+  what the behaviour is for, and look for a sentence with no exceptions. The owner's words describe what he saw, not the
+  fix.
 - **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no "until
   phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
 - **The docs sweep:** when the owner signals the session is ending ("see you tomorrow", "I need to think about this", a
