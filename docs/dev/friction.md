@@ -6,6 +6,6 @@ involved. Problems in the app go to `open-questions.md`, ideas for the code to `
 
 At the docs sweep the agent reports the entries as counts by kind, each kind with its proposed fix ("3 of …; I'd …"),
 and the owner answers by number. An entry then leaves: its fix goes into the rule or doc it names, into
-`AGENT_DOCS_STARTER.md` when the snag is in the starter's setup, or it is dropped as a one-off.
+`starters/AGENT_DOCS_STARTER.md` when the snag is in the starter's setup, or it is dropped as a one-off.
 
 ## Entries

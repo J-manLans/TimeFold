@@ -32,9 +32,7 @@ dist-ssr
 .claude/settings.local.json
 
 # Starter templates: kept local, not part of this project
-AGENT_DOCS_STARTER.md
-CODE_STYLE_STARTER.md
-PROCEDURES_STARTER.md
+starters/
 
 # The owner's levels: personal, made from docs/dev/levels.example.md
 docs/dev/levels.md
