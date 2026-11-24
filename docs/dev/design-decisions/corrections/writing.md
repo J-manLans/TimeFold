@@ -20,20 +20,27 @@ That gap stays open and takes no part in the shifting; hovered, its line grows a
 the text colour. In Stilla nothing slides and the "+" and line just appear. Rows that touch keep the same space, with
 nothing to click. A click opens the edit popup on that gap's stretch of time: the always-shown gap over the newest row
 runs from it to the moment it is clicked, any other from the older entry's end to the newer one's start; the entries
-either side show hatched, as neighbours, and there is no "Ta bort". The first click in free time drops a 10-minute entry
-centred on the click, cut short by any wall, and the view fits it ("The line's view holds still while a handle is
-dragged"); further clicks on the empty line do nothing. From then on it is edited as any entry: its handles, the pill,
+either side show hatched, as neighbours, and there is no "Ta bort". The first click in free time drops a 30-minute entry
+centred on the click, snapped to 5 minutes, sliding away from a wall it meets so it keeps its length, and filling the
+free time exactly when that is shorter; the view fits it alone ("The line's view holds still while a handle is
+dragged"); further clicks on the empty line do nothing. Touching a neighbour of its profile, it is docked as any entry
+is ("Two entries join by docking"), not taken in: its stretch green as time added, the neighbour outlined and running
+off the line's edge, the words already the joined result, its handles on its own edges; a handle let go while docked
+takes the neighbour in, and one moved off it gives the entry its own colour back. A gap filled between two entries of
+its profile so joins all three, with no rule of its own. From then on it is edited as any entry: its handles, the pill,
 its break, its profile, which starts on the active profile, and a reason ("Every edit carries a reason"). It is moved by
 dragging its middle, or walked past a neighbour ("Two entries join by docking"); anything else, "Avbryt" and start over.
-A new entry has no original: the view fits it alone, at the usual share, wherever it is walked, and nothing of it shows
-as added or taken away. Saved, it is marked written by hand ("Entries remember how they were made").
+A new entry has no original: the view fits it alone, at the usual share, wherever it is walked, and alone nothing of it
+shows as added or taken away. Saved, it is marked written by hand ("Entries remember how they were made").
 
 **Why:** a forgotten entry belongs between two known ones, so the gap clicked says when, with no way to travel the line
 to another day. The one always visible "+" keeps the rule that the app shows what it can do, and its line growing on
 hover teaches the hidden ones between the rows. Waiting the peek's delay there keeps the lines from flickering as the
 pointer crosses the list. A thin gap that opens only for a rested pointer makes adding an entry a deliberate act, never
-an accident, and opening evenly keeps the gap under the pointer. Ten minutes fills the line once fitted, as any entry
-does, and is dragged out to its length.
+an accident, and opening evenly keeps the gap under the pointer. Most forgotten entries are longer than a few minutes,
+so thirty needs less dragging; sliding off a wall keeps its length, and a short gap is almost always the time forgotten.
+Docked but not taken in, the new entry stays at hand: its handles where it was placed, a short drag to move it off,
+while the colours and the words say what it joins.
 
 **Rejected:** "+ Lägg till" in words at the top: one style for every gap reads as one thing. A fixed, wider gap between
 every row: the list spread out, and a gap was too easy to hit. A gap widening downward only: it grew away from the
@@ -41,8 +48,13 @@ pointer. The always-shown gap shifting the rows too: with nothing to open, it on
 opening the line on today: another day would need a way to travel the line. Every "+" shown on hover only: nothing would
 say entries can be added. The delay on the top "+": it is already in view, and resting on it is meant. A "+" on any gap
 wider than nothing: a gap of a few seconds opened a line with no room for any entry. A second click in free time moving
-the new entry there: a second way to move it, where dragging and walking already do. Thirty minutes to start: on a
-fitted line, ten is as easy to grab.
+the new entry there: a second way to move it, where dragging and walking already do. Ten minutes to start: most
+forgotten entries are longer, and it was judged while a short entry's handles could not grow it. Cut short by a wall
+instead of sliding: it shrank on one side only. A placed entry taking its neighbour in at once, the handles at the far
+ends: separating it again meant dragging back across the whole neighbour. The view fitted to the docked neighbour too: a
+long one shrank the new entry to a sliver, as "The line's view holds still while a handle is dragged" rejects. A rule of
+its own for a gap filled between two entries of its profile: docking already joins them, as docking one onto the other
+would.
 
 **Cases:**
 
@@ -54,7 +66,7 @@ fitted line, ten is as easy to grab.
 
 - Start and stop clicked a few times in a row: entries of a few seconds, each reading 0:00, gaps of seconds between them
   with no "+"; the always-shown "+" is the first gap below them with 5 minutes' room.
-- A new entry walked from 09:00 past a neighbour to 14:00–14:10: the view fits only 14:00–14:10.
+- A new entry walked from 09:00 past a neighbour to 14:00–14:30: the view fits only 14:00–14:30.
 - Saved with "Glömd post": the row shows "e", and "Visa alla" "tillagd: Glömd post".
 
 ## An entry is deleted from its edit (2026-11-22)

@@ -103,8 +103,8 @@ export const SNAP_MINUTES = 5
 /** What is being edited fills this share of the line, centred */
 export const VIEW_FILL = 0.65
 
-/** A forgotten entry is placed this many minutes long */
-export const NEW_MINUTES = 10
+/** A forgotten entry is placed this many minutes long, or shorter to fill less free time */
+export const NEW_MINUTES = 30
 
 /**
  * The line for an entry opened from a list. Used by the edit popup: 08:00–12:00 opens centred on 10:00, filling 65% of
@@ -175,9 +175,11 @@ export function openGap(gap: View, others: Span[], profile: string, now: number)
 }
 
 /**
- * The first click on a new entry's line: a 10-minute entry centred on it, snapped to 5 minutes and cut short by any
- * wall; the view then fits it. Used by the line while placing: a click at 12:30 gives 12:25–12:35, at 11:42 next to an
- * entry ending 11:40 gives 11:40–11:50. A click inside an entry, or where less than 5 minutes are free, places nothing.
+ * The first click on a new entry's line: a 30-minute entry centred on it, snapped to 5 minutes, sliding away from a
+ * wall it meets so it keeps its length, and filling the free time exactly when that is shorter; the view then fits it
+ * alone. Touching a neighbour of its profile, it is docked but not taken in, its handles on its own edges. Used by the
+ * line while placing: a click at 12:30 gives 12:15–12:45, at 11:42 next to an entry ending 11:40 gives 11:40–12:10. A
+ * click inside an entry, or where less than 5 minutes are free, places nothing.
  */
 export function place(state: LineState, at: number): LineState {
   if (!state.placing || at > state.now) return state
@@ -186,8 +188,17 @@ export function place(state: LineState, at: number): LineState {
   const after = nearestAfter(state.others, at)
   const low = before ? before.stop : -Infinity
   const high = after ? after.start : state.now
-  const start = Math.max(snap(at - (NEW_MINUTES * MINUTE) / 2), low)
-  const end = Math.min(start + NEW_MINUTES * MINUTE, high)
+  const length = NEW_MINUTES * MINUTE
+  let start = snap(at - length / 2)
+  let end = start + length
+  if (start < low) {
+    start = low
+    end = low + length
+  }
+  if (end > high) {
+    end = high
+    start = Math.max(low, high - length)
+  }
   if (end - start < SNAP_MINUTES * MINUTE) return state
   const placed: LineState = {
     ...state,
@@ -418,7 +429,14 @@ export function segments(state: LineState): Segment[] {
     add(o1, o2, 'cut')
     add(s, e, 'add')
   }
-  let shown = out
+  // A new entry docked to or joined with a neighbour of its profile is time added to it: its own stretch is green. Alone
+  // it has no original, so nothing of it shows as added
+  const docks = docked(state)
+  const addsToNeighbour =
+    state.isNew && (docks.before || docks.after || state.joinsBefore.length > 0 || state.joinsAfter.length > 0)
+  let shown = addsToNeighbour
+    ? out.map((g): Segment => (g.kind === 'keep' && g.from >= o1 && g.to <= o2 ? { ...g, kind: 'add' } : g))
+    : out
   for (const joined of [...state.joinsBefore, ...state.joinsAfter]) {
     const from = Math.max(joined.start, s)
     const to = Math.min(joined.stop, e)

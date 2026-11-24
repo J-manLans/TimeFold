@@ -26,13 +26,6 @@ Saving or deleting an edit clears the undo's last click, since the entries that 
 keep it so, or let the undo still take back a click whose entry the edit did not touch. **See:** "The last click can be
 undone for a few seconds", "Every edit carries a reason".
 
-### A new entry's length (2026-11-23)
-
-A forgotten entry is placed 10 minutes long; 30 was rejected ("on a fitted line, ten is as easy to grab"). The owner
-leans to 30, or the free room when less, since most forgotten entries are longer. Ten may have felt worse than it is
-because of step 4's bug, which kept a 10-minute entry from growing; tried again once it is fixed. **See:** "A forgotten
-entry is written in the gap where it belongs".
-
 ## Phase 4: Profiles
 
 ### A click outside a locked value in the menu (2026-11-22)
