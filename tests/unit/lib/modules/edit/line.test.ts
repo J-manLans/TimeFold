@@ -599,15 +599,45 @@ describe('a forgotten entry is placed by its first click', () => {
     t('17:00'),
   )
 
-  it('drops 10 minutes centred on 12:30', () => {
-    expect(times(resultParts(place(gap, t('12:30'))))).toEqual(['12:25–12:35'])
+  it('drops 30 minutes centred on 12:30, in its own colour, the view fitted to it', () => {
+    const placed = place(gap, t('12:30'))
+
+    expect(times(resultParts(placed))).toEqual(['12:15–12:45'])
+    expect(colours(placed)).toEqual(['keep 12:15–12:45'])
+    expect(placed.view.to - placed.view.from).toBeCloseTo((30 * 60_000) / 0.65)
   })
 
-  it('cuts it at the wall for a click at 11:42, docked to the janitor entry it touches', () => {
+  it('slides from the wall for a click at 11:42, docked to the janitor entry it touches, green, not taken in', () => {
     const placed = place(gap, t('11:42'))
 
-    expect(times([{ from: placed.start, to: placed.end }])).toEqual(['11:40–11:50'])
-    expect(times(resultParts(placed))).toEqual(['08:00–11:50'])
+    expect(times([{ from: placed.start, to: placed.end }])).toEqual(['11:40–12:10'])
+    expect(times(resultParts(placed))).toEqual(['08:00–12:10'])
+    expect(colours(placed)).toEqual(['add 11:40–12:10'])
+    expect(placed.joinsBefore).toEqual([])
+    expect(placed.view.to - placed.view.from).toBeCloseTo((30 * 60_000) / 0.65)
+  })
+
+  it('slides from the later wall for a click at 13:00: 12:35–13:05', () => {
+    expect(times(resultParts(place(gap, t('13:00'))))).toEqual(['12:35–16:00'])
+  })
+
+  it('fills free time shorter than 30 minutes, joining both janitor entries into one on the line', () => {
+    const short = openGap(
+      { from: t('11:40'), to: t('12:00') },
+      [span('08:00', '11:40'), span('12:00', '16:00')],
+      'p1',
+      t('17:00'),
+    )
+    const placed = place(short, t('11:50'))
+
+    expect(times([{ from: placed.start, to: placed.end }])).toEqual(['11:40–12:00'])
+    expect(times(resultParts(placed))).toEqual(['08:00–16:00'])
+  })
+
+  it('turns back to its own colour once moved off the neighbour', () => {
+    const moved = drag(place(gap, t('11:42')), 'start', t('11:50'))
+
+    expect(colours(moved)).toEqual(['keep 11:50–12:10'])
   })
 
   it('places nothing inside an entry, and a second click does nothing', () => {

@@ -58,6 +58,11 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
    be marked ahead, and the screen counts it at once"). `firstDay` in `src/lib/modules/menu/flexDays.ts`, read by
    `FlexCalendar.svelte`.
 
+6. `[written]` `[tests]` Change, found in review: a forgotten entry is placed 30 minutes long, sliding off a wall to
+   keep its length and filling shorter free time; touching a neighbour of its profile it is docked, green, not taken in
+   ("A forgotten entry is written in the gap where it belongs"). `place` and `segments` in
+   `src/lib/modules/edit/line.ts`.
+
 **Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
 its reason, and the balance follows.
 

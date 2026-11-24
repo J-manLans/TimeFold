@@ -214,7 +214,7 @@ describe('joined entries are saved as one', () => {
     const placed = place(lineForGap(r, { from: t('11:40'), to: t('13:05') }, JANITOR, t('17:00')), t('11:42'))
 
     expect(rows(saveLine(r, placed, 'Glömd post'))).toEqual([
-      'p1 08:00–11:50 hand: Glömd post',
+      'p1 08:00–12:10 hand: Glömd post',
       'p1 13:05–16:00 clicked',
     ])
   })
@@ -263,11 +263,11 @@ describe('an entry is deleted from its edit', () => {
 })
 
 describe('a forgotten entry is saved written by hand', () => {
-  it('saves 12:25–12:35 placed in 11:40–13:05 with "Glömd post"', () => {
+  it('saves 12:15–12:45 placed in 11:40–13:05 with "Glömd post"', () => {
     const r = record(work('e1', '08:00', '11:40', { profile: DEVELOPMENT }), work('e2', '13:05', '16:00'))
     const placed = place(lineForGap(r, { from: t('11:40'), to: t('13:05') }, JANITOR, t('17:00')), t('12:30'))
 
-    expect(rows(saveLine(r, placed, 'Glömd post'))).toContain('p1 12:25–12:35 hand: Glömd post')
+    expect(rows(saveLine(r, placed, 'Glömd post'))).toContain('p1 12:15–12:45 hand: Glömd post')
   })
 })
 
