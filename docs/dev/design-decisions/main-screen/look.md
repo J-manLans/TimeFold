@@ -5,7 +5,7 @@ in `../README.md`, and is cited by its title.
 
 ## The look: a fresh display face, mono text and soft buttons (2026-11-15)
 
-**Built by:** Profiles, for its popups; Corrections, for the removal red.
+**Built by:** Profiles, for its popups.
 
 **Decision:** the app's look, from the owner's art direction references (kept locally, not in git) and settled on the
 prototype:

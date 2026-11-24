@@ -19,8 +19,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3: Corrections, built on `phase-3-corrections` and under the owner's review: step 4 seen on Linux, then steps 1 to
-3 seen by eye on Linux.
+Phase 3's release, `v0.3.0` (`procedures/release.md`); then Phase 4: Profiles, its design pass from **Settle first**.
 
 ## The phases
 
@@ -30,32 +29,6 @@ report, and last what carries over to the owner's next project. The owner switch
 keeps the Excel file as a backup until the app is finished ("A first install starts fresh or imports", in
 `design-decisions/`). Every phase starts its code from the owner's cases ("Tests come first, from the owner's rules"),
 and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
-
-### Phase 3: Corrections
-
-**Produces:** a record that can be put right: entries edited on their line, deleted, or written by hand.
-
-**Settle first:** settled.
-
-1. `[written]` `[tests]` Editing an entry on its line, in its own popup opened from the recent entries and the "Visa
-   alla" popup, with the peek at the list behind: the handles and their pill, the view and its scale, shortening and
-   gaps, the profile and a gap filled by another, joining and walking, the break's tag, the reason and the confirm. The
-   record learns to keep an entry's reason, and an entry's breaks become one number ("Time away is a gap or an added
-   break"), so its version goes up and an older record still reads. The tag's field keeps its shape through one Svelte
-   attachment in its own file, `src/lib/modules/shared/durationShape.ts`, which the pause field and the onboarding's
-   balance move to from their own copies; the pause field then keeps what is typed on a click away ("Entering a length
-   of time").
-2. `[written]` `[tests]` The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag
-   and its reason under the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
-3. `[written]` `[tests]` Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each
-   entry's mark of how it was made, and a reason given alone, with nothing else changed.
-4. `[written]` `[tests]` Change, found in review: opening an edit puts the undo out, saved or not ("The last click can
-   be undone for a few seconds"); after a save from "Visa alla" the saved row stays outlined, scrolled to only if out of
-   view ("Editing an entry on its line"). `openEdit`, `openGap` and `saveEdit` in `src/lib/app.svelte.ts`,
-   `savedEntryId` in `src/lib/modules/edit/edit.ts`, `AllEntries.svelte`.
-
-**Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
-its reason, and the balance follows.
 
 ### Phase 4: Profiles
 
@@ -131,6 +104,8 @@ owner has read it through and knows what each part is for, and the prompt reads 
   foundation: the Tauri project, the tools, the record and its save, and the first screen. Released as `v0.1.0`.
 - **Phase 2: Breaks and flex days.** Time away taken off the day, and days off paid for with the balance. Released as
   `v0.2.0`.
+- **Phase 3: Corrections.** A record that can be put right: entries edited on their line, deleted, or written by hand in
+  their gap, each with its reason and its mark, and the balance following.
 
 ## Not on this roadmap
 

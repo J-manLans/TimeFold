@@ -5,8 +5,6 @@ How a whole forgotten entry is written by hand, and how an entry is removed. Eac
 
 ## A forgotten entry is written in the gap where it belongs (2026-11-22)
 
-**Built by:** Corrections.
-
 **Decision:** a forgotten entry is written from "Visa alla", in the gap between two entries. Each gap sits just above
 its row, under the month's line where the row opens a month. At rest a gap is as thin as the rows' own spacing, with a
 hover strip a little taller over the rows' edges. Resting on it for the peek's delay ("Editing an entry on its line"),
@@ -42,9 +40,12 @@ so thirty needs less dragging; sliding off a wall keeps its length, and a short 
 Docked but not taken in, the new entry stays at hand: its handles where it was placed, a short drag to move it off,
 while the colours and the words say what it joins.
 
-**Rejected:** "+ Lägg till" in words at the top: one style for every gap reads as one thing. A fixed, wider gap between
-every row: the list spread out, and a gap was too easy to hit. A gap widening downward only: it grew away from the
-pointer. The always-shown gap shifting the rows too: with nothing to open, it only made work. A "Lägg till" button
+**Rejected:** a "+" only where a full 30-minute entry fits: a shorter forgotten entry of another profile, such as 20
+minutes of development between two janitor entries, could not be written in its gap. The top "+" kept over the newest
+row right after a stop: with less than 5 minutes up to now its line takes no entry, and stretching the newest entry is
+done by editing it. "+ Lägg till" in words at the top: one style for every gap reads as one thing. A fixed, wider gap
+between every row: the list spread out, and a gap was too easy to hit. A gap widening downward only: it grew away from
+the pointer. The always-shown gap shifting the rows too: with nothing to open, it only made work. A "Lägg till" button
 opening the line on today: another day would need a way to travel the line. Every "+" shown on hover only: nothing would
 say entries can be added. The delay on the top "+": it is already in view, and resting on it is meant. A "+" on any gap
 wider than nothing: a gap of a few seconds opened a line with no room for any entry. A second click in free time moving
@@ -70,8 +71,6 @@ would.
 - Saved with "Glömd post": the row shows "e", and "Visa alla" "tillagd: Glömd post".
 
 ## An entry is deleted from its edit (2026-11-22)
-
-**Built by:** Corrections.
 
 **Decision:** an entry is deleted with "Ta bort" in its edit popup. It asks once, "Ta bort?", in removal red, and the
 second click deletes it ("The look: a fresh display face, mono text and soft buttons"); a click or the focus going

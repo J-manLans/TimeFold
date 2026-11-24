@@ -5,8 +5,6 @@ template in `../README.md`, and is cited by its title.
 
 ## The line's view holds still while a handle is dragged (2026-11-22)
 
-**Built by:** Corrections.
-
 **Decision:** the entry line shows what is being edited, the entry as it was and as it is becoming, centred and filling
 65% of the line. While a handle is dragged the view does not change, and the handle stops at its edges, on the 5-minute
 mark just inside, as at another entry; but it always reaches the next 5-minute mark past where it is, even just outside
@@ -41,8 +39,6 @@ narrower than an hour: a short entry was a sliver, and the minutes on the scale 
 - A view of 9 h: labels every 2 hours; of 5 days: one per day, "lör 21"; of 20 days: weeks, "v. 48".
 
 ## A clicked handle steps by the minute (2026-11-22)
-
-**Built by:** Corrections.
 
 **Decision:** a dragged handle snaps to 5 minutes of the clock. Every dragged knob in the app, these handles and the
 colour picker's circle, is one size, 22 px, with no border or ring, only a soft shadow, and filled with a neon: the
