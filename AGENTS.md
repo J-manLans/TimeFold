@@ -32,6 +32,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/code-map.md`                | Where the code lives and the path a run takes through it                                                     |
 | `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**                                        |
 | `docs/dev/friction.md`                | Snags in how we work, noted as they happen, cleared at the docs sweep                                        |
+| `docs/dev/noticed-away.md`            | What the owner noticed away from the computer, to deal with when back at it                                  |
 | `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when                              |
 | `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains, and what they were told once; gitignored |
 
