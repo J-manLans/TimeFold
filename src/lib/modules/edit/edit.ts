@@ -111,6 +111,19 @@ export function saveLine(record: TimeRecord, line: LineState, reason: string): T
 }
 
 /**
+ * Which entry a save leaves outlined in "Visa alla": the one edited, or for a forgotten entry the one written, by the id
+ * it was given, its first part when it was divided ("Editing an entry on its line"). Used by the app after a save from
+ * "Visa alla", which outlines that row and scrolls to it if it is out of view.
+ * @returns null when the record holds no such entry
+ */
+export function savedEntryId(before: TimeRecord, after: TimeRecord, line: LineState): string | null {
+  if (!line.isNew) return after.entries.some((e) => e.id === line.entry.id) ? line.entry.id : null
+  const known = new Set(before.entries.map((e) => e.id))
+  const added = after.entries.filter((e) => !known.has(e.id) && e.profile === line.profile)
+  return added.sort((a, b) => Date.parse(a.start) - Date.parse(b.start))[0]?.id ?? null
+}
+
+/**
  * The entry taken out of the record ("An entry is deleted from its edit"); no reason is kept, since nothing is left to
  * carry it. Used by "Ta bort" on its second click.
  */

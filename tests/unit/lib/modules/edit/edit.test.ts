@@ -9,6 +9,7 @@ import {
   lineForGap,
   reasonList,
   resultWords,
+  savedEntryId,
   saveLine,
 } from '$lib/modules/edit/edit'
 import {
@@ -383,6 +384,23 @@ describe('the words under the day say what the entry becomes', () => {
     )
 
     expect(said(filled, r)).toBe('(08:00–10:00) paus 20 · *10:00–10:40*@#4f8fd6 · (10:40–12:00)')
+  })
+})
+
+describe('the row a save leaves outlined in "Visa alla" is the saved entry', () => {
+  it('is the entry edited, by its id', () => {
+    const r = record(work('e1', '08:00', '12:00'))
+    const line = drag(open(r, 'e1'), 'end', t('12:30'))
+
+    expect(savedEntryId(r, saveLine(r, line, 'Glömde stämpla ut'), line)).toBe('e1')
+  })
+
+  it('is the forgotten entry written, by the id it was given', () => {
+    const r = record(work('e1', '08:00', '11:40', { profile: DEVELOPMENT }), work('e2', '13:05', '16:00'))
+    const placed = place(lineForGap(r, { from: t('11:40'), to: t('13:05') }, JANITOR, t('17:00')), t('12:30'))
+    const saved = saveLine(r, placed, 'Glömd post')
+
+    expect(saved.entries.find((e) => e.id === savedEntryId(r, saved, placed))?.start).toBe(at(THURSDAY, '12:15'))
   })
 })
 

@@ -7,6 +7,7 @@
   focus goes back to "Visa alla". With no entry yet, "Visa alla" is greyed out: <AllEntries disabled={entries.length === 0} />
 -->
 <script lang="ts">
+  import { tick } from 'svelte'
   import { app } from '$lib/app.svelte'
   import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import { gapsAbove, listedEntries, withMonthLines, type Gap } from '$lib/modules/dashboard/entries'
@@ -48,8 +49,16 @@
   /** The popup closed: the focus back on "Visa alla", its ring only after a keyboard open and close */
   function closed(): void {
     open = false
+    app.savedId = null
     popupClosed(openedBy)
   }
+
+  // After a save from the list, the saved row, outlined, is scrolled into view if it is out of it, and only then
+  $effect(() => {
+    const id = app.savedId
+    if (!id || !popup?.open) return
+    tick().then(() => popup?.querySelector(`[data-entry="${id}"]`)?.scrollIntoView({ block: 'nearest' }))
+  })
 
   /**
    * A gap's "+" clicked: the edit popup opens on its stretch for a forgotten entry. The gap over the newest row with
@@ -111,7 +120,7 @@
           {/if}
           <EntryRow
             entry={item.entry}
-            picked={app.editing?.entryId === item.entry.id}
+            picked={app.editing ? app.editing.entryId === item.entry.id : app.savedId === item.entry.id}
             withReason
             onpick={() => app.openEdit(item.entry.id, true)}
           />

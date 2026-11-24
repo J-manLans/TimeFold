@@ -44,6 +44,7 @@
   <li
     class:fresh
     class:picked
+    data-entry={entry?.id}
     role="button"
     tabindex="0"
     style:color={row.running ? row.neon : undefined}

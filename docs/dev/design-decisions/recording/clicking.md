@@ -76,8 +76,9 @@ fading evenly to nothing over that time; hovered, the pointer-following label sa
 15:40"). Pressing it reverses exactly that click: an undone start removes the entry it created; an undone stop lets the
 entry run on as if never stopped; an undone break puts the entry's break back as it was; an undone switch ("Starta jobb"
 on one profile while another runs) reverses both halves, removing the new entry and letting the old one run on. Only the
-latest click can be undone, and only within its 15 seconds. An undone click leaves no mark in the record ("Entries
-remember how they were made"); after that, changes go through editing as usual.
+latest click can be undone, and only within its 15 seconds; opening an edit puts it out, whether the edit is saved or
+not, and it never undoes an edit. An undone click leaves no mark in the record ("Entries remember how they were made");
+after that, changes go through editing as usual.
 
 **Why:** one click makes a mis-click easy, and putting it right should be one click too, not a trip to the editor. A
 slip caught within seconds is not a correction of the record, so it leaves no trace; a later change is, and is marked.
@@ -85,14 +86,15 @@ The time limit also keeps a stray click hours later from undoing something long 
 that the undo is there, whose click it is and how long it lasts, without text and without the button changing shape; the
 arrow stays clear on top. A slip is noticed within seconds, so 15 are enough.
 
-**Rejected:** an undo history: the latest click is the one that slips. Asking to confirm each click: it would break "one
-click to start or stop". Undo without a time limit: an old click is a correction and belongs on the entry's line. A thin
-ring draining around the disc: a separate drawing to keep in step with the disc, three numbers for one setting. A
-curtain sinking over the disc: the shrinking circle keeps its round shape. An afterglow shrinking into the centre, over
-the arrow or under it: it did not feel right in motion. A fill under the arrow shrinking by area, driven frame by frame
-from a script: its end collapsed quickly and it ran less smoothly than an animation the compositor runs. An undo line in
-the status line's place: a disc beside "Lägg till paus" keeps the status line for what runs, and pairs the two quiet
-controls.
+**Rejected:** the undo staying lit through an edit that did not touch its entry: an edit rarely fits in 15 seconds, and
+a glow after a saved correction reads as undoing it. An undo history: the latest click is the one that slips. Asking to
+confirm each click: it would break "one click to start or stop". Undo without a time limit: an old click is a correction
+and belongs on the entry's line. A thin ring draining around the disc: a separate drawing to keep in step with the disc,
+three numbers for one setting. A curtain sinking over the disc: the shrinking circle keeps its round shape. An afterglow
+shrinking into the centre, over the arrow or under it: it did not feel right in motion. A fill under the arrow shrinking
+by area, driven frame by frame from a script: its end collapsed quickly and it ran less smoothly than an animation the
+compositor runs. An undo line in the status line's place: a disc beside "Lägg till paus" keeps the status line for what
+runs, and pairs the two quiet controls.
 
 **Revisit if:** 15 seconds proves too short or too long in daily use.
 
