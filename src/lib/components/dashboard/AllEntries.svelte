@@ -8,6 +8,7 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import { gapsAbove, listedEntries, withMonthLines, type Gap } from '$lib/modules/dashboard/entries'
   import EntryRow from './EntryRow.svelte'
 
@@ -24,6 +25,8 @@
 
   let popup: HTMLDialogElement | undefined = $state()
   let open = $state(false)
+  /** How the popup was opened, a key or a pointer, for the focus ring when it closes */
+  let openedBy: Input = null
   let entries = $derived(open && app.record ? listedEntries(app.record) : [])
   let stopped = $derived(entries.filter((e) => e.stop !== null))
   let items = $derived(withMonthLines(entries))
@@ -38,7 +41,14 @@
   /** Opens the popup over everything, its focus inside it. Used by "Visa alla" */
   function show(): void {
     open = true
+    openedBy = popupOpened()
     popup?.showModal()
+  }
+
+  /** The popup closed: the focus back on "Visa alla", its ring only after a keyboard open and close */
+  function closed(): void {
+    open = false
+    popupClosed(openedBy)
   }
 
   /**
@@ -59,7 +69,7 @@
 <!-- It keeps an open menu open, so closing the popup comes back to it -->
 <button class="more" type="button" data-keeps-menu {disabled} onclick={show}>Visa alla</button>
 
-<dialog bind:this={popup} aria-label="Alla poster" onclick={closeOutside} onclose={() => (open = false)}>
+<dialog bind:this={popup} aria-label="Alla poster" onclick={closeOutside} onclose={closed}>
   <div class="card">
     <header>
       <span class="label">Alla poster</span>

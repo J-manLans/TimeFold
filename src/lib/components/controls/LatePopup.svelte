@@ -8,17 +8,29 @@
   import { app } from '$lib/app.svelte'
   import ChoiceButton from '$lib/components/shared/ChoiceButton.svelte'
   import { lateWords } from '$lib/modules/controls/clock'
+  import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
 
   // === State ===
 
   let stop: ChoiceButton | undefined = $state()
   let words = $derived(app.record && app.late ? lateWords(app.record, app.late, new Date()) : null)
+  /** How it was opened (by the app itself, as a rule), for the focus ring when it closes, and whether it was open */
+  let openedBy: Input = null
+  let wasOpen = false
 
   // === Logic ===
 
   // The focus starts on "Stoppa", the answer most mornings
   $effect(() => {
     stop?.focus()
+  })
+
+  // Answered, the focus where it lands shows no ring unless it was opened and answered with the keyboard
+  $effect(() => {
+    const isOpen = words !== null
+    if (isOpen && !wasOpen) openedBy = popupOpened()
+    if (!isOpen && wasOpen) popupClosed(openedBy)
+    wasOpen = isOpen
   })
 </script>
 

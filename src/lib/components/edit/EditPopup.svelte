@@ -15,6 +15,7 @@
   import { canSave, lineForEntry, lineForGap, resultWords } from '$lib/modules/edit/edit'
   import { pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
   import { durationShape } from '$lib/modules/shared/durationShape'
+  import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import { localDay } from '$lib/modules/shared/counting'
   import { dayInWords } from '$lib/modules/shared/dates'
   import { BREAK, durationInField, durationText, readDuration } from '$lib/modules/shared/timeInput'
@@ -34,6 +35,8 @@
   let tagText = $state('')
   let tagRefused = $state(false)
   let tagField: HTMLInputElement | undefined = $state()
+  /** How the popup was opened, a key or a pointer, for the focus ring when it closes */
+  let openedBy: Input = null
   /** "Ta bort" asking "Ta bort?", after its first click */
   let asking = $state(false)
 
@@ -65,7 +68,10 @@
         peek = false
         tagAt = null
         asking = false
-        if (line && !popup.open) popup.showModal()
+        if (line && !popup.open) {
+          openedBy = popupOpened()
+          popup.showModal()
+        }
       } else {
         line = null
         if (popup?.open) popup.close()
@@ -121,6 +127,7 @@
   function closed(): void {
     rest()
     if (app.editing) app.closeEdit()
+    popupClosed(openedBy)
   }
 
   /** A profile picked: it fills a gap, or moves the whole entry; the picker then names what is in colour */

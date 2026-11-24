@@ -129,7 +129,10 @@
   /* A row opens its entry: a step lighter on hover, a hand pointer; the one being edited outlined */
   li[role='button'] {
     cursor: pointer;
-    transition: background-color var(--speed-ui) ease;
+    /* transform too: "Visa alla" slides its rows as a gap opens, and this rule would otherwise replace that */
+    transition:
+      background-color var(--speed-ui) ease,
+      transform var(--speed-ui) ease;
   }
 
   li[role='button']:hover,

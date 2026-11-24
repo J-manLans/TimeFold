@@ -33,22 +33,25 @@ its text light, numbers in a monospaced font with their digits lined up, thin li
 precise motion (numbers counting to their new value, the arc sweeping). The colours come from the profiles ("Each
 profile carries its colours"): the profile on screen colours the controls side and, when it is one of the others, the
 ceiling wheel; the flex bar always wears the balance profile's. While the profile on screen runs, a ring in its neon
-surrounds the start button. Every focus ring in the app takes the colour of where the profile on screen stands. On the
-right side, from the top: the balance as a number, centred, with no label; the flex bar; the ceiling wheel, centred
-under it with nothing beside it; the pay estimate as one quiet number under the wheel, with no label; then the five most
-recent entries and "Visa alla", which opens a popup centred on the whole window listing every entry, where entries are
-edited ("Editing an entry on its line"). Its rows are the recent list's; where the list crosses into a month, a quiet
-bold line names the month and its year ("november 2026"). Flex days are not in it: they are seen in the calendar ("A
-flex day can be marked ahead, and the screen counts it at once"). An edited or hand-written entry shows its reason
-("Every edit carries a reason"). Both lists hold the entries newest first by start, a running one at the top, each row
-its day, its times, its profile's letter in the profile's base colour, and its length; an entry that stops on a later
-day than it started reads on its first day, with a small "+1" after its end time ("21:30–07:00 ⁺¹"), "+2" two days
-later. A running entry shows its start alone ("11:00") and "--:--" for its length, the whole row in its profile's neon,
-the colour of what is happening now; it opens as any row ("A running entry is edited at its start"), and the recent list
-then holds it and the four newest stopped. The recent list always keeps five rows' room, so "Visa alla" never moves;
-with no entry yet, "Inga poster ännu" sits centred in that room and "Visa alla" is greyed out. The month lines and
-reasons stay in "Visa alla": the recent list and the rest of the main screen show none of it. An entry's row, as it
-arrives at a stop, lights in the wheel's base colour (grey while the balance profile is on screen) and fades.
+surrounds the start button. Every focus ring in the app takes the colour of where the profile on screen stands. A popup
+moves the focus in as it opens and back as it closes, but the ring shows on opening only if it was opened with the
+keyboard, and on closing only if it was both opened and closed with the keyboard; a click, Esc after a click, or the app
+opening a popup by itself leaves none, and the next key brings it back. On the right side, from the top: the balance as
+a number, centred, with no label; the flex bar; the ceiling wheel, centred under it with nothing beside it; the pay
+estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa alla", which
+opens a popup centred on the whole window listing every entry, where entries are edited ("Editing an entry on its
+line"). Its rows are the recent list's; where the list crosses into a month, a quiet bold line names the month and its
+year ("november 2026"). Flex days are not in it: they are seen in the calendar ("A flex day can be marked ahead, and the
+screen counts it at once"). An edited or hand-written entry shows its reason ("Every edit carries a reason"). Both lists
+hold the entries newest first by start, a running one at the top, each row its day, its times, its profile's letter in
+the profile's base colour, and its length; an entry that stops on a later day than it started reads on its first day,
+with a small "+1" after its end time ("21:30–07:00 ⁺¹"), "+2" two days later. A running entry shows its start alone
+("11:00") and "--:--" for its length, the whole row in its profile's neon, the colour of what is happening now; it opens
+as any row ("A running entry is edited at its start"), and the recent list then holds it and the four newest stopped.
+The recent list always keeps five rows' room, so "Visa alla" never moves; with no entry yet, "Inga poster ännu" sits
+centred in that room and "Visa alla" is greyed out. The month lines and reasons stay in "Visa alla": the recent list and
+the rest of the main screen show none of it. An entry's row, as it arrives at a stop, lights in the wheel's base colour
+(grey while the balance profile is on screen) and fades.
 
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.

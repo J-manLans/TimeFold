@@ -25,6 +25,12 @@ body {
   outline-offset: var(--focus-offset);
 }
 
+/* Where the focus lands when a popup closes, unless it was opened and closed with the keyboard: no ring until it
+   loses the focus or a key is pressed (focusRing.ts) */
+[data-quiet-focus]:focus-visible {
+  outline: none;
+}
+
 /* How strong the pointer light is, 0 to 1, registered as a number so it can fade in and out (Controls.svelte) */
 @property --glow-strength {
   syntax: '<number>';
