@@ -6,8 +6,6 @@ title.
 
 ## An edited entry's break (2026-11-24)
 
-**Built by:** Corrections.
-
 **Decision:** the break's control in the edit is its "paus" tag after the times under the day ("Editing an entry on its
 line"): clicked, it opens a length field in its place, as the field under "Lägg till paus" does; Enter or a click away
 keeps it, and Esc leaves it as it was; a length longer than the time its part keeps is refused, its text red and the

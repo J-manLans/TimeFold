@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { calendarMonth, daysAhead, monthAfter, toggleFlexDay, workedDays } from '$lib/modules/menu/flexDays'
+import { calendarMonth, daysAhead, firstDay, monthAfter, toggleFlexDay, workedDays } from '$lib/modules/menu/flexDays'
 import { type TimeRecord } from '$lib/modules/shared/record'
 import { at, entry, RECORD } from '$tests/helpers/records'
 
@@ -55,12 +55,28 @@ describe('days gone by are locked until the padlock is opened', () => {
 
   it('marks yesterday, and unmarks a past flex day, once unlocked', () => {
     const marked = toggleFlexDay(withFlexDays([]), '2026-11-18', TODAY, true)
-    const unmarked = toggleFlexDay(withFlexDays(['2026-11-13']), '2026-11-13', TODAY, true)
+    const unmarked = toggleFlexDay(withFlexDays(['2026-11-18']), '2026-11-18', TODAY, true)
 
     expect([marked.ok && flexDaysOf(marked.record), unmarked.ok && flexDaysOf(unmarked.record)]).toEqual([
       ['2026-11-18'],
       [],
     ])
+  })
+})
+
+describe("a day before the record's first day is never a flex day, padlock or not", () => {
+  it('refuses Friday 13 November on a record whose janitor starts on Monday 16 November, the padlock open', () => {
+    expect(toggleFlexDay(withFlexDays([]), '2026-11-13', TODAY, true)).toEqual({ ok: false, why: 'before' })
+  })
+
+  it('marks the first day itself once the padlock is open, nothing worked on it', () => {
+    const done = toggleFlexDay({ ...withFlexDays([]), entries: [] }, '2026-11-16', TODAY, true)
+
+    expect(done.ok && flexDaysOf(done.record)).toEqual(['2026-11-16'])
+  })
+
+  it("takes the first day from the janitor's earliest expected hours", () => {
+    expect(firstDay(RECORD)).toBe('2026-11-16')
   })
 })
 

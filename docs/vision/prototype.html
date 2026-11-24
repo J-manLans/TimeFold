@@ -2797,7 +2797,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var b = document.createElement("button"); b.type = "button"; b.className = "cal-day"; b.textContent = d; b.dataset.key = key;
       // A weekend owes no hours, so it is never a flex day; a day gone by is history, marked or unmarked only unlocked.
       // A day janitor work started on is charged its hours already, so it is locked too, padlock or not.
-      if (date.getDay() === 0 || date.getDay() === 6 || worked[key] || (key < today && !calUnlocked)) b.disabled = true;
+      // A day before the record's first day owes nothing, its hours inside the opening balance: locked, padlock or not.
+      var first = settings.split[0].from;
+      if (date.getDay() === 0 || date.getDay() === 6 || worked[key] || key < first || (key < today && !calUnlocked)) b.disabled = true;
       if (key === today) b.classList.add("today");
       if (marked) b.classList.add("marked");
       b.addEventListener("click", function () {
