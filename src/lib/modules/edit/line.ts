@@ -234,9 +234,10 @@ export function grab(state: LineState, grip: Grip, at: number): Drag | null {
 export function dragTo(state: LineState, drag: Drag, at: number): LineState {
   const step = SNAP_MINUTES * MINUTE
   // The view's edges stop a handle on the 5-minute mark just inside them, as a drag always lands on one, but never
-  // push one that is already further out
-  let low = Math.max(wallBefore(state), Math.min(snap(state.view.from, 'up'), state.start))
-  let high = Math.min(wallAfter(state), Math.max(snap(state.view.to, 'down'), state.end))
+  // push one that is already further out; and a handle always reaches the next mark past it, even just outside the
+  // view, so a short entry with no mark between its handle and the edge can still grow, the view refitting on let go
+  let low = Math.max(wallBefore(state), Math.min(snap(state.view.from, 'up'), markPast(state.start, -1)))
+  let high = Math.min(wallAfter(state), Math.max(snap(state.view.to, 'down'), markPast(state.end, 1)))
   // An entry moved clear of where it started meets its original as a neighbour of its own profile
   if (!state.isNew && drag.grip === 'start' && drag.startWas >= state.originalEnd)
     low = Math.max(low, state.originalEnd)
@@ -759,6 +760,16 @@ function leaveGap(state: LineState): LineState {
 /** A stretch's whole minutes. Used for the break's sharing and its limit */
 function minutesOf(part: View): number {
   return Math.round((part.to - part.from) / MINUTE)
+}
+
+/**
+ * The first 5-minute mark of the clock past a time, one way: 10:02 gives 10:00 back and 10:05 on; a time on a mark gives
+ * the one before or after it. Used by drags, so a handle always has a mark to reach
+ */
+function markPast(time: number, way: -1 | 1): number {
+  const step = SNAP_MINUTES * MINUTE
+  const mark = snap(time, way < 0 ? 'down' : 'up')
+  return mark === time ? time + way * step : mark
 }
 
 /** A time with its seconds dropped. Used by the minute steps, so a stepped time is at :00 */

@@ -104,6 +104,22 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
     expect(drag(first, 'end', t('16:00')).end).toBe(t('16:00'))
   })
 
+  it('grows an entry of a few seconds: its end reaches 10:05 in one drag, and further in the next', () => {
+    const line = openLine({ ...span('10:02', '10:02'), stop: t('10:02') + 5000 }, [], t('17:00'))
+    const first = turn(line, 'end', t('11:00'))
+    const second = turn(first, 'end', t('11:00'))
+
+    expect(first.end).toBe(t('10:05'))
+    expect(second.end).toBeGreaterThan(first.end)
+  })
+
+  it('grows a 10-minute entry from either handle, to the next 5-minute mark past it at least', () => {
+    const line = openLine(span('10:02', '10:12'), [], t('17:00'))
+
+    expect(turn(line, 'start', t('09:00')).start).toBeLessThanOrEqual(t('10:00'))
+    expect(turn(line, 'end', t('11:00')).end).toBeGreaterThanOrEqual(t('10:15'))
+  })
+
   it('stops at the next entry: 12:30 is reached, 14:00 stops at 13:00', () => {
     const line = openLine(span('08:00', '12:00'), [span('13:00', '14:00', { profile: 'p2' })], t('17:00'))
 
