@@ -20,3 +20,13 @@ same sum as intended too. Cost: a decision rewritten, a roadmap step, and a fix 
 what is surprising; do not fix it unasked", in `AGENTS.md`, which only works when the agent looks past the symptom. A
 fix to where or how a control shows could also check what it changes against what is saved, and say so when a decision
 and the code disagree on the data's shape.
+
+### The owner's first suggestion talked out by a lean (2026-11-24)
+
+The edit's peek over "Visa alla" faded the edit whenever the pointer crossed the dark scrim, so leaving the window faded
+it. The owner's first suggestion when the peek was designed had been to fade only over the list; the agent's lean, the
+whole area outside the edit, won. Found now, the agent first tried a leave-the-window listener and then a
+rest-means-still timer, both on its own reading of the problem, until the owner stepped back and named his first
+suggestion again, which fixed it in one condition. Cost: two wrong fixes and a turn of confusion. Rule involved: "Argue
+for the owner's hunch before defending the proposal", in `AGENTS.md`. A bug in something the owner once proposed
+otherwise could start by asking whether his first version would have avoided it.

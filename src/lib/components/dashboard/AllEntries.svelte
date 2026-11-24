@@ -70,7 +70,8 @@
 <button class="more" type="button" data-keeps-menu {disabled} onclick={show}>Visa alla</button>
 
 <dialog bind:this={popup} aria-label="Alla poster" onclick={closeOutside} onclose={closed}>
-  <div class="card">
+  <!-- The edit popup stacked on it peeks only while the pointer rests on this card -->
+  <div class="card" data-all-entries>
     <header>
       <span class="label">Alla poster</span>
       <button class="more" type="button" onclick={() => popup?.close()}>Stäng</button>

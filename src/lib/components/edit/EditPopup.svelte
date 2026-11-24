@@ -81,9 +81,12 @@
 
   // === Helpers ===
 
-  /** The pointer over the popup: resting on the list behind, outside the card, fades the edit after a moment */
+  /**
+   * The pointer over the popup: resting on the "Visa alla" card behind, outside the edit, fades the edit after a moment;
+   * the scrim around that card is no peek, so the way out of the window never fades it
+   */
   function moved(event: PointerEvent): void {
-    const behind = event.target === popup && app.editing?.stacked === true
+    const behind = event.target === popup && app.editing?.stacked === true && onList(event)
     if (!behind) {
       rest()
       return
@@ -96,6 +99,14 @@
       },
       app.still ? 0 : peekDelay(),
     )
+  }
+
+  /** Whether the pointer is over the "Visa alla" card under the edit. Used by `moved` */
+  function onList(event: PointerEvent): boolean {
+    const card = document.querySelector('[data-all-entries]')?.getBoundingClientRect()
+    if (!card) return false
+    const { clientX: x, clientY: y } = event
+    return x >= card.left && x <= card.right && y >= card.top && y <= card.bottom
   }
 
   /** The pointer back on the edit, or gone: the edit shows again */
