@@ -89,6 +89,18 @@ function colours(state: LineState): string[] {
 // === Tests ===
 
 describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () => {
+  it("snaps to the entry's own end as it was too: 18:00–19:47, its end dragged from 19:45 on, lands on 19:45, 19:47, 19:50", () => {
+    const line = drag(openLine(span('18:00', '19:47'), [], t('21:00')), 'end', t('19:45'))
+    const held = grab(line, 'end', line.end)
+    const at = (time: number): number => (held ? dragTo(line, held, time).end : 0)
+
+    expect([at(t('19:45') + 20_000), at(t('19:46') + 40_000), at(t('19:49'))]).toEqual([
+      t('19:45'),
+      t('19:47'),
+      t('19:50'),
+    ])
+  })
+
   it('08:00–12:00, its start dragged to 08:21, gives 08:20–12:00', () => {
     const line = drag(openLine(span('08:00', '12:00'), [], t('17:00')), 'start', t('08:21'))
 

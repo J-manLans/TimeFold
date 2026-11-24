@@ -19,7 +19,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3's release, `v0.3.0` (`procedures/release.md`); then Phase 4: Profiles, its design pass from **Settle first**.
+Phase 3's release, `v0.3.0`, being tagged (`procedures/release.md`); then Phase 4: Profiles, its design pass from
+**Settle first**.
 
 ## The phases
 
@@ -105,7 +106,7 @@ owner has read it through and knows what each part is for, and the prompt reads 
 - **Phase 2: Breaks and flex days.** Time away taken off the day, and days off paid for with the balance. Released as
   `v0.2.0`.
 - **Phase 3: Corrections.** A record that can be put right: entries edited on their line, deleted, or written by hand in
-  their gap, each with its reason and its mark, and the balance following.
+  their gap, each with its reason and its mark, and the balance following. Released as `v0.3.0`.
 
 ## Not on this roadmap
 

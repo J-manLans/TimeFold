@@ -40,35 +40,37 @@ narrower than an hour: a short entry was a sliver, and the minutes on the scale 
 
 ## A clicked handle steps by the minute (2026-11-22)
 
-**Decision:** a dragged handle snaps to 5 minutes of the clock. Every dragged knob in the app, these handles and the
-colour picker's circle, is one size, 22 px, with no border or ring, only a soft shadow, and filled with a neon: the
-picker's the neon of where it sits, the handles the neon of the profile in colour, the new profile's in a filled gap. A
-handle clicked without moving grows into a pill about twice as wide, with a soft bounce: it overshoots a little and
-settles, its height swelling by a fifth and settling with it, over one and a half times the interface's speed (at once
-in Stilla); its bold − at its left end and + at its right fade in once it has mostly grown, black, or white where black
-on the neon would fall below 4.5:1 contrast (WCAG: luminance from linear RGB, then (lighter + 0.05) / (darker + 0.05)),
-which leaves white at about 4.6:1 or better, so the signs always read; and a strip in its middle is left to drag it by.
-each moving the handle one minute that way, its time label above following; the arrow keys do the same while it is open,
-and a held − or + repeats, faster the longer it is held. Dragging the pill, a click anywhere else, or Esc shrinks it
-back to a circle; that Esc does not close the edit. One pill is open at a time: clicking the other handle opens its own
-while the first shrinks back with the same bounce, and clicking an open pill again changes nothing. When the handles are
-closer than a time label's width, the labels above lean apart, the start's ending at its handle and the end's starting
-at its, so they never overlap; they move there at once, with no easing. A step meets the same walls as a drag: another
-entry, now, and the break the parts must hold, which turns the tag red. While shortening, a dragged handle keeps 5
-minutes from the other, unless a wall is nearer, as after steps have left an entry shorter; it never passes a wall to
-keep them. A gap's two edges keep no distance: the other edge is a point the dragged one snaps to, even off the 5-minute
-marks, and meeting it closes the gap ("A gap divides an entry"). A time set by the minute has its seconds at :00.
+**Decision:** a dragged handle snaps to 5 minutes of the clock, and to the entry's own start and end as it was where
+those are nearer, so it can always go back exactly: an end at 19:47 dragged from 19:45 lands on 19:45, 19:47, then
+19:50. Every dragged knob in the app, these handles and the colour picker's circle, is one size, 22 px, with no border
+or ring, only a soft shadow, and filled with a neon: the picker's the neon of where it sits, the handles the neon of the
+profile in colour, the new profile's in a filled gap. A handle clicked without moving grows into a pill about twice as
+wide, with a soft bounce: it overshoots a little and settles, its height swelling by a fifth and settling with it, over
+one and a half times the interface's speed (at once in Stilla); its bold − at its left end and + at its right fade in
+once it has mostly grown, black, or white where black on the neon would fall below 4.5:1 contrast (WCAG: luminance from
+linear RGB, then (lighter + 0.05) / (darker + 0.05)), which leaves white at about 4.6:1 or better, so the signs always
+read; and a strip in its middle is left to drag it by. each moving the handle one minute that way, its time label above
+following; the arrow keys do the same while it is open, and a held − or + repeats, faster the longer it is held.
+Dragging the pill, a click anywhere else, or Esc shrinks it back to a circle; that Esc does not close the edit. One pill
+is open at a time: clicking the other handle opens its own while the first shrinks back with the same bounce, and
+clicking an open pill again changes nothing. When the handles are closer than a time label's width, the labels above
+lean apart, the start's ending at its handle and the end's starting at its, so they never overlap; they move there at
+once, with no easing. A step meets the same walls as a drag: another entry, now, and the break the parts must hold,
+which turns the tag red. While shortening, a dragged handle keeps 5 minutes from the other, unless a wall is nearer, as
+after steps have left an entry shorter; it never passes a wall to keep them. A gap's two edges keep no distance: the
+other edge is a point the dragged one snaps to, even off the 5-minute marks, and meeting it closes the gap ("A gap
+divides an entry"). A time set by the minute has its seconds at :00.
 
 **Why:** in the Excel file the owner writes times to the nearest 5 minutes, so the drag places a time roughly and the
 pill exactly, with nothing on the line until it is asked for. − and + point the way the handle moves on a line that runs
 left to right, and growing from the handle itself leaves the label above free and puts nothing new beside it.
 
-**Rejected:** − and + always shown beside each handle: clutter. A ring or border around the knobs: a soft shadow is
-enough. Handles in the text colour, or only the pill in neon: the two knobs are one thing and wear the same kind of
-fill. The labels easing apart: the snap read as more coherent. Fading the label of the handle not being dragged: at rest
-both return and overlap again. "+1" above the handle and "−1" below it: above is the time label, and up and down mean
-nothing on a timeline. Typing a time, or the clock picker beside the line: a second way to set the same thing, away from
-the entry and its neighbours.
+**Rejected:** a snap to the marks alone: an entry ending 19:47 could not be dragged back to its own end. − and + always
+shown beside each handle: clutter. A ring or border around the knobs: a soft shadow is enough. Handles in the text
+colour, or only the pill in neon: the two knobs are one thing and wear the same kind of fill. The labels easing apart:
+the snap read as more coherent. Fading the label of the handle not being dragged: at rest both return and overlap again.
+"+1" above the handle and "−1" below it: above is the time label, and up and down mean nothing on a timeline. Typing a
+time, or the clock picker beside the line: a second way to set the same thing, away from the entry and its neighbours.
 
 **Cases:**
 

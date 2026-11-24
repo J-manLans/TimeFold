@@ -2075,6 +2075,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         hi = Math.min(hi, ed.s - ed.o1 < MIN && drag.k === "b" ? ed.o2 - q : ed.o2);
       }
       ed.dragK = drag.k;
+      // A handle snaps to the entry's own start and end as it was too, where that is nearer than a 5-minute mark
+      if (!ed.isNew) [ed.o1, ed.o2].forEach(function (p) { if (Math.abs(t - p) < Math.abs(t - snapped)) snapped = p; });
       if (drag.k === "a") {
         if (open && (snapped > ed.en || Math.abs(t - ed.en) < Math.abs(t - snapped))) snapped = ed.en;
         // Keeping the handles apart never pushes one past a wall, as after minute steps left the entry short

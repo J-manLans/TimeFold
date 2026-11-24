@@ -257,13 +257,14 @@ export function dragTo(state: LineState, drag: Drag, at: number): LineState {
   let end = state.end
   // While shortening, a handle keeps 5 minutes from the other, unless a wall is nearer, as after minute steps; it never
   // passes a wall. A gap's edge snaps onto the other where that is nearer than a 5-minute mark, or the mark is past it
+  // A handle snaps to the clock's 5-minute marks and to the entry's own start and end as it was, whichever is nearer,
+  // so it can always go back exactly; a gap's edge snaps to the other edge too
+  const own = state.isNew ? [] : [state.originalStart, state.originalEnd]
   if (drag.grip === 'start') {
-    const target =
-      open && (snap(at) > state.end || Math.abs(at - state.end) < Math.abs(at - snap(at))) ? state.end : snap(at)
+    const target = open && snap(at) > state.end ? state.end : snapNear(at, open ? [...own, state.end] : own)
     start = Math.max(Math.min(target, state.end - apart), Math.min(low, state.start))
   } else if (drag.grip === 'end') {
-    const target =
-      open && (snap(at) < state.start || Math.abs(at - state.start) < Math.abs(at - snap(at))) ? state.start : snap(at)
+    const target = open && snap(at) < state.start ? state.start : snapNear(at, open ? [...own, state.start] : own)
     end = Math.min(Math.max(target, state.start + apart), Math.max(high, state.end))
   } else {
     const shift = Math.round((at - drag.grabbedAt) / step) * step
@@ -760,6 +761,15 @@ function leaveGap(state: LineState): LineState {
 /** A stretch's whole minutes. Used for the break's sharing and its limit */
 function minutesOf(part: View): number {
   return Math.round((part.to - part.from) / MINUTE)
+}
+
+/**
+ * A time snapped to the nearest 5-minute mark of the clock, or to one of `points` where that is nearer. Used by drags,
+ * so a handle lands on the entry's own ends and a gap's other edge as well as on the marks: 19:46:40 with 19:47 among the
+ * points gives 19:47
+ */
+function snapNear(time: number, points: number[]): number {
+  return points.reduce((best, p) => (Math.abs(time - p) < Math.abs(time - best) ? p : best), snap(time))
 }
 
 /**
