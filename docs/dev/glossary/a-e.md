@@ -44,7 +44,8 @@ tokens hold every value of the look").
 flex bar's track. Worked out, never picked ("Each profile carries its colours"). Not **Faded**.
 
 **Docking.** On the entry line, a handle dragged onto the neighbouring entry of the same profile, which joins the two on
-confirm.
+confirm. Docked, the neighbour is outlined; let go there, it is **taken in**: part of the entry's bar, the handle at its
+far end. A new entry placed against a neighbour is docked, not taken in.
 
 **Entry.** One stretch of work, from a start to a stop. Clicked in the app, or written by hand.
 

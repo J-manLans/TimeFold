@@ -6,6 +6,9 @@ Terms F–O, in alphabetical order. The index and the rules for terms are in `RE
 the same hue, weaker and a little toward the panel's background. Not the dimmed colour, which is the unused part ("The
 ceiling wheel", in `design-decisions/`). See **Lit**.
 
+**First day (the record's).** Where the janitor's expected hours begin: the day the app was started fresh, or the day an
+imported record starts. Days before it are inside the opening balance and owe nothing.
+
 **Flex bar.** The main screen's figure for the balance: a horizontal bar either side of a zero line, with the balance as
 a number ("The flex bar", in `design-decisions/`).
 
@@ -16,7 +19,8 @@ calendar in the menu's Tid tab, a weekday per click, ahead or, behind its padloc
 **Focus outline.** The ring around whatever has keyboard focus, in the colour of where the profile on screen stands (see
 **Standing**). Not the running ring around "Stoppa jobb", which is always the neon.
 
-**Full time.** The hours of a full working day (8), a setting; janitor's expected hours and the ceiling divide it.
+**Full time.** The hours of a full working day (7 h 39 min, a 38 h 15 min week), a setting; janitor's expected hours and
+the ceiling divide it.
 
 **Gap.** The time between a stop and the next start, or cut from an entry on the entry line. Not work; it counts on no
 day.

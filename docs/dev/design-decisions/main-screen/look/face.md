@@ -1,7 +1,6 @@
-# Main screen: look
+# Main screen: the look
 
-How the app looks: type, colour, surfaces and buttons, and the light or dark theme. Each decision follows the template
-in `../README.md`, and is cited by its title.
+Type, colour, surfaces and buttons. Each decision follows the template in `../../README.md`, and is cited by its title.
 
 ## The look: a fresh display face, mono text and soft buttons (2026-11-15)
 
@@ -81,87 +80,3 @@ app works offline. A changing text fading out, swapping and fading back in: the 
 once. A shadow under the popups: muddy in the dark theme, and popups share one look, so none has one.
 
 **Revisit if:** the mono is hard to read at small sizes, or the pointer light repaints too slowly there.
-
-## A light or dark theme, following the system (2026-11-18)
-
-**Decision:** the app has a theme: light or dark. A fresh install follows the computer's light or dark mode, and goes on
-following it until the theme button is first clicked; from then on the app keeps the theme chosen. The button is round,
-beside the menu's heading, drawn like the profile button's disc in its dent: a sun for Ljust, a moon for Mörkt, always
-showing the theme in force, with a label naming it. Each click switches to the other. The dashboard follows it too, as a
-near-black panel in the dark theme and a slate-blue one in the light theme ("The main screen has a controls side and a
-dashboard"). The theme belongs to each machine and is not carried by the handover.
-
-**Why:** the owner's two computers may be set differently, and following the system at first needs no choice at all.
-Once the owner has picked a theme, a third state to come back to the system is one more click in every round for
-something rarely wanted; two states make the button a plain switch.
-
-**Rejected:** three buttons in a tab of their own: one round button in the heading is enough. One fixed theme: the
-controls side should sit well beside the rest of the owner's desktop. The theme in the handover: each machine is set up
-for its own screen and room. "System" as a third state on the button, with a half-filled circle: a three-way cycle for a
-choice made once.
-
-**Revisit if:** the dashboard should follow the theme after all.
-
-**Cases:**
-
-- A fresh install on a dark system: the controls side is dark, and the button shows the moon.
-- The system turns light before the button is ever clicked: the app turns light, and the button shows the sun.
-- One click on a dark system: Ljust; the controls side is light and the dashboard slate blue, and the system turning
-  dark later changes nothing.
-- The theme changed while the tip or the undo's afterglow shows: both take the new theme's colours, and nothing
-  restarts.
-
-## Motion can be switched off in the app (2026-11-19)
-
-**Decision:** the app has a switch for its motion, **Animerat** or **Stilla**, that takes effect at once, with no
-restart. A fresh install follows the system's reduced-motion setting, and goes on following it until the switch is first
-clicked; from then on the app keeps the state chosen, overriding the system for this app only and leaving the system's
-setting as it is. The state belongs to each machine and is not carried by the handover.
-
-The switch is a round button in the menu's heading, after the theme button and drawn the same way, with a label naming
-the state in force. Its icon is three staggered speed lines for Animerat, which fold into one flat line for Stilla. Each
-label (the theme's too) is as wide as its longer word, so the button after it never moves when the word swaps. Going to
-Animerat, the lines spread out over the interface's short transition time; going to Stilla, they fold at once, since
-Stilla takes the transitions away in the same moment. Its disc always catches the pointer light, in Stilla too, as a
-hint of what Animerat brings.
-
-In Stilla nothing moves: no transition, animation or delay, the pointer light on every other button, the flex bar's and
-the ceiling wheel's counts land at once, and the onboarding's and the recovery screen's timed steps all land at once, in
-order. The "KOPIA" label holds still in the colour it breathes into. In Animerat the app animates even where the system
-asks for reduced motion.
-
-When the app is in Stilla on a first start, the onboarding's first step shows a quiet note under "Starta nytt" and
-"Importera", as wide as the two together: the switch on the left, centred on the words' height, and "Appen är i stilla
-läge och fungerar precis som den ska. Vill du ha lite mer flair, slå på knappen." After the first click the sentence
-gives way to the switch's label, "Animerat" or "Stilla" as in the menu, in the sentence's place and keeping its room so
-nothing above moves; the rest of the onboarding follows the state chosen. On a system without reduced motion there is no
-note, and the switch is only in the menu. The recovery screen's "Starta nytt", which skips the first step, shows no
-note: the path is rare, and the switch is in the menu.
-
-**Why:** the school's computers have reduced motion on by default, so a teacher would never see the app's motion without
-knowing where the system setting is. A switch in the app is one click and touches nothing else on the machine. Following
-the system first gives someone who set reduced motion on purpose what they asked for; the note puts the switch where it
-is seen, since the menu's heading is hidden during the onboarding. Each machine keeps its own state, as with the theme.
-
-**Rejected:** a link from the onboarding that opens the system's animation settings, with a tip per system: it changes
-every app on the machine, sends the user out of TimeFold, and needs a different route on each Linux desktop; Linux users
-set their own system anyway. The switch as a value in a tab: the heading is always in view when the menu opens. On from
-the start: it overrides a choice someone may have made on purpose. A note on a screen of its own: a line under the first
-step is enough. Pointing at the menu in words: the switch is hidden there during the onboarding.
-
-**Revisit if:** some motion has to stay with motion off, such as a signal that cannot be shown still.
-
-**Cases:**
-
-- System asks for reduced motion, the switch turned on: a stop makes the flex bar and the ceiling wheel count, and the
-  menu grows open.
-- System does not ask for reduced motion, the switch turned off: a stop makes the numbers jump to their new values, and
-  the menu opens at once.
-- The switch flipped with the app open: the next animation follows it, with no restart.
-- A first start with the app in Stilla, from a fresh settings file or one that chose Stilla, shows the note; one that
-  chose Animerat on a system with reduced motion shows none.
-- A first start on a system with reduced motion: the onboarding shows the note; the switch clicked there, the sentence
-  turns to "Animerat", a second click to "Stilla", the buttons above stay put, and the ending follows the state chosen.
-  On a system without it, no note.
-- The switch's label swapping between Animerat and Stilla: the theme button and the switch stay where they are.
-- A handover imported: the motion state stays as the machine had it.

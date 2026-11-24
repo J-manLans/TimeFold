@@ -148,11 +148,11 @@ title.
 - [A narrow window stacks the dashboard over the controls](main-screen/layout/narrow.md)
 - [The menu has tabs, with every value locked behind "Ändra"](main-screen/layout/menu.md)
 
-**[Look](main-screen/look.md)**
+**Look (`main-screen/look/`)**
 
-- The look: a fresh display face, mono text and soft buttons
-- A light or dark theme, following the system
-- Motion can be switched off in the app
+- [The look: a fresh display face, mono text and soft buttons](main-screen/look/face.md)
+- [A light or dark theme, following the system](main-screen/look/theme.md)
+- [Motion can be switched off in the app](main-screen/look/motion.md)
 
 **Figures (`main-screen/figures/`)**
 

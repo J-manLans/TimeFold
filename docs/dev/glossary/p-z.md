@@ -11,7 +11,8 @@ unmarked as flex days; it shuts again when the menu closes. A weekend and a day 
 report.
 
 **Peek.** Resting the pointer on something to see what it hides: on the ceiling wheel's band, which winds the over lap
-back so the first lap shows whole; on the list behind the edit popup, which fades the edit so the list reads through.
+back so the first lap shows whole; on the "Visa alla" card behind the edit popup, which fades the edit so the list reads
+through.
 
 **Pointer light.** The soft light that follows the pointer over the controls side, lying only on the buttons and discs
 that can be used ("The look: a fresh display face, mono text and soft buttons").
@@ -39,6 +40,9 @@ Linux on the repo's releases page ("The app reaches each machine as an installer
 
 **Settings file.** Each machine's own `settings.json` beside the record, holding what belongs to that computer: the
 theme and the motion; never in the record or the handover.
+
+**Spill (a break's).** In a divided entry, the part of the break that no longer fits its part moving to the other, as a
+drag shrinks it; only until a tag is set, after which each part keeps its own.
 
 **Standing (a profile's).** Where a profile's figure is: past its line (the balance in plus, or the ceiling passed) or
 not (at 0 or below). Its letter, its small circle and the focus outline wear it, the neon past the line and the base

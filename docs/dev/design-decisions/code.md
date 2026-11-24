@@ -8,8 +8,10 @@ How the code is written and tested. Each decision follows the template in `READM
 agent talk it through as a conversation: the agent names what it thinks is missing, and together they settle what fits.
 The agreed cases are written as tests and seen to fail before the code is written. Cases agreed before their part is
 built wait in the **Cases** line of the decision they mainly check. Tests are named for the rule they check, and a test
-cites its decision by title only when its name cannot carry the reason. What cannot be tested automatically, such as how
-something looks, is checked by hand under the phase's **Done when**.
+cites its decision by title only when its name cannot carry the reason. Where rules meet in orders no case plans for, as
+on the entry line, a property test states the rules that must always hold and fast-check tries random sequences of moves
+against them, each failure it shrinks kept as a unit test; `FC_RUNS` raises its runs for a deeper hunt. What cannot be
+tested automatically, such as how something looks, is checked by hand under the phase's **Done when**.
 
 **Why:** the rules come from the owner's working day, and a red test proves the rule is understood before the code
 exists. Keeping cases under their decision means they change with it, and nothing agreed in talk is lost before its
