@@ -1627,15 +1627,22 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var ed = null;
   // A running entry is edited at its start and profile only: its end is now, the now-line, with no handle; saved, it
   // runs on from its new start
+  // The running entry as the line sees it, stopping at now, for any edit but its own: a wall, and a neighbour of its
+  // profile to dock onto and take in, after which the edit runs on ("A running entry is edited at its start")
+  function liveSpan() {
+    return running ? { start: running.start, end: new Date(Date.now()), profile: running.profile, brk: running.brk || 0, isRunning: true } : null;
+  }
+  // Every entry the line has as walls and neighbours: the stopped ones and the running one
+  function lineEntries() { return ed && ed.live ? entries.concat([ed.live]) : entries; }
   function startEdit(e, stacked) {
-    var s0 = +e.start, e0 = e.isRunning ? Date.now() : +e.end, prev = null, next = null;
-    entries.forEach(function (x) {
+    var s0 = +e.start, e0 = e.isRunning ? Date.now() : +e.end, prev = null, next = null, live = e.isRunning ? null : liveSpan();
+    entries.concat(live ? [live] : []).forEach(function (x) {
       if (x === e) return;
       if (+x.end <= s0 && (!prev || +x.end > +prev.end)) prev = x;
       if (+x.start >= e0 && (!next || +x.start < +next.start)) next = x;
     });
     var w0 = (e0 - s0) / EDIT_FILL;
-    ed = { e: e, s: s0, en: e0, o1: s0, o2: e0, profile: e.profile, mode: "shorten", prev: prev, next: next,
+    ed = { e: e, live: live, s: s0, en: e0, o1: s0, o2: e0, profile: e.profile, mode: "shorten", prev: prev, next: next,
            view: { a: (s0 + e0) / 2 - w0 / 2, b: (s0 + e0) / 2 + w0 / 2 }, pill: null, joinsL: [], joinsR: [], reason: null, other: "", del: false, brk: null, split: null, brkEditing: false, mid: null, refused: false };
     ed.running = !!e.isRunning;
     openEditUi(stacked);
@@ -1648,20 +1655,20 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // neighbour outlined and running off the edge as any neighbour, the view fitted to the new entry alone, its handles
   // on its own edges. It starts on the active profile; it is saved marked written by hand.
   function startNew(gap, stacked) {
-    var e = { start: null, end: null, profile: onScreen, brk: 0, how: "hand" }, prev = null, next = null;
-    entries.forEach(function (x) {
+    var e = { start: null, end: null, profile: onScreen, brk: 0, how: "hand" }, prev = null, next = null, live = liveSpan();
+    entries.concat(live ? [live] : []).forEach(function (x) {
       if (+x.end <= gap.a && (!prev || +x.end > +prev.end)) prev = x;
       if (+x.start >= gap.b && (!next || +x.start < +next.start)) next = x;
     });
     var w0 = (gap.b - gap.a) / EDIT_FILL, c = (gap.a + gap.b) / 2;
-    ed = { e: e, isNew: true, placing: true, s: gap.a, en: gap.a, o1: gap.a, o2: gap.a, profile: e.profile, mode: "shorten", prev: prev, next: next,
+    ed = { e: e, live: live, isNew: true, placing: true, s: gap.a, en: gap.a, o1: gap.a, o2: gap.a, profile: e.profile, mode: "shorten", prev: prev, next: next,
            view: { a: c - w0 / 2, b: c + w0 / 2 }, pill: null, joinsL: [], joinsR: [], reason: null, other: "", del: false, brk: null, split: null, brkEditing: false, mid: null, refused: false };
     openEditUi(stacked);
   }
   function placeNew(t) {
-    if (entries.some(function (x) { return +x.start < t && +x.end > t; })) return;
+    if (lineEntries().some(function (x) { return +x.start < t && +x.end > t; })) return;
     var lo = -Infinity, hi = Date.now();
-    entries.forEach(function (x) { if (+x.end <= t) lo = Math.max(lo, +x.end); if (+x.start >= t) hi = Math.min(hi, +x.start); });
+    lineEntries().forEach(function (x) { if (+x.end <= t) lo = Math.max(lo, +x.end); if (+x.start >= t) hi = Math.min(hi, +x.start); });
     var len = EDIT_NEW * MIN, s0 = snapT(t - len / 2), e0 = s0 + len;
     // Slid away from a wall it meets; with less free time than its length, it fills the free time
     if (s0 < lo) { s0 = lo; e0 = lo + len; }
@@ -1669,7 +1676,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (e0 - s0 < EDIT_SNAP * MIN) return;
     ed.s = ed.o1 = s0; ed.en = ed.o2 = e0; ed.placing = false;
     ed.prev = null; ed.next = null;
-    entries.forEach(function (x) {
+    lineEntries().forEach(function (x) {
       if (+x.end <= s0 && (!ed.prev || +x.end > +ed.prev.end)) ed.prev = x;
       if (+x.start >= e0 && (!ed.next || +x.start < +ed.next.start)) ed.next = x;
     });
@@ -1857,11 +1864,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var d = docked();
     if (d.l) {
       ed.joinsL.push(ed.prev); ed.s = +ed.prev.start;
-      ed.prev = entries.filter(function (x) { return x !== ed.e && !joined(x) && +x.end <= ed.s; }).sort(function (x, y) { return y.end - x.end; })[0] || null;
+      ed.prev = lineEntries().filter(function (x) { return x !== ed.e && !joined(x) && +x.end <= ed.s; }).sort(function (x, y) { return y.end - x.end; })[0] || null;
     }
     if (d.r) {
       ed.joinsR.push(ed.next); ed.en = +ed.next.end;
-      ed.next = entries.filter(function (x) { return x !== ed.e && !joined(x) && +x.start >= ed.en; }).sort(function (x, y) { return x.start - y.start; })[0] || null;
+      ed.next = lineEntries().filter(function (x) { return x !== ed.e && !joined(x) && +x.start >= ed.en; }).sort(function (x, y) { return x.start - y.start; })[0] || null;
     }
   }
   // Dragged or stepped back to a joined neighbour's end or past it, the join undoes itself: the neighbour is whole
@@ -1931,6 +1938,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // A gap lives only while both handles are inward, or while another profile fills it; otherwise the default,
     // shortening, comes back, so an old gap never returns unasked
     if (!inward() && !filling() && !gapHolds()) { ed.mode = "shorten"; foldSplit(); }
+    // An entry that has taken in the running one runs on: its end is now, with no handle, as a running entry's
+    ed.running = !!ed.e.isRunning || ed.joinsR.some(function (x) { return x.isRunning; });
+    if (ed.running && ed.live && !ed.e.isRunning) ed.en = +ed.live.end;
     var line = $("edLine"); clear(line);
     var a = ed.view.a, b = ed.view.b, pct = function (t) { return ((t - a) / (b - a) * 100) + "%"; };
     var p = prof(ed.profile); line.style.setProperty("--p", p.colour);
@@ -1938,7 +1948,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var tk = document.createElement("span"); tk.className = "ed-tick"; tk.style.left = pct(m.t); tk.textContent = m.label; line.appendChild(tk);
     });
     var d = docked();
-    entries.forEach(function (x) {
+    lineEntries().forEach(function (x) {
       if (x === ed.e || joined(x) || +x.end < a || +x.start > b) return;
       var o = document.createElement("div"); o.className = "ed-other";
       if (x.profile === ed.profile) { o.classList.add("same"); o.style.setProperty("--p", prof(x.profile).colour); }
@@ -2281,10 +2291,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var partWhy = ed.mid ? "Delad av " + prof(ed.mid).name : why;
     var made = res.map(function (r, i) { return { start: new Date(r.a), end: new Date(r.b), profile: ed.profile, brk: shares[i], how: how, reason: partWhy }; });
     if (ed.mid) made.push({ start: new Date(ed.s), end: new Date(ed.en), profile: ed.mid, brk: 0, how: how, reason: why });
+    // Docked to or joined with the running entry, the last part runs on: the running entry takes its start and break
+    var runsOn = ed.joinsR.some(function (x) { return x.isRunning; }) || (d.r && ed.next && ed.next.isRunning);
+    if (runsOn) {
+      var last = made.splice(res.length - 1, 1)[0];
+      running.start = last.start; running.brk = last.brk; running.how = how; running.reason = why; running.real = true;
+    }
     old.forEach(function (x) { bump(x.profile, -dur(x)); entries.splice(entries.indexOf(x), 1); });
     made.forEach(function (x) { bump(x.profile, dur(x)); entries.push(x); });
     entries.sort(function (x, y) { return y.start - x.start; });
-    closeEdit(); refigure(); markPicked(made[0]);
+    closeEdit(); refigure(); if (runsOn) drawControls(); markPicked(made[0] || running);
   });
   // "Ta bort" asks once: "Ta bort?" in a red border, back to "Ta bort" when the focus or a click goes elsewhere
   function disarmDel() { if (ed) ed.del = false; $("edDel").classList.remove("ask"); }
