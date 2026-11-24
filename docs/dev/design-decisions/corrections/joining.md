@@ -8,29 +8,30 @@ cited by its title.
 **Built by:** Corrections.
 
 **Decision:** two entries of the same profile join on the line ("Editing an entry on its line"): a handle dragged to the
-neighbour's near end docks there, and the gap between them fills in green as time added. Let go there, the two are one
-entry from then on in the edit: the handle moves to the neighbour's far end, the neighbour's own time shows as the
-entry's, only the stretch dragged across stays green, and the view refits to the whole joined entry ("The line's view
-holds still while a handle is dragged"). Dragged back over the neighbour, the handle trims it, its time taken away in
-red stripes as on any entry; dragged to the neighbour's far end or past it, the join undoes itself and the neighbour is
-whole again, a wall as before, so a neighbour is never trimmed away to nothing. The other handle passing over all of the
-neighbour lets it go whole too, and the entry walks on past it: an entry docks, stretches past its neighbour, and brings
-its other handle over, to step across it; the time it leaves behind shows red. Entries of the same profile that touch
-are one: a handle let go, or stepped by the minute ("A clicked handle steps by the minute"), on the edge of such a
-neighbour takes it in, whichever way it was moving, and an edit saved with two such entries touching saves them as one;
-so an entry walks back and forth past the same neighbour as often as wanted, and one let go on its edge is taken in
-again. Each side keeps its joined neighbours in order, the nearest first: dragged back, a handle lets them go outermost
-first, each a wall again that can be docked onto; the other handle walking over lets them go nearest first. Every joined
-neighbour shows as part of the entry, and every meeting point where two pieces touch with no gap has its thin line. An
-entry moved clear of where it started meets its original as a neighbour of its own profile: the handle facing it stops
-at its near edge and docks there, and let go, the entry takes its original time back, as any join takes a neighbour in.
-The meeting point is where the neighbour's colour meets the green; with no gap between them, a thin line in the bar
-marks it. On confirm the two are saved as one entry, with a reason as for any edit ("Every edit carries a reason"). A
-neighbour of another profile stays a stop, and nothing joins. Either entry may be running; the joined entry then runs
-on, its end now with no handle, as a running entry's ("A running entry is edited at its start"). Their added breaks add
-up into the joined entry's one break ("Time away is a gap or an added break"). The joined entry is one entry for the
-counting: it owes its expected hours on the day it starts ("A day owes its expected hours only when work started on
-it").
+neighbour's near end docks there, and the gap between them fills in green as time added, the neighbour outlined 1 px
+just outside it in the colour of the stretch reaching it, green, as a gap's edges about to meet are in the entry's own
+("A gap divides an entry"). Let go there, the two are one entry from then on in the edit: the handle moves to the
+neighbour's far end, the neighbour's own time shows as the entry's, only the stretch dragged across stays green, and the
+view refits to the whole joined entry ("The line's view holds still while a handle is dragged"). Dragged back over the
+neighbour, the handle trims it, its time taken away in red stripes as on any entry; dragged to the neighbour's far end
+or past it, the join undoes itself and the neighbour is whole again, a wall as before, so a neighbour is never trimmed
+away to nothing. The other handle passing over all of the neighbour lets it go whole too, and the entry walks on past
+it: an entry docks, stretches past its neighbour, and brings its other handle over, to step across it; the time it
+leaves behind shows red. Entries of the same profile that touch are one: a handle let go, or stepped by the minute ("A
+clicked handle steps by the minute"), on the edge of such a neighbour takes it in, whichever way it was moving, and an
+edit saved with two such entries touching saves them as one; so an entry walks back and forth past the same neighbour as
+often as wanted, and one let go on its edge is taken in again. Each side keeps its joined neighbours in order, the
+nearest first: dragged back, a handle lets them go outermost first, each a wall again that can be docked onto; the other
+handle walking over lets them go nearest first. Every joined neighbour shows as part of the entry, and every meeting
+point where two pieces touch with no gap has its thin line. An entry moved clear of where it started meets its original
+as a neighbour of its own profile: the handle facing it stops at its near edge and docks there, and let go, the entry
+takes its original time back, as any join takes a neighbour in. The meeting point is where the neighbour's colour meets
+the green; with no gap between them, a thin line in the bar marks it. On confirm the two are saved as one entry, with a
+reason as for any edit ("Every edit carries a reason"). A neighbour of another profile stays a stop, and nothing joins.
+Either entry may be running; the joined entry then runs on, its end now with no handle, as a running entry's ("A running
+entry is edited at its start"). Their added breaks add up into the joined entry's one break ("Time away is a gap or an
+added break"). The joined entry is one entry for the counting: it owes its expected hours on the day it starts ("A day
+owes its expected hours only when work started on it").
 
 **Why:** joining fixes a stop that was not a break: the owner stops for a break, work comes up, and the entry is started
 again later; the gap was work. Dragging across the gap is the move the hand makes anyway, and the stop at the neighbour

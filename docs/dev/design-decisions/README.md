@@ -111,9 +111,11 @@ title.
 
 ### Corrections (`corrections/`)
 
-**[Editing](corrections/editing.md)**
+**Editing (`corrections/editing/`)**
 
-- Editing an entry on its line
+- [The popup](corrections/editing/popup.md): Editing an entry on its line
+- [Gaps](corrections/editing/gaps.md): A gap divides an entry
+- [The break](corrections/editing/breaks.md): An edited entry's break
 
 **[The line](corrections/line.md)**
 

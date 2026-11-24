@@ -16,12 +16,12 @@ so far ("20", "1:20"), selected so typing replaces it, or empty with none, and E
 is the entry's break: higher adds, lower takes time back, 0 takes it all, and the same number changes nothing. The
 control is always shown, so the app always shows what it can do; it is active only while that entry runs, and greyed out
 otherwise. A break found after the entry has stopped is set in the entry's edit popup, through the "paus" tag after its
-times ("Editing an entry on its line"). The total cannot be longer than its whole entry so far: the field then reads
-"för lång paus" and stays open. Stopping the entry with the field open is a click away: what is typed is kept, then the
-entry stops. The five most recent entries, whatever their day, are listed under the flex bar and the ceiling wheel, with
-their added breaks as small tags among them, and "Visa alla" under the list opens the history. A tag is a label:
-clicking it does what clicking its row does. A break added by mistake is taken back with the undo while it is the latest
-click ("The last click can be undone for a few seconds"); after that, a break is changed or removed on its entry's line.
+times ("An edited entry's break"). The total cannot be longer than its whole entry so far: the field then reads "för
+lång paus" and stays open. Stopping the entry with the field open is a click away: what is typed is kept, then the entry
+stops. The five most recent entries, whatever their day, are listed under the flex bar and the ceiling wheel, with their
+added breaks as small tags among them, and "Visa alla" under the list opens the history. A tag is a label: clicking it
+does what clicking its row does. A break added by mistake is taken back with the undo while it is the latest click ("The
+last click can be undone for a few seconds"); after that, a break is changed or removed on its entry's line.
 
 **Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
 file today, as a length. One number per entry follows it through a split or a join with nothing to keep in step. On a

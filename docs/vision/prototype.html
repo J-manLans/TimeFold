@@ -593,8 +593,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-head select { font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 2px 6px; }
 .ed-times { font-size: 12px; color: var(--f-muted); min-height: 1.3em; }
 .ed-times b { color: var(--f-fg); font-weight: 400; }
-/* The break after the time: the list's "paus" tag, here also its control; "+ paus" quiet with none. Red while a
-   handle sits where the entry can no longer hold it. */
+/* The break after the time: the list's "paus" tag, here also its control, one per part; "Lägg till paus" quiet with
+   none, "+ paus" where the longer words would wrap. Red while a handle sits where its part can no longer hold it. */
 .ed-times .tag, .ed-times .brk-in { margin-left: var(--ed-tag-gap); }
 .ed-times .tag { font: inherit; font-size: 11px; color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; cursor: pointer; }
 .ed-times .tag.add { color: var(--f-muted); border-color: transparent; }
@@ -611,6 +611,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-other { background: repeating-linear-gradient(45deg, var(--f-line) 0 3px, transparent 3px 6px); pointer-events: none; }
 .ed-other.same { background: color-mix(in srgb, var(--p) 30%, transparent); }
 .ed-other.dock { outline: 1px solid var(--el-add); outline-offset: 1px; }
+/* A gap about to close, or a part about to go: the part not dragged outlined as a docked neighbour is, in the colour of
+   the stretch reaching it, here the entry's own */
+.ed-close { position: absolute; top: 50%; height: var(--el-bar); transform: translateY(-50%); border-radius: 3px; outline: 1px solid var(--p); outline-offset: 1px; pointer-events: none; }
 .ed-seg.keep { background: var(--p); cursor: grab; }
 .ed-seg.add { background: var(--el-add); pointer-events: none; }
 .ed-seg.cut { background: repeating-linear-gradient(45deg, var(--f-remove) 0 3px, color-mix(in srgb, var(--f-remove) 30%, transparent) 3px 6px); pointer-events: none; }
@@ -1594,6 +1597,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // is being edited to EDIT_FILL of its width, centred. The scale under it shows at most EDIT_TICKS labels, in the
   // smallest unit that fits: minutes, hours, days, weeks, months, then years. A forgotten entry starts EDIT_NEW minutes.
   var EDIT_SNAP = 5, MIN = 60000, EDIT_FILL = 0.65, EDIT_TICKS = 8, EDIT_NEW = 10;
+  var ADD_WRAP = 2;   // the times line taller than this many font sizes has wrapped: "Lägg till paus" becomes "+ paus"
   // The pill wears the neon of the profile in colour; its − and + are black, turning white when black on that neon falls
   // below PILL_INK_MIN contrast (WCAG: luminance from linear RGB, then (lighter + 0.05) / (darker + 0.05)). At 4.5,
   // white is then always at least about 4.6:1, so the signs always read.
@@ -1617,7 +1621,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     });
     var w0 = (e0 - s0) / EDIT_FILL;
     ed = { e: e, s: s0, en: e0, o1: s0, o2: e0, profile: e.profile, mode: "shorten", prev: prev, next: next,
-           view: { a: (s0 + e0) / 2 - w0 / 2, b: (s0 + e0) / 2 + w0 / 2 }, pill: null, joinsL: [], joinsR: [], reason: null, other: "", del: false, brk: null, brkEditing: false, mid: null, refused: false };
+           view: { a: (s0 + e0) / 2 - w0 / 2, b: (s0 + e0) / 2 + w0 / 2 }, pill: null, joinsL: [], joinsR: [], reason: null, other: "", del: false, brk: null, split: null, brkEditing: false, mid: null, refused: false };
     ed.running = !!e.isRunning;
     openEditUi(stacked);
   }
@@ -1633,7 +1637,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     });
     var w0 = (gap.b - gap.a) / EDIT_FILL, c = (gap.a + gap.b) / 2;
     ed = { e: e, isNew: true, placing: true, s: gap.a, en: gap.a, o1: gap.a, o2: gap.a, profile: e.profile, mode: "shorten", prev: prev, next: next,
-           view: { a: c - w0 / 2, b: c + w0 / 2 }, pill: null, joinsL: [], joinsR: [], reason: null, other: "", del: false, brk: null, brkEditing: false, mid: null, refused: false };
+           view: { a: c - w0 / 2, b: c + w0 / 2 }, pill: null, joinsL: [], joinsR: [], reason: null, other: "", del: false, brk: null, split: null, brkEditing: false, mid: null, refused: false };
     openEditUi(stacked);
   }
   function placeNew(t) {
@@ -1752,15 +1756,23 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // or now: the new entry then takes that end, the part of the entry's own on that side goes, and time past the old
   // edge is added
   function filling() { return !!ed.mid && ed.mode === "gap"; }
-  function divided() { return (inward() && ed.mode === "gap") || filling(); }
+  // Once made, a gap holds until it is left on purpose: a click on it, its edges let go together, or an edge let go
+  // at the entry's end. Its edges stay inside the entry, so a drag alone never turns it into a shortening.
+  function gapHolds() { return ed.mode === "gap" && ed.s >= ed.o1 && ed.en <= ed.o2 && !(ed.s === ed.o1 && ed.en === ed.o2); }
+  function divided() { return gapHolds() || filling(); }
   function docked() {
     if (ed.mid || ed.placing) return { l: false, r: false };
     return { l: !!ed.prev && ed.s === +ed.prev.end && ed.prev.profile === ed.profile,
              r: !!ed.next && ed.en === +ed.next.start && ed.next.profile === ed.profile };
   }
-  // What the entry becomes: one or two stretches, joined with a docked neighbour.
+  // A gap whose edges are its own to drag: not filled by another profile, which is a new entry with its own length
+  function gapOpen() { return ed.mode === "gap" && !ed.mid; }
+  // What the entry becomes: one or two stretches, joined with a docked neighbour. Divided, each part knows its side
+  // (0 before the gap, 1 after), so its break follows it even when the other part is gone. A gap whose edges meet
+  // shows as the whole entry.
   function edResult() {
-    var parts = divided() ? [{ a: ed.o1, b: ed.s }, { a: ed.en, b: ed.o2 }].filter(function (r) { return r.b > r.a; }) : [{ a: ed.s, b: ed.en }];
+    if (gapOpen() && gapHolds() && ed.s === ed.en) return [{ a: ed.o1, b: ed.o2 }];
+    var parts = divided() ? [{ a: ed.o1, b: ed.s, side: 0 }, { a: ed.en, b: ed.o2, side: 1 }].filter(function (r) { return r.b > r.a; }) : [{ a: ed.s, b: ed.en }];
     var d = docked();
     if (d.l && parts.length) parts[0].a = +ed.prev.start;
     if (d.r) parts[parts.length - 1].b = +ed.next.end;
@@ -1774,7 +1786,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       seg(o1, s, "keep"); seg(Math.max(s, o1), Math.min(e, o2), "cut"); seg(e, o2, "keep"); seg(s, o1, "add"); seg(o2, e, "add");
       return out;
     }
-    if (inward()) {
+    if (inward() || gapHolds()) {
       if (ed.mode === "gap") { seg(o1, s, "keep"); seg(s, e, "cut"); seg(e, o2, "keep"); }
       else { seg(o1, s, "cut"); seg(s, e, "keep"); seg(e, o2, "cut"); }
       return out;
@@ -1828,24 +1840,49 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   // ---- The break in the edit ----
   // The break the result carries: the entry's own, plus a docked neighbour's when they join, unless set with the tag.
-  // Divided, it goes whole to the larger part if it fits there; if not, it fills the larger part and the rest goes to
-  // the other. A handle stops where the parts can no longer hold it.
+  // Divided, the break is split at the click that makes the gap: whole on the larger part if it fits there; if not, it
+  // fills the larger part and the rest goes to the other (ed.split.b, one length per side). Until a tag is set, the
+  // split is the app's: a drag leaves the break where it fits and spills only the overflow to the other part, so
+  // dragged back, it returns; the wall is the two parts together. A tag kept sets both parts where they stand
+  // (ed.split.set): nothing spills, and each part is its own wall.
   function edBreak() {
+    if (ed.split) return ed.split.b[0] + ed.split.b[1];
     if (ed.brk !== null) return ed.brk;
     var d = docked(); return (ed.e.brk || 0) + (d.l ? ed.prev.brk || 0 : 0) + (d.r ? ed.next.brk || 0 : 0)
       + ed.joinsL.concat(ed.joinsR).reduce(function (sum, x) { return sum + (x.brk || 0); }, 0);
   }
   function partMins(r) { return Math.round((r.b - r.a) / MIN); }
+  // The minutes each side of the gap keeps, 0 for a side the filled middle has taken
+  function sideLens() { return [Math.max(0, Math.round((ed.s - ed.o1) / MIN)), Math.max(0, Math.round((ed.o2 - ed.en) / MIN))]; }
+  function splitShares() {
+    var lens = sideLens(), b = ed.split.b.slice();
+    if (ed.split.set) return b;
+    if (b[0] > lens[0]) { b[1] += b[0] - lens[0]; b[0] = lens[0]; }
+    if (b[1] > lens[1]) { b[0] += b[1] - lens[1]; b[1] = lens[1]; }
+    return b;
+  }
   function edShares(parts) {
-    var total = edBreak(), lens = parts.map(partMins), out = lens.map(function () { return 0; });
-    if (!parts.length) return out;
-    var big = lens.indexOf(Math.max.apply(null, lens));
-    out[big] = Math.min(total, lens[big]);
-    if (total > lens[big] && lens.length > 1) out[1 - big] = total - lens[big];
-    return out;
+    if (ed.split && parts.length && parts[0].side !== undefined) { var sh = splitShares(); return parts.map(function (r) { return sh[r.side]; }); }
+    return parts.map(function (r, i) { return i === 0 ? edBreak() : 0; });
+  }
+  function newSplit() {
+    var total = edBreak(), lens = sideLens(), big = lens[0] >= lens[1] ? 0 : 1, b = [0, 0];
+    b[big] = Math.min(total, lens[big]); b[1 - big] = total - b[big];
+    return { b: b, set: false };
+  }
+  // The split folds back into one break, the parts' sum, when the gap goes: a click on it, its edges meeting, or a
+  // handle no longer inward
+  function foldSplit() {
+    if (!ed.split) return;
+    var sum = ed.split.b[0] + ed.split.b[1]; ed.split = null; ed.brk = null;
+    if (sum !== edBreak()) ed.brk = sum;
   }
   function edKept() { return edResult().reduce(function (sum, r) { return sum + partMins(r); }, 0); }
-  function edFits() { return edKept() >= edBreak(); }
+  function edFits() {
+    if (!ed.split || !divided()) return edKept() >= edBreak();
+    var lens = sideLens(), b = ed.split.b;
+    return ed.split.set ? b[0] <= lens[0] && b[1] <= lens[1] : b[0] + b[1] <= lens[0] + lens[1];
+  }
   function edChanged() { if (ed.isNew) return !ed.placing; return ed.s !== ed.o1 || ed.en !== ed.o2 || ed.profile !== ed.e.profile || (ed.brk !== null && ed.brk !== (ed.e.brk || 0)) || !!ed.mid; }
   function edReasonOk() { return ed.reason && (ed.reason !== "other" || ed.other.trim() !== ""); }
   function drawEdit() {
@@ -1857,7 +1894,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (ed.mid && !filling()) { ed.mid = null; $("edProf").value = ed.profile; }
     // A gap lives only while both handles are inward, or while another profile fills it; otherwise the default,
     // shortening, comes back, so an old gap never returns unasked
-    if (!inward() && !filling()) ed.mode = "shorten";
+    if (!inward() && !filling() && !gapHolds()) { ed.mode = "shorten"; foldSplit(); }
     var line = $("edLine"); clear(line);
     var a = ed.view.a, b = ed.view.b, pct = function (t) { return ((t - a) / (b - a) * 100) + "%"; };
     var p = prof(ed.profile); line.style.setProperty("--p", p.colour);
@@ -1887,7 +1924,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       return;
     }
     if (ed.isNew) { var dd = new Date(ed.s); $("edDay").textContent = DAYS_LONG[dd.getDay()] + " " + dd.getDate() + " " + MONTH_FULL[dd.getMonth()]; }
-    var inw = inward() || filling(), mid = filling() && ed.mid;
+    var inw = inward() || filling() || gapHolds(), mid = filling() && ed.mid;
     if (mid) line.style.setProperty("--pm", prof(ed.mid).colour);
     edSegments().forEach(function (g) {
       var k = g.k, middle = inw && g.a === ed.s && g.b === ed.en;
@@ -1902,6 +1939,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (k === "keep") el2.dataset.k = "bar";
       line.appendChild(el2);
     });
+    // About to leave the gap: its edges meeting, or an edge at the entry's end. The part not dragged is outlined in the
+    // base colour, as a docked neighbour is outlined in the colour of the stretch reaching it, green
+    if (ed.dragK && gapOpen() && gapHolds() && (ed.s === ed.en || ed.s === ed.o1 || ed.en === ed.o2)) {
+      var ka = ed.dragK === "a" ? ed.en : ed.o1, kb = ed.dragK === "a" ? ed.o2 : ed.s;
+      var ca = Math.max(ka, a), cb = Math.min(kb, b);
+      if (cb > ca) { var cl = document.createElement("div"); cl.className = "ed-close"; cl.style.left = pct(ca); cl.style.width = "calc(" + pct(cb) + " - " + pct(ca) + ")"; line.appendChild(cl); }
+    }
     [["a", ed.s], ["b", ed.en]].forEach(function (h) {
       if (ed.running && h[0] === "b") return;
       // Every handle wears the neon of the profile in colour, as the colour picker's knob wears its neon
@@ -1927,22 +1971,32 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var res = edResult(), words = res.map(function (r) { return clock(new Date(r.a)) + "–" + clock(new Date(r.b)); }).join(" och ");
     var mins = res.reduce(function (sum, r) { return sum + Math.round((r.b - r.a) / MIN); }, 0);
     // Each part's times, then its break as its tag, with no length: "07:58–12:10 paus 20min"
-    var shares = edShares(res), warn = ed.refused || (edBreak() > 0 && edKept() === edBreak()), changed = edChanged();
+    var shares = edShares(res), changed = edChanged();
+    // Red: a refused switch, or a handle at the limit, on the tag that holds the break there: a part full of break,
+    // and while the split is the app's, only once the two parts together are full
+    var atLimit = ed.split && divided() && res.length > 1 && !ed.split.set ? edKept() === edBreak() : true;
+    function warnAt(m, i) { return ed.refused || (m > 0 && atLimit && m === partMins(res[i])); }
     function tagHtml(m, i) {
-      // The field opens where the clicked tag was
-      if (ed.brkEditing && i === ed.brkAt) return '<input class="brk-in" id="edBrkIn" placeholder="00:00" autocomplete="off" value="' + lengthField(edBreak()) + '">';
-      if (!m) return i === 0 && !edBreak() && !ed.mid ? '<button type="button" class="tag add" data-i="0">+ paus</button>' : "";
-      return '<button type="button" class="tag' + (ed.mid ? " still" : warn ? " warn" : "") + '" data-i="' + i + '">paus ' + lengthText(m) + "</button>";
+      // The field opens where the clicked tag was, holding that part's break alone
+      if (ed.brkEditing && i === ed.brkAt) return '<input class="brk-in" id="edBrkIn" placeholder="00:00" autocomplete="off" value="' + lengthField(m) + '">';
+      // A part with no break offers its own; "+ paus" when the longer words would not fit on the line
+      if (!m) return ed.mid ? "" : '<button type="button" class="tag add" data-i="' + i + '">' + (addShort ? "+ paus" : "Lägg till paus") + "</button>";
+      return '<button type="button" class="tag' + (ed.mid ? " still" : warnAt(m, i) ? " warn" : "") + '" data-i="' + i + '">paus ' + lengthText(m) + "</button>";
     }
     var times = res.map(function (r) { return ed.running ? clock(new Date(r.a)) : clock(new Date(r.a)) + "–" + clock(new Date(r.b)); });
     // Divided, the parts are set apart by a centred dot. With the gap filled by another profile, the text follows the
     // line: the parts grey, as neighbours, and the new entry's time in that profile's base colour.
-    var parts = res.map(function (r, i) { return ed.mid ? '<span class="nb">' + times[i] + tagHtml(shares[i], i) + "</span>" : "<b>" + times[i] + "</b>" + tagHtml(shares[i], i); });
-    if (ed.mid) parts.splice(ed.s > ed.o1 ? 1 : 0, 0, '<b style="color: ' + prof(ed.mid).colour + '">' + clock(new Date(ed.s)) + "–" + clock(new Date(ed.en)) + "</b>");
-    var html = res.length === 1 && !ed.mid
-      ? (changed ? "<b>" + times[0] + "</b>" : times[0]) + tagHtml(shares[0], 0)
-      : parts.join(" · ");
-    $("edTimes").innerHTML = html;
+    function timesHtml() {
+      var parts = res.map(function (r, i) { return ed.mid ? '<span class="nb">' + times[i] + tagHtml(shares[i], i) + "</span>" : "<b>" + times[i] + "</b>" + tagHtml(shares[i], i); });
+      if (ed.mid) parts.splice(ed.s > ed.o1 ? 1 : 0, 0, '<b style="color: ' + prof(ed.mid).colour + '">' + clock(new Date(ed.s)) + "–" + clock(new Date(ed.en)) + "</b>");
+      return res.length === 1 && !ed.mid
+        ? (changed ? "<b>" + times[0] + "</b>" : times[0]) + tagHtml(shares[0], 0)
+        : parts.join(" · ");
+    }
+    var addShort = false, tl = $("edTimes");
+    tl.innerHTML = timesHtml();
+    // Wrapped onto a second line: the short words instead
+    if (tl.querySelector(".add") && tl.offsetHeight > parseFloat(getComputedStyle(tl).fontSize) * ADD_WRAP) { addShort = true; tl.innerHTML = timesHtml(); }
     // The same shape as every length field ("Entering a length of time"); no reading under it, the tag shows it on Enter
     if (ed.brkEditing) { var bi = $("edBrkIn"); keepOnly(bi, /[0-9:]/, /^(\d{0,3}|\d{0,2}:([0-5]\d?)?)$/); bi.focus(); bi.select(); }
     // A reason alone, with nothing else changed, may be saved on an entry already written
@@ -1972,8 +2026,22 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       // facing it stops at its near edge, and docks there
       if (!ed.isNew && drag.k === "a" && drag.s0 >= ed.o2) lo = Math.max(lo, ed.o2);
       if (!ed.isNew && drag.k === "b" && drag.e0 <= ed.o1) hi = Math.min(hi, ed.o1);
-      if (drag.k === "a") ed.s = Math.min(Math.max(snapT(t), lo), ed.en - q);
-      else if (drag.k === "b") ed.en = Math.max(Math.min(snapT(t), hi), ed.s + q);
+      // While shortening the handles keep EDIT_SNAP minutes apart; a gap's edges keep none: the other edge is a point
+      // the dragged one snaps to, even off the 5-minute marks, and meeting it closes the gap on let go
+      // An open gap's edges stay inside the entry, and leave room for one part
+      var open = gapOpen() && gapHolds(), snapped = snapT(t);
+      if (open) {
+        lo = Math.max(lo, ed.en === ed.o2 && drag.k === "a" ? ed.o1 + q : ed.o1);
+        hi = Math.min(hi, ed.s === ed.o1 && drag.k === "b" ? ed.o2 - q : ed.o2);
+      }
+      ed.dragK = drag.k;
+      if (drag.k === "a") {
+        if (open && (snapped > ed.en || Math.abs(t - ed.en) < Math.abs(t - snapped))) snapped = ed.en;
+        ed.s = Math.min(Math.max(snapped, lo), open ? ed.en : ed.en - q);
+      } else if (drag.k === "b") {
+        if (open && (snapped < ed.s || Math.abs(t - ed.s) < Math.abs(t - snapped))) snapped = ed.s;
+        ed.en = Math.max(Math.min(snapped, hi), open ? ed.s : ed.s + q);
+      }
       else { var dt = Math.round((t - drag.t0) / q) * q; dt = Math.max(lo - drag.s0, Math.min(hi - drag.e0, dt)); ed.s = drag.s0 + dt; ed.en = drag.e0 + dt; }
       // The break is a wall too: step back toward where the handle was until the parts can hold it
       for (var n = 0; !edFits() && n < 2000; n++) {
@@ -1985,15 +2053,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       drawEdit();
     });
     line.addEventListener("pointerup", function () {
-      if (drag && drag.moved && ed) { absorbDocked(); settleView(); }
+      if (drag && drag.moved && ed) { ed.dragK = null; closeGap(); absorbDocked(); settleView(); }
       // A click on a handle, not a drag, grows it into the pill; the other handle's pill, if open, shrinks
       if (drag && !drag.moved && ed && (drag.k === "a" || drag.k === "b")) { if (ed.pill !== drag.k) openPill(drag.k); drag = null; return; }
       // A click on the middle, not a drag, switches a shortening and a gap
       if (drag && !drag.moved && ed && !ed.mid && inward() && drag.t0 > ed.s && drag.t0 < ed.en) {
+        // Made, the gap splits the break, larger part first; switched back, the parts' breaks fold into one
+        var was = { mode: ed.mode, split: ed.split, brk: ed.brk };
         ed.mode = ed.mode === "gap" ? "shorten" : "gap";
+        if (ed.mode === "gap") ed.split = newSplit(); else foldSplit();
         // A switch the break cannot fit in is refused, and the tag says why, red until the next change
         ed.refused = !edFits();
-        if (ed.refused) ed.mode = ed.mode === "gap" ? "shorten" : "gap";
+        if (ed.refused) { ed.mode = was.mode; ed.split = was.split; ed.brk = was.brk; }
         if (ed.mode === "shorten" && ed.mid) { ed.mid = null; $("edProf").value = ed.profile; }
         drawEdit();
       }
@@ -2011,12 +2082,23 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     ed.pillShrink = ed.pill; ed.pill = null; drawEdit();
   }
   function stepHandle(k, d) {
-    var was = { s: ed.s, en: ed.en };
-    if (k === "a") ed.s = Math.min(Math.max(ed.s + d * MIN, edLo()), ed.en - MIN);
-    else ed.en = Math.max(Math.min(ed.en + d * MIN, edHi()), ed.s + MIN);
+    var was = { s: ed.s, en: ed.en }, gap = gapOpen() && gapHolds(), open = gap ? 0 : MIN;
+    if (k === "a") ed.s = Math.min(Math.max(ed.s + d * MIN, edLo(), gap ? (ed.en === ed.o2 ? ed.o1 + MIN : ed.o1) : -Infinity), ed.en - open);
+    else ed.en = Math.max(Math.min(ed.en + d * MIN, edHi(), gap ? (ed.s === ed.o1 ? ed.o2 - MIN : ed.o2) : Infinity), ed.s + open);
     ed.refused = !edFits();
     if (ed.refused) { ed.s = was.s; ed.en = was.en; }
-    releaseJoins(); absorbDocked(); settleView();
+    releaseJoins(); closeGap(); absorbDocked(); settleView();
+  }
+  // A gap's edges let go, or stepped, onto each other: the entry is whole again, its handles back at its start and end
+  // as the view refits. An edge let go at the entry's end: that part goes, and what is left is a shortening, its
+  // handles at its ends. Either way the break is the parts' sum and no longer set, so a new gap splits it afresh.
+  function closeGap() {
+    if (!gapOpen() || !gapHolds()) return;
+    if (ed.s === ed.en) { ed.s = ed.o1; ed.en = ed.o2; }
+    else if (ed.s === ed.o1) { ed.s = ed.en; ed.en = ed.o2; }
+    else if (ed.en === ed.o2) { ed.en = ed.s; ed.s = ed.o1; }
+    else return;
+    ed.pill = null; ed.mode = "shorten"; foldSplit();
   }
   var holdT = null;
   function holdStep(k, d) {
@@ -2040,19 +2122,21 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     else { ed.profile = this.value; ed.mid = null; }
     drawEdit();
   });
-  // The tag sets the whole break, as the field under "Lägg till paus" does: Enter or a click away keeps it, Esc
-  // leaves it as it was. An entry holds one break, its length alone.
+  // The tag sets its part's break, as the field under "Lägg till paus" does: Enter or a click away keeps it, Esc
+  // leaves it as it was. Each part is saved as an entry of its own, with its own break, its length alone.
   $("edTimes").addEventListener("click", function (ev) {
     if (!ed || !ev.target.classList.contains("tag") || ev.target.classList.contains("still")) return;
     ed.brkEditing = true; ed.brkAt = +ev.target.dataset.i || 0; drawEdit();
   });
-  // A length longer than the time kept is refused, its text red, the field left open until fixed or dropped with Esc
+  // A length longer than the time its part keeps is refused, its text red, the field left open until fixed or dropped
+  // with Esc. Kept, even unchanged, a divided entry's breaks are set where they stand: neither spills from then on.
   function closeBrk(keep) {
     if (!ed || !ed.brkEditing) return;
-    var bi = $("edBrkIn"), v = keep ? readLength(bi.value || "0") : null;
-    if (v !== null && v > edKept()) { bi.classList.add("warn"); return; }
+    var bi = $("edBrkIn"), v = keep ? readLength(bi.value || "0") : null, res = edResult(), part = res[ed.brkAt] || res[0];
+    if (v !== null && v > partMins(part)) { bi.classList.add("warn"); return; }
     ed.brkEditing = false; ed.refused = false;
-    if (v !== null) ed.brk = v;
+    if (v !== null && ed.split && part.side !== undefined) { ed.split = { b: splitShares(), set: true }; ed.split.b[part.side] = v; }
+    else if (v !== null) { foldSplit(); ed.brk = v; }
     drawEdit();
   }
   $("edTimes").addEventListener("input", function (ev) { if (ev.target.id === "edBrkIn") ev.target.classList.remove("warn"); });

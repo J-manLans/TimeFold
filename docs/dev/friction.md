@@ -15,7 +15,7 @@ and the owner answers by number. An entry then leaves: its fix goes into the rul
 In Phase 3 the owner said a divided entry's right break tag opened its field on the left one. The fix moved the field to
 the clicked tag and left it on the whole break, as "Editing an entry on its line" said ("the entry's one break"), though
 a save makes an entry per part, each with its own break (`edit.ts`). The field then showed the sum under a part's tag,
-and "+ paus" sat on the first part only. The owner found it himself days later; the agent in a later session read the
+and "+ paus" sat on the first part only. The owner found it himself the same day; the agent in a later session read the
 same sum as intended too. Cost: a decision rewritten, a roadmap step, and a fix built twice. Rule involved: "Mention
 what is surprising; do not fix it unasked", in `AGENTS.md`, which only works when the agent looks past the symptom. A
 fix to where or how a control shows could also check what it changes against what is saved, and say so when a decision
