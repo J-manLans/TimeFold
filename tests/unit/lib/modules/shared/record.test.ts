@@ -35,7 +35,7 @@ const UPGRADED = {
 }
 
 describe('a record of version 1 is upgraded to this version', () => {
-  it('gains full time, 8 h from its first opening, no breaks and no flex days, and keeps the rest', () => {
+  it('gains full time, 7 h 39 min from its first opening, no breaks and no flex days, and keeps the rest', () => {
     const result = readRecord(
       text((r) => {
         r.version = 1
@@ -44,7 +44,7 @@ describe('a record of version 1 is upgraded to this version', () => {
       }),
     )
 
-    expect(result).toEqual({ ok: true, record: UPGRADED })
+    expect(result).toEqual({ ok: true, record: { ...UPGRADED, fullTime: [{ from: '2026-11-16', minutes: 459 }] } })
   })
 })
 
@@ -179,7 +179,7 @@ describe('a record of the wrong shape names where', () => {
 })
 
 describe('a fresh start makes a record of one profile with its opening', () => {
-  it('holds the profile with 6 h a day and no flex days, full time of 8 h from the first day, the opening that day, no entries', () => {
+  it('holds the profile with 6 h a day and no flex days, full time of 7 h 39 min from the first day, the opening that day, no entries', () => {
     expect(freshRecord('Vaktmästare', 12 * 60 + 30, '2026-11-16')).toMatchObject({
       format: RECORD_FORMAT,
       version: RECORD_VERSION,
@@ -187,7 +187,7 @@ describe('a fresh start makes a record of one profile with its opening', () => {
         { id: 'p1', name: 'Vaktmästare', expectedMinutes: [{ from: '2026-11-16', minutes: 360 }], flexDays: [] },
       ],
       openings: [{ profile: 'p1', day: '2026-11-16', balanceMinutes: 750 }],
-      fullTime: [{ from: '2026-11-16', minutes: 480 }],
+      fullTime: [{ from: '2026-11-16', minutes: 459 }],
       entries: [],
     })
   })

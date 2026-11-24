@@ -16,7 +16,7 @@ sits the theme button ("A light or dark theme, following the system").
   in, and folds back the same way; opening one folds any other. It shows its name, its colour ("Each profile carries its
   colours"), pay (a monthly salary or a rate per hour), pay category, and "Arkivera". "Ny profil" is at the bottom.
 - **Tid:** "Heltid", full time; "Fördelning", the slider that splits it between janitor's expected hours and the
-  ceiling, with the numbers on it ("6 | 2"); and "Flexledig", labelled as they are, the calendar where flex days are
+  ceiling, with the numbers on it ("6 | 1:39"); and "Flexledig", labelled as they are, the calendar where flex days are
   marked ("A flex day can be marked ahead, and the screen counts it at once"). Nothing else: the tab says what each
   value means by its numbers.
 - **Orsaker:** the reasons an edit can be given, and the "Annan orsak" texts that keep coming up ("Every edit carries a
@@ -49,9 +49,9 @@ profile to its figures instead.
 
 - Menu opened: the Profiler tab shows.
 - A profile's name: "Ändra", a new name, Enter: saved at once, with no "Gäller från".
-- Split 6 | 2, "Ändra", moved to 5 | 3, Enter, "Gäller från" 1 September: from then on janitor owes 5 h a day.
+- Split 6 | 1:39, "Ändra", moved to 5 | 2:39, Enter, "Gäller från" 1 September: from then on janitor owes 5 h a day.
 - "Ändra" on full time, a new value typed, Esc: full time is unchanged, and the menu stays open; Esc again: it closes.
 - "Ändra" on the split, then a click on the menu's empty space: the edit is aborted.
-- After that change, "Tidigare värden (1)": 6 | 2 until 31 August.
+- After that change, "Tidigare värden (1)": 6 | 1:39 until 31 August.
 - Split unlocked with "Ändra", then "Ändra" on full time: the split's edit is aborted; full time saved: the split shows
   the new total, and nothing else changes.

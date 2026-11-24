@@ -972,7 +972,21 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 <script>
 (function () {
   "use strict";
-  var RED_HUE = 29, CEILING = 42 * 60;
+  var RED_HUE = 29;
+  // Counting settings change from a date; each keeps its history.
+  var settings = {
+    fullTime: [{ from: "2026-01-01", v: 459 }],   // 7 h 39 min a day: a 38 h 15 min week
+    split: [{ from: "2026-01-01", v: 360 }]       // janitor's expected minutes a day; the ceiling gets the rest
+  };
+  // The month's ceiling in minutes: full time less the janitor's expected hours, on each weekday of this month
+  // ("The other profiles share a ceiling"); worked out afresh at every draw, so a setting changed in Tid shows at once
+  function monthCeiling() {
+    var d = new Date(), m = d.getMonth(), day = new Date(d.getFullYear(), m, 1), n = 0;
+    for (; day.getMonth() === m; day.setDate(day.getDate() + 1)) if (day.getDay() % 6 !== 0) n++;
+    var full = settings.fullTime[settings.fullTime.length - 1].v, split = settings.split[settings.split.length - 1].v;
+    return n * Math.max(0, full - split);
+  }
+  var CEILING = monthCeiling();
   // The figures panel's actual background, as the colour rule's "background" (it changes with the theme).
   function panelBg() {
     var s = getComputedStyle(document.getElementById("panelProbe")).backgroundColor, m;
@@ -1155,7 +1169,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // A profile's colour for what is happening now: its neon (the running ring, the status dot, the label).
   function profColour(id) { return profPair(prof(id)).over; }
   // Where a profile stands: past its line when the balance is in plus, or the ceiling is passed; at 0 it is not.
-  function standsOver(id) { return prof(id).balance ? Math.round(balance) > 0 : used > CEILING; }
+  function standsOver(id) { CEILING = monthCeiling(); return prof(id).balance ? Math.round(balance) > 0 : used > CEILING; }
   // Its letter, its small circle and the focus rings follow where it stands: the letter in the neon past the
   // line and in the base colour before it, the circle's ring in the other.
   function stateColours(id) { var p = profPair(prof(id)); return standsOver(id) ? { letter: p.over, ring: p.base } : { letter: p.base, ring: p.over }; }
@@ -1224,6 +1238,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     n.style.color = Math.round(v) === 0 ? "var(--f-fg)" : v > 0 ? c.over : c.base;   // the number follows the bar
   }
   function drawWheel() {
+    CEILING = monthCeiling();
     var svg = $("wheelSvg"), c = resolved("wheel"), r = WHEEL.r, w = WHEEL.w, circ = 2 * Math.PI * r; clear(svg);
     var u = Math.min(shown.used, CEILING) / CEILING, o = Math.min(Math.max(shown.used - CEILING, 0), CEILING) / CEILING;
     var g = el("g", { transform: "rotate(-90 100 100)" });
@@ -2466,11 +2481,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function hLen(m) { return Math.floor(m / 60) + (m % 60 ? ":" + String(m % 60).padStart(2, "0") : "") + "h"; }
   function readHours(s) { s = s.trim(); var m = /^(\d{1,2}):(\d{2})$/.exec(s); if (m) return +m[1] * 60 + +m[2]; if (/^\d{1,2}$/.test(s)) return +s * 60; return null; }
   function now(h) { return h[h.length - 1].v; }
-  // Counting settings change from a date; each keeps its history.
-  var settings = {
-    fullTime: [{ from: "2026-01-01", v: 480 }],
-    split: [{ from: "2026-01-01", v: 360 }]       // janitor's expected minutes a day; the ceiling gets the rest
-  };
   profiles.forEach(function (q) {
     q.pay = q.salary ? { kind: "salary", hist: [{ from: "2026-01-01", v: q.salary }] } : { kind: "rate", hist: q.rate ? [{ from: "2026-01-01", v: q.rate }] : [] };
     q.category = q.balance ? "Månadslön" : "Timlön"; q.archived = false;
@@ -2496,7 +2506,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var slider = null, legend = null, input = null, date = null, stage = "locked", pending = null;
     if (o.slider) {
       var box = document.createElement("div"); box.className = "split";
-      slider = document.createElement("input"); slider.type = "range"; slider.min = 0; slider.max = o.slider.max(); slider.step = 15; slider.disabled = true;
+      slider = document.createElement("input"); slider.type = "range"; slider.min = 0; slider.max = o.slider.max(); slider.step = 1; slider.disabled = true;   // by the minute, so any full time splits exactly
       slider.setAttribute("aria-label", o.label);
       legend = document.createElement("div"); legend.className = "split-legend";
       box.append(slider, legend); wrap.appendChild(box);
@@ -2729,10 +2739,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       label: "Heltid", hist: function () { return settings.fullTime; }, show: hLen,
       toText: function (v) { return hLen(v).replace("h", ""); }, parse: readHours,
       // A new full time only refreshes the split beside it; nothing is rebuilt, so no other edit or focus is lost.
-      onCommit: function () { if (splitCtl) splitCtl.refresh(); }
+      onCommit: function () { if (splitCtl) splitCtl.refresh(); drawFigures(); }
     }));
     wt.appendChild(splitCtl = lockedValue({
-      label: "Fördelning", hist: function () { return settings.split; },
+      label: "Fördelning", hist: function () { return settings.split; }, onCommit: function () { drawFigures(); },
       show: function (v) { return hLen(v) + " | " + hLen(now(settings.fullTime) - v); },
       slider: {
         max: function () { return now(settings.fullTime); },

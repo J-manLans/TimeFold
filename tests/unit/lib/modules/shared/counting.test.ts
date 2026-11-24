@@ -241,15 +241,15 @@ describe('the month the app is first started in has its whole ceiling, whatever 
   // 19 November 2026 is a Thursday, eight weekdays from the month's end
   const FIRST_DAY = '2026-11-19'
 
-  it('gives November its 42 h, its 21 weekdays times 2 h, not the 16 h of the eight left', () => {
-    expect(ceilingMonth(freshRecord('Vaktmästare', 0, FIRST_DAY), FIRST_DAY).ceiling).toBe(42 * HOUR)
+  it('gives November its 34 h 39 min, its 21 weekdays times 1 h 39 min, not the 13 h 12 min of the eight left', () => {
+    expect(ceilingMonth(freshRecord('Vaktmästare', 0, FIRST_DAY), FIRST_DAY).ceiling).toBe(21 * 99 * 60)
   })
 
-  it('carries nothing into December after 20 h of other work, which starts at 0 of its 46 h', () => {
+  it('carries nothing into December after 20 h of other work, which starts at 0 of its 37 h 57 min', () => {
     const fresh = freshRecord('Vaktmästare', 0, FIRST_DAY)
     const withDev = { ...fresh, profiles: [...fresh.profiles, DEV], entries: [work(FIRST_DAY, 20, DEV.id)] }
 
-    expect(ceilingMonth(withDev, '2026-12-10')).toMatchObject({ ceiling: 46 * HOUR, used: 0 })
+    expect(ceilingMonth(withDev, '2026-12-10')).toMatchObject({ ceiling: 23 * 99 * 60, used: 0 })
   })
 
   it('leaves the balance alone: a day before the first owes nothing', () => {
