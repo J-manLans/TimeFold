@@ -34,16 +34,16 @@ work is done has no bearing on the counts.
 **Built by:** Profiles, for the full-time slider and the opening ceiling hours.
 
 **Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles together
-share one ceiling: the rest of full time. Full time is a setting (8 h a day), and the ceiling is not set but follows
-from it: on each weekday, full time minus janitor's expected hours (8 − 6 = 2 h), added up over the weekdays of its
-period, so janitor work and the ceiling together make exactly full time. Hours in the other profiles count the same
-whenever they are worked: night or day, weekday or weekend. Full time and janitor's expected hours are set together with
-one slider that splits full time between them (6 | 2); how it looks is settled with the look and feel. The ceiling's
-period is the month ("The app's month is the calendar month"), and the month the app is first started in has its whole
-ceiling, whatever day that is. Hours over a month's ceiling carry into the next month, which starts with them already
-used; hours left unused do not carry, and the next month starts from zero. The ceiling is never owed: working under it
-costs nothing, and the janitor balance has no cap either. The front page shows how much of it is used on the ceiling
-wheel, beside the flex bar ("The ceiling wheel"). It never blocks a click.
+share one ceiling: the rest of full time. Full time is a setting (7 h 39 min a day, a 38 h 15 min week), and the ceiling
+is not set but follows from it: on each weekday, full time minus janitor's expected hours (7 h 39 min − 6 h = 1 h 39
+min), added up over the weekdays of its period, so janitor work and the ceiling together make exactly full time. Hours
+in the other profiles count the same whenever they are worked: night or day, weekday or weekend. Full time and janitor's
+expected hours are set together with one slider that splits full time between them (6 | 1:39); how it looks is settled
+with the look and feel. The ceiling's period is the month ("The app's month is the calendar month"), and the month the
+app is first started in has its whole ceiling, whatever day that is. Hours over a month's ceiling carry into the next
+month, which starts with them already used; hours left unused do not carry, and the next month starts from zero. The
+ceiling is never owed: working under it costs nothing, and the janitor balance has no cap either. The front page shows
+how much of it is used on the ceiling wheel, beside the flex bar ("The ceiling wheel"). It never blocks a click.
 
 **Why:** the owner's other work comes on top of the janitor job, within what full time and the law allow, and the
 balance between the two may shift. Deriving the ceiling means one change moves both, and they cannot disagree. Showing

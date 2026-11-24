@@ -18,8 +18,11 @@ export const RECORD_VERSION = 4
 /** The janitor's expected minutes a working day, as a fresh record starts them ("Expected hours: 6 a day, Monday to Friday") */
 const EXPECTED_MINUTES = 6 * 60
 
-/** Full time in minutes a working day, as a fresh or upgraded record starts it ("The other profiles share a ceiling") */
-const FULL_TIME_MINUTES = 8 * 60
+/**
+ * Full time in minutes a working day, as a fresh or upgraded record starts it: a 38 h 15 min week over five days, 7 h 39
+ * min ("The other profiles share a ceiling")
+ */
+const FULL_TIME_MINUTES = 7 * 60 + 39
 
 /** A calendar day, written YYYY-MM-DD */
 export type Day = string
@@ -156,8 +159,8 @@ export function readRecord(text: string): ReadResult {
 }
 
 /**
- * A new record for "Starta nytt": one profile, the one with the balance, expected to work 6 h a day of a full time of 8
- * h from the first day, and the balance brought over from before, dated that day ("A first install starts fresh or
+ * A new record for "Starta nytt": one profile, the one with the balance, expected to work 6 h a day of a full time of 7
+ * h 39 min from the first day, and the balance brought over from before, dated that day ("A first install starts fresh or
  * imports"). Used by the onboarding, which names it and sets its balance before the first save, and when a broken
  * record with no copy starts fresh: freshRecord('Vaktmästare', 750, '2026-11-16').
  * @param openingMinutes - the balance from the Excel file as it stood the evening before, in minutes; minus is owed
@@ -230,7 +233,7 @@ const PAY_KINDS: readonly PayKind[] = ['salary', 'rate']
 const MINUTES_A_DAY = 24 * 60
 
 /**
- * Brings a version 1 record to version 2: full time, which it did not have, starts at 8 h from its first opening.
+ * Brings a version 1 record to version 2: full time, which it did not have, starts at 7 h 39 min from its first opening.
  * Used by `readRecord` before the check, which then judges the result; a record with no opening is left for it to name
  */
 function upgradeFromOne(data: Fields): void {
