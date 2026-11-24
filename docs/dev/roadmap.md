@@ -19,9 +19,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3: Corrections, built on `phase-3-corrections` and under the owner's review: step 5, the flex calendar's first
-day, seen on Linux; then step 4's fix, then the review's questions in `open-questions.md`, then each step seen by eye on
-Linux.
+Phase 3: Corrections, built on `phase-3-corrections` and under the owner's review: the review's questions in
+`open-questions.md`, then steps 1 to 3 seen by eye on Linux.
 
 ## The phases
 
@@ -49,19 +48,9 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 2. `[written]` `[tests]` The lists: a running entry heading both in its neon, edited at its start; each entry's "e" tag
    and its reason under the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
 3. `[written]` `[tests]` Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each
-   entry's mark of how it was made, and a reason given alone, with nothing else changed.
-4. `[written]` `[tests]` Fix, found in review: days before the record's first day, where the janitor's expected hours
-   begin, are greyed out in the flex calendar, padlock or not, since a flex day there takes nothing off ("A flex day can
-   be marked ahead, and the screen counts it at once"). `firstDay` in `src/lib/modules/menu/flexDays.ts`, read by
-   `FlexCalendar.svelte`.
-
-5. `[written]` `[tests]` Change, found in review: a forgotten entry is placed 30 minutes long, sliding off a wall to
-   keep its length and filling shorter free time; touching a neighbour of its profile it is docked, green, not taken in
-   ("A forgotten entry is written in the gap where it belongs"). `place` and `segments` in
-   `src/lib/modules/edit/line.ts`.
-
-**Done when:** a forgotten start, a late stop and an errand found afterwards are each fixed in a few clicks, each with
-its reason, and the balance follows.
+   entry's mark of how it was made, and a reason given alone, with nothing else changed. **Done when:** a forgotten
+   start, a late stop and an errand found afterwards are each fixed in a few clicks, each with its reason, and the
+   balance follows.
 
 ### Phase 4: Profiles
 

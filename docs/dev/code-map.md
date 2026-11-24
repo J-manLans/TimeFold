@@ -83,10 +83,15 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that
   names a day's copy; `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke
   checked against the field's shape (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field
-  wears, applies as it is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20").
+  wears, applies as it is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20");
+  `focusRing.ts`, the last input (a key or a pointer) and the focus ring as a popup opens and closes: opening, each
+  popup keeps how (`popupOpened`) and quiets the focus it moves in unless that was the keyboard (`ringOnOpen`); closing,
+  it quiets the element the focus lands on (`popupClosed`) unless it was opened and closed with the keyboard
+  (`ringAfterClose`).
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
-  the reset, the fonts, the body, the registered `--glow-strength` the pointer light fades by, and Stilla: under
-  `data-still` every transition, animation and delay is zero.
+  the reset, the fonts, the body, every focus ring and the quiet one (`data-quiet-focus`) after a popup closes, the
+  registered `--glow-strength` the pointer light fades by, and Stilla: under `data-still` every transition, animation
+  and delay is zero.
 
 ## The tests: `tests/`
 

@@ -8,6 +8,7 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import FlexCalendar from './FlexCalendar.svelte'
   import Onboarding from './Onboarding.svelte'
   import Recovery from './Recovery.svelte'
@@ -23,8 +24,18 @@
 
   let menu: HTMLDivElement | undefined = $state()
   let locked = $derived(app.panel !== null)
+  /** How the menu was opened, a key or a pointer, for the focus ring when it closes, and whether it was open */
+  let openedBy: Input = null
+  let wasOpen = false
 
   // === Logic ===
+
+  // Opened, it keeps how; closed, the focus left on its button shows a ring only after a keyboard open and close
+  $effect(() => {
+    if (open && !wasOpen) openedBy = popupOpened()
+    if (!open && wasOpen) popupClosed(openedBy)
+    wasOpen = open
+  })
 
   // At the first start the menu is open until the onboarding's ending folds it
   $effect(() => {
