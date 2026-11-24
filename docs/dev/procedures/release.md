@@ -25,11 +25,12 @@ the day the app is finished and the Excel backup goes.
 4. **Tag and push the tag:** `git tag v0.1.0`, then `git push origin v0.1.0`. This starts the build.
 5. **Watch the build** on the repo's Actions page. It first checks that the tag and the three versions agree, then
    builds on Windows and on Linux, each in about ten to fifteen minutes.
-6. **Publish:** on the releases page, the draft "TimeFold v0.1.0" holds the installers: for Windows a `-setup.exe` and
-   an `.msi`, for Linux a `.deb`, an `.rpm` and an `.AppImage`. Read it over, then "Publish release".
-7. **Install** on each machine from the releases page: on Windows the `-setup.exe` (the `.msi`, with admin rights, only
-   if it fails, and never both on one machine), on Linux the `.deb`. A newer installer updates the program in place and
-   leaves the record, its copies and the settings untouched.
+6. **Read the draft:** on the releases page, the draft "TimeFold v0.1.0" holds the installers: for Windows a
+   `-setup.exe` and an `.msi`, for Linux a `.deb`, an `.rpm` and an `.AppImage`. Before `1.0.0` it stays a draft, which
+   only the owner sees, and the installers are downloaded from it; from `1.0.0` it is read over, then "Publish release".
+7. **Install** on each machine from the release, draft or published: on Windows the `-setup.exe` (the `.msi`, with admin
+   rights, only if it fails, and never both on one machine), on Linux the `.deb`. A newer installer updates the program
+   in place and leaves the record, its copies and the settings untouched.
 
 ## When the build stops
 
@@ -40,4 +41,4 @@ The tag is set by hand on `main`, never with `npm version`, which tags the commi
 commit changes identity when the branch is merged with rebase, so the tag would point at a commit `main` does not have.
 
 - **A build fails on one machine:** its log is on the Actions page, under the failed job. The other still finishes; the
-  draft is published only once both installers are there.
+  draft is used, or published, only once both installers are there.
