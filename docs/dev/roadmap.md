@@ -50,15 +50,12 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
    and its reason under the row in "Visa alla"; the rows' hover; the times column wide enough for the "+1".
 3. `[written]` `[tests]` Writing and deleting: a forgotten entry written in its gap in "Visa alla"; "Ta bort"; each
    entry's mark of how it was made, and a reason given alone, with nothing else changed.
-4. Fix, found in review: a short entry's handles cannot grow it. The view's edges stop a handle on the 5-minute mark
-   inside them, and an entry of a few seconds or 10 minutes has none between its handle and the edge, so it is stuck. A
-   handle always reaches the next 5-minute mark past it, even just outside the view, which refits on let go.
-5. `[written]` `[tests]` Fix, found in review: days before the record's first day, where the janitor's expected hours
+4. `[written]` `[tests]` Fix, found in review: days before the record's first day, where the janitor's expected hours
    begin, are greyed out in the flex calendar, padlock or not, since a flex day there takes nothing off ("A flex day can
    be marked ahead, and the screen counts it at once"). `firstDay` in `src/lib/modules/menu/flexDays.ts`, read by
    `FlexCalendar.svelte`.
 
-6. `[written]` `[tests]` Change, found in review: a forgotten entry is placed 30 minutes long, sliding off a wall to
+5. `[written]` `[tests]` Change, found in review: a forgotten entry is placed 30 minutes long, sliding off a wall to
    keep its length and filling shorter free time; touching a neighbour of its profile it is docked, green, not taken in
    ("A forgotten entry is written in the gap where it belongs"). `place` and `segments` in
    `src/lib/modules/edit/line.ts`.
