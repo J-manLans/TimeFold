@@ -2,7 +2,8 @@
   The flex-day calendar in the menu's Tid tab ("A flex day can be marked ahead, and the screen counts it at once"): a
   month of outlined days, weeks from Monday, with ‹ and › to the months either side. A click on a weekday, today or
   ahead, marks it in the base colour of the profile with the balance, and a click on a marked one unmarks it; the flex
-  bar follows at once. Weekends and days janitor work started on are greyed out and cannot be clicked; so are days gone
+  bar follows at once. Weekends, days janitor work started on and days before the record's first day are greyed out and
+  cannot be clicked; so are days gone
   by, a past flex day keeping its fill, until the padlock beside the month's name is opened. Today stays open until
   work starts on it. It locks again when the tab goes, the menu closes, or the
   calendar is shown again. Beside it, every marked day from today on, a line per month, each line level with a week;
@@ -11,7 +12,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { app } from '$lib/app.svelte'
-  import { calendarMonth, daysAhead, isWeekend, monthAfter, workedDays } from '$lib/modules/menu/flexDays'
+  import { calendarMonth, daysAhead, firstDay, isWeekend, monthAfter, workedDays } from '$lib/modules/menu/flexDays'
   import { localDay } from '$lib/modules/shared/counting'
   import { monthInWords } from '$lib/modules/shared/dates'
   import { type Day } from '$lib/modules/shared/record'
@@ -31,6 +32,7 @@
   let marked = $derived(new Set(janitor?.flexDays ?? []))
   let ahead = $derived(app.record ? daysAhead(app.record, today) : [])
   let worked = $derived(app.record ? workedDays(app.record) : new Set<Day>())
+  let first = $derived(app.record ? firstDay(app.record) : undefined)
 
   // === Helpers ===
 
@@ -46,9 +48,12 @@
     grid?.querySelector<HTMLButtonElement>(`[data-day="${day}"]`)?.focus()
   }
 
-  /** Whether a day cannot be clicked: a weekend or a day worked always, a day gone by while the padlock is shut */
+  /**
+   * Whether a day cannot be clicked: a weekend, a day worked or a day before the record's first day always, a day gone by
+   * while the padlock is shut
+   */
   function locked(day: Day): boolean {
-    return isWeekend(day) || worked.has(day) || (day < today && !unlocked)
+    return isWeekend(day) || worked.has(day) || (first !== undefined && day < first) || (day < today && !unlocked)
   }
 </script>
 

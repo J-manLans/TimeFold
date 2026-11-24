@@ -6,8 +6,6 @@ its title.
 
 ## A gap divides an entry (2026-11-24)
 
-**Built by:** Corrections.
-
 **Decision:** with both handles inward ("Editing an entry on its line"), a click on the middle, where the pointer shows
 it can be clicked, makes it a gap instead of a shortening, removing the middle and splitting the entry in two, its time
 nobody's, as between a stop and a later start; a second click shortens again. The handles are then the gap's edges. A
