@@ -603,8 +603,12 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-times .nb { color: var(--f-muted); }   /* the parts left around a new entry: grey, as neighbours */
 .ed-times .brk-in { font: inherit; font-size: 11px; width: 6ch; background: none; color: var(--f-fg); border: 0; padding: 0; outline: none; }
 .ed-times .brk-in.warn { color: var(--f-remove); }
+/* The line's lane: out to the card's edges (past its side padding), clipping sideways only, so nothing on the line
+   makes the popup scroll sideways while it may still grow in height */
+.ed-lane { margin: 0 -18px; padding: 0 18px; overflow-x: clip; }
 .ed-line { position: relative; height: var(--el-h); margin: 18px 6px 18px; touch-action: none; }
-.ed-line::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--f-line); }
+/* The hairline, as the entries, runs on past the view's ends out to the card's edges, where the lane cuts it */
+.ed-line::before { content: ""; position: absolute; left: -100vw; right: -100vw; top: 50%; height: 1px; background: var(--f-line); }
 .ed-tick { position: absolute; bottom: -16px; transform: translateX(-50%); font-size: 10px; color: var(--f-muted); pointer-events: none; }
 .ed-tick::before { content: ""; position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--f-line); }
 .ed-other, .ed-seg { position: absolute; top: 50%; height: var(--el-bar); transform: translateY(-50%); border-radius: 3px; }
@@ -954,7 +958,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         <div class="edit" id="edit">
           <div class="ed-head"><span id="edDay"></span><span class="spacer"></span><select id="edProf" aria-label="Profil"></select></div>
           <div class="ed-times" id="edTimes"></div>
-          <div class="ed-line" id="edLine"></div>
+          <div class="ed-lane" id="edLane"><div class="ed-line" id="edLine"></div></div>
           <div class="ed-reason">
             <button class="ed-pick" id="edPick" type="button">Välj orsak</button>
             <div class="ed-wrap"><div class="ed-clip"><div class="ed-list" id="edList"></div></div></div>
@@ -1787,8 +1791,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var q = EDIT_SNAP * MIN, off = new Date(t).getTimezoneOffset() * MIN, round = way === "up" ? Math.ceil : way === "down" ? Math.floor : Math.round;
     return round((t - off) / q) * q + off;
   }
-  // The first 5-minute mark past a time, one way: a time on a mark gives the next one out, so a handle always has one
-  function markPast(t, way) { var m = snapT(t, way < 0 ? "down" : "up"); return m === t ? t + way * EDIT_SNAP * MIN : m; }
   function inward() { return ed.s > ed.o1 && ed.en < ed.o2; }
   // A gap filled by another profile may reach the entry's edges and go on past them, as any handle, to the next entry
   // or now: the new entry then takes that end, the part of the entry's own on that side goes, and time past the old
@@ -1943,27 +1945,30 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (ed.running && ed.live && !ed.e.isRunning) ed.en = +ed.live.end;
     var line = $("edLine"); clear(line);
     var a = ed.view.a, b = ed.view.b, pct = function (t) { return ((t - a) / (b - a) * 100) + "%"; };
+    // Entries run on past the view's ends at the line's scale, out to the card's edges where the lane cuts them; drawn
+    // only as far as a line's width past each end (ca, cb), well beyond the card
+    var ca = a - (b - a), cb = b + (b - a);
     var p = prof(ed.profile); line.style.setProperty("--p", p.colour);
     tickMarks(a, b).forEach(function (m) {
       var tk = document.createElement("span"); tk.className = "ed-tick"; tk.style.left = pct(m.t); tk.textContent = m.label; line.appendChild(tk);
     });
     var d = docked();
     lineEntries().forEach(function (x) {
-      if (x === ed.e || joined(x) || +x.end < a || +x.start > b) return;
+      if (x === ed.e || joined(x) || +x.end < ca || +x.start > cb) return;
       var o = document.createElement("div"); o.className = "ed-other";
       if (x.profile === ed.profile) { o.classList.add("same"); o.style.setProperty("--p", prof(x.profile).colour); }
       if ((d.l && x === ed.prev) || (d.r && x === ed.next)) o.classList.add("dock");
-      o.style.left = pct(Math.max(+x.start, a)); o.style.width = "calc(" + pct(Math.min(+x.end, b)) + " - " + pct(Math.max(+x.start, a)) + ")";
+      o.style.left = pct(Math.max(+x.start, ca)); o.style.width = "calc(" + pct(Math.min(+x.end, cb)) + " - " + pct(Math.max(+x.start, ca)) + ")";
       line.appendChild(o);
     });
     // Where a joined neighbour meets the entry with no gap between, a thin line shows it, the point past which a drag
     // back undoes the join
     // Each meeting point along a chain of joins, the entry's own edge then each neighbour's in turn
-    function meet(t) { if (t <= a || t >= b) return; var jm = document.createElement("div"); jm.className = "ed-join"; jm.style.left = pct(t); line.appendChild(jm); }
+    function meet(t) { if (t <= ca || t >= cb) return; var jm = document.createElement("div"); jm.className = "ed-join"; jm.style.left = pct(t); line.appendChild(jm); }
     ed.joinsL.forEach(function (j, i) { if (+j.end === (i ? +ed.joinsL[i - 1].start : ed.o1)) meet(+j.end); });
     ed.joinsR.forEach(function (j, i) { if (+j.start === (i ? +ed.joinsR[i - 1].end : ed.o2)) meet(+j.start); });
     var now = Date.now();
-    if (now > a && now < b) { var n = document.createElement("div"); n.className = "ed-now"; n.style.left = pct(now); line.appendChild(n); }
+    if (now > ca && now < cb) { var n = document.createElement("div"); n.className = "ed-now"; n.style.left = pct(now); line.appendChild(n); }
     if (ed.placing) {
       $("edTimes").innerHTML = '<span class="ed-hint">Klicka där posten ska ligga</span>';
       $("edSave").disabled = true;
@@ -1977,8 +1982,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       // Filled, the taken middle wears the new profile, time past the old edges stays green, the parts go grey
       if (mid) k = k === "cut" ? "mid" : k === "keep" ? "grey" : k;
       // Only red can be clicked: a filled middle is a new entry, not a gap
-      // Clipped to the view, as other entries are: nothing is drawn past the line's ends, so the popup never scrolls
-      var ga = Math.max(g.a, a), gb = Math.min(g.b, b);
+      // Cut where other entries are cut
+      var ga = Math.max(g.a, ca), gb = Math.min(g.b, cb);
       if (gb <= ga) return;
       var el2 = document.createElement("div"); el2.className = "ed-seg " + k + (middle && !mid ? " pick" : "");
       el2.style.left = pct(ga); el2.style.width = "calc(" + pct(gb) + " - " + pct(ga) + ")";
@@ -1989,8 +1994,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // base colour, as a docked neighbour is outlined in the colour of the stretch reaching it, green
     if (ed.dragK && gapOpen() && gapHolds() && (ed.s === ed.en || ed.s === ed.o1 || ed.en === ed.o2)) {
       var ka = ed.dragK === "a" ? ed.en : ed.o1, kb = ed.dragK === "a" ? ed.o2 : ed.s;
-      var ca = Math.max(ka, a), cb = Math.min(kb, b);
-      if (cb > ca) { var cl = document.createElement("div"); cl.className = "ed-close"; cl.style.left = pct(ca); cl.style.width = "calc(" + pct(cb) + " - " + pct(ca) + ")"; line.appendChild(cl); }
+      var la = Math.max(ka, ca), lb = Math.min(kb, cb);
+      if (lb > la) { var cl = document.createElement("div"); cl.className = "ed-close"; cl.style.left = pct(la); cl.style.width = "calc(" + pct(lb) + " - " + pct(la) + ")"; line.appendChild(cl); }
     }
     [["a", ed.s], ["b", ed.en]].forEach(function (h) {
       if (ed.running && h[0] === "b") return;
@@ -2066,11 +2071,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (Math.abs(ev.clientX - drag.x) > 2) { drag.moved = true; ed.pill = null; }
       if (!drag.moved) return;
       ed.refused = false;
-      // The view's edges stop a handle on the 5-minute mark just inside them, never on a fraction of a second, but a
-      // handle always reaches the next mark past it, so a short entry still grows; let go, the view opens up
+      // A handle follows the pointer at the line's scale, past the view's ends too and out of sight past the card's
+      // edges, stopping only at the walls; the times above read where it is, and the view refits on let go
       var t = timeAt(ev.clientX), q = EDIT_SNAP * MIN, was = { s: ed.s, en: ed.en };
-      var lo = Math.max(edLo(), Math.min(snapT(ed.view.a, "up"), markPast(ed.s, -1)));
-      var hi = Math.min(edHi(), Math.max(snapT(ed.view.b, "down"), markPast(ed.en, 1)));
+      var lo = edLo(), hi = edHi();
       // An entry moved clear of where it started meets its original as a neighbour of its own profile: the handle
       // facing it stops at its near edge, and docks there
       if (!ed.isNew && drag.k === "a" && drag.s0 >= ed.o2) lo = Math.max(lo, ed.o2);
@@ -3016,7 +3020,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("simNarrow").addEventListener("change", setNarrow);
   narrowPage.addEventListener("change", setNarrow);
   setNarrow();
-
   scale = pickScale(Math.abs(balance));
   applyColours(); syncSim(); drawControls(); drawEntries(false); drawFigures();
 })();

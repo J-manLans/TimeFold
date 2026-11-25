@@ -19,8 +19,11 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 3's release, `v0.3.0`, being tagged (`procedures/release.md`); then Phase 4: Profiles, its design pass from
-**Settle first**.
+The patch `v0.3.1`, then Phase 4: Profiles, its design pass from **Settle first**.
+
+1. The edit line's handle under the pointer past the view's ends, and the line drawn out to the popup's edges, so the
+   popup never scrolls sideways ("The line's view holds still while a handle is dragged", in `design-decisions/`).
+2. The release, `v0.3.1` (`procedures/release.md`).
 
 ## The phases
 
