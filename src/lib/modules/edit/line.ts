@@ -225,19 +225,16 @@ export function grab(state: LineState, grip: Grip, at: number): Drag | null {
 }
 
 /**
- * The handle (or the whole entry) dragged to the time under the pointer, snapped to 5 minutes of the clock. It stops
- * at another entry, at now, at the view's edges, at its original when moved clear of it, and where the time kept could
- * no longer hold the break; dragged back to a joined neighbour's far end, it lets the neighbour go whole. A gap's edges
+ * The handle (or the whole entry) dragged to the time under the pointer, snapped to 5 minutes of the clock, past the
+ * view's ends too, the view holding still until let go. It stops at another entry, at now, at its original when moved
+ * clear of it, and where the time kept could no longer hold the break; dragged back to a joined neighbour's far end, it lets the neighbour go whole. A gap's edges
  * stay inside the entry and keep no distance: the dragged one snaps onto the other, even off the 5-minute marks. Used
  * on every pointer move of a drag: 08:00–12:00, its start dragged to 08:20, gives 08:20–12:00.
  */
 export function dragTo(state: LineState, drag: Drag, at: number): LineState {
   const step = SNAP_MINUTES * MINUTE
-  // The view's edges stop a handle on the 5-minute mark just inside them, as a drag always lands on one, but never
-  // push one that is already further out; and a handle always reaches the next mark past it, even just outside the
-  // view, so a short entry with no mark between its handle and the edge can still grow, the view refitting on let go
-  let low = Math.max(wallBefore(state), Math.min(snap(state.view.from, 'up'), markPast(state.start, -1)))
-  let high = Math.min(wallAfter(state), Math.max(snap(state.view.to, 'down'), markPast(state.end, 1)))
+  let low = wallBefore(state)
+  let high = wallAfter(state)
   // An entry moved clear of where it started meets its original as a neighbour of its own profile
   if (!state.isNew && drag.grip === 'start' && drag.startWas >= state.originalEnd)
     low = Math.max(low, state.originalEnd)
@@ -298,8 +295,7 @@ export function letGo(state: LineState): LineState {
 
 /**
  * A handle stepped one minute by its pill, or by an arrow key while the pill is open ("A clicked handle steps by the
- * minute"). It meets the same walls as a drag (another entry, now, the break) but not the view's edges, which refit
- * after; its seconds go to :00. Stepped onto a neighbour of its profile, it takes it in. Used by the pill's − and +:
+ * minute"). It meets the same walls as a drag (another entry, now, the break), and the view refits after; its seconds go to :00. Stepped onto a neighbour of its profile, it takes it in. Used by the pill's − and +:
  * 10:05 and + three times gives 10:08.
  * @param by - -1 for −, 1 for +
  */
@@ -620,14 +616,12 @@ export function fittedView(state: LineState): View {
 }
 
 /**
- * A time snapped to 5 minutes of this machine's clock, to the nearest mark or the next one up or down. Used by drags,
- * placing and the view's edges: 10:07:40 gives 10:10, or 10:05 down.
+ * A time snapped to the nearest 5 minutes of this machine's clock. Used by drags and placing: 10:07:40 gives 10:10.
  */
-export function snap(time: number, way: 'nearest' | 'up' | 'down' = 'nearest'): number {
+export function snap(time: number): number {
   const step = SNAP_MINUTES * MINUTE
   const offset = new Date(time).getTimezoneOffset() * MINUTE
-  const round = way === 'up' ? Math.ceil : way === 'down' ? Math.floor : Math.round
-  return round((time - offset) / step) * step + offset
+  return Math.round((time - offset) / step) * step + offset
 }
 
 // ======================================
@@ -770,16 +764,6 @@ function minutesOf(part: View): number {
  */
 function snapNear(time: number, points: number[]): number {
   return points.reduce((best, p) => (Math.abs(time - p) < Math.abs(time - best) ? p : best), snap(time))
-}
-
-/**
- * The first 5-minute mark of the clock past a time, one way: 10:02 gives 10:00 back and 10:05 on; a time on a mark gives
- * the one before or after it. Used by drags, so a handle always has a mark to reach
- */
-function markPast(time: number, way: -1 | 1): number {
-  const step = SNAP_MINUTES * MINUTE
-  const mark = snap(time, way < 0 ? 'down' : 'up')
-  return mark === time ? time + way * step : mark
 }
 
 /** A time with its seconds dropped. Used by the minute steps, so a stepped time is at :00 */

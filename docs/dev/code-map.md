@@ -61,33 +61,32 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   stopped ones newest first (`listedEntries`), what a row says, its break tag, its "e" and its reason among it, the
   month lines of "Visa alla" (`withMonthLines`) and the gap above each of its rows (`gapsAbove`). `edit/`: `line.ts`,
   the entry line's rules as plain state and moves: opening an entry or a gap, placing a new entry, dragging and stepping
-  its handles against the walls (other entries, now, the view's edge, the break), shortening and gaps, a gap filled by
-  another profile, joining and walking, the break and its sharing, the colours of the line and the view's fit;
-  `edit.ts`, an entry of the record or a gap opened on the line (`lineForEntry`, `lineForGap`), whether the confirm can
-  save (`canSave`), the save (`saveLine`), which writes the line's result into the record with its marks and reasons and
-  makes one entry of a profile's entries left touching, the delete (`deleteEntry`), the result in words (`resultWords`)
-  and the reasons in their order (`reasonList`); `scale.ts`, the labels under the line (`ticks`). `menu/`:
-  `flexDays.ts`, a click on a day of the calendar marking or unmarking it, weekends, days janitor work started on
-  (`workedDays`) and, while locked, days gone by refused (`toggleFlexDay`), the month it draws (`calendarMonth`,
-  `monthAfter`) and the list of marked days ahead (`daysAhead`); `settings.ts`, the machine's own settings (the theme
-  and the motion), their defaults, the check on reading each apart, the theme and the motion in force, and each button's
-  switch. `shared/`: `record.ts`, the record's shape as types, `readRecord`, the check on opening that turns a file's
-  text into a record or names what is wrong with it, upgrading an older version first, `recoveryFor`, what a problem
-  leads to, and `toTimestamp` and `nextId`, a moment and a new entry's id as the record writes them; `colours.ts`, the
-  colour rule from the prototype, a profile's base, dimmed and neon by role, the faded colour, and black or white ink on
-  a colour (`inkOn`); `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead),
-  each day's result, each entry's seconds by day less its added breaks, expected hours charged on days work started or
-  flex days, the app's month, the ceiling with its carry and pieces, and the pay estimate, worked out in seconds from
-  the record, and a moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words ("måndag
-  16 november", "mån 16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`,
-  `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that
-  names a day's copy; `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke
-  checked against the field's shape (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field
-  wears, applies as it is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20");
-  `focusRing.ts`, the last input (a key or a pointer) and the focus ring as a popup opens and closes: opening, each
-  popup keeps how (`popupOpened`) and quiets the focus it moves in unless that was the keyboard (`ringOnOpen`); closing,
-  it quiets the element the focus lands on (`popupClosed`) unless it was opened and closed with the keyboard
-  (`ringAfterClose`).
+  its handles against the walls (other entries, now, the break), shortening and gaps, a gap filled by another profile,
+  joining and walking, the break and its sharing, the colours of the line and the view's fit; `edit.ts`, an entry of the
+  record or a gap opened on the line (`lineForEntry`, `lineForGap`), whether the confirm can save (`canSave`), the save
+  (`saveLine`), which writes the line's result into the record with its marks and reasons and makes one entry of a
+  profile's entries left touching, the delete (`deleteEntry`), the result in words (`resultWords`) and the reasons in
+  their order (`reasonList`); `scale.ts`, the labels under the line (`ticks`). `menu/`: `flexDays.ts`, a click on a day
+  of the calendar marking or unmarking it, weekends, days janitor work started on (`workedDays`) and, while locked, days
+  gone by refused (`toggleFlexDay`), the month it draws (`calendarMonth`, `monthAfter`) and the list of marked days
+  ahead (`daysAhead`); `settings.ts`, the machine's own settings (the theme and the motion), their defaults, the check
+  on reading each apart, the theme and the motion in force, and each button's switch. `shared/`: `record.ts`, the
+  record's shape as types, `readRecord`, the check on opening that turns a file's text into a record or names what is
+  wrong with it, upgrading an older version first, `recoveryFor`, what a problem leads to, and `toTimestamp` and
+  `nextId`, a moment and a new entry's id as the record writes them; `colours.ts`, the colour rule from the prototype, a
+  profile's base, dimmed and neon by role, the faded colour, and black or white ink on a colour (`inkOn`);
+  `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result,
+  each entry's seconds by day less its added breaks, expected hours charged on days work started or flex days, the app's
+  month, the ceiling with its carry and pieces, and the pay estimate, worked out in seconds from the record, and a
+  moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words ("måndag 16 november", "mån
+  16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and
+  `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy;
+  `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke checked against the
+  field's shape (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field wears, applies as it
+  is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20"); `focusRing.ts`, the last
+  input (a key or a pointer) and the focus ring as a popup opens and closes: opening, each popup keeps how
+  (`popupOpened`) and quiets the focus it moves in unless that was the keyboard (`ringOnOpen`); closing, it quiets the
+  element the focus lands on (`popupClosed`) unless it was opened and closed with the keyboard (`ringAfterClose`).
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, every focus ring and the quiet one (`data-quiet-focus`) after a popup closes, the
   registered `--glow-strength` the pointer light fades by, and Stilla: under `data-still` every transition, animation

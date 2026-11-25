@@ -60,19 +60,10 @@ function open(r: TimeRecord, id: string, now = t('17:00')): LineState {
   return line
 }
 
-/** A handle dragged to a time in as many turns as the view needs, and let go. Used by most tests */
+/** A handle dragged to a time and let go. Used by most tests */
 function drag(line: LineState, grip: 'start' | 'end', to: number): LineState {
-  let moved = line
-  for (let n = 0; n < 10; n++) {
-    const held = grab(moved, grip, grip === 'end' ? moved.end : moved.start)
-    if (!held) return moved
-    const next = dragTo(moved, held, to)
-    const reached = (grip === 'end' ? next.end : next.start) === to
-    const still = grip === 'end' ? next.end === moved.end : next.start === moved.start
-    moved = letGo(next)
-    if (reached || still) return moved
-  }
-  return moved
+  const held = grab(line, grip, grip === 'end' ? line.end : line.start)
+  return held ? letGo(dragTo(line, held, to)) : line
 }
 
 /** The record's entries as "profile 08:00–12:30 made: reason", by start, for reading. Used by the save tests */
