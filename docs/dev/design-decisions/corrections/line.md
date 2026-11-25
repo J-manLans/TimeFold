@@ -3,40 +3,55 @@
 How the entry line shows time and how exactly a handle is set: its view and its steps. Each decision follows the
 template in `../README.md`, and is cited by its title.
 
-## The line's view holds still while a handle is dragged (2026-11-22)
+## The line's view holds still while a handle is dragged (2026-11-25)
+
+**Built by:** the patch `v0.3.1`, for a handle past the view's ends and the line drawn out to the popup's edges.
 
 **Decision:** the entry line shows what is being edited, the entry as it was and as it is becoming, centred and filling
-65% of the line. While a handle is dragged the view does not change, and the handle stops at its edges, on the 5-minute
-mark just inside, as at another entry; but it always reaches the next 5-minute mark past where it is, even just outside
-the view, so a short entry, with no mark between its handle and the edge, still grows. Each time a handle is let go, or
-a minute is stepped, the view eases, at the interface's speed (at once in Stilla), to that fit again, growing or
-shrinking, so the line always looks the same. A docked neighbour is never fitted; it runs off the edge as any other
-entry does, and the joined result is spelled out under the day. A move beyond the view is made in turns: drag to the
-edge, let go, and drag again. While the entry still overlaps where it started, the view holds the original too, so a
-shortened entry shows where it began; once it has left its original altogether, or never had one, the view fits the
-entry alone. The scale under the line shows at most eight labels, in the smallest unit and step that fits: minutes every
-5, 10, 15 or 30 ("10:05"); hours every 1, 2, 3, 6 or 12 ("08", midnight as its day, "tor"); days every 1 or 2 ("tor
-20"); weeks, on Mondays ("v. 47"); months every 1, 3 or 6 ("nov", January as its year, "2027"); years every 1, 2, 5 or
-10, and wider steps beyond.
+65% of the line. While a handle is dragged the view does not change, and the handle follows the pointer at the line's
+scale, past the view's ends too and out of sight past the popup's edges, snapping and stopping at the walls as anywhere
+on the line; the times above the line read where it is. The entries and the hairline run on past the view's ends at the
+same scale out to the popup's edges, which cut them: nothing on the line makes the popup scroll sideways, though it may
+still grow in height. Each time a handle is let go, or a minute is stepped, the view eases, at the interface's speed (at
+once in Stilla), to that fit again, growing or shrinking, so the line always looks the same. A docked neighbour is never
+fitted; it runs off the edge as any other entry does, and the joined result is spelled out under the day. While the
+entry still overlaps where it started, the view holds the original too, so a shortened entry shows where it began; once
+it has left its original altogether, or never had one, the view fits the entry alone. The scale under the line shows at
+most eight labels, in the smallest unit and step that fits: minutes every 5, 10, 15 or 30 ("10:05"); hours every 1, 2,
+3, 6 or 12 ("08", midnight as its day, "tor"); days every 1 or 2 ("tor 20"); weeks, on Mondays ("v. 47"); months every
+1, 3 or 6 ("nov", January as its year, "2027"); years every 1, 2, 5 or 10, and wider steps beyond.
 
 **Why:** a view that changes under a dragged handle changes the time the pointer reads, which moves the handle and so
 the view again: it ran away growing or shrinking, and every patch on it added a feel to learn. Held still, the line
 never moves under the hand, and the refit comes when the hand is off it. Refitting every time, to one share, makes the
 line look the same after every move; a third of the line left free gives each drag room. A scale that changes unit keeps
-its labels apart however wide the view, with no special stop for the first or last entry.
+its labels apart however wide the view, with no special stop for the first or last entry. Under the pointer past the
+view's ends, a short entry grows in one drag, and the times say where the handle is while it is out of sight. Drawn out
+to the popup's edges, an entry cut by the view reads as running on.
 
 **Rejected:** zooming during the drag, in any form: fixed widths like the flex bar's scales with a gap between growing
-and shrinking, the far side held still, or the handle kept under the pointer; each fought the hand. Panning at the edge
-with the scale fixed: it keeps the hand on a moving line. Refitting only when needed, near an edge or once the entry had
-shrunk: the line sometimes moved and sometimes not, and a fitted entry looked small. Fitting a docked neighbour: a long
-one shrank the entry being placed to a sliver. A scale of hours only: over days its labels ran together. A view never
-narrower than an hour: a short entry was a sliver, and the minutes on the scale make it needless.
+and shrinking, the far side held still, or the handle kept under the pointer while the view zoomed; each fought the
+hand. Panning at the edge with the scale fixed: it keeps the hand on a moving line. Refitting only when needed, near an
+edge or once the entry had shrunk: the line sometimes moved and sometimes not, and a fitted entry looked small. Fitting
+a docked neighbour: a long one shrank the entry being placed to a sliver. A scale of hours only: over days its labels
+ran together. A view never narrower than an hour: a short entry was a sliver, and the minutes on the scale make it
+needless. A handle stopped at the view's edges, reaching one 5-minute mark past where it was grabbed: growing a short
+entry took a let go per step. One stopped at the popup's edges: past a short entry's view the popup leaves about half a
+minute, so the handle could not move at all. Entries cut at the view's ends, with rounded or straight corners: drawn on
+to the popup's edges, the line reads more naturally.
 
 **Cases:**
 
 - A 10 min entry opened: a view of about 15 min, labelled every 5 min.
 
 - A view of 9 h: labels every 2 hours; of 5 days: one per day, "lör 21"; of 20 days: weeks, "v. 48".
+
+- A 5 min entry, a handle dragged far past the view's end: it grows in one drag, the handle out of sight and the times
+  reading where it is; let go, the view refits.
+
+- A handle dragged past either end of the view: the popup never grows a sideways scrollbar.
+
+- A handle held and dragged out of the app's window: it follows the pointer, on Linux and Windows.
 
 ## A clicked handle steps by the minute (2026-11-22)
 
