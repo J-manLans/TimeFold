@@ -5,8 +5,6 @@ its title.
 
 ## A running entry is edited at its start (2026-11-25)
 
-**Built by:** the docking patch, under **Next** in the roadmap, for the gap before it and the refused profile.
-
 **Decision:** a running entry heads both lists ("The main screen has a controls side and a dashboard") and opens in the
 edit popup as any row does, but only its start and its profile can change. Its end is now, read once as the edit opens:
 the now-line on the line, holding still while the edit is open, with no handle and no time label of its own, and the
