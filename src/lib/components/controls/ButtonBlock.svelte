@@ -15,18 +15,18 @@
 </script>
 
 <div class="block">
-  <button class="start" class:running={mine} type="button" onclick={() => app.press()}>
+  <button class="start plastic" class:running={mine} type="button" onclick={() => app.press()}>
     <span class="label">{mine ? 'Stoppa jobb' : 'Starta jobb'}</span>
   </button>
 
   <div class="pair">
     <!-- TODO: export and import work in Handover; until then greyed out -->
-    <button type="button" disabled>Exportera</button>
-    <button type="button" disabled>Importera</button>
+    <button class="plastic" type="button" disabled>Exportera</button>
+    <button class="plastic" type="button" disabled>Importera</button>
   </div>
 
   <!-- TODO: opens the profile popup (Profiles); until then a click does nothing -->
-  <button class="profile" type="button" aria-label="Byt profil">
+  <button class="profile plastic" type="button" aria-label="Byt profil">
     <Disc size="var(--profile-disc-size)" dent="var(--profile-disc-dent)" light="var(--glow-profile-disc)">
       <span class="letter" class:waiting={app.phase === 'welcome' && app.panel !== null && !app.panel.letter}>
         {profile?.name.charAt(0).toUpperCase()}
@@ -46,21 +46,6 @@
       'start profile'
       'pair profile';
     gap: var(--block-gap);
-  }
-
-  button {
-    background-attachment: fixed;
-    border: 0;
-    border-radius: var(--radius-button);
-    background-color: var(--button-background);
-    color: var(--button-text);
-    box-shadow: var(--shadow-button);
-    font: inherit;
-    cursor: pointer;
-    transition:
-      background-color var(--speed-ui) ease,
-      box-shadow var(--speed-ui) ease,
-      opacity var(--speed-ui) ease;
   }
 
   .start {
@@ -107,26 +92,6 @@
   }
 
   /* === States === */
-
-  /* A button that can be used catches the pointer light; pressed, the press shade lies on top of it */
-  button:not(:disabled) {
-    background-image: var(--pointer-light);
-  }
-
-  button:not(:disabled):hover {
-    background-color: var(--button-background-hover);
-  }
-
-  button:not(:disabled):active {
-    background-image: linear-gradient(180deg, var(--button-press-shade), transparent 70%), var(--pointer-light);
-    background-attachment: scroll, fixed;
-    box-shadow: none;
-  }
-
-  button:disabled {
-    opacity: var(--opacity-disabled);
-    cursor: default;
-  }
 
   /* At the first start the letter waits, and arrives last, slowly ("A first install starts fresh or imports") */
   .letter {

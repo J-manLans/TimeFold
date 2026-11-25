@@ -33,22 +33,22 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine` with
   `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field), `UndoButton` with its
   `TipLabel`, `PruneLine`, the menu and `LatePopup.svelte`, the popup for a running entry from an earlier day, and
-  making the pointer light, which it also sweeps once at the onboarding's end: it sets the light's place, and every
-  button and disc that catches it paints `--pointer-light`. `menu/`: `Menu.svelte`, the menu button and the frosted
-  panel it grows into, with `ThemeButton`, `MotionButton.svelte` (the motion switch, also in the onboarding's note) and
-  the tab row, whose Tid tab holds `FlexCalendar.svelte`, the flex-day calendar with its padlock and the list of marked
-  days beside it, and locked open around `Onboarding.svelte`, the first start's onboarding with its ending's timeline,
-  or `Recovery.svelte`, the screen for a record that cannot be read; both use `ChoiceButton.svelte`, in `shared/`.
-  `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing the divider, and handing them the
-  panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar; `CeilingWheel.svelte`, the ceiling
-  wheel with the pay estimate; `RecentEntries.svelte`, the five newest entries; `AllEntries.svelte`, "Visa alla" and its
-  popup with its month lines and the gaps between its rows; `EntryRow.svelte`, the row both lists share, which opens its
-  entry in the edit popup. `edit/`: `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its
-  peek, the day and the profile picker, the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara";
-  `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned into its moves, the pill and the
-  view easing to its fit; `ReasonPicker.svelte`, the closed reason field, its list and "Annan orsak". `shared/`: what
-  more than one part uses, such as `Disc.svelte`, the dented disc of the profile, undo and theme buttons, and
-  `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
+  making the pointer light, which it also sweeps once at the onboarding's end: it sets the light's place; a flat button
+  catches it through `.plastic` in `base.css`, and each disc paints `--pointer-light` itself. `menu/`: `Menu.svelte`,
+  the menu button and the frosted panel it grows into, with `ThemeButton`, `MotionButton.svelte` (the motion switch,
+  also in the onboarding's note) and the tab row, whose Tid tab holds `FlexCalendar.svelte`, the flex-day calendar with
+  its padlock and the list of marked days beside it, and locked open around `Onboarding.svelte`, the first start's
+  onboarding with its ending's timeline, or `Recovery.svelte`, the screen for a record that cannot be read; both use
+  `ChoiceButton.svelte`, in `shared/`. `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing
+  the divider, and handing them the panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar;
+  `CeilingWheel.svelte`, the ceiling wheel with the pay estimate; `RecentEntries.svelte`, the five newest entries;
+  `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its rows; `EntryRow.svelte`,
+  the row both lists share, which opens its entry in the edit popup. `edit/`: `EditPopup.svelte`, the edit popup over
+  "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker, the result in words, the break's field,
+  and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned
+  into its moves, the pill and the view easing to its fit; `ReasonPicker.svelte`, the closed reason field, its list and
+  "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the profile, undo
+  and theme buttons, and `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
@@ -88,9 +88,10 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   (`popupOpened`) and quiets the focus it moves in unless that was the keyboard (`ringOnOpen`); closing, it quiets the
   element the focus lands on (`popupClosed`) unless it was opened and closed with the keyboard (`ringAfterClose`).
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
-  the reset, the fonts, the body, every focus ring and the quiet one (`data-quiet-focus`) after a popup closes, the
-  registered `--glow-strength` the pointer light fades by, and Stilla: under `data-still` every transition, animation
-  and delay is zero.
+  the reset, the fonts, the body, every focus ring and the quiet one (`data-quiet-focus`) after a popup closes,
+  `.plastic`, the flat button every button block, pause and choice button wears, with its pointer light, hover and
+  press, the registered `--glow-strength` the pointer light fades by, and Stilla: under `data-still` every transition,
+  animation and delay is zero.
 
 ## The tests: `tests/`
 

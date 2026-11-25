@@ -98,7 +98,7 @@
     <span class="reading" aria-live="polite">{reading}</span>
   </div>
 {:else}
-  <button class="pause" type="button" disabled={!mine} onclick={openField}>Lägg till paus</button>
+  <button class="pause plastic" type="button" disabled={!mine} onclick={openField}>Lägg till paus</button>
 {/if}
 
 <style>
@@ -141,13 +141,6 @@
   .pause {
     height: var(--pause-height);
     padding: var(--pause-padding);
-    border: 0;
-    border-radius: var(--radius-button);
-    background-color: var(--button-background);
-    background-attachment: fixed;
-    color: var(--button-text);
-    box-shadow: var(--shadow-button);
-    font: inherit;
     font-size: var(--pause-text-size);
     font-weight: var(--pause-font-weight);
   }
@@ -160,24 +153,5 @@
     outline: var(--focus-width) solid var(--profile-neon);
     outline-offset: var(--pause-field-focus-offset);
     border-color: var(--profile-neon);
-  }
-
-  .pause:not(:disabled) {
-    background-image: var(--pointer-light);
-  }
-
-  .pause:not(:disabled):hover {
-    background-color: var(--button-background-hover);
-  }
-
-  .pause:not(:disabled):active {
-    background-image: linear-gradient(180deg, var(--button-press-shade), transparent 70%), var(--pointer-light);
-    background-attachment: scroll, fixed;
-    box-shadow: none;
-  }
-
-  .pause:disabled {
-    opacity: var(--opacity-disabled);
-    cursor: default;
   }
 </style>

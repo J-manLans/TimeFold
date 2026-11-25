@@ -48,7 +48,7 @@
 </script>
 
 <button
-  class="choice"
+  class="choice plastic"
   type="button"
   aria-disabled={greyed}
   bind:this={button}
@@ -71,16 +71,8 @@
   /* === Layout === */
 
   .choice {
-    background-attachment: fixed;
     height: calc(var(--start-height) * var(--choice-scale, var(--onboarding-choice-scale)));
     padding: 0 calc(var(--onboarding-choice-padding) * var(--choice-scale, var(--onboarding-choice-scale)));
-    border: 0;
-    border-radius: var(--radius-button);
-    background-color: var(--button-background);
-    color: var(--button-text);
-    box-shadow: var(--shadow-button);
-    cursor: pointer;
-    transition: background-color var(--speed-ui) ease;
   }
 
   .label {
@@ -91,21 +83,5 @@
     letter-spacing: var(--start-tracking);
     line-height: 1;
     text-transform: uppercase;
-  }
-
-  /* === States === */
-
-  /* A choice that can be used catches the pointer light, as the controls' buttons do */
-  .choice:not([aria-disabled='true']) {
-    background-image: var(--pointer-light);
-  }
-
-  .choice:not([aria-disabled='true']):hover {
-    background-color: var(--button-background-hover);
-  }
-
-  .choice[aria-disabled='true'] {
-    opacity: var(--opacity-disabled);
-    cursor: default;
   }
 </style>

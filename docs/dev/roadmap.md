@@ -48,9 +48,9 @@ as length fields do (`open-questions.md`).
    and the "Annan orsak" texts that keep coming up.
 4. Pruning on request ("Old history is pruned on request"), once the ceiling's carry exists: the prune itself and the
    offer on the prune line, tested with set dates rather than waiting three years.
-5. One pointer-light rule for every button that catches it, given once as a shared class or rule, in place of the copies
-   in `ButtonBlock`, `PauseField` and `ChoiceButton`, so no button catches it differently; the phase's new buttons use
-   it ("The look: a fresh display face, mono text and soft buttons").
+5. `[written]` One pointer-light rule for every button that catches it, given once as a shared class or rule, in place
+   of the copies in `ButtonBlock`, `PauseField` and `ChoiceButton`, so no button catches it differently; the phase's new
+   buttons use it ("The look: a fresh display face, mono text and soft buttons").
 
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
 every setting changes from a date as its cases say, and a prune on a set date cuts as its cases say.
