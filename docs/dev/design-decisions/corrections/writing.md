@@ -3,7 +3,9 @@
 How a whole forgotten entry is written by hand, and how an entry is removed. Each decision follows the template in
 `../README.md`, and is cited by its title.
 
-## A forgotten entry is written in the gap where it belongs (2026-11-22)
+## A forgotten entry is written in the gap where it belongs (2026-11-25)
+
+**Built by:** the docking patch, under **Next** in the roadmap, for a placed entry taking its neighbour in.
 
 **Decision:** a forgotten entry is written from "Visa alla", in the gap between two entries. Each gap sits just above
 its row, under the month's line where the row opens a month. At rest a gap is as thin as the rows' own spacing, with a
@@ -21,15 +23,15 @@ runs from it to the moment it is clicked, any other from the older entry's end t
 either side show hatched, as neighbours, and there is no "Ta bort". The first click in free time drops a 30-minute entry
 centred on the click, snapped to 5 minutes, sliding away from a wall it meets so it keeps its length, and filling the
 free time exactly when that is shorter; the view fits it alone ("The line's view holds still while a handle is
-dragged"); further clicks on the empty line do nothing. Touching a neighbour of its profile, it is docked as any entry
-is ("Two entries join by docking"), not taken in: its stretch green as time added, the neighbour outlined and running
-off the line's edge, the words already the joined result, its handles on its own edges; a handle let go while docked
-takes the neighbour in, and one moved off it gives the entry its own colour back. A gap filled between two entries of
-its profile so joins all three, with no rule of its own. From then on it is edited as any entry: its handles, the pill,
-its break, its profile, which starts on the active profile, and a reason ("Every edit carries a reason"). It is moved by
-dragging its middle, or walked past a neighbour ("Two entries join by docking"); anything else, "Avbryt" and start over.
-A new entry has no original: the view fits it alone, at the usual share, wherever it is walked, and alone nothing of it
-shows as added or taken away. Saved, it is marked written by hand ("Entries remember how they were made").
+dragged"); further clicks on the empty line do nothing. Touching a neighbour of its profile, it takes it in as any entry
+does ("Two entries join by docking"): its own stretch green as time added, its handle at the neighbour's far end; before
+a running entry of its profile it stops short of touching ("A running entry is edited at its start"). A gap filled
+between two entries of its profile so joins all three, with no rule of its own. From then on it is edited as any entry:
+its handles, the pill, its break, its profile, which starts on the active profile, and a reason ("Every edit carries a
+reason"). It is moved by dragging its middle, or walked past a neighbour ("Two entries join by docking"); anything else,
+"Avbryt" and start over. A new entry has no original: the view fits it alone, at the usual share, wherever it is walked,
+and alone nothing of it shows as added or taken away. Saved, it is marked written by hand ("Entries remember how they
+were made").
 
 **Why:** a forgotten entry belongs between two known ones, so the gap clicked says when, with no way to travel the line
 to another day. The one always visible "+" keeps the rule that the app shows what it can do, and its line growing on
@@ -37,8 +39,7 @@ hover teaches the hidden ones between the rows. Waiting the peek's delay there k
 pointer crosses the list. A thin gap that opens only for a rested pointer makes adding an entry a deliberate act, never
 an accident, and opening evenly keeps the gap under the pointer. Most forgotten entries are longer than a few minutes,
 so thirty needs less dragging; sliding off a wall keeps its length, and a short gap is almost always the time forgotten.
-Docked but not taken in, the new entry stays at hand: its handles where it was placed, a short drag to move it off,
-while the colours and the words say what it joins.
+Taken in at once, the line shows what the save will be: no handle sits where the entry no longer ends.
 
 **Rejected:** a "+" only where a full 30-minute entry fits: a shorter forgotten entry of another profile, such as 20
 minutes of development between two janitor entries, could not be written in its gap. The top "+" kept over the newest
@@ -51,11 +52,11 @@ say entries can be added. The delay on the top "+": it is already in view, and r
 wider than nothing: a gap of a few seconds opened a line with no room for any entry. A second click in free time moving
 the new entry there: a second way to move it, where dragging and walking already do. Ten minutes to start: most
 forgotten entries are longer, and it was judged while a short entry's handles could not grow it. Cut short by a wall
-instead of sliding: it shrank on one side only. A placed entry taking its neighbour in at once, the handles at the far
-ends: separating it again meant dragging back across the whole neighbour. The view fitted to the docked neighbour too: a
-long one shrank the new entry to a sliver, as "The line's view holds still while a handle is dragged" rejects. A rule of
-its own for a gap filled between two entries of its profile: docking already joins them, as docking one onto the other
-would.
+instead of sliding: it shrank on one side only. A placed entry docked but not taken in, its handles on its own edges: it
+was a short drag to move off, but the handle said the entry ended where it touched while the colours said it was joined.
+The view fitted to the docked neighbour too: a long one shrank the new entry to a sliver, as "The line's view holds
+still while a handle is dragged" rejects. A rule of its own for a gap filled between two entries of its profile: docking
+already joins them, as docking one onto the other would.
 
 **Cases:**
 
@@ -68,6 +69,8 @@ would.
 - Start and stop clicked a few times in a row: entries of a few seconds, each reading 0:00, gaps of seconds between them
   with no "+"; the always-shown "+" is the first gap below them with 5 minutes' room.
 - A new entry walked from 09:00 past a neighbour to 14:00–14:30: the view fits only 14:00–14:30.
+- Placed at 12:15 against janitor 08:00–12:00: taken in, its handle at 08:00, 12:00–12:30 green, a thin line at 12:00,
+  the words "08:00–12:30".
 - Saved with "Glömd post": the row shows "e", and "Visa alla" "tillagd: Glömd post".
 
 ## An entry is deleted from its edit (2026-11-22)

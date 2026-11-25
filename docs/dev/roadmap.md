@@ -19,10 +19,14 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 4: Profiles, its design pass from **Settle first**.
+The patch `v0.3.1`'s installers, the docking patch, then Phase 4: Profiles, its design pass from **Settle first**.
 
 1. The patch `v0.3.1`, tagged and built from its tag: its draft's installers checked and installed at work
    (`procedures/release.md`, steps 5 to 7).
+2. The docking patch: at rest, touching means taken in, by a switch and a placement too; no entry touches a running
+   entry of its own profile, its handles and placement stopping at the last 5-minute mark before it and the profile
+   greyed in the picker, drawn in the prototype first; the take-back's running condition gone ("Two entries join by
+   docking", "A running entry is edited at its start", "A forgotten entry is written in the gap where it belongs").
 
 ## The phases
 
