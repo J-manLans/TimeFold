@@ -36,7 +36,3 @@ with no new number.
 **Cases:**
 
 - Opened: no "Ta bort".
-- Development running since 13:00, a janitor entry 08:00–13:00 opened: "Utveckling · pågår" greyed; its end dragged to
-  12:55, "Utveckling" can be picked.
-- Development running since 12:00, its start touching janitor 08:00–12:00, "Vaktmästare" picked: janitor running since
-  08:00, 12:00 a thin line.

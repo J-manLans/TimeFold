@@ -33,6 +33,7 @@
     leaving,
     letGo,
     meetingPoints,
+    originalDocked,
     place,
     segments,
     stepHandle,
@@ -75,6 +76,8 @@
   let holding: ReturnType<typeof setTimeout> | null = null
   /** The part outlined while a let go would leave the gap, or null */
   let closing = $state<View | null>(null)
+  /** The original outlined while the entry, moved clear of it, is held on its edge, or null */
+  let original = $state<View | null>(null)
 
   let profile = $derived(profiles.find((p) => p.id === line.profile))
   let filler = $derived(profiles.find((p) => p.id === line.fill))
@@ -178,6 +181,7 @@
     if (press.moved) {
       line = dragTo(line, press.drag, timeAt(event.clientX))
       closing = leaving(line, press.drag.grip)
+      original = originalDocked(line)
     }
   }
 
@@ -187,6 +191,7 @@
     const { moved, grip, at, drag } = press
     press = null
     closing = null
+    original = null
     if (moved && drag) line = letGo(line)
     else if (!moved && (grip === 'start' || grip === 'end')) openPill(grip)
     else if (!moved && !line.fill && isInward(line) && at > line.start && at < line.end) line = clickMiddle(line)
@@ -290,6 +295,14 @@
         ></div>
       {/if}
     {/each}
+
+    {#if original && within(original.from, original.to)}
+      <div
+        class="bar dock"
+        style:left={pct(Math.max(original.from, reach.from))}
+        style:width={span(original.from, original.to)}
+      ></div>
+    {/if}
 
     {#if closing && within(closing.from, closing.to)}
       <div
@@ -410,9 +423,10 @@
     background: color-mix(in srgb, var(--wall) var(--edit-same), transparent);
   }
 
-  /* A docked neighbour, and the part left when a gap is about to be left, outlined in the colour of the stretch
-     reaching it: green when docking adds time, the entry's own here */
+  /* A docked neighbour or the original docked onto, and the part left when a gap is about to be left, outlined in the
+     colour of the stretch reaching it: green when docking adds time, the entry's own here */
   .wall.dock,
+  .bar.dock,
   .closing {
     outline: 1px solid var(--edit-add);
     outline-offset: 1px;

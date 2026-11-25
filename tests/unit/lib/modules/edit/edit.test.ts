@@ -170,20 +170,16 @@ describe('joined entries are saved as one', () => {
     expect(saved.entries[0]).toMatchObject({ id: 'e1', breakMinutes: 35 })
   })
 
-  it('keeps the joined entry running when the second runs', () => {
+  it('saves an entry dragged toward janitor work running since 10:25 apart from it, ending 10:20', () => {
     const r = record(work('e1', '08:00', '10:00'), work('e2', '10:25', null))
+    const stopped = drag(open(r, 'e1', t('11:00')), 'end', t('10:25'))
 
-    expect(rows(saveLine(r, drag(open(r, 'e1', t('11:00')), 'end', t('10:25')), 'Glömde stämpla in'))).toEqual([
-      'p1 08:00–… edited: Glömde stämpla in',
+    expect(stopped.running).toBe(false)
+    expect(grab(stopped, 'end', stopped.end)).not.toBeNull()
+    expect(rows(saveLine(r, stopped, 'Glömde stämpla ut'))).toEqual([
+      'p1 08:00–10:20 edited: Glömde stämpla ut',
+      'p1 10:25–… clicked',
     ])
-  })
-
-  it('leaves no end handle once the joined entry runs, so nothing trims its end', () => {
-    const r = record(work('e1', '08:00', '10:00'), work('e2', '10:25', null))
-    const joined = drag(open(r, 'e1', t('11:00')), 'end', t('10:25'))
-
-    expect(joined.running).toBe(true)
-    expect(grab(joined, 'end', joined.end)).toBeNull()
   })
 
   it('saves 12:45–15:20 docked onto 08:02–12:00 and dragged back to 12:00 as 08:02–15:20', () => {
@@ -201,7 +197,7 @@ describe('joined entries are saved as one', () => {
     expect(rows(saveLine(r, walked, 'Ärende'))).toEqual(['p1 09:10–10:00 clicked', 'p1 10:05–11:00 edited: Ärende'])
   })
 
-  it('saves a placed janitor entry touching a janitor entry as one with it', () => {
+  it('saves a placed janitor entry, taken in by the janitor entry it touches, as one with it', () => {
     const r = record(work('e1', '08:00', '11:40'), work('e2', '13:05', '16:00'))
     const placed = place(lineForGap(r, { from: t('11:40'), to: t('13:05') }, JANITOR, t('17:00')), t('11:42'))
 

@@ -68,8 +68,6 @@ the other would.
 - Start and stop clicked a few times in a row: entries of a few seconds, each reading 0:00, gaps of seconds between them
   with no "+"; the always-shown "+" is the first gap below them with 5 minutes' room.
 - A new entry walked from 09:00 past a neighbour to 14:00–14:30: the view fits only 14:00–14:30.
-- Placed at 12:15 against janitor 08:00–12:00: taken in, its handle at 08:00, 12:00–12:30 green, a thin line at 12:00,
-  the words "08:00–12:30".
 - Saved with "Glömd post": the row shows "e", and "Visa alla" "tillagd: Glömd post".
 
 ## An entry is deleted from its edit (2026-11-22)

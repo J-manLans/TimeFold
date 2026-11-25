@@ -4,6 +4,7 @@ import { applyMove, DAY_OF_SPANS, MOVE, RUNS } from '$tests/helpers/lines'
 import { at } from '$tests/helpers/records'
 import {
   atLimit,
+  blockedProfile,
   breakShares,
   breakTotal,
   clickMiddle,
@@ -14,6 +15,7 @@ import {
   leaving,
   letGo,
   meetingPoints,
+  originalDocked,
   openGap,
   openLine,
   pickProfile,
@@ -44,6 +46,11 @@ function t(time: string, day = THURSDAY): number {
 /** A stopped entry as the line sees it, of the janitor unless another profile is given. Used by every test */
 function span(from: string, to: string, { profile = 'p1', breakMinutes = 0, id = `${from}-${to}` } = {}): Span {
   return { id, profile, start: t(from), stop: t(to), breakMinutes }
+}
+
+/** A running entry as the line sees it, stopping at now, of the janitor unless another profile is given */
+function live(from: string, now: string, profile = 'p1'): Span {
+  return { id: 'live', profile, start: t(from), stop: t(now), breakMinutes: 0, running: true }
 }
 
 /** One drag: grabbed where the grip is (the middle at its centre), moved through each time, and let go. Used by the view's tests */
@@ -607,6 +614,90 @@ describe('a running entry is edited at its start', () => {
     expect(running.end).toBe(t('15:00'))
     expect(docked.start).toBe(t('11:00'))
   })
+
+  it("stops another janitor entry's end at the last 5-minute mark before it: 06:55 before 07:00, 07:00 before 07:03", () => {
+    const yesterday = { ...span('08:00', '16:00'), start: t('08:00', '2026-11-18'), stop: t('16:00', '2026-11-18') }
+    const at7 = openLine(yesterday, [live('07:00', '09:00')], t('09:00'))
+    const at703 = openLine(yesterday, [{ ...live('07:00', '09:00'), start: t('07:03') }], t('09:00'))
+
+    expect(drag(at7, 'end', t('08:00')).end).toBe(t('06:55'))
+    expect(drag(at703, 'end', t('08:00')).end).toBe(t('07:00'))
+  })
+
+  it('stops the pill and a moved middle there too, and lets an entry of another profile touch it', () => {
+    const line = openLine(span('08:00', '12:50'), [live('13:00', '15:00')], t('15:00'))
+    let stepped = line
+    for (let i = 0; i < 20; i++) stepped = stepHandle(stepped, 'end', 1)
+    const moved = turn(line, 'middle', t('10:25'), t('14:00'))
+    const other = openLine(span('08:00', '12:50', { profile: 'p2' }), [live('13:00', '15:00')], t('15:00'))
+
+    expect(stepped.end).toBe(t('12:55'))
+    expect(moved.end).toBe(t('12:55'))
+    expect(drag(other, 'end', t('13:00')).end).toBe(t('13:00'))
+  })
+
+  it('keeps the end of an entry already ending closer: 12:58 stays when stepped on', () => {
+    const line = openLine(span('08:00', '12:58'), [live('13:00', '15:00')], t('15:00'))
+
+    expect(stepHandle(line, 'end', 1).end).toBe(t('12:58'))
+  })
+
+  it('lets an entry moved clear of its original dock back onto it with janitor work running after it', () => {
+    const line = openLine(span('08:00', '10:00'), [live('13:00', '15:00')], t('15:00'))
+    const moved = turn(line, 'middle', t('09:00'), t('14:00'))
+    const back = drag(moved, 'start', t('10:00'))
+
+    expect(moved.end).toBe(t('12:55'))
+    expect(back.start).toBe(t('08:00'))
+    expect(back.running).toBe(false)
+  })
+
+  it('blocks the running profile while the entry touches it: "Utveckling" until its end is dragged to 12:55', () => {
+    const line = openLine(span('08:00', '13:00'), [live('13:00', '15:00', 'p2')], t('15:00'))
+    const apart = drag(line, 'end', t('12:55'))
+
+    expect(blockedProfile(line)).toBe('p2')
+    expect(pickProfile(line, 'p2')).toBe(line)
+    expect(blockedProfile(apart)).toBeNull()
+    expect(pickProfile(apart, 'p2').profile).toBe('p2')
+  })
+
+  it('takes in the earlier entry its start touches when it is moved to that profile, and runs on', () => {
+    const line = openLine(span('12:00', '12:00', { profile: 'p2' }), [span('08:00', '12:00')], t('15:00'), true)
+    const picked = pickProfile(line, 'p1')
+
+    expect(picked.start).toBe(t('08:00'))
+    expect(picked.running).toBe(true)
+    expect(picked.end).toBe(t('15:00'))
+    expect(meetingPoints(picked)).toEqual([t('12:00')])
+  })
+})
+
+describe('a profile picked takes in the neighbours of that profile it touches', () => {
+  it('janitor 08:00–13:00 beside development 13:00–15:00, "Utveckling" then "Vaktmästare": 08:00–15:00 each time', () => {
+    const line = openLine(span('08:00', '13:00'), [span('13:00', '15:00', { profile: 'p2' })], t('17:00'))
+    const development = pickProfile(line, 'p2')
+    const janitor = pickProfile(development, 'p1')
+
+    expect(development.end).toBe(t('15:00'))
+    expect(times(resultParts(development))).toEqual(['08:00–15:00'])
+    expect(janitor.profile).toBe('p1')
+    expect(times(resultParts(janitor))).toEqual(['08:00–15:00'])
+  })
+})
+
+describe('the original is outlined while an entry moved clear of it docks onto it', () => {
+  it('outlines 08:00–10:00 while 11:00–13:00 holds its start at 10:00, and takes it back on let go', () => {
+    const moved = turn(openLine(span('08:00', '10:00'), [], t('17:00')), 'middle', t('09:00'), t('12:00'))
+    const held = grab(moved, 'start', moved.start)
+    const holding = held ? dragTo(moved, held, t('10:00')) : moved
+
+    expect(times([{ from: moved.start, to: moved.end }])).toEqual(['11:00–13:00'])
+    expect(originalDocked(moved)).toBeNull()
+    expect(originalDocked(holding)).toEqual({ from: t('08:00'), to: t('10:00') })
+    expect(times(resultParts(letGo(holding)))).toEqual(['08:00–13:00'])
+    expect(colours(letGo(holding))).toEqual(['keep 08:00–10:00', 'add 10:00–13:00'])
+  })
 })
 
 describe('a forgotten entry is placed by its first click', () => {
@@ -625,14 +716,29 @@ describe('a forgotten entry is placed by its first click', () => {
     expect(placed.view.to - placed.view.from).toBeCloseTo((30 * 60_000) / 0.65)
   })
 
-  it('slides from the wall for a click at 11:42, docked to the janitor entry it touches, green, not taken in', () => {
+  it('slides from the wall for a click at 11:42 and takes in the janitor entry it touches, its handle at 08:00', () => {
     const placed = place(gap, t('11:42'))
 
-    expect(times([{ from: placed.start, to: placed.end }])).toEqual(['11:40–12:10'])
+    expect(times([{ from: placed.start, to: placed.end }])).toEqual(['08:00–12:10'])
     expect(times(resultParts(placed))).toEqual(['08:00–12:10'])
-    expect(colours(placed)).toEqual(['add 11:40–12:10'])
-    expect(placed.joinsBefore).toEqual([])
-    expect(placed.view.to - placed.view.from).toBeCloseTo((30 * 60_000) / 0.65)
+    expect(colours(placed)).toEqual(['keep 08:00–11:40', 'add 11:40–12:10'])
+    expect(meetingPoints(placed)).toEqual([t('11:40')])
+    expect(placed.view).toEqual(fittedView(placed))
+  })
+
+  it('takes in janitor 08:00–12:00 when placed at 12:15 against it: 08:00–12:30, 12:00–12:30 green', () => {
+    const against = openGap({ from: t('12:00'), to: t('16:00') }, [span('08:00', '12:00')], 'p1', t('17:00'))
+    const placed = place(against, t('12:15'))
+
+    expect(placed.start).toBe(t('08:00'))
+    expect(colours(placed)).toEqual(['keep 08:00–12:00', 'add 12:00–12:30'])
+    expect(meetingPoints(placed)).toEqual([t('12:00')])
+  })
+
+  it('stops short of janitor work running since 13:00: a click at 12:50 gives 12:25–12:55', () => {
+    const before = openGap({ from: t('11:00'), to: t('13:00') }, [live('13:00', '15:00')], 'p1', t('15:00'))
+
+    expect(times(resultParts(place(before, t('12:50'))))).toEqual(['12:25–12:55'])
   })
 
   it('slides from the later wall for a click at 13:00: 12:35–13:05', () => {
@@ -648,8 +754,9 @@ describe('a forgotten entry is placed by its first click', () => {
     )
     const placed = place(short, t('11:50'))
 
-    expect(times([{ from: placed.start, to: placed.end }])).toEqual(['11:40–12:00'])
+    expect(times([{ from: placed.start, to: placed.end }])).toEqual(['08:00–16:00'])
     expect(times(resultParts(placed))).toEqual(['08:00–16:00'])
+    expect(meetingPoints(placed)).toEqual([t('11:40'), t('12:00')])
   })
 
   it('turns back to its own colour once moved off the neighbour', () => {
@@ -681,10 +788,12 @@ describe('whatever is dragged, stepped or picked, the line keeps its rules', () 
     for (const joined of line.joinsBefore) expect(joined.stop).toBeGreaterThan(line.start)
     for (const joined of line.joinsAfter) expect(joined.start).toBeLessThan(line.end)
     if (line.running) expect(line.end).toBe(line.now)
+    expect(line.running).toBe(line.entry.running === true)
+    for (const joined of [...line.joinsBefore, ...line.joinsAfter]) expect(joined.running).not.toBe(true)
   }
 
   it(
-    'never overlaps another entry, passes now, outgrows its break or trims a joined neighbour away',
+    'never overlaps another entry, passes now, outgrows its break, trims a joined neighbour away or takes in a running one',
     () => {
       fc.assert(
         fc.property(
@@ -700,7 +809,7 @@ describe('whatever is dragged, stepped or picked, the line keeps its rules', () 
             const now = last.stop + after * 60_000
             const others = entries
               .filter((e) => e !== chosen)
-              .map((e) => (e === last && running ? { ...e, stop: now } : e))
+              .map((e) => (e === last && running ? { ...e, stop: now, running: true } : e))
             const before = structuredClone(others)
             let line = openLine(chosen, others, now, runs)
             keepsItsRules(line)
