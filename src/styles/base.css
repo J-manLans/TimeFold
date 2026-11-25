@@ -1,4 +1,5 @@
-/* The reset, the fonts, the body, the pointer light's strength, and Stilla. Every value comes from design-tokens.css */
+/* The reset, the fonts, the body, the flat buttons, the pointer light's strength, and Stilla. Every value comes from
+   design-tokens.css */
 
 /* The two fonts, bundled with the app; Bricolage Grotesque's "standard" file carries its width axis */
 @import '@fontsource-variable/bricolage-grotesque/standard.css';
@@ -29,6 +30,43 @@ body {
    loses the focus or a key is pressed (focusRing.ts) */
 [data-quiet-focus]:focus-visible {
   outline: none;
+}
+
+/* A flat button, as the prototype's .plastic: the theme's button surface. One that can be used catches the pointer
+   light, fixed to the window so it flows across every button (Controls.svelte makes it), lightens on hover, and pressed
+   wears the press shade on top of the light; a disabled one catches nothing. Its size and text are its own */
+.plastic {
+  border: 0;
+  border-radius: var(--radius-button);
+  background-color: var(--button-background);
+  background-attachment: fixed;
+  color: var(--button-text);
+  box-shadow: var(--shadow-button);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background-color var(--speed-ui) ease,
+    box-shadow var(--speed-ui) ease,
+    opacity var(--speed-ui) ease;
+}
+
+.plastic:not(:disabled):not([aria-disabled='true']) {
+  background-image: var(--pointer-light);
+}
+
+.plastic:not(:disabled):not([aria-disabled='true']):hover {
+  background-color: var(--button-background-hover);
+}
+
+.plastic:not(:disabled):not([aria-disabled='true']):active {
+  background-image: linear-gradient(180deg, var(--button-press-shade), transparent 70%), var(--pointer-light);
+  background-attachment: scroll, fixed;
+  box-shadow: none;
+}
+
+.plastic:is(:disabled, [aria-disabled='true']) {
+  opacity: var(--opacity-disabled);
+  cursor: default;
 }
 
 /* How strong the pointer light is, 0 to 1, registered as a number so it can fade in and out (Controls.svelte) */
