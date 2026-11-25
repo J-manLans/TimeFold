@@ -25,8 +25,12 @@ The patch `v0.3.1`'s installers, the docking patch, then Phase 4: Profiles, its 
    (`procedures/release.md`, steps 5 to 7).
 2. The docking patch: at rest, touching means taken in, by a switch and a placement too; no entry touches a running
    entry of its own profile, its handles and placement stopping at the last 5-minute mark before it and the profile
-   greyed in the picker, drawn in the prototype first; the take-back's running condition gone ("Two entries join by
-   docking", "A running entry is edited at its start", "A forgotten entry is written in the gap where it belongs").
+   greyed in the picker, and the original outlined when docked onto, drawn in the prototype first; the take-back's
+   running condition gone ("Two entries join by docking", "A running entry is edited at its start", "A forgotten entry
+   is written in the gap where it belongs").
+3. The pause button's pointer light, in the same patch: `.pause` in `PauseField.svelte` sets `background-color`, not the
+   `background:` shorthand that resets `background-attachment: fixed` to `scroll` ("The look: a fresh display face, mono
+   text and soft buttons").
 
 ## The phases
 

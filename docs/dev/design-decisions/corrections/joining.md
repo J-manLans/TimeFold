@@ -5,8 +5,8 @@ cited by its title.
 
 ## Two entries join by docking (2026-11-25)
 
-**Built by:** the docking patch, under **Next** in the roadmap, for the switch taking neighbours in and the running
-entry's gap.
+**Built by:** the docking patch, under **Next** in the roadmap, for the switch taking neighbours in, the original
+outlined when docked onto, and the running entry's gap.
 
 **Decision:** two entries of the same profile join on the line ("Editing an entry on its line"): a handle dragged to the
 neighbour's near end docks there, and the gap between them fills in green as time added, the neighbour outlined 1 px
@@ -29,15 +29,16 @@ let go on its edge is taken in again. Each side keeps its joined neighbours in o
 handle lets them go outermost first, each a wall again that can be docked onto; the other handle walking over lets them
 go nearest first. Every joined neighbour shows as part of the entry, and every meeting point where two pieces touch with
 no gap has its thin line. An entry moved clear of where it started meets its original as a neighbour of its own profile:
-the handle facing it stops at its near edge and docks there, and let go, the entry takes its original time back, as any
-join takes a neighbour in. The meeting point is where the neighbour's colour meets the green; with no gap between them,
-a thin line in the bar marks it. On confirm the two are saved as one entry, with a reason as for any edit ("Every edit
-carries a reason"). A neighbour of another profile stays a stop, and nothing joins. A join with a running entry comes
-only from the running entry's own start docking back onto an earlier entry; the joined entry then runs on, its end now
-with no handle. No other entry touches a running entry of its own profile ("A running entry is edited at its start").
-Their added breaks add up into the joined entry's one break ("Time away is a gap or an added break"). The joined entry
-is one entry for the counting: it owes its expected hours on the day it starts ("A day owes its expected hours only when
-work started on it").
+the handle facing it stops at its near edge and docks there, the original's red-striped stretch outlined as any docked
+neighbour is, and let go, the entry takes its original time back, as any join takes a neighbour in. The meeting point is
+where the neighbour's colour meets the green; with no gap between them, a thin line in the bar marks it. On confirm the
+two are saved as one entry, with a reason as for any edit ("Every edit carries a reason"). A neighbour of another
+profile stays a stop, and nothing joins. A join with a running entry comes only from the running entry's own edit: its
+start docking back onto an earlier entry, or a profile picked for it that its start's neighbour has; the joined entry
+then runs on, its end now with no handle. No other entry touches a running entry of its own profile ("A running entry is
+edited at its start"). Their added breaks add up into the joined entry's one break ("Time away is a gap or an added
+break"). The joined entry is one entry for the counting: it owes its expected hours on the day it starts ("A day owes
+its expected hours only when work started on it").
 
 **Why:** joining fixes a stop that was not a break: the owner stops for a break, work comes up, and the entry is started
 again later; the gap was work. Dragging across the gap is the move the hand makes anyway, and the stop at the neighbour
@@ -83,8 +84,10 @@ Switching and running entries:
   15:00; "Vaktmästare" picked again: janitor 08:00–15:00.
 - Yesterday's janitor entry, today's janitor work running since 07:00: its end stops at 06:55; with the work running
   since 07:03, at 07:00.
-- Yesterday's entry moved clear of its original to the right and its start dragged back: it stops and docks there, and
-  let go takes its original time back.
+- Yesterday's janitor entry, today's janitor work running, moved clear of its original to the right: its end stops short
+  of the running entry; its start dragged back stops and docks on the original, and let go takes its original time back.
+- 08:00–10:00 moved right to 11:00–13:00, its start dragged back to 10:00: 08:00–10:00, red-striped, is outlined 1 px in
+  green; let go, the entry is 08:00–13:00, 10:00–11:00 green.
 
 Profiles, breaks and colours through a chain:
 

@@ -8,9 +8,9 @@ roadmap. Nothing decided lives only here.
 
 ## Docking onto a running entry stops the dock back onto the original
 
-**Seen:** on Windows. An entry moved fully off its original to the right docks back onto it with its left handle. After
-its end had docked onto the running entry of its profile (its end handle going, as the joined entry ran on), it no
-longer did: the start stopped at the original's edge and let go did not take it back.
+**Seen:** on Windows and Linux. An entry moved fully off its original to the right docks back onto it with its left
+handle. After its end had docked onto the running entry of its profile (its end handle going, as the joined entry ran
+on), it no longer did: the start stopped at the original's edge and let go did not take it back.
 
 **Rule it breaks:** an entry moved clear of where it started takes its original time back when let go on its edge ("Two
 entries join by docking").
@@ -29,6 +29,5 @@ and soft buttons").
 **To do:** the cause, found by reading and not yet seen in the running app: in `PauseField.svelte`, `.pause` sets
 `background-attachment: fixed` and then the `background:` shorthand, which resets the attachment to `scroll`, so the
 light is drawn against the button instead of the window and lands off it; the buttons that catch it set
-`background-color` instead. The fix is that one property. The owner's idea alongside: the light's rules (lit, hovered,
-pressed), now repeated in `ButtonBlock`, `PauseField` and `ChoiceButton`, given once to every button that catches it, as
-a shared class or a rule for all, so a button cannot catch it differently.
+`background-color` instead. The fix is that one property: the pause button's step under **Next** in the roadmap. The
+owner's idea alongside, one light rule for every button, is in `codebase-ideas.md`.
