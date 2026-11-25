@@ -55,7 +55,7 @@ export function canSave(line: LineState, reason: string): boolean {
  * What the line shows, saved into the record. The entry and every neighbour it took in become the result's parts,
  * each marked edited (a new entry written by hand) with the reason, its break shared as on the line; a gap filled by
  * another profile becomes that profile's entry with the reason, the parts around it saying what divided them ("Delad
- * av Utveckling"). A part reaching a running entry runs on. Entries of a profile left touching are saved as one. With
+ * av Utveckling"). A running entry runs on, its last part with no stop. Entries of a profile left touching are saved as one. With
  * nothing changed, the reason alone is kept, the entry's times and mark as they were. Used by "Spara": 08:00–12:00,
  * its end dragged to 12:30 with "Glömde stämpla ut", becomes 08:00–12:30, edited.
  */

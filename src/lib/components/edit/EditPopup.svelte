@@ -13,7 +13,7 @@
   import EditLine from './EditLine.svelte'
   import ReasonPicker from './ReasonPicker.svelte'
   import { canSave, lineForEntry, lineForGap, resultWords } from '$lib/modules/edit/edit'
-  import { pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
+  import { blockedProfile, pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
   import { durationShape } from '$lib/modules/shared/durationShape'
   import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import { localDay } from '$lib/modules/shared/counting'
@@ -42,6 +42,8 @@
 
   let profiles = $derived(app.record?.profiles ?? [])
   let words = $derived(line ? resultWords(line, profiles) : [])
+  /** The running entry's profile while the entry touches it, greyed in the picker with "· pågår" */
+  let blocked = $derived(line ? blockedProfile(line) : null)
   /** The words under the day, and whether "Lägg till paus" wrapped them, so it says "+ paus" instead */
   let wordBox: HTMLDivElement | undefined = $state()
   let addShort = $state(false)
@@ -239,7 +241,9 @@
         <span>{day}</span>
         <select aria-label="Profil" value={line.fill ?? line.profile} onchange={picked}>
           {#each profiles as profile (profile.id)}
-            <option value={profile.id}>{profile.name}</option>
+            <option value={profile.id} disabled={profile.id === blocked}
+              >{profile.name}{profile.id === blocked ? ' · pågår' : ''}</option
+            >
           {/each}
         </select>
       </div>

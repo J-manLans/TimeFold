@@ -78,17 +78,6 @@ Walking:
 - 08:00–10:00 walked right to 13:00–14:00, its start dragged back left: it stops and docks at 10:00; let go, the entry
   is 08:00–14:00, 10:00–13:00 green.
 
-Switching and running entries:
-
-- Janitor 08:00–13:00 touching development 13:00–15:00, "Utveckling" picked: development 08:00–15:00, the handle at
-  15:00; "Vaktmästare" picked again: janitor 08:00–15:00.
-- Yesterday's janitor entry, today's janitor work running since 07:00: its end stops at 06:55; with the work running
-  since 07:03, at 07:00.
-- Yesterday's janitor entry, today's janitor work running, moved clear of its original to the right: its end stops short
-  of the running entry; its start dragged back stops and docks on the original, and let go takes its original time back.
-- 08:00–10:00 moved right to 11:00–13:00, its start dragged back to 10:00: 08:00–10:00, red-striped, is outlined 1 px in
-  green; let go, the entry is 08:00–13:00, 10:00–11:00 green.
-
 Profiles, breaks and colours through a chain:
 
 - A new entry swallowing two janitor entries, 08:00–09:00 and 09:30–10:30, switched to "Utveckling", docked onto a

@@ -43,7 +43,7 @@ export interface LineState {
   isNew: boolean
   /** A new entry not yet placed: the first click on free time places it */
   placing: boolean
-  /** The entry runs, or has taken in one that does: its end is now, with no handle */
+  /** The entry runs: its end is now, with no handle. No other entry ever takes a running one in */
   running: boolean
   /** Every other entry, a running one stopping at now */
   others: Span[]
@@ -176,10 +176,11 @@ export function openGap(gap: View, others: Span[], profile: string, now: number)
 
 /**
  * The first click on a new entry's line: a 30-minute entry centred on it, snapped to 5 minutes, sliding away from a
- * wall it meets so it keeps its length, and filling the free time exactly when that is shorter; the view then fits it
- * alone. Touching a neighbour of its profile, it is docked but not taken in, its handles on its own edges. Used by the
- * line while placing: a click at 12:30 gives 12:15–12:45, at 11:42 next to an entry ending 11:40 gives 11:40–12:10. A
- * click inside an entry, or where less than 5 minutes are free, places nothing.
+ * wall it meets so it keeps its length, and filling the free time exactly when that is shorter; before a running entry
+ * of its profile, the wall is the last 5-minute mark before its start. Touching a neighbour of its profile, it takes it
+ * in, as a let go does, and the view fits what it has become. Used by the line while placing: a click at 12:30 gives
+ * 12:15–12:45, at 11:42 next to a janitor entry 08:00–11:40 gives 08:00–12:10. A click inside an entry, or where less
+ * than 5 minutes are free, places nothing.
  */
 export function place(state: LineState, at: number): LineState {
   if (!state.placing || at > state.now) return state
@@ -187,7 +188,7 @@ export function place(state: LineState, at: number): LineState {
   const before = nearestBefore(state.others, at)
   const after = nearestAfter(state.others, at)
   const low = before ? before.stop : -Infinity
-  const high = after ? after.start : state.now
+  const high = after ? wallAt(after, state.profile) : state.now
   const length = NEW_MINUTES * MINUTE
   let start = snap(at - length / 2)
   let end = start + length
@@ -210,7 +211,7 @@ export function place(state: LineState, at: number): LineState {
     prev: nearestBefore(state.others, start),
     next: nearestAfter(state.others, end),
   }
-  return { ...placed, view: fittedView(placed) }
+  return letGo(normalised(placed))
 }
 
 /**
@@ -226,8 +227,9 @@ export function grab(state: LineState, grip: Grip, at: number): Drag | null {
 
 /**
  * The handle (or the whole entry) dragged to the time under the pointer, snapped to 5 minutes of the clock, past the
- * view's ends too, the view holding still until let go. It stops at another entry, at now, at its original when moved
- * clear of it, and where the time kept could no longer hold the break; dragged back to a joined neighbour's far end, it lets the neighbour go whole. A gap's edges
+ * view's ends too, the view holding still until let go. It stops at another entry, at the last 5-minute mark before a
+ * running entry of its profile, at now, at its original when moved clear of it, and where the time kept could no longer
+ * hold the break; dragged back to a joined neighbour's far end, it lets the neighbour go whole. A gap's edges
  * stay inside the entry and keep no distance: the dragged one snaps onto the other, even off the 5-minute marks. Used
  * on every pointer move of a drag: 08:00–12:00, its start dragged to 08:20, gives 08:20–12:00.
  */
@@ -265,7 +267,8 @@ export function dragTo(state: LineState, drag: Drag, at: number): LineState {
     end = Math.min(Math.max(target, state.start + apart), Math.max(high, state.end))
   } else {
     const shift = Math.round((at - drag.grabbedAt) / step) * step
-    const kept = Math.max(low - drag.startWas, Math.min(high - drag.endWas, shift))
+    // An entry already ending past its wall, closer to a running entry, keeps its end
+    const kept = Math.max(low - drag.startWas, Math.min(Math.max(high, drag.endWas) - drag.endWas, shift))
     start = drag.startWas + kept
     end = drag.endWas + kept
   }
@@ -321,7 +324,7 @@ export function stepHandle(state: LineState, handle: 'start' | 'end', by: -1 | 1
       : state.start - state.originalStart < MINUTE
         ? Math.max(state.originalEnd - MINUTE, state.end)
         : state.originalEnd
-    next.end = Math.max(Math.min(moved, wallAfter(state), inside), state.start + apart)
+    next.end = Math.max(Math.min(moved, Math.max(wallAfter(state), state.end), inside), state.start + apart)
   }
   next = normalised(next)
   if (!fits(next)) return { ...state, refused: true }
@@ -345,16 +348,46 @@ export function clickMiddle(state: LineState): LineState {
 
 /**
  * A profile picked in the edit's head. With a gap, another profile fills it and the entry's own empties it again;
- * otherwise the whole entry moves to that profile, its times unchanged. Refused, with the tag red, when the break would
- * no longer fit, as when the switch lets go of a neighbour it touched. Used by the profile picker: a gap at
- * 10:00–10:40 and "Utveckling" makes 10:00–10:40 development work.
+ * otherwise the whole entry, with every neighbour it has taken in, moves to that profile, its times unchanged, and takes
+ * in a neighbour of that profile it touches, as a let go does; a switch never lets one go. Refused, with the tag red,
+ * when the break would not fit; the profile of a running entry the entry touches is not taken at all
+ * (`blockedProfile`). Used by the profile picker: a gap at 10:00–10:40 and "Utveckling" makes 10:00–10:40 development
+ * work; janitor 08:00–13:00 touching development 13:00–15:00 and "Utveckling" makes development 08:00–15:00.
  */
 export function pickProfile(state: LineState, profile: string): LineState {
-  const picked =
-    (isInward(state) || state.fill) && state.mode === 'gap'
-      ? normalised({ ...state, fill: profile === state.profile ? null : profile, refused: false })
-      : normalised({ ...state, profile, fill: null, refused: false })
-  return fits(picked) ? picked : { ...state, refused: true }
+  if (fillsGap(state)) {
+    const filled = normalised({ ...state, fill: profile === state.profile ? null : profile, refused: false })
+    return fits(filled) ? filled : { ...state, refused: true }
+  }
+  if (profile === blockedProfile(state)) return state
+  const picked = normalised({ ...state, profile, fill: null, refused: false })
+  return fits(picked) ? letGo(picked) : { ...state, refused: true }
+}
+
+/**
+ * The profile the picker greys, "· pågår" after its name: that of a running entry the entry touches, which picking
+ * would join to it ("A running entry is edited at its start"). Used by the profile picker: janitor 08:00–13:00 with
+ * development running since 13:00 blocks "Utveckling".
+ * @returns the profile's id, or null when none is blocked
+ */
+export function blockedProfile(state: LineState): string | null {
+  if (state.placing || state.running || fillsGap(state)) return null
+  const parts = resultParts(state)
+  const end = parts[parts.length - 1]?.to
+  const touched = state.others.find((o) => o.running === true && o.start === end && !isJoined(state, o))
+  return touched && touched.profile !== state.profile ? touched.profile : null
+}
+
+/**
+ * The entry's original, while a handle holds the entry moved clear of it on its edge: outlined as a docked neighbour
+ * is, and taken back on let go ("Two entries join by docking"). Used by the line while a drag is held: 08:00–10:00
+ * moved to 11:00–13:00, its start held at 10:00, outlines 08:00–10:00.
+ * @returns the original's stretch, or null when the entry is not on its edge
+ */
+export function originalDocked(state: LineState): View | null {
+  if (state.isNew || state.placing) return null
+  if (state.start !== state.originalEnd && state.end !== state.originalStart) return null
+  return { from: state.originalStart, to: state.originalEnd }
 }
 
 /**
@@ -647,7 +680,23 @@ function wallBefore(state: LineState): number {
 
 /** How far the end handle may go: the wall after, or now */
 function wallAfter(state: LineState): number {
-  return state.next ? state.next.start : state.now
+  return state.next ? wallAt(state.next, state.profile) : state.now
+}
+
+/**
+ * Where a later entry stops the edit: its start, or for a running entry of the edit's profile the last 5-minute mark
+ * before it, so no entry touches a running one of its profile: 06:55 before 07:00, 07:00 before 07:03
+ */
+function wallAt(span: Span, profile: string): number {
+  if (span.running !== true || span.profile !== profile) return span.start
+  const step = SNAP_MINUTES * MINUTE
+  const offset = new Date(span.start).getTimezoneOffset() * MINUTE
+  return Math.floor((span.start - 1 - offset) / step) * step + offset
+}
+
+/** Whether a profile picked fills the gap rather than moving the whole entry. Used by the picker's rules */
+function fillsGap(state: LineState): boolean {
+  return (isInward(state) || state.fill !== null) && state.mode === 'gap'
 }
 
 /** Whether a neighbour has been taken in, by its id. Used for the walls and the save */
@@ -778,7 +827,7 @@ function towards(from: number, to: number, step: number): number {
 
 /**
  * What every move ends with, as the prototype's drawing did: a new entry's own time is what lies between its joins;
- * an entry that runs, or has taken in one that does, ends at now; a filling profile goes once there is no gap to fill;
+ * an entry that runs ends at now; a filling profile goes once there is no gap to fill;
  * a gap no longer holding goes, its break folded into one, so an old gap never comes back unasked
  */
 function normalised(state: LineState): LineState {
@@ -787,7 +836,6 @@ function normalised(state: LineState): LineState {
     next.originalStart = next.joinsBefore.length > 0 ? next.joinsBefore[0].stop : next.start
     next.originalEnd = next.joinsAfter.length > 0 ? next.joinsAfter[0].start : next.end
   }
-  next.running = next.entry.running === true || next.joinsAfter.some((j) => j.running === true)
   if (next.running) next.end = next.now
   if (next.fill && !isFilling(next)) next.fill = null
   if (!isInward(next) && !isFilling(next) && !isGap(next)) {
@@ -823,8 +871,7 @@ function releaseJoins(state: LineState): LineState {
  * its profile, it takes that neighbour in, its handle moving to the neighbour's far end
  */
 function absorb(state: LineState): LineState {
-  if (!state.isNew && state.start === state.originalEnd && !state.running)
-    return { ...state, start: state.originalStart }
+  if (!state.isNew && state.start === state.originalEnd) return { ...state, start: state.originalStart }
   if (!state.isNew && state.end === state.originalStart) return { ...state, end: state.originalEnd }
   const docks = docked(state)
   const next = { ...state, joinsBefore: [...state.joinsBefore], joinsAfter: [...state.joinsAfter] }
