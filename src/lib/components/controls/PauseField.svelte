@@ -139,12 +139,12 @@
   }
 
   .pause {
-    background-attachment: fixed;
     height: var(--pause-height);
     padding: var(--pause-padding);
     border: 0;
     border-radius: var(--radius-button);
-    background: var(--button-background);
+    background-color: var(--button-background);
+    background-attachment: fixed;
     color: var(--button-text);
     box-shadow: var(--shadow-button);
     font: inherit;
