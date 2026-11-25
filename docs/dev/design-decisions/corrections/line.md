@@ -46,9 +46,6 @@ to the popup's edges, the line reads more naturally.
 
 - A view of 9 h: labels every 2 hours; of 5 days: one per day, "lör 21"; of 20 days: weeks, "v. 48".
 
-- A 5 min entry, a handle dragged far past the view's end: it grows in one drag, the handle out of sight and the times
-  reading where it is; let go, the view refits.
-
 - A handle dragged past either end of the view: the popup never grows a sideways scrollbar.
 
 - A handle held and dragged out of the app's window: it follows the pointer, on Linux and Windows.

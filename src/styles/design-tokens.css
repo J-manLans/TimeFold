@@ -337,7 +337,9 @@
   --all-entries-width: 560px;
   --all-entries-share: 92%; /* of the window, when that is narrower */
   --all-entries-height: 80vh; /* the most it takes before it scrolls */
-  --all-entries-padding: 16px 18px;
+  --all-entries-padding-block: 16px;
+  --all-entries-padding-inline: 18px; /* the edit's line runs on into it, out to the popup's edges */
+  --all-entries-padding: var(--all-entries-padding-block) var(--all-entries-padding-inline);
   --all-entries-gap: 10px;
   /* The gaps between its rows, where a forgotten entry is written */
   --insert-rest: 2px; /* a gap's own room between rows, as thin as the rows' spacing */

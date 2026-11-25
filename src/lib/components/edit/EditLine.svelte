@@ -4,7 +4,10 @@
   colour, its time above it, and the scale under the line. A handle is dragged, snapped to 5 minutes, or clicked into a
   pill whose − and + step a minute ("A clicked handle steps by the minute"); the bar is dragged to move the entry, and
   with both handles inward its middle clicked to switch shortening and a gap ("A gap divides an entry"); while a let go
-  would leave the gap, the part not dragged is outlined in the entry's colour. Let go, the view eases to fit again.
+  would leave the gap, the part not dragged is outlined in the entry's colour. The view holds still while a handle is
+  dragged, the handle following the pointer past its ends too, out of sight past the popup's edges; the entries and the
+  hairline run on past the view out to the popup's edges, which cut them, so the popup never scrolls sideways. Let go,
+  the view eases to fit again.
   While a new entry waits for its place, a click on free time places it. The rules are the line's model; this draws
   it and turns the pointer into its moves: <EditLine bind:line profiles={record.profiles} />
 -->
@@ -77,7 +80,9 @@
   let filler = $derived(profiles.find((p) => p.id === line.fill))
   let neon = $derived(neonColour((filler ?? profile)?.hue ?? 0))
   let docks = $derived(docked(line))
-  let shownWalls = $derived(walls(line).filter((w) => w.stop >= shown.from && w.start <= shown.to))
+  /** How far past the view's ends the line is drawn: a view's width each side, well beyond the popup's edges */
+  let reach = $derived<View>({ from: 2 * shown.from - shown.to, to: 2 * shown.to - shown.from })
+  let shownWalls = $derived(walls(line).filter((w) => w.stop >= reach.from && w.start <= reach.to))
   let pieces = $derived(line.placing ? [] : segments(line))
   let handles = $derived(line.placing ? [] : line.running ? (['start'] as const) : (['start', 'end'] as const))
   // Handles closer than their labels' width: the labels lean apart, the start's ending at its handle
@@ -114,9 +119,14 @@
     return `${((time - shown.from) / (shown.to - shown.from)) * 100}%`
   }
 
-  /** A stretch's width on the line, clipped to the view. Used by the bars */
+  /** A stretch's width on the line, cut at its reach. Used by the bars */
   function span(from: number, to: number): string {
-    return `calc(${pct(Math.min(to, shown.to))} - ${pct(Math.max(from, shown.from))})`
+    return `calc(${pct(Math.min(to, reach.to))} - ${pct(Math.max(from, reach.from))})`
+  }
+
+  /** Whether a stretch shows anywhere the line is drawn. Used by the bars */
+  function within(from: number, to: number): boolean {
+    return Math.min(to, reach.to) > Math.max(from, reach.from)
   }
 
   /** The time under the pointer. Used by every press and drag */
@@ -236,93 +246,103 @@
   onpointercancel={release}
 />
 
-<div
-  class="line"
-  class:placing={line.placing}
-  role="presentation"
-  bind:this={box}
-  bind:clientWidth={boxWidth}
-  style:--own={profile?.base}
-  style:--filler={filler?.base}
-  onpointerdown={down}
-  onpointermove={move}
-  onpointerup={up}
->
-  {#each ticks(shown) as tick (tick.at)}
-    <span class="tick" style:left={pct(tick.at)}>{tick.label}</span>
-  {/each}
+<div class="lane">
+  <div
+    class="line"
+    class:placing={line.placing}
+    role="presentation"
+    bind:this={box}
+    bind:clientWidth={boxWidth}
+    style:--own={profile?.base}
+    style:--filler={filler?.base}
+    onpointerdown={down}
+    onpointermove={move}
+    onpointerup={up}
+  >
+    {#each ticks(shown) as tick (tick.at)}
+      <span class="tick" style:left={pct(tick.at)}>{tick.label}</span>
+    {/each}
 
-  {#each shownWalls as wall (wall.id)}
-    <div
-      class="wall"
-      class:same={wall.profile === line.profile}
-      class:dock={(docks.before && wall.id === line.prev?.id) || (docks.after && wall.id === line.next?.id)}
-      style:--wall={profiles.find((p) => p.id === wall.profile)?.base}
-      style:left={pct(Math.max(wall.start, shown.from))}
-      style:width={span(wall.start, wall.stop)}
-    ></div>
-  {/each}
-
-  {#if line.now > shown.from && line.now < shown.to}
-    <div class="now" style:left={pct(line.now)}></div>
-  {/if}
-
-  {#each pieces as piece (`${piece.kind}${piece.from}`)}
-    {@const middle = isInward(line) && piece.from === line.start && piece.to === line.end}
-    {#if Math.min(piece.to, shown.to) > Math.max(piece.from, shown.from)}
+    {#each shownWalls as wall (wall.id)}
       <div
-        class="bar {piece.kind}"
-        class:pick={middle && !line.fill && piece.kind === 'cut'}
-        data-grip={piece.kind === 'keep' && !line.running ? 'middle' : undefined}
-        style:left={pct(Math.max(piece.from, shown.from))}
-        style:width={span(piece.from, piece.to)}
+        class="wall"
+        class:same={wall.profile === line.profile}
+        class:dock={(docks.before && wall.id === line.prev?.id) || (docks.after && wall.id === line.next?.id)}
+        style:--wall={profiles.find((p) => p.id === wall.profile)?.base}
+        style:left={pct(Math.max(wall.start, reach.from))}
+        style:width={span(wall.start, wall.stop)}
+      ></div>
+    {/each}
+
+    {#if line.now > reach.from && line.now < reach.to}
+      <div class="now" style:left={pct(line.now)}></div>
+    {/if}
+
+    {#each pieces as piece (`${piece.kind}${piece.from}`)}
+      {@const middle = isInward(line) && piece.from === line.start && piece.to === line.end}
+      {#if within(piece.from, piece.to)}
+        <div
+          class="bar {piece.kind}"
+          class:pick={middle && !line.fill && piece.kind === 'cut'}
+          data-grip={piece.kind === 'keep' && !line.running ? 'middle' : undefined}
+          style:left={pct(Math.max(piece.from, reach.from))}
+          style:width={span(piece.from, piece.to)}
+        ></div>
+      {/if}
+    {/each}
+
+    {#if closing && within(closing.from, closing.to)}
+      <div
+        class="bar closing"
+        style:left={pct(Math.max(closing.from, reach.from))}
+        style:width={span(closing.from, closing.to)}
       ></div>
     {/if}
-  {/each}
 
-  {#if closing && Math.min(closing.to, shown.to) > Math.max(closing.from, shown.from)}
-    <div
-      class="bar closing"
-      style:left={pct(Math.max(closing.from, shown.from))}
-      style:width={span(closing.from, closing.to)}
-    ></div>
-  {/if}
+    {#each meetingPoints(line).filter((p) => p > reach.from && p < reach.to) as point (point)}
+      <div class="meet" style:left={pct(point)}></div>
+    {/each}
 
-  {#each meetingPoints(line).filter((p) => p > shown.from && p < shown.to) as point (point)}
-    <div class="meet" style:left={pct(point)}></div>
-  {/each}
-
-  {#each handles as handle (handle)}
-    {@const time = handle === 'start' ? line.start : line.end}
-    <div
-      class="handle"
-      class:pill={pill === handle}
-      class:fresh={pill === handle && fresh}
-      data-grip={handle}
-      style:left={pct(time)}
-      style:background={neon}
-      style:--ink={inkOn(neon)}
-      onanimationend={() => (fresh = false)}
-    >
-      {#if pill === handle}
-        <span class="sign" data-step="-1" data-handle={handle}>−</span>
-        <span class="sign" data-step="1" data-handle={handle}>+</span>
+    {#each handles as handle (handle)}
+      {@const time = handle === 'start' ? line.start : line.end}
+      <div
+        class="handle"
+        class:pill={pill === handle}
+        class:fresh={pill === handle && fresh}
+        data-grip={handle}
+        style:left={pct(time)}
+        style:background={neon}
+        style:--ink={inkOn(neon)}
+        onanimationend={() => (fresh = false)}
+      >
+        {#if pill === handle}
+          <span class="sign" data-step="-1" data-handle={handle}>−</span>
+          <span class="sign" data-step="1" data-handle={handle}>+</span>
+        {/if}
+      </div>
+      {#if handle === 'start'}
+        <span class="label" class:lean-start={lean} style:left={pct(time)} bind:offsetWidth={startLabelWidth}
+          >{clock(time)}</span
+        >
+      {:else}
+        <span class="label" class:lean-end={lean} style:left={pct(time)} bind:offsetWidth={endLabelWidth}
+          >{clock(time)}</span
+        >
       {/if}
-    </div>
-    {#if handle === 'start'}
-      <span class="label" class:lean-start={lean} style:left={pct(time)} bind:offsetWidth={startLabelWidth}
-        >{clock(time)}</span
-      >
-    {:else}
-      <span class="label" class:lean-end={lean} style:left={pct(time)} bind:offsetWidth={endLabelWidth}
-        >{clock(time)}</span
-      >
-    {/if}
-  {/each}
+    {/each}
+  </div>
 </div>
 
 <style>
   /* === Layout === */
+
+  /* The line's lane, out to the popup's edges through its side padding: it cuts what runs on sideways only, so the
+     popup never scrolls sideways and may still grow in height */
+  .lane {
+    margin-inline: calc(-1 * var(--all-entries-padding-inline));
+    padding-inline: var(--all-entries-padding-inline);
+    overflow-x: clip;
+  }
 
   .line {
     position: relative;
@@ -332,11 +352,12 @@
     user-select: none;
   }
 
+  /* The hairline, run on past the view's ends as the entries are, the lane cutting it */
   .line::before {
     content: '';
     position: absolute;
-    left: 0;
-    right: 0;
+    left: -100vw;
+    right: -100vw;
     top: 50%;
     height: 1px;
     background: var(--dashboard-line);

@@ -56,22 +56,9 @@ function turn(state: LineState, grip: Grip, ...to: number[]): LineState {
   return letGo(moved)
 }
 
-/**
- * A handle dragged to a time in as many turns as the view needs, as a hand does: to the edge, let go, and again. Used
- * by most tests
- */
+/** A handle dragged to a time and let go. Used by most tests */
 function drag(state: LineState, grip: 'start' | 'end', to: number): LineState {
-  let line = state
-  for (let n = 0; n < 10; n++) {
-    const held = grab(line, grip, grip === 'end' ? line.end : line.start)
-    if (!held) return line
-    const moved = dragTo(line, held, to)
-    const reached = (grip === 'end' ? moved.end : moved.start) === to
-    const still = grip === 'end' ? moved.end === line.end : moved.start === line.start
-    line = letGo(moved)
-    if (reached || still) return line
-  }
-  return line
+  return turn(state, grip, to)
 }
 
 /** Stretches as clock times, for reading. Used by the result and colour tests */
@@ -107,29 +94,39 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
     expect(times(resultParts(line))).toEqual(['08:20–12:00'])
   })
 
-  it("stops at the view's edge, and reaches 16:00 in further drags as the view refits wider", () => {
-    const first = turn(openLine(span('08:00', '12:00'), [], t('17:00')), 'end', t('16:00'))
-    const second = turn(first, 'end', t('16:00'))
+  it("follows the pointer past the view's edge: 08:00–12:00, its end dragged to 16:00 in one drag, gives 16:00", () => {
+    const line = openLine(span('08:00', '12:00'), [], t('17:00'))
+    const held = grab(line, 'end', line.end)
+    const moved = held && dragTo(line, held, t('16:00'))
 
-    expect(first.end).toBe(t('13:00'))
-    expect(second.end).toBeGreaterThan(first.end + HOUR)
-    expect(drag(first, 'end', t('16:00')).end).toBe(t('16:00'))
+    expect(t('16:00')).toBeGreaterThan(line.view.to)
+    expect(moved?.end).toBe(t('16:00'))
   })
 
-  it('grows an entry of a few seconds: its end reaches 10:05 in one drag, and further in the next', () => {
+  it('grows an entry of a few seconds in one drag: its end reaches 11:00', () => {
     const line = openLine({ ...span('10:02', '10:02'), stop: t('10:02') + 5000 }, [], t('17:00'))
-    const first = turn(line, 'end', t('11:00'))
-    const second = turn(first, 'end', t('11:00'))
 
-    expect(first.end).toBe(t('10:05'))
-    expect(second.end).toBeGreaterThan(first.end)
+    expect(turn(line, 'end', t('11:00')).end).toBe(t('11:00'))
   })
 
-  it('grows a 10-minute entry from either handle, to the next 5-minute mark past it at least', () => {
+  it('grows a 10-minute entry from either handle in one drag: to 09:00 and to 11:00', () => {
     const line = openLine(span('10:02', '10:12'), [], t('17:00'))
 
-    expect(turn(line, 'start', t('09:00')).start).toBeLessThanOrEqual(t('10:00'))
-    expect(turn(line, 'end', t('11:00')).end).toBeGreaterThanOrEqual(t('10:15'))
+    expect(turn(line, 'start', t('09:00')).start).toBe(t('09:00'))
+    expect(turn(line, 'end', t('11:00')).end).toBe(t('11:00'))
+  })
+
+  it('grows a 5-minute entry far past its view in one drag: 10:00–10:05 to 08:00 and to 12:00', () => {
+    const line = openLine(span('10:00', '10:05'), [], t('17:00'))
+
+    expect(turn(line, 'start', t('08:00')).start).toBe(t('08:00'))
+    expect(turn(line, 'end', t('12:00')).end).toBe(t('12:00'))
+  })
+
+  it('moves the whole entry past the view in one drag: 08:00–09:00 by its middle to 14:30 gives 14:00–15:00', () => {
+    const moved = turn(openLine(span('08:00', '09:00'), [], t('17:00')), 'middle', t('14:30'))
+
+    expect(times(resultParts(moved))).toEqual(['14:00–15:00'])
   })
 
   it('stops at the next entry: 12:30 is reached, 14:00 stops at 13:00', () => {
@@ -150,13 +147,6 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
     const dragged = turn(stepped, 'end', stepped.view.from)
 
     expect(dragged.end).toBe(t('06:05'))
-  })
-
-  it("is never pushed by the view's edge: 06:02–06:07 against 06:07–06:12 of another profile, dragged by its middle", () => {
-    const line = openLine(span('06:02', '06:07'), [span('06:07', '06:12', { profile: 'p2' })], t('17:00'))
-    const moved = turn(line, 'middle', line.view.from)
-
-    expect(moved.end).toBeLessThanOrEqual(t('06:07'))
   })
 
   it('stops at now', () => {
