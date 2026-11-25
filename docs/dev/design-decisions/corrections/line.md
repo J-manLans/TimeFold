@@ -5,8 +5,6 @@ template in `../README.md`, and is cited by its title.
 
 ## The line's view holds still while a handle is dragged (2026-11-25)
 
-**Built by:** the patch `v0.3.1`, for a handle past the view's ends and the line drawn out to the popup's edges.
-
 **Decision:** the entry line shows what is being edited, the entry as it was and as it is becoming, centred and filling
 65% of the line. While a handle is dragged the view does not change, and the handle follows the pointer at the line's
 scale, past the view's ends too and out of sight past the popup's edges, snapping and stopping at the walls as anywhere
