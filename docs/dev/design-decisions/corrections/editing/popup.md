@@ -35,10 +35,12 @@ at its start"). The line also shows the entry's profile, which can be changed th
 unchanged, to another profile ("Every edit carries a reason"); an entry across midnight changes profile as one, both
 days' parts together. The picker always names the profile in colour, and offers every profile but archived ones, the
 entry's own included; with no gap, it moves the whole entry, its break with it, in one step, and a profile it cannot fit
-in is refused, as when the move lets go of a neighbour it touched, the tag showing why, red until the next change. Under
-the day, the result reads in words: its times, then its break as the list's "paus" tag ("An edited entry's break"), with
-no length, so no figure there can disagree with the list's counted time ("07:58–12:10 paus 20min"). The colours are a
-preview: nothing changes until the owner confirms, and a cancel leaves the entry as it was.
+in is refused, the tag showing why, red until the next change; one that would touch a running entry of that profile is
+greyed ("A running entry is edited at its start"). A profile that makes the entry touch a neighbour of it takes the
+neighbour in ("Two entries join by docking"). Under the day, the result reads in words: its times, then its break as the
+list's "paus" tag ("An edited entry's break"), with no length, so no figure there can disagree with the list's counted
+time ("07:58–12:10 paus 20min"). The colours are a preview: nothing changes until the owner confirms, and a cancel
+leaves the entry as it was.
 
 **Why:** the owner adds breaks during the day; one found after stop, a late start, an early end or the wrong profile are
 all fixed in the same place, seeing the whole entry and the time around it. A handle that cannot reach a clash needs no
