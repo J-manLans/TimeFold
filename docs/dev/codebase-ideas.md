@@ -128,3 +128,11 @@ owner's:
    machine, handed out as a local install such as through Wilma, after asking IT; iOS needs a Mac to build on, and
    reaches iPhones only through Apple's own channels. How the record moves with no second machine to carry a file to is
    open. The agent's lean: Android first.
+
+## One pointer-light rule for every button
+
+**Returns when:** a button is added that catches the pointer light, or the light's look changes.
+
+The light's rules (lit, hovered, pressed) are repeated in `ButtonBlock`, `PauseField` and `ChoiceButton`, and one of
+them drifted ("Lägg till paus" set the `background:` shorthand and lost the light). Given once, as a shared class or a
+rule for all buttons that catch it, a button cannot catch it differently. The owner's idea.

@@ -22,16 +22,16 @@ nothing to click. A click opens the edit popup on that gap's stretch of time: th
 runs from it to the moment it is clicked, any other from the older entry's end to the newer one's start; the entries
 either side show hatched, as neighbours, and there is no "Ta bort". The first click in free time drops a 30-minute entry
 centred on the click, snapped to 5 minutes, sliding away from a wall it meets so it keeps its length, and filling the
-free time exactly when that is shorter; the view fits it alone ("The line's view holds still while a handle is
-dragged"); further clicks on the empty line do nothing. Touching a neighbour of its profile, it takes it in as any entry
-does ("Two entries join by docking"): its own stretch green as time added, its handle at the neighbour's far end; before
-a running entry of its profile it stops short of touching ("A running entry is edited at its start"). A gap filled
-between two entries of its profile so joins all three, with no rule of its own. From then on it is edited as any entry:
-its handles, the pill, its break, its profile, which starts on the active profile, and a reason ("Every edit carries a
-reason"). It is moved by dragging its middle, or walked past a neighbour ("Two entries join by docking"); anything else,
-"Avbryt" and start over. A new entry has no original: the view fits it alone, at the usual share, wherever it is walked,
-and alone nothing of it shows as added or taken away. Saved, it is marked written by hand ("Entries remember how they
-were made").
+free time exactly when that is shorter; the view fits it, with a neighbour it takes in ("The line's view holds still
+while a handle is dragged"); further clicks on the empty line do nothing. Touching a neighbour of its profile, it takes
+it in as any entry does ("Two entries join by docking"): its own stretch green as time added, its handle at the
+neighbour's far end; before a running entry of its profile it stops short of touching ("A running entry is edited at its
+start"). A gap filled between two entries of its profile so joins all three, with no rule of its own. From then on it is
+edited as any entry: its handles, the pill, its break, its profile, which starts on the active profile, and a reason
+("Every edit carries a reason"). It is moved by dragging its middle, or walked past a neighbour ("Two entries join by
+docking"); anything else, "Avbryt" and start over. A new entry has no original: the view fits it and what it has taken
+in, at the usual share, wherever it is walked, and alone nothing of it shows as added or taken away. Saved, it is marked
+written by hand ("Entries remember how they were made").
 
 **Why:** a forgotten entry belongs between two known ones, so the gap clicked says when, with no way to travel the line
 to another day. The one always visible "+" keeps the rule that the app shows what it can do, and its line growing on
@@ -54,9 +54,8 @@ the new entry there: a second way to move it, where dragging and walking already
 forgotten entries are longer, and it was judged while a short entry's handles could not grow it. Cut short by a wall
 instead of sliding: it shrank on one side only. A placed entry docked but not taken in, its handles on its own edges: it
 was a short drag to move off, but the handle said the entry ended where it touched while the colours said it was joined.
-The view fitted to the docked neighbour too: a long one shrank the new entry to a sliver, as "The line's view holds
-still while a handle is dragged" rejects. A rule of its own for a gap filled between two entries of its profile: docking
-already joins them, as docking one onto the other would.
+A rule of its own for a gap filled between two entries of its profile: docking already joins them, as docking one onto
+the other would.
 
 **Cases:**
 
