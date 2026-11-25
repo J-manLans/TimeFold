@@ -19,9 +19,10 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-The patch `v0.3.1`, then Phase 4: Profiles, its design pass from **Settle first**.
+Phase 4: Profiles, its design pass from **Settle first**.
 
-1. The release, `v0.3.1` (`procedures/release.md`).
+1. The patch `v0.3.1`, tagged and built from its tag: its draft's installers checked and installed at work
+   (`procedures/release.md`, steps 5 to 7).
 
 ## The phases
 

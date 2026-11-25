@@ -1612,9 +1612,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   // ---- The entry line ("Editing an entry on its line", "Two entries join by docking") ----
   // A dragged handle snaps to EDIT_SNAP minutes of the clock; a clicked one grows into a pill whose − and + step one
-  // minute. A drag stops at the view's edges, and the view never changes during it. Let go, it always eases to fit what
-  // is being edited to EDIT_FILL of its width, centred. The scale under it shows at most EDIT_TICKS labels, in the
-  // smallest unit that fits: minutes, hours, days, weeks, months, then years. A forgotten entry starts EDIT_NEW minutes.
+  // minute. A dragged handle follows the pointer past the view's ends too, and the view never changes during it. Let
+  // go, it always eases to fit what is being edited to EDIT_FILL of its width, centred. The scale under it shows at
+  // most EDIT_TICKS labels, in the smallest unit that fits: minutes, hours, days, weeks, months, then years. A
+  // forgotten entry starts EDIT_NEW minutes.
   var EDIT_SNAP = 5, MIN = 60000, EDIT_FILL = 0.65, EDIT_TICKS = 8, EDIT_NEW = 30;
   var ADD_WRAP = 2;   // the times line taller than this many font sizes has wrapped: "Lägg till paus" becomes "+ paus"
   // The pill wears the neon of the profile in colour; its − and + are black, turning white when black on that neon falls

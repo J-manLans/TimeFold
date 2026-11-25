@@ -49,8 +49,8 @@ far end. A new entry placed against a neighbour is docked, not taken in.
 
 **Entry.** One stretch of work, from a start to a stop. Clicked in the app, or written by hand.
 
-**Entry line.** An entry opened for editing: a line centred on the entry, a handle at each end, its view stepping in and
-out as the handles move; other entries and now stop the handles, and midnight does not.
+**Entry line.** An entry opened for editing: a line centred on the entry, a handle at each end, its view holding still
+while a handle is dragged and refitting after; other entries, now and the break stop the handles, and midnight does not.
 
 **Errand.** Time away during the work day that is not work. Recorded as the gap between a stop and the next start, as an
 added break, or afterwards as a gap cut on the entry line.
