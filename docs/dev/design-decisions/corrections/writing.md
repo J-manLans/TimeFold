@@ -5,8 +5,6 @@ How a whole forgotten entry is written by hand, and how an entry is removed. Eac
 
 ## A forgotten entry is written in the gap where it belongs (2026-11-25)
 
-**Built by:** the docking patch, under **Next** in the roadmap, for a placed entry taking its neighbour in.
-
 **Decision:** a forgotten entry is written from "Visa alla", in the gap between two entries. Each gap sits just above
 its row, under the month's line where the row opens a month. At rest a gap is as thin as the rows' own spacing, with a
 hover strip a little taller over the rows' edges. Resting on it for the peek's delay ("Editing an entry on its line"),
