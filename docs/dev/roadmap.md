@@ -49,8 +49,8 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 6. `[written]` `[tests]` Each month of the ceiling counted on its own, the carry taken out of the counting and the wheel
    ("The other profiles share a ceiling", "The ceiling wheel"); the ceiling's trend beside the pay estimate ("The
    ceiling's trend").
-7. The reason list learns an "Annan orsak" text written three times, each reason is edited or removed under its pen, and
-   the list stops at seven lines ("Every edit carries a reason").
+7. `[written]` `[tests]` The reason list learns an "Annan orsak" text written three times, each reason is edited or
+   removed under its pen, and the list stops at seven lines ("Every edit carries a reason").
 
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
 every setting changes from a date as its cases say, and a prune on a set date cuts as its cases say.
