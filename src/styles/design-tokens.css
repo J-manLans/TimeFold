@@ -274,6 +274,17 @@
   --menu-history-gap: 3px; /* between the earlier values */
   --menu-tab-fade: var(--speed-ui); /* a tab's content fading in */
   --menu-panel-edge: 4px; /* room inside the panel's clip for focus rings at a tab's edges */
+  --menu-check-size: 16px; /* "Efter skatt"'s box */
+  --menu-check-gap: 8px; /* from the box to its words */
+  /* A profile's row in Profiler, and "Arkiverade" under them */
+  --menu-row-padding: 8px 10px; /* its head */
+  --menu-row-body-padding: 2px 12px 12px; /* what it unfolds */
+  --menu-rows-gap: 6px; /* between the rows */
+  --menu-archived-opacity: 0.55; /* an archived row's head */
+  --menu-archived-gap: 14px; /* from "Ny profil" down to "Arkiverade" */
+  --menu-name-warn-gap: 8px; /* from the name field down to a taken name's note */
+  --menu-name-width: 150px; /* "Ny profil"'s field */
+  --menu-archive-head-padding: 4px 0; /* "Arkiverade" and its count */
 
   /* === Controls: the flex-day calendar in the Tid tab === */
   --calendar-cell: 30px; /* each day's square */
