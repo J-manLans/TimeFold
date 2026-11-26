@@ -41,14 +41,15 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   onboarding with its ending's timeline, or `Recovery.svelte`, the screen for a record that cannot be read; both use
   `ChoiceButton.svelte`, in `shared/`. `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing
   the divider, and handing them the panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar;
-  `CeilingWheel.svelte`, the ceiling wheel with the pay estimate; `RecentEntries.svelte`, the five newest entries;
-  `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its rows; `EntryRow.svelte`,
-  the row both lists share, which opens its entry in the edit popup. `edit/`: `EditPopup.svelte`, the edit popup over
-  "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker, the result in words, the break's field,
-  and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned
-  into its moves, the pill and the view easing to its fit; `ReasonPicker.svelte`, the closed reason field, its list and
-  "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the profile, undo
-  and theme buttons, and `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
+  `CeilingWheel.svelte`, the ceiling wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the
+  five newest entries; `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its
+  rows; `EntryRow.svelte`, the row both lists share, which opens its entry in the edit popup. `edit/`:
+  `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker,
+  the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn
+  from the line's model, the pointer turned into its moves, the pill and the view easing to its fit;
+  `ReasonPicker.svelte`, the closed reason field, its list and "Annan orsak". `shared/`: what more than one part uses,
+  such as `Disc.svelte`, the dented disc of the profile, undo and theme buttons, and `ChoiceButton.svelte`, the locked
+  panel's and the popups' buttons with their tip.
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
@@ -77,16 +78,17 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   profile's base, dimmed and neon by role, the faded colour, and black or white ink on a colour (`inkOn`);
   `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result,
   each entry's seconds by day less its added breaks, expected hours charged on days work started or flex days, the app's
-  month, the ceiling with its carry and pieces, and the pay estimate, worked out in seconds from the record, and a
-  moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words ("måndag 16 november", "mån
-  16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and
-  `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy;
-  `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke checked against the
-  field's shape (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field wears, applies as it
-  is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20"); `focusRing.ts`, the last
-  input (a key or a pointer) and the focus ring as a popup opens and closes: opening, each popup keeps how
-  (`popupOpened`) and quiets the focus it moves in unless that was the keyboard (`ringOnOpen`); closing, it quiets the
-  element the focus lands on (`popupClosed`) unless it was opened and closed with the keyboard (`ringAfterClose`).
+  month, each month's ceiling and its pieces, the ceiling's trend, and the pay estimate, worked out in seconds from the
+  record, and a moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words ("måndag 16
+  november", "mån 16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`,
+  `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord` adds the local date that
+  names a day's copy; `timeInput.ts`, typed durations for the onboarding's balance and a break's length, each keystroke
+  checked against the field's shape (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field
+  wears, applies as it is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20");
+  `focusRing.ts`, the last input (a key or a pointer) and the focus ring as a popup opens and closes: opening, each
+  popup keeps how (`popupOpened`) and quiets the focus it moves in unless that was the keyboard (`ringOnOpen`); closing,
+  it quiets the element the focus lands on (`popupClosed`) unless it was opened and closed with the keyboard
+  (`ringAfterClose`).
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, every focus ring and the quiet one (`data-quiet-focus`) after a popup closes,
   `.plastic`, the flat button every button block, pause and choice button wears, with its pointer light, hover and
@@ -97,9 +99,9 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 
 - `unit/`, mirroring `src/` with one test file per source file; `integration/`, the hand-offs between parts; `helpers/`,
   setup several test files share ("Code style"), such as `records.ts` with a sound record and `at` and `entry` for
-  building moments and entries, and `lines.ts` with random days and moves for the edit's property tests, whose runs
-  `FC_RUNS` raises (`FC_RUNS=50000 npm test`). Each starts with its first file. Vitest finds every `*.test.ts`; Rust's
-  tests sit beside their code.
+  building moments and entries, `lines.ts` with random days and moves for the edit's property tests, and `properties.ts`
+  with `RUNS`, how many cases every property test tries, which `FC_RUNS` raises (`FC_RUNS=50000 npm test`). Each starts
+  with its first file. Vitest finds every `*.test.ts`; Rust's tests sit beside their code.
 
 ## The Rust half: `src-tauri/`
 

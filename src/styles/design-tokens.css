@@ -192,6 +192,7 @@
 
   /* === The pay estimate and the entries === */
   --pay-text-size: var(--text-size-ui);
+  --trend-gap: 14px; /* from the pay estimate to the ceiling's trend beside it */
   --entry-text-size: var(--text-size-body);
   --entry-columns: 7ch 13.5ch 2ch minmax(0, 1fr) auto; /* day, times ("21:30–07:00" and its "+1"), letter, tags, length */
   --entry-later-size: 0.72em; /* the "+1" after the end time of an entry that stops on a later day */

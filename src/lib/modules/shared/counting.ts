@@ -21,7 +21,7 @@ export interface Piece {
   seconds: number
 }
 
-/** A month of the ceiling: its size, its hours as pieces in the order worked (carried ones first), and their sum */
+/** A month of the ceiling: its size, its own hours as pieces in the order worked, and their sum */
 export interface CeilingMonth {
   ceiling: number
   pieces: Piece[]
@@ -123,26 +123,43 @@ export function monthOf(day: Day): Month {
 
 /**
  * The other profiles' ceiling for the month a day falls in ("The other profiles share a ceiling"): the rest of full time
- * after the janitor's expected hours, on each weekday, and the hours worked against it, carried ones first. Hours
- * over a month's ceiling carry into the next with their profile; unused hours do not. Running entries count once
- * stopped. Used by the ceiling wheel: 46 h in a 42 h May start June with 4 h used.
+ * after the janitor's expected hours, on each weekday, and that month's own hours worked against it; nothing carries
+ * from the month before. Running entries count once stopped. Used by the ceiling wheel: 46 h in a 42 h May leave June
+ * at 0 used.
  * @returns seconds; the ceiling is 0 for a record with no balance profile
  */
 export function ceilingMonth(record: TimeRecord, day: Day): CeilingMonth {
   const janitor = record.profiles.find((p) => p.expectedMinutes !== undefined)
-  const worked = otherWork(record, janitor?.id)
-  const target = monthOf(day)
-  let month = monthOf(firstDay(record, worked) ?? day)
-  if (month.first > target.first) month = target
+  const month = monthOf(day)
+  const pieces = joined(otherWork(record, janitor?.id).filter((piece) => inMonth(piece.day, month)))
+  return { ceiling: ceilingOf(record, janitor, month), pieces, used: pieces.reduce((sum, p) => sum + p.seconds, 0) }
+}
 
-  let carried: Piece[] = []
-  for (;;) {
-    const ceiling = ceilingOf(record, janitor, month)
-    const pieces = joined([...carried, ...worked.filter((piece) => monthOf(piece.day).first === month.first)])
-    if (month.first === target.first) return { ceiling, pieces, used: pieces.reduce((sum, p) => sum + p.seconds, 0) }
-    carried = beyond(pieces, ceiling)
-    month = monthOf(dayAfter(month.last))
+/**
+ * The ceiling's trend ("The ceiling's trend"): each finished month's hours over or under its ceiling, summed from the
+ * month the ceiling last changed (full time or the janitor's expected hours, a change in force by `today`), or from the
+ * first month in the app. The month under way never counts. Used for the quiet number beside the pay estimate: January
+ * +10:00, February −3:00 and March +0:30 read +7:30 all through April.
+ * @returns seconds, plus when over; 0 for a record with no balance profile
+ */
+export function ceilingTrend(record: TimeRecord, today: Day): number {
+  const janitor = record.profiles.find((p) => p.expectedMinutes !== undefined)
+  if (janitor === undefined) return 0
+  const worked = otherWork(record, janitor.id)
+  const first = firstDay(record, worked)
+  if (first === undefined) return 0
+
+  let month = monthOf(first)
+  for (const change of [...record.fullTime, ...(janitor.expectedMinutes ?? [])]) {
+    if (change.from <= today && change.from > month.first) month = monthOf(change.from)
   }
+  const current = monthOf(today)
+  let total = 0
+  for (; month.first < current.first; month = monthOf(dayAfter(month.last))) {
+    for (const piece of worked) if (inMonth(piece.day, month)) total += piece.seconds
+    total -= ceilingOf(record, janitor, month)
+  }
+  return total
 }
 
 /**
@@ -239,7 +256,8 @@ interface DayPiece extends Piece {
 }
 
 /**
- * The stopped work of every profile but the janitor, day by day in the order it was worked. Used by `ceilingMonth`
+ * The stopped work of every profile but the janitor, day by day in the order it was worked. Used by `ceilingMonth` and
+ * `ceilingTrend`
  */
 function otherWork(record: TimeRecord, janitorId: string | undefined): DayPiece[] {
   const pieces: DayPiece[] = []
@@ -252,7 +270,7 @@ function otherWork(record: TimeRecord, janitorId: string | undefined): DayPiece[
   return pieces
 }
 
-/** The first day the ceiling has anything to count from: the first opening or work. Used by `ceilingMonth` */
+/** The first day the ceiling has anything to count from: the first opening or work. Used by `ceilingTrend` */
 function firstDay(record: TimeRecord, worked: DayPiece[]): Day | undefined {
   const days = [...record.openings.map((o) => o.day), ...worked.map((p) => p.day)].sort()
   return days[0]
@@ -261,7 +279,7 @@ function firstDay(record: TimeRecord, worked: DayPiece[]): Day | undefined {
 /**
  * A month's ceiling in seconds: full time less the janitor's expected hours, on each weekday. The month the app was
  * first started in has its whole ceiling: its weekdays before the first setting take the first setting. Used by
- * `ceilingMonth`
+ * `ceilingMonth` and `ceilingTrend`
  */
 function ceilingOf(record: TimeRecord, janitor: Profile | undefined, month: Month): number {
   if (janitor === undefined) return 0
@@ -294,24 +312,17 @@ function joined(pieces: Piece[]): Piece[] {
   return result
 }
 
-/** What of a month's pieces lies past its ceiling, cut where the ceiling falls. Used for the carry into the next month */
-function beyond(pieces: Piece[], ceiling: number): Piece[] {
-  const over: Piece[] = []
-  let at = 0
-  for (const { profile, seconds } of pieces) {
-    const cut = Math.max(at, ceiling)
-    if (at + seconds > cut) over.push({ profile, seconds: at + seconds - cut })
-    at += seconds
-  }
-  return over
-}
-
 // === Days and moments ===
 
 /** The day after a day. Used to walk a month day by day, and from one month to the next */
 function dayAfter(day: Day): Day {
   const next = new Date(dayToTime(day) + 24 * 3600 * 1000)
   return formatDay(next.getUTCFullYear(), next.getUTCMonth() + 1, next.getUTCDate())
+}
+
+/** Whether a day falls in a month. Used to gather a month's hours of the ceiling */
+function inMonth(day: Day, month: Month): boolean {
+  return day >= month.first && day <= month.last
 }
 
 /** Whether a day is Monday to Friday. Used for the ceiling's days */
