@@ -19,9 +19,10 @@ sits the theme button ("A light or dark theme, following the system").
   colours"), and its name). A row unfolds in place, its height growing and its content fading in, and folds back the
   same way; opening one folds any other. It shows its colour first, compact on one line, the pair with "Ändra" beside it
   ("Each profile carries its colours"), then its name, pay (a monthly salary or a rate per hour), pay category, and
-  "Arkivera". "Ny profil" is at the bottom, a button that turns into the name field in its own place, as "Ändra" does;
-  Enter makes the profile and unfolds its row, its colours by the largest gap, and Esc or a click outside turns the
-  field back into the button.
+  "Arkivera" or "Ta bort" ("A profile with hours is archived, one without is deleted"). "Ny profil" is under the rows, a
+  button that turns into the name field in its own place, as "Ändra" does; Enter makes the profile and unfolds its row,
+  its colours by the largest gap, and Esc or a click outside turns the field back into the button. Under it,
+  "Arkiverade" folds the archived profiles away.
 - **Tid:** "Heltid", full time, entered as a week and shown with the day it gives after it in the muted colour ("38h
   15min / vecka", then "7h 39min / dag"), with no divider, so "|" in the menu only ever means a split; "Fördelning", the
   slider that splits the week between janitor's expected hours and the ceiling, in quarter hours, with the week's

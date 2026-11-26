@@ -88,9 +88,15 @@ title.
 - Time away is a gap or an added break
 - Entering a length of time
 
-### [Profiles](profiles.md)
+### Profiles (`profiles/`)
+
+**[What a profile is](profiles/profile.md)**
 
 - Profiles label the hours
+- A profile with hours is archived, one without is deleted
+
+**[Counting](profiles/counting.md)**
+
 - The other profiles share a ceiling
 - A pay estimate per profile
 - Settings change from a date

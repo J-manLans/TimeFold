@@ -34,11 +34,12 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** every kind of work counted apart, the ceiling wheel, and the menu.
 
-**Settle first:** the Orsaker tab drawn in the prototype (it shows only Profiler and Tid); deleting a profile with no
-entries (`open-questions.md`).
+**Settle first:** the Orsaker tab drawn in the prototype (it shows only Profiler and Tid); the ceiling's carry, which
+pruning waits on (`open-questions.md`).
 
-1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving; the
-   warning label on the start button while another profile runs.
+1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil" with its names
+   each used once, archiving and deleting, and "Arkiverade"; the warning label on the start button while another profile
+   runs.
 2. The menu: the Profiler and Orsaker tabs, the full-time slider in Tid, counting values locked behind "Ändra" with
    "Tidigare värden"; settings that change from a date; the "Orsaker" tab, with the reasons added, renamed and removed,
    and the "Annan orsak" texts that keep coming up.
@@ -47,6 +48,8 @@ entries (`open-questions.md`).
 4. `[written]` One pointer-light rule for every button that catches it, given once as a shared class or rule, in place
    of the copies in `ButtonBlock`, `PauseField` and `ChoiceButton`, so no button catches it differently; the phase's new
    buttons use it ("The look: a fresh display face, mono text and soft buttons").
+5. The edit's "Lägg till paus" drawn as a tag, in the tag's border, as the menu's "Skatt och avgifter" ("An edited
+   entry's break").
 
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
 every setting changes from a date as its cases say, and a prune on a set date cuts as its cases say.
@@ -114,5 +117,6 @@ owner has read it through and knows what each part is for, and the prompt reads 
 - More than one user per machine, accounts, shared state, or sync between machines beyond the handover file. Setups for
   others at the school, each on their own machine, are "The app for the whole school", in `codebase-ideas.md`.
 - Tracking tasks finer than profiles: no projects, task lists or clients.
-- Calculating pay as payroll does, overtime rules or invoicing: the app counts hours per profile and shows a rough pay
-  estimate; real pay is worked out outside it.
+- Calculating pay as payroll does, or invoicing: the app counts hours per profile and shows a rough pay estimate; real
+  pay is worked out outside it. Overtime in the estimate comes in a later phase ("Overtime pay in the estimate", in
+  `open-questions.md`).
