@@ -1,7 +1,8 @@
 <!--
   The menu ("The menu has tabs, with every value locked behind "Ändra""): folded, it is the button in the controls
   side's top-left corner; open, it grows from that corner into a frosted panel over the whole controls side, with the
-  "Meny" heading, the theme button and the motion switch, and the tab row with Tid, holding the flex-day calendar. A click on the button, a
+  "Meny" heading, the theme button and the motion switch, and the tab row: Profiler, chosen whenever it opens, and Tid,
+  holding full time, the split and the flex-day calendar. A click on the button, a
   click outside or Esc closes it; "Visa alla" and its popup keep it open, and Esc there closes the popup first. At the first start it is locked open with the onboarding in it ("A first install starts fresh or
   imports"), or with the screen for a record that cannot be read: solid while it asks, then frost, then folded into its
   button.
@@ -23,6 +24,7 @@
   import { durationInField, durationText, readDuration, WEEK } from '$lib/modules/shared/timeInput'
   import FlexCalendar from './FlexCalendar.svelte'
   import LockedValue from './LockedValue.svelte'
+  import ProfilerTab from './ProfilerTab.svelte'
   import SplitSlider from './SplitSlider.svelte'
   import Onboarding from './Onboarding.svelte'
   import Recovery from './Recovery.svelte'
@@ -41,6 +43,8 @@
   /** How the menu was opened, a key or a pointer, for the focus ring when it closes, and whether it was open */
   let openedBy: Input = null
   let wasOpen = false
+  /** The tab shown: Profiler whenever the menu opens */
+  let tab = $state<'profiler' | 'tid'>('profiler')
   let today = $derived(localDay(Date.now()))
   /** Full time as the menu shows it: the latest saved, as a week */
   let fullWeek = $derived(app.record ? fullTimeWeek(app.record, LATEST) : 0)
@@ -68,14 +72,20 @@
     if (app.panel !== null) open = !app.panel.folded
   })
 
-  // Closed, nothing is left open for editing
+  // Closed, nothing is left open for editing, and it opens again on Profiler
   $effect(() => {
-    if (!open) app.openValue = null
+    if (!open) {
+      app.openValue = null
+      tab = 'profiler'
+    }
   })
 
-  // "Ny profil…" in the profile popup opens the menu, where Profiler takes it up
+  // "Ny profil…" in the profile popup opens the menu on Profiler, which takes it up
   $effect(() => {
-    if (app.newProfileAsked) open = true
+    if (app.newProfileAsked) {
+      tab = 'profiler'
+      open = true
+    }
   })
 
   // While open, a press outside the menu or Esc closes it, unless it is locked for the onboarding. "Visa alla" and its
@@ -99,6 +109,12 @@
   })
 
   // === Helpers ===
+
+  /** A tab chosen: anything open for editing in the other is dropped */
+  function pick(next: 'profiler' | 'tid'): void {
+    app.openValue = null
+    tab = next
+  }
 
   /** Heltid saved as a week from its date, or the reason it is refused */
   function saveFull(week: number, from: Day): string | null {
@@ -140,35 +156,51 @@
         <ThemeButton />
         <MotionButton />
       </div>
-      <!-- TODO: Profiler, first and open when the menu opens, and Orsaker, in Profiles -->
       <div class="tabs" role="tablist" aria-label="Menyns delar">
-        <button class="tab" role="tab" type="button" aria-selected="true">Tid</button>
+        <button
+          class="tab"
+          role="tab"
+          type="button"
+          aria-selected={tab === 'profiler'}
+          onclick={() => pick('profiler')}
+        >
+          Profiler
+        </button>
+        <button class="tab" role="tab" type="button" aria-selected={tab === 'tid'} onclick={() => pick('tid')}>
+          Tid
+        </button>
       </div>
-      <div class="panel" role="tabpanel" aria-label="Tid">
-        <div>
-          <LockedValue
-            label="Heltid"
-            text={`${weekText(fullWeek)} / vecka`}
-            note={`${durationText(fullWeek / WEEKDAYS)} / dag`}
-            fieldText={durationInField(fullWeek)}
-            field={WEEK}
-            read={(typed) => readDuration(typed, WEEK)}
-            waiting={weekText}
-            save={saveFull}
-            dated
-            opensOn={firstOfNextMonth(today)}
-            earlier={fullEarlier}
-          />
-          <SplitSlider />
+      {#if tab === 'profiler'}
+        <div class="panel" role="tabpanel" aria-label="Profiler">
+          <ProfilerTab />
         </div>
-        <section>
-          <span class="label">Flexledig</span>
-          <!-- Drawn anew each time the menu opens, so the padlock is shut again and today's month shows -->
-          {#key open}
-            <FlexCalendar />
-          {/key}
-        </section>
-      </div>
+      {:else}
+        <div class="panel" role="tabpanel" aria-label="Tid">
+          <div>
+            <LockedValue
+              label="Heltid"
+              text={`${weekText(fullWeek)} / vecka`}
+              note={`${durationText(fullWeek / WEEKDAYS)} / dag`}
+              fieldText={durationInField(fullWeek)}
+              field={WEEK}
+              read={(typed) => readDuration(typed, WEEK)}
+              waiting={weekText}
+              save={saveFull}
+              dated
+              opensOn={firstOfNextMonth(today)}
+              earlier={fullEarlier}
+            />
+            <SplitSlider />
+          </div>
+          <section>
+            <span class="label">Flexledig</span>
+            <!-- Drawn anew each time the menu opens, so the padlock is shut again and today's month shows -->
+            {#key open}
+              <FlexCalendar />
+            {/key}
+          </section>
+        </div>
+      {/if}
     </div>
   {/if}
 </div>

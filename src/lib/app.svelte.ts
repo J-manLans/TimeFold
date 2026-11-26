@@ -18,6 +18,7 @@ import {
 } from '$lib/modules/shared/record'
 import { deleteEntry, savedEntryId, saveLine } from '$lib/modules/edit/edit'
 import { learnReason } from '$lib/modules/edit/reasons'
+import { activeProfiles, removeProfile } from '$lib/modules/shared/profiles'
 import { type LineState, type View } from '$lib/modules/edit/line'
 import { toggleFlexDay } from '$lib/modules/menu/flexDays'
 import {
@@ -286,6 +287,18 @@ class AppState {
   async saveSettings(record: TimeRecord): Promise<void> {
     this.record = record
     await saveRecord(record)
+  }
+
+  /**
+   * A profile archived, or deleted for good when it has no hours, and saved; the screen moves to the first profile in
+   * use if it was on it ("A profile with hours is archived, one without is deleted"). Used on the second click of
+   * "Arkivera" or "Ta bort"
+   */
+  async takeAwayProfile(id: string): Promise<void> {
+    if (this.record === null) return
+    const record = removeProfile(this.record, id)
+    if (this.onScreen === id) this.onScreen = activeProfiles(record)[0]?.id ?? this.onScreen
+    await this.saveSettings(record)
   }
 
   /** A profile put on screen and the popup closed; a running entry goes on. Used by a row of the profile popup */
