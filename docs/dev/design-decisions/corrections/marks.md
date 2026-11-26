@@ -27,9 +27,9 @@ edit.
 - An edited entry with a 20 min break, in "Senaste": "paus 20min" and "e"; in "Visa alla" also "ändrad: Glömd paus".
 - A written entry in "Visa alla": "e", and "tillagd: …" under it.
 
-## Every edit carries a reason (2026-11-17)
+## Every edit carries a reason (2026-11-26)
 
-**Built by:** Profiles, for the "Orsaker" tab.
+**Built by:** Profiles, for the list that learns, its pen, and its seven lines.
 
 **Decision:** an edit that changes an entry's time or its profile, on its line or by writing a forgotten entry by hand,
 needs a reason before it is saved. Under the entry line sits one closed field, "Välj orsak"; clicked, it opens the list
@@ -46,7 +46,7 @@ text. Esc puts back the text it had when clicked and closes the list, not the ed
 in the list, greyed, and a click on it does nothing; a typed one is greyed the same, but clicked, it turns white to be
 edited. The text stays while the edit is open: after another reason is chosen, the list shows it in place of "Annan
 orsak", and a click opens it again; a cancel drops it. An empty field is no reason. The other reasons are in
-alphabetical order, the Swedish way, with Å, Ä and Ö after Z, so one added in "Orsaker" lands where it can be guessed.
+alphabetical order, the Swedish way, with Å, Ä and Ö after Z, so one learned or renamed lands where it can be guessed.
 The entry stores the reason's text, not a link to the list, and keeps only its latest one, as it keeps one mark
 ("Entries remember how they were made"). An edit that divides an entry gives every entry it makes the "edited" mark: the
 new entry in a filled gap carries the reason chosen, and the parts around it an automatic one naming what divided them,
@@ -54,23 +54,33 @@ new entry in a filled gap carries the reason chosen, and the parts around it an 
 the "Annan orsak" texts. Any entry can also be given a reason with nothing else changed, such as why a day ran over
 ("Stannade kvar och monterade barngrind hos Bantis"): it keeps its mark and its times, has no "e" tag, and "Visa alla"
 shows its reason with no prefix; a later edit's reason replaces it. Undo needs no reason: it puts back what was.
-Deleting an entry needs none either, only "Ta bort?" to confirm. The reasons live in their own tab in the menu,
-"Orsaker" ("The menu has tabs, with every value locked behind "Ändra""), where the owner adds, renames and removes them;
-renaming or removing one changes no entry. The tab also lists the "Annan orsak" texts written at least three times, most
-common first with their counts, matched after lowercasing and dropping punctuation and extra spaces, so a reason that
-keeps coming up can be added to the list. "Visa alla" shows each edited entry's reason; the report shows it only on a
-day it lists ("The report lists the days the balance moved").
+Deleting an entry needs none either, only "Ta bort?" to confirm. The list is kept in the picker itself, with no tab of
+its own. It learns: an "Annan orsak" text written three times, matched after lowercasing and dropping punctuation and
+extra spaces, joins the list in its place, its first letter a capital; the automatic text never counts. The list shows
+at most seven lines, "Annan orsak" counted as one, which is as many as it starts with, and scrolls past them. Under the
+pointer, each reason's line shows a pen at its end, drawn as the flex-day calendar's padlock; the pen turns the line
+into a field drawn as "Annan orsak", holding its text, and editing it does not choose it. Enter keeps a new text, its
+first letter turning a capital as it is typed; a name already in the list, matched the same way, is refused with
+"Orsaken finns redan" under the field in the removal red, the field left open. Emptied, Enter asks "Ta bort?" in the
+removal red in the field, and a second Enter removes the reason. The field is never narrower than one character, so an
+emptied one keeps its caret. Esc or a click outside puts the line back as it was, as a locked value in the menu does
+("The menu has tabs, with every value locked behind "Ändra""), not as "Annan orsak", which keeps its text, since typing
+there chooses the edit's reason while the pen changes the list. Every line can be edited, the six the list starts with
+too. A removed reason is remembered, so it is never learned again, though it can still be written after "Annan orsak".
+Renaming or removing a reason changes no entry. "Visa alla" shows each edited entry's reason; the report shows it only
+on a day it lists ("The report lists the days the balance moved").
 
 **Why:** honesty in reporting: a time set by hand comes with why, so the owner and the boss can trust it. A short list
 keeps the reason one click and keeps notes readable; a required free text after "Annan orsak" stops it becoming an empty
 way past the field. The closed field keeps the edit uncluttered, and with the field in the list there is no second
 control to open and confirm. Greying the chosen reason in place and ordering by letter keep the list still, so each
 reason stays where the hand remembers it. Stored text keeps old entries as they were given, as settings that change from
-a date leave past days alone. Counting the free texts turns "this keeps coming up" into something the owner can see. A
-divided part saying what divided it explains itself where the chosen reason, about the new entry, would not. A break
-found afterwards is among the commonest fixes, so "Glömd paus" starts on the list rather than waiting to be counted, and
-"Glömd post" with it for a whole forgotten entry. A reason on an unchanged entry explains overtime to the boss where it
-is read, and leaves the mark, which is about times set by hand, honest.
+a date leave past days alone. Counting the free texts turns "this keeps coming up" into a reason with no step of the
+owner's, and the pen fixes its wording where it appeared; the list is touched a few times a year, so it lives where
+reasons are chosen. A divided part saying what divided it explains itself where the chosen reason, about the new entry,
+would not. A break found afterwards is among the commonest fixes, so "Glömd paus" starts on the list rather than waiting
+to be counted, and "Glömd post" with it for a whole forgotten entry. A reason on an unchanged entry explains overtime to
+the boss where it is read, and leaves the mark, which is about times set by hand, honest.
 
 **Rejected:** a free-text note alone: notes decay into "fix" and a full stop. Keeping every edit's reason: more than
 honesty needs, as with old times. A reason for undo: it changes nothing that was true. The reasons ordered by how often
@@ -82,7 +92,11 @@ opened by "Annan orsak": it hung under the list with no way to confirm it, staye
 opened again empty. A typed reason cut after three words: words vary in length, so the field's width did too. The chosen
 reason taken out of the list: the reasons below it would move up a row. The typed reason edited in the closed field
 itself: one field would both open the list and take typing. Remembering the last reason for the next edit: not asked
-for; see "Revisit if".
+for; see "Revisit if". An "Orsaker" tab in the menu, adding, renaming and removing reasons and listing the texts that
+keep coming up with their counts: a whole tab for a list touched a few times a year. A greatest number of reasons: one
+would have to be pushed out when another is learned. Removing a reason with a button of its own: emptying the line
+already says it, and asks once. Learning a removed reason again: the entries that taught it would bring it straight
+back.
 
 **Revisit if:** picking the same reason for several edits in a row becomes tedious, or near-identical free texts keep
 slipping past the count.
@@ -98,8 +112,17 @@ slipping past the count.
   at the length of "Glömde stämpla ut"; clicked again, it opens to the whole text.
 - "Möte" typed and kept: its underline is as long as "Möte".
 - "Fel profil" chosen and the list opened again: "Fel profil" is greyed in its place, and a click on it does nothing.
-- The reason "Glömde stämpla ut" renamed in "Orsaker" to "Glömt stoppa": entries edited before keep "Glömde stämpla ut".
-- "Möte med rektor.", "möte med rektor" and "Möte med rektor" written: "Orsaker" lists "möte med rektor (3)".
+- The reason "Glömde stämpla ut" renamed under its pen to "Glömt stoppa": entries edited before keep "Glömde stämpla
+  ut".
+- "Möte med rektor.", "möte med rektor" and "Möte med rektor" written in three edits: "Möte med rektor" joins the list
+  after "Glömd post", in its alphabetical place.
+- The pen on "Ärende", the text changed to "fel profil", Enter: refused, "Orsaken finns redan"; Esc: "Ärende" as it was.
+- The pen on "Glömd post", the text emptied, Enter: "Ta bort?" in red; Enter again: the reason is gone; a click outside
+  instead: "Glömd post" as it was.
+- "Möte med rektor" removed, then written three more times: it does not join the list.
+- The pen on the chosen reason, renamed: the picker shows the new name, still chosen.
+- Six reasons: the list shows all seven lines with "Annan orsak" and does not scroll; a seventh reason learned: it
+  scrolls, seven lines in view.
 - An edit undone: no reason is asked for.
 - An entry deleted: "Ta bort?", and no reason.
 - An entry moved from janitor work to the development group: the confirm waits for a reason, such as "Fel profil".

@@ -5,50 +5,50 @@ cited by its title.
 
 ## The menu has tabs, with every value locked behind "Ändra" (2026-11-17)
 
-**Built by:** Profiles, for the Profiler and Orsaker tabs, the working time in Tid, and the reasons.
+**Built by:** Profiles, for the Profiler tab and the working time in Tid.
 
-**Decision:** the menu has three tabs across its top: **Profiler**, **Tid** and **Orsaker**. Profiler is selected when
-the menu opens, and one tab's content shows at a time; switching fades from one to the next. The head ("Meny", the theme
-and motion buttons, and the × the menu button became) sits close on the tabs, and both stay put: only the tab's content
-scrolls, up to the tabs' line, so nothing passes under the × and the tabs are always in reach. Beside the "Meny" heading
-sits the theme button ("A light or dark theme, following the system").
+**Decision:** the menu has two tabs across its top: **Profiler** and **Tid**. Profiler is selected when the menu opens,
+and one tab's content shows at a time; switching fades from one to the next. The head ("Meny", the theme and motion
+buttons, and the × the menu button became) sits close on the tabs, and both stay put: only the tab's content scrolls, up
+to the tabs' line, so nothing passes under the × and the tabs are always in reach. Beside the "Meny" heading sits the
+theme button ("A light or dark theme, following the system").
 
 - **Profiler:** first, one row of the settings for every profile, set apart from the profiles by a line: "Efter skatt",
   a checkbox, and "Skatt och avgifter", its percentage as a tag ("A pay estimate per profile"); then each profile is a
   row (a small circle with its letter, its pair of colours swapping with where it stands ("Each profile carries its
   colours"), and its name). A row unfolds in place, its height growing and its content fading in, and folds back the
   same way; opening one folds any other. It shows its colour first, compact on one line, the pair with "Ändra" beside it
-  ("Each profile carries its colours"), then its name, pay (a monthly salary or a rate per hour), pay category, and
-  "Arkivera" or "Ta bort" ("A profile with hours is archived, one without is deleted"). "Ny profil" is under the rows, a
-  button that turns into the name field in its own place, as "Ändra" does; Enter makes the profile and unfolds its row,
-  its colours by the largest gap, and Esc or a click outside turns the field back into the button. Under it,
-  "Arkiverade" folds the archived profiles away.
+  ("Each profile carries its colours"), then its name, pay (a monthly salary for the profile with the balance, a rate
+  per hour for the others), and "Arkivera" or "Ta bort" ("A profile with hours is archived, one without is deleted").
+  "Ny profil" is under the rows, a button that turns into the name field in its own place, as "Ändra" does; Enter makes
+  the profile and unfolds its row, its colours by the largest gap, and Esc or a click outside turns the field back into
+  the button. Under it, "Arkiverade" folds the archived profiles away.
 - **Tid:** "Heltid", full time, entered as a week and shown with the day it gives after it in the muted colour ("38h
   15min / vecka", then "7h 39min / dag"), with no divider, so "|" in the menu only ever means a split; "Fördelning", the
   slider that splits the week between janitor's expected hours and the ceiling, in quarter hours, with the week's
   numbers as its value ("30h | 8h 15min"), following the slider as it moves, and no day, since Heltid shows it; and
   "Flexledig", labelled as they are, the calendar where flex days are marked ("A flex day can be marked ahead, and the
-  screen counts it at once"). Nothing else: the tab says what each value means by its numbers.
-- **Orsaker:** the reasons an edit can be given, and the "Annan orsak" texts that keep coming up ("Every edit carries a
-  reason").
+  screen counts it at once"). Nothing else: the tab says what each value means by its numbers. The reasons an edit can
+  be given are kept in the edit's own list, not in the menu ("Every edit carries a reason").
 
 Every value is locked: its label, then its text, with "Ändra" under the text. "Ändra" turns into the value's field in
 its own place, and the text above stays as it was, so the old value reads while the new one is typed; the text changes
 only when the value is saved. Enter confirms, and Esc or a click anywhere outside the open value aborts. Esc closes only
 the open value, wherever the focus is, and the next Esc closes the menu. The flex-day calendar is not a value and has no
 "Ändra". Values that change the counting (full time, the split, a salary or rate) then ask "Gäller från": on Enter the
-field turns, in the same place, into what waits and its date ("38h 30min från", a date field holding today unless the
-owner picks an earlier date, "Settings change from a date"), and a second Enter saves it. Under each, "Tidigare värden"
-with a count opens its earlier values and the dates they held from. The split's slider has no "Ändra": it can always be
-moved, and its first move folds open "från", the date and "Spara" and "Avbryt" under it, as a profile row unfolds;
-"Spara" or Enter saves, and "Avbryt", Esc or a click outside drops the move, the slider and its numbers going back, and
-folds it shut. A value saved from a date that would not fit beside another setting on some day from that date is
-refused, its date left open with the reason in the warning red ("The other profiles share a ceiling"); changing the date
-clears it. A name and a pay category are saved at once on Enter, with no date and no history, since no count depends on
-them. Closing the menu drops anything left open in it. Only one value is open for editing at a time: "Ändra" on another
-aborts the open one, and saving one value never resets another or moves the focus away from where the owner is. Colours
-and the theme change at once, from their pickers and button. "Efter skatt" changes at once too. "Skatt och avgifter" is
-a tag that opens a field in its own border, as an edit's "paus" tag does ("An edited entry's break"): Enter keeps it,
+field turns, in the same place, into what waits and its date ("38h 30min från", a date field opening on the first of
+next month for full time and the split and on today for pay, which the owner may move to any day, "Settings change from
+a date"), and a second Enter saves it. Under each, "Tidigare värden" with a count opens its earlier values and the dates
+they held from. The split's slider has no "Ändra": it can always be moved, and its first move folds open "från", the
+date and "Spara" and "Avbryt" under it, as a profile row unfolds; "Spara" or Enter saves, and "Avbryt", Esc or a click
+outside drops the move, the slider and its numbers going back, and folds it shut. A value saved from a date that would
+not fit beside another setting on some day from that date is refused, its date left open with the reason in the warning
+red ("The other profiles share a ceiling"); changing the date clears it. A name is saved at once on Enter, with no date
+and no history, since no count depends on them. Closing the menu drops anything left open in it. Only one value is open
+for editing at a time: "Ändra" on another aborts the open one, and saving one value never resets another or moves the
+focus away from where the owner is. Colours and the theme change at once, from their pickers and button. "Efter skatt"
+changes at once too. "Skatt och avgifter" is a tag drawn as an edit's "paus" tag, in its size and border, lighting under
+the pointer, that opens a field in its own border, as the "paus" tag does ("An edited entry's break"): Enter keeps it,
 and Esc or a click outside drops it; a value out of 0 to under 100 is refused, its field red and open.
 
 **Why:** tabs keep the names in a fixed place while the content swaps calmly below them. A value that changes past and
@@ -71,10 +71,10 @@ after: a click and a step more for a move that saves nothing. A legend under the
 already say it. "Profilfördelning": too long for the label's column. A tab for colours and the theme: the colours went
 to the profiles and the theme to the heading. The flex-day calendar behind "Ändra": a day off is marked on purpose and
 shows at once on the flex bar, so a lock would only add a click. A line under the split explaining the ceiling: the
-slider's numbers already say it. Name and pay category edited directly: every field behaves the same. Headings that
-expand: opening one pushes the others down, and one is always open anyway. One long menu to scroll. Counting values
-edited directly. A "saldo" tag on the profile with the balance: it named a concept without showing it, and even the
-owner did not read it right; the colour ring ties every profile to its figures instead.
+slider's numbers already say it. The name edited directly: every field behaves the same. Headings that expand: opening
+one pushes the others down, and one is always open anyway. One long menu to scroll. Counting values edited directly. A
+"saldo" tag on the profile with the balance: it named a concept without showing it, and even the owner did not read it
+right; the colour ring ties every profile to its figures instead.
 
 **Revisit if:** the menu needs more than three or four sections.
 

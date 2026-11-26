@@ -5,7 +5,8 @@ Terms P–Z, in alphabetical order. The index and the rules for terms are in `RE
 **Padlock.** In the flex-day calendar, the small lock beside the month name: opened, days gone by can be marked or
 unmarked as flex days; it shuts again when the menu closes. A weekend and a day worked stay locked either way.
 
-**Pay category.** A label on a profile for how its hours are paid, so reports can group them. A label only.
+**Pay kind.** How a profile is paid: the profile with the balance a monthly salary (Månadslön), every other profile a
+rate per hour (Timlön). Shown after the profile's name on the report.
 
 **Pay estimate.** A rough figure of the month's pay: salaries plus hours times rates, for the owner only; never in the
 report.
@@ -26,8 +27,9 @@ look beside the vision, kept until the finished app has been validated. Not a **
 **Prune.** Removing the record's oldest whole months, past three years, on the owner's yes; the balance and ceiling
 hours at the cut become opening figures.
 
-**Reason (an edit's).** Why an entry's time or profile was set by hand, chosen under the entry line from the list kept
-in the menu's "Orsaker" tab, or written after "Annan orsak". Stored as text on the entry.
+**Reason (an edit's).** Why an entry's time or profile was set by hand, chosen under the entry line from the list, which
+learns a text written three times and is edited under each reason's pen, or written after "Annan orsak". Stored as text
+on the entry.
 
 **Recovery screen.** What the app opens on when its record cannot be read: the newest **Daily copy** offered, shown on
 the dashboard under a breathing "KOPIA" label; with no copy, a fresh start; for a newer record, an update.

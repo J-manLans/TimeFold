@@ -39,20 +39,21 @@ moves the focus in as it opens and back as it closes, but the ring shows on open
 keyboard, and on closing only if it was both opened and closed with the keyboard; a click, Esc after a click, or the app
 opening a popup by itself leaves none, and the next key brings it back. On the right side, from the top: the balance as
 a number, centred, with no label; the flex bar; the ceiling wheel, centred under it with nothing beside it; the pay
-estimate as one quiet number under the wheel, with no label; then the five most recent entries and "Visa alla", which
-opens a popup centred on the whole window listing every entry, where entries are edited ("Editing an entry on its
-line"). Its rows are the recent list's; where the list crosses into a month, a quiet bold line names the month and its
-year ("november 2026"). Flex days are not in it: they are seen in the calendar ("A flex day can be marked ahead, and the
-screen counts it at once"). An edited or hand-written entry shows its reason ("Every edit carries a reason"). Both lists
-hold the entries newest first by start, a running one at the top, each row its day, its times, its profile's letter in
-the profile's base colour, and its length; an entry that stops on a later day than it started reads on its first day,
-with a small "+1" after its end time ("21:30–07:00 ⁺¹"), "+2" two days later. A running entry shows its start alone
-("11:00") and "--:--" for its length, the whole row in its profile's neon, the colour of what is happening now; it opens
-as any row ("A running entry is edited at its start"), and the recent list then holds it and the four newest stopped.
-The recent list always keeps five rows' room, so "Visa alla" never moves; with no entry yet, "Inga poster ännu" sits
-centred in that room and "Visa alla" is greyed out. The month lines and reasons stay in "Visa alla": the recent list and
-the rest of the main screen show none of it. An entry's row, as it arrives at a stop, lights in the wheel's base colour
-(grey while the balance profile is on screen) and fades.
+estimate as one quiet number under the wheel, with no label, and the ceiling's trend beside it as another ("The
+ceiling's trend"); then the five most recent entries and "Visa alla", which opens a popup centred on the whole window
+listing every entry, where entries are edited ("Editing an entry on its line"). Its rows are the recent list's; where
+the list crosses into a month, a quiet bold line names the month and its year ("november 2026"). Flex days are not in
+it: they are seen in the calendar ("A flex day can be marked ahead, and the screen counts it at once"). An edited or
+hand-written entry shows its reason ("Every edit carries a reason"). Both lists hold the entries newest first by start,
+a running one at the top, each row its day, its times, its profile's letter in the profile's base colour, and its
+length; an entry that stops on a later day than it started reads on its first day, with a small "+1" after its end time
+("21:30–07:00 ⁺¹"), "+2" two days later. A running entry shows its start alone ("11:00") and "--:--" for its length, the
+whole row in its profile's neon, the colour of what is happening now; it opens as any row ("A running entry is edited at
+its start"), and the recent list then holds it and the four newest stopped. The recent list always keeps five rows'
+room, so "Visa alla" never moves; with no entry yet, "Inga poster ännu" sits centred in that room and "Visa alla" is
+greyed out. The month lines and reasons stay in "Visa alla": the recent list and the rest of the main screen show none
+of it. An entry's row, as it arrives at a stop, lights in the wheel's base colour (grey while the balance profile is on
+screen) and fades.
 
 **Why:** what the owner presses and what the owner reads each have their place. The menu growing out of its button makes
 the icon part of the menu rather than a separate thing over it, and closing where it opened keeps the pointer still.
@@ -74,18 +75,18 @@ stands: up to five neon letters under the flex bar that already shows the standi
 rows without it. Today's entries only: empty every morning. A running entry kept out of both lists until it stops: a
 forgotten start, the commonest fix, is noticed while working, and stopping, fixing and starting again would split the
 entry. A small flex bar beside a large wheel: both are figures the owner reads every day. Figures beside the wheel
-(ceiling, used, left, carried): the wheel already shows them. A label on the balance: the number alone is clear. "Ny
-profil…" always last in the profile popup: a line used a handful of times in a popup opened several times a day. A
-profile button that opens nothing with one profile: the first press there, looking for where to add one, got no answer.
-"Lägg till paus" at the bottom left: the prune line would push it up and down. A menu over the whole screen: it would
-hide the figures it changes. A drawer with a tab holding the icon: a fine picture, but more parts than the growing
-button. The icon riding to the panel's far corner as an ×: the close button would not be where the pointer is. A menu
-sliding in under a separate button: the icon would stay apart from the menu. A see-through menu always present: nothing
-needs it when closed. A fully light dashboard in the light theme: the dashboard look would be lost. A near-black panel
-in the light theme: it glared against the white controls. A mid-grey panel: its light text had too little contrast
-(2.6:1). A violet panel: also good, kept as the alternative. A gradient for the divider, fading from the controls side:
-tried in the prototype, and the owner preferred the line. A retro terminal look (green on black, scan lines): the owner
-wants the direction, not the costume.
+(ceiling, used, left): the wheel already shows them. A label on the balance: the number alone is clear. "Ny profil…"
+always last in the profile popup: a line used a handful of times in a popup opened several times a day. A profile button
+that opens nothing with one profile: the first press there, looking for where to add one, got no answer. "Lägg till
+paus" at the bottom left: the prune line would push it up and down. A menu over the whole screen: it would hide the
+figures it changes. A drawer with a tab holding the icon: a fine picture, but more parts than the growing button. The
+icon riding to the panel's far corner as an ×: the close button would not be where the pointer is. A menu sliding in
+under a separate button: the icon would stay apart from the menu. A see-through menu always present: nothing needs it
+when closed. A fully light dashboard in the light theme: the dashboard look would be lost. A near-black panel in the
+light theme: it glared against the white controls. A mid-grey panel: its light text had too little contrast (2.6:1). A
+violet panel: also good, kept as the alternative. A gradient for the divider, fading from the controls side: tried in
+the prototype, and the owner preferred the line. A retro terminal look (green on black, scan lines): the owner wants the
+direction, not the costume.
 
 **Revisit if:** the frosted blur is slow on WebKitGTK (then the panel is more opaque, without blur).
 

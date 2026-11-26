@@ -23,14 +23,16 @@ figures, and its layout depends on the mail program.
 **Decision:** a report covers one month ("The app's month is the calendar month"); any month can be exported, the
 current one partway through included. It shows: the month, the year and the owner's name; janitor work as the flex bar,
 with the balance brought in, the month's change and the balance carried out; the other work as the ceiling wheel, with
-the ceiling, the hours used, and the hours carried in and out; and each profile's hours for the month, grouped by pay
-category where categories are set. An option at export, off by default, adds each day's hours per profile, without clock
-times. The pay estimate and the marks of how entries were made stay out ("A pay estimate per profile"; "Entries remember
-how they were made"), except an edit's reason on a day the report lists ("The report lists the days the balance moved").
+the ceiling and the hours used, and beside it the ceiling's trend through that month with where it starts ("The
+ceiling's trend"); and each profile's hours for the month, its pay kind after its name in grey ("Vaktmästare Månadslön",
+"Utveckling Timlön"). An option at export, off by default, adds each day's hours per profile, without clock times. The
+pay estimate and the marks of how entries were made stay out ("A pay estimate per profile"; "Entries remember how they
+were made"), except an edit's reason on a day the report lists ("The report lists the days the balance moved").
 
 **Why:** the boss needs to see that the janitor balance is not far over or under, and the exact hours of the other
-profiles, whose pay may differ. Carried amounts make each report start where the last ended, so the months read as one
-history. Days are there if the boss ever asks, without crowding the usual report.
+profiles, whose pay may differ. The balance carried in and out makes each report start where the last ended; the
+ceiling's trend shows how the months under the split in force add up, while the wheel shows only its month. Days are
+there if the boss ever asks, without crowding the usual report.
 
 **Rejected:** any date range: it would split the ceiling's month. Days always included: the boss has not asked for them.
 Clock times per day: more than anyone needs.
@@ -41,7 +43,8 @@ Clock times per day: more than anyone needs.
 
 - Balance +4:00 at the month's start and +6:30 at its end: the report shows +4:00 brought in, +2:30 for the month, +6:30
   carried out.
-- 3 h over the ceiling carried in, 2 h carried out: the wheel's numbers show both.
+- March 2 h over its ceiling, the trend +7:30 since 1 January: the wheel shows March alone, and beside it "+7:30 sedan 1
+  jan".
 - Exported with days ticked: a page lists each day with its hours per profile.
 
 ## The report lists the days the balance moved (2026-11-17)
