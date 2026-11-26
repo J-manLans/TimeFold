@@ -34,7 +34,12 @@ export interface Settings {
   pruneLater?: string
   /** The profile on screen when the app last closed ("The app opens on the running profile, or the last one on screen") */
   onScreen?: string
+  /** "Fortfarande igång": the entry it was answered for and the day, not asked about again that day */
+  lateKept?: { entry: string; day: string }
 }
+
+/** A day written YYYY-MM-DD, as the settings keep "Inte nu" and "Fortfarande igång" */
+const DAY = /^\d{4}-\d{2}-\d{2}$/
 
 /**
  * The settings in a settings file's text, each read apart, or its default when it is missing or unknown, or the file
@@ -49,14 +54,19 @@ export function readSettings(text: string | null): Settings {
       motion?: unknown
       pruneLater?: unknown
       onScreen?: unknown
+      lateKept?: { entry?: unknown; day?: unknown }
     } | null
     const later = parsed?.pruneLater
     const kept = parsed?.onScreen
+    const lateKept = parsed?.lateKept
     return {
       theme: isTheme(parsed?.theme) ? parsed.theme : DEFAULTS.theme,
       motion: isMotion(parsed?.motion) ? parsed.motion : DEFAULTS.motion,
-      ...(typeof later === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(later) ? { pruneLater: later } : {}),
+      ...(typeof later === 'string' && DAY.test(later) ? { pruneLater: later } : {}),
       ...(typeof kept === 'string' && kept !== '' ? { onScreen: kept } : {}),
+      ...(typeof lateKept?.entry === 'string' && typeof lateKept.day === 'string' && DAY.test(lateKept.day)
+        ? { lateKept: { entry: lateKept.entry, day: lateKept.day } }
+        : {}),
     }
   } catch {
     return { ...DEFAULTS }

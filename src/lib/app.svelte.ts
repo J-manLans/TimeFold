@@ -5,7 +5,14 @@
  */
 
 import { setBreak, type BreakRefusal } from '$lib/modules/controls/breaks'
-import { press, runningSinceEarlierDay, stopRunning, undo, type Click } from '$lib/modules/controls/clock'
+import {
+  press,
+  runningSinceEarlierDay,
+  stopRunning,
+  undo,
+  type Click,
+  type LateKept,
+} from '$lib/modules/controls/clock'
 import { localDay } from '$lib/modules/shared/counting'
 import {
   freshRecord,
@@ -110,6 +117,8 @@ class AppState {
   pruneLater = $state<Day | null>(null)
   /** The profile on screen when the app last closed, from the machine's settings */
   #kept: string | undefined = undefined
+  /** The entry "Fortfarande igång" was answered for and the day, from the machine's settings */
+  #lateKept: LateKept | undefined = undefined
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
@@ -160,6 +169,7 @@ class AppState {
     this.#applyMotion(settings.motion)
     this.pruneLater = settings.pruneLater ?? null
     this.#kept = settings.onScreen
+    this.#lateKept = settings.lateKept
     const result = await loadRecord()
     if (result === null) {
       this.record = freshRecord('', 0, localDay(Date.now()))
@@ -214,9 +224,14 @@ class AppState {
     await saveRecord(done.record)
   }
 
-  /** The popup's "Fortfarande igång": the entry runs on and the popup closes, remembering nothing. Used by the popup */
+  /**
+   * The popup's "Fortfarande igång": the entry runs on and the popup closes, the answer kept with the machine for that
+   * entry until the date changes. Used by the popup
+   */
   keepLate(): void {
+    if (this.late) this.#lateKept = { entry: this.late.id, day: localDay(Date.now()) }
     this.late = null
+    void this.#saveMachine()
   }
 
   /**
@@ -390,7 +405,7 @@ class AppState {
   async useCopy(): Promise<void> {
     if (this.record === null || this.panel === null || this.recovery !== 'copy') return
     // The app opens on the copy, so a copy with an entry running from an earlier day asks, once the panel has folded
-    this.late = runningSinceEarlierDay(this.record, new Date())
+    this.late = runningSinceEarlierDay(this.record, new Date(), this.#lateKept)
     this.panel = { ...this.panel, ending: true }
     await saveRecord(this.record)
   }
@@ -429,6 +444,7 @@ class AppState {
       theme: this.theme,
       motion: this.motion,
       onScreen: this.onScreen,
+      ...(this.#lateKept ? { lateKept: this.#lateKept } : {}),
       ...(this.pruneLater ? { pruneLater: this.pruneLater } : {}),
     })
   }
@@ -475,7 +491,7 @@ class AppState {
   #ready(record: TimeRecord): void {
     this.record = record
     this.onScreen = openingProfile(record, this.#kept)
-    this.late = runningSinceEarlierDay(record, new Date())
+    this.late = runningSinceEarlierDay(record, new Date(), this.#lateKept)
     this.phase = 'ready'
   }
 }

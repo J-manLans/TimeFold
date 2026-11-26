@@ -204,6 +204,25 @@ describe('a running entry from an earlier day is asked about when the app opens'
   })
 })
 
+describe('"Fortfarande igång" is remembered for that entry until the date changes', () => {
+  const late = entry(at('2026-11-16', '21:30'), null, { id: 'e1' })
+
+  it('asks nothing when the app opens again the same day', () => {
+    const kept = { entry: 'e1', day: '2026-11-17' }
+
+    expect(runningSinceEarlierDay(record([late]), moment('2026-11-17', '12:00'), kept)).toBeNull()
+  })
+
+  it('asks again the next day, and about another entry', () => {
+    expect(
+      runningSinceEarlierDay(record([late]), moment('2026-11-18', '07:00'), { entry: 'e1', day: '2026-11-17' }),
+    ).toEqual(late)
+    expect(
+      runningSinceEarlierDay(record([late]), moment('2026-11-17', '12:00'), { entry: 'e9', day: '2026-11-17' }),
+    ).toEqual(late)
+  })
+})
+
 describe('Stoppa stops the running entry, whichever profile is on screen', () => {
   it('stops the janitor entry at the press, as the button does, with a stop to undo', () => {
     const before = record([entry(at('2026-11-16', '21:30'), null, { id: 'e1' })])
