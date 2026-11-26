@@ -42,6 +42,11 @@
     if (app.panel !== null) open = !app.panel.folded
   })
 
+  // "Ny profil…" in the profile popup opens the menu, where Profiler takes it up
+  $effect(() => {
+    if (app.newProfileAsked) open = true
+  })
+
   // While open, a press outside the menu or Esc closes it, unless it is locked for the onboarding. "Visa alla" and its
   // popup keep it open, so closing the popup comes back to the menu; Esc in the popup closes only the popup
   $effect(() => {

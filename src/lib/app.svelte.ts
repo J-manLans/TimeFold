@@ -92,6 +92,10 @@ class AppState {
   onboardingFrom = $state<'choice' | 'balance'>('choice')
   /** The profile on screen, whose button the start/stop is */
   onScreen = $state('p1')
+  /** Whether the profile popup is open ("One start/stop button and a profile list") */
+  profilesOpen = $state(false)
+  /** Set when "Ny profil…" asks for the menu on Profiler with the name field ready; the menu clears it once there */
+  newProfileAsked = $state(false)
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
@@ -271,6 +275,18 @@ class AppState {
     this.record = deleteEntry(this.record, id)
     this.editing = null
     await saveRecord(this.record)
+  }
+
+  /** A profile put on screen and the popup closed; a running entry goes on. Used by a row of the profile popup */
+  pickProfile(id: string): void {
+    this.onScreen = id
+    this.profilesOpen = false
+  }
+
+  /** The popup closed and the menu asked to open on Profiler with "Ny profil" ready. Used by "Ny profil…" */
+  askNewProfile(): void {
+    this.profilesOpen = false
+    this.newProfileAsked = true
   }
 
   /** The undo pressed. Used by the undo button: reverses the last click if its time is not up, then saves */

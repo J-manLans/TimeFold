@@ -333,6 +333,15 @@
   --popup-pick: light-dark(#5f789e, #343840); /* the chosen or hovered profile, a lighter step */
   --popup-muted: 70%; /* how much of the text colour its quiet text keeps */
   --popup-min-width: 220px;
+  --popup-padding: 10px;
+  --popup-gap: 4px; /* between the heading and the rows, and between the rows */
+  --popup-heading-margin: 4px 8px 6px; /* "Profil" over the rows */
+  --popup-row-padding: 8px;
+  --popup-row-gap: 10px; /* from a profile's circle to its name */
+  /* A profile's small circle, in the popup and the Profiler rows: its letter and a ring in its two colours */
+  --mini-disc-size: 22px;
+  --mini-disc-ring: 2px;
+  --mini-disc-weight: 600;
 
   /* === Controls: the colour picker === */
   --picker-background: light-dark(#e6ecf4, #2a2d33);
