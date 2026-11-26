@@ -207,7 +207,8 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   anything written against code that does not exist yet.
 - **Number what the owner must answer.** Once a topic is talked through, the concrete questions, borderline calls and
   choices left are a numbered list, never bullets, so the owner can reply "1. yes, 2. no". Numbering restarts with each
-  message.
+  message. In a doc, a list whose numbers must last, such as the owner's faults, writes each number in bold on a bullet:
+  the formatter renumbers a numbered list when an item leaves.
 - **Write on the owner's go.** While a topic is talked through, nothing is written: no code, no prototype, no docs. The
   agreed changes are held, and on the owner's go they are written in one batch, each file listed. The one exception:
   before context runs short, write what is agreed so nothing said is lost, and say so.
@@ -255,6 +256,8 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
 - **A claim goes into a commit message only after it was run.** Run the check first, then write what it showed.
 - **The branch may have moved since the last look.** Other sessions push to it too: fetch and compare with GitHub before
   the first edit after a pause, judged by the clock, and before every commit and push.
+- **A docs edit and its commit run as one chain that stops at the first failure,** so a commit never names docs it does
+  not hold.
 
 ## Traps
 
