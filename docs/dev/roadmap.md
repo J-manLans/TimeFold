@@ -19,7 +19,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 4: Profiles, its build; its design pass is done. The owner names the mode.
+Phase 5: Handover, its design pass from **Settle first**.
 
 ## The phases
 
@@ -29,16 +29,6 @@ report, and last what carries over to the owner's next project. The owner switch
 keeps the Excel file as a backup until the app is finished ("A first install starts fresh or imports", in
 `design-decisions/`). Every phase starts its code from the owner's cases ("Tests come first, from the owner's rules"),
 and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
-
-### Phase 4: Profiles
-
-**Produces:** every kind of work counted apart, the ceiling wheel, and the menu.
-
-Every step is seen working on Linux and gone; pruning and the ceiling's months and trend are taken as seen through their
-tests at the owner's word, since a prune needs a record three years old and the trend months gone by.
-
-**Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
-every setting changes from a date as its cases say, and a prune on a set date cuts as its cases say.
 
 ### Phase 5: Handover
 
@@ -98,6 +88,9 @@ owner has read it through and knows what each part is for, and the prompt reads 
   `v0.2.0`.
 - **Phase 3: Corrections.** A record that can be put right: entries edited on their line, deleted, or written by hand in
   their gap, each with its reason and its mark, and the balance following. Released as `v0.3.0`.
+- **Phase 4: Profiles.** Every kind of work counted apart: profiles made, archived and deleted, each with its colours
+  and pay; the menu with Profiler and Tid, every value behind "Ändra" changing from a date; each month of the ceiling on
+  its own with its trend beside the estimate; the reason list that learns; pruning on request. Released as `v0.4.0`.
 
 ## Not on this roadmap
 
