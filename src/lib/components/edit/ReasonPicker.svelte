@@ -15,12 +15,14 @@
   padlock, which turns the line into a field drawn as "Annan orsak", without choosing it: Enter keeps a new name, one
   already in the list refused with "Orsaken finns redan" under it; emptied, Enter asks "Ta bort?" in red and a second
   Enter removes the reason; Esc or a click elsewhere puts the line back. The list shows at most seven lines, "Annan
-  orsak" one of them, and scrolls past them. The reason given comes out through `reason`, empty for none:
+  orsak" one of them, and scrolls past them. While "Annan orsak" holds text, a "+" after it adds the text to the list at
+  once and chooses it there, refused with "Orsaken finns redan" when it is already a reason. The reason given comes out
+  through `reason`, empty for none:
   <ReasonPicker bind:reason />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { reasonList, removeReason, renameReason } from '$lib/modules/edit/reasons'
+  import { addReason, reasonList, removeReason, renameReason } from '$lib/modules/edit/reasons'
 
   // === Props ===
 
@@ -51,6 +53,8 @@
   let renamed = $state('')
   let askedRemove = $state(false)
   let renameRefused = $state(false)
+  /** Whether "+" was refused, the text already a reason */
+  let addRefused = $state(false)
   let list: HTMLDivElement | undefined = $state()
   /** The list's greatest height, so it stops after seven lines; none while it holds fewer */
   let tallest = $state<number | null>(null)
@@ -101,6 +105,7 @@
 
   /** A letter typed or taken away: the text is the reason from its first letter, and none once it is empty */
   function input(): void {
+    addRefused = false
     if (typed.trim()) picked = OTHER
     else if (picked === OTHER) picked = null
   }
@@ -146,6 +151,20 @@
   /** The list's room above its first line. Used to measure where its seventh line ends */
   function lineTop(element: HTMLElement): number {
     return parseFloat(getComputedStyle(element).paddingTop) || 0
+  }
+
+  /** "+": the typed text added to the list at once and chosen from it, or refused when it is already a reason */
+  function add(): void {
+    if (!app.record) return
+    const result = addReason(app.record, typed)
+    if ('refusal' in result) {
+      addRefused = result.refusal === 'taken'
+      return
+    }
+    const added = result.reasons.list.at(-1) ?? ''
+    void app.saveSettings(result)
+    typed = ''
+    picked = added
   }
 
   /** A reason's pen: its line turned into a field holding its name */
@@ -249,22 +268,30 @@
             {/if}
           </div>
         {/each}
-        <input
-          class="other"
-          class:current={picked === OTHER}
-          class:cut={!typing && typed.length > cap}
-          type="text"
-          autocomplete="off"
-          placeholder={PLACEHOLDER}
-          aria-label={PLACEHOLDER}
-          style:width={width()}
-          bind:value={typed}
-          bind:this={field}
-          onfocus={focused}
-          oninput={input}
-          onkeydown={key}
-          onblur={left}
-        />
+        <div class="line">
+          <input
+            class="other"
+            class:current={picked === OTHER}
+            class:cut={!typing && typed.length > cap}
+            type="text"
+            autocomplete="off"
+            placeholder={PLACEHOLDER}
+            aria-label={PLACEHOLDER}
+            style:width={width()}
+            bind:value={typed}
+            bind:this={field}
+            onfocus={focused}
+            oninput={input}
+            onkeydown={key}
+            onblur={left}
+          />
+          {#if typed.trim()}
+            <button class="pen plus" type="button" aria-label="Lägg till {typed.trim()} i listan" onclick={add}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+          {/if}
+          {#if addRefused}<span class="refused">Orsaken finns redan</span>{/if}
+        </div>
       </div>
     </div>
   </div>
@@ -432,7 +459,8 @@
   }
 
   .line:hover .pen,
-  .list .pen:focus-visible {
+  .list .pen:focus-visible,
+  .list .plus {
     opacity: 1;
   }
 

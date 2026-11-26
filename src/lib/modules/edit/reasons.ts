@@ -53,6 +53,27 @@ export function learnReason(record: TimeRecord, text: string): TimeRecord {
 }
 
 /**
+ * A typed text added to the list at once, its spaces single and its first letter a capital, unless a reason has its
+ * form; one removed earlier is let back in, no longer forgotten, since adding it is asked for on purpose. Used by the
+ * "+" after the text in "Annan orsak".
+ */
+export function addReason(record: TimeRecord, text: string): TimeRecord | { refusal: 'empty' | 'taken' } {
+  const form = matchForm(text)
+  if (form === '') return { refusal: 'empty' }
+  const { list, forgotten, written } = record.reasons
+  if (list.some((r) => matchForm(r) === form)) return { refusal: 'taken' }
+  const tidy = text.trim().replace(/\s+/g, ' ')
+  return {
+    ...record,
+    reasons: {
+      list: [...list, tidy.charAt(0).toUpperCase() + tidy.slice(1)],
+      forgotten: forgotten.filter((f) => f !== form),
+      written: written.filter((w) => w.text !== form),
+    },
+  }
+}
+
+/**
  * A reason under a new name, trimmed, unless another reason has its form. A forgotten text named again is a reason
  * again. Used by Enter in a reason's field under its pen; no entry changes.
  */

@@ -2,7 +2,7 @@ import fc from 'fast-check'
 import { describe, expect, it } from 'vitest'
 import { RUNS } from '$tests/helpers/properties'
 import { RECORD } from '$tests/helpers/records'
-import { learnReason, matchForm, reasonList, removeReason, renameReason } from '$lib/modules/edit/reasons'
+import { addReason, learnReason, matchForm, reasonList, removeReason, renameReason } from '$lib/modules/edit/reasons'
 import type { TimeRecord } from '$lib/modules/shared/record'
 
 // === Helpers ===
@@ -81,6 +81,33 @@ describe('a reason is renamed under its pen, a name already in the list refused'
     const renamed = renameReason(RECORD, 'Glömd paus', 'Paus glömd')
 
     expect('entries' in renamed && renamed.entries).toEqual(RECORD.entries)
+  })
+})
+
+describe('"+" adds a typed text to the list at once', () => {
+  it('adds "hämtade  nycklar" as "Hämtade nycklar", in its alphabetical place', () => {
+    const added = addReason(RECORD, 'hämtade  nycklar')
+
+    expect('reasons' in added && reasonList(added)).toContain('Hämtade nycklar')
+  })
+
+  it('refuses "fel profil", already a reason', () => {
+    expect(addReason(RECORD, 'fel profil')).toEqual({ refusal: 'taken' })
+  })
+
+  it('lets a removed reason back in, no longer forgotten', () => {
+    const added = addReason(removeReason(RECORD, 'Glömd post'), 'Glömd post')
+
+    expect('reasons' in added && [reasonList(added).includes('Glömd post'), added.reasons.forgotten]).toEqual([
+      true,
+      [],
+    ])
+  })
+
+  it('clears the count of a text half learned', () => {
+    const added = addReason(learnReason(RECORD, 'Möte'), 'möte')
+
+    expect('reasons' in added && added.reasons.written).toEqual([])
   })
 })
 

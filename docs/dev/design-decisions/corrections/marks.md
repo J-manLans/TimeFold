@@ -54,19 +54,22 @@ the "Annan orsak" texts. Any entry can also be given a reason with nothing else 
 shows its reason with no prefix; a later edit's reason replaces it. Undo needs no reason: it puts back what was.
 Deleting an entry needs none either, only "Ta bort?" to confirm. The list is kept in the picker itself, with no tab of
 its own. It learns: an "Annan orsak" text written three times, matched after lowercasing and dropping punctuation and
-extra spaces, joins the list in its place, its first letter a capital; the automatic text never counts. The list shows
-at most seven lines, "Annan orsak" counted as one, which is as many as it starts with, and scrolls past them. Under the
-pointer, each reason's line shows a pen at its end, drawn as the flex-day calendar's padlock; the pen turns the line
-into a field drawn as "Annan orsak", holding its text, and editing it does not choose it. Enter keeps a new text, its
-first letter turning a capital as it is typed; a name already in the list, matched the same way, is refused with
-"Orsaken finns redan" under the field in the removal red, the field left open. Emptied, Enter asks "Ta bort?" in the
-removal red in the field, and a second Enter removes the reason. The field is never narrower than one character, so an
-emptied one keeps its caret. Esc or a click outside puts the line back as it was, as a locked value in the menu does
-("The menu has tabs, with every value locked behind "Ändra""), not as "Annan orsak", which keeps its text, since typing
-there chooses the edit's reason while the pen changes the list. Every line can be edited, the six the list starts with
-too. A removed reason is remembered, so it is never learned again, though it can still be written after "Annan orsak".
-Renaming or removing a reason changes no entry. "Visa alla" shows each edited entry's reason; the report shows it only
-on a day it lists ("The report lists the days the balance moved").
+extra spaces, joins the list in its place, its first letter a capital; the automatic text never counts. While "Annan
+orsak" holds text, a "+" after it, drawn as the pen, adds the text to the list at once, spaces single and first letter a
+capital, and chooses it there; a text already a reason is refused with "Orsaken finns redan" under the field in the
+removal red, and one removed earlier is let back in, since adding it is asked for on purpose. The list shows at most
+seven lines, "Annan orsak" counted as one, which is as many as it starts with, and scrolls past them. Under the pointer,
+each reason's line shows a pen at its end, drawn as the flex-day calendar's padlock; the pen turns the line into a field
+drawn as "Annan orsak", holding its text, and editing it does not choose it. Enter keeps a new text, its first letter
+turning a capital as it is typed; a name already in the list, matched the same way, is refused with "Orsaken finns
+redan" under the field in the removal red, the field left open. Emptied, Enter asks "Ta bort?" in the removal red in the
+field, and a second Enter removes the reason. The field is never narrower than one character, so an emptied one keeps
+its caret. Esc or a click outside puts the line back as it was, as a locked value in the menu does ("The menu has tabs,
+with every value locked behind "Ändra""), not as "Annan orsak", which keeps its text, since typing there chooses the
+edit's reason while the pen changes the list. Every line can be edited, the six the list starts with too. A removed
+reason is remembered, so it is never learned again, though it can still be written after "Annan orsak". Renaming or
+removing a reason changes no entry. "Visa alla" shows each edited entry's reason; the report shows it only on a day it
+lists ("The report lists the days the balance moved").
 
 **Why:** honesty in reporting: a time set by hand comes with why, so the owner and the boss can trust it. A short list
 keeps the reason one click and keeps notes readable; a required free text after "Annan orsak" stops it becoming an empty

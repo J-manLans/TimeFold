@@ -14,9 +14,9 @@
       {
         "title": "TimeFold",
         "width": 1100,
-        "height": 650,
+        "height": 660,
         "minWidth": 400,
-        "minHeight": 650,
+        "minHeight": 660,
         "resizable": true,
         "fullscreen": false,
         "center": true
