@@ -7,14 +7,14 @@
   ("A profile with hours is archived, one without is deleted"): <ProfilerTab />
 -->
 <script lang="ts">
-  import { app } from '$lib/app.svelte'
+  import { app, NEW_PROFILE } from '$lib/app.svelte'
   import { activeProfiles, addProfile, archivedProfiles } from '$lib/modules/shared/profiles'
   import ProfileRow from './ProfileRow.svelte'
   import TaxRow from './TaxRow.svelte'
 
   // === State ===
 
-  const key = crypto.randomUUID()
+  const key = NEW_PROFILE
   let active = $derived(app.record ? activeProfiles(app.record) : [])
   let archived = $derived(app.record ? archivedProfiles(app.record) : [])
   let openRow = $state<string | null>(null)
@@ -27,11 +27,11 @@
 
   // === Logic ===
 
-  // "Ny profil…" in the profile popup lands here with the name field ready
+  // The name field opens empty, from "Ny profil" here or "Ny profil…" in the profile popup
   $effect(() => {
-    if (app.newProfileAsked) {
-      app.newProfileAsked = false
-      openNew()
+    if (naming) {
+      name = ''
+      refusal = ''
     }
   })
 
@@ -44,8 +44,6 @@
 
   /** "Ny profil" turned into its field */
   function openNew(): void {
-    name = ''
-    refusal = ''
     app.openValue = key
   }
 
