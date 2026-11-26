@@ -83,8 +83,10 @@ export interface Opening {
   profile: string
   day: Day
   balanceMinutes: number
-  /** The ceiling's trend up to this day, when a prune cut into it ("Old history is pruned on request"); absent otherwise */
-  trendMinutes?: number
+  /** Seconds over the whole minutes, 0–59, when a prune froze the balance to the second; absent when typed */
+  seconds?: number
+  /** The ceiling's trend up to this day in seconds, when a prune cut into it ("Old history is pruned on request") */
+  trendSeconds?: number
 }
 
 /** The edit's reasons ("Every edit carries a reason"): the list, what it has forgotten, and the typed texts it counts */
@@ -383,7 +385,8 @@ function checkRecord(data: Fields): void {
     text(opening.profile, `${at}.profile`)
     day(opening.day, `${at}.day`)
     whole(opening.balanceMinutes, `${at}.balanceMinutes`)
-    if (opening.trendMinutes !== undefined) whole(opening.trendMinutes, `${at}.trendMinutes`)
+    if (opening.seconds !== undefined) whole(opening.seconds, `${at}.seconds`, 0, 59)
+    if (opening.trendSeconds !== undefined) whole(opening.trendSeconds, `${at}.trendSeconds`)
   })
   list(data.fullTime, 'fullTime', (item, at) => {
     day(item.from, `${at}.from`)

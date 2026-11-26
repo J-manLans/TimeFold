@@ -192,13 +192,13 @@ describe('a record of the wrong shape names where', () => {
     })
   })
 
-  it('names an archived mark that is not true, a trend opening of part minutes, and a reason with nothing in it', () => {
+  it('names an archived mark that is not true, a trend opening of part seconds, and a reason with nothing in it', () => {
     const results = [
       text((r) => {
         ;(r.profiles as Record<string, unknown>[])[0].archived = false
       }),
       text((r) => {
-        ;(r.openings as Record<string, unknown>[])[0].trendMinutes = 1.5
+        ;(r.openings as Record<string, unknown>[])[0].trendSeconds = 1.5
       }),
       text((r) => {
         ;(r.reasons as { list: string[] }).list[2] = ''
@@ -213,7 +213,7 @@ describe('a record of the wrong shape names where', () => {
 
     expect(results).toEqual([
       { ok: false, problem: { kind: 'wrong-shape', where: 'profiles[0].archived' } },
-      { ok: false, problem: { kind: 'wrong-shape', where: 'openings[0].trendMinutes' } },
+      { ok: false, problem: { kind: 'wrong-shape', where: 'openings[0].trendSeconds' } },
       { ok: false, problem: { kind: 'wrong-shape', where: 'reasons.list[2]' } },
       { ok: false, problem: { kind: 'wrong-shape', where: 'reasons.written[0].times' } },
       { ok: false, problem: { kind: 'wrong-shape', where: 'tax.percent' } },

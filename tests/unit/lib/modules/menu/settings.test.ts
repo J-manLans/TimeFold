@@ -22,6 +22,17 @@ describe('the settings file gives the theme and the motion it holds', () => {
   })
 })
 
+describe('"Inte nu" on the prune line is kept with the machine, as the day the line comes back', () => {
+  it('reads the day, and leaves out one not written YYYY-MM-DD', () => {
+    expect(readSettings('{"theme":"dark","motion":"off","pruneLater":"2030-03-01"}')).toEqual({
+      theme: 'dark',
+      motion: 'off',
+      pruneLater: '2030-03-01',
+    })
+    expect(readSettings('{"pruneLater":"1.3.2030"}')).toEqual({ theme: 'system', motion: 'system' })
+  })
+})
+
 describe('no settings file, or one that cannot be read, means System for both', () => {
   it('gives System when there is no file yet', () => {
     expect(readSettings(null)).toEqual({ theme: 'system', motion: 'system' })

@@ -19,6 +19,8 @@ import {
 import { deleteEntry, savedEntryId, saveLine } from '$lib/modules/edit/edit'
 import { learnReason } from '$lib/modules/edit/reasons'
 import { activeProfiles, removeProfile } from '$lib/modules/shared/profiles'
+import { prune } from '$lib/modules/controls/prune'
+import { firstOfNextMonth } from '$lib/modules/menu/workTime'
 import { type LineState, type View } from '$lib/modules/edit/line'
 import { toggleFlexDay } from '$lib/modules/menu/flexDays'
 import {
@@ -101,6 +103,8 @@ class AppState {
   openValue = $state<string | null>(null)
   /** The profile whose colour picker is open, whose colours the wheel wears meanwhile, or null */
   picking = $state<string | null>(null)
+  /** "Inte nu" on the prune line: the day it comes back, kept with the machine's settings, or null */
+  pruneLater = $state<Day | null>(null)
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
@@ -149,6 +153,7 @@ class AppState {
     const settings = await loadSettings()
     this.#applyTheme(settings.theme)
     this.#applyMotion(settings.motion)
+    this.pruneLater = settings.pruneLater ?? null
     const result = await loadRecord()
     if (result === null) {
       this.record = freshRecord('', 0, localDay(Date.now()))
@@ -303,6 +308,23 @@ class AppState {
     await this.saveSettings(record)
   }
 
+  /**
+   * The history older than three years pruned and saved, after the day's copy is made sure of ("Old history is pruned on
+   * request"). Used by "Rensa" on its second click
+   */
+  async pruneNow(): Promise<void> {
+    if (this.record === null) return
+    await copyRecord()
+    this.record = prune(this.record, localDay(Date.now()))
+    await saveRecord(this.record)
+  }
+
+  /** "Inte nu": the prune line hidden until the first of next month, kept with the machine's settings */
+  async pruneLaterOn(): Promise<void> {
+    this.pruneLater = firstOfNextMonth(localDay(Date.now()))
+    await this.#saveMachine()
+  }
+
   /** A profile put on screen and the popup closed; a running entry goes on. Used by a row of the profile popup */
   pickProfile(id: string): void {
     this.onScreen = id
@@ -388,13 +410,22 @@ class AppState {
     this.phase = 'ready'
   }
 
+  /** The machine's own settings saved: the theme, the motion and the prune line's "Inte nu" */
+  async #saveMachine(): Promise<void> {
+    await saveSettings({
+      theme: this.theme,
+      motion: this.motion,
+      ...(this.pruneLater ? { pruneLater: this.pruneLater } : {}),
+    })
+  }
+
   /**
    * The theme button pressed. Used by the theme button: switches to the other of the theme in force, shows it at once,
    * then saves it, so the app stops following the computer
    */
   async switchTheme(): Promise<void> {
     this.#applyTheme(nextTheme(this.theme, this.systemDark))
-    await saveSettings({ theme: this.theme, motion: this.motion })
+    await this.#saveMachine()
   }
 
   /**
@@ -403,7 +434,7 @@ class AppState {
    */
   async switchMotion(): Promise<void> {
     this.#applyMotion(nextMotion(this.motion, this.systemStill))
-    await saveSettings({ theme: this.theme, motion: this.motion })
+    await this.#saveMachine()
   }
 
   // === Helpers ===

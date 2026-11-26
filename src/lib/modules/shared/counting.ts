@@ -85,16 +85,23 @@ export function balance(record: TimeRecord, profileId: string, last: Day): numbe
   const profile = record.profiles.find((p) => p.id === profileId)
   if (profile === undefined) throw new Error(`No profile ${profileId} in the record`)
   const { worked, charged } = workedDays(profile, record.entries)
+  const own = record.openings.filter((o) => o.profile === profileId)
+  // A day before the record's first day counts nothing: its hours are inside the opening
+  const first = own.reduce<Day | null>(
+    (earliest, o) => (earliest === null || o.day < earliest ? o.day : earliest),
+    null,
+  )
+  const counts = (day: Day): boolean => day <= last && (first === null || day >= first)
 
   let total = 0
-  for (const opening of record.openings) {
-    if (opening.profile === profileId && opening.day <= last) total += opening.balanceMinutes * 60
+  for (const opening of own) {
+    if (opening.day <= last) total += opening.balanceMinutes * 60 + (opening.seconds ?? 0)
   }
   for (const [day, seconds] of worked) {
-    if (day <= last) total += seconds
+    if (counts(day)) total += seconds
   }
   for (const day of charged) {
-    if (day <= last) total -= expectedSecondsOn(day, profile)
+    if (counts(day)) total -= expectedSecondsOn(day, profile)
   }
   return total
 }
@@ -149,17 +156,37 @@ export function ceilingTrend(record: TimeRecord, today: Day): number {
   const first = firstDay(record, worked)
   if (first === undefined) return 0
 
-  let month = monthOf(first)
-  for (const change of [...record.fullTime, ...(janitor.expectedMinutes ?? [])]) {
-    if (change.from <= today && change.from > month.first) month = monthOf(change.from)
-  }
+  const start = trendStart(record, today)
+  if (start === null) return 0
+  let month = monthOf(start)
   const current = monthOf(today)
-  let total = 0
+  // A prune's frozen trend counts while the trend still starts at the cut
+  let total =
+    record.openings.find((o) => o.day === first && o.trendSeconds !== undefined && month.first === monthOf(first).first)
+      ?.trendSeconds ?? 0
   for (; month.first < current.first; month = monthOf(dayAfter(month.last))) {
     for (const piece of worked) if (inMonth(piece.day, month)) total += piece.seconds
     total -= ceilingOf(record, janitor, month)
   }
   return total
+}
+
+/**
+ * The first day of the month the ceiling's trend counts from: the month of the ceiling's latest change in force by
+ * `today`, or the first month in the app. Used by `ceilingTrend`, and by a prune to know whether the trend reaches back
+ * past its cut.
+ * @returns null for a record with no balance profile or nothing to count from
+ */
+export function trendStart(record: TimeRecord, today: Day): Day | null {
+  const janitor = record.profiles.find((p) => p.expectedMinutes !== undefined)
+  if (janitor === undefined) return null
+  const first = firstDay(record, otherWork(record, janitor.id))
+  if (first === undefined) return null
+  let month = monthOf(first)
+  for (const change of [...record.fullTime, ...(janitor.expectedMinutes ?? [])]) {
+    if (change.from <= today && change.from > month.first) month = monthOf(change.from)
+  }
+  return month.first
 }
 
 /**
@@ -279,10 +306,14 @@ function otherWork(record: TimeRecord, janitorId: string | undefined): DayPiece[
   return pieces
 }
 
-/** The first day the ceiling has anything to count from: the first opening or work. Used by `ceilingTrend` */
+/**
+ * The first day the ceiling has anything to count from: the record's first day, its first opening, or with none the
+ * first work. Used by `ceilingTrend` and `trendStart`; after a prune the cut's opening, though an entry across the cut
+ * started before it
+ */
 function firstDay(record: TimeRecord, worked: DayPiece[]): Day | undefined {
-  const days = [...record.openings.map((o) => o.day), ...worked.map((p) => p.day)].sort()
-  return days[0]
+  const openings = record.openings.map((o) => o.day).sort()
+  return openings[0] ?? worked.map((p) => p.day).sort()[0]
 }
 
 /**

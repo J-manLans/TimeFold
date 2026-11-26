@@ -66,7 +66,11 @@ Nothing is pruned without the owner's yes, and "Rensa" asks once more, as "Ta bo
 face, mono text and soft buttons"); "not now" hides the line until the next month. A prune cuts at the start of a month:
 the balance and the ceiling's trend up to that month, where it reaches back past the cut ("The ceiling's trend"), are
 frozen as opening figures dated the month's first day ("The app's month is the calendar month"), as at a first install
-("A first install starts fresh or imports"), and every entry before it is deleted. A copy of the record is saved first.
+("A first install starts fresh or imports"), and every entry that ended before it is deleted. The balance is frozen to
+the second, so no figure moves by a rounding; an entry across the cut is kept whole, its part before the cut inside the
+opening, since a day before the record's first day counts nothing; the flex days before the cut go with it. A copy of
+the record is saved first: the day's copy, made at the start, already holds every month the prune cuts. "Inte nu" is
+kept with the machine, beside the theme, as the day the line comes back.
 
 **Why:** the owner does not want the record to grow forever, and the opening figures already carry a balance over a cut,
 so pruning reuses them. Cutting at a month's start keeps every remaining month whole, so its report can still be made,
@@ -80,18 +84,6 @@ without a word. Cutting mid-month: that month's report and ceiling would be spli
 
 **Cases:**
 
-- First install 1 January 2027; on 1 February 2030 the line offers to prune January 2027. Yes: the balance at the end of
-  31 January 2027 becomes an opening figure dated 1 February 2027, and January's entries are deleted.
-- A prune never changes the ceiling's trend on screen ("The ceiling's trend"); in each case below it reads the same
-  before and after:
-  - The ceiling unchanged since 1 January 2027, January +2:00 over: pruning January stores the balance and a trend of
-    +2:00, both dated 1 February 2027.
-  - January +2:00, February −1:00, March +0:30, the ceiling unchanged: pruning all three stores a trend of +1:30, dated
-    1 April 2027.
-  - The split changed from 1 September 2028: pruning January 2027 stores the balance only, no trend.
-  - A trend of +2:00 stored, then the split changed from 1 March 2030: from 1 March 2030 the trend reads 0:00, the
-    stored figure no longer counting.
-  - The split changed from 1 February 2027: pruning January 2027 stores no trend, since the trend starts at the cut.
 - "Not now" on 3 February 2030: the line returns on 1 March 2030, offering two months.
 - "Rensa" clicked: it turns to "Rensa?" in a red border; a click elsewhere turns it back; clicked twice, the prune runs
   after a copy.
