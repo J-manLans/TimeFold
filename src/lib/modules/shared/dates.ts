@@ -16,6 +16,12 @@ export function dayInWords(day: Day): string {
   return `${WEEKDAYS[weekday]} ${date} ${MONTHS[month]}`
 }
 
+/** A day with its year, for a sentence. Used by a refused setting's reason: 2026-07-01 is "1 juli 2026" */
+export function dateInWords(day: Day): string {
+  const { date, month } = parts(day)
+  return `${date} ${MONTHS[month]} ${day.slice(0, 4)}`
+}
+
 /** A day as an entry's row shows it, the weekday cut short. Used by the entry lists: 2026-11-16 is "mån 16" */
 export function dayShort(day: Day): string {
   const { weekday, date } = parts(day)

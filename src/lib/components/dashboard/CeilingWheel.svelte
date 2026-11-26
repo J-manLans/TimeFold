@@ -37,7 +37,7 @@
   import { app } from '$lib/app.svelte'
   import { colourRoles, dimmed, faded } from '$lib/modules/shared/colours'
   import { balanceText } from '$lib/modules/dashboard/figures'
-  import { ceilingMonth, ceilingTrend, localDay, payEstimate, shownMinutes } from '$lib/modules/shared/counting'
+  import { ceilingMonth, ceilingTrend, localDay, payShown, shownMinutes } from '$lib/modules/shared/counting'
 
   // === Props ===
 
@@ -52,7 +52,7 @@
 
   let today = $derived(localDay(Date.now()))
   let month = $derived(app.record ? ceilingMonth(app.record, today) : { ceiling: 0, pieces: [], used: 0 })
-  let pay = $derived(app.record ? payEstimate(app.record, today) : 0)
+  let pay = $derived(app.record ? payShown(app.record, today) : 0)
   let trend = $derived(app.record ? ceilingTrend(app.record, today) : 0)
 
   // The wheel wears the profile on screen's colours, or the greys while that is the balance profile

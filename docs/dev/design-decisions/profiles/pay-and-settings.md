@@ -26,7 +26,7 @@ so no salary rules are needed. One percentage read off a payslip comes closer to
 which leaves the contributions (about 9%) out, and changing it when a new tax card comes is one field.
 
 **Rejected:** A choice of salary or rate on every profile: every profile but janitor's is paid by the hour, as far ahead
-as can be seen. matching payroll: salary rules change, and the app would be wrong whenever they do. A rate on janitor
+as can be seen. Matching payroll: salary rules change, and the app would be wrong whenever they do. A rate on janitor
 hours: working more or less there changes the balance, not the pay. A "Före skatt" box checked by default: ticked to
 show the plain number, it read backwards. The tax card's percentage alone: the estimate would sit about 9% high. The tax
 rules, or the extra percentage above the income limit: the estimate is rough by design. The percentage changing from a
@@ -37,8 +37,6 @@ date: no past estimate is shown, so no history is read.
 **Cases:**
 
 - Rate 20 €/h, an entry of 3 h stopped: the estimate grows by 60 €; 30 min then cut from it: it falls by 10 €.
-- An estimate of 2 400 €, "Efter skatt" checked with 25%: 1 800 €; the percentage set to 27,5: 1 740 €; unchecked again:
-  2 400 €.
 - "Skatt och avgifter" given 100, or left empty, then Enter: refused, the field red and still open.
 
 ## Settings change from a date (2026-11-26)

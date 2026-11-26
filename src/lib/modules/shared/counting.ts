@@ -186,6 +186,15 @@ export function payEstimate(record: TimeRecord, day: Day): number {
 }
 
 /**
+ * The pay estimate as shown under the wheel: before tax, or, while "Efter skatt" is checked, less "Skatt och avgifter"
+ * ("A pay estimate per profile"). Used by the ceiling wheel: 2 400 € after tax at 25% shows 1 800 €.
+ */
+export function payShown(record: TimeRecord, day: Day): number {
+  const estimate = payEstimate(record, day)
+  return record.tax.after ? estimate * (1 - record.tax.percent / 100) : estimate
+}
+
+/**
  * Seconds as the whole minutes shown, rounded to the nearest; a half minute rounds away from zero. Used for every
  * figure on screen, such as the balance or an entry's length: 3:31:30 shows as 3:32.
  */

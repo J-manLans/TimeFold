@@ -108,6 +108,18 @@ export interface Entry {
   reason?: string
 }
 
+/**
+ * How the pay estimate is shown ("A pay estimate per profile"): after tax or not, and "Skatt och avgifter", everything a
+ * payslip takes off, as a percentage from 0 to under 100
+ */
+export interface Tax {
+  after: boolean
+  percent: number
+}
+
+/** "Skatt och avgifter" as a record starts it, and the estimate shown before tax */
+export const FIRST_TAX: Tax = { after: false, percent: 25 }
+
 /** The whole record */
 export interface TimeRecord {
   format: typeof RECORD_FORMAT
@@ -118,6 +130,7 @@ export interface TimeRecord {
   fullTime: FromDay<{ minutes: number }>[]
   entries: Entry[]
   reasons: Reasons
+  tax: Tax
 }
 
 /** Why a file could not be read as a record */
@@ -210,6 +223,7 @@ export function freshRecord(profileName: string, openingMinutes: number, firstDa
     fullTime: [{ from: firstDay, minutes: FULL_TIME_MINUTES }],
     entries: [],
     reasons: { list: [...FIRST_REASONS], forgotten: [], written: [] },
+    tax: { ...FIRST_TAX },
   }
 }
 
@@ -311,10 +325,11 @@ function upgradeFromThree(data: Fields): void {
 
 /**
  * Brings a version 4 record to version 5: the reasons, until now fixed, become the record's own list, with nothing
- * learned or forgotten yet; every profile stays active. Used by `readRecord` before the check
+ * learned or forgotten yet; every profile stays active, and the estimate is shown before tax with 25%. Used by `readRecord` before the check
  */
 function upgradeFromFour(data: Fields): void {
   data.reasons = { list: [...FIRST_REASONS], forgotten: [], written: [] }
+  data.tax = { ...FIRST_TAX }
   data.version = 5
 }
 
@@ -384,6 +399,9 @@ function checkRecord(data: Fields): void {
     text(item.text, `${at}.text`)
     whole(item.times, `${at}.times`, 1)
   })
+  const tax = fields(data.tax, 'tax')
+  if (typeof tax.after !== 'boolean') throw new ShapeError('tax.after')
+  if (typeof tax.percent !== 'number' || !(tax.percent >= 0 && tax.percent < 100)) throw new ShapeError('tax.percent')
 }
 
 /** A list of strings with something in each, or a ShapeError at `where`. Used for the reasons and those forgotten */
@@ -421,7 +439,7 @@ function day(value: unknown, where: string): void {
   if (typeof value !== 'string' || !DAY.test(value) || Number.isNaN(Date.parse(value))) throw new ShapeError(where)
 }
 
-/** A value as an object, or a ShapeError at `where`. Used for each profile, opening and entry, and the reasons */
+/** A value as an object, or a ShapeError at `where`. Used for each profile, opening and entry, the reasons and the tax */
 function fields(value: unknown, where: string): Fields {
   if (!isObject(value)) throw new ShapeError(where)
   return value

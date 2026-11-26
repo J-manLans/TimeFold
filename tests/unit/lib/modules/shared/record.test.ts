@@ -31,6 +31,7 @@ function beforeBreaks(r: Record<string, unknown>): void {
 /** The record as version 4 wrote it, before the reasons were the record's own. Used by every upgrade */
 function beforeReasons(r: Record<string, unknown>): void {
   delete r.reasons
+  delete r.tax
 }
 
 /** The test record with its breaks gone, as an upgrade leaves a record that had none */
@@ -100,7 +101,7 @@ describe('a record of version 3 is upgraded to this version', () => {
 })
 
 describe('a record of version 4 is upgraded to this version', () => {
-  it('gains the reasons the list started with, nothing learned or forgotten, and keeps the rest', () => {
+  it('gains the reasons the list started with, nothing learned or forgotten, the estimate before tax with 25%, and keeps the rest', () => {
     expect(
       readRecord(
         text((r) => {
@@ -205,6 +206,9 @@ describe('a record of the wrong shape names where', () => {
       text((r) => {
         ;(r.reasons as { written: unknown[] }).written = [{ text: 'möte', times: 0 }]
       }),
+      text((r) => {
+        ;(r.tax as { percent: number }).percent = 100
+      }),
     ].map(readRecord)
 
     expect(results).toEqual([
@@ -212,6 +216,7 @@ describe('a record of the wrong shape names where', () => {
       { ok: false, problem: { kind: 'wrong-shape', where: 'openings[0].trendMinutes' } },
       { ok: false, problem: { kind: 'wrong-shape', where: 'reasons.list[2]' } },
       { ok: false, problem: { kind: 'wrong-shape', where: 'reasons.written[0].times' } },
+      { ok: false, problem: { kind: 'wrong-shape', where: 'tax.percent' } },
     ])
   })
 

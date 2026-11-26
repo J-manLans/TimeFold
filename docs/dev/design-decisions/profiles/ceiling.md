@@ -60,21 +60,8 @@ ceiling does not show.
 
 **Cases:**
 
-- Heltid 38:15: 7 h 39 min a weekday. Split 30 h | 8 h 15 min: janitor owes 6 h a weekday, and the ceiling grows by 1 h
-  39 min each weekday.
-- Heltid 38:16, or 38:10, then Enter: refused with "Ange veckan i steg om 15 minuter", the field still open.
+- Heltid 38:16, or 38:10, then Enter: the field still open, the refusal in its place.
 - The split's slider moves 15 min a week per step.
-- From full time 38 h 15 min and a split of 30 h | 8 h 15 min, both since 1 January:
-  - Heltid 28 h from today: refused, "Vaktmästare har 30h. Minska fördelningen först."
-  - The split lowered to 25 h from 1 December, then Heltid 28 h from 1 December: both saved, 25 h | 3 h from 1 December.
-    The other way round, Heltid first: refused.
-  - The split 25 h from 1 December, then Heltid 28 h from 1 November: refused, janitor still has 30 h in November.
-  - Heltid 30 h: saved, the ceiling 0.
-  - Heltid raised: never refused.
-- Full time 40 h and a split of 30 h, with a split of 35 h saved from 1 January: Heltid 32 h from 1 December is refused,
-  "Vaktmästare har 35h från 1 januari 2027. Minska fördelningen först."; December fits, January does not.
-- Heltid 28 h until 31 August and 38 h 15 min from 1 September, a split of 25 h: the split moved to 30 h from 1 July is
-  refused, "Heltid är bara 28h från 1 juli 2026."; from 1 September it is saved.
 
 ## The ceiling's trend (2026-11-26)
 

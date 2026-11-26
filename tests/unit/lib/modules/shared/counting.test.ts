@@ -11,12 +11,14 @@ import {
   expectedSecondsOn,
   monthOf,
   payEstimate,
+  payShown,
   secondsByDay,
   shownMinutes,
   timeOfDay,
 } from '$lib/modules/shared/counting'
 import {
   FIRST_REASONS,
+  FIRST_TAX,
   freshRecord,
   RECORD_FORMAT,
   RECORD_VERSION,
@@ -50,6 +52,7 @@ function record(entries: Entry[], openingMinutes = 0, flexDays: string[] = []): 
     fullTime: [{ from: '2026-01-01', minutes: 480 }],
     entries,
     reasons: { list: [...FIRST_REASONS], forgotten: [], written: [] },
+    tax: { ...FIRST_TAX },
   }
 }
 
@@ -209,6 +212,7 @@ function workRecord(entries: Entry[], janitor: Profile = JANITOR, others: Profil
     fullTime: [{ from: SINCE_NEW_YEAR, minutes: 480 }],
     entries,
     reasons: { list: [...FIRST_REASONS], forgotten: [], written: [] },
+    tax: { ...FIRST_TAX },
   }
 }
 
@@ -324,6 +328,21 @@ describe("the pay estimate is the month's salaries plus its hours times their ra
 
     expect(ceilingMonth(june, '2026-06-10').used).toBe(1 * HOUR)
     expect(payEstimate(june, '2026-06-10')).toBe(2024)
+  })
+})
+
+describe('the estimate shows after tax only while "Efter skatt" is checked, less "Skatt och avgifter"', () => {
+  // 2 000 € salary and 16 h 40 min at 24 €/h: 2 400 €
+  const salaried = { ...JANITOR, pay: [{ from: SINCE_NEW_YEAR, kind: 'salary' as const, amount: 2000 }] }
+  const rated = { ...DEV, pay: [{ from: SINCE_NEW_YEAR, kind: 'rate' as const, amount: 24 }] }
+  const month = { ...workRecord([workMinutes('2026-05-04', 1000)], salaried, [rated]) }
+
+  it.each([
+    [false, 25, 2400],
+    [true, 25, 1800],
+    [true, 27.5, 1740],
+  ])('after tax %s at %d%% shows %d €', (after, percent, euros) => {
+    expect(payShown({ ...month, tax: { after, percent } }, '2026-05-20')).toBeCloseTo(euros)
   })
 })
 
