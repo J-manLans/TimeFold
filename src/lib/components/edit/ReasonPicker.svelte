@@ -11,12 +11,16 @@
   reasons, which grows open and then fades its reasons in. The list ends with "Annan orsak", itself a field, underlined
   exactly as long as its text: typed into, the text is the reason from its first letter; Enter or a click elsewhere
   keeps it, Esc puts back what it had. The chosen reason stays greyed in its place. A reason longer than "Glömde stämpla
-  ut" is cut with "…" in the closed field. The reason given comes out through `reason`, empty for none:
+  ut" is cut with "…" in the closed field. Under the pointer each reason's line shows a pen, drawn as the calendar's
+  padlock, which turns the line into a field drawn as "Annan orsak", without choosing it: Enter keeps a new name, one
+  already in the list refused with "Orsaken finns redan" under it; emptied, Enter asks "Ta bort?" in red and a second
+  Enter removes the reason; Esc or a click elsewhere puts the line back. The list shows at most seven lines, "Annan
+  orsak" one of them, and scrolls past them. The reason given comes out through `reason`, empty for none:
   <ReasonPicker bind:reason />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
-  import { reasonList } from '$lib/modules/edit/reasons'
+  import { reasonList, removeReason, renameReason } from '$lib/modules/edit/reasons'
 
   // === Props ===
 
@@ -42,6 +46,14 @@
 
   /** The longest a reason shows at rest, in characters, from the tokens */
   let cap = $state(17)
+  /** The reason open under its pen, its text as typed, whether its emptying asked once, and why it was refused */
+  let editing = $state<string | null>(null)
+  let renamed = $state('')
+  let askedRemove = $state(false)
+  let renameRefused = $state(false)
+  let list: HTMLDivElement | undefined = $state()
+  /** The list's greatest height, so it stops after seven lines; none while it holds fewer */
+  let tallest = $state<number | null>(null)
 
   // === Logic ===
 
@@ -51,6 +63,16 @@
 
   $effect(() => {
     if (field) cap = parseFloat(getComputedStyle(field).getPropertyValue('--edit-pick-max')) || 17
+  })
+
+  // The list stops after its seven lines, "Annan orsak" one of them: its height is where the next line starts
+  $effect(() => {
+    void REASONS.length
+    void open
+    if (!list) return
+    const rows = parseInt(getComputedStyle(list).getPropertyValue('--edit-list-rows'), 10) || 7
+    const lines = [...list.children] as HTMLElement[]
+    tallest = lines.length > rows ? lines[rows].offsetTop - lines[0].offsetTop + lineTop(list) : null
   })
 
   // === Helpers ===
@@ -119,6 +141,75 @@
     const length = typed ? typed.length : PLACEHOLDER.length
     return `${typing ? length : Math.min(length, cap)}ch`
   }
+
+  /** The list's room above its first line. Used to measure where its seventh line ends */
+  function lineTop(element: HTMLElement): number {
+    return parseFloat(getComputedStyle(element).paddingTop) || 0
+  }
+
+  /** A reason's pen: its line turned into a field holding its name */
+  function edit(option: string): void {
+    editing = option
+    renamed = option
+    askedRemove = false
+    renameRefused = false
+  }
+
+  /** The line back as it was. Used by Esc, a click elsewhere, and a name kept */
+  function back(): void {
+    editing = null
+  }
+
+  /** Enter under the pen: a new name kept, a taken one refused; emptied, it asks once, then removes the reason */
+  function keepName(event: KeyboardEvent, option: string): void {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      event.stopPropagation()
+      back()
+      return
+    }
+    if (event.key !== 'Enter' || !app.record) return
+    event.preventDefault()
+    if (renamed.trim() === '') {
+      if (!askedRemove) {
+        askedRemove = true
+        return
+      }
+      if (picked === option) picked = null
+      void app.saveSettings(removeReason(app.record, option))
+      back()
+      return
+    }
+    const result = renameReason(app.record, option, renamed)
+    if ('refusal' in result) {
+      renameRefused = true
+      return
+    }
+    if (picked === option) picked = renamed.trim()
+    void app.saveSettings(result)
+    back()
+  }
+
+  /** A name typed under the pen: its first letter a capital, the caret left where it was; the refusal and the ask go */
+  function typeName(event: Event & { currentTarget: HTMLInputElement }): void {
+    const input = event.currentTarget
+    askedRemove = false
+    renameRefused = false
+    const at = input.value.search(/\S/)
+    if (at < 0 || input.value.charAt(at) === input.value.charAt(at).toUpperCase()) return
+    const [a, b] = [input.selectionStart, input.selectionEnd]
+    input.value = input.value.slice(0, at) + input.value.charAt(at).toUpperCase() + input.value.slice(at + 1)
+    input.setSelectionRange(a, b)
+    renamed = input.value
+  }
+
+  /** Focuses the field under the pen once drawn, the caret at its end */
+  function focusEnd(input: HTMLInputElement): void {
+    queueMicrotask(() => {
+      input.focus()
+      input.setSelectionRange(input.value.length, input.value.length)
+    })
+  }
 </script>
 
 <div class="reason" class:open>
@@ -127,9 +218,35 @@
   </button>
   <div class="grow">
     <div class="clip">
-      <div class="list">
+      <div class="list" bind:this={list} style:max-height={tallest === null ? undefined : `${tallest}px`}>
         {#each REASONS as option (option)}
-          <button type="button" disabled={picked === option} onclick={() => choose(option)}>{option}</button>
+          <div class="line">
+            {#if editing === option}
+              <input
+                class="other rename"
+                class:asking={askedRemove}
+                type="text"
+                autocomplete="off"
+                aria-label="Ändra {option}"
+                placeholder={askedRemove ? 'Ta bort?' : ''}
+                style:width="{Math.max(1, renamed.length || (askedRemove ? 8 : 1))}ch"
+                bind:value={renamed}
+                oninput={typeName}
+                onkeydown={(event) => keepName(event, option)}
+                onblur={back}
+                {@attach focusEnd}
+              />
+              {#if renameRefused}<span class="refused">Orsaken finns redan</span>{/if}
+            {:else}
+              <button type="button" disabled={picked === option} onclick={() => choose(option)}>{option}</button>
+              <button class="pen" type="button" aria-label="Ändra {option}" onclick={() => edit(option)}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 20h4L19 9l-4-4L4 16z" />
+                  <path d="M13 7l4 4" />
+                </svg>
+              </button>
+            {/if}
+          </div>
         {/each}
         <input
           class="other"
@@ -203,6 +320,50 @@
     gap: var(--edit-list-gap);
     justify-items: start;
     padding-top: var(--edit-list-top);
+    overflow-y: auto;
+  }
+
+  /* A reason's line: the reason, and its pen, shown while the pointer is on the line */
+  .line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--edit-pen-gap);
+    max-width: 100%;
+  }
+
+  .list .pen {
+    display: grid;
+    place-items: center;
+    padding: var(--edit-pen-padding);
+    color: var(--dashboard-text-muted);
+    opacity: 0;
+  }
+
+  .pen svg {
+    width: var(--edit-pen);
+    height: var(--edit-pen);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--calendar-lock-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Under the pen: the line as a field drawn as "Annan orsak"; asking "Ta bort?" in the removal red */
+  .rename.asking {
+    border-bottom-color: var(--edit-remove);
+  }
+
+  .rename.asking::placeholder {
+    color: var(--edit-remove);
+  }
+
+  .refused {
+    flex-basis: 100%;
+    margin-left: var(--edit-other-inset);
+    color: var(--edit-remove);
+    font-size: var(--text-size-note);
   }
 
   .list button {
@@ -259,6 +420,16 @@
 
   .list button:hover:enabled {
     background: var(--dashboard-background);
+  }
+
+  .line:hover .pen,
+  .list .pen:focus-visible {
+    opacity: 1;
+  }
+
+  .list .pen:hover:enabled {
+    background: none;
+    color: var(--dashboard-text);
   }
 
   .list button:disabled {

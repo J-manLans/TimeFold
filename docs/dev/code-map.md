@@ -56,9 +56,9 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker,
   the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn
   from the line's model, the pointer turned into its moves, the pill and the view easing to its fit;
-  `ReasonPicker.svelte`, the closed reason field, its list and "Annan orsak". `shared/`: what more than one part uses,
-  such as `Disc.svelte`, the dented disc of the profile, undo and theme buttons, and `ChoiceButton.svelte`, the locked
-  panel's and the popups' buttons with their tip.
+  `ReasonPicker.svelte`, the closed reason field, its list of at most seven lines, each reason's pen that renames or
+  removes it, and "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the
+  profile, undo and theme buttons, and `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
