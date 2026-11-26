@@ -112,14 +112,9 @@ slipping past the count.
   at the length of "Glömde stämpla ut"; clicked again, it opens to the whole text.
 - "Möte" typed and kept: its underline is as long as "Möte".
 - "Fel profil" chosen and the list opened again: "Fel profil" is greyed in its place, and a click on it does nothing.
-- The reason "Glömde stämpla ut" renamed under its pen to "Glömt stoppa": entries edited before keep "Glömde stämpla
-  ut".
-- "Möte med rektor.", "möte med rektor" and "Möte med rektor" written in three edits: "Möte med rektor" joins the list
-  after "Glömd post", in its alphabetical place.
 - The pen on "Ärende", the text changed to "fel profil", Enter: refused, "Orsaken finns redan"; Esc: "Ärende" as it was.
 - The pen on "Glömd post", the text emptied, Enter: "Ta bort?" in red; Enter again: the reason is gone; a click outside
   instead: "Glömd post" as it was.
-- "Möte med rektor" removed, then written three more times: it does not join the list.
 - The pen on the chosen reason, renamed: the picker shows the new name, still chosen.
 - Six reasons: the list shows all seven lines with "Annan orsak" and does not scroll; a seventh reason learned: it
   scrolls, seven lines in view.
