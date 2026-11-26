@@ -17,11 +17,12 @@ is the entry's break: higher adds, lower takes time back, 0 takes it all, and th
 control is always shown, so the app always shows what it can do; it is active only while that entry runs, and greyed out
 otherwise. A break found after the entry has stopped is set in the entry's edit popup, through the "paus" tag after its
 times ("An edited entry's break"). The total cannot be longer than its whole entry so far: the field then reads "för
-lång paus" and stays open. Stopping the entry with the field open is a click away: what is typed is kept, then the entry
-stops. The five most recent entries, whatever their day, are listed under the flex bar and the ceiling wheel, with their
-added breaks as small tags among them, and "Visa alla" under the list opens the history. A tag is a label: clicking it
-does what clicking its row does. A break added by mistake is taken back with the undo while it is the latest click ("The
-last click can be undone for a few seconds"); after that, a break is changed or removed on its entry's line.
+lång paus" and stays open. Stopping the entry with the field open is a click away, and drops what is typed: the entry
+stops with the break it had, which shows in the list. The five most recent entries, whatever their day, are listed under
+the flex bar and the ceiling wheel, with their added breaks as small tags among them, and "Visa alla" under the list
+opens the history. A tag is a label: clicking it does what clicking its row does. A break added by mistake is taken back
+with the undo while it is the latest click ("The last click can be undone for a few seconds"); after that, a break is
+changed or removed on its entry's line.
 
 **Why:** the owner's errands are often unplanned, and the owner notes breaks during the day when back, as in the Excel
 file today, as a length. One number per entry follows it through a split or a join with nothing to keep in step. On a
@@ -51,8 +52,9 @@ common.
 - Nothing running on the profile on screen: "add break" is shown, greyed out.
 - A running, B on screen: "add break" is greyed out.
 - A 5 h break on an entry that has run 2 h: refused; the field reads "för lång paus".
-- The field open with "30" typed, "Stoppa jobb" pressed: the break becomes 30 min, the field closes and the job stops.
-- The field open with "30" typed, a click elsewhere: the break becomes 30 min; Esc instead: it stays as it was.
+- The field open with "30" typed, "Stoppa jobb" pressed: the field closes, the 30 dropped, and the job stops with the
+  break it had.
+- The field open with "30" typed, a click elsewhere or Esc: the break stays as it was; Enter: it becomes 30 min.
 - Stop Tuesday 23:30, start Wednesday 00:15: the gap counts on neither day, with no special rule; Tuesday ends at 23:30,
   Wednesday starts at 00:15.
 - 20 min of break so far, "Lägg till paus": the field opens on "20", selected; 30 typed and Enter: the break is 30 min.
@@ -67,20 +69,22 @@ minutes alone, or two of hours and two of minutes, the minutes at most 59; a sig
 the shape does not appear. The empty field shows "00:00". While typing, how it reads the input shows just under the
 field ("1h 20min"), so the field itself stays where it is; the break's field in an edit shows none, since it sits inside
 its "paus" tag, which reads it once kept. Every length the app writes in words is written this way, the unit against its
-number: "5min", "23h 20min", "paus 20min", "+20h". Enter, or a click away, keeps it; Esc alone cancels. A length that
-cannot be kept, such as a break longer than its entry, is refused: the field stays open with its warning until it is
-fixed or Esc drops it. The field has no buttons. The clock picker is for times of day only.
+number: "5min", "23h 20min", "paus 20min", "+20h". Enter keeps it; Esc or a click away drops it, as a click outside
+drops an open value in the menu ("The menu has tabs, with every value locked behind "Ändra""), and a confirm such as an
+edit's "Spara" is greyed while the field is open ("An edited entry's break"). A length that cannot be kept, such as a
+break longer than its entry, is refused: the field stays open with its warning until it is fixed or Esc drops it. The
+field has no buttons. The clock picker is for times of day only.
 
 **Why:** one short field is the least fuss, and "1:20" is how the owner writes a length in Excel. Showing the reading
-catches a hasty mistake before it is saved. A click away keeping, as leaving a cell in Excel does, means nothing typed
-is lost by accident, and a click straight on a confirm such as "Spara" keeps what was just written; a stray click is
-caught by the undo, or by an edit's own confirm.
+catches a hasty mistake before it is saved. A click away does what it does everywhere in the app, so one gesture means
+one thing: what is not confirmed is dropped, and what shows is what is saved. A confirm greyed while a field is open
+keeps a press on it from saving what was not kept.
 
 **Rejected:** separate hour and minute fields: more to fill in. "Lägg till" and "Avbryt" buttons beside the field: Enter
-and Esc do the same with less on screen. The clock picker: it picks a time of day, not a length. A click away
-cancelling: a click straight on "Spara" would first drop what was typed, and a break typed in an edit would be saved as
-it was, with nothing said. A length too long capped at the most it can be: a typo would become a real break, with the
-entry counting nothing, unseen.
+and Esc do the same with less on screen. The clock picker: it picks a time of day, not a length. A click away keeping,
+as leaving a cell in Excel does: the menu drops on a click outside, since a kept value there has no undo, and the same
+gesture meant two things in two places. "Stoppa jobb" keeping what is typed: the one click away that kept. A length too
+long capped at the most it can be: a typo would become a real break, with the entry counting nothing, unseen.
 
 **Revisit if:** typed lengths are often misread.
 

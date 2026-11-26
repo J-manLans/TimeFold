@@ -75,17 +75,17 @@ profile with base and neon swapped. Recolouring the app while dragging: many upd
 "OK": the colour could not be judged in place. An "OK" button at all: each release already keeps the colour, so it
 confirmed nothing; Esc putting back the colours from before the picker opened went with it, since dragging back does the
 same. A switch in the menu to put a profile on screen: a second way to do what the profile button does; the picker's
-profile owning the wheel covers it. Asking for colours at the first start: the formula gives a good start, and the
-picker is one click away. Colours of the figures' own, with a switch to unify them: the profiles carry them. Colours
-derived from the figures: every profile but the balance one shared the wheel's colour. Random colours for new profiles:
-two could land side by side. Colours per machine, out of the handover: a profile would look different at work and at
-home. The neon always red: a red base would hide it. The rule's numbers as settings: they could undo the contrast; they
-are tuned once, by eye, on a sketch. Example swatches, or a grid of options: the owner knows what they want. The
-system's colour dialog: on Linux it opened on a palette first, not the colour map, and did not draw fully. The focus
-rings always in the neon: on the light controls side the neons fade as much as the bases (23 of 36 hues under 3:1
-against 28), and they said nothing. The focus rings by theme, the neon in the light theme and the base in the dark, for
-the best contrast: they would say nothing of the balance. The running ring and the status mark following the balance: in
-a muted base the one signal seen from across the room would fade.
+profile owning the wheel covers it; handy while testing, clutter in the finished app. Asking for colours at the first
+start: the formula gives a good start, and the picker is one click away. Colours of the figures' own, with a switch to
+unify them: the profiles carry them. Colours derived from the figures: every profile but the balance one shared the
+wheel's colour. Random colours for new profiles: two could land side by side. Colours per machine, out of the handover:
+a profile would look different at work and at home. The neon always red: a red base would hide it. The rule's numbers as
+settings: they could undo the contrast; they are tuned once, by eye, on a sketch. Example swatches, or a grid of
+options: the owner knows what they want. The system's colour dialog: on Linux it opened on a palette first, not the
+colour map, and did not draw fully. The focus rings always in the neon: on the light controls side the neons fade as
+much as the bases (23 of 36 hues under 3:1 against 28), and they said nothing. The focus rings by theme, the neon in the
+light theme and the base in the dark, for the best contrast: they would say nothing of the balance. The running ring and
+the status mark following the balance: in a muted base the one signal seen from across the room would fade.
 
 **Revisit if:** the generated colours are often changed, two profiles' neons need telling apart, or a base off the rule
 is wanted, such as grey or a lighter shade.

@@ -37,13 +37,13 @@ right, small at its edges and largest at its middle, and shrinks to nothing; and
 fades in on the profile button, slower than the interface's other fades. Every time in it is a knob in the prototype.
 The balance is kept in the record as an opening figure dated the first day, apart from the entries: the handover carries
 it, the reports show it ("brought over: +12:30"), a correction can change it, and the balance counts from it. The fresh
-start asks nothing about the ceiling; the hours of the current month's ceiling already used are an open question ("Whose
-the opening ceiling hours are"). From then on the app records every entry with its day. **Importera** reads a handover
-file instead, as in "Handover between machines", and asks nothing more: the file brings the profiles with their colours,
-the settings and the opening figures; the theme starts following the system. The owner switches to the app with Phase
-1's release, on a day not yet worked: before the first click, the balance is read off the Excel file and typed in. The
-Excel file is kept as a backup until the app is finished; its history before the switch stays in it and is not brought
-in.
+start asks nothing about the ceiling: hours of the other work already worked that month are written in as hand-written
+entries ("The other profiles share a ceiling"). From then on the app records every entry with its day. **Importera**
+reads a handover file instead, as in "Handover between machines", and asks nothing more: the file brings the profiles
+with their colours, the settings and the opening figures; the theme starts following the system. The owner switches to
+the app with Phase 1's release, on a day not yet worked: before the first click, the balance is read off the Excel file
+and typed in. The Excel file is kept as a backup until the app is finished; its history before the switch stays in it
+and is not brought in.
 
 **Why:** the Excel history is not needed by anything the app does, and the boss has not asked for it; parsing the file's
 layout would cost much for it. Figures as of the end of the day before mean the app counts every day from its first, so

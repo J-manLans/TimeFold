@@ -6,35 +6,52 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 
 ## Phase 4: Profiles
 
-### A click outside a locked value in the menu (2026-11-22)
+### Deleting a profile with no entries (2026-11-26)
 
-A length field keeps what is typed on a click away, and only Esc cancels ("Entering a length of time"). The menu's
-values behind "Ändra" still abort on a click outside, so that future counts do not move by a stray click ("The menu has
-tabs, with every value locked behind "Ändra""). The owner wants the menu aligned with the rest of the app; open is how,
-since a value kept by a stray click there has no undo.
+A profile is archived, never deleted: it leaves the switch list but keeps its hours in the history and reports
+("Profiles label the hours"), since deleting one with entries would change past months, carries and reports already
+sent, or leave entries with no name or colour. A profile with no entries, such as one made by mistake, has nothing to
+keep, and archiving it only leaves clutter. Lean, the agent's: a profile with no entries shows "Ta bort", asking once
+("Ta bort?", as an entry's delete does), and one with entries shows "Arkivera"; what has history is kept, what has none
+can go. Open: whether the owner wants it, and whether "Ta bort" turns into "Arkivera" the moment a first entry is made.
 
-**See:** Entering a length of time; The menu has tabs, with every value locked behind "Ändra".
+**See:** Profiles label the hours; The menu has tabs, with every value locked behind "Ändra"; An entry is deleted from
+its edit.
 
-### Whose the opening ceiling hours are (2026-11-15)
+### Overtime pay in the estimate (2026-11-26)
 
-The ceiling wheel lights the pieces worked by the profile on screen and fades the rest ("The ceiling wheel"). The hours
-of the current month's ceiling already used before the other work's profiles come to the app have to be asked somewhere,
-and the fresh start no longer asks them ("A first install starts fresh or imports"). The owner's idea, to think over:
-each profile added from the menu asks how much of the month's ceiling it has already used, and those hours are its own,
-lit for it on the wheel.
+The estimate counts a salary once a month and the other profiles' hours times their rates, with no extra for overtime
+("A pay estimate per profile"), and overtime rules are on the roadmap's "Not on this roadmap". The owner wants the
+estimate to track real overtime. Open: whether, how, and in which phase; the roadmap and "A pay estimate per profile"
+change with it.
 
-**See:** The ceiling wheel; A first install starts fresh or imports.
+What the owner has said: janitor's flex hours are his to balance and never overtime; the other profiles' work is for the
+same employer, ordered by it, and counts toward the same full time; janitor always counts as its expected hours (6 h a
+weekday), whatever was worked, flex days included, and the other profiles' hours count on top. Hours beyond janitor's
+but within full time are paid at each profile's rate; past full time, or past the daily or weekly limits of the
+collective agreement and the law, as overtime under them.
 
-### The pay estimate before or after tax (2026-11-16)
+The collective agreement, the private education sector's for administrative and support staff, 7.4.2026–31.3.2028
+(sivista.fi, `YOA-HTP-TES-2026-2028.pdf`): regular time for non-office work is at most 38 h 15 min a week and on average
+9 h a day (2 §). Lisätyö, between 38 h 15 min and the law's 40 h a week, is paid at +50% for full-timers and at the
+plain hourly rate for part-timers (8 § 1). Daily overtime, past the law's 8 h a day or a longer day in the roster: the
+first 2 h at +50%, then +100% (8 § 2). Weekly overtime, past 40 h a week and not daily overtime: the first 8 h at +50%,
+then +100% (8 § 3). A monthly salary's hourly rate is the salary ÷ 163 (13 §). Lisätyö and overtime may be taken as time
+off or into a time bank, at the same percentages (8 § 5, 14 §). Flex time is not in the agreement; under the Working
+Hours Act, lisätyö and overtime are work done on the employer's initiative (the agent's reading, not checked against the
+act).
 
-The pay estimate shows the month's pay before tax ("A pay estimate per profile"). The owner wants a "Före skatt"
-checkbox, checked by default; unchecked, the estimate would show pay after tax, from a simple formula rather than tax
-rules. Open: where the checkbox sits (the menu, or by the number), and what the formula is. Known: a month's salary is
-paid on its 15th, so December's is paid on 15 December; hourly pay for the other work may come a month after the hours,
-which the estimate may need to say. In Finland the tax card (verokortti) gives a withholding percentage, and an extra
-one above a yearly income limit: a candidate for the formula.
+The counting it gives, from the owner's rule: each day, 6 h plus the other profiles' hours; past 8 h, those are daily
+overtime. Each week, 30 h plus the other profiles' hours not already daily overtime: up to 38 h 15 min at their rates,
+38 h 15 min to 40 h lisätyö, past 40 h weekly overtime. Every premium is on the rate of the profile that worked the
+hours, so janitor's salary never enters it. Overtime is counted per day and week, while the ceiling is counted per
+month.
 
-**See:** A pay estimate per profile.
+To check with payroll: whether janitor counting as 6 h a day whatever was worked is accepted (the law counts hours
+worked); whether lisätyö is paid at +50% or the plain rate, since janitor alone is part-time and the total can reach
+full time; and whether there is a roster with longer days, or the law's 8 h applies.
+
+**See:** A pay estimate per profile; The other profiles share a ceiling.
 
 ## Phase 5: Handover
 

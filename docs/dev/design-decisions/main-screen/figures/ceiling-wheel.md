@@ -27,6 +27,8 @@ at once when motion is off, "Motion can be switched off in the app"). Up to the 
 colour; past it, it takes the neon, as the flex bar's number does past 0. Either way it is at full strength whoever
 worked the hours. While the over lap is wound back the number is in the base colour, and takes the neon again when the
 lap returns; the ring keeps its colours. Under the ceiling there is no lap to wind back, and the pointer on the band
+changes nothing. A ceiling of 0 ("The other profiles share a ceiling") draws no ring, since there is nothing to fill:
+the used hours stand alone as the number, in the neon, every one of them over, and the pointer where the band would be
 changes nothing. The wheel's numbers never depend on its colours: switching profile changes only how it looks.
 
 **Why:** the over lap shows the excess the moment it happens, and a full ring always means the ceiling; one ring reads
@@ -58,6 +60,7 @@ profile is on screen: the wheel would seem to belong to a profile that is not ch
 
 **Cases:**
 
+- Ceiling 0, 38 h used: no ring, the number in the neon; the pointer where the band would be: nothing changes.
 - Ceiling 42 h, 21 h used: half the ring in the base colour, half dimmed; the number in the base colour.
 - Ceiling 42 h, 38 h used: the number in the base colour; the ring has no over lap. The pointer on the band: nothing
   changes.
