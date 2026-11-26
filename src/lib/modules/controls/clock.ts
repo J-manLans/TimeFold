@@ -19,11 +19,14 @@ export type Click =
   | { kind: 'start'; at: Timestamp; started: string }
   | { kind: 'stop'; at: Timestamp; stopped: string }
   | { kind: 'switch'; at: Timestamp; stopped: string; started: string }
+  | { kind: 'continue'; at: Timestamp; continued: string; stopped?: string }
   | { kind: 'break'; at: Timestamp; entry: string; from: number; to: number }
 
 /**
  * The start/stop button pressed with `profileId` on screen, at `now`: stops that profile's running entry, or else
- * stops whatever runs and starts an entry for it, so at most one entry runs. Used by the button on every click.
+ * stops whatever runs and starts an entry for it, so at most one entry runs. A start in the same second the profile's
+ * own entry stopped would touch it, and touching entries of one profile are one, so it runs that entry on instead
+ * ("Two entries join by docking"). Used by the button on every click.
  * @returns the changed record, and the click for the undo
  */
 export function press(record: TimeRecord, profileId: string, now: Date): { record: TimeRecord; click: Click } {
@@ -36,6 +39,14 @@ export function press(record: TimeRecord, profileId: string, now: Date): { recor
   }
 
   const stoppedFirst = record.entries.map((e) => (e === running ? { ...e, stop: at } : e))
+  const touched = stoppedFirst.find((e) => e.profile === profileId && e.stop === at)
+  if (touched) {
+    const entries = stoppedFirst.map((e) => (e === touched ? { ...e, stop: null } : e))
+    const click: Click = running
+      ? { kind: 'continue', at, continued: touched.id, stopped: running.id }
+      : { kind: 'continue', at, continued: touched.id }
+    return { record: { ...record, entries }, click }
+  }
   const started: Entry = {
     id: nextId(record.entries),
     profile: profileId,
@@ -99,6 +110,13 @@ export function undo(record: TimeRecord, click: Click, now: Date, windowSeconds:
   }
 
   const runsOn = (e: Entry): Entry => ({ ...e, stop: null })
+  if (click.kind === 'continue') {
+    const stopsAgain = (e: Entry): Entry => ({ ...e, stop: click.at })
+    const entries = record.entries.map((e) =>
+      e.id === click.continued ? stopsAgain(e) : e.id === click.stopped ? runsOn(e) : e,
+    )
+    return { ...record, entries }
+  }
   let entries = record.entries
   if (click.kind !== 'stop') entries = entries.filter((e) => e.id !== click.started)
   if (click.kind !== 'start') entries = entries.map((e) => (e.id === click.stopped ? runsOn(e) : e))
@@ -116,7 +134,7 @@ export function clickLabel(record: TimeRecord, click: Click): string {
     return click.from === 0 ? `paus ${to}` : `paus ${durationText(click.from)} → ${to}`
   }
   const time = timeOfDay(click.at)
-  if (click.kind === 'start') return `start ${time}`
+  if (click.kind === 'start' || click.kind === 'continue') return `start ${time}`
   if (click.kind === 'stop') return `stopp ${time}`
   return `byte ${time} (${profileName(record, click.stopped)} → ${profileName(record, click.started)})`
 }

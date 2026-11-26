@@ -53,6 +53,43 @@ describe('pressing stop ends the running entry', () => {
   })
 })
 
+describe("a start that touches the end of the profile's own entry continues that entry", () => {
+  // Stopped at 08:02:15, and started again in the same second: the two would touch, and touching entries are one
+  const stopped = (): TimeRecord =>
+    record([entry(at('2026-11-16', '07:58'), at('2026-11-16', '08:02:15'), { id: 'e1' })])
+
+  it('runs the entry on rather than starting a new one', () => {
+    const { record: after, click } = press(stopped(), JANITOR, moment('2026-11-16', '08:02:15'))
+
+    expect(after.entries).toEqual([{ ...stopped().entries[0], stop: null }])
+    expect(click).toEqual({ kind: 'continue', at: at('2026-11-16', '08:02:15'), continued: 'e1' })
+  })
+
+  it('starts a new entry a second later, when the two would not touch', () => {
+    const { record: after } = press(stopped(), JANITOR, moment('2026-11-16', '08:02:16'))
+
+    expect(after.entries).toHaveLength(2)
+  })
+
+  it('is undone by stopping it again where it stopped, its label a start', () => {
+    const { record: after, click } = press(stopped(), JANITOR, moment('2026-11-16', '08:02:15'))
+
+    expect(undo(after, click, moment('2026-11-16', '08:02:20'), UNDO_SECONDS)).toEqual(stopped())
+    expect(clickLabel(after, click)).toBe('start 08:02')
+  })
+
+  it('continues it in a switch too, the other profile stopped, and undoes both', () => {
+    const before = record([
+      entry(at('2026-11-16', '07:58'), at('2026-11-16', '08:02:15'), { id: 'e1' }),
+      entry(at('2026-11-16', '08:02:15'), null, { id: 'e2', profile: DEVELOPMENT }),
+    ])
+    const { record: after, click } = press(before, JANITOR, moment('2026-11-16', '08:02:15'))
+
+    expect(after.entries.filter((e) => e.stop === null).map((e) => e.id)).toEqual(['e1'])
+    expect(undo(after, click, moment('2026-11-16', '08:02:20'), UNDO_SECONDS)).toEqual(before)
+  })
+})
+
 describe('starting one profile while another runs switches, so at most one runs', () => {
   it('ends A and starts B at the same moment', () => {
     const before = record([entry(at('2026-11-16', '07:58'), null, { id: 'e1' })])
