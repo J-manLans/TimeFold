@@ -25,41 +25,41 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
   the profile on screen and whether its popup is open, the menu's one value open for editing (`openValue`), the profile
-  whose colour picker is open (`picking`), whose colours the wheel wears meanwhile, "Ny profil…" asking for the menu,
-  the last click and the machine's theme and motion; the edit popup's entry or gap (`editing`); its actions `load`,
-  `press`, `pickProfile`, `askNewProfile`, `setBreak`, `undo`, `stopLate`, `keepLate`, `openEdit`, `openGap`,
+  whose colour picker is open (`picking`), whose colours the wheel wears meanwhile, "Skapa ny profil" asking for the
+  menu, the last click and the machine's theme and motion; the edit popup's entry or gap (`editing`); its actions
+  `load`, `press`, `pickProfile`, `askNewProfile`, `setBreak`, `undo`, `stopLate`, `keepLate`, `openEdit`, `openGap`,
   `closeEdit`, `saveEdit`, `deleteEdited`, `switchTheme`, `switchMotion`, `saveSettings`, a record changed in the menu,
   and `takeAwayProfile`, a profile archived or deleted, change them through the rules and save them. The theme is shown
   by setting `color-scheme` on the page, Stilla by setting `data-still` on it; scripts that time something read
   `app.still`. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
   controls side, placing `ButtonBlock` (start/stop with its tip naming the profile a press stops, export and import, the
-  profile button), `ProfilePopup.svelte` (the profiles in use to put on screen, or "Ny profil…" alone), `StatusLine`
-  with `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field), `UndoButton` with its
-  `TipLabel`, `PruneLine` (the offer to prune, "Rensa" and "Inte nu"), the menu and `LatePopup.svelte`, the popup for a
-  running entry from an earlier day, and making the pointer light, which it also sweeps once at the onboarding's end: it
-  sets the light's place; a flat button catches it through `.plastic` in `base.css`, and each disc paints
-  `--pointer-light` itself. `menu/`: `Menu.svelte`, the menu button and the frosted panel it grows into, with
-  `ThemeButton`, `MotionButton.svelte` (the motion switch, also in the onboarding's note) and the tab row:
-  `ProfilerTab.svelte`, with `TaxRow.svelte` ("Efter skatt" and "Skatt och avgifter"), a `ProfileRow.svelte` per profile
-  (its circle and name, unfolding to `ColourField.svelte`, "Färg" with its pair and the colour picker, its pay and
-  "Arkivera", "Ta bort" or "Återställ"), "Ny profil" with its name field and "Arkiverade"; and Tid, holding Heltid in
-  `LockedValue.svelte` (a value locked behind "Ändra", its field, "Gäller från" when it changes the counting, a refusal
-  in the keys' place, and "Tidigare värden"), `SplitSlider.svelte` (Fördelning, with the date and buttons its first move
-  folds open) and `FlexCalendar.svelte`, the flex-day calendar with its padlock and the list of marked days beside it,
-  and locked open around `Onboarding.svelte`, the first start's onboarding with its ending's timeline, or
-  `Recovery.svelte`, the screen for a record that cannot be read; both use `ChoiceButton.svelte`, in `shared/`.
-  `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing the divider, and handing them the
-  panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar; `CeilingWheel.svelte`, the ceiling
-  wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the five newest entries;
-  `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its rows; `EntryRow.svelte`,
-  the row both lists share, which opens its entry in the edit popup. `edit/`: `EditPopup.svelte`, the edit popup over
-  "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker, the result in words, the break's field,
-  and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned
-  into its moves, the pill and the view easing to its fit; `ReasonPicker.svelte`, the closed reason field, its list of
-  at most seven lines, each reason's pen that renames or removes it, and "Annan orsak". `shared/`: what more than one
-  part uses, such as `Disc.svelte`, the dented disc of the profile, undo and theme buttons, and `ChoiceButton.svelte`,
-  the locked panel's and the popups' buttons with their tip.
+  profile button), `ProfilePopup.svelte` (the profiles in use to put on screen, or "Skapa ny profil" alone),
+  `StatusLine` with `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field),
+  `UndoButton` with its `TipLabel`, `PruneLine` (the offer to prune, "Rensa" and "Inte nu"), the menu and
+  `LatePopup.svelte`, the popup for a running entry from an earlier day, and making the pointer light, which it also
+  sweeps once at the onboarding's end: it sets the light's place; a flat button catches it through `.plastic` in
+  `base.css`, and each disc paints `--pointer-light` itself. `menu/`: `Menu.svelte`, the menu button and the frosted
+  panel it grows into, with `ThemeButton`, `MotionButton.svelte` (the motion switch, also in the onboarding's note) and
+  the tab row: `ProfilerTab.svelte`, with `TaxRow.svelte` ("Efter skatt" and "Skatt och avgifter"), a
+  `ProfileRow.svelte` per profile (its circle and name, unfolding to `ColourField.svelte`, "Färg" with its pair and the
+  colour picker, its pay and "Arkivera", "Ta bort" or "Återställ"), "Ny profil" with its name field and "Arkiverade";
+  and Tid, holding Heltid in `LockedValue.svelte` (a value locked behind "Ändra", its field, "Gäller från" when it
+  changes the counting, a refusal in the keys' place, and "Tidigare värden"), `SplitSlider.svelte` (Fördelning, with the
+  date and buttons its first move folds open) and `FlexCalendar.svelte`, the flex-day calendar with its padlock and the
+  list of marked days beside it, and locked open around `Onboarding.svelte`, the first start's onboarding with its
+  ending's timeline, or `Recovery.svelte`, the screen for a record that cannot be read; both use `ChoiceButton.svelte`,
+  in `shared/`. `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing the divider, and
+  handing them the panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar;
+  `CeilingWheel.svelte`, the ceiling wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the
+  five newest entries; `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its
+  rows; `EntryRow.svelte`, the row both lists share, which opens its entry in the edit popup. `edit/`:
+  `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker,
+  the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn
+  from the line's model, the pointer turned into its moves, the pill and the view easing to its fit;
+  `ReasonPicker.svelte`, the closed reason field, its list of at most seven lines, each reason's pen that renames or
+  removes it, and "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the
+  profile, undo and theme buttons, and `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added

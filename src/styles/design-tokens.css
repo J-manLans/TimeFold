@@ -17,6 +17,8 @@
   --font-display-weight: 700;
   /* All other text, on both sides */
   --font-text: 'JetBrains Mono Variable', 'Cascadia Mono', 'DejaVu Sans Mono', ui-monospace, monospace;
+  /* Every text that names no size of its own, as the prototype sets it: the menu's labels and values, a popup's rows */
+  --text-size-base: 14px;
   /* The quiet lines: what runs, the prune line, the short messages, the dashboard's labels */
   --text-size-note: 10.5px;
   /* The smaller sizes, by the part text plays; a part's own size token points at one, so one knob moves them all */
@@ -278,6 +280,10 @@
   --menu-tab-fade: var(--speed-ui); /* a tab's content fading in */
   --menu-panel-edge: 4px; /* room inside the panel's clip for focus rings at a tab's edges */
   --menu-check-size: 16px; /* "Efter skatt"'s box */
+  /* Its mark when checked, a shape --menu-check-ink is painted through, on the profile's neon */
+  --menu-check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23101318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --menu-check-mark-size: 100%;
+  --menu-check-ink: #ffffff; /* the mark's colour on the neon */
   --menu-check-gap: 8px; /* from the box to its words */
   /* A profile's row in Profiler, and "Arkiverade" under them */
   --menu-row-padding: 8px 10px; /* its head */
@@ -300,6 +306,7 @@
   --calendar-nav-gap: 6px;
   --calendar-nav-size: 16px; /* ‹ and › */
   --calendar-title-size: var(--text-size-ui);
+  --calendar-home-underline: 3px; /* the month's name underlined under the pointer, away from today's month */
   --calendar-weekday-size: 10.5px;
   --calendar-day-size: var(--text-size-small);
   --calendar-today-weight: 700;

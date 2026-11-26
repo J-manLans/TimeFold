@@ -2,9 +2,10 @@
   Fördelning, the slider that splits full time between the janitor's expected hours and the ceiling, a week at a time
   in quarter hours ("The other profiles share a ceiling"; "The menu has tabs, with every value locked behind "Ändra"").
   It has no "Ändra": its numbers follow it as it moves ("30h | 8h 15min"), and its first move folds open "från", the
-  date (the first of next month) and "Spara" and "Avbryt" under it. "Spara" or Enter saves; a refused split keeps its
-  date open with the reason in the warning red. "Avbryt", Esc or a click outside drops the move, the slider going back,
-  and folds it shut: <SplitSlider />
+  date (the first of next month) and "Spara" and "Avbryt" under it, which stay only while it holds a value other than
+  the one saved: moved back there, they fold shut again. "Spara" or Enter saves; a refused split keeps its date open with
+  the reason in the warning red. "Avbryt", Esc or a click outside drops the move, the slider going back, and folds it
+  shut: <SplitSlider />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
@@ -46,8 +47,12 @@
 
   // === Helpers ===
 
-  /** The first move folds open the date and the buttons */
+  /** The first move folds open the date and the buttons; moved back to the value saved, they fold shut again */
   function move(): void {
+    if (value === saved) {
+      if (moving) app.openValue = null
+      return
+    }
     if (!moving) {
       from = firstOfNextMonth(today)
       app.openValue = key
@@ -156,8 +161,11 @@
     margin-left: calc(var(--menu-label-width) + var(--menu-value-gap-inline));
   }
 
+  /* From the value's column to the panel's edge, never past it: stretched by the grid, its margin taken off */
   input[type='range'] {
-    width: 100%;
+    justify-self: stretch;
+    width: auto;
+    min-width: 0;
     accent-color: var(--profile-neon, var(--menu-text));
   }
 

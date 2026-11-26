@@ -50,7 +50,7 @@ import {
 /** Where the app is: loading, waiting for a fresh start, stopped by a file it cannot read, or ready to clock */
 export type Phase = 'loading' | 'welcome' | 'problem' | 'ready'
 
-/** The key of "Ny profil"'s name field among the menu's values, so the menu can open it when "Ny profil…" asks */
+/** The key of "Ny profil"'s name field among the menu's values, so the menu can open it when "Skapa ny profil" asks */
 export const NEW_PROFILE = 'new-profile'
 
 /**
@@ -100,7 +100,7 @@ class AppState {
   onScreen = $state('p1')
   /** Whether the profile popup is open ("One start/stop button and a profile list") */
   profilesOpen = $state(false)
-  /** Set when "Ny profil…" asks for the menu on Profiler with the name field ready; the menu clears it once there */
+  /** Set when "Skapa ny profil" asks for the menu on Profiler with the name field ready; the menu clears it once there */
   newProfileAsked = $state(false)
   /** The menu's one value open for editing, by its own key, or null: "Ändra" on another drops the open one */
   openValue = $state<string | null>(null)
@@ -334,7 +334,7 @@ class AppState {
     this.profilesOpen = false
   }
 
-  /** The popup closed and the menu asked to open on Profiler with "Ny profil" ready. Used by "Ny profil…" */
+  /** The popup closed and the menu asked to open on Profiler with "Ny profil" ready. Used by "Skapa ny profil" */
   askNewProfile(): void {
     this.profilesOpen = false
     this.newProfileAsked = true

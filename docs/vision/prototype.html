@@ -1546,7 +1546,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     app.style.setProperty("--accent", profColour(onScreen));
     app.style.setProperty("--state", stateColours(onScreen).letter);
     if (running) app.style.setProperty("--run", profColour(running.profile));
-    $("profileBtn").setAttribute("aria-disabled", "false");   // it always opens: the profiles, or "Ny profil…" alone
+    $("profileBtn").setAttribute("aria-disabled", "false");   // it always opens: the profiles, or "Skapa ny profil" alone
     var mine = running && running.profile === onScreen;
     swapText($("startLabel"), function (el) { el.textContent = mine ? "Stoppa jobb" : "Starta jobb"; });
     $("startBtn").classList.toggle("running", !!mine);
@@ -1722,7 +1722,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("profileBtn").addEventListener("click", function () {
     var list = $("popupList"); clear(list);
     if (activeProfiles().length < 2) {
-      var nb = document.createElement("button"); nb.type = "button"; nb.className = "pop-new"; nb.textContent = "Ny profil…";
+      var nb = document.createElement("button"); nb.type = "button"; nb.className = "pop-new"; nb.textContent = "Skapa ny profil";
       nb.addEventListener("click", function () { $("scrim").hidden = true; setMenu(true); openNew(); });
       list.appendChild(nb); $("scrim").hidden = false; return;
     }
@@ -3422,7 +3422,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     drawControls(); if ($("menu").classList.contains("open")) renderProfiles();
     // The open profile popup's circles too; its buttons are the active profiles, in order.
     if (!$("scrim").hidden) Array.prototype.forEach.call($("popupList").children, function (b, i) {
-      var d = b.querySelector(".mini-dot"); if (!d) return;   // "Ny profil…" has no circle
+      var d = b.querySelector(".mini-dot"); if (!d) return;   // "Skapa ny profil" has no circle
       var c = stateColours(activeProfiles()[i].id); d.style.color = c.letter; d.style.borderColor = c.ring;
     });
   }

@@ -13,9 +13,9 @@ list"), "Exportera" and "Importera" side by side under it, together as wide as i
 the profile button beside both, as tall as the two rows, a rectangle holding a raised disc set in a dent ("The look: a
 fresh display face, mono text and soft buttons") with the profile's first letter, capitalised, in the colour of where
 the profile stands ("Each profile carries its colours"), which opens a popup of the profiles, centred on the left side,
-or, with only one profile not archived, a popup holding "Ny profil…" alone, which opens the menu on Profiler with "Ny
-profil" already turned into its field; under the block, the status line naming what runs and since when, which keeps its
-room even when empty; under that, centred together, "Lägg till paus" (as wide as its text) and the round undo button
+or, with only one profile not archived, a popup holding "Skapa ny profil" alone, which opens the menu on Profiler with
+"Ny profil" already turned into its field; under the block, the status line naming what runs and since when, which keeps
+its room even when empty; under that, centred together, "Lägg till paus" (as wide as its text) and the round undo button
 ("The last click can be undone for a few seconds"); "Lägg till paus" ("Time away is a gap or an added break"), a
 smaller, quieter button, greyed out unless the profile on screen runs, whose length field opens in its place, text
 starting at the left; the menu button at the top left, and at the bottom the line that offers pruning ("Old history is
@@ -75,26 +75,26 @@ stands: up to five neon letters under the flex bar that already shows the standi
 rows without it. Today's entries only: empty every morning. A running entry kept out of both lists until it stops: a
 forgotten start, the commonest fix, is noticed while working, and stopping, fixing and starting again would split the
 entry. A small flex bar beside a large wheel: both are figures the owner reads every day. Figures beside the wheel
-(ceiling, used, left): the wheel already shows them. A label on the balance: the number alone is clear. "Ny profil…"
-always last in the profile popup: a line used a handful of times in a popup opened several times a day. A profile button
-that opens nothing with one profile: the first press there, looking for where to add one, got no answer. "Lägg till
-paus" at the bottom left: the prune line would push it up and down. A menu over the whole screen: it would hide the
-figures it changes. A drawer with a tab holding the icon: a fine picture, but more parts than the growing button. The
-icon riding to the panel's far corner as an ×: the close button would not be where the pointer is. A menu sliding in
-under a separate button: the icon would stay apart from the menu. A see-through menu always present: nothing needs it
-when closed. A fully light dashboard in the light theme: the dashboard look would be lost. A near-black panel in the
-light theme: it glared against the white controls. A mid-grey panel: its light text had too little contrast (2.6:1). A
-violet panel: also good, kept as the alternative. A gradient for the divider, fading from the controls side: tried in
-the prototype, and the owner preferred the line. A retro terminal look (green on black, scan lines): the owner wants the
-direction, not the costume.
+(ceiling, used, left): the wheel already shows them. A label on the balance: the number alone is clear. "Skapa ny
+profil" always last in the profile popup: a line used a handful of times in a popup opened several times a day. A
+profile button that opens nothing with one profile: the first press there, looking for where to add one, got no answer.
+"Lägg till paus" at the bottom left: the prune line would push it up and down. A menu over the whole screen: it would
+hide the figures it changes. A drawer with a tab holding the icon: a fine picture, but more parts than the growing
+button. The icon riding to the panel's far corner as an ×: the close button would not be where the pointer is. A menu
+sliding in under a separate button: the icon would stay apart from the menu. A see-through menu always present: nothing
+needs it when closed. A fully light dashboard in the light theme: the dashboard look would be lost. A near-black panel
+in the light theme: it glared against the white controls. A mid-grey panel: its light text had too little contrast
+(2.6:1). A violet panel: also good, kept as the alternative. A gradient for the divider, fading from the controls side:
+tried in the prototype, and the owner preferred the line. A retro terminal look (green on black, scan lines): the owner
+wants the direction, not the costume.
 
 **Revisit if:** the frosted blur is slow on WebKitGTK (then the panel is more opaque, without blur).
 
 **Cases:**
 
-- One profile: the profile button opens a popup of "Ny profil…" alone; pressed, the menu opens on Profiler with the name
-  field open. Three profiles: a popup of the three, centred on the left side.
-- Two profiles, one archived: the profile button opens "Ny profil…" alone.
+- One profile: the profile button opens a popup of "Skapa ny profil" alone; pressed, the menu opens on Profiler with the
+  name field open. Three profiles: a popup of the three, centred on the left side.
+- Two profiles, one archived: the profile button opens "Skapa ny profil" alone.
 - Menu open: the figures are still in view, and a profile's new colour shows on them at once.
 - Menu open, "Visa alla" pressed: the popup opens over it; Esc closes the popup and the menu is still open; Esc again
   closes the menu.

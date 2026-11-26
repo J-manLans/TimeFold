@@ -80,7 +80,7 @@
     }
   })
 
-  // "Ny profil…" in the profile popup opens the menu on Profiler with the name field ready. The menu alone takes the
+  // "Skapa ny profil" in the profile popup opens the menu on Profiler with the name field ready. The menu alone takes the
   // request up, so nothing else can clear it first
   $effect(() => {
     if (!app.newProfileAsked) return
@@ -323,7 +323,13 @@
     margin: 0 calc(-1 * var(--menu-panel-edge)) calc(-1 * var(--menu-panel-edge));
     padding: var(--menu-gap) var(--menu-panel-edge) var(--menu-panel-edge);
     overflow-y: auto;
+    scrollbar-width: none;
     animation: tab-fade var(--menu-tab-fade) ease;
+  }
+
+  /* It scrolls with the wheel, the touchpad and the keys, with no bar drawn */
+  .panel::-webkit-scrollbar {
+    display: none;
   }
 
   @keyframes tab-fade {

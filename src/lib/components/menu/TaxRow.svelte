@@ -125,11 +125,31 @@
     cursor: pointer;
   }
 
+  /* Drawn as the app's own, so every engine shows it alike (WebKitGTK's own put its mark off centre): a small square in
+     the menu's line; checked, filled with the neon of the profile on screen, its mark white, cut out of a square
+     centred in it */
   .check input {
+    display: grid;
+    flex: none;
     width: var(--menu-check-size);
     height: var(--menu-check-size);
     margin: 0;
-    accent-color: var(--profile-neon, var(--menu-text));
+    border: 1px solid var(--menu-button-line);
+    border-radius: var(--radius-tag);
+    background: none;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  .check input:checked {
+    border-color: var(--profile-neon, var(--menu-text));
+    background: var(--profile-neon, var(--menu-text));
+  }
+
+  .check input:checked::after {
+    content: '';
+    background: var(--menu-check-ink);
+    mask: var(--menu-check-mark) center / var(--menu-check-mark-size) no-repeat;
   }
 
   .label {
