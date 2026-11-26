@@ -25,8 +25,8 @@ by where on screen; each tagged by kind: **Broken** (does the wrong thing: repro
 ### Menu, Tid
 
 5. **Look.** Fördelning's slider is too long.
-6. **Feel.** Heltid saved with Enter unchanged (13:15 kept as 13:15) should just lock again, or say there is no change,
-   not ask for a date.
+6. **Feel.** Enter on an unchanged value, such as Heltid's 13:15 kept as 13:15, does what Esc or a click outside does:
+   the value locks again, nothing saved and no date asked. Every value behind "Ändra" alike (agreed).
 7. **Broken.** The flex-day calendar's month name, away from today's month, should underline under the pointer and bring
    the calendar back to today's month when clicked.
 
