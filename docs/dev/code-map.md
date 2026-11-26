@@ -24,14 +24,16 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   the profile on screen stands, which the profile letter and every focus ring wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
-  the profile on screen, the last click and the machine's theme and motion; the edit popup's entry or gap (`editing`);
-  its actions `load`, `press`, `setBreak`, `undo`, `stopLate`, `keepLate`, `openEdit`, `openGap`, `closeEdit`,
-  `saveEdit`, `deleteEdited`, `switchTheme` and `switchMotion` change them through the rules and save them. The theme is
-  shown by setting `color-scheme` on the page, Stilla by setting `data-still` on it; scripts that time something read
+  the profile on screen and whether its popup is open, "Ny profil…" asking for the menu, the last click and the
+  machine's theme and motion; the edit popup's entry or gap (`editing`); its actions `load`, `press`, `pickProfile`,
+  `askNewProfile`, `setBreak`, `undo`, `stopLate`, `keepLate`, `openEdit`, `openGap`, `closeEdit`, `saveEdit`,
+  `deleteEdited`, `switchTheme` and `switchMotion` change them through the rules and save them. The theme is shown by
+  setting `color-scheme` on the page, Stilla by setting `data-still` on it; scripts that time something read
   `app.still`. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
-  controls side, placing `ButtonBlock` (start/stop, export and import, the profile button), `StatusLine` with
-  `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field), `UndoButton` with its
+  controls side, placing `ButtonBlock` (start/stop with its tip naming the profile a press stops, export and import, the
+  profile button), `ProfilePopup.svelte` (the profiles in use to put on screen, or "Ny profil…" alone), `StatusLine`
+  with `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field), `UndoButton` with its
   `TipLabel`, `PruneLine`, the menu and `LatePopup.svelte`, the popup for a running entry from an earlier day, and
   making the pointer light, which it also sweeps once at the onboarding's end: it sets the light's place; a flat button
   catches it through `.plastic` in `base.css`, and each disc paints `--pointer-light` itself. `menu/`: `Menu.svelte`,
