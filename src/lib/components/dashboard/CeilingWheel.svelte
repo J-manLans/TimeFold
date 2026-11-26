@@ -56,7 +56,9 @@
   let trend = $derived(app.record ? ceilingTrend(app.record, today) : 0)
 
   // The wheel wears the profile on screen's colours, or the greys while that is the balance profile
-  let onScreen = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
+  // While a profile's colour picker is open, the wheel is that profile's ("Each profile carries its colours")
+  let wheelProfile = $derived(app.picking ?? app.onScreen)
+  let onScreen = $derived(app.record?.profiles.find((p) => p.id === wheelProfile))
   let grey = $derived(onScreen === undefined || onScreen.expectedMinutes !== undefined)
   let greys = $state<{ base: string; neon: string } | null>(null)
   let colours = $derived.by(() => {
@@ -135,7 +137,7 @@
     for (const piece of month.pieces) {
       const from = at
       const to = Math.min(at + piece.seconds, top)
-      const lit = piece.profile === app.onScreen
+      const lit = piece.profile === wheelProfile
       at += piece.seconds
       if (to <= from) continue
       const last = runs[runs.length - 1]

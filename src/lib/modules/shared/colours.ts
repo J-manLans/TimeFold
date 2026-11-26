@@ -52,6 +52,22 @@ export function hueOfStrip(strip: number): number {
 }
 
 /**
+ * Where an OKLCH hue sits on the picker's hue strip: the HSV hue of that hue at its most vivid. Used to open the picker
+ * where the profile's hue is, the inverse of `hueOfStrip` to within a degree.
+ * @returns 0 to under 360
+ */
+export function stripOfHue(hue: number): number {
+  const lightness = mostVividLightness(hue)
+  const [r, g, b] = lchToRgb([lightness, maxChroma(lightness, hue), hue])
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+  const spread = max - min
+  if (spread === 0) return 0
+  const sixth = max === r ? (g - b) / spread : max === g ? (b - r) / spread + 2 : (r - g) / spread + 4
+  return (sixth * 60 + 360) % 360
+}
+
+/**
  * A new profile's hue: the middle of the largest gap between the hues in use, each profile using two, its own and the
  * opposite one its neon has ("Each profile carries its colours"). Used by "Ny profil": beside a hue of 195 alone, 105
  * or 285.

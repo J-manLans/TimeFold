@@ -1,13 +1,15 @@
+import fc from 'fast-check'
 import { describe, expect, it } from 'vitest'
 import {
+  baseColour,
   colourRoles,
   dimmed,
   faded,
   FIRST_HUE,
   hueOfStrip,
-  baseColour,
   inkOn,
   neonColour,
+  stripOfHue,
 } from '$lib/modules/shared/colours'
 
 // === Constants ===
@@ -68,5 +70,20 @@ describe('a profile’s colours by role', () => {
 describe('the pill writes black on a neon where it reads, white otherwise', () => {
   it('writes white on #3d5afe, where black is 4.1:1, and black on #00e4fd', () => {
     expect([inkOn('#3d5afe'), inkOn('#00e4fd')]).toEqual(['#ffffff', '#000000'])
+  })
+})
+
+describe("a new profile's thumb sits on the strip where its hue is most vivid", () => {
+  it('places the cyan of 195 at 180 on the strip', () => {
+    expect(stripOfHue(195)).toBeCloseTo(180, 0)
+  })
+
+  it('places any hue where the strip gives it back to within 2.5°', () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 0, max: 359 }), (hue) => {
+        const off = Math.abs(hueOfStrip(stripOfHue(hue)) - hue)
+        expect(Math.min(off, 360 - off)).toBeLessThanOrEqual(2.5)
+      }),
+    )
   })
 })

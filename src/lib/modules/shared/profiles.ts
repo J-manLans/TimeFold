@@ -3,7 +3,7 @@
  * "A profile with hours is archived, one without is deleted"). Pure: each change returns a new record.
  */
 
-import { baseColour, largestGapHue } from '$lib/modules/shared/colours'
+import { baseColour, largestGapHue, stripOfHue } from '$lib/modules/shared/colours'
 import type { Profile, TimeRecord } from '$lib/modules/shared/record'
 
 // ======================================
@@ -59,7 +59,13 @@ export function addProfile(
     record.profiles.map((p) => p.hue),
     random,
   )
-  const profile: Profile = { id, name: name.trim(), hue, base: baseColour(hue) }
+  const profile: Profile = {
+    id,
+    name: name.trim(),
+    hue,
+    base: baseColour(hue),
+    strip: Math.round(stripOfHue(hue)) % 360,
+  }
   return { record: { ...record, profiles: [...record.profiles, profile] }, id }
 }
 

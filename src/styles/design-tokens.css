@@ -30,7 +30,7 @@
   --radius-button: 5px; /* the button block, "Lägg till paus" */
   --radius-small: 6px; /* fields, small buttons, the warning label, menu controls, entry rows */
   --radius-panel: 12px; /* popups and cards */
-  --radius-tag: 4px; /* tags and marks, the colour picker's map */
+  --radius-tag: 4px; /* tags and marks, the colour picker's swatches */
 
   /* === Motion === */
   --speed-ui: 0.2s; /* every small transition: hover, press, fades, the menu, tabs, rows, the theme */
@@ -368,8 +368,13 @@
 
   /* === Controls: the colour picker === */
   --picker-background: light-dark(#e6ecf4, #2a2d33);
-  --picker-width: 236px;
-  --picker-map-height: 140px;
+  --picker-padding: 10px;
+  --picker-gap: 10px; /* between the strip and the two codes */
+  --picker-strip-height: 14px; /* the hue strip */
+  --picker-swatch: 20px; /* the small swatch before each code */
+  --picker-code-width: 9ch;
+  --picker-pair-swatch: 18px; /* each of the pair a profile's row shows beside "Färg" */
+  --picker-pair-gap: 4px;
 
   /* === Dashboard: every entry ("Visa alla") === */
   --all-entries-scrim: rgb(0 0 0 / 0.45);
