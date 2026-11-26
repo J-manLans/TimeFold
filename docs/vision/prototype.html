@@ -2715,16 +2715,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   $("rcMain").addEventListener("click", function () {
     if (recoverKind === "newer") { window.open("https://github.com/J-manLans/TimeFold/releases", "_blank"); return; }
     if (recoverKind === "bare") { $("recover").hidden = true; $("onboard").hidden = false; $("obBal").value = ""; $("obName").value = ""; $("obBalRead").textContent = ""; obStep("balance"); return; }
-    // "Använd kopian": the words fade, the panel turns to frost and folds away, as at the onboarding's end
+    // "Använd kopian": a repair, not a welcome. The panel closes as the menu closes, and the screen is ready at once,
+    // the profile's letter back on its button
     var css = getComputedStyle(app), secs = function (n) { return still() ? 0 : parseFloat(css.getPropertyValue(n)) * 1000 || 0; };
-    $("recover").classList.add("fading"); app.classList.add("locked");
-    setTimeout(function () {
-      $("menu").classList.add("ob-frosting"); $("menu").classList.remove("ob-solid");
-      setTimeout(function () {
-        $("menu").classList.remove("ob-frosting"); onboarding = false; setMenu(false); $("copyLabel").hidden = true;
-        setTimeout(function () { $("menu").classList.remove("onboarding"); $("recover").hidden = true; app.classList.remove("locked"); recoverKind = null; }, secs("--speed-menu"));
-      }, secs("--ob-frost-in"));
-    }, secs("--speed-ui"));
+    onboarding = false; setMenu(false); $("copyLabel").hidden = true;
+    $("profileDot").classList.remove("waiting"); drawControls();
+    setTimeout(function () { $("menu").classList.remove("onboarding", "ob-solid"); $("recover").hidden = true; recoverKind = null; }, secs("--speed-menu"));
   });
   $("simBroken").addEventListener("click", function () { startRecovery("copy"); });
   $("simBrokenBare").addEventListener("click", function () { startRecovery("bare"); });
