@@ -40,6 +40,17 @@ describe('the profile on screen at close is kept with the machine', () => {
   })
 })
 
+describe('"Fortfarande igång" is kept with the machine, as the entry and the day it was answered', () => {
+  it('reads it, and leaves out one of the wrong shape', () => {
+    expect(readSettings('{"lateKept":{"entry":"e1","day":"2026-11-17"}}')).toEqual({
+      theme: 'system',
+      motion: 'system',
+      lateKept: { entry: 'e1', day: '2026-11-17' },
+    })
+    expect(readSettings('{"lateKept":{"entry":"e1"}}')).toEqual({ theme: 'system', motion: 'system' })
+  })
+})
+
 describe('no settings file, or one that cannot be read, means System for both', () => {
   it('gives System when there is no file yet', () => {
     expect(readSettings(null)).toEqual({ theme: 'system', motion: 'system' })

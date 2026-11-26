@@ -106,7 +106,7 @@ runs, and pairs the two quiet controls.
 - Stop at 15:40, the app closed and opened again at 15:40:05: the undo is faded; the last click lives only in the
   running app, never in the record.
 
-## A running entry from an earlier day asks (2026-11-18)
+## A running entry from an earlier day asks (2026-11-27)
 
 **Decision:** nothing stops an entry by itself. During the day, the stop click is the only signal of when work ended.
 When the app opens on a later date than a still-running entry started, it says so: when it started ("Startad igår", or
@@ -114,28 +114,36 @@ for an older day its weekday and date, "Startad lördag 14 november") and which 
 sedan igår 21:30.") in a popup centred on the controls side, so the figures stay in view, with a line saying that if it
 is a mistake, press Stoppa and correct the entry ("Editing an entry on its line"). It offers two answers: **Stoppa**
 stops the running entry as the start/stop button does, undo included, whichever profile is on screen; **Fortfarande
-igång** closes the popup and the entry runs on. Nothing is remembered: the next opening on a later date asks again. The
-check is made only when the app opens, never while it runs. The popup's words are settled when it is drawn in the
-prototype.
+igång** closes the popup and the entry runs on, remembered with the machine for that entry until the date changes:
+opening the app again that day asks nothing, and if the entry still runs on a later day, it asks again. The check is
+made only when the app opens, never while it runs. The popup's words are settled when it is drawn in the prototype.
 
 **Why:** late work from home can cross midnight, so a running entry is not always a mistake; but usually it is, and the
 owner should hear of it at once, not find it in the report. Opening is the one moment the app can tell without guessing:
 while it runs, it cannot know whether the owner is still there, and asking at the first click after midnight would
 interrupt real night work. Stoppa is the true answer when work has just ended; when the entry was forgotten, it is put
 right where every mistake is, on its line, not on a screen of its own. Reusing the button's stop brings its undo along.
+The popup is the only thing that catches a forgotten stop: nothing stops an entry by itself, and the figures move only
+when it stops, so an entry left running looks like any other until it lands as one huge entry. Its moment is the morning
+after, a "Fortfarande igång" from the evening before forgotten; within the day the neon ring on "Stoppa jobb" and the
+status line say what runs, so asking again the same day only nags, while asking again the next day keeps the net under
+the morning.
 
 **Rejected:** stopping the entry at midnight: it records an end that is false but looks believable, and the app may not
 be running at midnight. Doing nothing until a correction: the mistake surfaces too late. "Jag slutade …" with a time,
 from a clock picker or typed: a second way to correct an entry, beside the line that already does it. Asking also while
-the app runs, at the first click on a later date: it guesses whether the owner is there. Remembering "Fortfarande igång"
-until the next change of date: an opening asks once, so there is nothing to remember. A notice also when stopping an
-entry from an earlier day: it guards against a slip the owner sees in the list anyway.
+the app runs, at the first click on a later date: it guesses whether the owner is there. Asking at every opening,
+remembering nothing: reopening the app the same day asked again about what the neon ring already shows. Never asking
+again about an entry once answered: one "Fortfarande igång" pressed by habit would let a forgotten entry run for days
+unseen. A notice also when stopping an entry from an earlier day: it guards against a slip the owner sees in the list
+anyway.
 
 **Revisit if:** a forgotten entry, with the app left open overnight, slips through unnoticed.
 
 **Cases:**
 
-- Fortfarande igång: the entry runs on; closing and opening the app again today shows the popup again.
+- Fortfarande igång on 17 November: the entry runs on; opening the app again that day asks nothing; still running on 18
+  November, it asks again.
 - App left open across midnight, clicked at 07:00: no popup.
 - The popup showing, Tab pressed again and again: the focus moves only between Stoppa and Fortfarande igång, never to
   the dashboard or the menu button.

@@ -8,11 +8,17 @@
 import { localDay, timeOfDay } from '$lib/modules/shared/counting'
 import { dayInWords } from '$lib/modules/shared/dates'
 import { durationText } from '$lib/modules/shared/timeInput'
-import { nextId, toTimestamp, type Entry, type Timestamp, type TimeRecord } from '$lib/modules/shared/record'
+import { nextId, toTimestamp, type Entry, type Timestamp, type TimeRecord, type Day } from '$lib/modules/shared/record'
 
 // ======================================
 //                 API
 // ======================================
+
+/** The entry "Fortfarande igång" was answered for, and the day: it is not asked about again that day */
+export interface LateKept {
+  entry: string
+  day: Day
+}
 
 /** What a click did, kept by the app (never in the record) so it can be undone */
 export type Click =
@@ -63,13 +69,18 @@ export function press(record: TimeRecord, profileId: string, now: Date): { recor
 }
 
 /**
- * The running entry, if it started on an earlier day than `now`, on this machine's calendar. Used when the app opens,
- * never while it runs: an entry started 2026-11-16 21:30 and opened on 2026-11-17 is found; one started today is not.
+ * The running entry to ask about when the app opens: one started on an earlier day than `now`, on this machine's
+ * calendar, unless "Fortfarande igång" was answered for it today ("A running entry from an earlier day asks"). Used when
+ * the app opens, never while it runs: an entry started 2026-11-16 21:30 is asked about on 2026-11-17 at 07:00; kept that
+ * day, not again until 2026-11-18.
+ * @param kept - the entry "Fortfarande igång" was last answered for, and the day, from the machine's settings
  */
-export function runningSinceEarlierDay(record: TimeRecord, now: Date): Entry | null {
+export function runningSinceEarlierDay(record: TimeRecord, now: Date, kept?: LateKept): Entry | null {
   const running = record.entries.find((e) => e.stop === null)
   if (running === undefined) return null
-  return localDay(Date.parse(running.start)) < localDay(now.getTime()) ? running : null
+  const today = localDay(now.getTime())
+  if (kept?.entry === running.id && kept.day === today) return null
+  return localDay(Date.parse(running.start)) < today ? running : null
 }
 
 /**
