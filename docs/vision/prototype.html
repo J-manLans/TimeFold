@@ -19,6 +19,7 @@
   --r-btn: 5px;          /* Starta jobb, the profile button, Exportera/Importera, Lägg till paus */
   --r-small: 6px;        /* fields, small buttons, the warning label, menu controls */
   --r-panel: 12px;       /* the app window, popups, cards */
+  --r-tag: 4px;          /* tags ("paus", the percentage), colour swatches, the edit's pickers and the list's buttons */
   --border-w: 0px;       /* borders on buttons and fields */
   /* Buttons */
   --btn-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.14);   /* was 5px 5px 20px 0.3; flatter: 0 1px 3px rgba(0, 0, 0, 0.08) */
@@ -37,6 +38,14 @@
   --display: "Bricolage Grotesque", "Arial", sans-serif;  --display-stretch: 50%;  --display-weight: 700;
   --size-start: 38px;  --size-balance: 46px;  --size-wheel: 34px;
   --size-note: 10.5px;   /* the quiet lines: what runs ("Vaktmästare pågår sedan") and the prune line */
+  /* The smaller text, shared: each size is used wherever text plays that part, so one knob moves them all */
+  --size-label: 11px;    /* the smallest: tags, the keys under a field, headings in capitals, month lines, a line's reason */
+  --size-small: 12px;    /* small buttons and fields, earlier values, hints, the edit's times and pickers, the calendar's days */
+  --size-body: 12.5px;   /* the entry lines, the edit's head, "Lägg till paus" and its field */
+  --size-ui: 13px;       /* the tabs, Exportera/Importera, the pay, the calendar's month, a handle's ± */
+  --heading-tracking: 0.08em;   /* headings in capitals: Profil, Arkiverade, the menu's and the late popup's */
+  --pad-tag: 0 5px;      /* inside a tag: "paus", "arkiverad" */
+  --pad-small: 3px 8px;  /* inside a small button: Ändra, Ny profil, the prune line's, the edit's list */
   /* Text on the control side: everything except the big ones (Starta jobb, the profile letter). The figures side
      keeps the mono.
      Fonts to try, all loaded: "Tektur" (with --text-stretch 75% or 100%), "Chakra Petch", "Oxanium", "Rajdhani",
@@ -100,6 +109,11 @@
   --lv-note-gap: 14px;    /* from a value to its quieter note, such as Heltid's weekday */
   /* A profile's colours in its menu row: the pair it wears, beside "Ändra" */
   --pair-swatch: 18px;    /* each of the two small swatches, the base and the neon */
+  /* "Ny profil": a taken name's note under the field, in the neon of the profile on screen */
+  --name-warn-size: var(--size-note);   /* the note's text */
+  --name-warn-gap: 8px;   /* from the field down to the note */
+  /* "Arkiverade": the folded section at the bottom of Profiler */
+  --arch-gap: 14px;       /* from the line above (Ny profil) down to its head */
   /* Today's pie, beside the status line ("Worked today" in the toolbar) */
   --pie: 40px;            /* its size */
   --pie-gap: 10px;        /* from the end of the status text */
@@ -305,10 +319,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 }
 .profile-btn[aria-disabled="true"] { cursor: default; }
 .pair { grid-area: pair; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.pair button { font: inherit; font-size: 13px; font-weight: 600; }
+.pair button { font: inherit; font-size: var(--size-ui); font-weight: 600; }
 
 /* The warning label that follows the pointer over the start button */
-.tip { position: fixed; z-index: 50; pointer-events: none; padding: 4px 9px; border-radius: var(--r-small); font-size: 12px; background: rgba(13, 16, 20, 0.78); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); color: #e6eaf0; border: 1px solid var(--tipc, #e80003); white-space: nowrap; opacity: 0; transition: opacity var(--speed-fade) ease; }
+.tip { position: fixed; z-index: 50; pointer-events: none; padding: 4px 9px; border-radius: var(--r-small); font-size: var(--size-small); background: rgba(13, 16, 20, 0.78); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); color: #e6eaf0; border: 1px solid var(--tipc, #e80003); white-space: nowrap; opacity: 0; transition: opacity var(--speed-fade) ease; }
 .tip.show { opacity: 1; }
 .app.still .tip { transition: none; }
 .status { font-size: var(--size-note); color: var(--c-muted); height: 16px; line-height: 16px; } /* keeps its room even when empty */
@@ -325,14 +339,14 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @keyframes undo-fade { from { opacity: var(--undo-afterglow); } to { opacity: 0; } }
 .undo-btn .undo-icon { position: relative; z-index: 3; }
 .app.still .undo-btn.live .dot::after { animation: none; opacity: var(--undo-afterglow); }
-.pause { font: inherit; font-size: 12.5px; font-weight: 600; padding: 0 14px; height: 30px; }
+.pause { font: inherit; font-size: var(--size-body); font-weight: 600; padding: 0 14px; height: 30px; }
 .pair .plastic:disabled { opacity: var(--disabled-o); cursor: default; }
 .pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
 .pause-field input:focus, .pause-field input:focus-visible { outline: var(--focus-w) solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
-.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: 12.5px; text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
-.pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: 12px; color: var(--c-muted); white-space: nowrap; pointer-events: none; }
-.pause-field button { font: inherit; font-size: 12px; height: 28px; padding: 0 10px; border-radius: var(--r-small); }
+.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: var(--size-body); text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
+.pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: var(--size-small); color: var(--c-muted); white-space: nowrap; pointer-events: none; }
+.pause-field button { font: inherit; font-size: var(--size-small); height: 28px; padding: 0 10px; border-radius: var(--r-small); }
 .status .live { color: var(--run, #e80003); }
 /* The status text and today's pie are one row, centred together; it keeps the pie's room, so nothing moves when it shows */
 .status-row { display: flex; align-items: center; justify-content: center; gap: var(--pie-gap); height: var(--pie); }
@@ -344,7 +358,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @keyframes pie-click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
 .app.still .today-pie path.fresh { animation: none; }
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
+.prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
 .prune .spacer { flex: 1; }
 /* "Rensa" removes, as "Ta bort" does: red text, and a red border with "Rensa?" once clicked */
 #pruneYes { color: var(--c-remove); border-color: transparent; }
@@ -405,7 +419,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .app .menu .onboard input.ob-lone:focus, .app .menu .onboard input.ob-lone:focus-visible { outline: none; }
 .app .menu .onboard input.ob-bal { font-family: var(--display); font-stretch: var(--display-stretch); font-weight: var(--display-weight); font-size: var(--size-balance); font-variant-numeric: tabular-nums; line-height: 1.1; }
 .app .menu .onboard input.ob-name { font-family: var(--mono); font-size: var(--ob-name); }
-.ob-reading { min-height: 1.3em; font-size: 12px; color: var(--c-muted); }
+.ob-reading { min-height: 1.3em; font-size: var(--size-small); color: var(--c-muted); }
 /* A record that cannot be read: the words, then the choices, then a quiet note, centred in the locked panel. */
 .recover { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--rc-gap); padding: 0 24px; text-align: center; transition: opacity var(--speed-ui) ease; }
 .recover.fading { opacity: 0; }
@@ -463,19 +477,19 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu .tabpanel { min-height: 0; overflow-y: auto; padding: 20px 4px 4px; margin: 0 -4px -4px; }
 .menu.open .body { opacity: 1; transition: opacity var(--speed-ui) ease calc(var(--speed-ui) / 2); }
 .menu section { display: grid; gap: 10px; }
-.menu h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); font-weight: 600; }
+.menu h3 { margin: 0; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); font-weight: 600; }
 .menu .line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .menu .line > span:first-child { min-width: 86px; }
 .menu input[type="color"] { width: 40px; height: 30px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); padding: 2px; background: var(--c-btn); cursor: pointer; }
-.menu .small { font: inherit; font-size: 12px; background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: 3px 8px; cursor: pointer; }
+.menu .small { font: inherit; font-size: var(--size-small); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
 .menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); width: 150px; }
 .plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .plist li { display: flex; align-items: center; gap: 10px; }
-.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--c-fg); display: grid; place-items: center; font-size: 11px; font-weight: 600; text-box: trim-both cap alphabetic; }
+.mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--c-fg); display: grid; place-items: center; font-size: var(--size-label); font-weight: 600; text-box: trim-both cap alphabetic; }
 
 /* Menu tabs */
 .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--c-line); }
-.tab { font: inherit; font-size: 13px; padding: 7px 10px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--c-muted); cursor: pointer; }
+.tab { font: inherit; font-size: var(--size-ui); padding: 7px 10px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--c-muted); cursor: pointer; }
 .tab[aria-selected="true"] { color: var(--c-fg); border-bottom-color: var(--accent, var(--c-fg)); }
 .tabpanel { display: grid; gap: 14px; align-content: start; animation: tabfade var(--speed-tab) ease; }
 @keyframes tabfade { from { opacity: 0; } to { opacity: 1; } }
@@ -499,10 +513,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .app.still .lv-grow, .app.still .lv-grow-clip { transition: none; }
 .lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
 .lv input[type="date"] { width: auto; }
-.lv .keys, .menu .line .keys { font-size: 11px; color: var(--c-muted); }
+.lv .keys, .menu .line .keys { font-size: var(--size-label); color: var(--c-muted); }
 .lv .keys.warn { color: var(--f-remove); }   /* a refused value's warning, such as a week not in quarter hours */
 .lv-hist-btn { justify-self: start; font: inherit; font-size: 11.5px; background: none; border: 0; padding: 0; color: var(--c-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-.lv-hist { list-style: none; margin: 0; padding: 0 0 0 2px; display: grid; gap: 3px; font-size: 12px; color: var(--c-muted); }
+.lv-hist { list-style: none; margin: 0; padding: 0 0 0 2px; display: grid; gap: 3px; font-size: var(--size-small); color: var(--c-muted); }
 .split { display: grid; gap: 6px; }
 .split input[type="range"] { width: 100%; accent-color: var(--accent, var(--c-fg)); }
 /* The flex-day calendar in Tid: outlined days; marked ones in the balance profile's base colour; weekends greyed out.
@@ -512,7 +526,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .cal-wrap { display: flex; flex-wrap: wrap; align-items: start; gap: 16px var(--cal-side-gap); }
 .cal-body { display: grid; gap: var(--cal-head-gap); width: calc(7 * var(--cal-cell) + 6 * var(--cal-gap)); }
 .cal-head { display: flex; align-items: center; gap: 6px; height: var(--cal-head-h); }
-.cal-title { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; }
+.cal-title { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--size-ui); }
 .cal-lock { display: grid; place-items: center; width: calc(var(--cal-lock) + 8px); height: calc(var(--cal-lock) + 8px); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
 .cal-lock:hover, .cal-lock.open { color: var(--c-fg); }
 /* The month's name away from today's month: plain until hovered, then underlined, as "Tidigare värden" is */
@@ -523,27 +537,46 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .cal-nav:hover { color: var(--c-fg); }
 .cal-grid { display: grid; grid-template-columns: repeat(7, var(--cal-cell)); gap: var(--cal-gap); justify-content: start; }
 .cal-wd { font-size: 10.5px; height: var(--cal-wd-h); line-height: var(--cal-wd-h); color: var(--c-muted); text-align: center; }
-.cal-day { font: inherit; font-size: 12px; width: var(--cal-cell); height: var(--cal-cell); padding: 0; border: 1px solid var(--c-line); border-radius: var(--r-small); background: none; color: var(--c-fg); cursor: pointer; font-variant-numeric: tabular-nums; }
+.cal-day { font: inherit; font-size: var(--size-small); width: var(--cal-cell); height: var(--cal-cell); padding: 0; border: 1px solid var(--c-line); border-radius: var(--r-small); background: none; color: var(--c-fg); cursor: pointer; font-variant-numeric: tabular-nums; }
 .cal-day:disabled { opacity: var(--disabled-o); cursor: default; }
 .cal-day.today { font-weight: 700; }
 .cal-day.marked { background: var(--flex-base); border-color: var(--flex-base); color: var(--cal-ink); }
 /* Each line of the list, a wrapped one too, is a day's height with the days' gap, so it sits level with a week. */
-.cal-ahead { flex: 1; min-width: 110px; display: grid; gap: var(--cal-gap); align-content: start; line-height: var(--cal-cell); padding-top: calc(var(--cal-head-h) + var(--cal-head-gap) + var(--cal-wd-h) + var(--cal-gap)); font-size: 12px; color: var(--c-muted); font-variant-numeric: tabular-nums; }
+.cal-ahead { flex: 1; min-width: 110px; display: grid; gap: var(--cal-gap); align-content: start; line-height: var(--cal-cell); padding-top: calc(var(--cal-head-h) + var(--cal-head-gap) + var(--cal-wd-h) + var(--cal-gap)); font-size: var(--size-small); color: var(--c-muted); font-variant-numeric: tabular-nums; }
 /* In the narrow window the list sits under the calendar, its lines straight after the last week, a head gap apart. */
 .app.narrow .cal-wrap { flex-direction: column; gap: var(--cal-head-gap); }
 .app.narrow .cal-ahead { padding-top: 0; }
 .cal-month { display: grid; grid-template-columns: 3.5ch 1fr; gap: 8px; }
 .cal-nums { display: flex; flex-wrap: wrap; gap: var(--cal-gap) 8px; }
-.cal-year { font-size: 11px; font-weight: 700; }
+.cal-year { font-size: var(--size-label); font-weight: 700; }
 .cal-link { font: inherit; background: none; border: 0; padding: 0; color: var(--c-fg); cursor: pointer; }
 /* Profile rows: open in place */
 .prows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .prow { border: 1px solid var(--c-line); border-radius: var(--r-small); }
 .prow-head { width: 100%; display: flex; align-items: center; gap: 10px; font: inherit; text-align: left; padding: 8px 10px; background: none; border: 0; color: var(--c-fg); cursor: pointer; }
-.prow-head .mark { font-size: 11px; color: var(--c-muted); border: 1px solid var(--c-line); border-radius: 4px; padding: 0 5px; }
+.prow-head .mark { font-size: var(--size-label); color: var(--c-muted); border: 1px solid var(--c-line); border-radius: var(--r-tag); padding: var(--pad-tag); }
 .prow-head .chev { margin-left: auto; color: var(--c-muted); transition: transform var(--speed-fade) ease; }
 .prow.open .chev { transform: rotate(90deg); }
 .prow.archived .prow-head { opacity: 0.55; }
+/* "Arkivera" and "Ta bort" ask once: the word gets its "?" and a border; "Ta bort" in removal red throughout */
+.menu .small .q { visibility: hidden; }
+.menu .small.ask .q { visibility: visible; }
+.menu .small.ask { border-color: var(--c-fg); }
+.menu .small.remove { color: var(--f-remove); border-color: transparent; }
+.menu .small.remove.ask { border-color: var(--f-remove); }
+/* "Ny profil"'s taken-name note: centred under the field, wider than it if it must, without moving it; the keys
+   beside the field stay level with it */
+#newLine { align-items: baseline; }
+.new-field { display: inline-grid; row-gap: var(--name-warn-gap); }
+.new-warn { justify-self: center; width: 0; display: flex; justify-content: center; white-space: nowrap; font-size: var(--name-warn-size); color: var(--accent, var(--c-fg)); }
+/* "Arkiverade": folded shut under the profiles, opening as a profile row does; gone while nothing is archived */
+.arch { margin-top: var(--arch-gap); }
+.arch-head { display: flex; align-items: center; gap: 8px; width: 100%; font: inherit; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); font-weight: 600; text-align: left; padding: 4px 0; background: none; border: 0; color: var(--c-muted); cursor: pointer; }
+.arch-head .chev { transition: transform var(--speed-fade) ease; }
+.arch.open .arch-head .chev { transform: rotate(90deg); }
+.arch.open > .prow-wrap { grid-template-rows: 1fr; }
+.arch.open > .prow-wrap > .prow-clip { opacity: 1; }
+.arch .prows { padding-top: 6px; }
 /* A row unfolds and folds: its body's height animates from 0 to its own size, and fades. */
 .prow-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--speed-row) cubic-bezier(.2, .7, .2, 1); }
 .prow.open .prow-wrap { grid-template-rows: 1fr; }
@@ -563,33 +596,33 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pg-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent, var(--c-fg)); }
 .pg-label { margin-left: var(--lv-note-gap); color: var(--c-muted); }
 /* The percentage as a tag, and its field in the same border, as the edit's "paus" tag */
-.pg-tag, .menu input.pg-in[type="text"] { font: inherit; font-size: 12px; color: var(--c-fg); background: none; border: 1px solid var(--c-line); border-radius: 4px; padding: 1px 6px; }
+.pg-tag, .menu input.pg-in[type="text"] { font: inherit; font-size: var(--size-small); color: var(--c-fg); background: none; border: 1px solid var(--c-line); border-radius: var(--r-tag); padding: 1px 6px; }
 .pg-tag { cursor: pointer; font-variant-numeric: tabular-nums; }
 .pg-tag:hover { border-color: var(--c-fg); }
 .menu input.pg-in[type="text"] { width: 5ch; box-sizing: content-box; outline: none; text-transform: none; letter-spacing: normal; }
 @supports (field-sizing: content) { .menu input.pg-in[type="text"] { width: auto; field-sizing: content; min-width: 2ch; } }
 .menu input.pg-in.warn[type="text"] { color: var(--f-remove); border-color: var(--f-remove); }
 .swatch-pair { display: inline-flex; gap: 4px; }
-.swatch-pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
+.swatch-pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: var(--r-tag); border: 1px solid var(--c-btn-line); }
 .cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); }
 .cpick .hue { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: var(--cp-strip-h); margin: 0; border-radius: calc(var(--cp-strip-h) / 2); background: var(--cp-strip); }
 .cpick .hue::-webkit-slider-thumb { -webkit-appearance: none; width: var(--cp-thumb); height: var(--cp-thumb); border-radius: 50%; background: var(--cp-neon, #fff); border: 0; box-shadow: var(--knob-shadow); }
 .cpick .hue::-moz-range-thumb { width: var(--cp-thumb); height: var(--cp-thumb); box-sizing: border-box; border-radius: 50%; background: var(--cp-neon, #fff); border: 0; box-shadow: var(--knob-shadow); }
 .cpick .cp-pair { display: grid; gap: 6px; }
 .cpick .cp-row { display: flex; align-items: center; gap: 8px; }
-.cpick .cp-now { width: var(--cp-swatch); height: var(--cp-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); flex: none; }
+.cpick .cp-now { width: var(--cp-swatch); height: var(--cp-swatch); border-radius: var(--r-tag); border: 1px solid var(--c-btn-line); flex: none; }
 .cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 3px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: text; }
 
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
 .popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; }
 .late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; }
-.late h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
+.late h3 { margin: 0; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); }
 .late p { margin: 0; max-width: var(--late-width); text-wrap: balance; }
 .late .late-line { font-size: var(--late-line); }
 .late .late-note { font-size: var(--size-note); color: var(--c-muted); }
 .late .late-buttons { display: flex; gap: var(--block-gap); }
-.popup h3 { margin: 4px 8px 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); }
+.popup h3 { margin: 4px 8px 6px; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); }
 .popup button { display: flex; gap: 10px; align-items: center; font: inherit; text-align: left; padding: 8px; border: 0; border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: pointer; }
 .popup button:hover, .popup button[aria-current="true"] { background: var(--popup-pick); }
 
@@ -610,7 +643,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @keyframes breathe { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(1.6); } }
 .wheelbox { display: grid; justify-items: center; gap: 6px; }
 .wheelbox svg { width: 200px; height: 200px; display: block; }
-.pay { font-size: 13px; color: var(--f-muted); font-variant-numeric: tabular-nums; }
+.pay { font-size: var(--size-ui); color: var(--f-muted); font-variant-numeric: tabular-nums; }
 .allpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 8; }
 .allpop .card, .edpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; border: 1px solid var(--f-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: 10px; }
 .allpop .card header { display: flex; justify-content: space-between; align-items: center; }
@@ -623,22 +656,21 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .edpop.peek .card { opacity: var(--ed-peek); }
 .app.still .edpop, .app.still .edpop .card { transition: none; }
 .edit { display: grid; gap: 10px; }
-.ed-head { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+.ed-head { display: flex; align-items: center; gap: 10px; font-size: var(--size-body); }
 .ed-head .spacer { flex: 1; }
-.ed-head select { font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 2px 6px; }
-.ed-times { font-size: 12px; color: var(--f-muted); min-height: 1.3em; }
+.ed-head select { font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 2px 6px; }
+.ed-times { font-size: var(--size-small); color: var(--f-muted); min-height: 1.3em; }
 .ed-times b { color: var(--f-fg); font-weight: 400; }
-/* The break after the time: the list's "paus" tag, here also its control, one per part; "Lägg till paus" quiet with
-   none, "+ paus" where the longer words would wrap. Red while a handle sits where its part can no longer hold it. */
+/* The break after the time: the list's "paus" tag, here also its control, one per part; "Lägg till paus" with none,
+   bordered as the menu's percentage tag, "+ paus" where the longer words would wrap. Red while a handle sits where its part can no longer hold it. */
 .ed-times .tag, .ed-times .brk-in { margin-left: var(--ed-tag-gap); }
-.ed-times .tag { font: inherit; font-size: 11px; color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; cursor: pointer; }
-.ed-times .tag.add { color: var(--f-muted); border-color: transparent; }
-.ed-times .tag.add:hover { color: var(--f-fg); }   /* "Lägg till paus" wakes up under the pointer */
+.ed-times .tag { font: inherit; font-size: var(--size-label); color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: var(--pad-tag); cursor: pointer; }
+.ed-times .tag.add:hover { border-color: var(--f-fg); }   /* as the menu's percentage tag under the pointer */
 .ed-times .tag.warn { color: var(--f-remove); border-color: var(--f-remove); }
 .ed-times .tag.still { color: var(--f-muted); cursor: default; }
 .ed-times .nb { color: var(--f-muted); }   /* the parts left around a new entry: grey, as neighbours */
 /* The open field wears the tag's own border, so it is the tag being typed in, and Enter only fills the box */
-.ed-times .brk-in { font: inherit; font-size: 11px; width: 7ch; box-sizing: content-box; background: none; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; outline: none; }
+.ed-times .brk-in { font: inherit; font-size: var(--size-label); width: 7ch; box-sizing: content-box; background: none; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: var(--pad-tag); outline: none; }
 /* As wide as what it holds, "00:00" while empty, where the browser can size a field to its content */
 @supports (field-sizing: content) { .ed-times .brk-in { width: auto; field-sizing: content; } }
 .ed-times .brk-in.warn { color: var(--f-remove); }
@@ -680,13 +712,13 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .app.still .ed-handle .pm { animation: none; }
 .ed-handle.pill { width: var(--el-pill); border-radius: 999px; display: flex; align-items: center; justify-content: space-between; cursor: grab; z-index: 2; }
 .ed-handle.pill.shut, .ed-handle.shut { width: var(--el-handle); }
-.ed-handle .pm { position: relative; z-index: 1; width: calc(var(--knob) * 0.7); height: 100%; display: grid; place-items: center; font-size: 13px; font-weight: 700; line-height: 1; color: var(--pm-ink, var(--f-bg)); cursor: pointer; user-select: none; }
+.ed-handle .pm { position: relative; z-index: 1; width: calc(var(--knob) * 0.7); height: 100%; display: grid; place-items: center; font-size: var(--size-ui); font-weight: 700; line-height: 1; color: var(--pm-ink, var(--f-bg)); cursor: pointer; user-select: none; }
 .app.still .ed-handle { transition: none; }
 .ed-hlabel.lean-l { transform: translateX(calc(-100% + 2px)); }
 .ed-hlabel.lean-r { transform: translateX(-2px); }
-.ed-hlabel { position: absolute; top: -17px; transform: translateX(-50%); font-size: 11px; color: var(--f-fg); white-space: nowrap; pointer-events: none; }
+.ed-hlabel { position: absolute; top: -17px; transform: translateX(-50%); font-size: var(--size-label); color: var(--f-fg); white-space: nowrap; pointer-events: none; }
 .ed-reason { display: grid; justify-items: start; }
-.ed-pick { font: inherit; font-size: 12px; background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: 4px; padding: 4px 10px; cursor: pointer; }
+.ed-pick { font: inherit; font-size: var(--size-small); background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 4px 10px; cursor: pointer; }
 .ed-pick.chosen { color: var(--f-fg); }
 .ed-pick { box-sizing: content-box; max-width: var(--ed-pick-max); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* The list grows open at --speed-ui, then its reasons fade in after the same time; closing, they fade out first, then
@@ -700,13 +732,13 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
    The script sizes it to the text it shows: "Annan orsak" while empty, else the text, growing and shrinking as it is
    typed in, up to the popup's padding. At rest a longer text stops at --ed-pick-max with "…", as the picker does;
    clicked, it opens to the whole text again. The text sits where the other reasons' text does. */
-.ed-list .other { font: inherit; font-size: 12px; text-overflow: ellipsis; max-width: calc(100% - 8px); box-sizing: content-box; margin: 3px 0 3px 8px; background: none; color: var(--f-fg); border: 0; border-bottom: 1px solid var(--f-line); border-radius: 0; padding: 0; cursor: text; }
+.ed-list .other { font: inherit; font-size: var(--size-small); text-overflow: ellipsis; max-width: calc(100% - 8px); box-sizing: content-box; margin: 3px 0 3px 8px; background: none; color: var(--f-fg); border: 0; border-bottom: 1px solid var(--f-line); border-radius: 0; padding: 0; cursor: text; }
 .ed-list .other::placeholder { color: var(--f-fg); opacity: 1; }
 .ed-list .other:focus { outline: none; border-bottom-color: var(--f-fg); }
 .ed-list .other:focus::placeholder { color: var(--f-muted); }
 /* One column no wider than the popup, so a long "Annan orsak" scrolls inside itself and never pushes the list aside */
 .ed-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; justify-items: start; padding-top: 6px; }
-.ed-list button { font: inherit; font-size: 12px; background: none; border: 0; color: var(--f-fg); padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+.ed-list button { font: inherit; font-size: var(--size-small); background: none; border: 0; color: var(--f-fg); padding: var(--pad-small); border-radius: var(--r-tag); cursor: pointer; }
 /* The chosen reason stays in its place, greyed, and a click on it does nothing; a typed one greyed the same, but
    clicked, it turns white to be edited */
 .ed-list button:disabled { opacity: var(--disabled-o); cursor: default; }
@@ -714,20 +746,20 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-list button:hover:not(:disabled) { background: var(--f-bg); }
 .ed-actions { display: flex; gap: 8px; align-items: center; }
 .ed-actions .spacer { flex: 1; }
-.ed-actions button { font: inherit; font-size: 12px; border: 1px solid var(--f-line); background: none; color: var(--f-fg); border-radius: var(--r-small); padding: 4px 12px; cursor: pointer; }
+.ed-actions button { font: inherit; font-size: var(--size-small); border: 1px solid var(--f-line); background: none; color: var(--f-fg); border-radius: var(--r-small); padding: 4px 12px; cursor: pointer; }
 #edSave { background: var(--f-fg); color: var(--f-bg); border-color: var(--f-fg); }
 #edSave:disabled { opacity: var(--disabled-o); cursor: default; }
 #edDel { color: var(--f-remove); border-color: transparent; }
 #edDel.ask { color: var(--f-remove); border-color: var(--f-remove); }
-.ed-hint { font-size: 12px; color: var(--f-muted); margin: 0; }
-.entries li .reason { grid-column: 1 / -1; font-size: 11px; color: var(--f-muted); margin-top: -4px; }
-.allpop .note { font-size: 12px; color: var(--f-muted); border: 1px dashed var(--f-line); border-radius: var(--r-small); padding: 8px 10px; }
+.ed-hint { font-size: var(--size-small); color: var(--f-muted); margin: 0; }
+.entries li .reason { grid-column: 1 / -1; font-size: var(--size-label); color: var(--f-muted); margin-top: -4px; }
+.allpop .note { font-size: var(--size-small); color: var(--f-muted); border: 1px dashed var(--f-line); border-radius: var(--r-small); padding: 8px 10px; }
 .entries { display: grid; gap: 6px; }
 .entries ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.entries li { display: grid; grid-template-columns: 7ch var(--entry-time-w) 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 12.5px; padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
+.entries li { display: grid; grid-template-columns: 7ch var(--entry-time-w) 2ch minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: var(--size-body); padding: 5px 8px; border-radius: 6px; background: var(--f-row); font-variant-numeric: tabular-nums; }
 .entries li.new { animation: flash 1.2s ease-out; }
 /* In "Visa alla", a quiet line where the list crosses into a month; the rows under it are as in the recent list. */
-.entries li.month { display: block; background: none; padding: var(--entry-month-gap) 8px 2px; font-size: 11px; font-weight: 700; color: var(--f-muted); }
+.entries li.month { display: block; background: none; padding: var(--entry-month-gap) 8px 2px; font-size: var(--size-label); font-weight: 700; color: var(--f-muted); }
 .entries li.month:first-child { padding-top: 0; }
 /* "Visa alla": every gap between rows the same, --ins-gap tall, and the gap where a forgotten entry is written: a centred
    "+" with a line growing out of it to both sides. The top one's "+" always shows and its line grows at once on hover;
@@ -736,7 +768,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .entries li.ins .rule { flex: 1; height: 1px; background: var(--f-muted); transform: scaleX(0); transition: transform var(--speed-ui) ease; }
 .entries li.ins .rule.l { transform-origin: right; }
 .entries li.ins .rule.r { transform-origin: left; }
-.entries li.ins .plus { font-size: 12px; line-height: 1; color: var(--f-muted); opacity: 0; transition: opacity var(--speed-ui) ease; }
+.entries li.ins .plus { font-size: var(--size-small); line-height: 1; color: var(--f-muted); opacity: 0; transition: opacity var(--speed-ui) ease; }
 .entries li.ins:hover .rule { transform: scaleX(1); transition-delay: var(--peek-delay); }
 .entries li.ins:hover .plus { opacity: 1; transition-delay: var(--peek-delay); }
 /* The always-shown "+" sits in a gap always open, so nothing moves around it; hovered, its lines grow and it lights */
@@ -757,9 +789,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .entries .later { font-size: var(--entry-later); vertical-align: super; line-height: 0; margin-left: 2px; color: var(--f-muted); }
 @keyframes flash { from { background: color-mix(in srgb, var(--wheel-base, #d78951) 35%, var(--f-row)); } to { background: var(--f-row); } }
 .entries .tags { display: flex; gap: 4px; justify-self: start; }
-.entries .tag { font-size: 11px; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; }
+.entries .tag { font-size: var(--size-label); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: var(--pad-tag); }
 .entries .dur { text-align: right; }
-.entries .more { justify-self: start; font: inherit; font-size: 12px; color: var(--f-muted); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 4px 10px; cursor: pointer; }
+.entries .more { justify-self: start; font: inherit; font-size: var(--size-small); color: var(--f-muted); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 4px 10px; cursor: pointer; }
 .entries .more:hover { border-color: var(--f-muted); }
 
 button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
@@ -895,7 +927,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <div class="tabpanel" role="tabpanel" data-panel="profiler">
             <div class="pay-global" id="payGlobal"></div>
             <ul class="prows" id="plist"></ul>
-            <div class="line" id="newLine"><button class="small" id="addProfile" type="button">Ny profil</button><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil" hidden><span class="keys" id="newKeys" hidden>Enter lägger till · Esc avbryter</span></div>
+            <div class="line" id="newLine"><button class="small" id="addProfile" type="button">Ny profil</button><span class="new-field"><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil" hidden><span class="new-warn" id="newWarn" hidden></span></span><span class="keys" id="newKeys" hidden>Enter lägger till · Esc avbryter</span></div>
+            <div class="arch" id="archBox" hidden>
+              <button class="arch-head" id="archHead" type="button" aria-expanded="false">Arkiverade <span id="archCount"></span><span class="chev">›</span></button>
+              <div class="prow-wrap" id="archWrap" inert><div class="prow-clip"><ul class="prows" id="alist"></ul></div></div>
+            </div>
           </div>
           <div class="tabpanel" role="tabpanel" data-panel="arbetstid" hidden>
             <div id="workTime"></div>
@@ -2592,17 +2628,43 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (openEdit && openEdit !== newEdit) openEdit.abort();
     openEdit = newEdit;
     $("addProfile").hidden = true; $("newName").hidden = false; $("newKeys").hidden = false;
-    $("newName").value = ""; $("newName").focus();
+    $("newName").value = ""; $("newWarn").hidden = true; $("newName").focus();
   }
   function closeNew() {
-    $("newName").hidden = true; $("newKeys").hidden = true; $("addProfile").hidden = false;
+    $("newName").hidden = true; $("newKeys").hidden = true; $("newWarn").hidden = true; $("addProfile").hidden = false;
     if (openEdit === newEdit) openEdit = null;
   }
   $("addProfile").addEventListener("click", openNew);
+  $("newName").addEventListener("input", function () { $("newWarn").hidden = true; capFirst(this); });
+  // A profile's name starts with a capital, made so as it is typed, the caret left where it was.
+  function capFirst(inp) {
+    var v = inp.value, i = v.search(/\S/);
+    if (i < 0 || v.charAt(i) === v.charAt(i).toUpperCase()) return;
+    var a = inp.selectionStart, b = inp.selectionEnd;
+    inp.value = v.slice(0, i) + v.charAt(i).toUpperCase() + v.slice(i + 1); inp.setSelectionRange(a, b);
+  }
+  // Why a name cannot be used, or null: names are compared without case or the spaces around them.
+  function nameTaken(n, self) {
+    var k = n.trim().toLowerCase();
+    var q = profiles.filter(function (x) { return x !== self && x.name.trim().toLowerCase() === k; })[0];
+    return !q ? null : q.archived ? "Namnet finns bland arkiverade" : "Namnet finns redan";
+  }
+  // Whether a profile has any hours: entries, the ceiling's hours or a running entry. One with none can be deleted.
+  function hasHours(q) {
+    return entries.some(function (e) { return e.profile === q.id; }) || usedLog.some(function (x) { return x.p === q.id && x.mins > 0; }) || !!(running && running.profile === q.id);
+  }
+  var archOpen = false;
+  $("archHead").addEventListener("click", function () {
+    archOpen = !archOpen; $("archBox").classList.toggle("open", archOpen);
+    this.setAttribute("aria-expanded", String(archOpen)); $("archWrap").inert = !archOpen;
+  });
   $("newName").addEventListener("keydown", function (e) {
     if (e.key !== "Enter") return;
     e.preventDefault();
     var n = this.value.trim(); if (!n) return;
+    // A name belongs to one profile, active or archived: a taken one is refused, the field kept open with a note.
+    var no = nameTaken(n, null);
+    if (no) { $("newWarn").textContent = no; $("newWarn").hidden = false; return; }
     var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
     setHue(q, nextProfileHue(profiles.map(function (x) { return x.id; })));
     profiles.push(q); closeNew(); openRow = q.id; renderProfiles(); drawControls();
@@ -2741,7 +2803,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       stage = "edit"; btn.hidden = true; keys.textContent = (o.undated ? "Enter sparar" : "Enter fortsätter") + " · Esc avbryter"; keys.hidden = false;
       input = document.createElement("input"); input.type = "text"; input.value = o.hist().length ? o.toText(now(o.hist())) : "";
       input.setAttribute("aria-label", o.label); act.insertBefore(input, keys); input.focus(); input.select();
-      input.addEventListener("input", function () { if (keys.classList.contains("warn")) { keys.classList.remove("warn"); keys.textContent = (o.undated ? "Enter sparar" : "Enter fortsätter") + " · Esc avbryter"; } });
+      input.addEventListener("input", function () { if (o.cap) capFirst(input); if (keys.classList.contains("warn")) { keys.classList.remove("warn"); keys.textContent = (o.undated ? "Enter sparar" : "Enter fortsätter") + " · Esc avbryter"; } });
     });
     wrap.addEventListener("keydown", function (e) {
       if (stage === "locked") return;
@@ -2855,14 +2917,17 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   var openRow = null;
   function renderProfiles() {
-    var ul = $("plist"); clear(ul);
+    var ul, archived = profiles.filter(function (q) { return q.archived; });
+    clear($("plist")); clear($("alist"));
+    $("archBox").hidden = !archived.length; $("archCount").textContent = "(" + archived.length + ")";
+    if (!archived.length) { archOpen = false; $("archBox").classList.remove("open"); $("archWrap").inert = true; }
     profiles.forEach(function (q) {
+      ul = q.archived ? $("alist") : $("plist");
       var li = document.createElement("li"); li.className = "prow" + (openRow === q.id ? " open" : "") + (q.archived ? " archived" : "");
       var head = document.createElement("button"); head.type = "button"; head.className = "prow-head"; head.setAttribute("aria-expanded", String(openRow === q.id));
       var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = stateColours(q.id).letter; d.style.borderColor = stateColours(q.id).ring;
       var nm = document.createElement("span"); nm.textContent = q.name;
       head.append(d, nm);
-      if (q.archived) { var ar = document.createElement("span"); ar.className = "mark"; ar.textContent = "arkiverad"; head.appendChild(ar); }
       var chev = document.createElement("span"); chev.className = "chev"; chev.textContent = "›"; head.appendChild(chev);
       // Opening a row folds any other open row; both move with an animation, nothing is rebuilt.
       head.addEventListener("click", function () {
@@ -2881,9 +2946,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         // Name and pay category change at once: no count depends on them.
         // Name and pay category: behind "Ändra" like every field; no "Gäller från", since no count depends on them.
         var f1 = lockedValue({
-          label: "Namn", undated: true, hist: function () { return [{ v: q.name }]; },
+          label: "Namn", undated: true, cap: true, hist: function () { return [{ v: q.name }]; },
           show: function (v) { return v; }, toText: function (v) { return v; },
           parse: function (s) { return s.trim() ? s.trim() : null; },
+          refuse: function (v) { return nameTaken(v, q); },
           save: function (v) { q.name = v; },
           onCommit: function () { nm.textContent = q.name; d.textContent = q.name.charAt(0).toUpperCase(); drawControls(); }
         });
@@ -2906,11 +2972,17 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         if (!q.balance) {
           var f3 = document.createElement("div"); f3.className = "field";
           var arch = document.createElement("button"); arch.type = "button"; arch.className = "small";
-          arch.textContent = q.archived ? "Återställ" : "Arkivera";
+          // An archived profile comes back at once. An active one with hours is archived, and one with none is
+          // deleted for good: each asks once, as an entry's "Ta bort" does. The word follows the profile as it is now.
+          var gone = !q.archived && !hasHours(q), asked = false;
+          if (q.archived) arch.textContent = "Återställ";
+          else { arch.innerHTML = (gone ? "Ta bort" : "Arkivera") + '<span class="q">?</span>'; if (gone) arch.classList.add("remove"); }
+          arch.addEventListener("focusout", function () { asked = false; arch.classList.remove("ask"); });
           arch.addEventListener("click", function () {
-            q.archived = !q.archived;
-            if (q.archived && onScreen === q.id) onScreen = activeProfiles()[0].id;
-            renderProfiles(); recolour();
+            if (!q.archived && !asked) { asked = true; arch.classList.add("ask"); return; }
+            if (gone) profiles.splice(profiles.indexOf(q), 1); else q.archived = !q.archived;
+            if ((gone || q.archived) && onScreen === q.id) onScreen = activeProfiles()[0].id;
+            openRow = null; renderProfiles(); recolour();
           });
           var sp = document.createElement("span"); f3.append(sp, arch); body.appendChild(f3);
         }

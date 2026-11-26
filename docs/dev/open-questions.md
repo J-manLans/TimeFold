@@ -6,24 +6,50 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 
 ## Phase 4: Profiles
 
-### Deleting a profile with no entries (2026-11-26)
+### The ceiling's carry (2026-11-26)
 
-A profile is archived, never deleted: it leaves the switch list but keeps its hours in the history and reports
-("Profiles label the hours"), since deleting one with entries would change past months, carries and reports already
-sent, or leave entries with no name or colour. A profile with no entries, such as one made by mistake, has nothing to
-keep, and archiving it only leaves clutter. Lean, the agent's: a profile with no entries shows "Ta bort", asking once
-("Ta bort?", as an entry's delete does), and one with entries shows "Arkivera"; what has history is kept, what has none
-can go. Open: whether the owner wants it, and whether "Ta bort" turns into "Arkivera" the moment a first entry is made.
+Hours over a month's ceiling carry into the next month, which starts with them used ("The other profiles share a
+ceiling"); its reason: carrying the excess keeps visible that the owner works too much, a reason to talk with the boss
+about the split. The owner's lean: drop the carry, the wheel counting each month on its own, and show that pattern by a
+sign of its own instead, such as the months in a row over the ceiling. For a drop: the wheel opens a month with hours
+not worked in it, beside an estimate that counts only that month; and pruning, the report and the wheel get simpler.
+Against: one heavy month shows on the next. Not a reason either way: overtime, counted per day and week, never looks at
+the ceiling ("Overtime pay in the estimate"), so the carry cannot make it start early. Pruning waits on the answer.
+Dropped, it touches the ceiling and the wheel ("The ceiling wheel"), the report's carried amounts ("A report covers one
+month"), pruning's frozen ceiling hours ("Old history is pruned on request"), and the roadmap's pruning step and
+Phase 6. Open: drop it or keep it, and if dropped, what the sign is and where it shows.
 
-**See:** Profiles label the hours; The menu has tabs, with every value locked behind "Ändra"; An entry is deleted from
-its edit.
+**See:** The other profiles share a ceiling; The ceiling wheel; Old history is pruned on request.
+
+## Phase 5: Handover
+
+### How the question before an import reads (2026-11-23)
+
+The import asks before it replaces the record, showing when the file was made and when this machine's data last changed
+("Handover between machines"), with "Ersätt" and "Avbryt". A draft of the text: "Importen ersätter allt på den här
+datorn.", then "Filen skapades: mån 23 nov, 18:42" and "Den här datorn ändrades senast: mån 23 nov, 17:10". Not
+"rapport", which is the month's PDF. Open: whether the dates are coloured, such as the base colour for a date that is
+fine and the neon, or a warning colour, for the newer one. The record holds neither date yet: the export writes its own
+time into the file, since a file's time on disk changes when it is mailed or downloaded, and the record needs a time of
+its last change. **See:** "Handover between machines", "The record is one JSON file".
+
+## Phase 6: Reports
+
+### Where the report is made from (2026-11-16)
+
+The report has its own choices (the month, maybe a preview), so it needs a place in the app. The owner's lean: its own
+tab in the menu, beside the Phase 4 tabs. Not drawn in the prototype.
+
+**See:** The report is a PDF; A report covers one month; The menu has tabs, with every value locked behind "Ändra".
+
+## Later, phase not chosen
 
 ### Overtime pay in the estimate (2026-11-26)
 
 The estimate counts a salary once a month and the other profiles' hours times their rates, with no extra for overtime
-("A pay estimate per profile"), and overtime rules are on the roadmap's "Not on this roadmap". The owner wants the
-estimate to track real overtime. Open: whether, how, and in which phase; the roadmap and "A pay estimate per profile"
-change with it.
+("A pay estimate per profile"). The owner wants the estimate to follow the real rules, per day and per week as the
+collective agreement and the law count them, not a monthly simplification; not in Phase 4, since nothing built before it
+gets in its way. Open: which phase, and what payroll answers below; "A pay estimate per profile" changes with it.
 
 What the owner has said: janitor's flex hours are his to balance and never overtime; the other profiles' work is for the
 same employer, ordered by it, and counts toward the same full time; janitor always counts as its expected hours (6 h a
@@ -52,27 +78,6 @@ worked); whether lisätyö is paid at +50% or the plain rate, since janitor alon
 full time; and whether there is a roster with longer days, or the law's 8 h applies.
 
 **See:** A pay estimate per profile; The other profiles share a ceiling.
-
-## Phase 5: Handover
-
-### How the question before an import reads (2026-11-23)
-
-The import asks before it replaces the record, showing when the file was made and when this machine's data last changed
-("Handover between machines"), with "Ersätt" and "Avbryt". A draft of the text: "Importen ersätter allt på den här
-datorn.", then "Filen skapades: mån 23 nov, 18:42" and "Den här datorn ändrades senast: mån 23 nov, 17:10". Not
-"rapport", which is the month's PDF. Open: whether the dates are coloured, such as the base colour for a date that is
-fine and the neon, or a warning colour, for the newer one. The record holds neither date yet: the export writes its own
-time into the file, since a file's time on disk changes when it is mailed or downloaded, and the record needs a time of
-its last change. **See:** "Handover between machines", "The record is one JSON file".
-
-## Phase 6: Reports
-
-### Where the report is made from (2026-11-16)
-
-The report has its own choices (the month, maybe a preview), so it needs a place in the app. The owner's lean: its own
-tab in the menu, beside the Phase 4 tabs. Not drawn in the prototype.
-
-**See:** The report is a PDF; A report covers one month; The menu has tabs, with every value locked behind "Ändra".
 
 ## Debugging (any phase)
 

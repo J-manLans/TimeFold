@@ -8,6 +8,10 @@ An entry holds one, its length alone; across midnight it comes off the entry's l
 **Afterglow.** On the undo button, the glow in the profile on screen's neon that lies over the disc after a start or a
 stop and fades to nothing while the click can be undone ("The last click can be undone for a few seconds").
 
+**Archived profile.** A profile with hours taken out of use: gone from the switch list and the Profiler list, kept with
+its hours, and listed under "Arkiverade" until "Återställ" brings it back. A profile with no hours is deleted instead
+("A profile with hours is archived, one without is deleted", in `design-decisions/`).
+
 **Balance.** For a profile with expected hours (only janitor work), the running sum of each day's hours minus the
 expected hours. Positive: hours to take out. Negative: hours to work in. On the main screen it also counts flex days
 marked ahead; a report counts only the days up to its end.
