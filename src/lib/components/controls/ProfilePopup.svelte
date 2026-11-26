@@ -50,12 +50,17 @@
     event.stopPropagation()
     app.profilesOpen = false
   }
+
+  /** A press outside the popup, on the scrim, closes it, picking nothing */
+  function onPress(event: PointerEvent): void {
+    if (app.profilesOpen && list && !list.contains(event.target as Node)) app.profilesOpen = false
+  }
 </script>
 
-<svelte:window onkeydown={onKey} />
+<svelte:window onkeydown={onKey} onpointerdown={onPress} />
 
 {#if app.profilesOpen}
-  <div class="scrim" onclick={(event) => event.target === event.currentTarget && (app.profilesOpen = false)}>
+  <div class="scrim">
     <div class="popup" role="dialog" aria-modal="true" aria-labelledby="profiles-heading" bind:this={list}>
       <h3 id="profiles-heading">Profil</h3>
       {#if profiles.length < 2}

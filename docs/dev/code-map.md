@@ -74,21 +74,24 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   `scale.ts`, the labels under the line (`ticks`). `menu/`: `flexDays.ts`, a click on a day of the calendar marking or
   unmarking it, weekends, days janitor work started on (`workedDays`) and, while locked, days gone by refused
   (`toggleFlexDay`), the month it draws (`calendarMonth`, `monthAfter`) and the list of marked days ahead (`daysAhead`);
-  `settings.ts`, the machine's own settings (the theme and the motion), their defaults, the check on reading each apart,
-  the theme and the motion in force, and each button's switch. `shared/`: `profiles.ts`, the profiles made
-  (`addProfile`), renamed, archived or deleted by whether they have hours (`removalOf`, `removeProfile`), brought back
-  (`restoreProfile`), and a name refused when another profile has it (`nameRefusal`); `record.ts`, the record's shape as
-  types, the reasons a record starts with (`FIRST_REASONS`), `readRecord`, the check on opening that turns a file's text
-  into a record or names what is wrong with it, upgrading an older version first, `recoveryFor`, what a problem leads
-  to, and `toTimestamp` and `nextId`, a moment and a new entry's id as the record writes them; `colours.ts`, the colour
-  rule from the prototype, a profile's base, dimmed and neon by role, a new profile's hue at the largest gap
-  (`largestGapHue`), the faded colour, and black or white ink on a colour (`inkOn`); `counting.ts`, the balance
-  (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result, each entry's seconds by day
-  less its added breaks, expected hours charged on days work started or flex days, the app's month, each month's ceiling
-  and its pieces, the ceiling's trend, and the pay estimate, worked out in seconds from the record, and a moment's time
-  of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words ("måndag 16 november", "mån 16", "november
-  2026"); `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the
-  only place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy; `timeInput.ts`, typed
+  `workTime.ts`, full time and the split saved as weeks from a date and refused when the janitor's hours would pass full
+  time on any day (`saveFullTime`, `saveSplit`), pay from a date (`savePay`), "Skatt och avgifter" (`saveTax`) and the
+  date they open on (`firstOfNextMonth`); `settings.ts`, the machine's own settings (the theme and the motion), their
+  defaults, the check on reading each apart, the theme and the motion in force, and each button's switch. `shared/`:
+  `profiles.ts`, the profiles made (`addProfile`), renamed, archived or deleted by whether they have hours (`removalOf`,
+  `removeProfile`), brought back (`restoreProfile`), and a name refused when another profile has it (`nameRefusal`);
+  `record.ts`, the record's shape as types, the reasons and the tax a record starts with (`FIRST_REASONS`, `FIRST_TAX`),
+  `readRecord`, the check on opening that turns a file's text into a record or names what is wrong with it, upgrading an
+  older version first, `recoveryFor`, what a problem leads to, and `toTimestamp` and `nextId`, a moment and a new
+  entry's id as the record writes them; `colours.ts`, the colour rule from the prototype, a profile's base, dimmed and
+  neon by role, a new profile's hue at the largest gap (`largestGapHue`), the faded colour, and black or white ink on a
+  colour (`inkOn`); `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each
+  day's result, each entry's seconds by day less its added breaks, expected hours charged on days work started or flex
+  days, the app's month, each month's ceiling and its pieces, the ceiling's trend, and the pay estimate, before or after
+  tax (`payShown`), worked out in seconds from the record, and a moment's time of day as shown (`timeOfDay`);
+  `dates.ts`, days and months in Swedish words ("måndag 16 november", "1 juli 2026", "mån 16", "november 2026");
+  `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the only
+  place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy; `timeInput.ts`, typed
   durations for the onboarding's balance and a break's length, each keystroke checked against the field's shape
   (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field wears, applies as it is typed, read
   into minutes, and written back in words ("1h 20min") or into a field ("1:20"); `focusRing.ts`, the last input (a key
