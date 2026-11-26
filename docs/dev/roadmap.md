@@ -39,8 +39,8 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
    button while another profile runs.
 2. `[written]` `[tests]` The menu: the Profiler tab, the full-time slider in Tid, counting values locked behind "Ändra"
    with "Tidigare värden"; settings that change from a date, full time and the split opening on the 1st of next month.
-3. Pruning on request ("Old history is pruned on request"), once the ceiling's trend exists: the prune itself and the
-   offer on the prune line, tested with set dates rather than waiting three years.
+3. `[written]` `[tests]` Pruning on request ("Old history is pruned on request"), once the ceiling's trend exists: the
+   prune itself and the offer on the prune line, tested with set dates rather than waiting three years.
 4. `[written]` One pointer-light rule for every button that catches it, given once as a shared class or rule, in place
    of the copies in `ButtonBlock`, `PauseField` and `ChoiceButton`, so no button catches it differently; the phase's new
    buttons use it ("The look: a fresh display face, mono text and soft buttons").

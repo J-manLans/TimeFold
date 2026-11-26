@@ -1,26 +1,90 @@
 <!--
   The prune line at the bottom of the controls side ("Old history is pruned on request"). Its room is kept so nothing
-  above moves when it appears; the line and its offer show only when there is something to offer, three years after
-  the first install.
+  above moves when it appears. While the record holds whole months more than three years old it offers to prune them,
+  saying how many ("Du har över tre års historik. Rensa de äldsta 3 månaderna?"), with "Rensa", which asks once, as "Ta
+  bort" does, and prunes on its second click after the day's copy, and "Inte nu", which hides the line until the first
+  of next month. In a narrow window its words wrap over the left and its buttons stack on the right: <PruneLine />
 -->
 <script lang="ts">
+  import { app } from '$lib/app.svelte'
+  import { pruneOffer, pruneWords } from '$lib/modules/controls/prune'
+  import { localDay } from '$lib/modules/shared/counting'
+
   // === State ===
 
-  // TODO: Profiles builds pruning; then true while the record holds a whole month more than three years old
-  let offering = false
+  let today = $derived(localDay(Date.now()))
+  let offer = $derived(app.record && app.phase === 'ready' ? pruneOffer(app.record, today) : null)
+  let offering = $derived(offer !== null && (app.pruneLater === null || today >= app.pruneLater))
+  let asking = $state(false)
+
+  // === Helpers ===
+
+  /** "Rensa": asks once, then prunes */
+  function clear(): void {
+    if (!asking) {
+      asking = true
+      return
+    }
+    asking = false
+    void app.pruneNow()
+  }
 </script>
 
 <footer class="prune" class:offering>
-  <!-- TODO: the offer to prune, when pruning is built -->
+  {#if offering && offer}
+    <span class="words">{pruneWords(offer.months)}</span>
+    <span class="buttons">
+      <button class="clear" class:asking type="button" onclick={clear} onfocusout={() => (asking = false)}>
+        Rensa<span class="q">?</span>
+      </button>
+      <button type="button" onclick={() => void app.pruneLaterOn()}>Inte nu</button>
+    </span>
+  {/if}
 </footer>
 
 <style>
   /* === Layout === */
 
   .prune {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--prune-gap);
     height: var(--prune-height);
     margin: var(--prune-margin);
     padding: var(--prune-padding);
+    color: var(--controls-text-muted);
+    font-size: var(--text-size-note);
+  }
+
+  .words {
+    flex: 1;
+  }
+
+  .buttons {
+    display: flex;
+    gap: var(--prune-gap);
+  }
+
+  button {
+    padding: var(--prune-button-padding);
+    border: 1px solid var(--button-line);
+    border-radius: var(--radius-small);
+    background: none;
+    color: var(--controls-text);
+    font: inherit;
+    font-size: var(--text-size-note);
+    cursor: pointer;
+  }
+
+  /* "Rensa" removes, as "Ta bort" does: red words, and a red border with its "?" once clicked */
+  .clear {
+    border-color: transparent;
+    color: var(--controls-remove);
+  }
+
+  .q {
+    visibility: hidden;
   }
 
   /* === States === */
@@ -29,11 +93,24 @@
     border-top: 1px solid var(--controls-line);
   }
 
+  .asking {
+    border-color: var(--controls-remove);
+  }
+
+  .asking .q {
+    visibility: visible;
+  }
+
   /* A narrow window (App.svelte; CSS cannot read a token here): the menu button sits in the lower left corner, so the
-     line starts right of it */
+     line starts right of it, its words wrapping over the left and its buttons stacked on the right */
   @media (max-width: 640px) {
     .prune {
+      flex-wrap: nowrap;
       margin-left: calc(2 * var(--menu-inset) + var(--button-icon-size));
+    }
+
+    .buttons {
+      flex-direction: column;
     }
   }
 </style>

@@ -30,6 +30,8 @@ export type ShownMotion = 'on' | 'off'
 export interface Settings {
   theme: Theme
   motion: Motion
+  /** "Inte nu" on the prune line: the day it comes back, the first of next month ("Old history is pruned on request") */
+  pruneLater?: string
 }
 
 /**
@@ -40,10 +42,12 @@ export interface Settings {
 export function readSettings(text: string | null): Settings {
   if (text === null) return { ...DEFAULTS }
   try {
-    const parsed = JSON.parse(text) as { theme?: unknown; motion?: unknown } | null
+    const parsed = JSON.parse(text) as { theme?: unknown; motion?: unknown; pruneLater?: unknown } | null
+    const later = parsed?.pruneLater
     return {
       theme: isTheme(parsed?.theme) ? parsed.theme : DEFAULTS.theme,
       motion: isMotion(parsed?.motion) ? parsed.motion : DEFAULTS.motion,
+      ...(typeof later === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(later) ? { pruneLater: later } : {}),
     }
   } catch {
     return { ...DEFAULTS }

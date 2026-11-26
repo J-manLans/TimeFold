@@ -143,6 +143,9 @@
   --prune-margin: 12px;
   --prune-padding: 9px 12px;
   --prune-height: 40px; /* the prune line's room, kept when there is nothing to offer */
+  --prune-gap: 10px; /* between its words and its buttons, and between the buttons */
+  --prune-button-padding: 3px 8px;
+  --controls-remove: light-dark(#c8372d, #f0605a); /* removal red on this side: "Rensa"; light: 4.7:1 on the page */
 
   /* ======================================
                    Dashboard

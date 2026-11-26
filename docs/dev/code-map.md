@@ -36,67 +36,70 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   controls side, placing `ButtonBlock` (start/stop with its tip naming the profile a press stops, export and import, the
   profile button), `ProfilePopup.svelte` (the profiles in use to put on screen, or "Ny profil…" alone), `StatusLine`
   with `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field), `UndoButton` with its
-  `TipLabel`, `PruneLine`, the menu and `LatePopup.svelte`, the popup for a running entry from an earlier day, and
-  making the pointer light, which it also sweeps once at the onboarding's end: it sets the light's place; a flat button
-  catches it through `.plastic` in `base.css`, and each disc paints `--pointer-light` itself. `menu/`: `Menu.svelte`,
-  the menu button and the frosted panel it grows into, with `ThemeButton`, `MotionButton.svelte` (the motion switch,
-  also in the onboarding's note) and the tab row: `ProfilerTab.svelte`, with `TaxRow.svelte` ("Efter skatt" and "Skatt
-  och avgifter"), a `ProfileRow.svelte` per profile (its circle and name, unfolding to `ColourField.svelte`, "Färg" with
-  its pair and the colour picker, its pay and "Arkivera", "Ta bort" or "Återställ"), "Ny profil" with its name field and
-  "Arkiverade"; and Tid, holding Heltid in `LockedValue.svelte` (a value locked behind "Ändra", its field, "Gäller från"
-  when it changes the counting, a refusal in the keys' place, and "Tidigare värden"), `SplitSlider.svelte` (Fördelning,
-  with the date and buttons its first move folds open) and `FlexCalendar.svelte`, the flex-day calendar with its padlock
-  and the list of marked days beside it, and locked open around `Onboarding.svelte`, the first start's onboarding with
-  its ending's timeline, or `Recovery.svelte`, the screen for a record that cannot be read; both use
-  `ChoiceButton.svelte`, in `shared/`. `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing
-  the divider, and handing them the panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar;
-  `CeilingWheel.svelte`, the ceiling wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the
-  five newest entries; `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its
-  rows; `EntryRow.svelte`, the row both lists share, which opens its entry in the edit popup. `edit/`:
-  `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker,
-  the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn
-  from the line's model, the pointer turned into its moves, the pill and the view easing to its fit;
-  `ReasonPicker.svelte`, the closed reason field, its list of at most seven lines, each reason's pen that renames or
-  removes it, and "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the
-  profile, undo and theme buttons, and `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
+  `TipLabel`, `PruneLine` (the offer to prune, "Rensa" and "Inte nu"), the menu and `LatePopup.svelte`, the popup for a
+  running entry from an earlier day, and making the pointer light, which it also sweeps once at the onboarding's end: it
+  sets the light's place; a flat button catches it through `.plastic` in `base.css`, and each disc paints
+  `--pointer-light` itself. `menu/`: `Menu.svelte`, the menu button and the frosted panel it grows into, with
+  `ThemeButton`, `MotionButton.svelte` (the motion switch, also in the onboarding's note) and the tab row:
+  `ProfilerTab.svelte`, with `TaxRow.svelte` ("Efter skatt" and "Skatt och avgifter"), a `ProfileRow.svelte` per profile
+  (its circle and name, unfolding to `ColourField.svelte`, "Färg" with its pair and the colour picker, its pay and
+  "Arkivera", "Ta bort" or "Återställ"), "Ny profil" with its name field and "Arkiverade"; and Tid, holding Heltid in
+  `LockedValue.svelte` (a value locked behind "Ändra", its field, "Gäller från" when it changes the counting, a refusal
+  in the keys' place, and "Tidigare värden"), `SplitSlider.svelte` (Fördelning, with the date and buttons its first move
+  folds open) and `FlexCalendar.svelte`, the flex-day calendar with its padlock and the list of marked days beside it,
+  and locked open around `Onboarding.svelte`, the first start's onboarding with its ending's timeline, or
+  `Recovery.svelte`, the screen for a record that cannot be read; both use `ChoiceButton.svelte`, in `shared/`.
+  `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing the divider, and handing them the
+  panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar; `CeilingWheel.svelte`, the ceiling
+  wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the five newest entries;
+  `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its rows; `EntryRow.svelte`,
+  the row both lists share, which opens its entry in the edit popup. `edit/`: `EditPopup.svelte`, the edit popup over
+  "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker, the result in words, the break's field,
+  and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned
+  into its moves, the pill and the view easing to its fit; `ReasonPicker.svelte`, the closed reason field, its list of
+  at most seven lines, each reason's pen that renames or removes it, and "Annan orsak". `shared/`: what more than one
+  part uses, such as `Disc.svelte`, the dented disc of the profile, undo and theme buttons, and `ChoiceButton.svelte`,
+  the locked panel's and the popups' buttons with their tip.
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
   break among them (`undo`), and what the undo's label says (`clickLabel`); `breaks.ts`, the running entry's whole break
   so far (`breakSoFar`) and a new total set on it, refused when nothing runs or it is longer than the entry
   (`setBreak`); the entry running from an earlier day when the app opens (`runningSinceEarlierDay`), stopping it
-  whichever profile is on screen (`stopRunning`) and the popup's words (`lateWords`); `today.ts`, today's pie, the
-  slices filled and lapped (`todaySlices`), a running entry counted to now. `dashboard/`: `figures.ts`, the flex bar's
-  scale, reach and side, and the balance as text; `entries.ts`, the entry lists' entries, a running one first and the
-  stopped ones newest first (`listedEntries`), what a row says, its break tag, its "e" and its reason among it, the
-  month lines of "Visa alla" (`withMonthLines`) and the gap above each of its rows (`gapsAbove`). `edit/`: `line.ts`,
-  the entry line's rules as plain state and moves: opening an entry or a gap, placing a new entry, dragging and stepping
-  its handles against the walls (other entries, now, the break), shortening and gaps, a gap filled by another profile,
-  joining and walking, the break and its sharing, the colours of the line and the view's fit; `edit.ts`, an entry of the
-  record or a gap opened on the line (`lineForEntry`, `lineForGap`), whether the confirm can save (`canSave`), the save
-  (`saveLine`), which writes the line's result into the record with its marks and reasons and makes one entry of a
-  profile's entries left touching, the delete (`deleteEntry`), the result in words (`resultWords`); `reasons.ts`, the
-  reasons as the record keeps them: in their order (`reasonList`), matched as typed texts are (`matchForm`), a typed
-  text learned on its third writing (`learnReason`), renamed or removed under its pen (`renameReason`, `removeReason`);
-  `scale.ts`, the labels under the line (`ticks`). `menu/`: `flexDays.ts`, a click on a day of the calendar marking or
-  unmarking it, weekends, days janitor work started on (`workedDays`) and, while locked, days gone by refused
-  (`toggleFlexDay`), the month it draws (`calendarMonth`, `monthAfter`) and the list of marked days ahead (`daysAhead`);
-  `workTime.ts`, full time and the split saved as weeks from a date and refused when the janitor's hours would pass full
-  time on any day (`saveFullTime`, `saveSplit`), pay from a date (`savePay`), "Skatt och avgifter" (`saveTax`) and the
-  date they open on (`firstOfNextMonth`), and a setting's earlier values (`earlierValues`); `settings.ts`, the machine's
-  own settings (the theme and the motion), their defaults, the check on reading each apart, the theme and the motion in
-  force, and each button's switch. `shared/`: `profiles.ts`, the profiles made (`addProfile`), renamed, archived or
-  deleted by whether they have hours (`removalOf`, `removeProfile`), brought back (`restoreProfile`), and a name refused
-  when another profile has it (`nameRefusal`); `record.ts`, the record's shape as types, the reasons and the tax a
-  record starts with (`FIRST_REASONS`, `FIRST_TAX`), `readRecord`, the check on opening that turns a file's text into a
-  record or names what is wrong with it, upgrading an older version first, `recoveryFor`, what a problem leads to, and
-  `toTimestamp` and `nextId`, a moment and a new entry's id as the record writes them; `colours.ts`, the colour rule
-  from the prototype, a profile's base, dimmed and neon by role, a new profile's hue at the largest gap
-  (`largestGapHue`) and where it sits on the picker's strip (`stripOfHue`), the faded colour, and black or white ink on
-  a colour (`inkOn`); `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead),
-  each day's result, each entry's seconds by day less its added breaks, expected hours charged on days work started or
-  flex days, the app's month, each month's ceiling and its pieces, the ceiling's trend, and the pay estimate, before or
-  after tax (`payShown`), worked out in seconds from the record, and a moment's time of day as shown (`timeOfDay`);
+  whichever profile is on screen (`stopRunning`) and the popup's words (`lateWords`); `prune.ts`, the prune on offer
+  (`pruneOffer`) and its words (`pruneWords`), and the prune, freezing the balance and the trend as an opening at the
+  cut (`prune`); `today.ts`, today's pie, the slices filled and lapped (`todaySlices`), a running entry counted to now.
+  `dashboard/`: `figures.ts`, the flex bar's scale, reach and side, and the balance as text; `entries.ts`, the entry
+  lists' entries, a running one first and the stopped ones newest first (`listedEntries`), what a row says, its break
+  tag, its "e" and its reason among it, the month lines of "Visa alla" (`withMonthLines`) and the gap above each of its
+  rows (`gapsAbove`). `edit/`: `line.ts`, the entry line's rules as plain state and moves: opening an entry or a gap,
+  placing a new entry, dragging and stepping its handles against the walls (other entries, now, the break), shortening
+  and gaps, a gap filled by another profile, joining and walking, the break and its sharing, the colours of the line and
+  the view's fit; `edit.ts`, an entry of the record or a gap opened on the line (`lineForEntry`, `lineForGap`), whether
+  the confirm can save (`canSave`), the save (`saveLine`), which writes the line's result into the record with its marks
+  and reasons and makes one entry of a profile's entries left touching, the delete (`deleteEntry`), the result in words
+  (`resultWords`); `reasons.ts`, the reasons as the record keeps them: in their order (`reasonList`), matched as typed
+  texts are (`matchForm`), a typed text learned on its third writing (`learnReason`), renamed or removed under its pen
+  (`renameReason`, `removeReason`); `scale.ts`, the labels under the line (`ticks`). `menu/`: `flexDays.ts`, a click on
+  a day of the calendar marking or unmarking it, weekends, days janitor work started on (`workedDays`) and, while
+  locked, days gone by refused (`toggleFlexDay`), the month it draws (`calendarMonth`, `monthAfter`) and the list of
+  marked days ahead (`daysAhead`); `workTime.ts`, full time and the split saved as weeks from a date and refused when
+  the janitor's hours would pass full time on any day (`saveFullTime`, `saveSplit`), pay from a date (`savePay`), "Skatt
+  och avgifter" (`saveTax`) and the date they open on (`firstOfNextMonth`), and a setting's earlier values
+  (`earlierValues`); `settings.ts`, the machine's own settings (the theme and the motion), their defaults, the check on
+  reading each apart, the theme and the motion in force, and each button's switch, and the prune line's "Inte nu"
+  (`pruneLater`). `shared/`: `profiles.ts`, the profiles made (`addProfile`), renamed, archived or deleted by whether
+  they have hours (`removalOf`, `removeProfile`), brought back (`restoreProfile`), and a name refused when another
+  profile has it (`nameRefusal`); `record.ts`, the record's shape as types, the reasons and the tax a record starts with
+  (`FIRST_REASONS`, `FIRST_TAX`), `readRecord`, the check on opening that turns a file's text into a record or names
+  what is wrong with it, upgrading an older version first, `recoveryFor`, what a problem leads to, and `toTimestamp` and
+  `nextId`, a moment and a new entry's id as the record writes them; `colours.ts`, the colour rule from the prototype, a
+  profile's base, dimmed and neon by role, a new profile's hue at the largest gap (`largestGapHue`) and where it sits on
+  the picker's strip (`stripOfHue`), the faded colour, and black or white ink on a colour (`inkOn`); `counting.ts`, the
+  balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result, each entry's seconds
+  by day less its added breaks, expected hours charged on days work started or flex days, the app's month, each month's
+  ceiling and its pieces, the ceiling's trend and the month it counts from (`trendStart`), and the pay estimate, before
+  or after tax (`payShown`), worked out in seconds from the record, and a moment's time of day as shown (`timeOfDay`);
   `dates.ts`, days and months in Swedish words ("måndag 16 november", "1 juli 2026", "mån 16", "november 2026");
   `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the only
   place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy; `timeInput.ts`, typed
