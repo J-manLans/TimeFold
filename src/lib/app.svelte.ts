@@ -17,6 +17,7 @@ import {
   type TimeRecord,
 } from '$lib/modules/shared/record'
 import { deleteEntry, savedEntryId, saveLine } from '$lib/modules/edit/edit'
+import { learnReason } from '$lib/modules/edit/reasons'
 import { type LineState, type View } from '$lib/modules/edit/line'
 import { toggleFlexDay } from '$lib/modules/menu/flexDays'
 import {
@@ -256,7 +257,8 @@ class AppState {
   async saveEdit(line: LineState, reason: string): Promise<void> {
     if (this.record === null) return
     const before = this.record
-    this.record = saveLine(before, line, reason)
+    // A typed reason is counted, and joins the list on its third writing ("Every edit carries a reason")
+    this.record = learnReason(saveLine(before, line, reason), reason)
     this.savedId = this.editing?.stacked ? savedEntryId(before, this.record, line) : null
     this.editing = null
     await saveRecord(this.record)

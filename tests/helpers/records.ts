@@ -1,6 +1,6 @@
 /** Records several test files share */
 
-import { RECORD_FORMAT, RECORD_VERSION, type Entry, type TimeRecord } from '$lib/modules/shared/record'
+import { FIRST_REASONS, RECORD_FORMAT, RECORD_VERSION, type Entry, type TimeRecord } from '$lib/modules/shared/record'
 
 /**
  * A sound record of this version: full time, one profile with a balance and a salary, an opening, a stopped entry and
@@ -34,6 +34,7 @@ export const RECORD: TimeRecord = {
     },
     { id: 'e2', profile: 'p1', start: '2026-11-17T08:01:00+02:00', stop: null, made: 'clicked', breakMinutes: 0 },
   ],
+  reasons: { list: [...FIRST_REASONS], forgotten: [], written: [] },
 }
 
 /**

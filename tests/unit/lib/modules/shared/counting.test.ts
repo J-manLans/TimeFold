@@ -16,6 +16,7 @@ import {
   timeOfDay,
 } from '$lib/modules/shared/counting'
 import {
+  FIRST_REASONS,
   freshRecord,
   RECORD_FORMAT,
   RECORD_VERSION,
@@ -48,6 +49,7 @@ function record(entries: Entry[], openingMinutes = 0, flexDays: string[] = []): 
     openings: [{ profile: JANITOR.id, day: '2026-11-16', balanceMinutes: openingMinutes }],
     fullTime: [{ from: '2026-01-01', minutes: 480 }],
     entries,
+    reasons: { list: [...FIRST_REASONS], forgotten: [], written: [] },
   }
 }
 
@@ -206,6 +208,7 @@ function workRecord(entries: Entry[], janitor: Profile = JANITOR, others: Profil
     openings: [{ profile: janitor.id, day: SINCE_NEW_YEAR, balanceMinutes: 0 }],
     fullTime: [{ from: SINCE_NEW_YEAR, minutes: 480 }],
     entries,
+    reasons: { list: [...FIRST_REASONS], forgotten: [], written: [] },
   }
 }
 

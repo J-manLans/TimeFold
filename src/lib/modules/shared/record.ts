@@ -13,7 +13,7 @@ import { FIRST_HUE, baseColour } from '$lib/modules/shared/colours'
 export const RECORD_FORMAT = 'timefold-record'
 
 /** The shape's version; it goes up whenever the shape changes */
-export const RECORD_VERSION = 4
+export const RECORD_VERSION = 5
 
 /** The janitor's expected minutes a working day, as a fresh record starts them ("Expected hours: 6 a day, Monday to Friday") */
 const EXPECTED_MINUTES = 6 * 60
@@ -23,6 +23,16 @@ const EXPECTED_MINUTES = 6 * 60
  * min ("The other profiles share a ceiling")
  */
 const FULL_TIME_MINUTES = 7 * 60 + 39
+
+/** The reasons an edit can be given as a record starts them, before "Annan orsak" ("Every edit carries a reason") */
+export const FIRST_REASONS = [
+  'Glömde stämpla in',
+  'Glömde stämpla ut',
+  'Fel profil',
+  'Ärende',
+  'Glömd paus',
+  'Glömd post',
+]
 
 /** A calendar day, written YYYY-MM-DD */
 export type Day = string
@@ -50,6 +60,8 @@ export interface Profile {
    * ("A flex day can be marked ahead, and the screen counts it at once"), in order
    */
   flexDays?: Day[]
+  /** Taken out of use but kept with its hours ("A profile with hours is archived, one without is deleted"); absent while active */
+  archived?: true
 }
 
 /** What a profile pays, in euros: a salary once a month, or a rate for each hour worked */
@@ -66,6 +78,18 @@ export interface Opening {
   profile: string
   day: Day
   balanceMinutes: number
+  /** The ceiling's trend up to this day, when a prune cut into it ("Old history is pruned on request"); absent otherwise */
+  trendMinutes?: number
+}
+
+/** The edit's reasons ("Every edit carries a reason"): the list, what it has forgotten, and the typed texts it counts */
+export interface Reasons {
+  /** The list, in the order kept; shown in Swedish alphabetical order */
+  list: string[]
+  /** Reasons removed from the list, in their matched form, never learned again */
+  forgotten: string[]
+  /** "Annan orsak" texts written, in their matched form, with how many times; one at three joins the list */
+  written: { text: string; times: number }[]
 }
 
 /** How an entry was made ("Entries remember how they were made") */
@@ -93,6 +117,7 @@ export interface TimeRecord {
   /** Full time a working day, whose rest after the janitor's expected hours is the other profiles' ceiling */
   fullTime: FromDay<{ minutes: number }>[]
   entries: Entry[]
+  reasons: Reasons
 }
 
 /** Why a file could not be read as a record */
@@ -149,6 +174,7 @@ export function readRecord(text: string): ReadResult {
     if (data.version === 1) upgradeFromOne(data)
     if (data.version === 2) upgradeFromTwo(data)
     if (data.version === 3) upgradeFromThree(data)
+    if (data.version === 4) upgradeFromFour(data)
     checkRecord(data)
   } catch (error) {
     if (error instanceof ShapeError) return { ok: false, problem: { kind: 'wrong-shape', where: error.where } }
@@ -183,6 +209,7 @@ export function freshRecord(profileName: string, openingMinutes: number, firstDa
     openings: [{ profile: 'p1', day: firstDay, balanceMinutes: openingMinutes }],
     fullTime: [{ from: firstDay, minutes: FULL_TIME_MINUTES }],
     entries: [],
+    reasons: { list: [...FIRST_REASONS], forgotten: [], written: [] },
   }
 }
 
@@ -282,6 +309,15 @@ function upgradeFromThree(data: Fields): void {
   data.version = 4
 }
 
+/**
+ * Brings a version 4 record to version 5: the reasons, until now fixed, become the record's own list, with nothing
+ * learned or forgotten yet; every profile stays active. Used by `readRecord` before the check
+ */
+function upgradeFromFour(data: Fields): void {
+  data.reasons = { list: [...FIRST_REASONS], forgotten: [], written: [] }
+  data.version = 5
+}
+
 /** Whether a value is a string. Used by `upgradeFromOne` to keep only the openings' days */
 function isText(value: unknown): value is string {
   return typeof value === 'string'
@@ -320,11 +356,13 @@ function checkRecord(data: Fields): void {
       if (!Array.isArray(profile.flexDays)) throw new ShapeError(`${at}.flexDays`)
       profile.flexDays.forEach((flex, i) => day(flex, `${at}.flexDays[${i}]`))
     }
+    if (profile.archived !== undefined && profile.archived !== true) throw new ShapeError(`${at}.archived`)
   })
   list(data.openings, 'openings', (opening, at) => {
     text(opening.profile, `${at}.profile`)
     day(opening.day, `${at}.day`)
     whole(opening.balanceMinutes, `${at}.balanceMinutes`)
+    if (opening.trendMinutes !== undefined) whole(opening.trendMinutes, `${at}.trendMinutes`)
   })
   list(data.fullTime, 'fullTime', (item, at) => {
     day(item.from, `${at}.from`)
@@ -339,6 +377,19 @@ function checkRecord(data: Fields): void {
     whole(entry.breakMinutes, `${at}.breakMinutes`, 0)
     if (entry.reason !== undefined) text(entry.reason, `${at}.reason`)
   })
+  const reasons = fields(data.reasons, 'reasons')
+  texts(reasons.list, 'reasons.list')
+  texts(reasons.forgotten, 'reasons.forgotten')
+  list(reasons.written, 'reasons.written', (item, at) => {
+    text(item.text, `${at}.text`)
+    whole(item.times, `${at}.times`, 1)
+  })
+}
+
+/** A list of strings with something in each, or a ShapeError at `where`. Used for the reasons and those forgotten */
+function texts(value: unknown, where: string): void {
+  if (!Array.isArray(value)) throw new ShapeError(where)
+  value.forEach((item, i) => text(item, `${where}[${i}]`))
 }
 
 /** A whole number within `min` and `max`, or a ShapeError at `where`. Used for minutes, the hue and the version */
@@ -370,7 +421,7 @@ function day(value: unknown, where: string): void {
   if (typeof value !== 'string' || !DAY.test(value) || Number.isNaN(Date.parse(value))) throw new ShapeError(where)
 }
 
-/** A value as an object, or a ShapeError at `where`. Used for each profile, opening and entry */
+/** A value as an object, or a ShapeError at `where`. Used for each profile, opening and entry, and the reasons */
 function fields(value: unknown, where: string): Fields {
   if (!isObject(value)) throw new ShapeError(where)
   return value
