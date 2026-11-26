@@ -109,11 +109,13 @@
   --lv-note-gap: 14px;    /* from a value to its quieter note, such as Heltid's weekday */
   /* A profile's colours in its menu row: the pair it wears, beside "Ändra" */
   --pair-swatch: 18px;    /* each of the two small swatches, the base and the neon */
-  /* "Ny profil": a taken name's note under the field, in the neon of the profile on screen */
+  /* "Ny profil": a taken name's note under the field, in the removal red as every refused value */
   --name-warn-size: var(--size-note);   /* the note's text */
   --name-warn-gap: 8px;   /* from the field down to the note */
   /* "Arkiverade": the folded section at the bottom of Profiler */
   --arch-gap: 14px;       /* from the line above (Ny profil) down to its head */
+  /* The ceiling's trend, beside the pay estimate under the wheel, worked out from the past months and Tid's settings */
+  --trend-gap: 14px;      /* from the estimate to the trend */
   /* Today's pie, beside the status line ("Worked today" in the toolbar) */
   --pie: 40px;            /* its size */
   --pie-gap: 10px;        /* from the end of the status text */
@@ -141,6 +143,8 @@
   --el-handle: var(--knob);  /* a handle: the same round knob as the colour picker's */
   --ed-tag-gap: 6px;    /* between an entry's times and its "paus" tag in the edit */
   --ed-pick-max: 17ch;  /* "Välj orsak" with a reason chosen: the longest it shows before "…" ("Glömde stämpla ut") */
+  --ed-list-rows: 7;    /* the open list of reasons at its tallest, in lines, "Annan orsak" included; past it, it scrolls */
+  --ed-pen: 12px;       /* the pen after a reason under the pointer, drawn as the calendar's padlock */
   /* The flex-day calendar in the menu's Tid tab */
   --cal-cell: 30px;     /* each day's square */
   --cal-gap: 4px;       /* between the days */
@@ -558,6 +562,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .prow-head .chev { margin-left: auto; color: var(--c-muted); transition: transform var(--speed-fade) ease; }
 .prow.open .chev { transform: rotate(90deg); }
 .prow.archived .prow-head { opacity: 0.55; }
+/* "Arkivera" on a profile that runs: refused, the note under the button in the removal red, as a refused name's */
+.arch-warn-row { display: flex; gap: 10px; }
+.arch-warn-row > span:first-child { flex: none; width: var(--lv-label); }
+.arch-warn { font-size: var(--size-note); color: var(--f-remove); }
 /* "Arkivera" and "Ta bort" ask once: the word gets its "?" and a border; "Ta bort" in removal red throughout */
 .menu .small .q { visibility: hidden; }
 .menu .small.ask .q { visibility: visible; }
@@ -568,7 +576,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
    beside the field stay level with it */
 #newLine { align-items: baseline; }
 .new-field { display: inline-grid; row-gap: var(--name-warn-gap); }
-.new-warn { justify-self: center; width: 0; display: flex; justify-content: center; white-space: nowrap; font-size: var(--name-warn-size); color: var(--accent, var(--c-fg)); }
+.new-warn { justify-self: center; width: 0; display: flex; justify-content: center; white-space: nowrap; font-size: var(--name-warn-size); color: var(--f-remove); }
 /* "Arkiverade": folded shut under the profiles, opening as a profile row does; gone while nothing is archived */
 .arch { margin-top: var(--arch-gap); }
 .arch-head { display: flex; align-items: center; gap: 8px; width: 100%; font: inherit; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); font-weight: 600; text-align: left; padding: 4px 0; background: none; border: 0; color: var(--c-muted); cursor: pointer; }
@@ -595,8 +603,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pg-check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
 .pg-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent, var(--c-fg)); }
 .pg-label { margin-left: var(--lv-note-gap); color: var(--c-muted); }
-/* The percentage as a tag, and its field in the same border, as the edit's "paus" tag */
-.pg-tag, .menu input.pg-in[type="text"] { font: inherit; font-size: var(--size-small); color: var(--c-fg); background: none; border: 1px solid var(--c-line); border-radius: var(--r-tag); padding: 1px 6px; }
+/* The percentage as a tag, and its field in the same border, drawn as the edit's "paus" tag */
+.pg-tag, .menu input.pg-in[type="text"] { font: inherit; font-size: var(--size-label); color: var(--c-fg); background: none; border: 1px solid var(--c-line); border-radius: var(--r-tag); padding: var(--pad-tag); }
 .pg-tag { cursor: pointer; font-variant-numeric: tabular-nums; }
 .pg-tag:hover { border-color: var(--c-fg); }
 .menu input.pg-in[type="text"] { width: 5ch; box-sizing: content-box; outline: none; text-transform: none; letter-spacing: normal; }
@@ -643,6 +651,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @keyframes breathe { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(1.6); } }
 .wheelbox { display: grid; justify-items: center; gap: 6px; }
 .wheelbox svg { width: 200px; height: 200px; display: block; }
+/* The estimate and the ceiling's trend side by side, both quiet, with no labels */
+.pay-row { display: flex; justify-content: center; align-items: baseline; gap: var(--trend-gap); }
 .pay { font-size: var(--size-ui); color: var(--f-muted); font-variant-numeric: tabular-nums; }
 .allpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 8; }
 .allpop .card, .edpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; border: 1px solid var(--f-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: 10px; }
@@ -662,10 +672,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-times { font-size: var(--size-small); color: var(--f-muted); min-height: 1.3em; }
 .ed-times b { color: var(--f-fg); font-weight: 400; }
 /* The break after the time: the list's "paus" tag, here also its control, one per part; "Lägg till paus" with none,
-   bordered as the menu's percentage tag, "+ paus" where the longer words would wrap. Red while a handle sits where its part can no longer hold it. */
+   drawn as the "paus" tag, "+ paus" where the longer words would wrap. Red while a handle sits where its part can no longer hold it. */
 .ed-times .tag, .ed-times .brk-in { margin-left: var(--ed-tag-gap); }
 .ed-times .tag { font: inherit; font-size: var(--size-label); color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: var(--pad-tag); cursor: pointer; }
-.ed-times .tag.add:hover { border-color: var(--f-fg); }   /* as the menu's percentage tag under the pointer */
+.ed-times .tag:not(.still):not(.warn):hover { border-color: var(--f-fg); }   /* every tag that can be clicked, as the menu's percentage tag */
 .ed-times .tag.warn { color: var(--f-remove); border-color: var(--f-remove); }
 .ed-times .tag.still { color: var(--f-muted); cursor: default; }
 .ed-times .nb { color: var(--f-muted); }   /* the parts left around a new entry: grey, as neighbours */
@@ -744,6 +754,18 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-list button:disabled { opacity: var(--disabled-o); cursor: default; }
 .ed-list .other.current:not(:focus) { opacity: var(--disabled-o); }
 .ed-list button:hover:not(:disabled) { background: var(--f-bg); }
+.ed-list { overflow-y: auto; }   /* its greatest height is set by the script, from --ed-list-rows */
+/* A reason's line: the reason, and the pen that edits it, shown while the pointer is on the line */
+.ed-rrow { display: flex; align-items: center; gap: 2px; max-width: 100%; }
+.ed-list .ed-pen { display: grid; place-items: center; padding: 3px; color: var(--f-muted); opacity: 0; }
+.ed-list .ed-pen svg { width: var(--ed-pen); height: var(--ed-pen); }
+.ed-rrow:hover .ed-pen, .ed-list .ed-pen:focus-visible { opacity: 1; }
+.ed-list .ed-pen:hover { background: none; color: var(--f-fg); }
+/* A reason being edited: the line turned into a field drawn as "Annan orsak"; emptied and Enter, it asks "Ta bort?" in
+   the removal red; a name already in the list is refused with a note under it, in the same red */
+.ed-list .other.ask::placeholder { color: var(--f-remove); }
+.ed-list .other.ask { border-bottom-color: var(--f-remove); }
+.ed-rwarn { margin: 0 0 3px 8px; font-size: var(--size-note); color: var(--f-remove); }
 .ed-actions { display: flex; gap: 8px; align-items: center; }
 .ed-actions .spacer { flex: 1; }
 .ed-actions button { font: inherit; font-size: var(--size-small); border: 1px solid var(--f-line); background: none; color: var(--f-fg); border-radius: var(--r-small); padding: 4px 12px; cursor: pointer; }
@@ -1010,7 +1032,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       </div>
       <div class="wheelbox">
         <svg id="wheelSvg" viewBox="0 0 200 200" role="img" aria-label="Takhjul"></svg>
-        <div class="pay" id="payNum"></div>
+        <div class="pay-row"><div class="pay" id="payNum"></div><div class="pay" id="trendNum"></div></div>
       </div>
       <div class="entries">
         <span class="flabel">Senaste</span>
@@ -1072,6 +1094,37 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     return n * Math.max(0, full - split) / WEEKDAYS;
   }
   var CEILING = monthCeiling();
+  // Sketch only: the four months before this one, as hours over (+) or under (−) the ceiling those months had, oldest
+  // first: +3:00, −2:00, +4:30, +2:00, so +7:30 with the ceiling unchanged. Earlier months sit exactly at their ceiling.
+  var PAST_OFFSETS = [180, -120, 270, 120];
+  // A month's ceiling in minutes, each weekday under the full time and split in force on it in `st` ("The other
+  // profiles share a ceiling"); y and m as in Date (m from 0).
+  function ceilingOf(y, m, st) {
+    var n = 0;
+    for (var day = new Date(y, m, 1); day.getMonth() === ((m % 12) + 12) % 12; day.setDate(day.getDate() + 1)) {
+      if (day.getDay() % 6 === 0) continue;
+      var d = isoDay(day), full = inForce(st.fullTime, d), split = inForce(st.split, d);
+      if (full !== undefined) n += Math.max(0, full - (split || 0)) / WEEKDAYS;
+    }
+    return n;
+  }
+  // The ceiling's trend ("The ceiling's trend"): each finished month's hours over or under its ceiling, summed from the
+  // month of the ceiling's latest change that has taken effect; the month under way never counts. A month's hours are
+  // its ceiling under the settings it was first sketched with, plus its offset, so a ceiling changed from a past date
+  // moves the trend as the real hours would.
+  var BASE = { fullTime: [{ from: "2026-01-01", v: 2295 }], split: [{ from: "2026-01-01", v: 1800 }] };
+  function ceilingTrend() {
+    var t = new Date(), today = isoDay(t), last = "";
+    settings.fullTime.concat(settings.split).forEach(function (e) { if (e.from <= today && e.from > last) last = e.from; });
+    var start = new Date(+last.slice(0, 4), +last.slice(5, 7) - 1, 1), sum = 0;
+    for (var k = PAST_OFFSETS.length; k >= 1; k--) {
+      var mo = new Date(t.getFullYear(), t.getMonth() - k, 1);
+      if (mo < start) continue;
+      var worked = ceilingOf(mo.getFullYear(), mo.getMonth(), BASE) + PAST_OFFSETS[PAST_OFFSETS.length - k];
+      sum += worked - ceilingOf(mo.getFullYear(), mo.getMonth(), settings);
+    }
+    return Math.round(sum);
+  }
   // The figures panel's actual background, as the colour rule's "background" (it changes with the theme).
   function panelBg() {
     var s = getComputedStyle(document.getElementById("panelProbe")).backgroundColor, m;
@@ -1180,10 +1233,22 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // Janitor work has a monthly salary (its hours move the balance, not the pay); the others a rate per hour.
   var profiles = [{ id: "v", name: "Vaktmästare", balance: true, salary: 2000 }, { id: "u", name: "Utveckling", rate: 24 }];
   var onScreen = "v", running = null; // running: { profile, start }
-  var balance = 270, used = 2280, pay = 2036; // minutes, minutes, euro (2 000 salary + 1.5 h × 24)
-  var shown = { balance: 270, used: 2280, pay: 2036 };
+  var balance = 270, used = 2280, pay = 0; // minutes, minutes, euro (worked out by payNow once the pay is set up)
+  var shown = { balance: 270, used: 2280, pay: 0 };
   // The ceiling's hours in the order they were worked, each piece with its profile; `used` is their sum.
   var usedLog = [{ p: "u", mins: 2280 }];
+  // The pay estimate ("A pay estimate per profile"): each salary in force today, plus each rate in force times its profile's
+  // hours in the ceiling this month; janitor's hours move the balance, not the pay.
+  function payNow() {
+    var sum = 0;
+    profiles.forEach(function (q) {
+      var v = q.pay && inForce(q.pay.hist, isoDay(new Date()));
+      if (v === undefined) return;
+      if (q.pay.kind === "salary") sum += v;
+      else sum += v * usedLog.reduce(function (a, x) { return a + (x.p === q.id ? x.mins : 0); }, 0) / 60;
+    });
+    return Math.round(sum);
+  }
   function addUsed(id, mins) {
     var last = usedLog[usedLog.length - 1];
     if (last && last.p === id) last.mins += mins; else usedLog.push({ p: id, mins: mins });
@@ -1359,6 +1424,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     t.textContent = hmPlain(shown.used); svg.appendChild(t);
     var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, style: "fill: var(--f-ink)", "letter-spacing": "1.5" });
     s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);
+    $("trendNum").textContent = hm(ceilingTrend());
     $("payNum").textContent = "≈ " + Math.round(shown.pay * (payTax.before ? 1 : 1 - payTax.pct / 100)).toLocaleString("sv-SE") + " €";
   }
   // A colour faded: the same hue, with less strength and its lightness a little toward the background's.
@@ -1515,8 +1581,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var r = running, end = new Date(), start = r.real ? r.start : new Date(Math.max(end.getTime() - 135 * 60000, entries.length ? +entries[0].end : 0));
     entries.unshift({ start: start, end: end, profile: r.profile, brk: r.brk || 0, how: r.how, reason: r.reason });
     running = null;
-    var p = prof(r.profile), t = { balance: balance, used: used, pay: pay + 135 / 60 * (p.rate || 0) };
+    var p = prof(r.profile), t = { balance: balance, used: used };
     if (p.balance) t.balance = balance + 15; else { t.used = used + 135; addUsed(p.id, 135); }
+    t.pay = payNow();
     balance = t.balance; used = t.used; pay = t.pay; syncSim();
     drawEntries(true); settleScale(Math.abs(t.balance), true); tweenTo(t); drawControls();
   }
@@ -1717,6 +1784,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function pillInk(neon) { return (luminance(neon) + 0.05) / 0.05 >= PILL_INK_MIN ? "#000" : "#fff"; }
   var STEP_DELAY = 400, STEP_FASTEST = 30, STEP_SPEEDUP = 0.85;   // a held − or +: the wait before it repeats, and how it speeds up
   var REASONS = ["Glömde stämpla in", "Glömde stämpla ut", "Fel profil", "Ärende", "Glömd paus", "Glömd post"];
+  // The picker learns: an "Annan orsak" text written three times joins the list. Texts are matched lowercased, without
+  // punctuation or extra spaces. A reason removed from the list is remembered, so it is never learned again.
+  // Sketch only: "Hämtade nycklar hos rektorn" has been written twice, so a third time adds it.
+  var OTHER_COUNTS = { "hämtade nycklar hos rektorn": 2 }, FORGOTTEN = [], LEARN_AT = 3;
+  function normReason(t) { return t.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, "").replace(/\s+/g, " ").trim(); }
+  function reasonTaken(t, except) { var k = normReason(t); return REASONS.some(function (x) { return x !== except && normReason(x) === k; }); }
+  function learnReason(t) {
+    var k = normReason(t);
+    if (!k || reasonTaken(t, null) || FORGOTTEN.indexOf(k) !== -1) return;
+    OTHER_COUNTS[k] = (OTHER_COUNTS[k] || 0) + 1;
+    if (OTHER_COUNTS[k] >= LEARN_AT) { var v = t.trim(); REASONS.push(v.charAt(0).toUpperCase() + v.slice(1)); }
+  }
   var ed = null;
   // A running entry is edited at its start and profile only: its end is now, the now-line, with no handle; saved, it
   // runs on from its new start
@@ -2336,7 +2415,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // text's start
   function sizeOther(el, typing) {
     var cap = parseFloat(getComputedStyle(el).getPropertyValue("--ed-pick-max")) || 17;
-    var n = el.value ? el.value.length : el.placeholder.length;
+    // Never narrower than one character, so an emptied field keeps room for its caret
+    var n = Math.max(1, el.value ? el.value.length : el.placeholder.length);
     el.style.width = (typing ? n : Math.min(n, cap)) + "ch";
     if (!typing) el.scrollLeft = 0;
   }
@@ -2345,23 +2425,74 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     pick.textContent = !r ? "Välj orsak" : r === "other" ? ed.other : r;
     pick.classList.toggle("chosen", !!r);
     $("edList").querySelectorAll("button").forEach(function (b) { b.disabled = b.textContent === r; });
-    var other = $("edList").querySelector(".other"); if (other) other.classList.toggle("current", r === "other");
+    var other = $("edList").querySelector(".other:not(.rename)"); if (other) other.classList.toggle("current", r === "other");
   }
   function keepOther() {
     ed.other = ed.other.trim();
     if (ed.other) ed.reason = "other"; else if (ed.reason === "other") ed.reason = null;
     showReason(); drawEdit();
   }
+  var PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>';
+  // A reason's pen turns its line into a field drawn as "Annan orsak", the old text in it. Enter keeps a new text, a
+  // name already in the list refused; emptied, Enter asks "Ta bort?" and a second Enter removes the reason. Esc or a
+  // click outside puts the line back as it was. Editing a line does not choose it; no entry changes.
+  function editReasonLine(row, old) {
+    var inp = document.createElement("input"); inp.type = "text"; inp.className = "other rename"; inp.autocomplete = "off";
+    inp.value = old; inp.placeholder = "";
+    var warn = document.createElement("div"); warn.className = "ed-rwarn"; warn.hidden = true;
+    clear(row); row.append(inp); row.after(warn);
+    var asked = false, done = false;
+    function back() { if (done) return; done = true; warn.remove(); renderReasons(); }
+    sizeOther(inp, true); inp.focus(); inp.setSelectionRange(old.length, old.length);
+    inp.addEventListener("input", function () {
+      capFirst(this); asked = false; this.classList.remove("ask"); this.placeholder = ""; warn.hidden = true; sizeOther(this, true);
+    });
+    inp.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); back(); $("edPick").focus(); return; }
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      var v = this.value.trim();
+      if (!v) {
+        if (!asked) { asked = true; this.value = ""; this.placeholder = "Ta bort?"; this.classList.add("ask"); sizeOther(this, true); return; }
+        REASONS.splice(REASONS.indexOf(old), 1); FORGOTTEN.push(normReason(old));
+        if (ed.reason === old) ed.reason = null;
+      } else {
+        if (reasonTaken(v, old)) { warn.textContent = "Orsaken finns redan"; warn.hidden = false; return; }
+        REASONS[REASONS.indexOf(old)] = v; if (ed.reason === old) ed.reason = v;
+      }
+      back(); showReason(); drawEdit(); $("edPick").focus();
+    });
+    inp.addEventListener("blur", back);
+  }
+  function renderReasons() {
+    var list = $("edList"), keep = list.querySelector(".other:not(.rename)");
+    clear(list);
+    // In alphabetical order, the Swedish way (Å, Ä, Ö after Z); "Annan orsak" always last
+    REASONS.slice().sort(function (x, y) { return x.localeCompare(y, "sv"); }).forEach(function (r) {
+      var row = document.createElement("div"); row.className = "ed-rrow";
+      var bt = document.createElement("button"); bt.type = "button"; bt.textContent = r;
+      bt.addEventListener("click", function () { ed.reason = r; listOpen(false); showReason(); drawEdit(); });
+      var pen = document.createElement("button"); pen.type = "button"; pen.className = "ed-pen"; pen.innerHTML = PEN;
+      pen.setAttribute("aria-label", "Ändra " + r);
+      pen.addEventListener("click", function () { editReasonLine(row, r); });
+      row.append(bt, pen); list.appendChild(row);
+    });
+    if (keep) list.appendChild(keep);
+    showReason(); capList();
+  }
+  // The list stops after --ed-list-rows lines, "Annan orsak" counted as one: its height is where the next line starts.
+  function capList() {
+    var list = $("edList"), rows = parseInt(getComputedStyle(list).getPropertyValue("--ed-list-rows"), 10) || 7;
+    var lines = list.querySelectorAll(":scope > .ed-rrow, :scope > .other:not(.rename)");
+    list.style.maxHeight = "";
+    if (lines.length <= rows) return;
+    list.style.maxHeight = (lines[rows].getBoundingClientRect().top - list.getBoundingClientRect().top + list.scrollTop) + "px";
+  }
   $("edPick").addEventListener("click", function () {
     var list = $("edList");
     if (isListOpen()) { listOpen(false); return; }
     clear(list);
-    // In alphabetical order, the Swedish way (Å, Ä, Ö after Z); "Annan orsak" always last
-    REASONS.slice().sort(function (x, y) { return x.localeCompare(y, "sv"); }).forEach(function (r) {
-      var bt = document.createElement("button"); bt.type = "button"; bt.textContent = r;
-      bt.addEventListener("click", function () { ed.reason = r; listOpen(false); showReason(); drawEdit(); });
-      list.appendChild(bt);
-    });
+    renderReasons();
     var other = document.createElement("input"); other.className = "other"; other.type = "text";
     other.placeholder = "Annan orsak"; other.autocomplete = "off"; other.value = ed.other;
     sizeOther(other, false);
@@ -2385,18 +2516,19 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // Enter and Esc close the list first, so the blur that follows changes nothing
     other.addEventListener("blur", function () { sizeOther(this, false); if (ed && isListOpen()) keepOther(); });
     list.appendChild(other);
-    showReason(); listOpen(true);
+    showReason(); capList(); listOpen(true);
   });
   $("edCancel").addEventListener("click", function () { closeEdit(); markPicked(null); });
   // The simulated figures follow: janitor minutes move the balance, the others the ceiling.
   function bump(id, mins) {
     if (!mins) return;
-    if (prof(id).balance) balance += mins; else { used = Math.max(0, used + mins); if (mins > 0) addUsed(id, mins); }
+    if (prof(id).balance) balance += mins; else if (mins > 0) { used += mins; addUsed(id, mins); } else setUsed(Math.max(0, used + mins));
   }
   function refigure() { syncSim(); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay }); drawEntries(false); }
   $("edSave").addEventListener("click", function () {
     if (!ed || this.disabled) return;
     var why = ed.reason === "other" ? ed.other.trim() : ed.reason;
+    if (ed.reason === "other") learnReason(why);
     if (ed.running) {
       ed.joinsL.forEach(function (x) { bump(x.profile, -dur(x)); entries.splice(entries.indexOf(x), 1); });
       running.start = new Date(ed.s); running.real = true; running.profile = ed.profile; running.brk = edBreak();
@@ -2665,7 +2797,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // A name belongs to one profile, active or archived: a taken one is refused, the field kept open with a note.
     var no = nameTaken(n, null);
     if (no) { $("newWarn").textContent = no; $("newWarn").hidden = false; return; }
-    var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
+    var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, archived: false };
     setHue(q, nextProfileHue(profiles.map(function (x) { return x.id; })));
     profiles.push(q); closeNew(); openRow = q.id; renderProfiles(); drawControls();
   });
@@ -2689,8 +2821,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function now(h) { return h[h.length - 1].v; }
   profiles.forEach(function (q) {
     q.pay = q.salary ? { kind: "salary", hist: [{ from: "2026-01-01", v: q.salary }] } : { kind: "rate", hist: q.rate ? [{ from: "2026-01-01", v: q.rate }] : [] };
-    q.category = q.balance ? "Månadslön" : "Timlön"; q.archived = false;
+    q.archived = false;
   });
+  pay = shown.pay = payNow();
   function activeProfiles() { return profiles.filter(function (q) { return !q.archived; }); }
   setHue(balanceProfile(), NEON.start);
   profiles.forEach(function (q) { if (!q.colour) setHue(q, nextProfileHue(profiles.filter(function (x) { return x !== q && x.colour; }).map(function (x) { return x.id; }))); });
@@ -2780,7 +2913,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         // Another date may fit where this one did not: the warning goes back to the keys (or away, beside a slider).
         date.addEventListener("input", function () { if (keys.classList.contains("warn")) { keys.classList.remove("warn"); keys.textContent = "Enter sparar · Esc avbryter"; keys.hidden = !!slider; } });
       }
-      date.value = isoDay(new Date()); btn.hidden = true;
+      // Full time and the split usually change at a month's start: their date opens on the 1st of next month.
+      var t = new Date(); date.value = isoDay(o.fromMonth ? new Date(t.getFullYear(), t.getMonth() + 1, 1) : t); btn.hidden = true;
       // The slider stays in hand: its numbers above show what waits, and the buttons save or drop it.
       if (slider) { pend.textContent = "från"; pend.hidden = false; save.hidden = cancel.hidden = false; wrap.classList.add("asking"); grow.inert = false; return; }
       pend.textContent = o.show(v) + " från"; pend.hidden = false;
@@ -2943,8 +3077,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var wrap = document.createElement("div"); wrap.className = "prow-wrap"; wrap.inert = openRow !== q.id;
       {
         var body = document.createElement("div"); body.className = "prow-body";
-        // Name and pay category change at once: no count depends on them.
-        // Name and pay category: behind "Ändra" like every field; no "Gäller från", since no count depends on them.
+        // The name: behind "Ändra" like every field; no "Gäller från", since no count depends on it.
         var f1 = lockedValue({
           label: "Namn", undated: true, cap: true, hist: function () { return [{ v: q.name }]; },
           show: function (v) { return v; }, toText: function (v) { return v; },
@@ -2953,22 +3086,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           save: function (v) { q.name = v; },
           onCommit: function () { nm.textContent = q.name; d.textContent = q.name.charAt(0).toUpperCase(); drawControls(); }
         });
-        var f2 = lockedValue({
-          label: "Lönekategori", undated: true, hist: function () { return [{ v: q.category }]; },
-          show: function (v) { return v || "Ingen"; }, toText: function (v) { return v; },
-          parse: function (s) { return s.trim(); },
-          save: function (v) { q.category = v; }
-        });
-        var pay = lockedValue({
+        var payCtl = lockedValue({
           label: q.pay.kind === "salary" ? "Månadslön" : "Timpris",
           hist: function () { return q.pay.hist; },
           show: function (v) { return v.toLocaleString("sv-SE") + (q.pay.kind === "salary" ? " € / månad" : " € / h"); },
           toText: function (v) { return String(v); },
-          parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; }
+          parse: function (s) { var n = Number(s.replace(",", ".").replace(/\s/g, "")); return s.trim() && n >= 0 ? n : null; },
+          // The estimate under the wheel follows a new salary or rate once its date has come.
+          onCommit: function () { syncSim(); tweenTo({ balance: balance, used: used, pay: pay }); }
         });
         var fc = colourField(q, function (hex, h) { q.colour = hex; q.strip = h; q.hue = stripHue(h); syncOver(); recolour(); });
         function syncOver() { var c = stateColours(q.id); d.style.color = c.letter; d.style.borderColor = c.ring; }
-        body.append(fc, f1, pay, f2);   // the colour first, compact on one line
+        body.append(fc, f1, payCtl);   // the colour first, compact on one line
         if (!q.balance) {
           var f3 = document.createElement("div"); f3.className = "field";
           var arch = document.createElement("button"); arch.type = "button"; arch.className = "small";
@@ -2977,14 +3106,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           var gone = !q.archived && !hasHours(q), asked = false;
           if (q.archived) arch.textContent = "Återställ";
           else { arch.innerHTML = (gone ? "Ta bort" : "Arkivera") + '<span class="q">?</span>'; if (gone) arch.classList.add("remove"); }
-          arch.addEventListener("focusout", function () { asked = false; arch.classList.remove("ask"); });
+          arch.addEventListener("focusout", function () { asked = false; arch.classList.remove("ask"); stopFirst.hidden = true; });
+          // A profile that runs is neither archived nor deleted: the click is refused with a note, until it is stopped.
+          var stopFirst = document.createElement("span"); stopFirst.className = "arch-warn"; stopFirst.textContent = "Stoppa jobbet först"; stopFirst.hidden = true;
           arch.addEventListener("click", function () {
+            if (!q.archived && running && running.profile === q.id) { stopFirst.hidden = false; return; }
             if (!q.archived && !asked) { asked = true; arch.classList.add("ask"); return; }
             if (gone) profiles.splice(profiles.indexOf(q), 1); else q.archived = !q.archived;
             if ((gone || q.archived) && onScreen === q.id) onScreen = activeProfiles()[0].id;
             openRow = null; renderProfiles(); recolour();
           });
           var sp = document.createElement("span"); f3.append(sp, arch); body.appendChild(f3);
+          var f4 = document.createElement("div"); f4.className = "arch-warn-row"; f4.append(document.createElement("span"), stopFirst); body.appendChild(f4);
         }
         var clip = document.createElement("div"); clip.className = "prow-clip";
         clip.appendChild(body); wrap.appendChild(clip); li.appendChild(wrap);
@@ -3013,7 +3146,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var wt = $("workTime"); clear(wt); var splitCtl;
     wt.appendChild(lockedValue({
       // Entered as a week, in quarter hours, and shown with the weekday it gives beside it.
-      label: "Heltid", hist: function () { return settings.fullTime; },
+      label: "Heltid", fromMonth: true, hist: function () { return settings.fullTime; },
       show: function (v) { return lengthText(v) + " / vecka"; }, note: function (v) { return lengthText(v / WEEKDAYS) + " / dag"; },
       toText: lengthField, parse: readHours,
       refuse: function (v) { return v % WEEK_STEP ? "Ange veckan i steg om " + WEEK_STEP + " minuter" : null; },
@@ -3026,7 +3159,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       onCommit: function () { if (splitCtl) splitCtl.refresh(); drawFigures(); }
     }));
     wt.appendChild(splitCtl = lockedValue({
-      label: "Fördelning", hist: function () { return settings.split; }, onCommit: function () { drawFigures(); },
+      label: "Fördelning", fromMonth: true, hist: function () { return settings.split; }, onCommit: function () { drawFigures(); },
       // Never more than full time on any day from its date, an earlier full time included.
       refuseFrom: function (v, from) {
         var m = misfit(settings.fullTime, withEntry(settings.split, from, v), from);
@@ -3280,9 +3413,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var SIM_BAL_CURVE = 3;    // 1 is even; higher gives finer steps around 0 and coarser at the ends
   function balFromHandle(x) { return Math.sign(x) * Math.round(SIM_BAL_MAX * Math.pow(Math.abs(x) / 1000, SIM_BAL_CURVE)); }
   function handleFromBal(b) { return Math.sign(b) * Math.round(1000 * Math.pow(Math.min(Math.abs(b), SIM_BAL_MAX) / SIM_BAL_MAX, 1 / SIM_BAL_CURVE)); }
-  function syncSim() { $("simBal").value = handleFromBal(balance); $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
+  // The toolbar follows the sketch's values, and the pay estimate follows the ceiling's hours and the pay settings.
+  function syncSim() { pay = payNow(); $("simBal").value = handleFromBal(balance); $("simUsed").value = used; $("simBalVal").textContent = hm(balance); $("simUsedVal").textContent = hmPlain(used); }
   $("simBal").addEventListener("input", function () { balance = balFromHandle(+this.value); shown.balance = balance; syncSim(); settleScale(Math.abs(balance), true); drawFigures(); restate(); });
-  $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); drawFigures(); restate(); });
+  $("simUsed").addEventListener("input", function () { setUsed(+this.value); shown.used = used; syncSim(); shown.pay = pay; drawFigures(); restate(); });
   // Where the profiles stand changed: the letter, the focus rings and the open menu's circles follow.
   function restate() {
     drawControls(); if ($("menu").classList.contains("open")) renderProfiles();

@@ -23,7 +23,11 @@ never picked; only the hue is.
 a test.
 
 **Ceiling.** The hours all profiles without expected hours may add up to together, over a month: full time minus
-janitor's expected hours, for each weekday of the month. Hours over it carry into the next month. Never owed.
+janitor's expected hours, for each weekday of the month. Each month counts only its own hours; nothing carries. Never
+owed.
+
+**Ceiling trend.** The sum of each finished month's hours over or under its ceiling, since the ceiling last changed,
+shown as signed hours beside the pay estimate ("The ceiling's trend", in `design-decisions/`). Never owed.
 
 **Ceiling wheel.** The main screen's figure for the ceiling: a ring that fills as the month's hours are used, in the
 colours of the profile on screen (grey for the balance profile), with hours over it in the neon; a timeline of the

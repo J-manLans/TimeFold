@@ -95,9 +95,13 @@ title.
 - Profiles label the hours
 - A profile with hours is archived, one without is deleted
 
-**[Counting](profiles/counting.md)**
+**[The ceiling](profiles/ceiling.md)**
 
 - The other profiles share a ceiling
+- The ceiling's trend
+
+**[Pay and settings](profiles/pay-and-settings.md)**
+
 - A pay estimate per profile
 - Settings change from a date
 

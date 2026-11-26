@@ -4,23 +4,6 @@ What is not decided, grouped under the phase that needs the answer, so a phase's
 entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question leaves;
 its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
-## Phase 4: Profiles
-
-### The ceiling's carry (2026-11-26)
-
-Hours over a month's ceiling carry into the next month, which starts with them used ("The other profiles share a
-ceiling"); its reason: carrying the excess keeps visible that the owner works too much, a reason to talk with the boss
-about the split. The owner's lean: drop the carry, the wheel counting each month on its own, and show that pattern by a
-sign of its own instead, such as the months in a row over the ceiling. For a drop: the wheel opens a month with hours
-not worked in it, beside an estimate that counts only that month; and pruning, the report and the wheel get simpler.
-Against: one heavy month shows on the next. Not a reason either way: overtime, counted per day and week, never looks at
-the ceiling ("Overtime pay in the estimate"), so the carry cannot make it start early. Pruning waits on the answer.
-Dropped, it touches the ceiling and the wheel ("The ceiling wheel"), the report's carried amounts ("A report covers one
-month"), pruning's frozen ceiling hours ("Old history is pruned on request"), and the roadmap's pruning step and
-Phase 6. Open: drop it or keep it, and if dropped, what the sign is and where it shows.
-
-**See:** The other profiles share a ceiling; The ceiling wheel; Old history is pruned on request.
-
 ## Phase 5: Handover
 
 ### How the question before an import reads (2026-11-23)
@@ -43,6 +26,17 @@ tab in the menu, beside the Phase 4 tabs. Not drawn in the prototype.
 **See:** The report is a PDF; A report covers one month; The menu has tabs, with every value locked behind "Ändra".
 
 ## Later, phase not chosen
+
+### A second profile with a balance (2026-11-26)
+
+Janitor is the only profile with expected hours, and so the only balance ("The other profiles share a ceiling"). The
+owner's record shows Utveckling steadily near 60% of the ceiling, so it could have expected hours of its own and flex as
+janitor does, rather than be counted against the ceiling. It would undo "janitor is the only balance": the ceiling would
+be what is left after both, the report would carry a second balance, and the screen a second bar, or one bar following
+the profile on screen as the wheel does. Not in Phase 4, which is built on one balance. Open: whether it is wanted, and
+in which phase.
+
+**See:** The other profiles share a ceiling; Profiles label the hours; The flex bar; A report covers one month.
 
 ### Overtime pay in the estimate (2026-11-26)
 
