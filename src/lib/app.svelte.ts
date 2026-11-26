@@ -185,7 +185,8 @@ class AppState {
       this.copyDay = this.recovery === 'copy' && copy !== null ? copy.day : null
       // The dashboard shows the copy it offers, or nothing
       this.record = this.recovery === 'copy' && copy !== null ? copy.record : freshRecord('', 0, localDay(Date.now()))
-      this.onScreen = this.record.profiles[0].id
+      // On the copy, the running profile or the one kept from the last close, as at any opening
+      this.onScreen = openingProfile(this.record, this.#kept)
       this.panel = { ...PANEL_OPEN }
       this.phase = 'problem'
       return

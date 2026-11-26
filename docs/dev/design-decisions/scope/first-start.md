@@ -106,9 +106,9 @@ window, where the dashboard is on top), and offers **"Använd kopian"**, with "I
 its tip, "från fil", and the note "Inget ändras förrän du väljer." The dashboard beside it shows the copy as it would
 be, its balance, wheel and recent entries, under a label in the dashboard's label style, "KOPIA · TIS 17 NOV", which
 breathes between its quiet colour and the colour of where the profile on screen stands in the copy ("Each profile
-carries its colours") for as long as the screen shows. "Använd kopian" saves the copy as the record, and the panel turns
-to frost and folds away, as at the end of the onboarding. Closing the app instead changes nothing; the broken file stays
-as it was, to be put right by hand.
+carries its colours") for as long as the screen shows. "Använd kopian" saves the copy as the record, and the panel
+closes as the menu closes, the screen ready at once: a repair, not a welcome, so it has none of the onboarding's ending.
+Closing the app instead changes nothing; the broken file stays as it was, to be put right by hand.
 
 With no copy yet, which can only happen in the first session, since a copy is made at every start: "Din data är korrupt,
 och appen hann aldrig spara någon kopia, men det hände tidigt: ladda bara om filen du importerade, eller starta om och

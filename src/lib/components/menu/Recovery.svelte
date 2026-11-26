@@ -3,7 +3,7 @@
   panel locked open: what happened, what is offered, the choices and a quiet note, centred. A broken file with a copy
   offers "Använd kopian", the dashboard showing the copy meanwhile; one without a copy offers "Starta nytt", the
   onboarding from its balance; a newer record offers "Hämta senaste", which opens the releases page and closes the app.
-  "Importera" is greyed out until Handover. "Använd kopian" saves the copy, and the panel turns to frost and folds.
+  "Importera" is greyed out until Handover. "Använd kopian" saves the copy, and the panel closes as the menu closes.
 -->
 <script lang="ts" module>
   /** The window width under which the sides stack, as App.svelte's media query has it; CSS cannot read a token there */
@@ -49,7 +49,6 @@
   // === State ===
 
   let main: ChoiceButton | undefined = $state()
-  let fading = $state(false)
   /** Whether the window is narrow, where the dashboard sits on top instead of to the right */
   let narrow = $state(matchMedia(NARROW).matches)
 
@@ -92,14 +91,11 @@
       await getCurrentWindow().close()
       return
     }
-    // "Använd kopian": the words fade, the copy is saved, the panel turns to frost and folds, as the onboarding's ends
-    fading = true
+    // "Använd kopian": a repair, not a welcome. The copy is saved and the panel closes as the menu closes, the screen
+    // ready once it has folded
     await app.useCopy()
-    const fade = time('--speed-ui')
-    const frostIn = time('--onboarding-frost-in')
-    setTimeout(() => app.stepPanel({ frosted: true }), fade)
-    setTimeout(() => app.stepPanel({ folded: true }), fade + frostIn)
-    setTimeout(() => app.unlock(), fade + frostIn + fade)
+    app.stepPanel({ folded: true })
+    setTimeout(() => app.unlock(), time('--speed-ui'))
   }
 
   /** A time token in milliseconds; 0 in Stilla, so the ending's steps all land at once, in order. Used by `choose` */
@@ -109,7 +105,7 @@
   }
 </script>
 
-<div class="recovery" class:fading>
+<div class="recovery">
   <div class="words">
     <h2>{words.title}</h2>
     <p class="line">{words.line}</p>
@@ -137,7 +133,6 @@
     padding: 0 var(--menu-inset);
     text-align: center;
     letter-spacing: normal;
-    transition: opacity var(--speed-ui) ease;
   }
 
   .words {
@@ -175,11 +170,5 @@
     display: flex;
     justify-content: center;
     gap: var(--block-gap);
-  }
-
-  /* === States === */
-
-  .fading {
-    opacity: 0;
   }
 </style>
