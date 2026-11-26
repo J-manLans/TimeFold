@@ -262,6 +262,18 @@
   --menu-panel-gap: 14px; /* between the parts of a tab */
   --menu-section-gap: 10px; /* between a part's label and what it holds */
   --menu-label-width: 110px; /* a value's label: "Heltid", "Fördelning", "Flexledig" */
+  /* A value locked behind "Ändra": its label and text, then "Ändra" and the field it turns into */
+  --menu-value-padding: 10px 0;
+  --menu-value-gap: 6px; /* between its lines */
+  --menu-value-gap-inline: 10px; /* between the label, the text, the field and its keys */
+  --menu-value-row: 30px; /* each line's least height, so the row does not jump as "Ändra" turns into its field */
+  --menu-note-gap: 14px; /* from a value to its quieter note, such as Heltid's day */
+  --menu-small-padding: 3px 8px; /* inside "Ändra", "Spara", "Avbryt" and the menu's other small buttons */
+  --menu-field-width: 9ch;
+  --menu-field-padding: 4px 8px;
+  --menu-history-gap: 3px; /* between the earlier values */
+  --menu-tab-fade: var(--speed-ui); /* a tab's content fading in */
+  --menu-panel-edge: 4px; /* room inside the panel's clip for focus rings at a tab's edges */
 
   /* === Controls: the flex-day calendar in the Tid tab === */
   --calendar-cell: 30px; /* each day's square */

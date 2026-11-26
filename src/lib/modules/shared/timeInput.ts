@@ -21,6 +21,9 @@ export const BALANCE: DurationField = { sign: true, hourDigits: 3, minuteDigits:
 /** A break's length: no sign, up to two digits of hours, and minutes alone up to three digits */
 export const BREAK: DurationField = { sign: false, hourDigits: 2, minuteDigits: 3 }
 
+/** A week, full time or the split: no sign, up to two digits of hours, and minutes alone up to four digits */
+export const WEEK: DurationField = { sign: false, hourDigits: 2, minuteDigits: 4 }
+
 /**
  * Whether a field's text, as it is being typed, still has a duration's shape: a keystroke that breaks it is refused.
  * Used on every keystroke and paste: "12:7" is refused, since the minutes would pass 59, and "-12:" is let through.

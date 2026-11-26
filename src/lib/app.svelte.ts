@@ -96,6 +96,8 @@ class AppState {
   profilesOpen = $state(false)
   /** Set when "Ny profil…" asks for the menu on Profiler with the name field ready; the menu clears it once there */
   newProfileAsked = $state(false)
+  /** The menu's one value open for editing, by its own key, or null: "Ändra" on another drops the open one */
+  openValue = $state<string | null>(null)
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
@@ -275,6 +277,15 @@ class AppState {
     this.record = deleteEntry(this.record, id)
     this.editing = null
     await saveRecord(this.record)
+  }
+
+  /**
+   * A record changed in the menu put in place and saved: a setting from a date, a profile made, renamed, archived,
+   * deleted or brought back, or a reason changed under its pen
+   */
+  async saveSettings(record: TimeRecord): Promise<void> {
+    this.record = record
+    await saveRecord(record)
   }
 
   /** A profile put on screen and the popup closed; a running entry goes on. Used by a row of the profile popup */
