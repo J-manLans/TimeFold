@@ -374,9 +374,9 @@
     cursor: pointer;
   }
 
-  .add {
-    border-color: transparent;
-    color: var(--dashboard-text-muted);
+  /* Every tag that can be clicked, "Lägg till paus" among them, lights its border under the pointer; a red one keeps its red */
+  button.tag:not(.warn):hover {
+    border-color: var(--dashboard-text);
   }
 
   /* The break's field, in the tag's place, the same shape as every length field */
