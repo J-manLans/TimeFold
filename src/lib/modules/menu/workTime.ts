@@ -19,6 +19,22 @@ export const WEEK_STEP = 15
 /** A week's weekdays, each owing a fifth of it */
 export const WEEKDAYS = 5
 
+/** A day after every saved change, for reading the latest value saved, as the menu shows it */
+export const LATEST: Day = '9999-12-31'
+
+/**
+ * The earlier values of a setting saved from dates, newest first, each with the last day it held, for "Tidigare
+ * värden": every value but the latest saved. Used by the menu's values: 38 h until 30 November, then 40 h, gives 38 h
+ * from its day until 30 November.
+ */
+export function earlierValues<T>(values: FromDay<T>[]): { value: T; from: Day; until: Day }[] {
+  const sorted = [...values].sort((a, b) => (a.from < b.from ? -1 : 1))
+  return sorted
+    .slice(0, -1)
+    .map((v, i) => ({ value: v as T, from: v.from, until: dayBefore(sorted[i + 1].from) }))
+    .reverse()
+}
+
 /** A change refused, with the words that say why */
 export interface Refusal {
   refusal: string
@@ -106,6 +122,14 @@ export function weekText(week: number): string {
 // ======================================
 //               Helpers
 // ======================================
+
+/** The day before a day. Used for the last day an earlier value held */
+function dayBefore(day: Day): Day {
+  const [y, m, d] = day.split('-').map(Number)
+  const before = new Date(Date.UTC(y, m - 1, d - 1, 12))
+  const two = (n: number): string => String(n).padStart(2, '0')
+  return `${before.getUTCFullYear()}-${two(before.getUTCMonth() + 1)}-${two(before.getUTCDate())}`
+}
 
 /** The profile with the balance, the janitor. Used for the split */
 function janitor(record: TimeRecord): TimeRecord['profiles'][number] | undefined {

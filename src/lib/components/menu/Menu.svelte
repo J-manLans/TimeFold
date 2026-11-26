@@ -8,8 +8,22 @@
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import {
+    earlierValues,
+    firstOfNextMonth,
+    fullTimeWeek,
+    LATEST,
+    saveFullTime,
+    weekText,
+    WEEKDAYS,
+  } from '$lib/modules/menu/workTime'
+  import { localDay } from '$lib/modules/shared/counting'
   import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
+  import type { Day } from '$lib/modules/shared/record'
+  import { durationInField, durationText, readDuration, WEEK } from '$lib/modules/shared/timeInput'
   import FlexCalendar from './FlexCalendar.svelte'
+  import LockedValue from './LockedValue.svelte'
+  import SplitSlider from './SplitSlider.svelte'
   import Onboarding from './Onboarding.svelte'
   import Recovery from './Recovery.svelte'
   import MotionButton from './MotionButton.svelte'
@@ -27,6 +41,18 @@
   /** How the menu was opened, a key or a pointer, for the focus ring when it closes, and whether it was open */
   let openedBy: Input = null
   let wasOpen = false
+  let today = $derived(localDay(Date.now()))
+  /** Full time as the menu shows it: the latest saved, as a week */
+  let fullWeek = $derived(app.record ? fullTimeWeek(app.record, LATEST) : 0)
+  let fullEarlier = $derived(
+    app.record
+      ? earlierValues(app.record.fullTime).map((e) => ({
+          text: `${weekText(e.value.minutes * WEEKDAYS)} / vecka`,
+          from: e.from,
+          until: e.until,
+        }))
+      : [],
+  )
 
   // === Logic ===
 
@@ -40,6 +66,11 @@
   // At the first start the menu is open until the onboarding's ending folds it
   $effect(() => {
     if (app.panel !== null) open = !app.panel.folded
+  })
+
+  // Closed, nothing is left open for editing
+  $effect(() => {
+    if (!open) app.openValue = null
   })
 
   // "Ny profil…" in the profile popup opens the menu, where Profiler takes it up
@@ -66,6 +97,17 @@
       document.removeEventListener('keydown', escape)
     }
   })
+
+  // === Helpers ===
+
+  /** Heltid saved as a week from its date, or the reason it is refused */
+  function saveFull(week: number, from: Day): string | null {
+    if (!app.record) return null
+    const result = saveFullTime(app.record, week, from)
+    if ('refusal' in result) return result.refusal
+    void app.saveSettings(result)
+    return null
+  }
 </script>
 
 <div
@@ -103,6 +145,22 @@
         <button class="tab" role="tab" type="button" aria-selected="true">Tid</button>
       </div>
       <div class="panel" role="tabpanel" aria-label="Tid">
+        <div>
+          <LockedValue
+            label="Heltid"
+            text={`${weekText(fullWeek)} / vecka`}
+            note={`${durationText(fullWeek / WEEKDAYS)} / dag`}
+            fieldText={durationInField(fullWeek)}
+            field={WEEK}
+            read={(typed) => readDuration(typed, WEEK)}
+            waiting={weekText}
+            save={saveFull}
+            dated
+            opensOn={firstOfNextMonth(today)}
+            earlier={fullEarlier}
+          />
+          <SplitSlider />
+        </div>
         <section>
           <span class="label">Flexledig</span>
           <!-- Drawn anew each time the menu opens, so the padlock is shut again and today's month shows -->
@@ -175,14 +233,15 @@
     top: calc(50% - var(--menu-toggle-line-height) / 2 + var(--menu-toggle-line-gap));
   }
 
+  /* The head and the tabs stay put; only the tab's content scrolls, up to the tabs' line, so nothing passes under the
+     × and the tabs are always in reach */
   .body {
     position: absolute;
     inset: 0;
     display: grid;
-    align-content: start;
-    gap: var(--menu-gap);
+    grid-template-rows: auto auto minmax(0, 1fr);
     padding: var(--menu-padding);
-    overflow-y: auto;
+    overflow: hidden;
     opacity: 0;
     transition: opacity var(--speed-ui) ease;
   }
@@ -220,10 +279,23 @@
     cursor: pointer;
   }
 
+  /* A tab's content starts its own room under the tabs' line and fades in as its tab is chosen; its edge leaves room
+     for focus rings inside the panel's clip */
   .panel {
     display: grid;
     align-content: start;
     gap: var(--menu-panel-gap);
+    min-height: 0;
+    margin: 0 calc(-1 * var(--menu-panel-edge)) calc(-1 * var(--menu-panel-edge));
+    padding: var(--menu-gap) var(--menu-panel-edge) var(--menu-panel-edge);
+    overflow-y: auto;
+    animation: tab-fade var(--menu-tab-fade) ease;
+  }
+
+  @keyframes tab-fade {
+    from {
+      opacity: 0;
+    }
   }
 
   section {

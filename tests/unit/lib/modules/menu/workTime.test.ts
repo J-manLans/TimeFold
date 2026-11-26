@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { RUNS } from '$tests/helpers/properties'
 import { RECORD } from '$tests/helpers/records'
 import {
+  earlierValues,
   firstOfNextMonth,
   savePay,
   saveFullTime,
@@ -185,5 +186,18 @@ describe('"Skatt och avgifter" is a percentage from 0 to under 100, saved at onc
     [Number.NaN, false],
   ])('takes %d: %s', (percent, ok) => {
     expect('refusal' in saveTax(RECORD, { after: true, percent })).toBe(!ok)
+  })
+})
+
+describe('"Tidigare värden" lists every value but the latest saved, newest first, with the days each held', () => {
+  it('gives 38 h from 1 January until 30 November, under 40 h from 1 December', () => {
+    const values = [
+      { from: '2026-12-01', minutes: 480 },
+      { from: '2026-01-01', minutes: 456 },
+    ]
+
+    expect(earlierValues(values)).toEqual([
+      { value: { from: '2026-01-01', minutes: 456 }, from: '2026-01-01', until: '2026-11-30' },
+    ])
   })
 })
