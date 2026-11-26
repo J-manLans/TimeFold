@@ -95,6 +95,9 @@
   --late-line: 13px;    /* what runs and since when */
   --late-width: 30ch;   /* the most the words take before they wrap */
   --late-choice-scale: 0.42;  /* Stoppa and Fortfarande igång against Starta jobb, as --ob-choice-scale */
+  /* A value in the menu: its label, then its text, with "Ändra" (and the field it turns into) under the text */
+  --lv-label: 128px;      /* the label's column, as wide as the longest label */
+  --lv-note-gap: 14px;    /* from a value to its quieter note, such as Heltid's weekday */
   /* A profile's colours in its menu row: the pair it wears, beside "Ändra" */
   --pair-swatch: 18px;    /* each of the two small swatches, the base and the neon */
   /* Today's pie, beside the status line ("Worked today" in the toolbar) */
@@ -453,7 +456,11 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
     var(--dot-bg);
   background-attachment: fixed, scroll;
 }
-.menu .body { position: absolute; inset: 0; overflow-y: auto; padding: 16px 18px 24px; display: grid; gap: 20px; align-content: start; opacity: 0; transition: opacity var(--speed-ui) ease; }
+/* The head (the ×, "Meny", theme and motion) and the tabs stay put; only the tab's content scrolls, below the tabs'
+   line, so nothing passes under the ×. The head sits close on the tabs; the content starts its own room under the
+   tabs' line and scrolls up to it. The panel's side padding gives focus rings room inside its clipped edge. */
+.menu .body { position: absolute; inset: 0; overflow: hidden; padding: 16px 18px 24px; display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: 0; opacity: 0; transition: opacity var(--speed-ui) ease; }
+.menu .tabpanel { min-height: 0; overflow-y: auto; padding: 20px 4px 4px; margin: 0 -4px -4px; }
 .menu.open .body { opacity: 1; transition: opacity var(--speed-ui) ease calc(var(--speed-ui) / 2); }
 .menu section { display: grid; gap: 10px; }
 .menu h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); font-weight: 600; }
@@ -474,18 +481,30 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @keyframes tabfade { from { opacity: 0; } to { opacity: 1; } }
 /* A counting value: locked as text until "Ändra"; Enter confirms, Esc aborts, then "Gäller från" */
 .lv { display: grid; gap: 6px; padding: 10px 0; border-bottom: 1px dashed var(--c-line); }
-.lv-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 30px; }
-.lv-label { min-width: 110px; color: var(--c-muted); }
+.lv-row { display: flex; align-items: center; gap: 10px; min-height: 30px; }
+.lv-label { flex: none; width: var(--lv-label); color: var(--c-muted); }
 .lv-val { font-variant-numeric: tabular-nums; }
+.lv-note { margin-left: var(--lv-note-gap); color: var(--c-muted); }   /* Heltid's weekday after its week */
+/* Everything under a value lines up with the value, past the label: the slider, "Ändra" and its field, the history */
+.lv > :not(.lv-row) { margin-left: calc(var(--lv-label) + 10px); }
+.lv-act { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 30px; }
+.lv-pend { font-variant-numeric: tabular-nums; }
+/* A slider's date and buttons: folded shut until its first move, then grown open, as a profile row opens. The negative
+   margin takes back the group's gap while shut, so no space is left under the slider. */
+.lv-grow { display: grid; grid-template-rows: 0fr; margin-top: -6px; transition: grid-template-rows var(--speed-row) cubic-bezier(.2, .7, .2, 1); }
+.lv.asking .lv-grow { grid-template-rows: 1fr; }
+.lv-grow-clip { min-height: 0; overflow: hidden; opacity: 0; transition: opacity var(--speed-row) ease; }
+.lv.asking .lv-grow-clip { opacity: 1; }
+.lv-grow-clip > .lv-act { padding-top: 6px; }
+.app.still .lv-grow, .app.still .lv-grow-clip { transition: none; }
 .lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
 .lv input[type="date"] { width: auto; }
-.lv .keys { font-size: 11px; color: var(--c-muted); }
+.lv .keys, .menu .line .keys { font-size: 11px; color: var(--c-muted); }
+.lv .keys.warn { color: var(--f-remove); }   /* a refused value's warning, such as a week not in quarter hours */
 .lv-hist-btn { justify-self: start; font: inherit; font-size: 11.5px; background: none; border: 0; padding: 0; color: var(--c-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .lv-hist { list-style: none; margin: 0; padding: 0 0 0 2px; display: grid; gap: 3px; font-size: 12px; color: var(--c-muted); }
 .split { display: grid; gap: 6px; }
 .split input[type="range"] { width: 100%; accent-color: var(--accent, var(--c-fg)); }
-.split input[type="range"]:disabled { opacity: 0.55; }
-.split-legend { display: flex; justify-content: space-between; font-size: 12px; font-variant-numeric: tabular-nums; }
 /* The flex-day calendar in Tid: outlined days; marked ones in the balance profile's base colour; weekends greyed out.
    The calendar on the left, as wide as its seven days; the marked days ahead on its right, a line per month, the days
    wrapping under the first day, each a link; a year gets its own line where the list crosses into it. In a narrow menu the list
@@ -496,6 +515,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .cal-title { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; }
 .cal-lock { display: grid; place-items: center; width: calc(var(--cal-lock) + 8px); height: calc(var(--cal-lock) + 8px); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
 .cal-lock:hover, .cal-lock.open { color: var(--c-fg); }
+/* The month's name away from today's month: plain until hovered, then underlined, as "Tidigare värden" is */
+.cal-home { font: inherit; padding: 0; background: none; border: 0; color: inherit; cursor: pointer; text-underline-offset: 3px; }
+.cal-home:hover { text-decoration: underline; }
 .cal-lock svg { width: var(--cal-lock); height: var(--cal-lock); }
 .cal-nav { font: inherit; font-size: 16px; line-height: 1; width: var(--cal-head-h); height: var(--cal-head-h); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
 .cal-nav:hover { color: var(--c-fg); }
@@ -530,10 +552,23 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .prow-body { padding: 2px 12px 12px; display: grid; gap: 2px; }
 .app.still .prow-wrap, .app.still .prow-clip { transition: none; }
 .prow-body .field { display: flex; align-items: center; gap: 10px; min-height: 34px; }
-.prow-body .field > span:first-child { min-width: 110px; color: var(--c-muted); }
+.prow-body .field > span:first-child { flex: none; width: var(--lv-label); color: var(--c-muted); }
 .app.still .tabpanel { animation: none; }
 
 /* The app's own colour picker */
+/* Profiler's global settings, above the profiles, set apart from them by the line under them */
+.pay-global { border-bottom: 1px dashed var(--c-line); padding: 10px 0; }
+.pg-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 30px; }
+.pg-check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.pg-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent, var(--c-fg)); }
+.pg-label { margin-left: var(--lv-note-gap); color: var(--c-muted); }
+/* The percentage as a tag, and its field in the same border, as the edit's "paus" tag */
+.pg-tag, .menu input.pg-in[type="text"] { font: inherit; font-size: 12px; color: var(--c-fg); background: none; border: 1px solid var(--c-line); border-radius: 4px; padding: 1px 6px; }
+.pg-tag { cursor: pointer; font-variant-numeric: tabular-nums; }
+.pg-tag:hover { border-color: var(--c-fg); }
+.menu input.pg-in[type="text"] { width: 5ch; box-sizing: content-box; outline: none; text-transform: none; letter-spacing: normal; }
+@supports (field-sizing: content) { .menu input.pg-in[type="text"] { width: auto; field-sizing: content; min-width: 2ch; } }
+.menu input.pg-in.warn[type="text"] { color: var(--f-remove); border-color: var(--f-remove); }
 .swatch-pair { display: inline-flex; gap: 4px; }
 .swatch-pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: 4px; border: 1px solid var(--c-btn-line); }
 .cpick { position: absolute; z-index: 20; width: min-content; padding: 10px; display: grid; gap: 10px; background: var(--sheet-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); }
@@ -598,10 +633,14 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-times .tag, .ed-times .brk-in { margin-left: var(--ed-tag-gap); }
 .ed-times .tag { font: inherit; font-size: 11px; color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; cursor: pointer; }
 .ed-times .tag.add { color: var(--f-muted); border-color: transparent; }
+.ed-times .tag.add:hover { color: var(--f-fg); }   /* "Lägg till paus" wakes up under the pointer */
 .ed-times .tag.warn { color: var(--f-remove); border-color: var(--f-remove); }
 .ed-times .tag.still { color: var(--f-muted); cursor: default; }
 .ed-times .nb { color: var(--f-muted); }   /* the parts left around a new entry: grey, as neighbours */
-.ed-times .brk-in { font: inherit; font-size: 11px; width: 6ch; background: none; color: var(--f-fg); border: 0; padding: 0; outline: none; }
+/* The open field wears the tag's own border, so it is the tag being typed in, and Enter only fills the box */
+.ed-times .brk-in { font: inherit; font-size: 11px; width: 7ch; box-sizing: content-box; background: none; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: 4px; padding: 0 5px; outline: none; }
+/* As wide as what it holds, "00:00" while empty, where the browser can size a field to its content */
+@supports (field-sizing: content) { .ed-times .brk-in { width: auto; field-sizing: content; } }
 .ed-times .brk-in.warn { color: var(--f-remove); }
 /* The line's lane: out to the card's edges (past its side padding), clipping sideways only, so nothing on the line
    makes the popup scroll sideways while it may still grow in height */
@@ -854,8 +893,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
             <button class="tab" role="tab" type="button" data-tab="arbetstid" aria-selected="false">Tid</button>
           </div>
           <div class="tabpanel" role="tabpanel" data-panel="profiler">
+            <div class="pay-global" id="payGlobal"></div>
             <ul class="prows" id="plist"></ul>
-            <div class="line"><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil"><button class="small" id="addProfile" type="button">Ny profil</button></div>
+            <div class="line" id="newLine"><button class="small" id="addProfile" type="button">Ny profil</button><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil" hidden><span class="keys" id="newKeys" hidden>Enter lägger till · Esc avbryter</span></div>
           </div>
           <div class="tabpanel" role="tabpanel" data-panel="arbetstid" hidden>
             <div id="workTime"></div>
@@ -977,18 +1017,23 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 (function () {
   "use strict";
   var RED_HUE = 29;
-  // Counting settings change from a date; each keeps its history.
+  // Counting settings change from a date; each keeps its history. Both are a week, in minutes; each weekday owes a fifth.
   var settings = {
-    fullTime: [{ from: "2026-01-01", v: 459 }],   // 7 h 39 min a day: a 38 h 15 min week
-    split: [{ from: "2026-01-01", v: 360 }]       // janitor's expected minutes a day; the ceiling gets the rest
+    fullTime: [{ from: "2026-01-01", v: 2295 }],  // 38 h 15 min a week: 7 h 39 min a weekday
+    split: [{ from: "2026-01-01", v: 1800 }]      // janitor's expected minutes a week (6 h a weekday); the ceiling gets the rest
   };
+  // The pay estimate before or after tax, for every profile: "Efter skatt" unchecked shows it before; checked, less
+  // "Skatt och avgifter", everything a payslip takes off (1 − net ÷ gross on one), 25% until the owner sets his own.
+  var payTax = { before: true, pct: 25 };
+  var WEEK_STEP = 15;   // minutes: the step a week is set in, Heltid and Fördelning; a quarter a week is 3 min a weekday
+  var WEEKDAYS = 5;     // a week's weekdays, each owing a fifth of it
   // The month's ceiling in minutes: full time less the janitor's expected hours, on each weekday of this month
   // ("The other profiles share a ceiling"); worked out afresh at every draw, so a setting changed in Tid shows at once
   function monthCeiling() {
     var d = new Date(), m = d.getMonth(), day = new Date(d.getFullYear(), m, 1), n = 0;
     for (; day.getMonth() === m; day.setDate(day.getDate() + 1)) if (day.getDay() % 6 !== 0) n++;
     var full = settings.fullTime[settings.fullTime.length - 1].v, split = settings.split[settings.split.length - 1].v;
-    return n * Math.max(0, full - split);
+    return n * Math.max(0, full - split) / WEEKDAYS;
   }
   var CEILING = monthCeiling();
   // The figures panel's actual background, as the colour rule's "background" (it changes with the theme).
@@ -1278,7 +1323,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     t.textContent = hmPlain(shown.used); svg.appendChild(t);
     var s = el("text", { x: 100, y: 126, "text-anchor": "middle", "font-family": "JetBrains Mono, monospace", "font-size": 10, style: "fill: var(--f-ink)", "letter-spacing": "1.5" });
     s.textContent = "AV " + hmPlain(CEILING) + " H"; svg.appendChild(s);
-    $("payNum").textContent = "≈ " + Math.round(shown.pay).toLocaleString("sv-SE") + " €";
+    $("payNum").textContent = "≈ " + Math.round(shown.pay * (payTax.before ? 1 : 1 - payTax.pct / 100)).toLocaleString("sv-SE") + " €";
   }
   // A colour faded: the same hue, with less strength and its lightness a little toward the background's.
   function faded(hex, bgRgb) {
@@ -1299,11 +1344,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     })(t0);
   }
   function drawFigures() { drawBar(); drawWheel(); }
-  // The peek starts only on the ring's band, not its corners or its middle. While peeking, the number takes the base
-  // colour, the sample for the first lap that now shows whole.
+  // The peek starts only on the ring's band, not its corners or its middle, and only while there is a ring: a 0 ceiling
+  // draws none, so its number stays in the neon. While peeking, the number takes the base colour, the sample for the
+  // first lap that now shows whole.
   $("wheelSvg").addEventListener("pointermove", function (e) {
     var b = this.getBoundingClientRect(), x = (e.clientX - b.left) / b.width * 200 - 100, y = (e.clientY - b.top) / b.height * 200 - 100;
-    var on = Math.abs(Math.hypot(x, y) - WHEEL.r) <= WHEEL.w / 2;
+    var on = CEILING > 0 && Math.abs(Math.hypot(x, y) - WHEEL.r) <= WHEEL.w / 2;
     if (on !== !!peekTo) peek(on);
   });
   $("wheelSvg").addEventListener("pointerleave", function () { if (peekTo) peek(false); });
@@ -1394,11 +1440,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var p = prof(onScreen);
     $("profileDot").textContent = p.name.charAt(0).toUpperCase();
     $("profileDot").classList.toggle("waiting", onboarding || app.classList.contains("locked") && $("profileDot").classList.contains("waiting"));
-    $("profileDot").style.color = stateColours(onScreen).letter; 
+    $("profileDot").style.color = stateColours(onScreen).letter;
     app.style.setProperty("--accent", profColour(onScreen));
     app.style.setProperty("--state", stateColours(onScreen).letter);
     if (running) app.style.setProperty("--run", profColour(running.profile));
-    $("profileBtn").setAttribute("aria-disabled", String(activeProfiles().length < 2));
+    $("profileBtn").setAttribute("aria-disabled", "false");   // it always opens: the profiles, or "Ny profil…" alone
     var mine = running && running.profile === onScreen;
     swapText($("startLabel"), function (el) { el.textContent = mine ? "Stoppa jobb" : "Starta jobb"; });
     $("startBtn").classList.toggle("running", !!mine);
@@ -1542,8 +1588,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }
   function closePause() { $("pauseField").hidden = true; $("pauseBtn").hidden = false; $("pauseInput").value = ""; $("pauseReading").textContent = ""; }
   // The field holds the running entry's whole break: it opens on what is there ("20", "1:20"), selected, so typing
-  // replaces it; Enter, or a click away, sets the new total, a lower number taking time back; Esc alone cancels. A
-  // length too long for the entry is refused: the field stays open, reading "för lång paus".
+  // replaces it; Enter sets the new total, a lower number taking time back; Esc or a click away drops it. A length
+  // too long for the entry is refused: the field stays open, reading "för lång paus", until fixed or dropped.
   function lengthField(m) { return m >= 60 ? Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0") : m ? String(m) : ""; }
   $("pauseBtn").addEventListener("click", function () {
     $("pauseBtn").hidden = true; $("pauseField").hidden = false;
@@ -1552,7 +1598,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     inp.focus(); inp.select();
   });
   $("pauseInput").addEventListener("keydown", function (e) { if (e.key === "Escape") { e.stopPropagation(); closePause(); } });
-  $("pauseInput").addEventListener("blur", function () { setTimeout(function () { if (!$("pauseField").hidden) keepPause(); }, 0); });
+  $("pauseInput").addEventListener("blur", function () { setTimeout(function () { if (!$("pauseField").hidden) closePause(); }, 0); });
   $("pauseInput").addEventListener("input", function () {
     var v = readLength(this.value); $("pauseReading").textContent = v === null ? "" : lengthText(v);
   });
@@ -1568,9 +1614,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     offerUndo(was ? "paus " + lengthText(was) + " → " + lengthText(v) : "paus " + lengthText(v), snap); drawControls();
   }
 
+  // The profile button opens the popup of the profiles; with only one profile not archived, the popup holds "Ny
+  // profil…" alone, which opens the menu on Profiler with the name field ready.
   $("profileBtn").addEventListener("click", function () {
-    if (activeProfiles().length < 2) return;
     var list = $("popupList"); clear(list);
+    if (activeProfiles().length < 2) {
+      var nb = document.createElement("button"); nb.type = "button"; nb.className = "pop-new"; nb.textContent = "Ny profil…";
+      nb.addEventListener("click", function () { $("scrim").hidden = true; setMenu(true); openNew(); });
+      list.appendChild(nb); $("scrim").hidden = false; return;
+    }
     activeProfiles().forEach(function (q) {
       var b = document.createElement("button"); b.type = "button"; if (q.id === onScreen) b.setAttribute("aria-current", "true");
       var d = document.createElement("span"); d.className = "mini-dot"; d.textContent = q.name.charAt(0).toUpperCase(); d.style.color = stateColours(q.id).letter; d.style.borderColor = stateColours(q.id).ring;
@@ -2069,7 +2121,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // The same shape as every length field ("Entering a length of time"); no reading under it, the tag shows it on Enter
     if (ed.brkEditing) { var bi = $("edBrkIn"); keepOnly(bi, /[0-9:]/, /^(\d{0,3}|\d{0,2}:([0-5]\d?)?)$/); bi.focus(); bi.select(); }
     // A reason alone, with nothing else changed, may be saved on an entry already written
-    $("edSave").disabled = !(edReasonOk() && (edChanged() || !ed.isNew));
+    $("edSave").disabled = ed.brkEditing || pressHeld || !(edReasonOk() && (edChanged() || !ed.isNew));
   }
   (function () {
     var line = $("edLine"), drag = null;
@@ -2202,8 +2254,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // joined entry takes the profile picked
     absorbDocked(); settleView();
   });
-  // The tag sets its part's break, as the field under "Lägg till paus" does: Enter or a click away keeps it, Esc
-  // leaves it as it was. Each part is saved as an entry of its own, with its own break, its length alone.
+  // The tag sets its part's break, as the field under "Lägg till paus" does: Enter keeps it, and Esc or a click away
+  // drops it, leaving it as it was; "Spara" is greyed while the field is open, so what it saves is what shows. Each part is saved as an entry of its own, with its own break, its length alone.
   $("edTimes").addEventListener("click", function (ev) {
     if (!ed || !ev.target.classList.contains("tag") || ev.target.classList.contains("still")) return;
     ed.brkEditing = true; ed.brkAt = +ev.target.dataset.i || 0; drawEdit();
@@ -2225,7 +2277,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (ev.key === "Enter") { ev.preventDefault(); closeBrk(true); }
     else if (ev.key === "Escape") { ev.preventDefault(); ev.stopPropagation(); closeBrk(false); }
   });
-  $("edTimes").addEventListener("focusout", function (ev) { if (ev.target.id === "edBrkIn") setTimeout(function () { closeBrk(true); }, 0); });
+  $("edTimes").addEventListener("focusout", function (ev) { if (ev.target.id === "edBrkIn") setTimeout(function () { closeBrk(false); }, 0); });
+  // A press anywhere but the field drops it, the greyed "Spara" included, so that press only shows the break unchanged:
+  // "Spara" stays greyed until the press is over, so the click it ends in lands on a greyed button and saves nothing.
+  var pressHeld = false;
+  document.addEventListener("pointerdown", function (ev) {
+    if (!ed || !ed.brkEditing || ev.target.id === "edBrkIn") return;
+    pressHeld = true; closeBrk(false);
+  }, true);
+  // Let go after the click has passed, then "Spara" may light.
+  function letGo() { if (!pressHeld) return; setTimeout(function () { pressHeld = false; if (ed) drawEdit(); }, 0); }
+  document.addEventListener("pointerup", letGo, true);
+  document.addEventListener("pointercancel", letGo, true);
   // ---- The reason ----
   // "Annan orsak" is itself a field in the list. Typed into, it is the reason from the first character; Enter, or a
   // click elsewhere, keeps the text, and the picker shows it. Esc puts back the text it had
@@ -2501,6 +2564,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
   function setMenu(open) {
     if (!open && typeof closePicker === "function") closePicker(false);
+    if (openEdit) openEdit.abort();   // an open value or "Ny profil" field never outlives the menu
     if (open) { selectTab("profiler"); renderMenu(); }
     $("menu").classList.toggle("open", open); $("menuBody").inert = !open;
     document.querySelector(".controls").classList.toggle("menu-open", open);
@@ -2521,11 +2585,27 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (!$("allPop").hidden) { $("allPop").hidden = true; return; }
     setMenu(false); $("scrim").hidden = true; $("allPop").hidden = true;
   });
-  $("addProfile").addEventListener("click", function () {
-    var n = $("newName").value.trim(); if (!n) return;
+  // "Ny profil" turns into the name field in its own place, as "Ändra" does; Enter makes the profile and unfolds its
+  // row, and Esc or a click outside turns the field back into the button.
+  var newEdit = { wrap: $("newLine"), abort: closeNew, escape: function () { closeNew(); $("addProfile").focus(); } };
+  function openNew() {
+    if (openEdit && openEdit !== newEdit) openEdit.abort();
+    openEdit = newEdit;
+    $("addProfile").hidden = true; $("newName").hidden = false; $("newKeys").hidden = false;
+    $("newName").value = ""; $("newName").focus();
+  }
+  function closeNew() {
+    $("newName").hidden = true; $("newKeys").hidden = true; $("addProfile").hidden = false;
+    if (openEdit === newEdit) openEdit = null;
+  }
+  $("addProfile").addEventListener("click", openNew);
+  $("newName").addEventListener("keydown", function (e) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    var n = this.value.trim(); if (!n) return;
     var q = { id: "p" + profiles.length + Date.now(), name: n, rate: 0, pay: { kind: "rate", hist: [] }, category: "", archived: false };
     setHue(q, nextProfileHue(profiles.map(function (x) { return x.id; })));
-    profiles.push(q); $("newName").value = ""; openRow = q.id; renderProfiles(); drawControls();
+    profiles.push(q); closeNew(); openRow = q.id; renderProfiles(); drawControls();
   });
 
   // ---- Menu: tabs, counting values locked behind "Ändra", profile rows that open in place ----
@@ -2543,7 +2623,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   var MONTHS = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
   function isoDay(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
   function fmtDay(s) { var x = s.split("-"); return (+x[2]) + " " + MONTHS[+x[1] - 1] + " " + x[0]; }
-  function hLen(m) { return Math.floor(m / 60) + (m % 60 ? ":" + String(m % 60).padStart(2, "0") : "") + "h"; }
   function readHours(s) { s = s.trim(); var m = /^(\d{1,2}):(\d{2})$/.exec(s); if (m) return +m[1] * 60 + +m[2]; if (/^\d{1,2}$/.test(s)) return +s * 60; return null; }
   function now(h) { return h[h.length - 1].v; }
   profiles.forEach(function (q) {
@@ -2561,31 +2640,63 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // A click outside the open value aborts it, as Esc does.
   document.addEventListener("pointerdown", function (e) { if (openEdit && !openEdit.wrap.contains(e.target)) openEdit.abort(); });
   function lockedValue(o) {
+    // The value's text stays in place the whole time; "Ändra" sits under it and turns into the field in its own place,
+    // and for a counting value then into the "Gäller från" date. The text changes only once the value is saved.
+    // A slider has no "Ändra": it can always be moved, and its first move brings the date with "Spara" and "Avbryt".
     var wrap = document.createElement("div"); wrap.className = "lv";
     var row = document.createElement("div"); row.className = "lv-row";
     var lab = document.createElement("span"); lab.className = "lv-label"; lab.textContent = o.label;
     var val = document.createElement("span"); val.className = "lv-val";
-    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
-    var keys = document.createElement("span"); keys.className = "keys"; keys.hidden = true;
-    row.append(lab, val, btn, keys); wrap.appendChild(row);
-    var slider = null, legend = null, input = null, date = null, stage = "locked", pending = null;
+    row.append(lab, val); wrap.appendChild(row);
+    var slider = null, input = null, date = null, stage = "locked", pending = null;
     if (o.slider) {
       var box = document.createElement("div"); box.className = "split";
-      slider = document.createElement("input"); slider.type = "range"; slider.min = 0; slider.max = o.slider.max(); slider.step = 1; slider.disabled = true;   // by the minute, so any full time splits exactly
+      slider = document.createElement("input"); slider.type = "range"; slider.min = 0; slider.max = o.slider.max(); slider.step = o.slider.step || 1;
       slider.setAttribute("aria-label", o.label);
-      legend = document.createElement("div"); legend.className = "split-legend";
-      box.append(slider, legend); wrap.appendChild(box);
-      slider.addEventListener("input", function () { legend.textContent = ""; o.slider.legend(+slider.value, legend); });
+      box.appendChild(slider); wrap.appendChild(box);
+      // A slider has no field: its numbers above follow it while it moves.
+      slider.addEventListener("input", function () {
+        paint(+slider.value);
+        if (stage !== "locked") return;
+        if (openEdit && openEdit !== me) openEdit.abort();
+        openEdit = me; askDate(+slider.value);
+      });
     }
+    var act = document.createElement("div"); act.className = "lv-act";
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
+    var pend = document.createElement("span"); pend.className = "lv-pend"; pend.hidden = true;
+    var keys = document.createElement("span"); keys.className = "keys"; keys.hidden = true;
+    var save = document.createElement("button"); save.type = "button"; save.className = "small"; save.textContent = "Spara"; save.hidden = true;
+    var cancel = document.createElement("button"); cancel.type = "button"; cancel.className = "small"; cancel.textContent = "Avbryt"; cancel.hidden = true;
+    save.addEventListener("click", function () { commit(); });
+    cancel.addEventListener("click", function () { abort(); });
+    act.append(btn, pend, keys, save, cancel);
+    // A slider's date and buttons fold open under it on its first move, and fold shut again, as a profile row does.
+    var grow = null;
+    if (slider) {
+      grow = document.createElement("div"); grow.className = "lv-grow"; grow.inert = true;
+      var gclip = document.createElement("div"); gclip.className = "lv-grow-clip";
+      gclip.appendChild(act); grow.appendChild(gclip); wrap.appendChild(grow);
+    } else wrap.appendChild(act);
     var histBtn = document.createElement("button"); histBtn.type = "button"; histBtn.className = "lv-hist-btn";
     var hist = document.createElement("ul"); hist.className = "lv-hist"; hist.hidden = true;
     wrap.append(histBtn, hist);
     histBtn.addEventListener("click", function () { hist.hidden = !hist.hidden; });
+    // The value's text, with its quieter note after it where it has one (Heltid's weekday).
+    function paint(v) {
+      clear(val);
+      if (v === undefined) { val.textContent = "Inget satt"; return; }
+      val.appendChild(document.createTextNode(o.show(v)));
+      if (o.note) { var n = document.createElement("span"); n.className = "lv-note"; n.textContent = o.note(v); val.appendChild(n); }
+    }
     function show() {
-      var h = o.hist(); val.textContent = h.length ? o.show(now(h)) : "Inget satt"; keys.hidden = true; btn.hidden = false;
-      if (input) { input.remove(); input = null; } if (date) { date.remove(); date = null; }
-      val.hidden = false;
-      if (slider) { slider.max = o.slider.max(); slider.value = h.length ? now(h) : 0; slider.disabled = true; legend.textContent = ""; o.slider.legend(+slider.value, legend); }
+      var h = o.hist(); paint(h.length ? now(h) : undefined);
+      keys.hidden = true; keys.classList.remove("warn");
+      if (input) { input.remove(); input = null; }
+      // A slider keeps its date and buttons while they fold shut, so nothing vanishes before the space closes.
+      if (slider) { btn.hidden = true; wrap.classList.remove("asking"); grow.inert = true; }
+      else { pend.hidden = true; btn.hidden = false; save.hidden = cancel.hidden = true; if (date) { date.remove(); date = null; } }
+      if (slider) { slider.max = o.slider.max(); slider.value = h.length ? now(h) : 0; }
       var older = h.slice(0, -1).reverse();
       histBtn.textContent = "Tidigare värden (" + older.length + ")"; histBtn.hidden = !older.length;
       clear(hist);
@@ -2596,33 +2707,41 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       });
       stage = "locked"; if (openEdit === me) openEdit = null;
     }
-    function abort() { show(); btn.focus(); }
+    function abort() { show(); (slider || btn).focus(); }
     var me = { abort: function () { show(); }, escape: abort, wrap: wrap };
+    // The field becomes the date in the same place; what is waiting to be saved reads before it.
     function askDate(v) {
       pending = v; stage = "date";
       if (input) { input.remove(); input = null; }
-      if (slider) slider.disabled = true;
-      val.hidden = false; val.textContent = o.show(v) + "  ·  Gäller från";
-      date = document.createElement("input"); date.type = "date"; date.value = isoDay(new Date());
-      date.setAttribute("aria-label", "Gäller från");
-      row.insertBefore(date, btn); btn.hidden = true;
-      keys.textContent = "Enter sparar · Esc avbryter"; keys.hidden = false; date.focus();
+      if (!date) {
+        date = document.createElement("input"); date.type = "date"; date.setAttribute("aria-label", "Gäller från"); act.insertBefore(date, keys);
+        // Another date may fit where this one did not: the warning goes back to the keys (or away, beside a slider).
+        date.addEventListener("input", function () { if (keys.classList.contains("warn")) { keys.classList.remove("warn"); keys.textContent = "Enter sparar · Esc avbryter"; keys.hidden = !!slider; } });
+      }
+      date.value = isoDay(new Date()); btn.hidden = true;
+      // The slider stays in hand: its numbers above show what waits, and the buttons save or drop it.
+      if (slider) { pend.textContent = "från"; pend.hidden = false; save.hidden = cancel.hidden = false; wrap.classList.add("asking"); grow.inert = false; return; }
+      pend.textContent = o.show(v) + " från"; pend.hidden = false;
+      keys.classList.remove("warn"); keys.textContent = "Enter sparar · Esc avbryter"; keys.hidden = false; date.focus();
     }
     function commit() {
       if (!date || !date.value) return;
+      if (slider) pending = +slider.value;
+      // A value that would not fit beside another setting on some day from its date is refused, the date left open.
+      var no = o.refuseFrom && o.refuseFrom(pending, date.value);
+      if (no) { keys.textContent = no; keys.classList.add("warn"); keys.hidden = false; return; }
       var h = o.hist(), from = date.value;
       for (var k = h.length - 1; k >= 0; k--) if (h[k].from === from) h.splice(k, 1);
       h.push({ from: from, v: pending }); h.sort(function (a, b) { return a.from < b.from ? -1 : 1; });
-      show(); if (o.onCommit) o.onCommit(); btn.focus();
+      show(); if (o.onCommit) o.onCommit(); (slider || btn).focus();
     }
     btn.addEventListener("click", function () {
       if (openEdit && openEdit !== me) openEdit.abort();
       openEdit = me;
-      stage = "edit"; btn.hidden = true; keys.textContent = "Enter fortsätter · Esc avbryter"; keys.hidden = false;
-      if (slider) { slider.disabled = false; slider.focus(); return; }
-      val.hidden = true;
+      stage = "edit"; btn.hidden = true; keys.textContent = (o.undated ? "Enter sparar" : "Enter fortsätter") + " · Esc avbryter"; keys.hidden = false;
       input = document.createElement("input"); input.type = "text"; input.value = o.hist().length ? o.toText(now(o.hist())) : "";
-      input.setAttribute("aria-label", o.label); row.insertBefore(input, btn); input.focus(); input.select();
+      input.setAttribute("aria-label", o.label); act.insertBefore(input, keys); input.focus(); input.select();
+      input.addEventListener("input", function () { if (keys.classList.contains("warn")) { keys.classList.remove("warn"); keys.textContent = (o.undated ? "Enter sparar" : "Enter fortsätter") + " · Esc avbryter"; } });
     });
     wrap.addEventListener("keydown", function (e) {
       if (stage === "locked") return;
@@ -2632,6 +2751,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         if (stage === "edit") {
           var v = slider ? +slider.value : o.parse(input.value);
           if (v === null || v === undefined || (typeof v === "number" && isNaN(v))) return;
+          // A value the setting refuses keeps the field open, its warning in place of the keys, until fixed or Esc.
+          var no = o.refuse && o.refuse(v);
+          if (no) { keys.textContent = no; keys.classList.add("warn"); return; }
           if (o.undated) { o.save(v); show(); if (o.onCommit) o.onCommit(); btn.focus(); }
           else askDate(v);
         }
@@ -2711,9 +2833,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   document.addEventListener("pointerdown", function (e) {
     if (pick && !pick.el.hidden && !pick.el.contains(e.target) && e.target !== pick.anchor) closePicker(false);
   }, true);
-  $("menuBody").addEventListener("scroll", function () { closePicker(false); });
+  $("menuBody").addEventListener("scroll", function () { closePicker(false); }, true);   // a tab's content scrolling
   // A profile's colour field: the pair it wears, the base and the neon as two small swatches that are always true
-  // whatever the balance, and "Ändra", which opens the picker beside it; a second press closes it.
+  // whatever the balance, and "Ändra" beside them, kept compact, which opens the picker; a second press closes it.
   function colourField(q, onChange) {
     var wrap = document.createElement("div"); wrap.className = "lv";
     var row = document.createElement("div"); row.className = "lv-row";
@@ -2780,7 +2902,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         });
         var fc = colourField(q, function (hex, h) { q.colour = hex; q.strip = h; q.hue = stripHue(h); syncOver(); recolour(); });
         function syncOver() { var c = stateColours(q.id); d.style.color = c.letter; d.style.borderColor = c.ring; }
-        body.append(f1, fc, pay, f2);
+        body.append(fc, f1, pay, f2);   // the colour first, compact on one line
         if (!q.balance) {
           var f3 = document.createElement("div"); f3.className = "field";
           var arch = document.createElement("button"); arch.type = "button"; arch.className = "small";
@@ -2798,24 +2920,50 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       ul.appendChild(li);
     });
   }
+  // A setting's history with one value put in from a date, replacing any value from that same date.
+  function withEntry(h, from, v) {
+    var c = h.filter(function (e) { return e.from !== from; }); c.push({ from: from, v: v });
+    return c.sort(function (a, b) { return a.from < b.from ? -1 : 1; });
+  }
+  function inForce(h, day) { var v; h.forEach(function (e) { if (e.from <= day) v = e.v; }); return v; }
+  // The first day from `from` on which janitor's hours would be more than full time: checked on `from` and on every
+  // later day either setting changes, since between those days nothing moves. Null when every day fits.
+  function misfit(full, split, from) {
+    var days = [from].concat(full.map(function (e) { return e.from; }), split.map(function (e) { return e.from; }))
+      .filter(function (d) { return d >= from; }).sort();
+    for (var k = 0; k < days.length; k++) {
+      var f = inForce(full, days[k]), sp = inForce(split, days[k]);
+      if (f !== undefined && sp !== undefined && sp > f) return { day: days[k], full: f, split: sp };
+    }
+    return null;
+  }
   function renderSettings() {
     var wt = $("workTime"); clear(wt); var splitCtl;
     wt.appendChild(lockedValue({
-      label: "Heltid", hist: function () { return settings.fullTime; }, show: hLen,
-      toText: function (v) { return hLen(v).replace("h", ""); }, parse: readHours,
+      // Entered as a week, in quarter hours, and shown with the weekday it gives beside it.
+      label: "Heltid", hist: function () { return settings.fullTime; },
+      show: function (v) { return lengthText(v) + " / vecka"; }, note: function (v) { return lengthText(v / WEEKDAYS) + " / dag"; },
+      toText: lengthField, parse: readHours,
+      refuse: function (v) { return v % WEEK_STEP ? "Ange veckan i steg om " + WEEK_STEP + " minuter" : null; },
+      // Never smaller than janitor's hours on any day from its date: saving one value never changes another.
+      refuseFrom: function (v, from) {
+        var m = misfit(withEntry(settings.fullTime, from, v), settings.split, from);
+        return m && "Vaktmästare har " + lengthText(m.split) + (m.day > from ? " från " + fmtDay(m.day) : "") + ". Minska fördelningen först.";
+      },
       // A new full time only refreshes the split beside it; nothing is rebuilt, so no other edit or focus is lost.
       onCommit: function () { if (splitCtl) splitCtl.refresh(); drawFigures(); }
     }));
     wt.appendChild(splitCtl = lockedValue({
       label: "Fördelning", hist: function () { return settings.split; }, onCommit: function () { drawFigures(); },
-      show: function (v) { return hLen(v) + " | " + hLen(now(settings.fullTime) - v); },
+      // Never more than full time on any day from its date, an earlier full time included.
+      refuseFrom: function (v, from) {
+        var m = misfit(settings.fullTime, withEntry(settings.split, from, v), from);
+        return m && "Heltid är bara " + lengthText(m.full) + " från " + fmtDay(m.day) + ".";
+      },
+      show: function (v) { return lengthText(v) + " | " + lengthText(now(settings.fullTime) - v); },
       slider: {
-        max: function () { return now(settings.fullTime); },
-        legend: function (v, el) {
-          var a = document.createElement("span"); a.textContent = profiles[0].name + " " + hLen(v);
-          var b = document.createElement("span"); b.textContent = "Tak " + hLen(now(settings.fullTime) - v) + " / vardag";
-          el.append(a, b);
-        }
+        step: WEEK_STEP,   // the week, a quarter hour per step
+        max: function () { return now(settings.fullTime); }
       }
     }));
   }
@@ -2848,7 +2996,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var lock = document.createElement("button"); lock.type = "button"; lock.className = "cal-lock" + (calUnlocked ? " open" : "");
     lock.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' + (calUnlocked ? LOCK_OPEN : LOCK_SHUT) + '</svg>';
     lock.addEventListener("click", function () { calUnlocked = !calUnlocked; renderCal(); box.querySelector(".cal-lock").focus(); });
-    title.append(document.createTextNode(MONTH_FULL[m] + " " + y), lock);
+    // The month's name wakes up away from today's month: a click on it brings the calendar back to today's month.
+    var t0 = new Date(), home = y === t0.getFullYear() && m === t0.getMonth(), name;
+    if (home) name = document.createTextNode(MONTH_FULL[m] + " " + y);
+    else {
+      name = document.createElement("button"); name.type = "button"; name.className = "cal-home"; name.textContent = MONTH_FULL[m] + " " + y;
+      name.addEventListener("click", function () { calMonth = null; renderCal(); box.querySelector(".cal-nav").focus(); });
+    }
+    title.append(name, lock);
     head.append(nav("‹", -1), title, nav("›", 1)); box.appendChild(head);
     var grid = document.createElement("div"); grid.className = "cal-grid";
     ["mån", "tis", "ons", "tor", "fre", "lör", "sön"].forEach(function (w) { var s = document.createElement("span"); s.className = "cal-wd"; s.textContent = w; grid.appendChild(s); });
@@ -2868,7 +3023,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       if (key === today) b.classList.add("today");
       if (marked) b.classList.add("marked");
       b.addEventListener("click", function () {
-        var cost = now(settings.split);
+        var cost = now(settings.split) / WEEKDAYS;
         if (marked) { delete flexDays[key]; balance += cost; } else { flexDays[key] = true; balance -= cost; }
         renderCal(key);
         syncSim(); settleScale(Math.abs(balance), true); tweenTo({ balance: balance, used: used, pay: pay }); restate();
@@ -2896,7 +3051,43 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     });
     if (focusKey) { var again = grid.querySelector('[data-key="' + focusKey + '"]'); if (again) again.focus(); }
   }
-  function renderMenu() { renderProfiles(); renderSettings(); calMonth = null; calUnlocked = false; renderCal(); }
+  // Profiler's global settings, above the profiles, on one row: "Efter skatt", then "Skatt och avgifter" as a tag that
+  // opens a field in its own border, as the edit's "paus" tag does: Enter keeps it, Esc or a click outside drops it.
+  function renderPayGlobal() {
+    var box = $("payGlobal"); clear(box);
+    var row = document.createElement("div"); row.className = "pg-row";
+    var cbl = document.createElement("label"); cbl.className = "pg-check";
+    var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = !payTax.before;
+    cb.addEventListener("change", function () { payTax.before = !cb.checked; drawFigures(); });
+    cbl.append(cb, document.createTextNode("Efter skatt"));
+    var lab = document.createElement("span"); lab.className = "pg-label"; lab.textContent = "Skatt och avgifter";
+    var slot = document.createElement("span");
+    row.append(cbl, lab, slot); box.appendChild(row);
+    var me = { wrap: row, abort: showTag, escape: function () { showTag(); slot.firstChild.focus(); } };
+    function pctText(v) { return String(v).replace(".", ","); }
+    function showTag() {
+      clear(slot);
+      var tag = document.createElement("button"); tag.type = "button"; tag.className = "pg-tag"; tag.textContent = pctText(payTax.pct) + " %";
+      tag.addEventListener("click", openField); slot.appendChild(tag);
+      if (openEdit === me) openEdit = null;
+    }
+    function openField() {
+      if (openEdit && openEdit !== me) openEdit.abort();
+      openEdit = me; clear(slot);
+      var inp = document.createElement("input"); inp.type = "text"; inp.className = "pg-in"; inp.value = pctText(payTax.pct); inp.placeholder = "0";
+      inp.addEventListener("input", function () { inp.classList.remove("warn"); });
+      inp.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        var t = inp.value.replace(",", ".").replace("%", "").trim(), n = Number(t);
+        if (!t || isNaN(n) || n < 0 || n >= 100) { inp.classList.add("warn"); return; }   // refused: red, still open
+        payTax.pct = n; showTag(); drawFigures(); slot.firstChild.focus();
+      });
+      slot.appendChild(inp); inp.focus(); inp.select();
+    }
+    showTag();
+  }
+  function renderMenu() { renderPayGlobal(); renderProfiles(); renderSettings(); calMonth = null; calUnlocked = false; renderCal(); }
   // Theme: "system" follows the computer; the dark tokens live in one block, .app.dark.
   var darkMq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
   function applyTheme() {
@@ -3025,7 +3216,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     drawControls(); if ($("menu").classList.contains("open")) renderProfiles();
     // The open profile popup's circles too; its buttons are the active profiles, in order.
     if (!$("scrim").hidden) Array.prototype.forEach.call($("popupList").children, function (b, i) {
-      var c = stateColours(activeProfiles()[i].id), d = b.querySelector(".mini-dot"); d.style.color = c.letter; d.style.borderColor = c.ring;
+      var d = b.querySelector(".mini-dot"); if (!d) return;   // "Ny profil…" has no circle
+      var c = stateColours(activeProfiles()[i].id); d.style.color = c.letter; d.style.borderColor = c.ring;
     });
   }
   // Narrow: the box, or a page too narrow for the two sides

@@ -19,10 +19,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-The patch `v0.3.2`, then Phase 4: Profiles, its design pass from **Settle first**.
-
-1. The release, `v0.3.2` (`procedures/release.md`): its draft's installers checked and installed at work too, which also
-   covers `v0.3.1`'s.
+Phase 4: Profiles, its design pass from **Settle first**.
 
 ## The phases
 
@@ -37,18 +34,17 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** every kind of work counted apart, the ceiling wheel, and the menu.
 
-**Settle first:** how the full-time slider is drawn; whether the menu's locked values keep a value on a click outside,
-as length fields do (`open-questions.md`).
+**Settle first:** the Orsaker tab drawn in the prototype (it shows only Profiler and Tid); deleting a profile with no
+entries (`open-questions.md`).
 
 1. Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny profil", archiving; the
    warning label on the start button while another profile runs.
-2. The ceiling's opening hours, once whose they are is settled.
-3. The menu: the Profiler and Orsaker tabs, the full-time slider in Tid, counting values locked behind "Ändra" with
+2. The menu: the Profiler and Orsaker tabs, the full-time slider in Tid, counting values locked behind "Ändra" with
    "Tidigare värden"; settings that change from a date; the "Orsaker" tab, with the reasons added, renamed and removed,
    and the "Annan orsak" texts that keep coming up.
-4. Pruning on request ("Old history is pruned on request"), once the ceiling's carry exists: the prune itself and the
+3. Pruning on request ("Old history is pruned on request"), once the ceiling's carry exists: the prune itself and the
    offer on the prune line, tested with set dates rather than waiting three years.
-5. `[written]` One pointer-light rule for every button that catches it, given once as a shared class or rule, in place
+4. `[written]` One pointer-light rule for every button that catches it, given once as a shared class or rule, in place
    of the copies in `ButtonBlock`, `PauseField` and `ChoiceButton`, so no button catches it differently; the phase's new
    buttons use it ("The look: a fresh display face, mono text and soft buttons").
 

@@ -19,8 +19,8 @@ calendar in the menu's Tid tab, a weekday per click, ahead or, behind its padloc
 **Focus outline.** The ring around whatever has keyboard focus, in the colour of where the profile on screen stands (see
 **Standing**). Not the running ring around "Stoppa jobb", which is always the neon.
 
-**Full time.** The hours of a full working day (7 h 39 min, a 38 h 15 min week), a setting; janitor's expected hours and
-the ceiling divide it.
+**Full time.** The hours of a full working week (38 h 15 min, so 7 h 39 min a weekday), a setting, entered as a week in
+quarter hours; janitor's expected hours and the ceiling divide it.
 
 **Gap.** The time between a stop and the next start, or cut from an entry on the entry line. Not work; it counts on no
 day.
