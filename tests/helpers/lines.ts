@@ -22,7 +22,7 @@ const MORNING = new Date(2026, 10, 19, 6, 0, 0).getTime()
 
 /**
  * A day of entries back to back with gaps from none to two hours, some to the second, of two profiles, each with a
- * break it can hold, ids e0, e1 and on
+ * break it can hold, ids e0, e1 and on; two of one profile never touch, as in a record
  */
 export const DAY_OF_SPANS: fc.Arbitrary<Span[]> = fc
   .array(
@@ -37,10 +37,14 @@ export const DAY_OF_SPANS: fc.Arbitrary<Span[]> = fc
   )
   .map((rows) => {
     let time = MORNING
+    let before = ''
     return rows.map((row, i) => {
-      const start = time + row.gap * 60_000 + (i % 2 === 0 ? row.seconds * 1000 : 0)
+      let start = time + row.gap * 60_000 + (i % 2 === 0 ? row.seconds * 1000 : 0)
+      // Two entries of one profile never touch in a record: touching entries are one, a start included
+      if (start === time && row.profile === before) start += 60_000
       const stop = start + row.length * 60_000
       time = stop
+      before = row.profile
       return { id: `e${i}`, profile: row.profile, start, stop, breakMinutes: Math.floor(row.length * row.breakShare) }
     })
   })

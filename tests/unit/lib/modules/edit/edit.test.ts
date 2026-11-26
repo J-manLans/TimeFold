@@ -1,6 +1,6 @@
 import fc from 'fast-check'
 import { describe, expect, it } from 'vitest'
-import { applyMove, DAY_OF_SPANS, MOVE, RUNS } from '$tests/helpers/lines'
+import { applyMove, DAY_OF_SPANS, MOVE, RUNS, type Move } from '$tests/helpers/lines'
 import { at, entry, RECORD } from '$tests/helpers/records'
 import {
   canSave,
@@ -272,6 +272,35 @@ describe('whatever is saved, the record keeps its rules', () => {
   /** An entry's length in milliseconds, a running one to now */
   const length = (e: Entry, now: number): number => (e.stop === null ? now : Date.parse(e.stop)) - Date.parse(e.start)
 
+  /** One run of the save's property: a day, the entry opened, the moves, then the save checked against its rules */
+  function savesItsRules(spans: Span[], pick: number, running: boolean, after: number, moves: Move[]): void {
+    const last = spans[spans.length - 1]
+    const now = last.stop + after * 60_000
+    const r = record(...spans.map((s) => asEntry(s, running && s === last)))
+    const id = spans[pick % spans.length].id
+    let line = open(r, id, now)
+    for (const m of moves) line = applyMove(line, m)
+    if (!canSave(line, 'Ärende')) return
+
+    const saved = saveLine(r, line, 'Ärende')
+    const shown = segments(line).reduce(
+      (sum, g) => sum + (g.kind === 'add' ? g.to - g.from : g.kind === 'cut' ? g.from - g.to : 0),
+      0,
+    )
+    const total = (x: TimeRecord): number => x.entries.reduce((sum, e) => sum + length(e, now), 0)
+    const changed = (e: Entry): boolean => JSON.stringify(e) !== JSON.stringify(r.entries.find((o) => o.id === e.id))
+    const sorted = [...saved.entries].sort((a, b) => Date.parse(a.start) - Date.parse(b.start))
+
+    expect(readRecord(JSON.stringify(saved)).ok).toBe(true)
+    expect(total(saved)).toBe(total(r) + shown)
+    sorted.slice(1).forEach((e, i) => {
+      const before = sorted[i]
+      expect(Date.parse(e.start)).toBeGreaterThanOrEqual(Date.parse(before.start) + length(before, now))
+      const touching = Date.parse(e.start) === Date.parse(before.start) + length(before, now)
+      if (touching && e.profile === before.profile) expect(changed(e) || changed(before)).toBe(false)
+    })
+  }
+
   it(
     'saves no overlap, no two touching entries of a profile it changed, and the time the line showed',
     () => {
@@ -282,34 +311,7 @@ describe('whatever is saved, the record keeps its rules', () => {
           fc.boolean(),
           fc.integer({ min: 1, max: 120 }),
           fc.array(MOVE, { maxLength: 20 }),
-          (spans, pick, running, after, moves) => {
-            const last = spans[spans.length - 1]
-            const now = last.stop + after * 60_000
-            const r = record(...spans.map((s) => asEntry(s, running && s === last)))
-            const id = spans[pick % spans.length].id
-            let line = open(r, id, now)
-            for (const m of moves) line = applyMove(line, m)
-            if (!canSave(line, 'Ärende')) return
-
-            const saved = saveLine(r, line, 'Ärende')
-            const shown = segments(line).reduce(
-              (sum, g) => sum + (g.kind === 'add' ? g.to - g.from : g.kind === 'cut' ? g.from - g.to : 0),
-              0,
-            )
-            const total = (x: TimeRecord): number => x.entries.reduce((sum, e) => sum + length(e, now), 0)
-            const changed = (e: Entry): boolean =>
-              JSON.stringify(e) !== JSON.stringify(r.entries.find((o) => o.id === e.id))
-            const sorted = [...saved.entries].sort((a, b) => Date.parse(a.start) - Date.parse(b.start))
-
-            expect(readRecord(JSON.stringify(saved)).ok).toBe(true)
-            expect(total(saved)).toBe(total(r) + shown)
-            sorted.slice(1).forEach((e, i) => {
-              const before = sorted[i]
-              expect(Date.parse(e.start)).toBeGreaterThanOrEqual(Date.parse(before.start) + length(before, now))
-              const touching = Date.parse(e.start) === Date.parse(before.start) + length(before, now)
-              if (touching && e.profile === before.profile) expect(changed(e) || changed(before)).toBe(false)
-            })
-          },
+          savesItsRules,
         ),
         { numRuns: RUNS },
       )
