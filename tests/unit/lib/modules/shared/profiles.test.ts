@@ -7,6 +7,7 @@ import {
   addProfile,
   archivedProfiles,
   nameRefusal,
+  openingProfile,
   removalOf,
   removeProfile,
   renameProfile,
@@ -172,4 +173,18 @@ describe('no two profiles ever share a name, whatever is made, renamed, archived
     },
     Math.max(5000, RUNS),
   )
+})
+
+describe('the app opens on the running profile, or the last one on screen', () => {
+  const running = withDev([entry(at('2026-11-18', '08:00'), null, { profile: DEV.id })])
+
+  it.each([
+    ['Utveckling running, the janitor kept', running, 'p1', DEV.id],
+    ['nothing running, Utveckling kept', withDev(DEV_HOURS), DEV.id, DEV.id],
+    ['nothing running, Utveckling kept but archived', withDev(DEV_HOURS, { ...DEV, archived: true }), DEV.id, 'p1'],
+    ['nothing running, a profile kept that is gone', withDev(), 'p9', 'p1'],
+    ['nothing running, nothing kept', withDev(), undefined, 'p1'],
+  ])('%s: opens on %s… %s', (_case, record, kept, opens) => {
+    expect(openingProfile(record, kept)).toBe(opens)
+  })
 })

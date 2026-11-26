@@ -6,8 +6,6 @@ its title.
 
 ## The other profiles share a ceiling (2026-11-26)
 
-**Built by:** Profiles, for the full-time slider and each month counted on its own.
-
 **Decision:** janitor work is the only profile with expected hours, and so the only balance. All other profiles together
 share one ceiling: the rest of full time. Full time is a setting, entered as a week (38 h 15 min), and the ceiling is
 not set but follows from it. Full time and janitor's expected hours are set together, as a week, with one slider that
@@ -64,8 +62,6 @@ ceiling does not show.
 - The split's slider moves 15 min a week per step.
 
 ## The ceiling's trend (2026-11-26)
-
-**Built by:** Profiles.
 
 **Decision:** the ceiling's trend is the sum, over finished months, of each month's hours over or under its ceiling
 (hours used less the ceiling), counted from the month the ceiling last changed, a change to full time or the split, the

@@ -6,8 +6,6 @@ title.
 
 ## An edited entry's break (2026-11-26)
 
-**Built by:** Profiles, for "Lägg till paus" drawn as the "paus" tag, and the tags' borders under the pointer.
-
 **Decision:** the break's control in the edit is its "paus" tag after the times under the day ("Editing an entry on its
 line"): clicked, it opens a length field in its place, as the field under "Lägg till paus" does, wearing the tag's own
 border and as wide as what it holds ("00:00" while empty), so it reads as the tag being typed in; Enter keeps it, and

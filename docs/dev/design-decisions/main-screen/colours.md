@@ -5,8 +5,6 @@ them are in `figures/`. Each decision follows the template in `../README.md`, an
 
 ## Each profile carries its colours (2026-11-18)
 
-**Built by:** Profiles.
-
 **Decision:** each profile has a hue, a base colour and a neon. Only the hue is picked, with the app's own colour
 picker; the base and the neon follow from it and are never picked by hand. The profile's row in the menu shows "Färg"
 with the pair it wears, the base and the neon as two small swatches, and "Ändra", like every value in the menu, which

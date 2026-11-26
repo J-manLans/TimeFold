@@ -5,8 +5,6 @@ cited by its title.
 
 ## The menu has tabs, with every value locked behind "Ändra" (2026-11-17)
 
-**Built by:** Profiles, for the Profiler tab and the working time in Tid.
-
 **Decision:** the menu has two tabs across its top: **Profiler** and **Tid**. Profiler is selected when the menu opens,
 and one tab's content shows at a time; switching fades from one to the next. The head ("Meny", the theme and motion
 buttons, and the × the menu button became) sits close on the tabs, and both stay put: only the tab's content scrolls, up
@@ -38,21 +36,24 @@ only when the value is saved. Enter confirms, and Esc or a click anywhere outsid
 value as it opened does what Esc does, nothing saved and no date asked. Esc closes only the open value, wherever the
 focus is, and the next Esc closes the menu. The flex-day calendar is not a value and has no "Ändra". Values that change
 the counting (full time, the split, a salary or rate) then ask "Gäller från": on Enter the field turns, in the same
-place, into what waits and its date ("38h 30min från", a date field opening on the first of next month for full time and
-the split and on today for pay, which the owner may move to any day, "Settings change from a date"), and a second Enter
-saves it. Under each, "Tidigare värden" with a count opens its earlier values and the dates they held from. The split's
-slider has no "Ändra": it can always be moved, and its first move folds open "från", the date and "Spara" and "Avbryt"
-under it, as a profile row unfolds; moved back to the saved value, they fold shut again, as if nothing was moved;
-"Spara" or Enter saves, and "Avbryt", Esc or a click outside drops the move, the slider and its numbers going back, and
-folds it shut. A value saved from a date that would not fit beside another setting on some day from that date is
-refused, its date left open with the reason in the warning red ("The other profiles share a ceiling"); changing the date
-clears it. A name is saved at once on Enter, with no date and no history, since no count depends on them. Closing the
-menu drops anything left open in it. Only one value is open for editing at a time: "Ändra" on another aborts the open
-one, and saving one value never resets another or moves the focus away from where the owner is. Colours and the theme
-change at once, from their pickers and button. "Efter skatt" changes at once too. "Skatt och avgifter" is a tag drawn as
-an edit's "paus" tag, in its size and border, lighting under the pointer, that opens a field in its own border, as the
-"paus" tag does ("An edited entry's break"): Enter keeps it, and Esc or a click outside drops it; a value out of 0 to
-under 100 is refused, its field red and open.
+place, into what waits and its date ("38h 30min från", a date field opening on the first of next month, which the owner
+may move to any day, "Settings change from a date"), and a second Enter saves it. A value shows what is in force today;
+one saved for a later day shows as a quiet note in the note size under it ("2 100 € från 1 dec"), until its day, when it
+takes over by itself, the menu reading the date each time it opens. A small "×" after the note takes it back: the first
+click turns it red, the second takes it back, refused with its reason in the warning red when the janitor's hours would
+then pass full time, as a save would be. Under each, "Tidigare värden" with a count opens its earlier values and the
+dates they held. The split's slider has no "Ändra": it can always be moved, and its first move folds open "från", the
+date and "Spara" and "Avbryt" under it, as a profile row unfolds; moved back to the saved value, they fold shut again,
+as if nothing was moved; "Spara" or Enter saves, and "Avbryt", Esc or a click outside drops the move, the slider and its
+numbers going back, and folds it shut. A value saved from a date that would not fit beside another setting on some day
+from that date is refused, its date left open with the reason in the warning red ("The other profiles share a ceiling");
+changing the date clears it. A name is saved at once on Enter, with no date and no history, since no count depends on
+them. Closing the menu drops anything left open in it. Only one value is open for editing at a time: "Ändra" on another
+aborts the open one, and saving one value never resets another or moves the focus away from where the owner is. Colours
+and the theme change at once, from their pickers and button. "Efter skatt" changes at once too. "Skatt och avgifter" is
+a tag drawn as an edit's "paus" tag, in its size and border, lighting under the pointer, that opens a field in its own
+border, as the "paus" tag does ("An edited entry's break"): Enter keeps it, and Esc or a click outside drops it; a value
+out of 0 to under 100 is refused, its field red and open.
 
 **Why:** tabs keep the names in a fixed place while the content swaps calmly below them. A value that changes past and
 future counts should not move by a stray click, and Enter, Esc and a click outside work as they do everywhere else

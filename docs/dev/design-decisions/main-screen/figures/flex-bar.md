@@ -5,8 +5,6 @@ is cited by its title.
 
 ## The flex bar (2026-11-15)
 
-**Built by:** Profiles, for the balance profile's colours as chosen in the menu.
-
 **Decision:** the janitor balance shows as a horizontal bar from a 0 line, minus to the left and plus to the right, with
 the balance as a number above it. The bar is only its active part, with no track behind it, and is rounded only at its
 outer end, square against the 0 line. It is half as thick as the ceiling wheel's band, centred on the 0 line, which

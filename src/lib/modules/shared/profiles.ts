@@ -117,6 +117,19 @@ export function restoreProfile(record: TimeRecord, id: string): TimeRecord {
   }
 }
 
+/**
+ * The profile the app opens on ("The app opens on the running profile, or the last one on screen"): the one whose
+ * entry runs; when nothing runs, the one kept as on screen at close, while it is in use; else the first in use. Used
+ * when the app starts.
+ * @param kept - the profile on screen when the app last closed, from the machine's settings
+ */
+export function openingProfile(record: TimeRecord, kept?: string): string {
+  const running = record.entries.find((e) => e.stop === null)
+  if (running) return running.profile
+  const active = activeProfiles(record)
+  return active.find((p) => p.id === kept)?.id ?? active[0]?.id ?? record.profiles[0].id
+}
+
 // ======================================
 //               Helpers
 // ======================================

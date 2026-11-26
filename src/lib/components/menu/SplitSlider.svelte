@@ -10,23 +10,32 @@
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import { localDay } from '$lib/modules/shared/counting'
+  import { dayAndMonth } from '$lib/modules/shared/dates'
   import {
+    cancelComing,
     firstOfNextMonth,
     fullTimeWeek,
-    LATEST,
     saveSplit,
     splitWeek,
     WEEK_STEP,
     weekText,
   } from '$lib/modules/menu/workTime'
+  import ComingNote from './ComingNote.svelte'
 
   // === State ===
 
   const key = crypto.randomUUID()
   let today = $derived(localDay(Date.now()))
-  // The latest values saved, a change for a later date included, as the menu shows every value
-  let full = $derived(app.record ? fullTimeWeek(app.record, LATEST) : 0)
-  let saved = $derived(app.record ? splitWeek(app.record, LATEST) : 0)
+  // What is in force today; a split saved for a later day shows as coming until its day
+  let full = $derived(app.record ? fullTimeWeek(app.record, today) : 0)
+  let saved = $derived(app.record ? splitWeek(app.record, today) : 0)
+  let coming = $derived.by(() => {
+    const janitor = app.record?.profiles.find((p) => p.expectedMinutes !== undefined)
+    const next = [...(janitor?.expectedMinutes ?? [])]
+      .sort((a, b) => (a.from < b.from ? -1 : 1))
+      .find((v) => v.from > today)
+    return next ? { text: `${weekText(next.minutes * 5)} från ${dayAndMonth(next.from)}`, from: next.from } : null
+  })
   let moving = $derived(app.openValue === key)
   let value = $state(0)
   let from = $state('')
@@ -72,6 +81,15 @@
     app.openValue = null
   }
 
+  /** The split saved for a later day taken back, or the reason it is refused */
+  function cancel(from: string): string | null {
+    if (!app.record) return null
+    const result = cancelComing(app.record, 'split', from)
+    if ('refusal' in result) return result.refusal
+    void app.saveSettings(result)
+    return null
+  }
+
   /** The move dropped and the slider back where it was */
   function drop(): void {
     app.openValue = null
@@ -103,7 +121,10 @@
 <div class="value" class:moving bind:this={wrap} onkeydown={onKey}>
   <div class="row">
     <span class="label">Fördelning</span>
-    <span class="text">{weekText(shown)} | {weekText(full - shown)}</span>
+    <span class="values">
+      <span class="text">{weekText(shown)} | {weekText(full - shown)}</span>
+      {#if coming && !moving}<ComingNote text={coming.text} cancel={() => cancel(coming.from)} />{/if}
+    </span>
   </div>
   <input
     type="range"
@@ -155,6 +176,14 @@
 
   .text {
     font-variant-numeric: tabular-nums;
+  }
+
+  /* The split, and under it a split saved for a later day */
+  .values {
+    display: grid;
+    flex: 1;
+    justify-items: start;
+    min-width: 0;
   }
 
   .value > :not(.row) {

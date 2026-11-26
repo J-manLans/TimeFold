@@ -3087,7 +3087,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           onCommit: function () { nm.textContent = q.name; d.textContent = q.name.charAt(0).toUpperCase(); drawControls(); }
         });
         var payCtl = lockedValue({
-          label: q.pay.kind === "salary" ? "Månadslön" : "Timpris",
+          label: q.pay.kind === "salary" ? "Månadslön" : "Timpris", fromMonth: true,
           hist: function () { return q.pay.hist; },
           show: function (v) { return v.toLocaleString("sv-SE") + (q.pay.kind === "salary" ? " € / månad" : " € / h"); },
           toText: function (v) { return String(v); },

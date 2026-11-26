@@ -72,7 +72,10 @@
             <span class="circle" style:color={colours.letter} style:border-color={colours.ring}>
               {profile.name.charAt(0).toUpperCase()}
             </span>
-            {profile.name}{#if app.running?.profile === profile.id}<span class="runs" aria-label="pågår"> ●</span>{/if}
+            <span class="name">{profile.name}</span>{#if app.running?.profile === profile.id}<span
+                class="runs"
+                aria-label="pågår">●</span
+              >{/if}
           </button>
         {/each}
       {/if}
@@ -92,8 +95,10 @@
     background: var(--scrim);
   }
 
+  /* One column that may shrink to the popup's greatest width, so a long name is cut rather than widening it */
   .popup {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--popup-gap);
     min-width: var(--popup-min-width);
     padding: var(--popup-padding);
@@ -114,6 +119,7 @@
   button {
     display: flex;
     align-items: center;
+    min-width: 0;
     gap: var(--popup-row-gap);
     padding: var(--popup-row-padding);
     border: 0;
@@ -125,7 +131,20 @@
     cursor: pointer;
   }
 
+  /* A long name is cut with "…"; the popup never grows past the controls side */
+  .name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .popup {
+    max-width: var(--popup-max-width);
+  }
+
   .circle {
+    flex: none;
     display: grid;
     place-items: center;
     width: var(--mini-disc-size);

@@ -13,6 +13,7 @@
   import { durationShape } from '$lib/modules/shared/durationShape'
   import type { Day } from '$lib/modules/shared/record'
   import type { DurationField } from '$lib/modules/shared/timeInput'
+  import ComingNote from './ComingNote.svelte'
 
   // === Props ===
 
@@ -20,6 +21,8 @@
     label,
     text,
     note = '',
+    coming = '',
+    cancelComing = () => null,
     fieldText,
     field,
     read,
@@ -36,6 +39,10 @@
     text: string
     /** A quieter note after it, such as Heltid's day: "7h 39min / dag" */
     note?: string
+    /** A value saved for a later day, as a quiet note after the rest until its day: "2 100 € från 1 dec" */
+    coming?: string
+    /** Takes the coming value back; gives the reason it is refused, or null once taken back */
+    cancelComing?: () => string | null
     /** What the field opens with: "38:15" */
     fieldText: string
     /** A length's shape, keeping the field to it as it is typed; none for plain text */
@@ -157,9 +164,12 @@
 <div class="value" bind:this={wrap} onkeydown={onKey}>
   <div class="row">
     <span class="label">{label}</span>
-    <span class="text"
-      >{text}{#if note}<span class="note">{note}</span>{/if}</span
-    >
+    <span class="values">
+      <span class="text"
+        >{text}{#if note}<span class="note">{note}</span>{/if}</span
+      >
+      {#if coming}<ComingNote text={coming} cancel={cancelComing} />{/if}
+    </span>
   </div>
   <div class="act">
     {#if stage === 'locked'}
@@ -213,6 +223,7 @@
 
   .value {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--menu-value-gap);
     padding: var(--menu-value-padding);
     border-bottom: 1px dashed var(--menu-line);
@@ -236,6 +247,28 @@
   .text,
   .pending {
     font-variant-numeric: tabular-nums;
+  }
+
+  /* A value too long for its line, such as a long name, is cut with "…", as everywhere a name shows; "Ändra" opens it
+     whole in its field */
+  .row {
+    flex-wrap: nowrap;
+  }
+
+  /* The value, and under it a value saved for a later day */
+  .values {
+    display: grid;
+    flex: 1;
+    justify-items: start;
+    min-width: 0;
+  }
+
+  .text {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .note {

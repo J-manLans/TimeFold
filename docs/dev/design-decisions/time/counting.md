@@ -85,8 +85,6 @@ after midnight would charge the next day's expected hours, even a day of leave.
 
 ## The app's month is the calendar month (2026-11-16)
 
-**Built by:** Profiles, with the ceiling.
-
 **Decision:** the app counts by the calendar month, the 1st to the last day, as the school counts the owner's hours
 (their payslip names the period 1st to last of the month, and a month's salary is paid on its 15th). The ceiling, the
 report, the pay estimate and pruning all count this month. It is not a setting and is not asked for.

@@ -18,7 +18,7 @@ import {
 } from '$lib/modules/shared/record'
 import { deleteEntry, savedEntryId, saveLine } from '$lib/modules/edit/edit'
 import { learnReason } from '$lib/modules/edit/reasons'
-import { activeProfiles, removeProfile } from '$lib/modules/shared/profiles'
+import { activeProfiles, openingProfile, removeProfile } from '$lib/modules/shared/profiles'
 import { prune } from '$lib/modules/controls/prune'
 import { firstOfNextMonth } from '$lib/modules/menu/workTime'
 import { type LineState, type View } from '$lib/modules/edit/line'
@@ -108,6 +108,8 @@ class AppState {
   picking = $state<string | null>(null)
   /** "Inte nu" on the prune line: the day it comes back, kept with the machine's settings, or null */
   pruneLater = $state<Day | null>(null)
+  /** The profile on screen when the app last closed, from the machine's settings */
+  #kept: string | undefined = undefined
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */
@@ -157,6 +159,7 @@ class AppState {
     this.#applyTheme(settings.theme)
     this.#applyMotion(settings.motion)
     this.pruneLater = settings.pruneLater ?? null
+    this.#kept = settings.onScreen
     const result = await loadRecord()
     if (result === null) {
       this.record = freshRecord('', 0, localDay(Date.now()))
@@ -307,7 +310,10 @@ class AppState {
   async takeAwayProfile(id: string): Promise<void> {
     if (this.record === null) return
     const record = removeProfile(this.record, id)
-    if (this.onScreen === id) this.onScreen = activeProfiles(record)[0]?.id ?? this.onScreen
+    if (this.onScreen === id) {
+      this.onScreen = activeProfiles(record)[0]?.id ?? this.onScreen
+      void this.#saveMachine()
+    }
     await this.saveSettings(record)
   }
 
@@ -328,10 +334,14 @@ class AppState {
     await this.#saveMachine()
   }
 
-  /** A profile put on screen and the popup closed; a running entry goes on. Used by a row of the profile popup */
+  /**
+   * A profile put on screen and the popup closed; a running entry goes on. It is kept with the machine, so the app
+   * opens on it next time when nothing runs. Used by a row of the profile popup
+   */
   pickProfile(id: string): void {
     this.onScreen = id
     this.profilesOpen = false
+    void this.#saveMachine()
   }
 
   /** The popup closed and the menu asked to open on Profiler with "Ny profil" ready. Used by "Skapa ny profil" */
@@ -413,11 +423,12 @@ class AppState {
     this.phase = 'ready'
   }
 
-  /** The machine's own settings saved: the theme, the motion and the prune line's "Inte nu" */
+  /** The machine's own settings saved: the theme, the motion, the profile on screen and the prune line's "Inte nu" */
   async #saveMachine(): Promise<void> {
     await saveSettings({
       theme: this.theme,
       motion: this.motion,
+      onScreen: this.onScreen,
       ...(this.pruneLater ? { pruneLater: this.pruneLater } : {}),
     })
   }
@@ -460,10 +471,10 @@ class AppState {
     document.documentElement.toggleAttribute('data-still', shownMotion(motion, this.systemStill) === 'off')
   }
 
-  /** Shows the main screen on `record`, with its first profile on screen. Used by `load` */
+  /** Shows the main screen on `record`, on the running profile or the one kept from the last close. Used by `load` */
   #ready(record: TimeRecord): void {
     this.record = record
-    this.onScreen = record.profiles[0].id
+    this.onScreen = openingProfile(record, this.#kept)
     this.late = runningSinceEarlierDay(record, new Date())
     this.phase = 'ready'
   }

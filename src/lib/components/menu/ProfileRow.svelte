@@ -2,14 +2,15 @@
   A profile's row in Profiler ("The menu has tabs, with every value locked behind "Ändra""): its small circle wearing
   where it stands, its name and a chevron. It unfolds in place, its height growing and its content fading in, and
   folds back the same way. Inside: its colours first, compact on one line, then its name, its pay (a monthly salary for the profile with the balance, a rate per
-  hour for the others), each behind "Ändra", and its last button ("A profile with hours is archived, one without is
+  hour for the others, from a date opening on the first of next month), each behind "Ändra", and its last button ("A profile with hours is archived, one without is
   deleted"): "Arkivera" while it has hours, "Ta bort" in red while it has none, each asking once; "Stoppa jobbet först"
   under it while it runs; "Återställ" once archived. The janitor's row has none: <ProfileRow {profile} {open} {onToggle} />
 -->
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import { standsOver } from '$lib/modules/dashboard/figures'
-  import { earlierValues, savePay } from '$lib/modules/menu/workTime'
+  import { cancelComing, firstOfNextMonth, savePay, valuesOn } from '$lib/modules/menu/workTime'
+  import { dayAndMonth } from '$lib/modules/shared/dates'
   import { neonColour } from '$lib/modules/shared/colours'
   import { localDay } from '$lib/modules/shared/counting'
   import { nameRefusal, removalOf, renameProfile, restoreProfile } from '$lib/modules/shared/profiles'
@@ -35,7 +36,9 @@
 
   let today = $derived(localDay(Date.now()))
   let salaried = $derived(profile.expectedMinutes !== undefined)
-  let pay = $derived([...(profile.pay ?? [])].sort((a, b) => (a.from < b.from ? -1 : 1)).at(-1))
+  // Pay in force today; one saved for a later day shows as coming until its day
+  let pays = $derived(valuesOn(profile.pay ?? [], today))
+  let pay = $derived(pays.now)
   let removal = $derived(app.record ? removalOf(app.record, profile.id) : null)
   let asking = $state(false)
   let stopFirst = $state(false)
@@ -96,7 +99,7 @@
     <span class="circle" style:color={circle.letter} style:border-color={circle.ring}>
       {profile.name.charAt(0).toUpperCase()}
     </span>
-    <span>{profile.name}</span>
+    <span class="name">{profile.name}</span>
     <span class="chevron" aria-hidden="true">›</span>
   </button>
   <div class="wrap" inert={!open}>
@@ -119,12 +122,16 @@
           waiting={(amount) => payText({ kind: salaried ? 'salary' : 'rate', amount })}
           save={savePayFrom}
           dated
-          opensOn={today}
-          earlier={earlierValues(profile.pay ?? []).map((e) => ({
-            text: payText(e.value),
-            from: e.from,
-            until: e.until,
-          }))}
+          opensOn={firstOfNextMonth(today)}
+          coming={pays.coming ? `${payText(pays.coming)} från ${dayAndMonth(pays.coming.from)}` : ''}
+          cancelComing={() => {
+            if (app.record && pays.coming) {
+              const back = cancelComing(app.record, { pay: profile.id }, pays.coming.from)
+              if (!('refusal' in back)) void app.saveSettings(back)
+            }
+            return null
+          }}
+          earlier={pays.earlier.map((e) => ({ text: payText(e.value), from: e.from, until: e.until }))}
         />
         {#if removal !== null}
           <div class="last">
@@ -157,6 +164,7 @@
   /* === Layout === */
 
   .row {
+    min-width: 0;
     border: 1px solid var(--menu-line);
     border-radius: var(--radius-small);
   }
@@ -187,6 +195,14 @@
     text-box: trim-both cap alphabetic;
   }
 
+  /* A long name is cut with "…" before the chevron */
+  .name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .chevron {
     margin-left: auto;
     color: var(--menu-text-muted);
@@ -209,6 +225,7 @@
 
   .body {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     padding: var(--menu-row-body-padding);
   }
 

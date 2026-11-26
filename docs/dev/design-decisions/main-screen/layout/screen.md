@@ -5,7 +5,7 @@ cited by its title.
 
 ## The main screen has a controls side and a dashboard (2026-11-14)
 
-**Built by:** Profiles for the profile button; Handover for export and import.
+**Built by:** Handover, for export and import.
 
 **Decision:** the main screen has two sides, the controls side on the left and the dashboard on the right, split by a
 thin line. The left side holds the controls and stays still: the start/stop button ("One start/stop button and a profile
