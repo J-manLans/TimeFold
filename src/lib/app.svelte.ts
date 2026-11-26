@@ -50,6 +50,9 @@ import {
 /** Where the app is: loading, waiting for a fresh start, stopped by a file it cannot read, or ready to clock */
 export type Phase = 'loading' | 'welcome' | 'problem' | 'ready'
 
+/** The key of "Ny profil"'s name field among the menu's values, so the menu can open it when "Ny profil…" asks */
+export const NEW_PROFILE = 'new-profile'
+
 /**
  * The menu's panel locked open over the controls side, for the first start's onboarding ("A first install starts
  * fresh or imports") or a record that cannot be read ("A record that cannot be read offers the newest copy"), and its

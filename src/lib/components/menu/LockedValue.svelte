@@ -95,10 +95,11 @@
     queueMicrotask(() => change?.focus())
   }
 
-  /** Enter in the field: a value read and saved, or asked its date */
+  /** Enter in the field: an unchanged value dropped, as Esc does; else saved, or asked its date */
   function confirm(): void {
     const value = read(typed)
     if (value === null) return
+    if (value === read(fieldText)) return abort()
     if (!dated) return keep(value, '')
     pending = value
     from = opensOn ?? ''

@@ -13,7 +13,6 @@ by where on screen; each tagged by kind: **Broken** (does the wrong thing: repro
 
 ### Controls side
 
-1. **Broken.** With one profile, "Ny profil…" in the profile popup does nothing.
 2. **Look.** "Ny profil…" in the popup is too large.
 3. **Look.** "Skapa ny profil" reads better than "Ny profil…" (the owner's lean).
 
@@ -22,12 +21,15 @@ by where on screen; each tagged by kind: **Broken** (does the wrong thing: repro
 4. **Look.** The menu's text is larger than the prototype's, which looks right: follow its values, unless something else
    is off.
 
+### Menu, Profiler
+
+10. **Look.** The "Efter skatt" checkbox looks off. It is the system's own, drawn by the window's engine (WebKitGTK on
+    Linux), not Firefox as in the prototype; the 16 px text around it may add to it (see 4).
+
 ### Menu, Tid
 
 5. **Look.** Fördelning's slider is too long.
-6. **Feel.** Enter on an unchanged value, such as Heltid's 13:15 kept as 13:15, does what Esc or a click outside does:
-   the value locks again, nothing saved and no date asked. Every value behind "Ändra" alike (agreed).
-7. **Broken.** The flex-day calendar's month name, away from today's month, should underline under the pointer and bring
+6. **Broken.** The flex-day calendar's month name, away from today's month, should underline under the pointer and bring
    the calendar back to today's month when clicked.
 
 ### Edit

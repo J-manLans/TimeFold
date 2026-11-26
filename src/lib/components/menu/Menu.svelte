@@ -8,7 +8,7 @@
   button.
 -->
 <script lang="ts">
-  import { app } from '$lib/app.svelte'
+  import { app, NEW_PROFILE } from '$lib/app.svelte'
   import {
     earlierValues,
     firstOfNextMonth,
@@ -80,12 +80,14 @@
     }
   })
 
-  // "Ny profil…" in the profile popup opens the menu on Profiler, which takes it up
+  // "Ny profil…" in the profile popup opens the menu on Profiler with the name field ready. The menu alone takes the
+  // request up, so nothing else can clear it first
   $effect(() => {
-    if (app.newProfileAsked) {
-      tab = 'profiler'
-      open = true
-    }
+    if (!app.newProfileAsked) return
+    app.newProfileAsked = false
+    tab = 'profiler'
+    open = true
+    app.openValue = NEW_PROFILE
   })
 
   // While open, a press outside the menu or Esc closes it, unless it is locked for the onboarding. "Visa alla" and its
