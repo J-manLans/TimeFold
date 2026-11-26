@@ -4,39 +4,6 @@ What is not decided, grouped under the phase that needs the answer, so a phase's
 entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question leaves;
 its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
-## Phase 4: Profiles — faults from the review
-
-What the owner noticed trying the built phase, numbered for good; a fault leaves once its fix is seen working. Grouped
-by where on screen; each tagged by kind: **Broken** (does the wrong thing: reproduced, then fixed on the owner's go),
-**Look** (size, colour, spacing or words: tuned), **Feel** (works, but the behaviour feels wrong: talked through first),
-**Question** (the rule is unclear: design mode). The cause is added once looked at.
-
-### Controls side
-
-2. **Look.** "Ny profil…" in the popup is too large.
-3. **Look.** "Skapa ny profil" reads better than "Ny profil…" (the owner's lean).
-
-### Menu
-
-4. **Look.** The menu's text is larger than the prototype's, which looks right: follow its values, unless something else
-   is off.
-
-### Menu, Profiler
-
-10. **Look.** The "Efter skatt" checkbox looks off. It is the system's own, drawn by the window's engine (WebKitGTK on
-    Linux), not Firefox as in the prototype; the 16 px text around it may add to it (see 4).
-
-### Menu, Tid
-
-5. **Look.** Fördelning's slider is too long.
-6. **Broken.** The flex-day calendar's month name, away from today's month, should underline under the pointer and bring
-   the calendar back to today's month when clicked.
-
-### Edit
-
-8. **Broken.** "Annan orsak" in the reason list is cut to "Annan orsa…".
-9. **Broken.** A reason emptied under its pen: "Ta bort?" is not in the warning red.
-
 ## Phase 5: Handover
 
 ### How the question before an import reads (2026-11-23)

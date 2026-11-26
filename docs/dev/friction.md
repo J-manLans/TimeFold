@@ -14,3 +14,8 @@ and the owner answers by number. An entry then leaves: its fix goes into the rul
   break, and the commit after it still ran, so a pushed commit's message named docs it did not hold; a follow-up commit
   put them in. Cost: two extra commits. Doc: "Commits" in `AGENTS.md`. Since then the edit and the commit run as one
   chain that stops at the first failure.
+
+- **The formatter renumbers a numbered list (2026-11-26).** The owner's faults were to keep their numbers for good, but
+  Prettier renumbers a markdown ordered list once an item leaves, so fault 7 quietly became 6. Cost: a rewrite of the
+  list. Fixed for it by writing each number in bold on a bullet. Doc: "Number what the owner must answer" in
+  `AGENTS.md`, and any doc list whose numbers are meant to last.

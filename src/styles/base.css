@@ -16,6 +16,7 @@ body {
   background: var(--controls-background);
   color: var(--controls-text);
   font-family: var(--font-text);
+  font-size: var(--text-size-base);
   font-weight: var(--controls-font-weight);
   letter-spacing: var(--controls-tracking);
 }

@@ -139,7 +139,8 @@
   /** The typed field's width in characters: its text's, or the placeholder's while empty, capped at rest */
   function width(): string {
     const length = typed ? typed.length : PLACEHOLDER.length
-    return `${typing ? length : Math.min(length, cap)}ch`
+    // A pixel more than its characters, so the engine's rounding never cuts the last one
+    return `calc(${typing ? length : Math.min(length, cap)}ch + 1px)`
   }
 
   /** The list's room above its first line. Used to measure where its seventh line ends */
@@ -251,6 +252,7 @@
         <input
           class="other"
           class:current={picked === OTHER}
+          class:cut={!typing && typed.length > cap}
           type="text"
           autocomplete="off"
           placeholder={PLACEHOLDER}
@@ -350,12 +352,15 @@
     stroke-linejoin: round;
   }
 
-  /* Under the pen: the line as a field drawn as "Annan orsak"; asking "Ta bort?" in the removal red */
-  .rename.asking {
+  /* Under the pen: the line as a field drawn as "Annan orsak"; asking "Ta bort?" in the removal red, focused or not,
+     so the focused field's muted placeholder never wins */
+  .rename.asking,
+  .rename.asking:focus {
     border-bottom-color: var(--edit-remove);
   }
 
-  .rename.asking::placeholder {
+  .rename.asking::placeholder,
+  .rename.asking:focus::placeholder {
     color: var(--edit-remove);
   }
 
@@ -390,8 +395,12 @@
     color: var(--dashboard-text);
     font: inherit;
     font-size: var(--edit-words-size);
-    text-overflow: ellipsis;
     cursor: text;
+  }
+
+  /* A typed reason longer than "Glömde stämpla ut" at rest: cut with "…"; nothing shorter is ever cut */
+  .cut {
+    text-overflow: ellipsis;
   }
 
   .other::placeholder {

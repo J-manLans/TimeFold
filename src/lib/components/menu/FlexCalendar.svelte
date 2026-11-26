@@ -64,7 +64,14 @@
         >‹</button
       >
       <span class="title">
-        {monthInWords(shown)}
+        {#if shown.slice(0, 7) === today.slice(0, 7)}
+          {monthInWords(shown)}
+        {:else}
+          <!-- Away from today's month, its name wakes up: a click brings the calendar back to today's month -->
+          <button class="home" type="button" onclick={() => (shown = `${today.slice(0, 8)}01`)}>
+            {monthInWords(shown)}
+          </button>
+        {/if}
         <button
           class="lock"
           class:open={unlocked}
@@ -145,6 +152,21 @@
     align-items: center;
     gap: var(--calendar-nav-gap);
     height: var(--calendar-head-height);
+  }
+
+  /* The month's name away from today's month: plain until hovered, then underlined, as "Tidigare värden" is */
+  .home {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-underline-offset: var(--calendar-home-underline);
+    cursor: pointer;
+  }
+
+  .home:hover {
+    text-decoration: underline;
   }
 
   .title {

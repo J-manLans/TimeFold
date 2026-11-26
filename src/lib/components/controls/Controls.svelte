@@ -121,6 +121,7 @@
   class:menu-open={menuOpen}
   aria-label="Kontroller"
   style:--profile-neon={neon}
+  style:--profile-base={profile?.base}
   bind:this={side}
   onpointermove={follow}
   onpointerleave={() => (lit = false)}

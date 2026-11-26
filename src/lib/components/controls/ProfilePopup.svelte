@@ -2,7 +2,7 @@
   The profile popup ("One start/stop button and a profile list"): centred on the controls side over a scrim, it lists
   the profiles in use, each with its small circle wearing where it stands, the profile on screen marked, and the one
   running followed by a dot. Picking one puts it on screen; a running entry goes on. With only one profile in use it
-  holds "Ny profil…" alone, which opens the menu on Profiler with the name field ready. A click on the scrim or Esc
+  holds "Skapa ny profil" alone, which opens the menu on Profiler with the name field ready. A click on the scrim or Esc
   closes it, picking nothing. Opened through `app.profilesOpen`: <ProfilePopup />
 -->
 <script lang="ts">
@@ -24,7 +24,7 @@
 
   // === Logic ===
 
-  // Opened, the focus lands on the profile on screen, or on "Ny profil…"; closed, it goes back as any popup's does
+  // Opened, the focus lands on the profile on screen, or on "Skapa ny profil"; closed, it goes back as any popup's does
   $effect(() => {
     const isOpen = app.profilesOpen
     if (isOpen && !wasOpen) {
@@ -64,7 +64,7 @@
     <div class="popup" role="dialog" aria-modal="true" aria-labelledby="profiles-heading" bind:this={list}>
       <h3 id="profiles-heading">Profil</h3>
       {#if profiles.length < 2}
-        <button type="button" onclick={() => app.askNewProfile()}>Ny profil…</button>
+        <button type="button" onclick={() => app.askNewProfile()}>Skapa ny profil</button>
       {:else}
         {#each profiles as profile (profile.id)}
           {@const colours = circle(profile)}

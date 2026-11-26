@@ -27,7 +27,7 @@
 
   // === Logic ===
 
-  // The name field opens empty, from "Ny profil" here or "Ny profil…" in the profile popup
+  // The name field opens empty, from "Ny profil" here or "Skapa ny profil" in the profile popup
   $effect(() => {
     if (naming) {
       name = ''
