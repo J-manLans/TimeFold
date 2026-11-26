@@ -99,6 +99,8 @@ class AppState {
   newProfileAsked = $state(false)
   /** The menu's one value open for editing, by its own key, or null: "Ändra" on another drops the open one */
   openValue = $state<string | null>(null)
+  /** The profile whose colour picker is open, whose colours the wheel wears meanwhile, or null */
+  picking = $state<string | null>(null)
   /** The last click, for the undo; kept only while the app runs, never in the record */
   lastClick = $state<Click | null>(null)
   /** This machine's theme, from its settings file */

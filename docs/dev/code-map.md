@@ -24,12 +24,13 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   the profile on screen stands, which the profile letter and every focus ring wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
-  the profile on screen and whether its popup is open, the menu's one value open for editing (`openValue`), "Ny profil…"
-  asking for the menu, the last click and the machine's theme and motion; the edit popup's entry or gap (`editing`); its
-  actions `load`, `press`, `pickProfile`, `askNewProfile`, `setBreak`, `undo`, `stopLate`, `keepLate`, `openEdit`,
-  `openGap`, `closeEdit`, `saveEdit`, `deleteEdited`, `switchTheme`, `switchMotion`, `saveSettings`, a record changed in
-  the menu, and `takeAwayProfile`, a profile archived or deleted, change them through the rules and save them. The theme
-  is shown by setting `color-scheme` on the page, Stilla by setting `data-still` on it; scripts that time something read
+  the profile on screen and whether its popup is open, the menu's one value open for editing (`openValue`), the profile
+  whose colour picker is open (`picking`), whose colours the wheel wears meanwhile, "Ny profil…" asking for the menu,
+  the last click and the machine's theme and motion; the edit popup's entry or gap (`editing`); its actions `load`,
+  `press`, `pickProfile`, `askNewProfile`, `setBreak`, `undo`, `stopLate`, `keepLate`, `openEdit`, `openGap`,
+  `closeEdit`, `saveEdit`, `deleteEdited`, `switchTheme`, `switchMotion`, `saveSettings`, a record changed in the menu,
+  and `takeAwayProfile`, a profile archived or deleted, change them through the rules and save them. The theme is shown
+  by setting `color-scheme` on the page, Stilla by setting `data-still` on it; scripts that time something read
   `app.still`. Components read it and call its actions.
 - `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
   controls side, placing `ButtonBlock` (start/stop with its tip naming the profile a press stops, export and import, the
@@ -40,23 +41,24 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   catches it through `.plastic` in `base.css`, and each disc paints `--pointer-light` itself. `menu/`: `Menu.svelte`,
   the menu button and the frosted panel it grows into, with `ThemeButton`, `MotionButton.svelte` (the motion switch,
   also in the onboarding's note) and the tab row: `ProfilerTab.svelte`, with `TaxRow.svelte` ("Efter skatt" and "Skatt
-  och avgifter"), a `ProfileRow.svelte` per profile (its circle and name, unfolding to its name, its pay and "Arkivera",
-  "Ta bort" or "Återställ"), "Ny profil" with its name field and "Arkiverade"; and Tid, holding Heltid in
-  `LockedValue.svelte` (a value locked behind "Ändra", its field, "Gäller från" when it changes the counting, a refusal
-  in the keys' place, and "Tidigare värden"), `SplitSlider.svelte` (Fördelning, with the date and buttons its first move
-  folds open) and `FlexCalendar.svelte`, the flex-day calendar with its padlock and the list of marked days beside it,
-  and locked open around `Onboarding.svelte`, the first start's onboarding with its ending's timeline, or
-  `Recovery.svelte`, the screen for a record that cannot be read; both use `ChoiceButton.svelte`, in `shared/`.
-  `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing the divider, and handing them the
-  panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar; `CeilingWheel.svelte`, the ceiling
-  wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the five newest entries;
-  `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its rows; `EntryRow.svelte`,
-  the row both lists share, which opens its entry in the edit popup. `edit/`: `EditPopup.svelte`, the edit popup over
-  "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker, the result in words, the break's field,
-  and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned
-  into its moves, the pill and the view easing to its fit; `ReasonPicker.svelte`, the closed reason field, its list and
-  "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the profile, undo
-  and theme buttons, and `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
+  och avgifter"), a `ProfileRow.svelte` per profile (its circle and name, unfolding to `ColourField.svelte`, "Färg" with
+  its pair and the colour picker, its pay and "Arkivera", "Ta bort" or "Återställ"), "Ny profil" with its name field and
+  "Arkiverade"; and Tid, holding Heltid in `LockedValue.svelte` (a value locked behind "Ändra", its field, "Gäller från"
+  when it changes the counting, a refusal in the keys' place, and "Tidigare värden"), `SplitSlider.svelte` (Fördelning,
+  with the date and buttons its first move folds open) and `FlexCalendar.svelte`, the flex-day calendar with its padlock
+  and the list of marked days beside it, and locked open around `Onboarding.svelte`, the first start's onboarding with
+  its ending's timeline, or `Recovery.svelte`, the screen for a record that cannot be read; both use
+  `ChoiceButton.svelte`, in `shared/`. `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing
+  the divider, and handing them the panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar;
+  `CeilingWheel.svelte`, the ceiling wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the
+  five newest entries; `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its
+  rows; `EntryRow.svelte`, the row both lists share, which opens its entry in the edit popup. `edit/`:
+  `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker,
+  the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn
+  from the line's model, the pointer turned into its moves, the pill and the view easing to its fit;
+  `ReasonPicker.svelte`, the closed reason field, its list and "Annan orsak". `shared/`: what more than one part uses,
+  such as `Disc.svelte`, the dented disc of the profile, undo and theme buttons, and `ChoiceButton.svelte`, the locked
+  panel's and the popups' buttons with their tip.
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
@@ -90,20 +92,20 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   record or names what is wrong with it, upgrading an older version first, `recoveryFor`, what a problem leads to, and
   `toTimestamp` and `nextId`, a moment and a new entry's id as the record writes them; `colours.ts`, the colour rule
   from the prototype, a profile's base, dimmed and neon by role, a new profile's hue at the largest gap
-  (`largestGapHue`), the faded colour, and black or white ink on a colour (`inkOn`); `counting.ts`, the balance
-  (`balance` up to a day, `balanceOnScreen` with the flex days ahead), each day's result, each entry's seconds by day
-  less its added breaks, expected hours charged on days work started or flex days, the app's month, each month's ceiling
-  and its pieces, the ceiling's trend, and the pay estimate, before or after tax (`payShown`), worked out in seconds
-  from the record, and a moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months in Swedish words
-  ("måndag 16 november", "1 juli 2026", "mån 16", "november 2026"); `storage.ts`, `loadRecord`, `saveRecord`,
-  `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the only place that invokes the Rust half; `copyRecord`
-  adds the local date that names a day's copy; `timeInput.ts`, typed durations for the onboarding's balance, a break's
-  length and a week (`WEEK`), each keystroke checked against the field's shape (`fitsShape`), which `durationShape.ts`,
-  the Svelte attachment every length field wears, applies as it is typed, read into minutes, and written back in words
-  ("1h 20min") or into a field ("1:20"); `focusRing.ts`, the last input (a key or a pointer) and the focus ring as a
-  popup opens and closes: opening, each popup keeps how (`popupOpened`) and quiets the focus it moves in unless that was
-  the keyboard (`ringOnOpen`); closing, it quiets the element the focus lands on (`popupClosed`) unless it was opened
-  and closed with the keyboard (`ringAfterClose`).
+  (`largestGapHue`) and where it sits on the picker's strip (`stripOfHue`), the faded colour, and black or white ink on
+  a colour (`inkOn`); `counting.ts`, the balance (`balance` up to a day, `balanceOnScreen` with the flex days ahead),
+  each day's result, each entry's seconds by day less its added breaks, expected hours charged on days work started or
+  flex days, the app's month, each month's ceiling and its pieces, the ceiling's trend, and the pay estimate, before or
+  after tax (`payShown`), worked out in seconds from the record, and a moment's time of day as shown (`timeOfDay`);
+  `dates.ts`, days and months in Swedish words ("måndag 16 november", "1 juli 2026", "mån 16", "november 2026");
+  `storage.ts`, `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the only
+  place that invokes the Rust half; `copyRecord` adds the local date that names a day's copy; `timeInput.ts`, typed
+  durations for the onboarding's balance, a break's length and a week (`WEEK`), each keystroke checked against the
+  field's shape (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field wears, applies as it
+  is typed, read into minutes, and written back in words ("1h 20min") or into a field ("1:20"); `focusRing.ts`, the last
+  input (a key or a pointer) and the focus ring as a popup opens and closes: opening, each popup keeps how
+  (`popupOpened`) and quiets the focus it moves in unless that was the keyboard (`ringOnOpen`); closing, it quiets the
+  element the focus lands on (`popupClosed`) unless it was opened and closed with the keyboard (`ringAfterClose`).
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"); `styles/base.css`:
   the reset, the fonts, the body, every focus ring and the quiet one (`data-quiet-focus`) after a popup closes,
   `.plastic`, the flat button every button block, pause and choice button wears, with its pointer light, hover and

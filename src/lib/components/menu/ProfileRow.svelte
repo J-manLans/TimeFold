@@ -1,7 +1,7 @@
 <!--
   A profile's row in Profiler ("The menu has tabs, with every value locked behind "Ändra""): its small circle wearing
   where it stands, its name and a chevron. It unfolds in place, its height growing and its content fading in, and
-  folds back the same way. Inside: its name, its pay (a monthly salary for the profile with the balance, a rate per
+  folds back the same way. Inside: its colours first, compact on one line, then its name, its pay (a monthly salary for the profile with the balance, a rate per
   hour for the others), each behind "Ändra", and its last button ("A profile with hours is archived, one without is
   deleted"): "Arkivera" while it has hours, "Ta bort" in red while it has none, each asking once; "Stoppa jobbet först"
   under it while it runs; "Återställ" once archived. The janitor's row has none: <ProfileRow {profile} {open} {onToggle} />
@@ -14,6 +14,7 @@
   import { localDay } from '$lib/modules/shared/counting'
   import { nameRefusal, removalOf, renameProfile, restoreProfile } from '$lib/modules/shared/profiles'
   import type { Day, Pay, Profile } from '$lib/modules/shared/record'
+  import ColourField from './ColourField.svelte'
   import LockedValue from './LockedValue.svelte'
 
   // === Props ===
@@ -101,6 +102,7 @@
   <div class="wrap" inert={!open}>
     <div class="clip">
       <div class="body">
+        <ColourField {profile} />
         <LockedValue
           label="Namn"
           text={profile.name}

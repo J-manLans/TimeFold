@@ -51,6 +51,11 @@ export interface Profile {
   hue: number
   /** The base colour, a nuance of the hue, as #rrggbb */
   base: string
+  /**
+   * Where the colour picker's strip sits, 0–359, remembered so the picker opens where it was left; the strip and the
+   * hue are not each other's exact inverse
+   */
+  strip?: number
   /** Only the profile with a balance has expected minutes per working day */
   expectedMinutes?: FromDay<{ minutes: number }>[]
   /** A monthly salary or a rate per hour, for the pay estimate ("A pay estimate per profile"); none leaves it out */
@@ -354,6 +359,7 @@ function checkRecord(data: Fields): void {
     text(profile.name, `${at}.name`)
     whole(profile.hue, `${at}.hue`, 0, 359)
     text(profile.base, `${at}.base`)
+    if (profile.strip !== undefined) whole(profile.strip, `${at}.strip`, 0, 359)
     if (profile.expectedMinutes !== undefined) {
       list(profile.expectedMinutes, `${at}.expectedMinutes`, (item, where) => {
         day(item.from, `${where}.from`)
