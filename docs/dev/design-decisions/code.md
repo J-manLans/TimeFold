@@ -112,7 +112,9 @@ component; only the values are central.
 
 - **Names** say the intent, not the value: `--color-background`, `--wheel-diameter`, `--speed-ui`, never `--dark-grey`
   or `--size-200`. A value only one component uses is still a token, under that component. A decision shared by several
-  parts is one token; two values that happen to be equal but mean different things are two.
+  parts is one token; two values that happen to be equal but mean different things are two. Where parts play the same
+  role, such as small text or a heading in capitals, each part's token points at the role's shared one
+  (`--entry-tag-size: var(--text-size-label)`), so one knob moves them all and a part can still be tuned apart.
 - **Order:** the file runs Global, Controls (the controls side), Dashboard, then Overlays and popups, the popups grouped
   by the side that owns them, or Global. Inside each component, and in Global, values go in this order: colours,
   typography, dimensions, spacing, radii, motion, shadows and effects. The sections use the banners of "Code style".

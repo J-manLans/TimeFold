@@ -77,7 +77,7 @@
     margin: 0;
     font-size: var(--text-size-note);
     color: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
-    letter-spacing: 0.08em;
+    letter-spacing: var(--heading-tracking);
     text-transform: uppercase;
   }
 
