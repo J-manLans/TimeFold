@@ -5,8 +5,8 @@ so does state. This index lists every term; read the part that holds the ones yo
 a term by its name, never at a part.
 
 **[A–E](a-e.md):** Added break, Afterglow, Archived profile, Balance, Base colour, Case, Ceiling, Ceiling trend, Ceiling
-wheel, Controls side, Daily copy, Dashboard, Day total, Design token, Dimmed colour, Docking, Entry, Entry line, Errand,
-Expected hours.
+wheel, Coming value, Controls side, Daily copy, Dashboard, Day total, Design token, Dimmed colour, Docking, Entry, Entry
+line, Errand, Expected hours.
 
 **[F–O](f-o.md):** Faded, First day (the record's), Flex bar, Flex day, Focus outline, Full time, Gap, Handover, Hue (a
 profile's), Lit, Locked panel, Month, Month line, Motion (Animerat, Stilla), Neon, Onboarding, Opening figures.
