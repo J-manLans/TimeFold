@@ -52,6 +52,29 @@ export function hueOfStrip(strip: number): number {
 }
 
 /**
+ * A new profile's hue: the middle of the largest gap between the hues in use, each profile using two, its own and the
+ * opposite one its neon has ("Each profile carries its colours"). Used by "Ny profil": beside a hue of 195 alone, 105
+ * or 285.
+ * @param random - picks between gaps equal to the half degree, 0 to under 1
+ * @returns a whole degree, 0–359; FIRST_HUE with no hues in use
+ */
+export function largestGapHue(hues: number[], random: () => number = Math.random): number {
+  if (hues.length === 0) return FIRST_HUE
+  const all = hues.flatMap((h) => [h, (h + 180) % 360]).sort((a, b) => a - b)
+  let best: number[] = []
+  let bestGap = -1
+  all.forEach((a, i) => {
+    const b = i + 1 < all.length ? all[i + 1] : all[0] + 360
+    const gap = b - a
+    if (gap > bestGap + 0.5) {
+      best = [a + gap / 2]
+      bestGap = gap
+    } else if (Math.abs(gap - bestGap) <= 0.5) best.push(a + gap / 2)
+  })
+  return Math.round(best[Math.floor(random() * best.length)]) % 360
+}
+
+/**
  * The base faded toward the panel: mixed 70% toward it in OKLab, or, when that leaves it within 0.15 lightness of the
  * base, 0.15 past the panel on the side away from the base, at 30% of the base's colour. Used for the unused part of
  * a figure: dimmed('#7ed6d5', '#0d1014') is #2c4346.

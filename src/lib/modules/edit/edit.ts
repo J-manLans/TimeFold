@@ -185,17 +185,6 @@ export function resultWords(line: LineState, profiles: Profile[]): WordPiece[] {
   return words
 }
 
-/** The reasons an edit can be given, before "Annan orsak" ("Every edit carries a reason") */
-const REASONS = ['Glömde stämpla in', 'Glömde stämpla ut', 'Fel profil', 'Ärende', 'Glömd paus', 'Glömd post']
-
-/**
- * The reasons as the list shows them, in Swedish alphabetical order, Å, Ä and Ö after Z, so one is where it can be
- * guessed. Used by the reason's list, which ends with "Annan orsak".
- */
-export function reasonList(): string[] {
-  return [...REASONS].sort((a, b) => a.localeCompare(b, 'sv'))
-}
-
 // ======================================
 //               Helpers
 // ======================================

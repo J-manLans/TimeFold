@@ -28,6 +28,11 @@ function beforeBreaks(r: Record<string, unknown>): void {
   for (const p of r.profiles as Record<string, unknown>[]) delete p.flexDays
 }
 
+/** The record as version 4 wrote it, before the reasons were the record's own. Used by every upgrade */
+function beforeReasons(r: Record<string, unknown>): void {
+  delete r.reasons
+}
+
 /** The test record with its breaks gone, as an upgrade leaves a record that had none */
 const UPGRADED = {
   ...RECORD,
@@ -41,6 +46,7 @@ describe('a record of version 1 is upgraded to this version', () => {
         r.version = 1
         delete r.fullTime
         beforeBreaks(r)
+        beforeReasons(r)
       }),
     )
 
@@ -54,6 +60,7 @@ describe('a record of version 2, as the owner keeps it, is upgraded to this vers
       text((r) => {
         r.version = 2
         beforeBreaks(r)
+        beforeReasons(r)
       }),
     )
 
@@ -66,6 +73,7 @@ describe('a record of version 3 is upgraded to this version', () => {
   const versionThree = (minutes: number): string =>
     text((r) => {
       r.version = 3
+      beforeReasons(r)
       const entries = r.entries as Record<string, unknown>[]
       for (const e of entries) {
         delete e.breakMinutes
@@ -88,6 +96,19 @@ describe('a record of version 3 is upgraded to this version', () => {
       ok: false,
       problem: { kind: 'wrong-shape', where: 'entries[0].breaks[1].minutes' },
     })
+  })
+})
+
+describe('a record of version 4 is upgraded to this version', () => {
+  it('gains the reasons the list started with, nothing learned or forgotten, and keeps the rest', () => {
+    expect(
+      readRecord(
+        text((r) => {
+          r.version = 4
+          beforeReasons(r)
+        }),
+      ),
+    ).toEqual({ ok: true, record: RECORD })
   })
 })
 
@@ -168,6 +189,30 @@ describe('a record of the wrong shape names where', () => {
       ok: false,
       problem: { kind: 'wrong-shape', where: 'profiles[0].flexDays[0]' },
     })
+  })
+
+  it('names an archived mark that is not true, a trend opening of part minutes, and a reason with nothing in it', () => {
+    const results = [
+      text((r) => {
+        ;(r.profiles as Record<string, unknown>[])[0].archived = false
+      }),
+      text((r) => {
+        ;(r.openings as Record<string, unknown>[])[0].trendMinutes = 1.5
+      }),
+      text((r) => {
+        ;(r.reasons as { list: string[] }).list[2] = ''
+      }),
+      text((r) => {
+        ;(r.reasons as { written: unknown[] }).written = [{ text: 'möte', times: 0 }]
+      }),
+    ].map(readRecord)
+
+    expect(results).toEqual([
+      { ok: false, problem: { kind: 'wrong-shape', where: 'profiles[0].archived' } },
+      { ok: false, problem: { kind: 'wrong-shape', where: 'openings[0].trendMinutes' } },
+      { ok: false, problem: { kind: 'wrong-shape', where: 'reasons.list[2]' } },
+      { ok: false, problem: { kind: 'wrong-shape', where: 'reasons.written[0].times' } },
+    ])
   })
 
   it('names a way of making an entry the app does not know', () => {

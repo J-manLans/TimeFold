@@ -15,7 +15,8 @@
   <ReasonPicker bind:reason />
 -->
 <script lang="ts">
-  import { reasonList } from '$lib/modules/edit/edit'
+  import { app } from '$lib/app.svelte'
+  import { reasonList } from '$lib/modules/edit/reasons'
 
   // === Props ===
 
@@ -28,7 +29,7 @@
 
   // === State ===
 
-  const REASONS = reasonList()
+  let REASONS = $derived(app.record ? reasonList(app.record) : [])
 
   let open = $state(false)
   /** The reason picked: one from the list, the typed one, or none */

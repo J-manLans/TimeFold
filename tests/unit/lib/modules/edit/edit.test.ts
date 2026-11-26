@@ -7,7 +7,6 @@ import {
   deleteEntry,
   lineForEntry,
   lineForGap,
-  reasonList,
   resultWords,
   savedEntryId,
   saveLine,
@@ -388,18 +387,5 @@ describe('the row a save leaves outlined in "Visa alla" is the saved entry', () 
     const saved = saveLine(r, placed, 'Glömd post')
 
     expect(saved.entries.find((e) => e.id === savedEntryId(r, saved, placed))?.start).toBe(at(THURSDAY, '12:15'))
-  })
-})
-
-describe('the reasons are listed in Swedish alphabetical order', () => {
-  it('lists the starting reasons with Ä after the rest', () => {
-    expect(reasonList()).toEqual([
-      'Fel profil',
-      'Glömd paus',
-      'Glömd post',
-      'Glömde stämpla in',
-      'Glömde stämpla ut',
-      'Ärende',
-    ])
   })
 })
