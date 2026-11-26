@@ -14,8 +14,8 @@ import {
   type Span,
 } from '$lib/modules/edit/line'
 
-/** How many random edits each property tries, FC_RUNS raising it for a deeper hunt; a millisecond each at most */
-export const RUNS = Number(import.meta.env.FC_RUNS ?? 100)
+/** How many random edits each property tries; a millisecond each at most */
+export { RUNS } from '$tests/helpers/properties'
 
 /** Thursday 19 November 2026 at 06:00 on this machine's clock, where every random day starts */
 const MORNING = new Date(2026, 10, 19, 6, 0, 0).getTime()

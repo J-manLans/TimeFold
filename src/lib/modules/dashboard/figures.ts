@@ -52,7 +52,8 @@ export function barSide(seconds: number): BarSide {
 }
 
 /**
- * The balance as shown above the bar: a sign, hours and minutes. Used for the balance number: −3:00, +5:00, 0:00.
+ * Signed hours and minutes, as the balance is shown above the bar. Used for the balance number and the ceiling's trend
+ * beside the pay estimate: −3:00, +5:00, 0:00.
  */
 export function balanceText(seconds: number): string {
   const minutes = shownMinutes(seconds)

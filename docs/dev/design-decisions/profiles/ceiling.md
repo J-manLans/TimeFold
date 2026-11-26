@@ -105,10 +105,5 @@ number alone is enough on screen; the report says it for the boss.
 
 **Cases:**
 
-- Ceiling unchanged since January; January +10:00, February −3:00, March +0:30: on 1 April the trend reads +7:30; on 15
-  April still +7:30.
-- The trend at +40:00, the split changed from 1 May: on 1 May it reads 0:00; May +0:15 over: on 1 June +0:15.
-- The split changed from 15 May: May is the trend's first month, counted under both ceilings as its wheel is.
 - The trend at 0:00: it shows "0:00".
-- A rate or salary changed: the trend does not start again.
 - The report for March, the ceiling changed from 1 January: the trend through March, "sedan 1 jan".

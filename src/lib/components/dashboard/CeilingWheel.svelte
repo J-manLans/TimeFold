@@ -1,5 +1,6 @@
 <!--
-  The ceiling wheel ("The ceiling wheel"), with the pay estimate under it ("A pay estimate per profile"). A ring whose
+  The ceiling wheel ("The ceiling wheel"), with the pay estimate under it ("A pay estimate per profile") and the
+  ceiling's trend beside that ("The ceiling's trend"), both quiet, with no labels. A ring whose
   full lap is the month's ceiling: used hours fill it clockwise from 12 o'clock in the order they were worked, the
   profile on screen's pieces lit and the others' faded, the rest dimmed; hours over the ceiling lie on a second lap in
   the neon. Grey, one piece, while the balance profile is on screen. The used hours sit in the middle, "AV 42:00
@@ -35,7 +36,8 @@
   import { cubicOut } from 'svelte/easing'
   import { app } from '$lib/app.svelte'
   import { colourRoles, dimmed, faded } from '$lib/modules/shared/colours'
-  import { ceilingMonth, localDay, payEstimate, shownMinutes } from '$lib/modules/shared/counting'
+  import { balanceText } from '$lib/modules/dashboard/figures'
+  import { ceilingMonth, ceilingTrend, localDay, payEstimate, shownMinutes } from '$lib/modules/shared/counting'
 
   // === Props ===
 
@@ -51,6 +53,7 @@
   let today = $derived(localDay(Date.now()))
   let month = $derived(app.record ? ceilingMonth(app.record, today) : { ceiling: 0, pieces: [], used: 0 })
   let pay = $derived(app.record ? payEstimate(app.record, today) : 0)
+  let trend = $derived(app.record ? ceilingTrend(app.record, today) : 0)
 
   // The wheel wears the profile on screen's colours, or the greys while that is the balance profile
   let onScreen = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
@@ -213,7 +216,10 @@
       </text>
       <text class="label" x={BOARD.centre} y={BOARD.labelBaseline}>AV {hours(month.ceiling)} H</text>
     </svg>
-    <div class="pay">≈ {Math.round(shownPay.current).toLocaleString('sv-SE')} €</div>
+    <div class="pay">
+      <span>≈ {Math.round(shownPay.current).toLocaleString('sv-SE')} €</span>
+      <span>{balanceText(trend)}</span>
+    </div>
   </div>
 {/if}
 
@@ -258,6 +264,8 @@
   }
 
   .pay {
+    display: flex;
+    gap: var(--trend-gap);
     color: var(--dashboard-text-muted);
     font-size: var(--pay-text-size);
     font-variant-numeric: tabular-nums;

@@ -1,9 +1,12 @@
+import fc from 'fast-check'
 import { describe, expect, it } from 'vitest'
+import { RUNS } from '$tests/helpers/properties'
 import { at, entry } from '$tests/helpers/records'
 import {
   balance,
   balanceOnScreen,
   ceilingMonth,
+  ceilingTrend,
   dayResult,
   expectedSecondsOn,
   monthOf,
@@ -271,18 +274,17 @@ describe("the ceiling's hours lie in the order they were worked, each with its p
   })
 })
 
-describe('hours over a month’s ceiling carry into the next, first and with their profile', () => {
-  it('starts June at 0 used after 30 h in May', () => {
-    expect(ceilingMonth(workRecord([work('2026-05-04', 30, DEV.id)]), '2026-06-10').used).toBe(0)
+describe('each month of the ceiling counts only its own hours: nothing carries into the next', () => {
+  it('starts June at 0 used after 46 h in a 42 h May', () => {
+    const entries = [work('2026-05-04', 10, DEV.id), work('2026-05-11', 36, SUPPORT.id)]
+
+    expect(ceilingMonth(workRecord(entries), '2026-06-10')).toMatchObject({ used: 0, pieces: [] })
   })
 
-  it('starts June with 4 h used after 46 h in May, the carried hours first', () => {
-    const entries = [work('2026-05-04', 10, DEV.id), work('2026-05-11', 36, SUPPORT.id), work('2026-06-02', 1, DEV.id)]
+  it("holds only June's own hour after 46 h in May and 1 h on 2 June", () => {
+    const entries = [work('2026-05-04', 46, DEV.id), work('2026-06-02', 1, DEV.id)]
 
-    expect(ceilingMonth(workRecord(entries), '2026-06-10').pieces).toEqual([
-      { profile: SUPPORT.id, seconds: 4 * HOUR },
-      { profile: DEV.id, seconds: 1 * HOUR },
-    ])
+    expect(ceilingMonth(workRecord(entries), '2026-06-10').pieces).toEqual([{ profile: DEV.id, seconds: 1 * HOUR }])
   })
 })
 
@@ -313,11 +315,11 @@ describe("the pay estimate is the month's salaries plus its hours times their ra
     expect(payEstimate(workRecord(entries, JANITOR, [raised]), '2026-02-28')).toBe(60)
   })
 
-  it('gives June 2 024 € after 46 h in May and 1 h in June: the 4 h carried on the wheel were paid in May', () => {
+  it('gives June 2 024 € after 46 h in May and 1 h in June, the wheel and the estimate counting the same hour', () => {
     const entries = [work('2026-05-04', 46, DEV.id), work('2026-06-02', 1, DEV.id)]
     const june = workRecord(entries, salaried, [rated])
 
-    expect(ceilingMonth(june, '2026-06-10').used).toBe(5 * HOUR)
+    expect(ceilingMonth(june, '2026-06-10').used).toBe(1 * HOUR)
     expect(payEstimate(june, '2026-06-10')).toBe(2024)
   })
 })
@@ -416,4 +418,177 @@ describe('the balance on screen counts every flex day at once, ahead ones includ
 
     expect(balance(r, JANITOR.id, '2026-11-30')).toBe(opening * 60)
   })
+})
+
+// === The ceiling's trend ===
+
+// Weekdays in 2026: January 22, February 20, March 22 (10 before the 15th), April 22. At 6 of 8, the ceiling is 2 h a
+// weekday: January 44 h, February 40 h, March 44 h.
+const MINUTE = 60
+
+/** Work by a profile from 08:00 on a day, `minutes` long, running into the next days if long */
+function workMinutes(day: string, minutes: number, profile: string = DEV.id): Entry {
+  const [y, m, d] = day.split('-').map(Number)
+  const end = new Date(y, m - 1, d, 8, minutes)
+  const two = (n: number): string => String(n).padStart(2, '0')
+  const endDay = `${end.getFullYear()}-${two(end.getMonth() + 1)}-${two(end.getDate())}`
+  return entry(at(day, '08:00'), at(endDay, `${end.getHours()}:${two(end.getMinutes())}`), { profile })
+}
+
+/** January +10:00, February −3:00 and March +0:30 against the ceiling of 2 h a weekday */
+const QUARTER = [
+  workMinutes('2026-01-05', 54 * 60),
+  workMinutes('2026-02-02', 37 * 60),
+  workMinutes('2026-03-02', 44.5 * 60),
+]
+
+/** The janitor with expected minutes a day changing to `minutes` from `from` */
+function janitorFrom(from: string, minutes: number): Profile {
+  return {
+    ...JANITOR,
+    expectedMinutes: [
+      { from: SINCE_NEW_YEAR, minutes: 360 },
+      { from, minutes },
+    ],
+  }
+}
+
+describe("the ceiling's trend sums each finished month over or under its ceiling, since the ceiling last changed", () => {
+  it.each([
+    ['nothing changed, on 1 April', workRecord(QUARTER), '2026-04-01', 7.5 * 60],
+    ['nothing changed, on 15 April: it moves only when a month ends', workRecord(QUARTER), '2026-04-15', 7.5 * 60],
+    ['nothing changed, on 31 March: March under way does not count', workRecord(QUARTER), '2026-03-31', 7 * 60],
+    // March at 3 h a weekday is 66 h: 44:30 is −21:30
+    [
+      'the split moved to 5 h from 1 March',
+      workRecord(QUARTER, janitorFrom('2026-03-01', 300)),
+      '2026-04-01',
+      -21.5 * 60,
+    ],
+    // March: 10 weekdays at 2 h and 12 at 3 h, 56 h: 44:30 is −11:30
+    [
+      'the split moved from 15 March: March counted under both',
+      workRecord(QUARTER, janitorFrom('2026-03-15', 300)),
+      '2026-04-01',
+      -11.5 * 60,
+    ],
+    [
+      'the split moved from 10 April, seen on 15 April: the trend starts again',
+      workRecord(QUARTER, janitorFrom('2026-04-10', 300)),
+      '2026-04-15',
+      0,
+    ],
+    [
+      'the split saved for 1 May, seen on 15 April: not in force yet',
+      workRecord(QUARTER, janitorFrom('2026-05-01', 300)),
+      '2026-04-15',
+      7.5 * 60,
+    ],
+    // February at 3 h a weekday is 60 h, March 66 h: −23:00 and −21:30
+    [
+      'full time raised to 9 h from 1 February',
+      {
+        ...workRecord(QUARTER),
+        fullTime: [
+          { from: SINCE_NEW_YEAR, minutes: 480 },
+          { from: '2026-02-01', minutes: 540 },
+        ],
+      },
+      '2026-04-01',
+      -44.5 * 60,
+    ],
+  ])('reads right when %s', (_case, rec, today, minutes) => {
+    expect(ceilingTrend(rec, today)).toBe(minutes * MINUTE)
+  })
+
+  it('does not start again when a rate changes', () => {
+    const rated = { ...DEV, pay: [{ from: '2026-03-01', kind: 'rate' as const, amount: 24 }] }
+
+    expect(ceilingTrend(workRecord(QUARTER, JANITOR, [rated, SUPPORT]), '2026-04-01')).toBe(7.5 * 60 * MINUTE)
+  })
+
+  it('counts the first month in the app with its whole ceiling, from that month on', () => {
+    // From 19 November 2026, 1 h 39 min a weekday: November 21 weekdays, 34:39; December 23, 37:57
+    const fresh = freshRecord('Vaktmästare', 0, '2026-11-19')
+    const withDev = { ...fresh, profiles: [...fresh.profiles, DEV], entries: [workMinutes('2026-11-19', 20 * 60)] }
+
+    expect(ceilingTrend(withDev, '2027-01-05')).toBe(-(52 * 60 + 36) * MINUTE)
+  })
+
+  it('reads 0:00 with no other work and no month finished', () => {
+    expect(ceilingTrend(workRecord([]), '2026-01-20')).toBe(0)
+  })
+
+  it('counts an entry across midnight at a month end in each month by its hours there', () => {
+    const across = entry(at('2026-01-31', '23:00'), at('2026-02-01', '01:00'), { profile: DEV.id })
+
+    // January: 1 h of its 44 h; February is under way
+    expect(ceilingTrend(workRecord([across]), '2026-02-10')).toBe(-43 * HOUR)
+  })
+})
+
+describe('an entry across a change to or from summer time counts the hours that passed', () => {
+  // Finland's clocks go forward at 03:00 on Sunday 29 March 2026 and back at 04:00 on Sunday 25 October 2026
+  it('gives Sunday 29 March 5 h for 00:00–06:00, its hour lost', () => {
+    const split = secondsByDay(entry(at('2026-03-28', '22:00'), at('2026-03-29', '06:00')))
+
+    expect([...split]).toEqual([
+      ['2026-03-28', 2 * HOUR],
+      ['2026-03-29', 5 * HOUR],
+    ])
+  })
+
+  it('gives Sunday 25 October 7 h for 00:00–06:00, its hour gained', () => {
+    const split = secondsByDay(entry(at('2026-10-24', '22:00'), at('2026-10-25', '06:00')))
+
+    expect([...split]).toEqual([
+      ['2026-10-24', 2 * HOUR],
+      ['2026-10-25', 7 * HOUR],
+    ])
+  })
+})
+
+describe("the ceiling's trend moves only when a month ends, by that month's hours over or under its ceiling", () => {
+  // Development work in each month of the first half of 2026, and the split changed on a random day, or not at all
+  const MONTHS = ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06']
+  const day = (month: number, date: number): string => `${MONTHS[month]}-${String(date).padStart(2, '0')}`
+  const CASE = fc.record({
+    minutes: fc.array(fc.integer({ min: 0, max: 90 * 60 }), { minLength: 6, maxLength: 6 }),
+    change: fc.option(fc.record({ month: fc.integer({ min: 0, max: 5 }), date: fc.integer({ min: 2, max: 28 }) })),
+    split: fc.integer({ min: 240, max: 480 }),
+    month: fc.integer({ min: 1, max: 5 }),
+    date: fc.integer({ min: 2, max: 28 }),
+  })
+
+  it(
+    'holds for any months of work and any one change of the split',
+    () => {
+      fc.assert(
+        fc.property(CASE, ({ minutes, change, split, month, date }) => {
+          const entries = minutes.flatMap((m, i) => (m > 0 ? [workMinutes(day(i, 2), m)] : []))
+          const changed = change === null ? null : day(change.month, change.date)
+          const rec = workRecord(entries, changed === null ? JANITOR : janitorFrom(changed, split))
+          const first = day(month, 1)
+          const later = day(month, date)
+          const before = day(month - 1, 1)
+          const inMonth = (m: number): boolean => change !== null && change.month === m
+
+          // A change in force this month starts it again at 0:00
+          if (changed !== null && inMonth(month) && changed <= later) expect(ceilingTrend(rec, later)).toBe(0)
+          // Otherwise it stays as it was on the month's first day
+          else expect(ceilingTrend(rec, later)).toBe(ceilingTrend(rec, first))
+
+          // With no change this month, the first day moves by last month's hours over or under its ceiling, counted
+          // from 0 when the change fell last month
+          if (!inMonth(month)) {
+            const last = ceilingMonth(rec, before)
+            const from = inMonth(month - 1) ? 0 : ceilingTrend(rec, before)
+            expect(ceilingTrend(rec, first)).toBe(from + last.used - last.ceiling)
+          }
+        }),
+        { numRuns: RUNS },
+      )
+    },
+    Math.max(5000, RUNS),
+  )
 })
