@@ -145,7 +145,7 @@ export interface WordPiece {
   tag: number | null
   /** Whether its tag is red: a handle at the limit this part's break sets, or a switch refused */
   warn: boolean
-  /** Whether a quiet "Lägg till paus" offers a break: on each part with none, while no gap is filled */
+  /** Whether "Lägg till paus" offers a break: on each part with none, while no gap is filled */
   addBreak: boolean
   /** Which of the result's parts it is, for its tag's field; null for the gap's new entry */
   part: number | null
