@@ -19,9 +19,6 @@ export const WEEK_STEP = 15
 /** A week's weekdays, each owing a fifth of it */
 export const WEEKDAYS = 5
 
-/** A day after every saved change, for reading the latest value saved, as the menu shows it */
-export const LATEST: Day = '9999-12-31'
-
 /**
  * The earlier values of a setting saved from dates, newest first, each with the last day it held, for "Tidigare
  * värden": every value but the latest saved. Used by the menu's values: 38 h until 30 November, then 40 h, gives 38 h
@@ -33,6 +30,29 @@ export function earlierValues<T>(values: FromDay<T>[]): { value: T; from: Day; u
     .slice(0, -1)
     .map((v, i) => ({ value: v as T, from: v.from, until: dayBefore(sorted[i + 1].from) }))
     .reverse()
+}
+
+/**
+ * A setting as the menu shows it on a day: the value in force, the next one saved for a later day, and the earlier
+ * ones, newest first, with the days each held. Used by every dated value in the menu, so a value saved for later shows
+ * as coming and takes over on its own day: 40 h saved from 1 December reads as coming on 26 November and in force on
+ * 1 December.
+ */
+export function valuesOn<T>(
+  values: FromDay<T>[],
+  day: Day,
+): {
+  now: FromDay<T> | undefined
+  coming: FromDay<T> | undefined
+  earlier: { value: T; from: Day; until: Day }[]
+} {
+  const sorted = [...values].sort((a, b) => (a.from < b.from ? -1 : 1))
+  const past = sorted.filter((v) => v.from <= day)
+  return {
+    now: past.at(-1),
+    coming: sorted.find((v) => v.from > day),
+    earlier: earlierValues(past),
+  }
 }
 
 /** A change refused, with the words that say why */
@@ -81,6 +101,40 @@ export function saveSplit(record: TimeRecord, week: number, from: Day): TimeReco
   return {
     ...record,
     profiles: record.profiles.map((p) => (p.id === profile.id ? { ...p, expectedMinutes: expected } : p)),
+  }
+}
+
+/**
+ * A value saved for a later day taken back: full time, the split, or a profile's pay, from its day. Refused, as a save
+ * would be, when the janitor's hours would then pass full time on some day: saving one value never changes another, and
+ * taking one back is no different. Used by the "×" after a coming value's note, on its second click.
+ */
+export function cancelComing(
+  record: TimeRecord,
+  what: 'full' | 'split' | { pay: string },
+  from: Day,
+): TimeRecord | Refusal {
+  const profile = janitor(record)
+  if (typeof what === 'object') {
+    return {
+      ...record,
+      profiles: record.profiles.map((p) =>
+        p.id === what.pay ? { ...p, pay: (p.pay ?? []).filter((v) => v.from !== from) } : p,
+      ),
+    }
+  }
+  const fullTime = what === 'full' ? record.fullTime.filter((v) => v.from !== from) : record.fullTime
+  const expected = (profile?.expectedMinutes ?? []).filter((v) => what === 'full' || v.from !== from)
+  const misfit = firstMisfit(fullTime, expected, from)
+  if (misfit !== null) {
+    if (what === 'split') return { refusal: `Heltid är bara ${weekText(misfit.full)} från ${dateInWords(misfit.day)}.` }
+    const when = misfit.day > from ? ` från ${dateInWords(misfit.day)}` : ''
+    return { refusal: `${profile?.name} har ${weekText(misfit.split)}${when}. Minska fördelningen först.` }
+  }
+  if (what === 'full') return { ...record, fullTime }
+  return {
+    ...record,
+    profiles: record.profiles.map((p) => (p.id === profile?.id ? { ...p, expectedMinutes: expected } : p)),
   }
 }
 

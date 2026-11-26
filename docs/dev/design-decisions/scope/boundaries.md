@@ -55,9 +55,6 @@ name ("Varv", "Flexa", "Stämpla"): the owner likes TimeFold, and an English tra
 
 ## Old history is pruned on request (2026-11-14)
 
-**Built by:** Profiles, once the ceiling's trend exists, since a prune freezes both the balance and the trend. Its cases
-are tested with set dates.
-
 **Decision:** the record keeps a rolling window of three years. When the oldest whole month is more than three years
 old, a quiet line at the bottom of the main screen offers to prune ("Du har över tre års historik. Rensa de äldsta 3
 månaderna?", or "Rensa den äldsta månaden?" for one), with "Rensa" and "Inte nu". In a narrow window the line starts
@@ -106,7 +103,7 @@ autostart ("A tray icon, with autostart", in `codebase-ideas.md`).
 
 ## What the app does (2026-11-14)
 
-**Built by:** Profiles and Reports.
+**Built by:** Reports.
 
 **Decision:** the app starts and stops an entry with one click; records errands, taken off the day's total; lets the
 owner write entries by hand and edit clicked ones; keeps past entries, at least the last three years ("Old history is

@@ -277,6 +277,7 @@
   --menu-field-width: 9ch;
   --menu-field-padding: 4px 8px;
   --menu-history-gap: 3px; /* between the earlier values */
+  --menu-coming-padding: 0 4px; /* the "×" after a value saved for a later day */
   --menu-tab-fade: var(--speed-ui); /* a tab's content fading in */
   --menu-panel-edge: 4px; /* room inside the panel's clip for focus rings at a tab's edges */
   --menu-check-size: 16px; /* "Efter skatt"'s box */
@@ -366,6 +367,7 @@
   --popup-pick: light-dark(#5f789e, #343840); /* the chosen or hovered profile, a lighter step */
   --popup-muted: 70%; /* how much of the text colour its quiet text keeps */
   --popup-min-width: 220px;
+  --popup-max-width: 300px; /* a long profile name is cut with "…" past it */
   --popup-padding: 10px;
   --popup-gap: 4px; /* between the heading and the rows, and between the rows */
   --popup-heading-margin: 4px 8px 6px; /* "Profil" over the rows */

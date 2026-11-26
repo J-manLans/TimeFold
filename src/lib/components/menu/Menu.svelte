@@ -10,14 +10,14 @@
 <script lang="ts">
   import { app, NEW_PROFILE } from '$lib/app.svelte'
   import {
-    earlierValues,
+    cancelComing,
     firstOfNextMonth,
-    fullTimeWeek,
-    LATEST,
     saveFullTime,
+    valuesOn,
     weekText,
     WEEKDAYS,
   } from '$lib/modules/menu/workTime'
+  import { dayAndMonth } from '$lib/modules/shared/dates'
   import { localDay } from '$lib/modules/shared/counting'
   import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import type { Day } from '$lib/modules/shared/record'
@@ -45,17 +45,19 @@
   let wasOpen = false
   /** The tab shown: Profiler whenever the menu opens */
   let tab = $state<'profiler' | 'tid'>('profiler')
-  let today = $derived(localDay(Date.now()))
-  /** Full time as the menu shows it: the latest saved, as a week */
-  let fullWeek = $derived(app.record ? fullTimeWeek(app.record, LATEST) : 0)
+  /** Today, read afresh whenever the menu opens, so a value saved for a later day takes over on its day */
+  let today = $state(localDay(Date.now()))
+  /** Full time as the menu shows it: in force today, the value saved for later as coming, the earlier ones */
+  let full = $derived(
+    app.record ? valuesOn(app.record.fullTime, today) : { now: undefined, coming: undefined, earlier: [] },
+  )
+  let fullWeek = $derived((full.now?.minutes ?? 0) * WEEKDAYS)
   let fullEarlier = $derived(
-    app.record
-      ? earlierValues(app.record.fullTime).map((e) => ({
-          text: `${weekText(e.value.minutes * WEEKDAYS)} / vecka`,
-          from: e.from,
-          until: e.until,
-        }))
-      : [],
+    full.earlier.map((e) => ({
+      text: `${weekText(e.value.minutes * WEEKDAYS)} / vecka`,
+      from: e.from,
+      until: e.until,
+    })),
   )
 
   // === Logic ===
@@ -72,12 +74,12 @@
     if (app.panel !== null) open = !app.panel.folded
   })
 
-  // Closed, nothing is left open for editing, and it opens again on Profiler
+  // Closed, nothing is left open for editing, and it opens again on Profiler, on today's date
   $effect(() => {
     if (!open) {
       app.openValue = null
       tab = 'profiler'
-    }
+    } else today = localDay(Date.now())
   })
 
   // "Skapa ny profil" in the profile popup opens the menu on Profiler with the name field ready. The menu alone takes the
@@ -116,6 +118,15 @@
   function pick(next: 'profiler' | 'tid'): void {
     app.openValue = null
     tab = next
+  }
+
+  /** Heltid saved for a later day taken back, or the reason it is refused */
+  function cancelFull(from: Day): string | null {
+    if (!app.record) return null
+    const result = cancelComing(app.record, 'full', from)
+    if ('refusal' in result) return result.refusal
+    void app.saveSettings(result)
+    return null
   }
 
   /** Heltid saved as a week from its date, or the reason it is refused */
@@ -172,37 +183,44 @@
           Tid
         </button>
       </div>
-      {#if tab === 'profiler'}
-        <div class="panel" role="tabpanel" aria-label="Profiler">
-          <ProfilerTab />
-        </div>
-      {:else}
-        <div class="panel" role="tabpanel" aria-label="Tid">
-          <div>
-            <LockedValue
-              label="Heltid"
-              text={`${weekText(fullWeek)} / vecka`}
-              note={`${durationText(fullWeek / WEEKDAYS)} / dag`}
-              fieldText={durationInField(fullWeek)}
-              field={WEEK}
-              read={(typed) => readDuration(typed, WEEK)}
-              waiting={weekText}
-              save={saveFull}
-              dated
-              opensOn={firstOfNextMonth(today)}
-              earlier={fullEarlier}
-            />
-            <SplitSlider />
+      <!-- Drawn anew when the date has changed, so each value reads today's -->
+      {#key today}
+        {#if tab === 'profiler'}
+          <div class="panel" role="tabpanel" aria-label="Profiler">
+            <ProfilerTab />
           </div>
-          <section>
-            <span class="label">Flexledig</span>
-            <!-- Drawn anew each time the menu opens, so the padlock is shut again and today's month shows -->
-            {#key open}
-              <FlexCalendar />
-            {/key}
-          </section>
-        </div>
-      {/if}
+        {:else}
+          <div class="panel" role="tabpanel" aria-label="Tid">
+            <div>
+              <LockedValue
+                label="Heltid"
+                text={`${weekText(fullWeek)} / vecka`}
+                note={`${durationText(fullWeek / WEEKDAYS)} / dag`}
+                coming={full.coming
+                  ? `${weekText(full.coming.minutes * WEEKDAYS)} från ${dayAndMonth(full.coming.from)}`
+                  : ''}
+                cancelComing={() => (full.coming ? cancelFull(full.coming.from) : null)}
+                fieldText={durationInField(fullWeek)}
+                field={WEEK}
+                read={(typed) => readDuration(typed, WEEK)}
+                waiting={weekText}
+                save={saveFull}
+                dated
+                opensOn={firstOfNextMonth(today)}
+                earlier={fullEarlier}
+              />
+              <SplitSlider />
+            </div>
+            <section>
+              <span class="label">Flexledig</span>
+              <!-- Drawn anew each time the menu opens, so the padlock is shut again and today's month shows -->
+              {#key open}
+                <FlexCalendar />
+              {/key}
+            </section>
+          </div>
+        {/if}
+      {/key}
     </div>
   {/if}
 </div>
@@ -317,6 +335,7 @@
      for focus rings inside the panel's clip */
   .panel {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-content: start;
     gap: var(--menu-panel-gap);
     min-height: 0;

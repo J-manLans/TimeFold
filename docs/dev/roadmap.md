@@ -34,23 +34,8 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 **Produces:** every kind of work counted apart, the ceiling wheel, and the menu.
 
-1. `[written]` `[tests]` Profiles: the profile button and its popup, each profile's colours with the largest gap, "Ny
-   profil" with its names each used once, archiving and deleting, and "Arkiverade"; the warning label on the start
-   button while another profile runs.
-2. `[written]` `[tests]` The menu: the Profiler tab, the full-time slider in Tid, counting values locked behind "Ändra"
-   with "Tidigare värden"; settings that change from a date, full time and the split opening on the 1st of next month.
-3. `[written]` `[tests]` Pruning on request ("Old history is pruned on request"), once the ceiling's trend exists: the
-   prune itself and the offer on the prune line, tested with set dates rather than waiting three years.
-4. `[written]` One pointer-light rule for every button that catches it, given once as a shared class or rule, in place
-   of the copies in `ButtonBlock`, `PauseField` and `ChoiceButton`, so no button catches it differently; the phase's new
-   buttons use it ("The look: a fresh display face, mono text and soft buttons").
-5. `[written]` The edit's "Lägg till paus" drawn as the "paus" tag, and every clickable tag's border lighting under the
-   pointer ("An edited entry's break").
-6. `[written]` `[tests]` Each month of the ceiling counted on its own, the carry taken out of the counting and the wheel
-   ("The other profiles share a ceiling", "The ceiling wheel"); the ceiling's trend beside the pay estimate ("The
-   ceiling's trend").
-7. `[written]` `[tests]` The reason list learns an "Annan orsak" text written three times, each reason is edited or
-   removed under its pen, and the list stops at seven lines ("Every edit carries a reason").
+Every step is seen working on Linux and gone; pruning and the ceiling's months and trend are taken as seen through their
+tests at the owner's word, since a prune needs a record three years old and the trend months gone by.
 
 **Done when:** a month mixing janitor and development group work shows the right balance, ceiling and estimate, and
 every setting changes from a date as its cases say, and a prune on a set date cuts as its cases say.

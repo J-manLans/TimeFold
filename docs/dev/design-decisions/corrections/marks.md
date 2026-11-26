@@ -29,8 +29,6 @@ edit.
 
 ## Every edit carries a reason (2026-11-26)
 
-**Built by:** Profiles, for the list that learns, its pen, and its seven lines.
-
 **Decision:** an edit that changes an entry's time or its profile, on its line or by writing a forgotten entry by hand,
 needs a reason before it is saved. Under the entry line sits one closed field, "Välj orsak"; clicked, it opens the list
 of reasons, which grows open and then fades its reasons in, and closes by fading them out and then shrinking, at the

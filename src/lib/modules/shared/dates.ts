@@ -16,6 +16,12 @@ export function dayInWords(day: Day): string {
   return `${WEEKDAYS[weekday]} ${date} ${MONTHS[month]}`
 }
 
+/** A day and its month cut short, for a quiet note. Used by a value saved for a later day: 2026-12-01 is "1 dec" */
+export function dayAndMonth(day: Day): string {
+  const { date, month } = parts(day)
+  return `${date} ${MONTHS[month].slice(0, 3)}`
+}
+
 /** A day with its year, for a sentence. Used by a refused setting's reason: 2026-07-01 is "1 juli 2026" */
 export function dateInWords(day: Day): string {
   const { date, month } = parts(day)

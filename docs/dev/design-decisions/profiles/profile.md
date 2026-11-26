@@ -5,8 +5,6 @@ own files beside this one. Each decision follows the template in `../README.md`,
 
 ## Profiles label the hours (2026-11-14)
 
-**Built by:** Profiles.
-
 **Decision:** every entry belongs to one profile (such as janitor work or the development group). Switching is done as
 in "One start/stop button and a profile list". A day can mix profiles, and the owner adds profiles as new kinds of work
 come up. Profiles are isolated: each counts its own days and hours, and work in one never changes another. A profile
@@ -30,8 +28,6 @@ work is done has no bearing on the counts.
 **Revisit if:** the owner needs the app's figures to match payroll.
 
 ## A profile with hours is archived, one without is deleted (2026-11-26)
-
-**Built by:** Profiles.
 
 **Decision:** the janitor profile is never archived or deleted. Any other profile's row ends with one button, which
 follows the profile as it is now: **"Arkivera"** while it has any hours (an entry, hours in the ceiling, or an entry

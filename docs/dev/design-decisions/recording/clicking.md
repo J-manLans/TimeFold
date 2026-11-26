@@ -5,8 +5,6 @@ decision follows the template in `../README.md`, and is cited by its title.
 
 ## One start/stop button and a profile list (2026-11-14)
 
-**Built by:** Profiles, for the profile list and the warning label.
-
 **Decision:** the main control is one button: "Starta jobb", which becomes "Stoppa jobb" while an entry of the profile
 on screen runs. Beside it is a profile button that opens the list of profiles. Picking a profile changes only which
 profile is on screen; a running entry goes on. Pressing start on the profile on screen ends the running entry, if any,
@@ -41,8 +39,6 @@ show the warning: the click target would move under the pointer.
 - While an entry runs, the flex bar and the ceiling wheel do not change; at stop they include it.
 
 ## The app opens on the running profile, or the last one on screen (2026-11-16)
-
-**Built by:** Profiles.
 
 **Decision:** the app opens on the profile whose entry is running. When nothing runs, it opens on the profile that was
 on screen when it closed, kept in the machine's own settings file beside the theme; when that profile is archived or
@@ -111,8 +107,6 @@ runs, and pairs the two quiet controls.
   running app, never in the record.
 
 ## A running entry from an earlier day asks (2026-11-18)
-
-**Built by:** Profiles, for the case of another profile on screen.
 
 **Decision:** nothing stops an entry by itself. During the day, the stop click is the only signal of when work ended.
 When the app opens on a later date than a still-running entry started, it says so: when it started ("Startad igår", or

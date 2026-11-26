@@ -156,8 +156,10 @@
 <style>
   /* === Layout === */
 
+  /* One column that may shrink, so a long name is cut in its row rather than widening the tab */
   .rows {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--menu-rows-gap);
     margin: 0;
     padding: 0;

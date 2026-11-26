@@ -5,8 +5,6 @@ this one. Each decision follows the template in `../README.md`, and is cited by 
 
 ## A pay estimate per profile (2026-11-14)
 
-**Built by:** Profiles, for pay set in the menu.
-
 **Decision:** the profile with the balance has a monthly salary and every other profile a rate per hour, its pay kind,
 with no choice between them; each is a setting that changes from a date ("Settings change from a date"). A salary counts
 once per month whatever the hours; janitor work has one (such as 2 000 €), since its hours move the balance, not the
@@ -41,13 +39,11 @@ date: no past estimate is shown, so no history is read.
 
 ## Settings change from a date (2026-11-26)
 
-**Built by:** Profiles.
-
 **Decision:** settings that counting depends on, such as janitor's expected hours and full time, are changed in a small
-settings menu. Each change takes effect from a date the owner may move to any day, in the past too. Full time and the
-split open on the first day of next month, since changes to them are usually agreed from a month's start; every other
-setting opens on today. Every day is counted with the settings in force on it, so past days keep the settings they were
-worked under.
+settings menu. Each change takes effect from a date the owner may move to any day, in the past too. Every one opens on
+the first day of next month, since changes to them, full time, the split and pay alike, are usually agreed from a
+month's start. Every day is counted with the settings in force on it, so past days keep the settings they were worked
+under.
 
 **Why:** the owner's work may shift toward the other profiles. A change that rewrote the past would alter balances
 already settled with the boss; a contract change often starts on a date before the app is updated.

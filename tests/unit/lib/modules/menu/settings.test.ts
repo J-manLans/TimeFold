@@ -33,6 +33,13 @@ describe('"Inte nu" on the prune line is kept with the machine, as the day the l
   })
 })
 
+describe('the profile on screen at close is kept with the machine', () => {
+  it('reads it, and leaves out one that is not text', () => {
+    expect(readSettings('{"onScreen":"p2"}')).toEqual({ theme: 'system', motion: 'system', onScreen: 'p2' })
+    expect(readSettings('{"onScreen":2}')).toEqual({ theme: 'system', motion: 'system' })
+  })
+})
+
 describe('no settings file, or one that cannot be read, means System for both', () => {
   it('gives System when there is no file yet', () => {
     expect(readSettings(null)).toEqual({ theme: 'system', motion: 'system' })

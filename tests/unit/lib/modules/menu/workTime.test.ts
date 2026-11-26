@@ -3,7 +3,9 @@ import { describe, expect, it } from 'vitest'
 import { RUNS } from '$tests/helpers/properties'
 import { RECORD } from '$tests/helpers/records'
 import {
+  cancelComing,
   earlierValues,
+  valuesOn,
   firstOfNextMonth,
   savePay,
   saveFullTime,
@@ -199,5 +201,56 @@ describe('"Tidigare värden" lists every value but the latest saved, newest firs
     expect(earlierValues(values)).toEqual([
       { value: { from: '2026-01-01', minutes: 456 }, from: '2026-01-01', until: '2026-11-30' },
     ])
+  })
+})
+
+describe('a setting shows what is in force today, a value saved for later as coming, the rest as earlier', () => {
+  const values = [
+    { from: '2026-01-01', minutes: 456 },
+    { from: '2026-06-01', minutes: 459 },
+    { from: '2026-12-01', minutes: 480 },
+  ]
+
+  it('on 26 November: 459 in force, 480 coming from 1 December, 456 earlier until 31 May', () => {
+    expect(valuesOn(values, '2026-11-26')).toEqual({
+      now: { from: '2026-06-01', minutes: 459 },
+      coming: { from: '2026-12-01', minutes: 480 },
+      earlier: [{ value: { from: '2026-01-01', minutes: 456 }, from: '2026-01-01', until: '2026-05-31' }],
+    })
+  })
+
+  it('on 1 December: 480 in force by itself, nothing coming, both before it earlier', () => {
+    const on = valuesOn(values, '2026-12-01')
+
+    expect(on.now).toEqual({ from: '2026-12-01', minutes: 480 })
+    expect(on.coming).toBeUndefined()
+    expect(on.earlier.map((e) => e.from)).toEqual(['2026-06-01', '2026-01-01'])
+  })
+})
+
+describe('a value saved for a later day can be taken back, refused as a save would be', () => {
+  it('takes back Heltid 40 h from 1 December, leaving 38 h 15 min', () => {
+    const record = cancelComing(saved(saveFullTime(weeks(FULL, SPLIT), 40 * H, '2026-12-01')), 'full', '2026-12-01')
+
+    expect('refusal' in record ? record : record.fullTime).toEqual([{ from: '2026-01-01', minutes: 459 }])
+  })
+
+  it('refuses taking back the split 25 h from 1 December while Heltid 28 h from then leans on it', () => {
+    const both = saved(saveFullTime(saved(saveSplit(weeks(FULL, SPLIT), 25 * H, '2026-12-01')), 28 * H, '2026-12-01'))
+
+    expect(cancelComing(both, 'split', '2026-12-01')).toEqual({ refusal: 'Heltid är bara 28h från 1 december 2026.' })
+  })
+
+  it('takes back Heltid 28 h first, then the split', () => {
+    const both = saved(saveFullTime(saved(saveSplit(weeks(FULL, SPLIT), 25 * H, '2026-12-01')), 28 * H, '2026-12-01'))
+    const back = saved(cancelComing(saved(cancelComing(both, 'full', '2026-12-01')), 'split', '2026-12-01'))
+
+    expect([fullTimeWeek(back, '2026-12-01'), splitWeek(back, '2026-12-01')]).toEqual([FULL, SPLIT])
+  })
+
+  it('takes back a pay saved for later', () => {
+    const raised = savePay(RECORD, 'p1', 2100, '2026-12-01')
+
+    expect(saved(cancelComing(raised, { pay: 'p1' }, '2026-12-01')).profiles[0].pay).toEqual(RECORD.profiles[0].pay)
   })
 })
