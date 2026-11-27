@@ -12,6 +12,11 @@ the body). Components never import it and use only `var(--…)`. Styles (selecto
 component, except the looks several parts share, written once ("Shared looks are written once"); the values are all
 central.
 
+- **Only taste is a knob.** Before a value becomes a token, ask whether it can follow from what it sizes or sits beside;
+  if it can, it is worked out from that, never written as a number. The sides stack when the button block with its room
+  no longer fits beside the dashboard, not below 640 px; a dropdown is as wide as its widest choice, not 17 characters.
+  A token is for what is chosen by eye: a colour, a gap, a speed, a room.
+
 - **Names** say the intent, not the value: `--color-background`, `--wheel-diameter`, `--speed-ui`, never `--dark-grey`
   or `--size-200`. A value only one component uses is still a token, under that component. A decision shared by several
   parts is one token; two values that happen to be equal but mean different things are two. Where parts play the same
