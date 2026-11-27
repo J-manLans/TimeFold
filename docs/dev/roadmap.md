@@ -19,7 +19,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 5: Handover, its design pass from **Settle first**.
+Phase 5: Handover, the shared looks' design pass, from **Settle first**.
 
 ## The phases
 
@@ -32,13 +32,21 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 
 ### Phase 5: Handover
 
-**Produces:** the record moving between the work and home machines.
+**Produces:** the looks the screens share, each written once; the flex bar and the ceiling wheel as parts that take
+their figures from outside; the record moving between the work and home machines.
 
-**Settle first:** the question before an import replaces the record (`open-questions.md`), drawn in the prototype (its
-import button only shows a note).
+**Settle first:** the shared looks: the type sets, the tag, the small buttons, the headings in capitals, the fields and
+the popups' frame, and how each reads the surface it sits on; the flex bar's and the ceiling wheel's own pass; the
+question before an import replaces the record (`open-questions.md`), drawn in the prototype (its import button only
+shows a note).
 
-1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
-2. The onboarding's "Importera": it reads a handover file and asks nothing more.
+1. The shared looks: each written once, as a class, an attachment or a component, and worn by every screen that shows
+   it.
+2. The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app themselves.
+3. How the shared looks came to be needed, talked through, and the planned way to build them written into the docs and
+   the starter as how the app is built from now on.
+4. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
+5. The onboarding's "Importera": it reads a handover file and asks nothing more.
 
 **Done when:** a week worked on both machines, handed over each day, matches on both.
 

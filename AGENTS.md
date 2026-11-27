@@ -35,6 +35,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/noticed-away.md`            | What the owner noticed away from the computer, to deal with when back at it                                  |
 | `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when                              |
 | `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains, and what they were told once; gitignored |
+| `docs/dev/sketches/`                  | A look tried before it is decided, a page each; deleted once the code it previews is built                   |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
@@ -48,8 +49,6 @@ deleted once the code it previews is built; `git log` keeps it.
 Added when there is something to put in them, each opening with what it holds and what stays out, and moved into the doc
 map once it exists:
 
-- `docs/dev/sketches/`, when a look is worth trying before it is decided: a page or a drawing each, deleted once the
-  code it previews is built.
 - `docs/dev/archive/`, when an investigation closes or an idea is dropped, and both are true: it is likely to come up
   again, and reaching the conclusion cost something. Each entry says what it was, why it ended, and what would change
   the verdict. Otherwise delete it and let `git log` keep it.
