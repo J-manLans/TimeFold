@@ -209,11 +209,12 @@ left. Save open files first.
 
 Each mistake that once cost a wrong conclusion gets a one-line warning here.
 
-- **A changed decision touches every file that restates it.** After one, search the docs for its old words before
-  calling the batch done.
+- **A changed or new decision touches every file that restates it.** After a change, search the docs for its old words
+  before calling the batch done; before a new one restates a behaviour, find the decision that owns it and cite it.
 - **A look's values come from its decision and the prototype,** never from a draft in the chat: check the decision's
   numbers and **Cases** before writing a colour, size or time into code.
-- **A claim goes into a commit message only after it was run.** Run the check first, then write what it showed.
+- **A claim goes into a commit message or a doc only after it was run.** Run the check first, then write what it showed;
+  a cause not yet shown is written as a guess.
 - **The branch may have moved since the last look.** Other sessions push to it too: fetch and compare with GitHub before
   the first edit after a pause, judged by the clock, and before every commit and push.
 - **A global class meets every element that carries its name,** first class or not: search `class=".*\bname\b` before it

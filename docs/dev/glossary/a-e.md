@@ -59,6 +59,10 @@ confirm. Docked, the neighbour is outlined; let go there, it is **taken in**: pa
 far end. Docked is only shown while a handle is held: at rest, an entry touching a neighbour of its profile has taken it
 in.
 
+**Dropdown.** A field you choose into: the closed field, as wide as its widest choice, and the list it opens. The list
+**unfolds**, growing in place and pushing what is under it down (the reasons), or **floats**, lying over what is under
+it right under the field (the edit's profile picker). Not a native select, whose list the system paints.
+
 **Entry.** One stretch of work, from a start to a stop. Clicked in the app, or written by hand.
 
 **Entry line.** An entry opened for editing: a line centred on the entry, a handle at each end, its view holding still

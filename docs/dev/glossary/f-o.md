@@ -6,6 +6,9 @@ Terms F–O, in alphabetical order. The index and the rules for terms are in `RE
 the same hue, weaker and a little toward the panel's background. Not the dimmed colour, which is the unused part ("The
 ceiling wheel", in `design-decisions/`). See **Lit**.
 
+**Field.** A box you type into, opened in the place of the button or tag it replaces, at its size: Enter keeps it, Esc
+or leaving it drops it. A **refused** field stays open in the removal red.
+
 **First day (the record's).** Where the janitor's expected hours begin: the day the app was started fresh, or the day an
 imported record starts. Days before it are inside the opening balance and owe nothing.
 

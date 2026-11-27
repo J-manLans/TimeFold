@@ -46,6 +46,10 @@ theme and the motion; never in the record or the handover.
 **Spill (a break's).** In a divided entry, the part of the break that no longer fits its part moving to the other, as a
 drag shrinks it; only until a tag is set, after which each part keeps its own.
 
+**Stacked.** The main screen in a window too narrow for the two sides beside each other: the dashboard over the controls
+side, scrolling together as one page. The sides stack once the controls would be narrower than the button block with its
+room on both sides. Called **narrow** in the prototype.
+
 **Standing (a profile's).** Where a profile's figure is: past its line (the balance in plus, or the ceiling passed) or
 not (at 0 or below). Its letter, its small circle and the focus outline wear it, the neon past the line and the base
 before it.
