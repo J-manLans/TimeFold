@@ -244,7 +244,7 @@
       <div class="head">
         <span>{day}</span>
         <span class="dropdown">
-          <select aria-label="Profil" value={line.fill ?? line.profile} onchange={picked}>
+          <select class="field" aria-label="Profil" value={line.fill ?? line.profile} onchange={picked}>
             {#each profiles as profile (profile.id)}
               <option value={profile.id} disabled={profile.id === blocked}
                 >{profile.name}{profile.id === blocked ? ' · pågår' : ''}</option
@@ -351,16 +351,6 @@
     justify-content: space-between;
     gap: var(--all-entries-gap);
     font-size: var(--edit-head-size);
-  }
-
-  select {
-    padding: var(--edit-picker-padding);
-    padding-right: var(--dropdown-room);
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-tag);
-    background: var(--dashboard-background);
-    color: var(--dashboard-text);
-    font: inherit;
   }
 
   .words {

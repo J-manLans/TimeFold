@@ -403,7 +403,6 @@
   --edit-head-size: var(--text-size-body); /* the day and the profile picker */
   --edit-words-size: var(--text-size-body); /* the result in words under the day */
   --edit-tag-gap: 6px; /* between a part's times and its "paus" tag */
-  --edit-picker-padding: 2px 6px;
   /* The line */
   --edit-line-height: 34px; /* the handles' room */
   --edit-line-margin: 18px 6px; /* room above for the time labels and below for the scale */
@@ -432,7 +431,6 @@
   --edit-sign-share: 0.7; /* each sign's room, of the knob */
   /* The reason and the buttons */
   --edit-pick-max: 17ch; /* a chosen reason shows this long before "…" ("Glömde stämpla ut") */
-  --edit-pick-padding: 4px 10px;
   --edit-list-gap: 1px;
   --edit-list-top: 6px; /* above the list, under the closed field */
   --edit-other-margin: 3px 0 3px 8px; /* "Annan orsak", in line with the reasons' text */

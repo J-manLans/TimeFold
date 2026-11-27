@@ -233,7 +233,13 @@
 </script>
 
 <div class="reason" class:open>
-  <button class="pick dropdown" class:chosen={picked !== null} type="button" aria-expanded={open} onclick={toggle}>
+  <button
+    class="pick field dropdown"
+    class:chosen={picked !== null}
+    type="button"
+    aria-expanded={open}
+    onclick={toggle}
+  >
     {picked === null ? 'Välj orsak' : picked === OTHER ? typed : picked}
   </button>
   <div class="grow">
@@ -305,21 +311,14 @@
     justify-items: start;
   }
 
+  /* The closed field: a reason past its cap stops at "…" before the chevron; quiet until one is chosen */
   .pick {
     box-sizing: content-box;
-    max-width: var(--edit-pick-max);
+    max-width: calc(var(--edit-pick-max) + 1px); /* a pixel's slack, so a reason of exactly the cap is never cut */
     overflow: hidden;
-    padding: var(--edit-pick-padding);
-    padding-right: var(--dropdown-room);
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-tag);
-    background: var(--dashboard-background);
-    color: var(--dashboard-text-muted);
-    font: inherit;
-    font-size: var(--edit-words-size);
+    color: var(--surface-muted);
     text-overflow: ellipsis;
     white-space: nowrap;
-    cursor: pointer;
   }
 
   /* The list grows open at the interface's speed, then its reasons fade in after the same time; closing, they fade
@@ -439,7 +438,7 @@
   /* === States === */
 
   .chosen {
-    color: var(--dashboard-text);
+    color: var(--surface-text);
   }
 
   .open .grow {

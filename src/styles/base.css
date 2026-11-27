@@ -191,11 +191,21 @@ body {
   border-color: var(--profile-state, var(--surface-text));
 }
 
-/* A dropdown: a closed control that opens a list to choose from, marked by a chevron after its text, in its text's
-   colour. On a button it points up while aria-expanded says the list is open; a native select is wrapped in a
-   .dropdown span that draws it, the browser's own arrow gone. The control keeps --dropdown-room on its right for it */
+/* A dropdown: a field you choose into, a closed control that opens a list, marked by a chevron after its text in its
+   text's colour. It is a .field with .dropdown, which keeps the chevron's room on the right itself. On a button the
+   chevron points up while aria-expanded says the list is open; a native select, which cannot draw it, is a .field
+   inside a .dropdown span, the browser's own arrow gone */
 :where(.dropdown) {
   position: relative;
+}
+
+:where(span.dropdown) {
+  display: inline-block;
+}
+
+:where(.field.dropdown, .dropdown > .field) {
+  padding-right: var(--dropdown-room);
+  cursor: pointer;
 }
 
 :where(.dropdown)::after {
@@ -217,8 +227,10 @@ body {
 }
 
 :where(.dropdown > select) {
+  /* WebKitGTK still paints the GTK theme's box behind a select unless the prefixed switch is off too */
+  -webkit-appearance: none;
   appearance: none;
-  cursor: pointer;
+  background-color: transparent;
 }
 
 /* A heading in capitals: the label's size, tracked, in the surface's muted colour and weight */

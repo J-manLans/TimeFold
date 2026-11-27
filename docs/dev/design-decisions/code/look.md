@@ -76,10 +76,10 @@ It takes one of three forms, by what it brings:
   menu's size is wide enough for a name; "Ny profil"'s field has no placeholder, only the caret. Every field shows its
   focus as its edge in the colour of where the profile on screen stands, in place of the ring. "Annan orsak"'s underline
   and the onboarding's lone fields keep their own look.
-- **Dropdowns:** a closed control that opens a list to choose from ("Välj orsak", the edit's profile picker) carries a
-  chevron after its text, in its text's colour, which points up while its list is open where the page can tell. A native
-  `<select>` keeps the system's own list and wears only the closed look, its chevron drawn by a wrapper; a list that
-  holds more than choices, as the reasons' does, is built by the app.
+- **Dropdowns:** a field you choose into, a closed control that opens a list to choose from ("Välj orsak", the edit's
+  profile picker) carries a chevron after its text, in its text's colour, which points up while its list is open where
+  the page can tell. A native `<select>` keeps the system's own list and wears only the closed look, its chevron drawn
+  by a wrapper; a list that holds more than choices, as the reasons' does, is built by the app.
 - **Surfaces:** each surface (the controls side, the dashboard, the menu, a popup) names itself with `data-surface` on
   its root, and `base.css` gives each the same five variables from its tokens: `--surface-background`, `--surface-text`,
   `--surface-muted`, `--surface-line` and `--surface-button-line`. A shared look reads only these, so it fits wherever
