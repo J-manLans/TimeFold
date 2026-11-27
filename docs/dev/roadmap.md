@@ -21,9 +21,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 Phase 5: Handover, the shared looks, one at a time:
 
-1. `[written]` The fields' shared behaviour as one attachment on the plain input, and the dropdowns as one component,
-   the profile picker's list floating ("Shared looks are written once").
-2. The popups' frame, from **Settle first**: drawn in the prototype, then built.
+1. The popups' frame, from **Settle first**: drawn in the prototype, then built.
 
 ## The phases
 
