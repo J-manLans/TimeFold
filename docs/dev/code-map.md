@@ -56,12 +56,14 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   `CeilingWheel.svelte`, the ceiling wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the
   five newest entries; `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its
   rows; `EntryRow.svelte`, the row both lists share, which opens its entry in the edit popup. `edit/`:
-  `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker,
-  the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara"; `EditLine.svelte`, the entry line drawn
-  from the line's model, the pointer turned into its moves, the pill and the view easing to its fit;
-  `ReasonPicker.svelte`, the closed reason field, its list of at most seven lines, each reason's pen that renames or
-  removes it, and "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of the
-  profile, undo and theme buttons, and `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip.
+  `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker
+  (a floating `Dropdown`), the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara";
+  `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned into its moves, the pill and the
+  view easing to its fit; `ReasonPicker.svelte`, the reasons in an unfolding `Dropdown`, each reason's pen that renames
+  or removes it, and "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of
+  the profile, undo and theme buttons, `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip,
+  and `Dropdown.svelte`, the closed field and its list, unfolding or floating, stopping at its lines, closing on Esc and
+  a click outside; its choices wear `.dropdown-choice` from `base.css`.
 - `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
   `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
   `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added

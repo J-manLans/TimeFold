@@ -34,6 +34,16 @@
   --dropdown-chevron: 5px;
   --dropdown-inset: 8px;
   --dropdown-room: calc(2 * var(--dropdown-inset) + var(--dropdown-chevron));
+  /* A dropdown's list: its lines, and a floating list's surface, a stand-in until the popups' frame */
+  --dropdown-pick-max: 17ch; /* the closed field shows this long before "…" ("Glömde stämpla ut") */
+  --dropdown-list-gap: 1px;
+  --dropdown-list-top: 6px; /* above the list, under the closed field */
+  --dropdown-list-rows: 7; /* the open list's greatest height in lines; past it, it scrolls */
+  --dropdown-choice-padding: 3px 8px;
+  --dropdown-float-gap: 4px; /* from the closed field down to a floating list */
+  --dropdown-float-padding: 0 4px 4px;
+  --dropdown-float-background: var(--dashboard-row);
+  --dropdown-float-shadow: 0 6px 18px rgb(0 0 0 / 0.3);
 
   /* === Radii === */
   --radius-button: 5px; /* the button block, "Lägg till paus" */
@@ -431,13 +441,8 @@
   --edit-sign-size: var(--text-size-body); /* the pill's − and + */
   --edit-sign-share: 0.7; /* each sign's room, of the knob */
   /* The reason and the buttons */
-  --edit-pick-max: 17ch; /* a chosen reason shows this long before "…" ("Glömde stämpla ut") */
-  --edit-list-gap: 1px;
-  --edit-list-top: 6px; /* above the list, under the closed field */
   --edit-other-margin: 3px 0 3px 8px; /* "Annan orsak", in line with the reasons' text */
   --edit-other-inset: 8px;
-  --edit-reason-padding: 3px 8px;
-  --edit-list-rows: 7; /* the open list's greatest height in lines, "Annan orsak" one of them; past it, it scrolls */
   --edit-pen: 15px; /* the pen after a reason under the pointer, and "+" after "Annan orsak", drawn as the padlock */
   --edit-pen-padding: 3px;
   --edit-pen-gap: 2px; /* from a reason to its pen */

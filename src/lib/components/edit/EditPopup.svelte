@@ -12,6 +12,7 @@
   import { app } from '$lib/app.svelte'
   import EditLine from './EditLine.svelte'
   import ReasonPicker from './ReasonPicker.svelte'
+  import Dropdown from '$lib/components/shared/Dropdown.svelte'
   import { canSave, lineForEntry, lineForGap, resultWords } from '$lib/modules/edit/edit'
   import { blockedProfile, pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
   import { durationShape } from '$lib/modules/shared/durationShape'
@@ -41,11 +42,15 @@
   let openedBy: Input = null
   /** "Ta bort" asking "Ta bort?", after its first click */
   let asking = $state(false)
+  /** Whether the profile picker's list is open */
+  let picking = $state(false)
 
   let profiles = $derived(app.record?.profiles ?? [])
   let words = $derived(line ? resultWords(line, profiles) : [])
   /** The running entry's profile while the entry touches it, greyed in the picker with "· pågår" */
   let blocked = $derived(line ? blockedProfile(line) : null)
+  /** The profile in colour, which the picker names: a gap's filling one, or the whole entry's */
+  let shown = $derived(line ? (line.fill ?? line.profile) : null)
   /** The words under the day, and whether "Lägg till paus" wrapped them, so it says "+ paus" instead */
   let wordBox: HTMLDivElement | undefined = $state()
   let addShort = $state(false)
@@ -145,11 +150,10 @@
     popupClosed(openedBy)
   }
 
-  /** A profile picked: it fills a gap, or moves the whole entry; the picker then names what is in colour */
-  function picked(event: Event & { currentTarget: HTMLSelectElement }): void {
-    if (!line) return
-    line = pickProfile(line, event.currentTarget.value)
-    event.currentTarget.value = line.fill ?? line.profile
+  /** A profile picked: it fills a gap, or moves the whole entry, and the list closes */
+  function picked(id: string): void {
+    picking = false
+    if (line) line = pickProfile(line, id)
   }
 
   // "Lägg till paus" where it fits on the line; "+ paus" where the longer words would wrap it, tried afresh each time the
@@ -228,15 +232,21 @@
     <div class="card">
       <div class="head">
         <span>{day}</span>
-        <span class="dropdown">
-          <select class="field" aria-label="Profil" value={line.fill ?? line.profile} onchange={picked}>
-            {#each profiles as profile (profile.id)}
-              <option value={profile.id} disabled={profile.id === blocked}
-                >{profile.name}{profile.id === blocked ? ' · pågår' : ''}</option
-              >
-            {/each}
-          </select>
-        </span>
+        <Dropdown
+          text={profiles.find((p) => p.id === shown)?.name ?? ''}
+          chosen={true}
+          float={true}
+          bind:open={picking}
+        >
+          {#each profiles as profile (profile.id)}
+            <button
+              class="dropdown-choice"
+              type="button"
+              disabled={profile.id === shown || profile.id === blocked}
+              onclick={() => picked(profile.id)}>{profile.name}{profile.id === blocked ? ' · pågår' : ''}</button
+            >
+          {/each}
+        </Dropdown>
       </div>
 
       <div class="words" bind:this={wordBox}>
@@ -330,7 +340,7 @@
 
   .head {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     gap: var(--all-entries-gap);
     font-size: var(--edit-head-size);

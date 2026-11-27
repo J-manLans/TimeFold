@@ -202,18 +202,13 @@ body {
 }
 
 /* A dropdown: a field you choose into, a closed control that opens a list, marked by a chevron after its text in its
-   text's colour. It is a .field with .dropdown, which keeps the chevron's room on the right itself. On a button the
-   chevron points up while aria-expanded says the list is open; a native select, which cannot draw it, is a .field
-   inside a .dropdown span, the browser's own arrow gone */
+   text's colour. It is a .field with .dropdown, which keeps the chevron's room on the right itself; the chevron points
+   up while aria-expanded says the list is open. Dropdown.svelte is the whole of it, its list included */
 :where(.dropdown) {
   position: relative;
 }
 
-:where(span.dropdown) {
-  display: inline-block;
-}
-
-:where(.field.dropdown, .dropdown > .field) {
+:where(.field.dropdown) {
   padding-right: var(--dropdown-room);
   cursor: pointer;
 }
@@ -236,11 +231,26 @@ body {
   transform: translateY(-25%) rotate(-135deg);
 }
 
-:where(.dropdown > select) {
-  /* WebKitGTK still paints the GTK theme's box behind a select unless the prefixed switch is off too */
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: transparent;
+/* A dropdown's choice (Dropdown.svelte): a line of plain text in its list, filled under the pointer, greyed once
+   chosen, when a click on it does nothing */
+:where(.dropdown-choice) {
+  padding: var(--dropdown-choice-padding);
+  border: 0;
+  border-radius: var(--radius-tag);
+  background: none;
+  color: var(--surface-text);
+  font: inherit;
+  font-size: var(--text-size-body);
+  cursor: pointer;
+}
+
+:where(.dropdown-choice:hover:enabled) {
+  background: var(--surface-background);
+}
+
+:where(.dropdown-choice:disabled) {
+  opacity: var(--opacity-disabled);
+  cursor: default;
 }
 
 /* A heading in capitals: the label's size, tracked, in the surface's muted colour and weight */

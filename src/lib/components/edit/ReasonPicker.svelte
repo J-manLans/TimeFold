@@ -23,6 +23,7 @@
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import { addReason, reasonList, removeReason, renameReason } from '$lib/modules/edit/reasons'
+  import Dropdown from '$lib/components/shared/Dropdown.svelte'
 
   // === Props ===
 
@@ -55,9 +56,6 @@
   let renameRefused = $state(false)
   /** Whether "+" was refused, the text already a reason */
   let addRefused = $state(false)
-  let list: HTMLDivElement | undefined = $state()
-  /** The list's greatest height, so it stops after seven lines; none while it holds fewer */
-  let tallest = $state<number | null>(null)
 
   // === Logic ===
 
@@ -66,25 +64,10 @@
   })
 
   $effect(() => {
-    if (field) cap = parseFloat(getComputedStyle(field).getPropertyValue('--edit-pick-max')) || 17
-  })
-
-  // The list stops after its seven lines, "Annan orsak" one of them: its height is where the next line starts
-  $effect(() => {
-    void REASONS.length
-    void open
-    if (!list) return
-    const rows = parseInt(getComputedStyle(list).getPropertyValue('--edit-list-rows'), 10) || 7
-    const lines = [...list.children] as HTMLElement[]
-    tallest = lines.length > rows ? lines[rows].offsetTop - lines[0].offsetTop + lineTop(list) : null
+    if (field) cap = parseFloat(getComputedStyle(field).getPropertyValue('--dropdown-pick-max')) || 17
   })
 
   // === Helpers ===
-
-  /** Opens or closes the list. Used by the closed field */
-  function toggle(): void {
-    open = !open
-  }
 
   /** A reason from the list chosen; the list closes. Used by each reason */
   function choose(chosen: string): void {
@@ -146,11 +129,6 @@
     const length = typed ? typed.length : PLACEHOLDER.length
     // A pixel more than its characters, so the engine's rounding never cuts the last one
     return `calc(${typing ? length : Math.min(length, cap)}ch + 1px)`
-  }
-
-  /** The list's room above its first line. Used to measure where its seventh line ends */
-  function lineTop(element: HTMLElement): number {
-    return parseFloat(getComputedStyle(element).paddingTop) || 0
   }
 
   /** "+": the typed text added to the list at once and chosen from it, or refused when it is already a reason */
@@ -232,125 +210,66 @@
   }
 </script>
 
-<div class="reason" class:open>
-  <button
-    class="pick field dropdown"
-    class:chosen={picked !== null}
-    type="button"
-    aria-expanded={open}
-    onclick={toggle}
-  >
-    {picked === null ? 'Välj orsak' : picked === OTHER ? typed : picked}
-  </button>
-  <div class="grow">
-    <div class="clip">
-      <div class="list" bind:this={list} style:max-height={tallest === null ? undefined : `${tallest}px`}>
-        {#each REASONS as option (option)}
-          <div class="line">
-            {#if editing === option}
-              <input
-                class="other rename"
-                class:asking={askedRemove}
-                type="text"
-                autocomplete="off"
-                aria-label="Ändra {option}"
-                placeholder={askedRemove ? 'Ta bort?' : ''}
-                style:width="{Math.max(1, renamed.length || (askedRemove ? 8 : 1))}ch"
-                bind:value={renamed}
-                oninput={typeName}
-                onkeydown={(event) => keepName(event, option)}
-                onblur={back}
-                {@attach focusEnd}
-              />
-              {#if renameRefused}<span class="refused">Orsaken finns redan</span>{/if}
-            {:else}
-              <button type="button" disabled={picked === option} onclick={() => choose(option)}>{option}</button>
-              <button class="pen" type="button" aria-label="Ändra {option}" onclick={() => edit(option)}>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 20h4L19 9l-4-4L4 16z" />
-                  <path d="M13 7l4 4" />
-                </svg>
-              </button>
-            {/if}
-          </div>
-        {/each}
-        <div class="line">
-          <input
-            class="other"
-            class:current={picked === OTHER}
-            class:cut={!typing && typed.length > cap}
-            type="text"
-            autocomplete="off"
-            placeholder={PLACEHOLDER}
-            aria-label={PLACEHOLDER}
-            style:width={width()}
-            bind:value={typed}
-            bind:this={field}
-            onfocus={focused}
-            oninput={input}
-            onkeydown={key}
-            onblur={left}
-          />
-          {#if typed.trim()}
-            <button class="pen plus" type="button" aria-label="Lägg till {typed.trim()} i listan" onclick={add}>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-            </button>
-          {/if}
-          {#if addRefused}<span class="refused">Orsaken finns redan</span>{/if}
-        </div>
-      </div>
+<Dropdown text={picked === null ? 'Välj orsak' : picked === OTHER ? typed : picked} chosen={picked !== null} bind:open>
+  {#each REASONS as option (option)}
+    <div class="line">
+      {#if editing === option}
+        <input
+          class="other rename"
+          class:asking={askedRemove}
+          type="text"
+          autocomplete="off"
+          aria-label="Ändra {option}"
+          placeholder={askedRemove ? 'Ta bort?' : ''}
+          style:width="{Math.max(1, renamed.length || (askedRemove ? 8 : 1))}ch"
+          bind:value={renamed}
+          oninput={typeName}
+          onkeydown={(event) => keepName(event, option)}
+          onblur={back}
+          {@attach focusEnd}
+        />
+        {#if renameRefused}<span class="refused">Orsaken finns redan</span>{/if}
+      {:else}
+        <button class="dropdown-choice" type="button" disabled={picked === option} onclick={() => choose(option)}
+          >{option}</button
+        >
+        <button class="pen" type="button" aria-label="Ändra {option}" onclick={() => edit(option)}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20h4L19 9l-4-4L4 16z" />
+            <path d="M13 7l4 4" />
+          </svg>
+        </button>
+      {/if}
     </div>
+  {/each}
+  <div class="line">
+    <input
+      class="other"
+      class:current={picked === OTHER}
+      class:cut={!typing && typed.length > cap}
+      type="text"
+      autocomplete="off"
+      placeholder={PLACEHOLDER}
+      aria-label={PLACEHOLDER}
+      style:width={width()}
+      bind:value={typed}
+      bind:this={field}
+      onfocus={focused}
+      oninput={input}
+      onkeydown={key}
+      onblur={left}
+    />
+    {#if typed.trim()}
+      <button class="pen plus" type="button" aria-label="Lägg till {typed.trim()} i listan" onclick={add}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+      </button>
+    {/if}
+    {#if addRefused}<span class="refused">Orsaken finns redan</span>{/if}
   </div>
-</div>
+</Dropdown>
 
 <style>
   /* === Layout === */
-
-  .reason {
-    display: grid;
-    justify-items: start;
-  }
-
-  /* The closed field: a reason past its cap stops at "…" before the chevron; quiet until one is chosen */
-  .pick {
-    box-sizing: content-box;
-    max-width: calc(var(--edit-pick-max) + 1px); /* a pixel's slack, so a reason of exactly the cap is never cut */
-    overflow: hidden;
-    color: var(--surface-muted);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* The list grows open at the interface's speed, then its reasons fade in after the same time; closing, they fade
-     out first, then it shrinks */
-  .grow {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 0fr;
-    justify-self: stretch;
-    min-width: 0;
-    transition: grid-template-rows var(--speed-ui) var(--ease-grow) var(--speed-ui);
-  }
-
-  .clip {
-    min-width: 0;
-    min-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity var(--speed-ui) ease,
-      visibility 0s linear var(--speed-ui);
-  }
-
-  .list {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--edit-list-gap);
-    justify-items: start;
-    padding-top: var(--edit-list-top);
-    overflow-y: auto;
-  }
 
   /* A reason's line: the reason, and its pen, shown while the pointer is on the line */
   .line {
@@ -361,11 +280,15 @@
     max-width: 100%;
   }
 
-  .list .pen {
+  .pen {
     display: grid;
     place-items: center;
     padding: var(--edit-pen-padding);
+    border: 0;
+    border-radius: var(--radius-tag);
+    background: none;
     color: var(--dashboard-text-muted);
+    cursor: pointer;
     opacity: 0;
   }
 
@@ -398,17 +321,6 @@
     font-size: var(--text-size-label);
   }
 
-  .list button {
-    padding: var(--edit-reason-padding);
-    border: 0;
-    border-radius: var(--radius-tag);
-    background: none;
-    color: var(--dashboard-text);
-    font: inherit;
-    font-size: var(--edit-words-size);
-    cursor: pointer;
-  }
-
   /* "Annan orsak": looks like the other reasons, with a faint underline exactly as long as its text */
   .other {
     box-sizing: content-box;
@@ -437,41 +349,14 @@
 
   /* === States === */
 
-  .chosen {
-    color: var(--surface-text);
-  }
-
-  .open .grow {
-    grid-template-rows: 1fr;
-    transition-delay: 0s;
-  }
-
-  .open .clip {
-    opacity: 1;
-    visibility: visible;
-    transition:
-      opacity var(--speed-ui) ease var(--speed-ui),
-      visibility 0s;
-  }
-
-  .list button:hover:enabled {
-    background: var(--dashboard-background);
-  }
-
   .line:hover .pen,
-  .list .pen:focus-visible,
-  .list .plus {
+  .pen:focus-visible,
+  .plus {
     opacity: 1;
   }
 
-  .list .pen:hover:enabled {
-    background: none;
+  .pen:hover {
     color: var(--dashboard-text);
-  }
-
-  .list button:disabled {
-    opacity: var(--opacity-disabled);
-    cursor: default;
   }
 
   .other:focus {
