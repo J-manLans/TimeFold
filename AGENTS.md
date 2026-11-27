@@ -65,9 +65,11 @@ map once it exists:
    fix, the agent's to make.
 
 Limits, checked with `wc -w` at the docs sweep and whenever a file looks long: ~3,000 words for `AGENTS.md`, past which
-the steps it holds move to `procedures/` by "Where things go", without asking; ~4,000 for a general doc (flagged only),
-~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point at the
-collection, never at a part: a decision by its title, a term by its name. A split then changes only the index.
+the agent looks for steps that have a clear moment to read them, one "Starting a session" can name, and moves those to
+`procedures/` by "Where things go", without asking; if none fit, it flags the size at the docs sweep and the file
+stands, since a pointer with no moment to read it only splits what is read together; ~4,000 for a general doc (flagged
+only), ~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point
+at the collection, never at a part: a decision by its title, a term by its name. A split then changes only the index.
 
 ## Starting a session
 

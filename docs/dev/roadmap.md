@@ -19,11 +19,11 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 5: Handover, the shared looks:
+Phase 5: Handover, the shared looks, one at a time:
 
-1. The select's brownish background in the edit popup.
-
-Then the fields' shared behaviour (`open-questions.md`), then the popups' frame, from **Settle first**.
+1. The select's brownish background in the edit popup: a fault, looked at before it is fixed.
+2. The fields' shared behaviour, an attachment or a component (`open-questions.md`): settled, then built.
+3. The popups' frame, from **Settle first**: drawn in the prototype, then built.
 
 ## The phases
 

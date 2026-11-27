@@ -21,9 +21,10 @@ from that corner, and its heading takes the top row.
 
 **Why:** the owner keeps the app on a second screen, often squeezed beside another window: tall and thin, the screen's
 full height but little of its width. There it is mostly looked at, and the figures are what is looked at, so they come
-first; the app is also something the owner likes to see, as one would a diploma on the wall. The minimum size keeps "One
-click to start or stop" in a cramped window. The menu button moves down in a narrow window because the stacked controls
-side is short: at the top, its row took room from the button block, the status line and today's pie.
+first; the app is also something the owner likes to see, as one would a diploma on the wall. The minimum size keeps the
+dashboard as wide as side by side; stacked, a short window may scroll the start button out of view, which the owner
+accepts. The menu button moves down in a narrow window because there is more room for it at the bottom, beside the prune
+line, than at the top.
 
 **Rejected:** a fixed width to stack at, 640 px: a number kept in step with the button block by hand, in every part that
 stacks. The width worked out from the tokens in CSS: a media query cannot read a custom property, and `@custom-media` is
