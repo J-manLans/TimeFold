@@ -380,8 +380,11 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   position: absolute; inset: 0; z-index: 5;
   background-color: var(--c-btn);
   clip-path: inset(12px calc(100% - 52px) calc(100% - 52px) 12px round var(--r-small));
-  transition: clip-path var(--speed-menu) cubic-bezier(.2, .7, .2, 1), background-color var(--speed-menu) ease;
+  transition: background-color var(--speed-menu) ease;
 }
+/* The clip glides only while the menu opens or closes, so a window crossing the narrow width snaps the button to its
+   corner */
+.menu.moving { transition: clip-path var(--speed-menu) cubic-bezier(.2, .7, .2, 1), background-color var(--speed-menu) ease; }
 .menu.open {
   clip-path: inset(0 0 0 0 round 0);
   background-color: var(--menu-frost);
@@ -393,7 +396,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu.open.ob-solid { background-color: var(--ob-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
 /* The blur switches on at once, unseen behind the still solid panel; only the tint fades to see-through, so the buttons
    emerge already blurred. */
-.menu.ob-frosting { transition: clip-path var(--speed-menu) cubic-bezier(.2, .7, .2, 1), background-color var(--ob-frost-in) ease; }
+.menu.ob-frosting { transition: background-color var(--ob-frost-in) ease; }
 .menu.onboarding .body { display: none; }
 .menu.onboarding .menu-toggle { opacity: 0; pointer-events: none; }
 .onboard { position: absolute; inset: 0; display: grid; place-items: center; }
@@ -2730,10 +2733,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     if (!open && typeof closePicker === "function") closePicker(false);
     if (openEdit) openEdit.abort();   // an open value or "Ny profil" field never outlives the menu
     if (open) { selectTab("profiler"); renderMenu(); }
+    if ($("menu").classList.contains("open") !== open && !still()) $("menu").classList.add("moving");
     $("menu").classList.toggle("open", open); $("menuBody").inert = !open;
     document.querySelector(".controls").classList.toggle("menu-open", open);
     $("menuBtn").setAttribute("aria-expanded", String(open)); $("menuBtn").setAttribute("aria-label", open ? "Stäng menyn" : "Öppna menyn");
   }
+  ["transitionend", "transitioncancel"].forEach(function (type) {
+    $("menu").addEventListener(type, function (e) { if (e.target === $("menu") && e.propertyName === "clip-path") $("menu").classList.remove("moving"); });
+  });
   $("menuBtn").addEventListener("click", function () { setMenu(!$("menu").classList.contains("open")); });
   // A click anywhere outside the open menu closes it, as Esc does; "Visa alla" and its popup keep it open, so closing
   // the popup comes back to the menu.

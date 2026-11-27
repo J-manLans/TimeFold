@@ -43,6 +43,10 @@
   /** How the menu was opened, a key or a pointer, for the focus ring when it closes, and whether it was open */
   let openedBy: Input = null
   let wasOpen = false
+  /** Whether the panel is growing or folding: its clip glides only then, so a window crossing the narrow width snaps
+      the button to its corner */
+  let moving = $state(false)
+  let lastOpen = open
   /** The tab shown: Profiler whenever the menu opens */
   let tab = $state<'profiler' | 'tid'>('profiler')
   /** Today, read afresh whenever the menu opens, so a value saved for a later day takes over on its day */
@@ -67,6 +71,12 @@
     if (open && !wasOpen) openedBy = popupOpened()
     if (!open && wasOpen) popupClosed(openedBy)
     wasOpen = open
+  })
+
+  // Opening or closing starts the glide, before the class changes reach the page; Stilla has none to wait for
+  $effect.pre(() => {
+    if (open !== lastOpen) moving = !app.still
+    lastOpen = open
   })
 
   // At the first start the menu is open until the onboarding's ending folds it
@@ -114,6 +124,11 @@
 
   // === Helpers ===
 
+  /** The glide over, or cut short */
+  function moved(event: TransitionEvent): void {
+    if (event.target === menu && event.propertyName === 'clip-path') moving = false
+  }
+
   /** A tab chosen: anything open for editing in the other is dropped */
   function pick(next: 'profiler' | 'tid'): void {
     app.openValue = null
@@ -142,10 +157,13 @@
 <div
   class="menu"
   class:open
+  class:moving
   class:solid={app.panel !== null && !app.panel.frosted}
   class:frosting={app.panel !== null && app.panel.frosted && !app.panel.folded}
   class:hidden-toggle={app.panel !== null && !app.panel.folded}
   bind:this={menu}
+  ontransitionend={moved}
+  ontransitioncancel={moved}
 >
   <button
     class="toggle"
@@ -228,7 +246,8 @@
 <style>
   /* === Layout === */
 
-  /* Folded, the clip leaves only the button's square in the corner; open, it lets the whole panel show */
+  /* Folded, the clip leaves only the button's square in the corner; open, it lets the whole panel show. The clip
+     glides only while the menu opens or closes */
   .menu {
     position: absolute;
     inset: 0;
@@ -239,6 +258,10 @@
       var(--menu-inset) calc(100% - var(--menu-inset) - var(--button-icon-size))
         calc(100% - var(--menu-inset) - var(--button-icon-size)) var(--menu-inset) round var(--radius-small)
     );
+    transition: background-color var(--speed-ui) ease;
+  }
+
+  .menu.moving {
     transition:
       clip-path var(--speed-ui) var(--ease-grow),
       background-color var(--speed-ui) ease;
@@ -405,9 +428,7 @@
 
   /* Then frost: the blur is on at once behind the still solid tint, and only the tint fades */
   .menu.frosting {
-    transition:
-      clip-path var(--speed-ui) var(--ease-grow),
-      background-color var(--onboarding-frost-in) ease;
+    transition: background-color var(--onboarding-frost-in) ease;
   }
 
   /* No way out while it is locked open; the button shows again as the panel folds into it */
