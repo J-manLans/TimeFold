@@ -19,7 +19,10 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 5: Handover, the shared looks' design pass, from **Settle first**.
+Phase 5: Handover, the shared looks. First, the screen batch left uncommitted (the dashboard's one width, the window's
+least size from the tokens, the stacked screen fitting, no scrollbars): restart `npm start`, check it by eye, and commit
+it with its decisions. Then the two Phase 5 questions on the shared looks in `open-questions.md`, then the popups'
+frame, from **Settle first**.
 
 ## The phases
 
