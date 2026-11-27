@@ -15,6 +15,7 @@
   import { canSave, lineForEntry, lineForGap, resultWords } from '$lib/modules/edit/edit'
   import { blockedProfile, pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
   import { durationShape } from '$lib/modules/shared/durationShape'
+  import { field, widthOf } from '$lib/modules/shared/field'
   import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import { localDay } from '$lib/modules/shared/counting'
   import { dayInWords } from '$lib/modules/shared/dates'
@@ -34,7 +35,6 @@
   let tagAt = $state<number | null>(null)
   let tagText = $state('')
   let tagRefused = $state(false)
-  let tagField: HTMLInputElement | undefined = $state()
   /** The width of the tag the field replaced, which the field keeps while it is typed in */
   let tagWidth = $state('')
   /** How the popup was opened, a key or a pointer, for the focus ring when it closes */
@@ -166,15 +166,12 @@
   })
 
   /** A tag clicked: the field opens in its place on that part's break, selected, or empty with none */
-  async function openTag(at: number, from: HTMLElement): Promise<void> {
+  function openTag(at: number, from: HTMLElement): void {
     if (!line) return
-    tagWidth = `${from.getBoundingClientRect().width}px`
+    tagWidth = widthOf(from)
     tagText = durationInField(words[at]?.tag ?? 0)
     tagRefused = false
     tagAt = at
-    await tick()
-    tagField?.focus()
-    tagField?.select()
   }
 
   /** A text the field's shape lets through; a refusal's red goes. Used by the field's attachment */
@@ -186,7 +183,7 @@
   /**
    * The field kept: that part's break set to what it reads, empty taking it away, and a divided entry's breaks set
    * where they stand; longer than the time the part keeps, it is refused, red, and stays open until fixed or dropped
-   * with Esc. Used by Enter and a click away
+   * with Esc. Used by Enter and leaving the field
    */
   function keepTag(): void {
     if (!line || tagAt === null) return
@@ -202,18 +199,6 @@
     }
     line = next
     tagAt = null
-  }
-
-  /** Enter keeps the field; Esc leaves the break as it was, and closes the field, not the edit */
-  function tagKeys(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      keepTag()
-    } else if (event.key === 'Escape') {
-      event.preventDefault()
-      event.stopPropagation()
-      tagAt = null
-    }
   }
 
   /** "Spara": what the line shows goes into the record */
@@ -273,10 +258,8 @@
                   aria-label="Pausens längd, Enter sparar, Esc avbryter"
                   value={tagText}
                   style:width={tagWidth}
-                  bind:this={tagField}
                   {@attach durationShape(BREAK, typedTag)}
-                  onkeydown={tagKeys}
-                  onblur={keepTag}
+                  {@attach field({ keep: keepTag, drop: () => (tagAt = null), away: 'keep' })}
                 />{:else if word.tag !== null && word.kind === 'grey'}<span class="tag still"
                   >paus {durationText(word.tag)}</span
                 >{:else if word.tag !== null}<button

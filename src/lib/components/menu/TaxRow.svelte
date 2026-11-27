@@ -8,6 +8,7 @@
 <script lang="ts">
   import { app } from '$lib/app.svelte'
   import { saveTax } from '$lib/modules/menu/workTime'
+  import { field, widthOf } from '$lib/modules/shared/field'
 
   // === State ===
 
@@ -16,7 +17,6 @@
   let editing = $derived(app.openValue === key)
   let typed = $state('')
   let refused = $state(false)
-  let wrap: HTMLDivElement | undefined = $state()
   let tag: HTMLButtonElement | undefined = $state()
   /** The width of the tag the field replaced, which the field keeps while it is typed in */
   let tagWidth = $state('')
@@ -30,16 +30,16 @@
 
   /** The tag turned into its field */
   function open(): void {
-    tagWidth = tag ? `${tag.getBoundingClientRect().width}px` : ''
+    tagWidth = widthOf(tag ?? null)
     typed = percentText(tax.percent)
     refused = false
     app.openValue = key
   }
 
-  /** The field back to the tag, the focus on it */
-  function close(): void {
+  /** The field back to the tag; the focus on it unless the field was left for somewhere else */
+  function close(refocus = true): void {
     if (app.openValue === key) app.openValue = null
-    queueMicrotask(() => tag?.focus())
+    if (refocus) queueMicrotask(() => tag?.focus())
   }
 
   /** Enter: the percentage saved, or refused, red and still open */
@@ -54,38 +54,15 @@
     close()
   }
 
-  function onKey(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      keep()
-    } else if (event.key === 'Escape') {
-      event.preventDefault()
-      event.stopPropagation()
-      close()
-    }
-  }
-
-  /** A press outside the open field drops it */
-  function onPress(event: PointerEvent): void {
-    if (editing && wrap && !wrap.contains(event.target as Node)) close()
-  }
-
   /** "Efter skatt" saved at once */
   function setAfter(after: boolean): void {
     if (!app.record) return
     const result = saveTax(app.record, { ...tax, after })
     if (!('refusal' in result)) void app.saveSettings(result)
   }
-
-  /** Focuses the field once drawn, its text selected */
-  function focus(input: HTMLInputElement): void {
-    queueMicrotask(() => input.select())
-  }
 </script>
 
-<svelte:window onpointerdown={onPress} />
-
-<div class="row" bind:this={wrap}>
+<div class="row">
   <label class="check">
     <input type="checkbox" checked={tax.after} onchange={(event) => setAfter(event.currentTarget.checked)} />
     Efter skatt
@@ -101,8 +78,7 @@
       placeholder="0"
       bind:value={typed}
       oninput={() => (refused = false)}
-      onkeydown={onKey}
-      {@attach focus}
+      {@attach field({ keep, drop: close })}
     />
   {:else}
     <button class="tag" type="button" bind:this={tag} onclick={open}>{percentText(tax.percent)} %</button>

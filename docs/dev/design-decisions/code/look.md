@@ -55,8 +55,11 @@ It takes one of three forms, by what it brings:
   heading in capitals.
 - **An attachment** (`{@attach}`) for behaviour put on any element, such as `durationShape` on every length field, and
   the fields' one behaviour on the plain input: it opens with the focus in and the text selected, at the size of what it
-  replaces, keeps on Enter, drops on Esc or a click outside, and shows red while refused, calling back to keep or drop.
-  What surrounds each field (a reading, a note, a date step, a refusal) stays in its component's own markup.
+  replaces, keeps on Enter, drops on Esc, the focus back on what it replaced, and when left, a press elsewhere or the
+  focus moving on inside the app, keeps or drops as the field's own decision says: the pause field and the break's tag
+  keep, the menu's fields drop. Switching windows leaves it open. It calls back to keep or drop; what surrounds each
+  field (a reading, a note, a refusal and its red) stays in its component's own markup. A value with steps, as a locked
+  value's field and then its date, keeps its own keys across them.
 - **A component** when look, markup and behaviour come together: `Disc`, `ChoiceButton`, `TipLabel`, the dropdown and
   the popups' frame.
 

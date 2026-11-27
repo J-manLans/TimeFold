@@ -8,6 +8,7 @@
 -->
 <script lang="ts">
   import { app, NEW_PROFILE } from '$lib/app.svelte'
+  import { field } from '$lib/modules/shared/field'
   import { activeProfiles, addProfile, archivedProfiles } from '$lib/modules/shared/profiles'
   import ProfileRow from './ProfileRow.svelte'
   import TaxRow from './TaxRow.svelte'
@@ -22,7 +23,6 @@
   let naming = $derived(app.openValue === key)
   let name = $state('')
   let refusal = $state('')
-  let line: HTMLDivElement | undefined = $state()
   let newButton: HTMLButtonElement | undefined = $state()
 
   // === Logic ===
@@ -47,10 +47,10 @@
     app.openValue = key
   }
 
-  /** The field back to "Ny profil" */
-  function closeNew(): void {
+  /** The field back to "Ny profil"; the focus on it unless the field was left for somewhere else */
+  function closeNew(refocus = true): void {
     if (app.openValue === key) app.openValue = null
-    queueMicrotask(() => newButton?.focus())
+    if (refocus) queueMicrotask(() => newButton?.focus())
   }
 
   /** Enter: the profile made and its row unfolded, or the name refused with its note */
@@ -64,22 +64,6 @@
     void app.saveSettings(made.record)
     openRow = made.id
     if (app.openValue === key) app.openValue = null
-  }
-
-  function onKey(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      make()
-    } else if (event.key === 'Escape') {
-      event.preventDefault()
-      event.stopPropagation()
-      closeNew()
-    }
-  }
-
-  /** A press outside the open field turns it back */
-  function onPress(event: PointerEvent): void {
-    if (naming && line && !line.contains(event.target as Node)) closeNew()
   }
 
   /** The first letter a capital as it is typed, the caret left where it was; a typed key clears the note */
@@ -99,14 +83,7 @@
     openRow = openRow === id ? null : id
     app.openValue = null
   }
-
-  /** Focuses the field once drawn */
-  function focus(input: HTMLInputElement): void {
-    queueMicrotask(() => input.focus())
-  }
 </script>
-
-<svelte:window onpointerdown={onPress} />
 
 <TaxRow />
 
@@ -116,7 +93,7 @@
   {/each}
 </ul>
 
-<div class="new" bind:this={line}>
+<div class="new">
   {#if naming}
     <span class="slot">
       <input
@@ -125,8 +102,7 @@
         aria-label="Namn på ny profil"
         bind:value={name}
         oninput={onInput}
-        onkeydown={onKey}
-        {@attach focus}
+        {@attach field({ keep: make, drop: closeNew })}
       />
       {#if refusal}<span class="warn">{refusal}</span>{/if}
     </span>

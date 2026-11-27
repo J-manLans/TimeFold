@@ -8,10 +8,10 @@
   left open.
 -->
 <script lang="ts">
-  import { tick } from 'svelte'
   import { app } from '$lib/app.svelte'
   import { breakSoFar } from '$lib/modules/controls/breaks'
   import { durationShape } from '$lib/modules/shared/durationShape'
+  import { field, widthOf } from '$lib/modules/shared/field'
   import { BREAK, durationInField, durationText, readDuration } from '$lib/modules/shared/timeInput'
 
   // === State ===
@@ -20,7 +20,6 @@
   let open = $state(false)
   let text = $state('')
   let refused = $state(false)
-  let input: HTMLInputElement | undefined = $state()
   /** The width of "Lägg till paus", which its field takes, so the field opens in the button's exact place */
   let width = $state('')
   let minutes = $derived(readDuration(text, BREAK))
@@ -36,13 +35,10 @@
   // === Helpers ===
 
   /** The button pressed: the field opens in its place on the break so far, selected, or empty with none */
-  async function openField(event: MouseEvent): Promise<void> {
-    width = `${(event.currentTarget as HTMLElement).getBoundingClientRect().width}px`
+  function openField(event: MouseEvent): void {
+    width = widthOf(event.currentTarget)
     text = app.record ? durationInField(breakSoFar(app.record, app.onScreen)) : ''
     open = true
-    await tick()
-    input?.focus()
-    input?.select()
   }
 
   /** The field closes, empty, and the button is back. Used on Esc, a click away, and once a total is set */
@@ -60,7 +56,7 @@
 
   /**
    * A whole length set as the total, and the field closes; one too long is refused, the field left open with the
-   * reading saying so. Nothing whole typed closes the field as it was. Used by Enter and a click away
+   * reading saying so. Nothing whole typed closes the field as it was. Used by Enter and leaving the field
    */
   async function keep(): Promise<void> {
     if (!open) return
@@ -72,15 +68,6 @@
     if (why === null || why === 'no-change') close()
     else if (why === 'too-long') refused = true
   }
-
-  /** Enter keeps, Esc closes. Used on the field's keys */
-  function keys(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
-      event.stopPropagation()
-      close()
-    }
-    if (event.key === 'Enter') void keep()
-  }
 </script>
 
 {#if open}
@@ -88,7 +75,6 @@
     <input
       class="field"
       style:width
-      bind:this={input}
       value={text}
       type="text"
       inputmode="numeric"
@@ -97,8 +83,7 @@
       spellcheck="false"
       aria-label="Pausens längd, Enter lägger till, Esc avbryter"
       {@attach durationShape(BREAK, typed)}
-      onkeydown={keys}
-      onblur={keep}
+      {@attach field({ keep: () => void keep(), drop: close, away: 'keep' })}
     />
     <span class="reading" aria-live="polite">{reading}</span>
   </div>
