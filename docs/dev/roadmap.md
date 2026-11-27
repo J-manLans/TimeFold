@@ -29,11 +29,6 @@ uncommitted (side by side it works; commit it once the stacked layout is right):
    px.
 4. A horizontal line appears while the stacked page scrolls: look before fixing.
 5. The select's brownish background in the edit popup.
-6. `[written]` `[tests]` An entry is no longer moved whole by dragging its middle; only the handles move it. The
-   property test "saves no overlap, no two touching entries of a profile it changed, and the time the line showed" fails
-   now and then on it: an entry switched to the profile of the entry it touches, then dragged whole back over it, saves
-   the two overlapping. Without the middle drag the test passes 20,000 runs. A new entry written by hand is moved by its
-   handles too.
 
 Then the fields' shared behaviour (`open-questions.md`), then the popups' frame, from **Settle first**.
 

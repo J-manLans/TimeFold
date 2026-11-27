@@ -97,3 +97,18 @@ such as around the always-shown "+" in "Visa alla".
 Firefox shows nothing wrong. The app runs in neither.
 
 **Fix:** none in the page. Check a prototype glitch in Firefox before hunting it in the code.
+
+### The window's least size lands smaller on Linux
+
+**Seen as:** on Linux (COSMIC, Wayland), the window shrinks past `minWidth` and `minHeight` in `tauri.conf.json`: set to
+440 × 660, its inside measures 400 × 583, 40 short in width and 77 in height. To measure, open the inspector in the dev
+window (right click, Inspect Element) and show `innerWidth` and `innerHeight` on each resize.
+
+**Cause:** the window draws its own frame on Wayland, a title bar and an invisible shadow and resize border around it,
+and Tauri's window library, `tao`, counts that frame inside the least size. The shortfall fits a title bar of 37 px and
+a border of 20 px on each side, a fit not proven. Setting the size from the page as it starts falls short the same way.
+Windows draws the frame itself, so the least size there should hold; not checked yet.
+
+**Fix:** none yet. Adding the frame's size on Linux alone would be a patch for one platform. Check the `tao` release
+notes when Tauri is updated, and measure again. A frame the app draws itself (`decorations: false`) would end it on
+every platform, a design pass of its own.

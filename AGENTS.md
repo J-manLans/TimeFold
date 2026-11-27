@@ -175,6 +175,9 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   prototype or in the app, the code holds the values meanwhile and the conversation the reasons, so no decision edits or
   commits between tweaks. Write the batch when the owner settles it ("that feels good", "keep it"), before switching
   topic, at a break, or when the conversation is getting long.
+- **A chime when code is done.** After any task that changes code or the prototype, and whenever vibe or pop-in work
+  stops for a question, play `paplay /usr/share/sounds/freedesktop/stereo/complete.oga`, so the owner hears it away from
+  the screen. Docs alone play none.
 - **Mention what is surprising; do not fix it unasked.**
 - **A fix says the rule it restores.** Before writing a fix, state in one sentence, in the app's terms, what should be
   true ("the edit fades only while the pointer rests on the list"), and check that the code would read as that sentence.
@@ -213,6 +216,8 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
   the first edit after a pause, judged by the clock, and before every commit and push.
 - **A global class meets every element that carries its name,** first class or not: search `class=".*\bname\b` before it
   lands.
+- **A selector prefix adds weight where a media query adds none:** a media query turned into a prefix such as
+  `:root[data-stacked]` wraps it in `:where()`, or it outranks the states it used to yield to.
 - **A docs edit and its commit run as one chain that stops at the first failure,** so a commit never names docs it does
   not hold.
 
@@ -225,6 +230,8 @@ A short pointer per trap; the detail lives in the owning file.
 - **The built app's theme follows only the desktop** while dev works: "Known traps" in
   `docs/dev/procedures/debugging.md`.
 - **A fade leaves its last frame on screen on Linux** until a resize: "Known traps" in
+  `docs/dev/procedures/debugging.md`.
+- **The window's least size lands smaller on Linux** than `tauri.conf.json` sets: "Known traps" in
   `docs/dev/procedures/debugging.md`.
 - **A prototype glitch seen only in VS Code's built-in browser:** check it in Firefox first; "Known traps" in
   `docs/dev/procedures/debugging.md`.
