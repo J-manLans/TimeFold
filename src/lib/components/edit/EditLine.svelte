@@ -271,6 +271,7 @@
     {#each shownWalls as wall (wall.id)}
       <div
         class="wall"
+        class:at-now={wall.stop >= line.now}
         class:same={wall.profile === line.profile}
         class:dock={(docks.before && wall.id === line.prev?.id) || (docks.after && wall.id === line.next?.id)}
         style:--wall={profiles.find((p) => p.id === wall.profile)?.base}
@@ -288,6 +289,7 @@
       {#if within(piece.from, piece.to)}
         <div
           class="bar {piece.kind}"
+          class:at-now={piece.to >= line.now}
           class:pick={middle && !line.fill && piece.kind === 'cut'}
           style:left={pct(Math.max(piece.from, reach.from))}
           style:width={span(piece.from, piece.to)}
@@ -406,6 +408,12 @@
     height: var(--edit-bar);
     border-radius: var(--edit-bar-radius);
     transform: translateY(-50%);
+  }
+
+  /* A bar that ends at now is cut straight by the now line */
+  .at-now {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   /* Other entries: blocked time, hatched; one of the entry's profile in its colour, faintly */

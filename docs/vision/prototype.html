@@ -704,6 +704,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-tick { position: absolute; bottom: -16px; transform: translateX(-50%); font-size: var(--size-label); color: var(--f-muted); pointer-events: none; }
 .ed-tick::before { content: ""; position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--f-line); }
 .ed-other, .ed-seg { position: absolute; top: 50%; height: var(--el-bar); transform: translateY(-50%); border-radius: 3px; }
+/* A bar that ends at now is cut straight by the now line */
+.ed-other.at-now, .ed-seg.at-now { border-top-right-radius: 0; border-bottom-right-radius: 0; }
 .ed-other { background: repeating-linear-gradient(45deg, var(--f-line) 0 3px, transparent 3px 6px); pointer-events: none; }
 .ed-other.same { background: color-mix(in srgb, var(--p) 30%, transparent); }
 .ed-other.dock, .ed-seg.dock { outline: 1px solid var(--el-add); outline-offset: 1px; }
@@ -2181,6 +2183,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var o = document.createElement("div"); o.className = "ed-other";
       if (x.profile === ed.profile) { o.classList.add("same"); o.style.setProperty("--p", prof(x.profile).colour); }
       if ((d.l && x === ed.prev) || (d.r && x === ed.next)) o.classList.add("dock");
+      if (+x.end >= ed.now) o.classList.add("at-now");
       o.style.left = pct(Math.max(+x.start, ca)); o.style.width = "calc(" + pct(Math.min(+x.end, cb)) + " - " + pct(Math.max(+x.start, ca)) + ")";
       line.appendChild(o);
     });
@@ -2209,6 +2212,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var ga = Math.max(g.a, ca), gb = Math.min(g.b, cb);
       if (gb <= ga) return;
       var el2 = document.createElement("div"); el2.className = "ed-seg " + k + (middle && !mid ? " pick" : "");
+      if (g.b >= ed.now) el2.classList.add("at-now");
       // The original, docked onto by an entry moved clear of it, is outlined as any docked neighbour
       if (k === "cut" && g.a === ed.o1 && g.b === ed.o2 && ed.dragK && (ed.s === ed.o2 || ed.en === ed.o1)) el2.classList.add("dock");
       el2.style.left = pct(ga); el2.style.width = "calc(" + pct(gb) + " - " + pct(ga) + ")";
