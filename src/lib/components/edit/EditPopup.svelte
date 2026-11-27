@@ -35,6 +35,8 @@
   let tagText = $state('')
   let tagRefused = $state(false)
   let tagField: HTMLInputElement | undefined = $state()
+  /** The width of the tag the field replaced, which the field keeps while it is typed in */
+  let tagWidth = $state('')
   /** How the popup was opened, a key or a pointer, for the focus ring when it closes */
   let openedBy: Input = null
   /** "Ta bort" asking "Ta bort?", after its first click */
@@ -164,8 +166,9 @@
   })
 
   /** A tag clicked: the field opens in its place on that part's break, selected, or empty with none */
-  async function openTag(at: number): Promise<void> {
+  async function openTag(at: number, from: HTMLElement): Promise<void> {
     if (!line) return
+    tagWidth = `${from.getBoundingClientRect().width}px`
     tagText = durationInField(words[at]?.tag ?? 0)
     tagRefused = false
     tagAt = at
@@ -258,7 +261,7 @@
             <span class:grey={word.kind === 'grey'}
               ><b class:changed={word.bold} style:color={word.kind === 'fill' ? word.colour : undefined}>{word.times}</b
               >{#if tagAt === i}<input
-                  class="field"
+                  class="tag"
                   class:warn={tagRefused}
                   type="text"
                   inputmode="numeric"
@@ -267,6 +270,7 @@
                   spellcheck="false"
                   aria-label="Pausens längd, Enter sparar, Esc avbryter"
                   value={tagText}
+                  style:width={tagWidth}
                   bind:this={tagField}
                   {@attach durationShape(BREAK, typedTag)}
                   onkeydown={tagKeys}
@@ -277,9 +281,11 @@
                   class="tag"
                   class:warn={word.warn}
                   type="button"
-                  onclick={() => openTag(i)}>paus {durationText(word.tag)}</button
-                >{:else if word.addBreak}<button class="tag add" type="button" onclick={() => openTag(i)}
-                  >{addShort ? '+ paus' : 'Lägg till paus'}</button
+                  onclick={(event) => openTag(i, event.currentTarget)}>paus {durationText(word.tag)}</button
+                >{:else if word.addBreak}<button
+                  class="tag add"
+                  type="button"
+                  onclick={(event) => openTag(i, event.currentTarget)}>{addShort ? '+ paus' : 'Lägg till paus'}</button
                 >{/if}</span
             >
           {/each}
@@ -368,19 +374,6 @@
     margin-left: var(--edit-tag-gap);
   }
 
-  /* The break's field, in the tag's place, the same shape as every length field */
-  .field {
-    width: var(--edit-field-width);
-    margin-left: var(--edit-tag-gap);
-    padding: 0;
-    border: 0;
-    outline: none;
-    background: none;
-    color: var(--dashboard-text);
-    font: inherit;
-    font-size: var(--entry-tag-size);
-  }
-
   .actions {
     display: flex;
     gap: var(--edit-button-gap);
@@ -420,7 +413,7 @@
     color: var(--edit-remove);
   }
 
-  .field.warn {
+  input.tag.warn {
     color: var(--edit-remove);
   }
 

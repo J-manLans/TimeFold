@@ -140,7 +140,7 @@
     <div class="clip">
       <div class="act">
         <span>från</span>
-        <input type="date" aria-label="Gäller från" bind:value={from} oninput={() => (refusal = '')} />
+        <input class="field" type="date" aria-label="Gäller från" bind:value={from} oninput={() => (refusal = '')} />
         <button class="button-small" type="button" onclick={() => void keep()}>Spara</button>
         <button class="button-small" type="button" onclick={drop}>Avbryt</button>
         {#if refusal}<span class="warn">{refusal}</span>{/if}
@@ -216,15 +216,6 @@
 
   .act {
     padding-top: var(--menu-value-gap);
-  }
-
-  input[type='date'] {
-    padding: var(--menu-field-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: var(--field-background);
-    color: var(--menu-text);
-    font: inherit;
   }
 
   .warn {

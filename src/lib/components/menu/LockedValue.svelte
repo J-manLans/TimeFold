@@ -177,6 +177,7 @@
     {:else if stage === 'edit'}
       {#if field}
         <input
+          class="field"
           type="text"
           aria-label={label}
           value={typed}
@@ -185,6 +186,7 @@
         />
       {:else}
         <input
+          class="field"
           type="text"
           aria-label={label}
           bind:value={typed}
@@ -200,7 +202,14 @@
       </span>
     {:else}
       <span class="pending">{pending !== null && waiting ? waiting(pending) : ''} från</span>
-      <input type="date" aria-label="Gäller från" bind:value={from} oninput={() => (refusal = '')} {@attach focus} />
+      <input
+        class="field"
+        type="date"
+        aria-label="Gäller från"
+        bind:value={from}
+        oninput={() => (refusal = '')}
+        {@attach focus}
+      />
       <span class="keys" class:warn={refusal !== ''}>{refusal || 'Enter sparar · Esc avbryter'}</span>
     {/if}
   </div>
@@ -281,14 +290,10 @@
     margin-left: calc(var(--menu-label-width) + var(--menu-value-gap-inline));
   }
 
-  input {
+  /* "Ändra" and its field are one size in every value, so the field takes the button's place exactly */
+  .act > :is(button, input[type='text']) {
+    box-sizing: content-box;
     width: var(--menu-field-width);
-    padding: var(--menu-field-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: var(--field-background);
-    color: var(--menu-text);
-    font: inherit;
   }
 
   input[type='date'] {

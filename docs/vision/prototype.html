@@ -45,7 +45,8 @@
   --size-ui: var(--size-body);  /* the tabs, Exportera/Importera, the pay, the calendar's month, a handle's ± */
   --size-heading: 15px;  /* the type sets: heading, body (13px) and label (11px); caps is the label in capitals */
   --heading-tracking: 0.1em;    /* headings in capitals: Profil, Arkiverade, the menu's and the late popup's */
-  --pad-tag: 0 5px;      /* inside a tag: "paus", "arkiverad" */
+  --pad-tag: 2px 5px;    /* inside a tag: "paus", "arkiverad", and a field in a tag's place */
+  --field-w: 11ch;       /* every "Ändra", "Ny profil" and the field each turns into, one size: "Vaktmästeri" fits */
   --pad-small: 3px 8px;  /* inside a small button: Ändra, Ny profil, the prune line's, the edit's list */
   /* Text on the control side: everything except the big ones (Starta jobb, the profile letter). The figures side
      keeps the mono.
@@ -349,8 +350,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pair .plastic:disabled { opacity: var(--disabled-o); cursor: default; }
 .pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
-.pause-field input:focus, .pause-field input:focus-visible { outline: var(--focus-w) solid var(--run, #e80003); outline-offset: 1px; border-color: var(--run, #e80003); }
-.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: var(--size-body); text-align: left; width: 72px; height: 28px; padding: 0 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
+.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: var(--size-body); text-align: left; width: 72px; height: 28px; padding: var(--pad-small); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); }
 .pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: var(--size-small); color: var(--c-muted); white-space: nowrap; pointer-events: none; }
 .pause-field button { font: inherit; font-size: var(--size-small); height: 28px; padding: 0 10px; border-radius: var(--r-small); }
 .status .live { color: var(--run, #e80003); }
@@ -491,7 +491,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu .line > span:first-child { min-width: 86px; }
 .menu input[type="color"] { width: 40px; height: 30px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); padding: 2px; background: var(--c-btn); cursor: pointer; }
 .menu .small { font: inherit; font-size: var(--size-small); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
-.menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: 5px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); width: 150px; }
+.menu input[type="text"] { font: inherit; text-transform: none; letter-spacing: normal; padding: var(--pad-small); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); width: var(--field-w); box-sizing: content-box; }
+/* "Ändra" and "Ny profil" are the size of the field each turns into, so the swap moves nothing */
+.lv-change, #addProfile { width: var(--field-w); box-sizing: content-box; }
 .plist-unused { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
 .plist li { display: flex; align-items: center; gap: 10px; }
 .mini-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--c-fg); display: grid; place-items: center; font-size: var(--size-label); font-weight: 600; text-box: trim-both cap alphabetic; }
@@ -520,7 +522,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .lv.asking .lv-grow-clip { opacity: 1; }
 .lv-grow-clip > .lv-act { padding-top: 6px; }
 .app.still .lv-grow, .app.still .lv-grow-clip { transition: none; }
-.lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 4px 8px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: var(--c-field); color: var(--c-fg); }
+.lv input[type="text"], .lv input[type="date"] { font: inherit; text-transform: none; letter-spacing: normal; width: var(--field-w); box-sizing: content-box; padding: var(--pad-small); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); }
 .lv input[type="date"] { width: auto; }
 .lv .keys, .menu .line .keys { font-size: var(--size-label); color: var(--c-muted); }
 .lv .keys.warn { color: var(--f-remove); }   /* a refused value's warning, such as a week not in quarter hours */
@@ -612,8 +614,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pg-tag, .menu input.pg-in[type="text"] { font: inherit; font-size: var(--size-label); color: var(--c-fg); background: none; border: 1px solid var(--c-line); border-radius: var(--r-tag); padding: var(--pad-tag); }
 .pg-tag { cursor: pointer; font-variant-numeric: tabular-nums; }
 .pg-tag:hover { border-color: var(--c-fg); }
-.menu input.pg-in[type="text"] { width: 5ch; box-sizing: content-box; outline: none; text-transform: none; letter-spacing: normal; }
-@supports (field-sizing: content) { .menu input.pg-in[type="text"] { width: auto; field-sizing: content; min-width: 2ch; } }
+/* The field opens at the width of the tag it replaces and keeps it while typed in (the script sets it) */
+.menu input.pg-in[type="text"] { box-sizing: border-box; text-transform: none; letter-spacing: normal; }
 .menu input.pg-in.warn[type="text"] { color: var(--f-remove); border-color: var(--f-remove); }
 .swatch-pair { display: inline-flex; gap: 4px; }
 .swatch-pair span { width: var(--pair-swatch); height: var(--pair-swatch); border-radius: var(--r-tag); border: 1px solid var(--c-btn-line); }
@@ -624,7 +626,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .cpick .cp-pair { display: grid; gap: 6px; }
 .cpick .cp-row { display: flex; align-items: center; gap: 8px; }
 .cpick .cp-now { width: var(--cp-swatch); height: var(--cp-swatch); border-radius: var(--r-tag); border: 1px solid var(--c-btn-line); flex: none; }
-.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: 3px 6px; border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: text; }
+.cpick .cp-hex { font: inherit; text-transform: none; letter-spacing: normal; width: 9ch; padding: var(--pad-small); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); cursor: text; }
 
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
@@ -687,10 +689,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-times .tag.warn { color: var(--f-remove); border-color: var(--f-remove); }
 .ed-times .tag.still { color: var(--f-muted); cursor: default; }
 .ed-times .nb { color: var(--f-muted); }   /* the parts left around a new entry: grey, as neighbours */
-/* The open field wears the tag's own border, so it is the tag being typed in, and Enter only fills the box */
-.ed-times .brk-in { font: inherit; font-size: var(--size-label); width: 7ch; box-sizing: content-box; background: none; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: var(--pad-tag); outline: none; }
-/* As wide as what it holds, "00:00" while empty, where the browser can size a field to its content */
-@supports (field-sizing: content) { .ed-times .brk-in { width: auto; field-sizing: content; } }
+/* The open field wears the tag's own border, so it is the tag being typed in, and Enter only fills the box; it opens at
+   the width of the tag it replaces and keeps it (the script sets it) */
+.ed-times .brk-in { font: inherit; font-size: var(--size-label); box-sizing: border-box; background: none; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: var(--pad-tag); outline: none; }
 .ed-times .brk-in.warn { color: var(--f-remove); }
 /* The line's lane: out to the card's edges (past its side padding), clipping sideways only, so nothing on the line
    makes the popup scroll sideways while it may still grow in height */
@@ -830,6 +831,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
 /* Inside the app, every focus ring takes the colour of the profile on screen. */
 .app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--state, #4b8bff); }
+/* A field shows its focus as its edge in that colour, in place of the ring; the onboarding's and "Annan orsak" keep their own */
+.app input:is([type="text"], [type="date"], :not([type])):not(.ob-lone):not(.other):focus-visible { outline: none; border-color: var(--state, #4b8bff); }
 .app.still .menu, .app.still .menu .body, .app.still .menu.open .body, .app.still .menu-toggle span { transition: none; }
 .app.still .entries li.new, .app.still .zero { animation: none; }
 /* "KOPIA" holds still in the balance's colour, the pulse's strong end. */
@@ -960,7 +963,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
           <div class="tabpanel" role="tabpanel" data-panel="profiler">
             <div class="pay-global" id="payGlobal"></div>
             <ul class="prows" id="plist"></ul>
-            <div class="line" id="newLine"><button class="small" id="addProfile" type="button">Ny profil</button><span class="new-field"><input type="text" id="newName" placeholder="Namn på profil" aria-label="Namn på ny profil" hidden><span class="new-warn" id="newWarn" hidden></span></span><span class="keys" id="newKeys" hidden>Enter lägger till · Esc avbryter</span></div>
+            <div class="line" id="newLine"><button class="small" id="addProfile" type="button">Ny profil</button><span class="new-field"><input type="text" id="newName" aria-label="Namn på ny profil" hidden><span class="new-warn" id="newWarn" hidden></span></span><span class="keys" id="newKeys" hidden>Enter lägger till · Esc avbryter</span></div>
             <div class="arch" id="archBox" hidden>
               <button class="arch-head" id="archHead" type="button" aria-expanded="false">Arkiverade <span id="archCount"></span><span class="chev">›</span></button>
               <div class="prow-wrap" id="archWrap" inert><div class="prow-clip"><ul class="prows" id="alist"></ul></div></div>
@@ -2225,7 +2228,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     function warnAt(m, i) { return ed.refused || (m > 0 && atLimit && m === partMins(res[i])); }
     function tagHtml(m, i) {
       // The field opens where the clicked tag was, holding that part's break alone
-      if (ed.brkEditing && i === ed.brkAt) return '<input class="brk-in" id="edBrkIn" placeholder="00:00" autocomplete="off" value="' + lengthField(m) + '">';
+      if (ed.brkEditing && i === ed.brkAt) return '<input class="brk-in" id="edBrkIn" placeholder="00:00" autocomplete="off" style="width: ' + (ed.brkW || 60) + 'px" value="' + lengthField(m) + '">';
       // A part with no break offers its own; "+ paus" when the longer words would not fit on the line
       if (!m) return ed.mid ? "" : '<button type="button" class="tag add" data-i="' + i + '">' + (addShort ? "+ paus" : "Lägg till paus") + "</button>";
       return '<button type="button" class="tag' + (ed.mid ? " still" : warnAt(m, i) ? " warn" : "") + '" data-i="' + i + '">paus ' + lengthText(m) + "</button>";
@@ -2384,7 +2387,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // drops it, leaving it as it was; "Spara" is greyed while the field is open, so what it saves is what shows. Each part is saved as an entry of its own, with its own break, its length alone.
   $("edTimes").addEventListener("click", function (ev) {
     if (!ed || !ev.target.classList.contains("tag") || ev.target.classList.contains("still")) return;
-    ed.brkEditing = true; ed.brkAt = +ev.target.dataset.i || 0; drawEdit();
+    ed.brkEditing = true; ed.brkAt = +ev.target.dataset.i || 0; ed.brkW = ev.target.getBoundingClientRect().width; drawEdit();
   });
   // A length longer than the time its part keeps is refused, its text red, the field left open until fixed or dropped
   // with Esc. Kept, even unchanged, a divided entry's breaks are set where they stand: neither spills from then on.
@@ -2869,7 +2872,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       });
     }
     var act = document.createElement("div"); act.className = "lv-act";
-    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small lv-change"; btn.textContent = "Ändra";
     var pend = document.createElement("span"); pend.className = "lv-pend"; pend.hidden = true;
     var keys = document.createElement("span"); keys.className = "keys"; keys.hidden = true;
     var save = document.createElement("button"); save.type = "button"; save.className = "small"; save.textContent = "Spara"; save.hidden = true;
@@ -3289,8 +3292,9 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     }
     function openField() {
       if (openEdit && openEdit !== me) openEdit.abort();
+      var w = slot.firstChild ? slot.firstChild.getBoundingClientRect().width : 0;   // the field keeps the tag's width
       openEdit = me; clear(slot);
-      var inp = document.createElement("input"); inp.type = "text"; inp.className = "pg-in"; inp.value = pctText(payTax.pct); inp.placeholder = "0";
+      var inp = document.createElement("input"); inp.type = "text"; inp.className = "pg-in"; if (w) inp.style.width = w + "px"; inp.value = pctText(payTax.pct); inp.placeholder = "0";
       inp.addEventListener("input", function () { inp.classList.remove("warn"); });
       inp.addEventListener("keydown", function (e) {
         if (e.key !== "Enter") return;

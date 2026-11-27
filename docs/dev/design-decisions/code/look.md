@@ -45,7 +45,7 @@ differ, and an identical pair says it falsely. Times in milliseconds: the owner 
 
 ## Shared looks are written once (2026-11-27)
 
-**Built by:** Phase 5, the shared looks; the fields and the popups' frame wait on their design pass.
+**Built by:** Phase 5, the shared looks: the fields' shared behaviour, the dropdowns' chevron and the popups' frame.
 
 **Decision:** a look more than one part of the screen wears is written once and worn, never copied into each component.
 It takes one of three forms, by what it brings:
@@ -67,6 +67,13 @@ It takes one of three forms, by what it brings:
   (tracking, a tag's or a small button's padding, gaps inside a line of text) and for the whole inside of a part built
   to come in sizes; `px` for everything else: borders, radii, panels, the gaps between parts and layout. A `px` value
   says it does not scale.
+- **Fields:** a boxed field (`.field`) is see-through, edged in the surface's button line, at the small radius and the
+  body set, with a small button's padding, so one swaps for the other in place. A field in a tag's place wears the tag
+  alone, unfilled, and opens at the width of the tag it replaces, keeping it while typed in. Every field shows its focus
+  as its edge in the colour of where the profile on screen stands, in place of the ring. In the menu, every "Ändra" that
+  turns into a field, "Ny profil" and the field each turns into are one size, wide enough for a name; "Ny profil"'s
+  field has no placeholder, only the caret. "Annan orsak"'s underline and the onboarding's lone fields keep their own
+  look.
 - **Dropdowns:** a closed control that opens a list to choose from ("Välj orsak", the edit's profile picker) carries a
   chevron after its text, in its text's colour, which points up while its list is open where the page can tell. A native
   `<select>` keeps the system's own list and wears only the closed look, its chevron drawn by a wrapper; a list that
@@ -81,14 +88,18 @@ the small button five, identical. Nine text sizes half a pixel apart were not de
 side. A unit tells the reader what moves when something else changes. Surface names let one class fit the dashboard, the
 frost and a popup without a variant for each.
 
-**Rejected:** each component styling its own copy: see Why. `em` for panels and layout: a panel's padding would change
-with the set its text wears, and nesting compounds. The root at 62.5%: every text with no size of its own starts at
-10px. Caps a size below the label: the owner likes them alike, and it saves a style. A weight of its own on a caps
-heading. A class per surface (`.tag-menu`): the surface's variables do it once.
+**Rejected:** each component styling its own copy: see Why. A field sized to its content (`field-sizing`): it jumps as a
+tag opens, and the Linux webview may not support it. "Ändra" sized to its value: it changes size from one setting to the
+next. A field's own fill, and a ring around a field: the owner tried both against the edge and kept the edge. `em` for
+panels and layout: a panel's padding would change with the set its text wears, and nesting compounds. The root at 62.5%:
+every text with no size of its own starts at 10px. Caps a size below the label: the owner likes them alike, and it saves
+a style. A weight of its own on a caps heading. A class per surface (`.tag-menu`): the surface's variables do it once.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
 
 **Cases:** the root at 125% grows every text, tag and small button, while panels, gaps and borders hold; a tag in the
 menu wears the menu's line, one in the edit popup the dashboard's; "Ändra" and the edit's "Avbryt" differ only in their
 surface's colours; every caps heading is 11px at 0.1em, in its surface's muted colour; "Välj orsak" and the edit's
-profile picker show the same chevron, and "Välj orsak"'s points up while its list is open.
+profile picker show the same chevron, and "Välj orsak"'s points up while its list is open. "25 %", "paus 30m" and "Lägg
+till paus" each open into a field of exactly their size; "Ändra" under a name and under a salary are the same width, and
+each field takes its place without moving anything.

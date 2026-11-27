@@ -118,10 +118,10 @@
 
 <div class="new" bind:this={line}>
   {#if naming}
-    <span class="field">
+    <span class="slot">
       <input
+        class="field"
         type="text"
-        placeholder="Namn på profil"
         aria-label="Namn på ny profil"
         bind:value={name}
         oninput={onInput}
@@ -179,19 +179,15 @@
     gap: var(--menu-value-gap-inline);
   }
 
-  .field {
+  .slot {
     display: inline-grid;
     row-gap: var(--menu-name-warn-gap);
   }
 
-  input {
-    width: var(--menu-name-width);
-    padding: var(--menu-field-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: var(--field-background);
-    color: var(--menu-text);
-    font: inherit;
+  /* "Ny profil" flips to its field at the same size, the size of every "Ändra" and its field */
+  .new :is(button, input) {
+    box-sizing: content-box;
+    width: var(--menu-field-width);
   }
 
   /* Centred under the field, wider than it if it must be, without moving it */

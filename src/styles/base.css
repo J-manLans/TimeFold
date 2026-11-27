@@ -168,6 +168,24 @@ body {
   cursor: default;
 }
 
+/* A field: a box you type into, edged in the surface's button line as a small button is, see-through. A field in a
+   tag's place wears .tag instead, with no fill. Either shows its focus as its edge in the colour of where the profile
+   on screen stands, in place of the ring */
+:where(.field) {
+  padding: var(--field-padding);
+  border: 1px solid var(--surface-button-line);
+  border-radius: var(--radius-small);
+  background: none;
+  color: var(--surface-text);
+  font: inherit;
+  font-size: var(--text-size-body);
+}
+
+:where(.field, input.tag):focus-visible {
+  outline: none;
+  border-color: var(--profile-state, var(--surface-text));
+}
+
 /* A heading in capitals: the label's size, tracked, in the surface's muted colour and weight */
 :where(.caps) {
   color: var(--surface-muted);

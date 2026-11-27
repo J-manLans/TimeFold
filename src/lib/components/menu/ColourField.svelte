@@ -132,6 +132,7 @@
       <div class="code">
         <span class="swatch" style:background={colour}></span>
         <input
+          class="field"
           type="text"
           readonly
           value={colour}
@@ -234,11 +235,5 @@
 
   .code input {
     width: var(--picker-code-width);
-    padding: var(--menu-field-padding);
-    border: 1px solid var(--button-line);
-    border-radius: var(--radius-small);
-    background: transparent;
-    color: var(--menu-text);
-    font: inherit;
   }
 </style>

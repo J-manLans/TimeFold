@@ -18,6 +18,8 @@
   let refused = $state(false)
   let wrap: HTMLDivElement | undefined = $state()
   let tag: HTMLButtonElement | undefined = $state()
+  /** The width of the tag the field replaced, which the field keeps while it is typed in */
+  let tagWidth = $state('')
 
   // === Helpers ===
 
@@ -28,6 +30,7 @@
 
   /** The tag turned into its field */
   function open(): void {
+    tagWidth = tag ? `${tag.getBoundingClientRect().width}px` : ''
     typed = percentText(tax.percent)
     refused = false
     app.openValue = key
@@ -90,8 +93,9 @@
   <span class="label">Skatt och avgifter</span>
   {#if editing}
     <input
-      class="tag field"
+      class="tag"
       class:warn={refused}
+      style:width={tagWidth}
       type="text"
       aria-label="Skatt och avgifter"
       placeholder="0"
@@ -157,18 +161,9 @@
     color: var(--menu-text-muted);
   }
 
-  /* The percentage's field, in the tag's border */
-  .field {
-    width: 5ch;
-    box-sizing: content-box;
-    outline: none;
-    field-sizing: content;
-    min-width: 2ch;
-  }
-
   /* === States === */
 
-  .field.warn {
+  input.tag.warn {
     border-color: var(--edit-remove);
     color: var(--edit-remove);
   }

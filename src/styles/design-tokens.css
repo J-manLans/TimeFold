@@ -27,8 +27,9 @@
 
   /* === Spacing === */
   /* Inside the shared looks, in em so each keeps its shape as its text grows */
-  --tag-padding: 0 0.45em;
+  --tag-padding: 0.2em 0.45em;
   --button-small-padding: 0.25em 0.6em;
+  --field-padding: var(--button-small-padding); /* the same as a small button's, so one swaps for the other in place */
 
   /* === Radii === */
   --radius-button: 5px; /* the button block, "Lägg till paus" */
@@ -133,12 +134,8 @@
   --pause-text-size: var(--text-size-body);
   --pause-font-weight: 600;
   --pause-padding: 0 14px;
-  --field-background: light-dark(#ffffff, #2a2d33); /* fields: text 16:1 */
   --field-height: 28px;
   --pause-field-width: 72px;
-  --pause-field-padding: 0 8px;
-  --pause-field-tracking: 0.02em;
-  --pause-field-focus-offset: 1px; /* the field's focus ring, in the running profile's neon */
   --pause-reading-gap: 4px; /* from the field down to how it reads what is typed */
   --undo-time: 15s; /* how long a click can be undone; the logic reads it from here */
   --undo-afterglow: 0.65; /* how strong the neon's afterglow is when the undo wakes; it fades to nothing */
@@ -267,8 +264,6 @@
   --menu-value-gap-inline: 10px; /* between the label, the text, the field and its keys */
   --menu-value-row: 30px; /* each line's least height, so the row does not jump as "Ändra" turns into its field */
   --menu-note-gap: 14px; /* from a value to its quieter note, such as Heltid's day */
-  --menu-field-width: 9ch;
-  --menu-field-padding: 4px 8px;
   --menu-history-gap: 3px; /* between the earlier values */
   --menu-coming-padding: 0 4px; /* the "×" after a value saved for a later day */
   --menu-tab-fade: var(--speed-ui); /* a tab's content fading in */
@@ -286,7 +281,7 @@
   --menu-archived-opacity: 0.55; /* an archived row's head */
   --menu-archived-gap: 14px; /* from "Ny profil" down to "Arkiverade" */
   --menu-name-warn-gap: 8px; /* from the name field down to a taken name's note */
-  --menu-name-width: 150px; /* "Ny profil"'s field */
+  --menu-field-width: 11ch; /* every "Ändra", "Ny profil" and the field each turns into: "Vaktmästeri" fits */
   --menu-archive-head-padding: 4px 0; /* "Arkiverade" and its count */
 
   /* === Controls: the flex-day calendar in the Tid tab === */
@@ -406,7 +401,6 @@
   --edit-head-size: var(--text-size-body); /* the day and the profile picker */
   --edit-words-size: var(--text-size-body); /* the result in words under the day */
   --edit-tag-gap: 6px; /* between a part's times and its "paus" tag */
-  --edit-field-width: 6ch; /* the break's field, in the tag's place */
   --edit-picker-padding: 2px 6px;
   /* The line */
   --edit-line-height: 34px; /* the handles' room */

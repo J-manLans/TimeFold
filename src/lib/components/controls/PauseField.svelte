@@ -81,8 +81,9 @@
 </script>
 
 {#if open}
-  <div class="field">
+  <div class="slot">
     <input
+      class="field"
       bind:this={input}
       value={text}
       type="text"
@@ -104,7 +105,7 @@
 <style>
   /* === Layout === */
 
-  .field {
+  .slot {
     position: relative;
     display: grid;
     place-items: center;
@@ -114,15 +115,6 @@
   input {
     width: var(--pause-field-width);
     height: var(--field-height);
-    padding: var(--pause-field-padding);
-    border: 1px solid var(--button-line);
-    border-radius: var(--radius-small);
-    background: var(--field-background);
-    color: var(--controls-text);
-    font: inherit;
-    font-size: var(--pause-text-size);
-    letter-spacing: var(--pause-field-tracking);
-    text-align: left;
   }
 
   /* Under the field, out of the row's flow, so the field never moves as the reading comes and goes */
@@ -146,12 +138,4 @@
   }
 
   /* === States === */
-
-  /* The field's focus wears the running profile's neon, as the start button's ring does */
-  input:focus,
-  input:focus-visible {
-    outline: var(--focus-width) solid var(--profile-neon);
-    outline-offset: var(--pause-field-focus-offset);
-    border-color: var(--profile-neon);
-  }
 </style>

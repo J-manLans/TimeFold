@@ -255,6 +255,8 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
 - **A claim goes into a commit message only after it was run.** Run the check first, then write what it showed.
 - **The branch may have moved since the last look.** Other sessions push to it too: fetch and compare with GitHub before
   the first edit after a pause, judged by the clock, and before every commit and push.
+- **A global class meets every element that carries its name,** first class or not: search `class=".*\bname\b` before it
+  lands.
 - **A docs edit and its commit run as one chain that stops at the first failure,** so a commit never names docs it does
   not hold.
 
