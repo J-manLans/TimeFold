@@ -112,10 +112,12 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   the focus it moves in unless that was the keyboard (`ringOnOpen`); closing, it quiets the element the focus lands on
   (`popupClosed`) unless it was opened and closed with the keyboard (`ringAfterClose`).
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"), the type sets
-  among them; `styles/base.css`: the reset, the fonts, the root's text size that every type set follows, the body, every
-  focus ring and the quiet one (`data-quiet-focus`) after a popup closes, `.plastic`, the flat button every button
-  block, pause and choice button wears, with its pointer light, hover and press, the registered `--glow-strength` the
-  pointer light fades by, and Stilla: under `data-still` every transition, animation and delay is zero.
+  among them; `styles/base.css`: the reset, the fonts, the root's text size that every type set follows, the body, the
+  surfaces' five colours under each `data-surface` (the controls side, the dashboard and its two popups, the menu, the
+  profile and late popups), every focus ring and the quiet one (`data-quiet-focus`) after a popup closes, `.plastic`,
+  the flat button every button block, pause and choice button wears, with its pointer light, hover and press, the
+  registered `--glow-strength` the pointer light fades by, and Stilla: under `data-still` every transition, animation
+  and delay is zero.
 
 ## The tests: `tests/`
 

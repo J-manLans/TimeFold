@@ -1,5 +1,5 @@
-/* The reset, the fonts, the body, the flat buttons, the pointer light's strength, and Stilla. Every value comes from
-   design-tokens.css */
+/* The reset, the fonts, the root, the body, the surfaces, the shared looks, the pointer light's strength, and Stilla.
+   Every value comes from design-tokens.css */
 
 /* The two fonts, bundled with the app; Bricolage Grotesque's "standard" file carries its width axis */
 @import '@fontsource-variable/bricolage-grotesque/standard.css';
@@ -36,6 +36,42 @@ body {
    loses the focus or a key is pressed (focusRing.ts) */
 [data-quiet-focus]:focus-visible {
   outline: none;
+}
+
+/* The surfaces ("Shared looks are written once"): each names itself with data-surface on its root and gives the
+   shared looks the same five colours. A surface with no button line of its own uses its line */
+[data-surface] {
+  --surface-button-line: var(--surface-line);
+}
+
+[data-surface='controls'] {
+  --surface-background: var(--controls-background);
+  --surface-text: var(--controls-text);
+  --surface-muted: var(--controls-text-muted);
+  --surface-line: var(--controls-line);
+  --surface-button-line: var(--button-line);
+}
+
+[data-surface='dashboard'] {
+  --surface-background: var(--dashboard-background);
+  --surface-text: var(--dashboard-text);
+  --surface-muted: var(--dashboard-text-muted);
+  --surface-line: var(--dashboard-line);
+}
+
+[data-surface='menu'] {
+  --surface-background: var(--menu-frost);
+  --surface-text: var(--menu-text);
+  --surface-muted: var(--menu-text-muted);
+  --surface-line: var(--menu-line);
+  --surface-button-line: var(--menu-button-line);
+}
+
+[data-surface='popup'] {
+  --surface-background: var(--popup-background);
+  --surface-text: var(--popup-text);
+  --surface-muted: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
+  --surface-line: var(--button-line);
 }
 
 /* A flat button, as the prototype's .plastic: the theme's button surface. One that can be used catches the pointer

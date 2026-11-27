@@ -156,6 +156,7 @@
 
 <div
   class="menu"
+  data-surface="menu"
   class:open
   class:moving
   class:solid={app.panel !== null && !app.panel.frosted}

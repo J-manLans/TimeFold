@@ -117,6 +117,7 @@
 
 <section
   class="controls"
+  data-surface="controls"
   class:lit
   class:menu-open={menuOpen}
   aria-label="Kontroller"

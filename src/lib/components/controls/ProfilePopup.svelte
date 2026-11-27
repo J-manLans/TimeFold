@@ -61,7 +61,14 @@
 
 {#if app.profilesOpen}
   <div class="scrim">
-    <div class="popup" role="dialog" aria-modal="true" aria-labelledby="profiles-heading" bind:this={list}>
+    <div
+      class="popup"
+      data-surface="popup"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="profiles-heading"
+      bind:this={list}
+    >
       <h3 id="profiles-heading">Profil</h3>
       {#if profiles.length < 2}
         <button type="button" onclick={() => app.askNewProfile()}>Skapa ny profil</button>

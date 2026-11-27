@@ -227,6 +227,7 @@
 <dialog
   bind:this={popup}
   aria-label="Ändra posten"
+  data-surface="dashboard"
   class:stacked={app.editing?.stacked}
   class:peek
   onpointermove={moved}

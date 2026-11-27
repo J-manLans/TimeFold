@@ -78,7 +78,7 @@
 <!-- It keeps an open menu open, so closing the popup comes back to it -->
 <button class="more" type="button" data-keeps-menu {disabled} onclick={show}>Visa alla</button>
 
-<dialog bind:this={popup} aria-label="Alla poster" onclick={closeOutside} onclose={closed}>
+<dialog bind:this={popup} data-surface="dashboard" aria-label="Alla poster" onclick={closeOutside} onclose={closed}>
   <!-- The edit popup stacked on it peeks only while the pointer rests on this card -->
   <div class="card" data-all-entries>
     <header>

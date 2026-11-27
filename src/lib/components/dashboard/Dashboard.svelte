@@ -60,6 +60,7 @@
 
 <section
   class="dashboard"
+  data-surface="dashboard"
   aria-label="Översikt"
   style:--wheel-base={wheelBase}
   inert={app.panel !== null || app.late !== null}

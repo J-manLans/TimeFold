@@ -36,7 +36,7 @@
 
 {#if words}
   <div class="scrim">
-    <div class="popup" role="dialog" aria-modal="true" aria-labelledby="late-heading">
+    <div class="popup" data-surface="popup" role="dialog" aria-modal="true" aria-labelledby="late-heading">
       <h3 id="late-heading">{words.heading}</h3>
       <p class="line">{words.line}</p>
       <p class="note">Glömde du stoppa? Tryck Stoppa och rätta posten i listan.</p>
