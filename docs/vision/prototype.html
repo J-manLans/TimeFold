@@ -143,6 +143,7 @@
   --el-pill-breath: 1.2;  /* as it grows it also takes a breath: its height swells to this share and settles (1: none) */
   --el-handle: var(--knob);  /* a handle: the same round knob as the colour picker's */
   --ed-tag-gap: 6px;    /* between an entry's times and its "paus" tag in the edit */
+  --ed-chevron: 5px;   /* the chevron after "Välj orsak" and the profile picker that marks a list to choose from; "Välj orsak"'s turns up while its list is open */
   --ed-pick-max: 17ch;  /* "Välj orsak" with a reason chosen: the longest it shows before "…" ("Glömde stämpla ut") */
   --ed-list-rows: 7;    /* the open list of reasons at its tallest, in lines, "Annan orsak" included; past it, it scrolls */
   --ed-pen: 12px;       /* the pen after a reason under the pointer, drawn as the calendar's padlock */
@@ -672,7 +673,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .edit { display: grid; gap: 10px; }
 .ed-head { display: flex; align-items: center; gap: 10px; font-size: var(--size-body); }
 .ed-head .spacer { flex: 1; }
-.ed-head select { font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 2px 6px; }
+.ed-head select { appearance: none; font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 2px calc(14px + var(--ed-chevron)) 2px 6px; cursor: pointer; }
+/* The profile picker stays the system's own list; only its closed box wears "Välj orsak"'s chevron, drawn by the span around it */
+.ed-prof { position: relative; display: inline-block; }
+.ed-prof::after { content: ""; position: absolute; right: 8px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid var(--f-fg); border-bottom: 1.5px solid var(--f-fg); transform: translateY(-75%) rotate(45deg); pointer-events: none; }
 .ed-times { font-size: var(--size-small); color: var(--f-muted); min-height: 1.3em; }
 .ed-times b { color: var(--f-fg); font-weight: 400; }
 /* The break after the time: the list's "paus" tag, here also its control, one per part; "Lägg till paus" with none,
@@ -732,7 +736,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-hlabel.lean-r { transform: translateX(-2px); }
 .ed-hlabel { position: absolute; top: -17px; transform: translateX(-50%); font-size: var(--size-label); color: var(--f-fg); white-space: nowrap; pointer-events: none; }
 .ed-reason { display: grid; justify-items: start; }
-.ed-pick { font: inherit; font-size: var(--size-small); background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 4px 10px; cursor: pointer; }
+.ed-pick { position: relative; font: inherit; font-size: var(--size-small); background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 4px calc(18px + var(--ed-chevron)) 4px 10px; cursor: pointer; }
+.ed-pick::after { content: ""; position: absolute; right: 10px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-75%) rotate(45deg); transition: transform var(--speed-ui) ease; }
+.ed-reason.open .ed-pick::after { transform: translateY(-25%) rotate(-135deg); }
 .ed-pick.chosen { color: var(--f-fg); }
 .ed-pick { box-sizing: content-box; max-width: var(--ed-pick-max); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* The list grows open at --speed-ui, then its reasons fade in after the same time; closing, they fade out first, then
@@ -1059,7 +1065,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     <div class="edpop" id="edPop" hidden>
       <div class="card" role="dialog" aria-label="Ändra posten">
         <div class="edit" id="edit">
-          <div class="ed-head"><span id="edDay"></span><span class="spacer"></span><select id="edProf" aria-label="Profil"></select></div>
+          <div class="ed-head"><span id="edDay"></span><span class="spacer"></span><span class="ed-prof"><select id="edProf" aria-label="Profil"></select></span></div>
           <div class="ed-times" id="edTimes"></div>
           <div class="ed-lane" id="edLane"><div class="ed-line" id="edLine"></div></div>
           <div class="ed-reason">

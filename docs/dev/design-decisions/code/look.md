@@ -67,6 +67,10 @@ It takes one of three forms, by what it brings:
   (tracking, a tag's or a small button's padding, gaps inside a line of text) and for the whole inside of a part built
   to come in sizes; `px` for everything else: borders, radii, panels, the gaps between parts and layout. A `px` value
   says it does not scale.
+- **Dropdowns:** a closed control that opens a list to choose from ("Välj orsak", the edit's profile picker) carries a
+  chevron after its text, in its text's colour, which points up while its list is open where the page can tell. A native
+  `<select>` keeps the system's own list and wears only the closed look, its chevron drawn by a wrapper; a list that
+  holds more than choices, as the reasons' does, is built by the app.
 - **Surfaces:** each surface (the controls side, the dashboard, the menu, a popup) names itself with `data-surface` on
   its root, and `base.css` gives each the same five variables from its tokens: `--surface-background`, `--surface-text`,
   `--surface-muted`, `--surface-line` and `--surface-button-line`. A shared look reads only these, so it fits wherever
@@ -86,4 +90,5 @@ heading. A class per surface (`.tag-menu`): the surface's variables do it once.
 
 **Cases:** the root at 125% grows every text, tag and small button, while panels, gaps and borders hold; a tag in the
 menu wears the menu's line, one in the edit popup the dashboard's; "Ändra" and the edit's "Avbryt" differ only in their
-surface's colours; every caps heading is 11px at 0.1em, in its surface's muted colour.
+surface's colours; every caps heading is 11px at 0.1em, in its surface's muted colour; "Välj orsak" and the edit's
+profile picker show the same chevron, and "Välj orsak"'s points up while its list is open.
