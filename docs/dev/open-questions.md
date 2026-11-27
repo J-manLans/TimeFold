@@ -6,14 +6,6 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 
 ## Phase 5: Handover
 
-### The fields' shared behaviour: an attachment or a component (2026-11-27)
-
-Every field writes its own opening (focus, the text selected), Enter keeps, Esc or a click outside drops, and red while
-refused; "opens at the size of what it replaces" measures the button or tag in `TaxRow`, `EditPopup` and `PauseField`,
-three copies. The agent's lean: one attachment on the plain input, calling back to keep or drop, since what surrounds
-each field (a reading, keys text, a date step, a refusal note) differs too much for one component's props. The other
-option: a `Field` component rendering the input. **See:** "Shared looks are written once".
-
 ### How the question before an import reads (2026-11-23)
 
 The import asks before it replaces the record, showing when the file was made and when this machine's data last changed

@@ -21,8 +21,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 Phase 5: Handover, the shared looks, one at a time:
 
-1. The fields' shared behaviour, an attachment or a component (`open-questions.md`), settled, then built; with it the
-   dropdowns as one, the profile picker's list floating ("Shared looks are written once").
+1. The fields' shared behaviour as one attachment on the plain input, and the dropdowns as one component, the profile
+   picker's list floating ("Shared looks are written once").
 2. The popups' frame, from **Settle first**: drawn in the prototype, then built.
 
 ## The phases

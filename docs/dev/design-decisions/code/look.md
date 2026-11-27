@@ -53,9 +53,12 @@ It takes one of three forms, by what it brings:
 - **A class** in `src/styles/base.css` for a look alone: `.plastic`, the flat button; `.tag`; `.button-small`, with
   `.main` for the filled main choice ("Spara") and `.mini` in the label's size ("Rensa", "Inte nu"); and `.caps`, a
   heading in capitals.
-- **An attachment** (`{@attach}`) for behaviour put on any element, such as `durationShape` on every length field.
-- **A component** when look, markup and behaviour come together: `Disc`, `ChoiceButton`, `TipLabel`, the fields and the
-  popups' frame.
+- **An attachment** (`{@attach}`) for behaviour put on any element, such as `durationShape` on every length field, and
+  the fields' one behaviour on the plain input: it opens with the focus in and the text selected, at the size of what it
+  replaces, keeps on Enter, drops on Esc or a click outside, and shows red while refused, calling back to keep or drop.
+  What surrounds each field (a reading, a note, a date step, a refusal) stays in its component's own markup.
+- **A component** when look, markup and behaviour come together: `Disc`, `ChoiceButton`, `TipLabel`, the dropdown and
+  the popups' frame.
 
 - **Type sets:** all text outside the figures wears one of four sets: heading (15px, weight 600), body (13px), label
   (11px), and caps: the label's size in capitals, at 0.1em tracking and the surface's weight, in the surface's muted
@@ -102,11 +105,12 @@ tag opens, and the Linux webview may not support it. "Ändra" sized to its value
 next. A field's own fill, and a ring around a field: the owner tried both against the edge and kept the edge. `em` for
 panels and layout: a panel's padding would change with the set its text wears, and nesting compounds. The root at 62.5%:
 every text with no size of its own starts at 10px. Caps a size below the label: the owner likes them alike, and it saves
-a style. A weight of its own on a caps heading. A class per surface (`.tag-menu`): the surface's variables do it once.
-The native `<select>`'s list: the system paints it, brownish beside the app's colours on Linux and otherwise on Windows,
-and CSS cannot reach it. The profile picker's list unfolding: the owner tried both in the prototype, and floating looked
-best. A rule for which places float: there are two, each judged by eye, and a reason found after the choice only dressed
-it up.
+a style. A weight of its own on a caps heading. A `Field` component rendering the input: what surrounds each field
+differs too much, so every difference would become a prop or a snippet. A class per surface (`.tag-menu`): the surface's
+variables do it once. The native `<select>`'s list: the system paints it, brownish beside the app's colours on Linux and
+otherwise on Windows, and CSS cannot reach it. The profile picker's list unfolding: the owner tried both in the
+prototype, and floating looked best. A rule for which places float: there are two, each judged by eye, and a reason
+found after the choice only dressed it up.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
 
