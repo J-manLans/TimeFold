@@ -162,6 +162,12 @@
     color: var(--menu-text-muted);
   }
 
+  /* "Ändra" the size of every "Ändra" in the menu */
+  .line > .button-small {
+    box-sizing: content-box;
+    width: var(--menu-field-width);
+  }
+
   .pair {
     display: inline-flex;
     gap: var(--picker-pair-gap);
@@ -233,7 +239,9 @@
     border-radius: var(--radius-tag);
   }
 
+  /* Room around the code's seven characters, so the picker has some presence */
   .code input {
+    box-sizing: content-box;
     width: var(--picker-code-width);
   }
 </style>

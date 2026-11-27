@@ -370,7 +370,7 @@
   --picker-gap: 10px; /* between the strip and the two codes */
   --picker-strip-height: 14px; /* the hue strip */
   --picker-swatch: 20px; /* the small swatch before each code */
-  --picker-code-width: 9ch;
+  --picker-code-width: 9ch; /* the text inside a code field: its seven characters and room around them */
   --picker-pair-swatch: 18px; /* each of the pair a profile's row shows beside "Färg" */
   --picker-pair-gap: 4px;
 

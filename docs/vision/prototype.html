@@ -3055,7 +3055,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var lab = document.createElement("span"); lab.className = "lv-label"; lab.textContent = "Färg";
     var val = document.createElement("span"); val.className = "lv-val swatch-pair";
     var base = document.createElement("span"), neon = document.createElement("span"); val.append(base, neon);
-    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small"; btn.textContent = "Ändra";
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "small lv-change"; btn.textContent = "Ändra";
     row.append(lab, val, btn); wrap.appendChild(row);
     function sync() { base.style.background = q.colour; neon.style.background = profColour(q.id); }
     btn.addEventListener("click", function () {

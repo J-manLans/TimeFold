@@ -182,6 +182,7 @@ body {
 }
 
 :where(.field, input.tag) {
+  letter-spacing: normal;
   text-align: center;
 }
 
