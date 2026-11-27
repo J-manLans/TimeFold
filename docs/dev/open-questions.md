@@ -14,6 +14,17 @@ three copies. The agent's lean: one attachment on the plain input, calling back 
 each field (a reading, keys text, a date step, a refusal note) differs too much for one component's props. The other
 option: a `Field` component rendering the input. **See:** "Shared looks are written once".
 
+### The profile picker becomes the app's own dropdown (2026-11-27)
+
+The edit popup's profile picker is the app's one native `<select>`. Its closed field wears the shared dropdown look, but
+its list is painted by the system: on Linux by the GTK theme, brownish beside the app's colours, and otherwise on
+Windows; CSS cannot reach it. The reason picker beside it is the app's own: a button whose list grows open in place,
+pushing what is under it down. Agreed: the profile picker becomes the app's own dropdown too, the native one left as it
+is until then. Open: its list sits in the popup's head, so it floats over what is under it rather than growing in place;
+how that looks, drawn in the prototype; and whether the two pickers then share one dropdown, which the fields' shared
+behaviour may hold. It brings its own keys (arrows, Enter, Esc) and its click outside. **See:** "Shared looks are
+written once", "Editing an entry on its line".
+
 ### How the question before an import reads (2026-11-23)
 
 The import asks before it replaces the record, showing when the file was made and when this machine's data last changed
