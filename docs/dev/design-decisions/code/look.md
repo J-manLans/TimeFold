@@ -79,11 +79,12 @@ It takes one of three forms, by what it brings:
 - **Dropdowns:** a field you choose into, a closed control that opens a list to choose from ("Välj orsak", the edit's
   profile picker), carries a chevron after its text, in its text's colour, which points up while its list is open. Every
   dropdown is the app's own, one look written once: the closed field, then its list of plain lines, the hovered one
-  filled and the chosen one greyed, which grows open and then fades its lines in. A list either unfolds, growing in
-  place and pushing what is under it down, or floats, lying over what is under it right under the field, on the popups'
-  frame; each place is judged by eye. The reasons unfold at the edit popup's foot; the profile picker's list floats from
-  its head, the profile in colour greyed in it and a running one greyed with "· pågår". What a list holds beyond
-  choices, as the reasons' pen, rename and "Annan orsak", is that dropdown's own, on top of the shared look.
+  filled and the chosen one greyed, which grows open and then fades its lines in, and closes on Esc, its field keeping
+  the focus, or on a click outside it, as a field drops. A list either unfolds, growing in place and pushing what is
+  under it down, or floats, lying over what is under it right under the field, on the popups' frame; each place is
+  judged by eye. The reasons unfold at the edit popup's foot; the profile picker's list floats from its head, the
+  profile in colour greyed in it and a running one greyed with "· pågår". What a list holds beyond choices, as the
+  reasons' pen, rename and "Annan orsak", is that dropdown's own, on top of the shared look.
 - **No scrollbars:** no scrollbar shows anywhere; a part that can overflow scrolls without one. A bar takes width from
   what it scrolls, and its coming and going made the dashboard's rows re-flow back and forth as the window was resized.
 - **Surfaces:** each surface (the controls side, the dashboard, the menu, a popup) names itself with `data-surface` on

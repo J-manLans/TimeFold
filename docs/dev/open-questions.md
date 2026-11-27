@@ -12,8 +12,7 @@ Every field writes its own opening (focus, the text selected), Enter keeps, Esc 
 refused; "opens at the size of what it replaces" measures the button or tag in `TaxRow`, `EditPopup` and `PauseField`,
 three copies. The agent's lean: one attachment on the plain input, calling back to keep or drop, since what surrounds
 each field (a reading, keys text, a date step, a refusal note) differs too much for one component's props. The other
-option: a `Field` component rendering the input. The dropdowns join it: whether a list closes on Esc and a click
-outside, as a field drops, which neither picker does in the prototype yet. **See:** "Shared looks are written once".
+option: a `Field` component rendering the input. **See:** "Shared looks are written once".
 
 ### How the question before an import reads (2026-11-23)
 

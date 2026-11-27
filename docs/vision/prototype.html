@@ -2407,6 +2407,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // The profile picker opens and closes its list as "Välj orsak" does; a profile clicked closes it
   function profOpen(open) { $("edProfDd").classList.toggle("open", open); }
   $("edProf").addEventListener("click", function () { profOpen(!$("edProfDd").classList.contains("open")); });
+  // Any open list closes on Esc, its field keeping the focus, and on a click outside its dropdown, as a field drops. A
+  // field inside a list handles its own Esc first; a click on a line the list redrew is still inside
+  $("edPop").addEventListener("keydown", function (e) {
+    var open = e.key === "Escape" && this.querySelector(".dd.open");
+    if (!open) return;
+    e.preventDefault(); e.stopPropagation();
+    open.classList.remove("open"); open.querySelector(".dd-pick").focus();
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.isConnected) return;
+    document.querySelectorAll(".dd.open").forEach(function (d) { if (!d.contains(e.target)) d.classList.remove("open"); });
+  });
   // The tag sets its part's break, as the field under "Lägg till paus" does: Enter keeps it, and Esc or a click away
   // drops it, leaving it as it was; "Spara" is greyed while the field is open, so what it saves is what shows. Each part is saved as an entry of its own, with its own break, its length alone.
   $("edTimes").addEventListener("click", function (ev) {
