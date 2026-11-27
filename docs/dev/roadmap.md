@@ -29,6 +29,10 @@ uncommitted (side by side it works; commit it once the stacked layout is right):
    px.
 4. A horizontal line appears while the stacked page scrolls: look before fixing.
 5. The select's brownish background in the edit popup.
+6. An entry is no longer moved whole by dragging its middle; only the handles move it. The property test "saves no
+   overlap, no two touching entries of a profile it changed, and the time the line showed" fails now and then on it: an
+   entry switched to the profile of the entry it touches, then dragged whole back over it, saves the two overlapping.
+   Without the middle drag the test passes 20,000 runs. A new entry written by hand is moved by its handles too.
 
 Then the fields' shared behaviour (`open-questions.md`), then the popups' frame, from **Settle first**.
 
@@ -49,7 +53,8 @@ their figures from outside; the record moving between the work and home machines
 **Settle first:** the shared looks: the type sets, the tag, the small buttons, the headings in capitals, the fields and
 the popups' frame, and how each reads the surface it sits on; the flex bar's and the ceiling wheel's own pass; the
 question before an import replaces the record (`open-questions.md`), drawn in the prototype (its import button only
-shows a note).
+shows a note); the info button and its popup, drawn in the prototype: where the button sits on the controls side, and
+the popup's one short line about the app.
 
 1. The shared looks: each written once, as a class, an attachment or a component, and worn by every screen that shows
    it.
@@ -58,6 +63,8 @@ shows a note).
    the starter as how the app is built from now on.
 4. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
 5. The onboarding's "Importera": it reads a handover file and asks nothing more.
+6. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
+   frame showing the app's version and one short line about what TimeFold is for. No about or help pages.
 
 **Done when:** a week worked on both machines, handed over each day, matches on both.
 

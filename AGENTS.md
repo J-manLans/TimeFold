@@ -33,7 +33,7 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/codebase-ideas.md`          | Ideas that are not a problem now, each opening with **Returns when:**                                        |
 | `docs/dev/friction.md`                | Snags in how we work, noted as they happen, cleared at the docs sweep                                        |
 | `docs/dev/noticed-away.md`            | What the owner noticed away from the computer, to deal with when back at it                                  |
-| `docs/dev/procedures/`                | How an occasional job is done, one file per job; "Starting a session" says when                              |
+| `docs/dev/procedures/`                | The steps of an occasional job, a mode or a routine, a file each; "Starting a session" says when             |
 | `docs/dev/levels.md`                  | The owner's level per area, which sets how much the agent explains, and what they were told once; gitignored |
 | `docs/dev/sketches/`                  | A look tried before it is decided, a page each; deleted once the code it previews is built                   |
 
@@ -64,9 +64,10 @@ map once it exists:
    without asking, and reports the new files and their sizes. A file near its limit is not mentioned. It is a structural
    fix, the agent's to make.
 
-Limits, checked with `wc -w` at the docs sweep and whenever a file looks long: ~4,000 words for a general doc (flagged
-only), ~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point
-at the collection, never at a part: a decision by its title, a term by its name. A split then changes only the index.
+Limits, checked with `wc -w` at the docs sweep and whenever a file looks long: ~3,000 words for `AGENTS.md`, past which
+the steps it holds move to `procedures/` by "Where things go", without asking; ~4,000 for a general doc (flagged only),
+~2,500 for a decisions file, ~1,000 for a glossary file (cut by letter range). Other docs and code comments point at the
+collection, never at a part: a decision by its title, a term by its name. A split then changes only the index.
 
 ## Starting a session
 
@@ -77,9 +78,13 @@ Scaled to the task:
 2. Before a design opinion: `docs/vision/vision.md` (and for a look, `docs/vision/prototype.html`),
    `docs/dev/design-decisions/README.md` and the area files the opinion touches, and `docs/dev/open-questions.md`.
 3. Before building or tuning the prototype, in any design pass: `docs/dev/procedures/prototype.md`.
-4. In debug mode: `docs/dev/procedures/debugging.md`.
-5. Before a release: `docs/dev/procedures/release.md`.
-6. Before reading code: the code map.
+4. As a mode starts: its part of `docs/dev/procedures/modes.md`.
+5. In debug mode: `docs/dev/procedures/debugging.md`.
+6. Before a release: `docs/dev/procedures/release.md`.
+7. At a docs sweep: `docs/dev/procedures/docs-sweep.md`.
+8. With no `docs/dev/levels.md`, a technology added or swapped, or a level shift to offer:
+   `docs/dev/procedures/explaining.md`.
+9. Before reading code: the code map.
 
 ## Where things go
 
@@ -97,7 +102,7 @@ Scaled to the task:
 | A file is added, moved or renamed                | the code map, in the same change                                                                 |
 | A look to try before deciding it                 | a page in `docs/dev/sketches/`; what it settles goes to its decision                             |
 | An idea that is not a problem now                | `codebase-ideas.md`; if it touches what is built, `open-questions.md` instead                    |
-| How an occasional job is done                    | its file in `docs/dev/procedures/`                                                               |
+| The steps of an occasional job, mode or routine  | its file in `procedures/`; here only what it is, when it applies and the file to read            |
 | A rule or doc makes the agent guess or redo work | `friction.md`, as it happens                                                                     |
 | An investigation closes, and would cost to redo  | `docs/dev/archive/`; otherwise delete it                                                         |
 | What was done, and what was run                  | the commit message                                                                               |
@@ -129,55 +134,20 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 
 ## How to work with the owner
 
-- **Five modes, switched by name.** Design decides what to build; learning builds it side by side so the owner
-  understands it; vibe has the agent build what is settled while the owner reviews; pop-in is vibe with features the
-  owner writes; debug finds why something is wrong before anything changes. The owner decides; the mode lasts until the
-  owner names another ("learning mode for Phase 3", "back to design mode"), and when it is unclear which applies, ask.
-  The docs are the agent's to write in every mode.
-  - **Design mode:** questions, decisions, the vision, building and tuning the prototype; no code. A rethink of the
-    design runs in it, and so does the design pass for a screen the prototype does not show. Spitball before verdicts,
-    and before lists: one topic at a time as a conversation; say what you are thinking and ask one open question. A
-    phase's design pass opens with what is left of its **Settle first** as a numbered list of headings, the quickest
-    decision first, so the owner can pick by their energy. Each new part's design pass also asks, before it is decided,
-    whether the part could stand alone in a setup and how hard that would be ("The app for the whole school", in
-    `codebase-ideas.md`).
-  - **Learning mode:** side by side, for a new framework or a part the owner wants to understand. The owner writes the
-    parts they want to learn by doing, or steers or reviews what the agent writes; the agent does the rest, the tedious
-    parts first (installs, config, moving code, removing files), explains the why, gives one step at a time and waits
-    for the owner before the next, and reviews what the owner wrote. Nothing is committed unasked.
-  - **Vibe mode:** the agent builds a whole phase, or the rest of one, once the owner starts it for that phase. First
-    owner and agent settle everything the phase needs: its **Settle first**, its open questions, its cases, any new
-    folder, and a check that the prototype shows every screen and state the phase builds. Then the agent builds the
-    phase without stopping, tests first as always, in small batches, each committed as soon as `npm run tidy` and
-    `npm test` pass; the owner reviews through git. A question that comes up and blocks nothing is collected and asked
-    at the end, as one numbered list; one that would change what is built stops the work and is asked at once. **The
-    prototype is the source of truth for the look:** every value, colour, size, time and behaviour of a screen is taken
-    from it as tuned, through the decision that holds its numbers. Where the two disagree on a value, the prototype wins
-    and the agent fixes the decision, since the owner owns the prototype and the agent the docs; where they disagree on
-    behaviour or meaning, the agent asks. A screen or state the prototype does not show stops the work: it goes back to
-    design mode to be drawn, and the agent does not invent a look. Each batch with a screen ends with a short list of
-    what to check by eye in the running app. Afterwards the owner goes by look and feel, and tunes values in
-    `design-tokens.css` or asks the agent for anything bigger. Vibe mode ends when the phase or step it was started for
-    is built; the review that follows is learning mode, tuning included ("While tuning, just change the code"), until
-    the owner names another mode.
-  - **Pop-in mode:** vibe mode with features held back for the owner to write, started by the owner by name for a phase.
-    The agent mentions it once, as the first vibe phase the owner works in is about to start: that it exists, how it
-    works in short, and that they can start it before any vibe phase; it notes the mention under **Told once** in
-    `levels.md` and never brings it up again. At the end of the phase's design pass, when the owner asks, the agent
-    lists the features the phase builds, and the owner picks as many as they want. The agent then builds, as in vibe
-    mode, everything that does not depend on a picked feature, and stops where something does. For each picked feature
-    it writes the skeleton: the files, the function and method signatures, each with a short `TODO` comment of its steps
-    (pseudocode where it is complex), what it reads and who calls it; and it lists the files and their method names for
-    the owner. The agent writes the feature's tests first, as its spec, unless the owner says when starting the mode
-    that they write them; then the tests get the same skeletons and go on the list. The agent never asks about the
-    tests. When the owner says a feature is done, the agent reviews it as in learning mode, commits it as its own commit
-    once `tidy` and `test` pass, and builds what waited on it. Everything else, the end included, is as in vibe mode.
-  - **Debug mode:** for a bug the owner has seen. The agent hunts it: reproduces it before any code changes (a fault in
-    a rule as a test seen to fail, a fault seen on screen by eye), finds the cause from evidence rather than guesses,
-    then reports the cause, its evidence and the planned fix, and waits for the owner's go before changing code, every
-    time. The fix changes only what the evidence points at, until the test passes or the screen looks right; the hunt's
-    order and tools are in `docs/dev/procedures/debugging.md`. The fix is code: it is committed only after the owner has
-    reviewed it and says so.
+- **Five modes, switched by name.** The owner decides; the mode lasts until the owner names another ("learning mode for
+  Phase 3", "back to design mode"), and when it is unclear which applies, ask. The docs are the agent's to write in
+  every mode.
+  - **Design mode:** questions, decisions, the vision and the prototype; no code.
+  - **Learning mode:** side by side, one step at a time, for a part the owner wants to understand; nothing committed
+    unasked.
+  - **Vibe mode:** the agent builds a settled phase in small committed batches while the owner reviews through git.
+  - **Pop-in mode:** vibe mode with features held back for the owner to write.
+  - **Debug mode:** for a bug the owner has seen: reproduced and its cause found from evidence before any code changes,
+    the fix waiting for the owner's go and committed only once reviewed.
+
+  How each runs: `docs/dev/procedures/modes.md`, the mode's part, read as it starts; debug mode's hunt is in
+  `docs/dev/procedures/debugging.md`.
+
 - **Explaining follows the owner's level, per area.** Three levels: **Noob** (the agent leads with the big picture of
   each piece, what it is for and how it fits, without talking down; a metaphor only where it is truly on point, never
   one per concept; detail when asked; points out its own guesses), **Tinkerer** (explains when asked and points out the
@@ -185,18 +155,8 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   how deep: learning mode in a Noob area goes slower and deeper than in a Tinkerer one. In vibe mode the level shapes
   each batch's summary of what was built and why, and never stops the work. When a piece spans areas, the level of the
   area being explained applies, not the lowest. The list that makes the work reviewable is the same at every level. The
-  owner's own placement per area is the opening guess, asked as a multiple-choice question per area with the three
-  levels to tick (the question tool, where the agent has one), never as open text. A technology added later is asked
-  once a decision settles it; one swapped out loses its line. With no `docs/dev/levels.md`, copy
-  `docs/dev/levels.example.md` to it and ask at the start of the session. From then on the agent tunes it from what it
-  sees: repeated basic questions or "why?" step an area down, explanations skipped or the owner writing the code
-  themselves step it up. A step takes a clear pattern over several exchanges, never one moment; it moves one level at a
-  time; and after a shift the area holds for at least the rest of the session, so it does not flicker, as a thermostat
-  that turns on at one mark turns off only at a lower one. Every shift is offered, not made: at the end of a reply in
-  conversation, never during a vibe or pop-in build, where there is nothing to read it from, a question to tick, about
-  the explaining, not the person ("Explain less in Svelte from here?"), with Yes, No and free text (the question tool,
-  where the agent has one). Only a Yes shifts the level, and the owner's word overrides it at any time. The levels and
-  their dates live in `docs/dev/levels.md`, gitignored, since they belong to a person, not the project.
+  levels live in `docs/dev/levels.md`, gitignored; how they are set, tuned and offered is in
+  `docs/dev/procedures/explaining.md`.
 - **A lean is labelled as a lean.** In any mode, when a choice is open, give a lean with its reason. A restated option
   is not a decision.
 - **An idea that comes back opens with a verdict:** bad, okay or good, as it stands, before anything else, so the owner
@@ -218,18 +178,14 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
 - **Mention what is surprising; do not fix it unasked.**
 - **A fix says the rule it restores.** Before writing a fix, state in one sentence, in the app's terms, what should be
   true ("the edit fades only while the pointer rests on the list"), and check that the code would read as that sentence.
-  If the fix needs an "except when…", or it is the second fix for the same problem, stop: undo the last attempt, ask
-  what the behaviour is for, and look for a sentence with no exceptions. The owner's words describe what he saw, not the
-  fix.
+  Then search for every other place the sentence must hold, such as each copy of the same look or each element of the
+  same kind, and fix the rule there too, or write it once where they all share it. If the fix needs an "except when…",
+  or it is the second fix for the same problem, stop: undo the last attempt, ask what the behaviour is for, and look for
+  a sentence with no exceptions. The owner's words describe what he saw, not the fix.
 - **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no "until
   phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
 - **The docs sweep:** when the owner signals the session is ending ("see you tomorrow", "I need to think about this", a
-  question about where things stand), offer it once. Check, in order: the roadmap and open questions against what was
-  done, and each **Built by** (one naming a finished phase or part is stale); decisions from the session missing from
-  their file; new terms; anything in the wrong file by "Where things go"; sizes, by "How docs grow"; the ideas (built
-  ones move to decisions, dropped ones go); the friction, as counts by kind with a fix for each. Report only what needs
-  the owner, flagging borderline calls (decision or still open, idea or problem) instead of guessing; what changed is in
-  the commit message, and what was checked and found fine is left out. The same goes for any report on docs.
+  question about where things stand), offer it once. Its checks and report: `docs/dev/procedures/docs-sweep.md`.
 - **Add a rule only when its absence has cost something.**
 
 ## Commands, and what each kind of change runs

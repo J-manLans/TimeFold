@@ -108,3 +108,19 @@ wants the direction, not the costume.
   letter in its profile's base colour.
 - Janitor work running since 11:00: both lists head with a row "11:00", "--:--", in janitor work's neon; the recent list
   shows it and the four newest stopped.
+
+## An info button shows the version (2026-11-27)
+
+**Built by:** Handover.
+
+**Decision:** the controls side has a small info button, a circled "i" drawn as an SVG icon, that opens a small popup in
+the popups' frame showing the app's version and one short line about what TimeFold is for. Nothing else: no about or
+help pages. Where the button sits and the popup's line are drawn in the prototype first.
+
+**Why:** the version is wanted at a glance, as when a fault is reported, and one click reaches it. A small app that does
+one job needs no about page, and there is nothing yet to put in one.
+
+**Rejected:** an "Om" tab in the menu: two clicks for something looked at once, and the menu holds settings. "Om" and
+"Hjälp" buttons in the popup: nothing to write in them; how the app works would be long and soon out of date.
+
+**Revisit if:** the app gets something to say beyond its version, such as a changelog with the updater.

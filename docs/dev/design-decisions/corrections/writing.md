@@ -3,7 +3,9 @@
 How a whole forgotten entry is written by hand, and how an entry is removed. Each decision follows the template in
 `../README.md`, and is cited by its title.
 
-## A forgotten entry is written in the gap where it belongs (2026-11-25)
+## A forgotten entry is written in the gap where it belongs (2026-11-27)
+
+**Built by:** Handover, for an entry moved by its handles alone.
 
 **Decision:** a forgotten entry is written from "Visa alla", in the gap between two entries. Each gap sits just above
 its row, under the month's line where the row opens a month. At rest a gap is as thin as the rows' own spacing, with a
@@ -26,10 +28,10 @@ it in as any entry does ("Two entries join by docking"): its own stretch green a
 neighbour's far end; before a running entry of its profile it stops short of touching ("A running entry is edited at its
 start"). A gap filled between two entries of its profile so joins all three, with no rule of its own. From then on it is
 edited as any entry: its handles, the pill, its break, its profile, which starts on the active profile, and a reason
-("Every edit carries a reason"). It is moved by dragging its middle, or walked past a neighbour ("Two entries join by
-docking"); anything else, "Avbryt" and start over. A new entry has no original: the view fits it and what it has taken
-in, at the usual share, wherever it is walked, and alone nothing of it shows as added or taken away. Saved, it is marked
-written by hand ("Entries remember how they were made").
+("Every edit carries a reason"). It is moved by its handles, or walked past a neighbour ("Two entries join by docking");
+anything else, "Avbryt" and start over. A new entry has no original: the view fits it and what it has taken in, at the
+usual share, wherever it is walked, and alone nothing of it shows as added or taken away. Saved, it is marked written by
+hand ("Entries remember how they were made").
 
 **Why:** a forgotten entry belongs between two known ones, so the gap clicked says when, with no way to travel the line
 to another day. The one always visible "+" keeps the rule that the app shows what it can do, and its line growing on
@@ -39,21 +41,22 @@ an accident, and opening evenly keeps the gap under the pointer. Most forgotten 
 so thirty needs less dragging; sliding off a wall keeps its length, and a short gap is almost always the time forgotten.
 Taken in at once, the line shows what the save will be: no handle sits where the entry no longer ends.
 
-**Rejected:** a "+" only where a full 30-minute entry fits: a shorter forgotten entry of another profile, such as 20
-minutes of development between two janitor entries, could not be written in its gap. The top "+" kept over the newest
-row right after a stop: with less than 5 minutes up to now its line takes no entry, and stretching the newest entry is
-done by editing it. "+ Lägg till" in words at the top: one style for every gap reads as one thing. A fixed, wider gap
-between every row: the list spread out, and a gap was too easy to hit. A gap widening downward only: it grew away from
-the pointer. The always-shown gap shifting the rows too: with nothing to open, it only made work. A "Lägg till" button
-opening the line on today: another day would need a way to travel the line. Every "+" shown on hover only: nothing would
-say entries can be added. The delay on the top "+": it is already in view, and resting on it is meant. A "+" on any gap
-wider than nothing: a gap of a few seconds opened a line with no room for any entry. A second click in free time moving
-the new entry there: a second way to move it, where dragging and walking already do. Ten minutes to start: most
-forgotten entries are longer, and it was judged while a short entry's handles could not grow it. Cut short by a wall
-instead of sliding: it shrank on one side only. A placed entry docked but not taken in, its handles on its own edges: it
-was a short drag to move off, but the handle said the entry ended where it touched while the colours said it was joined.
-A rule of its own for a gap filled between two entries of its profile: docking already joins them, as docking one onto
-the other would.
+**Rejected:** moving an entry whole by dragging its middle: switched to the profile of the entry it touched and moved
+back over it, it saved the two overlapping, and the handles move it in two drags. A "+" only where a full 30-minute
+entry fits: a shorter forgotten entry of another profile, such as 20 minutes of development between two janitor entries,
+could not be written in its gap. The top "+" kept over the newest row right after a stop: with less than 5 minutes up to
+now its line takes no entry, and stretching the newest entry is done by editing it. "+ Lägg till" in words at the top:
+one style for every gap reads as one thing. A fixed, wider gap between every row: the list spread out, and a gap was too
+easy to hit. A gap widening downward only: it grew away from the pointer. The always-shown gap shifting the rows too:
+with nothing to open, it only made work. A "Lägg till" button opening the line on today: another day would need a way to
+travel the line. Every "+" shown on hover only: nothing would say entries can be added. The delay on the top "+": it is
+already in view, and resting on it is meant. A "+" on any gap wider than nothing: a gap of a few seconds opened a line
+with no room for any entry. A second click in free time moving the new entry there: a second way to move it, where
+dragging and walking already do. Ten minutes to start: most forgotten entries are longer, and it was judged while a
+short entry's handles could not grow it. Cut short by a wall instead of sliding: it shrank on one side only. A placed
+entry docked but not taken in, its handles on its own edges: it was a short drag to move off, but the handle said the
+entry ended where it touched while the colours said it was joined. A rule of its own for a gap filled between two
+entries of its profile: docking already joins them, as docking one onto the other would.
 
 **Cases:**
 
