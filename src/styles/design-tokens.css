@@ -35,7 +35,6 @@
   --dropdown-inset: 8px;
   --dropdown-room: calc(2 * var(--dropdown-inset) + var(--dropdown-chevron));
   /* A dropdown's list: its lines, and a floating list's surface, a stand-in until the popups' frame */
-  --dropdown-pick-max: 17ch; /* the closed field shows this long before "…" ("Glömde stämpla ut") */
   --dropdown-list-gap: 1px;
   --dropdown-list-top: 6px; /* above the list, under the closed field */
   --dropdown-list-rows: 7; /* the open list's greatest height in lines; past it, it scrolls */

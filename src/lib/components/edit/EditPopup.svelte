@@ -234,6 +234,7 @@
         <span>{day}</span>
         <Dropdown
           text={profiles.find((p) => p.id === shown)?.name ?? ''}
+          choices={profiles.map((p) => p.name)}
           chosen={true}
           float={true}
           bind:open={picking}

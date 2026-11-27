@@ -231,9 +231,12 @@ body {
   transform: translateY(-25%) rotate(-135deg);
 }
 
-/* A dropdown's choice (Dropdown.svelte): a line of plain text in its list, filled under the pointer, greyed once
-   chosen, when a click on it does nothing */
+/* A dropdown's choice (Dropdown.svelte): a line of plain text in its list, from the left, filled under the pointer,
+   greyed once chosen, when a click on it does nothing. It never wraps: past its room it is cut with "…" */
 :where(.dropdown-choice) {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   padding: var(--dropdown-choice-padding);
   border: 0;
   border-radius: var(--radius-tag);
@@ -241,6 +244,9 @@ body {
   color: var(--surface-text);
   font: inherit;
   font-size: var(--text-size-body);
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   cursor: pointer;
 }
 

@@ -1,11 +1,11 @@
 <!--
-  A dropdown ("Shared looks are written once"): the closed field, its text quiet until something is chosen and cut with
-  "…" past its greatest length, then its list. The list grows open and then fades its lines in; closing, they fade out
+  A dropdown ("Shared looks are written once"): the closed field, its text quiet until something is chosen, as wide as
+  its widest choice and never wider than its room, a longer text cut there with "…", then its list. The list grows open and then fades its lines in; closing, they fade out
   first and it shrinks. Unfolding, it grows in place and pushes what is under it down; floating, it lies over what is
   under it right under the field, on a surface of its own. It stops at its greatest number of lines and scrolls past
   them, and closes on Esc, the focus back on the field, or on a click outside it. The lines are the caller's, each
   choice a `.dropdown-choice` button (base.css), with whatever the caller sets beside them:
-  <Dropdown text="Välj orsak" chosen={false} bind:open>{#each …}<button class="dropdown-choice">…</button>{/each}</Dropdown>
+  <Dropdown text="Välj orsak" choices={['Välj orsak', ...reasons]} chosen={false} bind:open>…</Dropdown>
 -->
 <script lang="ts">
   import type { Snippet } from 'svelte'
@@ -14,6 +14,7 @@
 
   let {
     text,
+    choices,
     chosen,
     float = false,
     open = $bindable(false),
@@ -21,6 +22,8 @@
   }: {
     /** What the closed field says */
     text: string
+    /** Every text the closed field can say as a choice, the widest of which sets its width */
+    choices: string[]
     /** Whether something is chosen, which shows the field's text in full colour */
     chosen: boolean
     /** Whether the list floats over what is under it, instead of unfolding in place */
@@ -88,7 +91,9 @@
     bind:this={pick}
     onclick={() => (open = !open)}
   >
-    {text}
+    <span class="sizes">
+      {#each choices as choice, i (i)}<span>{choice}</span>{/each}<span class="shown">{text}</span>
+    </span>
   </button>
   <div class="grow">
     <div class="clip">
@@ -108,14 +113,32 @@
     justify-items: start;
   }
 
-  /* The closed field: a text past its greatest length stops at "…" before the chevron; quiet until one is chosen */
+  /* The closed field: as wide as its widest choice, never wider than its room; quiet until one is chosen */
   .pick {
-    box-sizing: content-box;
-    max-width: calc(var(--dropdown-pick-max) + 1px); /* a pixel's slack, so a text of exactly the cap is never cut */
-    overflow: hidden;
+    box-sizing: border-box;
+    max-width: 100%;
     color: var(--surface-muted);
-    text-overflow: ellipsis;
+  }
+
+  /* Every choice stacked unseen in one cell sets the width; the shown text lies over them, cut with "…" where it is
+     longer, as a typed reason can be. It takes no part in the width itself */
+  .sizes {
+    display: grid;
+    grid-template-columns: minmax(0, max-content);
+  }
+
+  .sizes > span {
+    grid-area: 1 / 1;
+    overflow: hidden;
+    visibility: hidden;
     white-space: nowrap;
+  }
+
+  .sizes > .shown {
+    width: 0;
+    min-width: 100%;
+    visibility: visible;
+    text-overflow: ellipsis;
   }
 
   /* The list grows open at the interface's speed, then its lines fade in after the same time; closing, they fade out

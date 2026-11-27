@@ -146,7 +146,6 @@
   --el-handle: var(--knob);  /* a handle: the same round knob as the colour picker's */
   --ed-tag-gap: 6px;    /* between an entry's times and its "paus" tag in the edit */
   --ed-chevron: 5px;   /* the chevron after "Välj orsak" and the profile picker that marks a list to choose from; "Välj orsak"'s turns up while its list is open */
-  --ed-pick-max: 17ch;  /* "Välj orsak" with a reason chosen: the longest it shows before "…" ("Glömde stämpla ut") */
   --ed-list-rows: 7;    /* the open list of reasons at its tallest, in lines, "Annan orsak" included; past it, it scrolls */
   --ed-pen: 12px;       /* the pen after a reason under the pointer, drawn as the calendar's padlock */
   /* The flex-day calendar in the menu's Tid tab */
@@ -748,7 +747,12 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .dd-pick::after { content: ""; position: absolute; right: 8px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-75%) rotate(45deg); transition: transform var(--speed-ui) ease; }
 .dd.open .dd-pick::after { transform: translateY(-25%) rotate(-135deg); }
 .dd-pick.chosen { color: var(--f-fg); }
-.ed-pick { box-sizing: content-box; max-width: calc(var(--ed-pick-max) + 1px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The closed field is as wide as its widest choice, never wider than its room: every choice stacked unseen in one cell,
+   the shown text over them, cut with "…" where it is longer, as a typed reason can be */
+.dd-pick { box-sizing: border-box; max-width: 100%; }
+.dd-sizes { display: grid; grid-template-columns: minmax(0, max-content); }
+.dd-sizes > span { grid-area: 1 / 1; white-space: nowrap; overflow: hidden; visibility: hidden; }
+.dd-sizes > .dd-shown { visibility: visible; width: 0; min-width: 100%; text-overflow: ellipsis; }
 /* The list grows open at --speed-ui, then its reasons fade in after the same time; closing, they fade out first, then
    it shrinks. Closed, nothing in it can be reached. */
 .dd-wrap { justify-self: stretch; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 0fr; transition: grid-template-rows var(--speed-ui) cubic-bezier(.2, .7, .2, 1) var(--speed-ui); }
@@ -761,7 +765,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .dd.float .dd-clip { background: var(--f-row); border: 1px solid var(--f-line); border-radius: var(--r-small); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); padding: 0 4px 4px; }
 /* "Annan orsak" is a field that looks like the other reasons: their text, and a faint underline saying it takes typing.
    The script sizes it to the text it shows: "Annan orsak" while empty, else the text, growing and shrinking as it is
-   typed in, up to the popup's padding. At rest a longer text stops at --ed-pick-max with "…", as the picker does;
+   typed in, up to the popup's padding. At rest a longer text stops at the longest reason with "…", as the picker does;
    clicked, it opens to the whole text again. The text sits where the other reasons' text does. */
 .ed-list .other { font: inherit; font-size: var(--size-small); text-overflow: ellipsis; max-width: calc(100% - 8px); box-sizing: content-box; margin: 3px 0 3px 8px; background: none; color: var(--f-fg); border: 0; border-bottom: 1px solid var(--f-line); border-radius: 0; padding: 0; cursor: text; }
 .ed-list .other::placeholder { color: var(--f-fg); opacity: 1; }
@@ -769,7 +773,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-list .other:focus::placeholder { color: var(--f-muted); }
 /* One column no wider than the popup, so a long "Annan orsak" scrolls inside itself and never pushes the list aside */
 .dd-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; justify-items: start; padding-top: 6px; }
-.dd-list button { font: inherit; font-size: var(--size-small); background: none; border: 0; color: var(--f-fg); padding: var(--pad-small); border-radius: var(--r-tag); cursor: pointer; }
+/* A line never wraps: past its room it is cut with "…", its text from the left as every line's */
+.dd-list button { font: inherit; font-size: var(--size-small); background: none; border: 0; color: var(--f-fg); padding: var(--pad-small); border-radius: var(--r-tag); cursor: pointer; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: start; }
 /* The chosen reason stays in its place, greyed, and a click on it does nothing; a typed one greyed the same, but
    clicked, it turns white to be edited */
 .dd-list button:disabled { opacity: var(--disabled-o); cursor: default; }
@@ -2156,7 +2161,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     var touching = touchesLive();
     // The picker shows what is in colour, its line greyed in the list as the chosen reason's is
     var shown = ed.mid || ed.profile;
-    $("edProf").textContent = prof(shown).name;
+    setPick($("edProf"), Array.prototype.map.call($("edProfList").children, function (b) { return prof(b.dataset.v).name; }), prof(shown).name);
     $("edProfList").querySelectorAll("button").forEach(function (o) {
       var v = o.dataset.v, off = touching && v === ed.live.profile && v !== ed.profile;
       o.disabled = off || v === shown; o.textContent = prof(v).name + (off ? RUNNING_WORD : "");
@@ -2458,21 +2463,29 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // "Annan orsak" is itself a field in the list. Typed into, it is the reason from the first character; Enter, or a
   // click elsewhere, keeps the text, and the picker shows it. Esc puts back the text it had
   // when clicked. The text stays while the edit is open, so choosing another reason and coming back finds it again.
-  // The picker cuts a long reason with "…" at --ed-pick-max.
+  // The picker is as wide as its longest reason and cuts a longer typed one with "…".
   function listOpen(open) { $("edPick").parentNode.classList.toggle("open", open); }
   function isListOpen() { return $("edPick").parentNode.classList.contains("open"); }
-  // The text is monospaced, so its length in ch is its width; at rest no more than --ed-pick-max, and back at the
-  // text's start
+  // The text is monospaced, so its length in ch is its width; at rest no longer than the longest reason, and back at
+  // the text's start
   function sizeOther(el, typing) {
-    var cap = parseFloat(getComputedStyle(el).getPropertyValue("--ed-pick-max")) || 17;
+    var cap = REASONS.reduce(function (n, x) { return Math.max(n, x.length); }, 1);
     // Never narrower than one character, so an emptied field keeps room for its caret
     var n = Math.max(1, el.value ? el.value.length : el.placeholder.length);
     el.style.width = (typing ? n : Math.min(n, cap)) + "ch";
     if (!typing) el.scrollLeft = 0;
   }
+  // A closed field as wide as its widest choice: each choice stacked unseen in one cell, the shown text over them
+  function setPick(pick, choices, shown) {
+    var box = document.createElement("span"); box.className = "dd-sizes";
+    choices.concat([shown]).forEach(function (t, i, all) {
+      var sp = document.createElement("span"); sp.textContent = t; if (i === all.length - 1) sp.className = "dd-shown"; box.appendChild(sp);
+    });
+    clear(pick); pick.appendChild(box);
+  }
   function showReason() {
     var pick = $("edPick"), r = ed.reason;
-    pick.textContent = !r ? "Välj orsak" : r === "other" ? ed.other : r;
+    setPick(pick, ["Välj orsak"].concat(REASONS), !r ? "Välj orsak" : r === "other" ? ed.other : r);
     pick.classList.toggle("chosen", !!r);
     $("edList").querySelectorAll("button").forEach(function (b) { b.disabled = b.textContent === r; });
     var other = $("edList").querySelector(".other:not(.rename)"); if (other) other.classList.toggle("current", r === "other");

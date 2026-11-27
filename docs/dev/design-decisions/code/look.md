@@ -84,13 +84,16 @@ It takes one of three forms, by what it brings:
   and the onboarding's lone fields keep their own look.
 - **Dropdowns:** a field you choose into, a closed control that opens a list to choose from ("Välj orsak", the edit's
   profile picker), carries a chevron after its text, in its text's colour, which points up while its list is open. Every
-  dropdown is the app's own, one look written once: the closed field, then its list of plain lines, the hovered one
-  filled and the chosen one greyed, which grows open and then fades its lines in, and closes on Esc, its field keeping
-  the focus, or on a click outside it, as a field drops. A list either unfolds, growing in place and pushing what is
-  under it down, or floats, lying over what is under it right under the field, on the popups' frame; each place is
-  judged by eye. The reasons unfold at the edit popup's foot; the profile picker's list floats from its head, the
-  profile in colour greyed in it and a running one greyed with "· pågår". What a list holds beyond choices, as the
-  reasons' pen, rename and "Annan orsak", is that dropdown's own, on top of the shared look.
+  dropdown is the app's own, one look written once: the closed field, as wide as its widest choice and never wider than
+  its room, as a native select is, so it never changes width as a choice is made; then its list of plain lines, from the
+  left, the hovered one filled and the chosen one greyed. Anything longer than its room, a typed reason in the closed
+  field or a long reason in the list, is cut with "…" on one line, never wrapped. The list grows open and then fades its
+  lines in, and closes on Esc, its field keeping the focus, or on a click outside it, as a field drops. A list either
+  unfolds, growing in place and pushing what is under it down, or floats, lying over what is under it right under the
+  field, on the popups' frame; each place is judged by eye. The reasons unfold at the edit popup's foot; the profile
+  picker's list floats from its head, the profile in colour greyed in it and a running one greyed with "· pågår". What a
+  list holds beyond choices, as the reasons' pen, rename and "Annan orsak", is that dropdown's own, on top of the shared
+  look; "Annan orsak" at rest is cut at the longest reason's length.
 - **No scrollbars:** no scrollbar shows anywhere; a part that can overflow scrolls without one. A bar takes width from
   what it scrolls, and its coming and going made the dashboard's rows re-flow back and forth as the window was resized.
 - **Surfaces:** each surface (the controls side, the dashboard, the menu, a popup) names itself with `data-surface` on
@@ -113,14 +116,16 @@ differs too much, so every difference would become a prop or a snippet. A class 
 variables do it once. The native `<select>`'s list: the system paints it, brownish beside the app's colours on Linux and
 otherwise on Windows, and CSS cannot reach it. The profile picker's list unfolding: the owner tried both in the
 prototype, and floating looked best. A rule for which places float: there are two, each judged by eye, and a reason
-found after the choice only dressed it up.
+found after the choice only dressed it up. A closed field as wide as its chosen text, cut at a hand-set 17 characters:
+it changed width as a choice was made, and a reason renamed or added longer was cut though it was a choice.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
 
 **Cases:** the root at 125% grows every text, tag and small button, while panels, gaps and borders hold; a tag in the
 menu wears the menu's line, one in the edit popup the dashboard's; "Ändra" and the edit's "Avbryt" differ only in their
 surface's colours; every caps heading is 11px at 0.1em, in its surface's muted colour; "Välj orsak" and the edit's
-profile picker show the same chevron, each pointing up while its list is open; in a gap, picking another profile fills
-it and picking the entry's own empties it again. "25 %", "paus 30m" and "Lägg till paus" each open into a field of
-exactly their size; "Ändra" under a name and under a salary are the same width, and each field takes its place without
-moving anything.
+profile picker show the same chevron, each pointing up while its list is open; "Välj orsak" sits in a field already as
+wide as "Glömde stämpla ut", and choosing it changes nothing in width; a reason renamed longer widens the field, up to
+the popup's room, past which it is cut; in a gap, picking another profile fills it and picking the entry's own empties
+it again. "25 %", "paus 30m" and "Lägg till paus" each open into a field of exactly their size; "Ändra" under a name and
+under a salary are the same width, and each field takes its place without moving anything.

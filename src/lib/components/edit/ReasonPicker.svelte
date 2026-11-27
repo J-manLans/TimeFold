@@ -47,8 +47,8 @@
   let was: { typed: string; picked: string | null } = { typed: '', picked: null }
   let field: HTMLInputElement | undefined = $state()
 
-  /** The longest a reason shows at rest, in characters, from the tokens */
-  let cap = $state(17)
+  /** The longest a typed reason shows at rest, in characters: the longest reason's, the text being monospaced */
+  let cap = $derived(Math.max(1, ...REASONS.map((r) => r.length)))
   /** The reason open under its pen, its text as typed, whether its emptying asked once, and why it was refused */
   let editing = $state<string | null>(null)
   let renamed = $state('')
@@ -61,10 +61,6 @@
 
   $effect(() => {
     reason = picked === OTHER ? typed.trim() : (picked ?? '')
-  })
-
-  $effect(() => {
-    if (field) cap = parseFloat(getComputedStyle(field).getPropertyValue('--dropdown-pick-max')) || 17
   })
 
   // === Helpers ===
@@ -210,7 +206,12 @@
   }
 </script>
 
-<Dropdown text={picked === null ? 'Välj orsak' : picked === OTHER ? typed : picked} chosen={picked !== null} bind:open>
+<Dropdown
+  text={picked === null ? 'Välj orsak' : picked === OTHER ? typed : picked}
+  choices={['Välj orsak', ...REASONS]}
+  chosen={picked !== null}
+  bind:open
+>
   {#each REASONS as option (option)}
     <div class="line">
       {#if editing === option}
@@ -271,12 +272,13 @@
 <style>
   /* === Layout === */
 
-  /* A reason's line: the reason, and its pen, shown while the pointer is on the line */
+  /* A reason's line: the reason, cut with "…" past its room, then its pen beside it, shown while the pointer is on the
+     line; a refusal under both */
   .line {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, max-content) auto;
     align-items: center;
-    gap: var(--edit-pen-gap);
+    column-gap: var(--edit-pen-gap);
     max-width: 100%;
   }
 
@@ -315,7 +317,7 @@
   }
 
   .refused {
-    flex-basis: 100%;
+    grid-column: 1 / -1;
     margin-left: var(--edit-other-inset);
     color: var(--edit-remove);
     font-size: var(--text-size-label);
