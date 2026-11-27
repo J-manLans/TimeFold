@@ -76,14 +76,14 @@
 </script>
 
 <!-- It keeps an open menu open, so closing the popup comes back to it -->
-<button class="more" type="button" data-keeps-menu {disabled} onclick={show}>Visa alla</button>
+<button class="button-small more" type="button" data-keeps-menu {disabled} onclick={show}>Visa alla</button>
 
 <dialog bind:this={popup} data-surface="dashboard" aria-label="Alla poster" onclick={closeOutside} onclose={closed}>
   <!-- The edit popup stacked on it peeks only while the pointer rests on this card -->
   <div class="card" data-all-entries>
     <header>
       <span class="caps">Alla poster</span>
-      <button class="more" type="button" onclick={() => popup?.close()}>Stäng</button>
+      <button class="button-small more" type="button" onclick={() => popup?.close()}>Stäng</button>
     </header>
     <ol>
       {#each items as item (item.kind === 'month' ? item.key : item.entry.id)}
@@ -135,16 +135,6 @@
 
   .more {
     justify-self: start;
-    padding: var(--entries-button-padding);
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--dashboard-text-muted);
-    font: inherit;
-    font-size: var(--entries-button-size);
-    letter-spacing: normal;
-    cursor: pointer;
-    transition: border-color var(--speed-ui) ease;
   }
 
   dialog {
@@ -259,15 +249,6 @@
   }
 
   /* === States === */
-
-  .more:hover:enabled {
-    border-color: var(--dashboard-text-muted);
-  }
-
-  .more:disabled {
-    opacity: var(--opacity-disabled);
-    cursor: default;
-  }
 
   /* A rested pointer opens a gap: its line grows out of the "+", and the rows above shift up and those below down by
      half of --insert-open each, so it opens evenly around the pointer. The always-shown gap only lights, at once. */

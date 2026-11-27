@@ -148,7 +148,6 @@
   --prune-padding: 9px 12px;
   --prune-height: 40px; /* the prune line's room, kept when there is nothing to offer */
   --prune-gap: 10px; /* between its words and its buttons, and between the buttons */
-  --prune-button-padding: 3px 8px;
   --controls-remove: light-dark(#c8372d, #f0605a); /* removal red on this side: "Rensa"; light: 4.7:1 on the page */
 
   /* ======================================
@@ -217,8 +216,6 @@
   --entry-hover: 10%; /* how much of the text colour lights a hovered row */
   --entry-flash: 1.2s; /* a new entry's row lights in the wheel's base colour and fades over this */
   --entry-flash-strength: 35%;
-  --entries-button-size: var(--text-size-body); /* "Visa alla" and "Stäng" */
-  --entries-button-padding: 4px 10px;
 
   /* ======================================
               Overlays and popups

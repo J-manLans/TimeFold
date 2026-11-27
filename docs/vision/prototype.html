@@ -363,7 +363,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @keyframes pie-click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
 .app.still .today-pie path.fresh { animation: none; }
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.prune button { font: inherit; font-size: var(--size-note); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
+.prune button { font: inherit; font-size: var(--size-small); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
 .prune .spacer { flex: 1; }
 /* "Rensa" removes, as "Ta bort" does: red text, and a red border with "Rensa?" once clicked */
 #pruneYes { color: var(--c-remove); border-color: transparent; }
@@ -817,8 +817,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .entries .tags { display: flex; gap: 4px; justify-self: start; }
 .entries .tag { font-size: var(--size-label); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: var(--pad-tag); }
 .entries .dur { text-align: right; }
-.entries .more { justify-self: start; font: inherit; font-size: var(--size-small); color: var(--f-muted); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 4px 10px; cursor: pointer; }
-.entries .more:hover { border-color: var(--f-muted); }
+.entries .more { justify-self: start; font: inherit; font-size: var(--size-small); color: var(--f-fg); background: none; border: 1px solid var(--f-line); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
 
 button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-offset: 2px; }
 /* Inside the app, every focus ring takes the colour of the profile on screen. */

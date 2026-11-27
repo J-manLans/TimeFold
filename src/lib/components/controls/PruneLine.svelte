@@ -34,10 +34,10 @@
   {#if offering && offer}
     <span class="words">{pruneWords(offer.months)}</span>
     <span class="buttons">
-      <button class="clear" class:asking type="button" onclick={clear} onfocusout={() => (asking = false)}>
+      <button class="button-small clear" class:asking type="button" onclick={clear} onfocusout={() => (asking = false)}>
         Rensa<span class="q">?</span>
       </button>
-      <button type="button" onclick={() => void app.pruneLaterOn()}>Inte nu</button>
+      <button class="button-small" type="button" onclick={() => void app.pruneLaterOn()}>Inte nu</button>
     </span>
   {/if}
 </footer>
@@ -64,17 +64,6 @@
   .buttons {
     display: flex;
     gap: var(--prune-gap);
-  }
-
-  button {
-    padding: var(--prune-button-padding);
-    border: 1px solid var(--button-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--controls-text);
-    font: inherit;
-    font-size: var(--text-size-label);
-    cursor: pointer;
   }
 
   /* "Rensa" removes, as "Ta bort" does: red words, and a red border with its "?" once clicked */
