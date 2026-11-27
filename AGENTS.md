@@ -121,8 +121,8 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   commit (below). Check `git status -sb` before every amend.
 - **Docs with no code are one commit per session.** A design session, a docs sweep or a rule change opens one docs
   commit; every later doc write in that session is amended into it and pushed with `git push --force-with-lease`, the
-  message growing to cover the session, and the owner pulls with `git pull --rebase`. Docs about code still go with that
-  code.
+  message growing to cover the session, unless a code commit has landed since; then later docs open a new one, and the
+  owner pulls with `git pull --rebase`. Docs about code still go with that code.
 - **The message is the record:** what changed, why, and what was run to check it, or that nothing was run.
 - **Cite an unmerged commit by its title,** since rebase merges change hashes.
 - Each phase on a small branch off `main`, merged back by pull request with rebase.

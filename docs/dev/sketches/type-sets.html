@@ -24,12 +24,15 @@
       :root {
         color-scheme: dark;
 
-        /* The four sets, driven by the toolbar */
-        --set-heading-size: 15px;
+        /* The root: every rem in the page, so only the four sets' sizes follow it */
+        font-size: 100%;
+
+        /* The four sets, driven by the toolbar: their sizes in rem, written as px over 16; caps is the label's size */
+        --set-heading-size: calc(15rem / 16);
         --set-heading-weight: 600;
-        --set-body-size: 13px;
-        --set-label-size: 11px;
-        --set-caps-size: 11px;
+        --set-body-size: calc(13rem / 16);
+        --set-label-size: calc(11rem / 16);
+        --set-caps-size: var(--set-label-size);
         --set-caps-tracking: 0.1em;
 
         /* The surfaces, from design-tokens.css */
@@ -82,6 +85,10 @@
         background: var(--controls-bg);
         font-size: 12px;
         letter-spacing: 0;
+      }
+
+      .toolbar output {
+        white-space: nowrap;
       }
 
       .toolbar label {
@@ -335,6 +342,17 @@
         letter-spacing: var(--set-caps-tracking);
         text-transform: uppercase;
       }
+      /* What belongs to its text, in em: it keeps its shape as the text grows */
+      .sets .tag {
+        padding: 0 0.45em;
+      }
+      .sets .small {
+        padding: 0.15em 0.6em;
+      }
+      .sets .btn {
+        padding: 0.3em 0.75em;
+      }
+
       .sets .strong {
         font-weight: var(--set-heading-weight);
       }
@@ -342,11 +360,11 @@
   </head>
   <body>
     <div class="toolbar">
+      <label>Root <input type="range" id="root" min="75" max="150" step="5" value="100" /><output></output></label>
       <label>Heading <input type="range" data-var="--set-heading-size" min="12" max="18" step="0.5" value="15" /><output></output></label>
       <label>weight <input type="range" data-var="--set-heading-weight" min="400" max="700" step="50" value="600" /><output></output></label>
       <label>Body <input type="range" data-var="--set-body-size" min="11" max="15" step="0.5" value="13" /><output></output></label>
       <label>Label <input type="range" data-var="--set-label-size" min="9" max="13" step="0.5" value="11" /><output></output></label>
-      <label>Caps <input type="range" data-var="--set-caps-size" min="9" max="13" step="0.5" value="11" /><output></output></label>
       <label>tracking <input type="range" data-var="--set-caps-tracking" min="0" max="0.2" step="0.01" value="0.1" /><output></output></label>
       <label><input type="checkbox" id="light" /> Light</label>
     </div>
@@ -448,13 +466,25 @@
 
       for (const input of document.querySelectorAll('[data-var]')) {
         const show = () => {
-          const unit = input.dataset.var.includes('size') ? 'px' : input.dataset.var.includes('tracking') ? 'em' : ''
-          document.documentElement.style.setProperty(input.dataset.var, input.value + unit)
-          input.nextElementSibling.textContent = input.value + unit
+          const name = input.dataset.var
+          const value = name.includes('size')
+            ? `calc(${input.value}rem / 16)`
+            : input.value + (name.includes('tracking') ? 'em' : '')
+          document.documentElement.style.setProperty(name, value)
+          input.nextElementSibling.textContent = name.includes('size') ? `${input.value}/16 rem` : value
         }
         input.addEventListener('input', show)
         show()
       }
+      // The root, in % of the system's default; the sets' px at this root shown beside it
+      const root = document.getElementById('root')
+      const showRoot = () => {
+        document.documentElement.style.fontSize = root.value + '%'
+        root.nextElementSibling.textContent = `${root.value}% (${(16 * root.value) / 100}px)`
+      }
+      root.addEventListener('input', showRoot)
+      showRoot()
+
       document.getElementById('light').addEventListener('change', (e) => {
         document.documentElement.style.colorScheme = e.target.checked ? 'light' : 'dark'
       })
