@@ -244,7 +244,7 @@
     background: none;
     color: var(--menu-text);
     font: inherit;
-    font-size: var(--text-size-small);
+    font-size: var(--text-size-body);
     cursor: pointer;
   }
 
@@ -254,7 +254,7 @@
 
   .warn {
     color: var(--edit-remove);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
   }
 
   /* === States === */

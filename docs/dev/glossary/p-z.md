@@ -50,11 +50,19 @@ drag shrinks it; only until a tag is set, after which each part keeps its own.
 not (at 0 or below). Its letter, its small circle and the focus outline wear it, the neon past the line and the base
 before it.
 
+**Shared look.** A look more than one part of the screen wears, written once as a class, an attachment or a component:
+the tag, the small button, the caps heading, the fields.
+
 **Sketch.** A quick try of one look before it is decided, in `docs/dev/sketches/`; what it settles goes to its decision,
 and it goes once that is built. Not the **Prototype**.
 
 **Small deviations.** In a report, the days whose net change is under 5 minutes, left off the list of days and summed in
 its closing line, "Små avvikelser under månaden".
+
+**Surface.** A part of the screen with its own colours that the shared looks sit on: the controls side, the dashboard,
+the menu, a popup. Each names its colours under the same five names.
+
+**Type set.** One of the four text styles all text outside the figures wears: heading, body, label and caps.
 
 **Today's pie.** The small ring of slices beside the status line: one per hour the profile with the balance is expected
 to work today, filling as each is worked, live, and the neon lapping over it past them.

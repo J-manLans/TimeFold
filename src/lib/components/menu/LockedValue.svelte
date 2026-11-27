@@ -288,7 +288,7 @@
     background: none;
     color: var(--menu-text);
     font: inherit;
-    font-size: var(--text-size-small);
+    font-size: var(--text-size-body);
     cursor: pointer;
   }
 
@@ -331,7 +331,7 @@
     padding: 0;
     list-style: none;
     color: var(--menu-text-muted);
-    font-size: var(--text-size-small);
+    font-size: var(--text-size-body);
   }
 
   /* === States === */

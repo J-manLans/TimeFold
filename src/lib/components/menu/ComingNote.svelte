@@ -55,7 +55,7 @@
 
   .coming {
     color: var(--menu-text-muted);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     white-space: nowrap;
   }
 
@@ -72,7 +72,7 @@
   .warn {
     margin-left: var(--menu-note-gap);
     color: var(--edit-remove);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
   }
 
   /* === States === */

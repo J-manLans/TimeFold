@@ -395,7 +395,7 @@
     flex-basis: 100%;
     margin-left: var(--edit-other-inset);
     color: var(--edit-remove);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
   }
 
   .list button {

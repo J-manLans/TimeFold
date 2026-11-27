@@ -87,7 +87,7 @@
 
   .name {
     display: inline-grid;
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     color: var(--menu-text-muted);
   }
 

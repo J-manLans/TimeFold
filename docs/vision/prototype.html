@@ -37,13 +37,14 @@
      Grotesque and Tektur. Redaction is not on Google Fonts: drop its font file into fonts/ to try it. */
   --display: "Bricolage Grotesque", "Arial", sans-serif;  --display-stretch: 50%;  --display-weight: 700;
   --size-start: 38px;  --size-balance: 46px;  --size-wheel: 34px;
-  --size-note: 10.5px;   /* the quiet lines: what runs ("Vaktmästare pågår sedan") and the prune line */
+  --size-note: var(--size-label);  /* the quiet lines: what runs ("Vaktmästare pågår sedan") and the prune line */
   /* The smaller text, shared: each size is used wherever text plays that part, so one knob moves them all */
   --size-label: 11px;    /* the smallest: tags, the keys under a field, headings in capitals, month lines, a line's reason */
-  --size-small: 12px;    /* small buttons and fields, earlier values, hints, the edit's times and pickers, the calendar's days */
-  --size-body: 12.5px;   /* the entry lines, the edit's head, "Lägg till paus" and its field */
-  --size-ui: 13px;       /* the tabs, Exportera/Importera, the pay, the calendar's month, a handle's ± */
-  --heading-tracking: 0.08em;   /* headings in capitals: Profil, Arkiverade, the menu's and the late popup's */
+  --size-small: var(--size-body);  /* small buttons and fields, earlier values, hints, the edit's times and pickers, the calendar's days */
+  --size-body: 13px;     /* the entry lines, the edit's head, "Lägg till paus" and its field */
+  --size-ui: var(--size-body);  /* the tabs, Exportera/Importera, the pay, the calendar's month, a handle's ± */
+  --size-heading: 15px;  /* the type sets: heading, body (13px) and label (11px); caps is the label in capitals */
+  --heading-tracking: 0.1em;    /* headings in capitals: Profil, Arkiverade, the menu's and the late popup's */
   --pad-tag: 0 5px;      /* inside a tag: "paus", "arkiverad" */
   --pad-small: 3px 8px;  /* inside a small button: Ändra, Ny profil, the prune line's, the edit's list */
   /* Text on the control side: everything except the big ones (Starta jobb, the profile letter). The figures side
@@ -74,7 +75,7 @@
   --tip-y: 5px;         /* up or down from centred on the pointer */
   --tip-focus-gap: 6px; /* under a button with keyboard focus */
   /* The onboarding: the menu's panel, locked, at the first start ("Replay onboarding" in the toolbar) */
-  --ob-prompt: 16px;    /* "Nuvarande flextimmar?" and "Profilnamn?" */
+  --ob-prompt: var(--size-heading);   /* "Nuvarande flextimmar?" and "Profilnamn?" */
   --ob-name: 26px;      /* the name as it is typed; the balance is typed at the dashboard's --size-balance */
   --ob-gap: 14px;       /* between a prompt, what is typed and how it is read */
   --ob-step-fade: 0.1s; /* a step fading out, then the next fading in after it: twice this in all */
@@ -250,7 +251,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --dot-inner: inset 0 1px 1px rgba(200, 218, 245, 0.55), inset 0 -2px 4px rgba(10, 25, 55, 0.25);
   --well-bg: linear-gradient(180deg, rgba(10, 25, 55, 0.22), rgba(10, 25, 55, 0.04));
 
-  font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight);
+  font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight); font-size: var(--size-body);
   text-transform: var(--text-case); letter-spacing: var(--text-tracking);
   position: relative; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   height: 620px; border-radius: var(--r-panel); overflow: hidden; border: 1px solid var(--page-line);
@@ -454,7 +455,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .menu.open .menu-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .menu.open .menu-toggle span:nth-child(2) { opacity: 0; }
 .menu.open .menu-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-.menu h2 { margin: 0; font-size: 16px; font-weight: 600; line-height: 32px; }
+.menu h2 { margin: 0; font-size: var(--size-heading); font-weight: 600; line-height: 32px; }
 .menu-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px 52px; min-height: 40px; }
 /* The theme button: drawn like the profile button's disc in its dent, smaller */
 .theme-btn, .motion-btn { --dot-size: 26px; --dent: 4px; --dot-face: var(--theme-face); flex: none; width: 40px; height: 40px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; isolation: isolate; border-radius: 50%; color: var(--theme-ink); }
@@ -522,7 +523,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .lv input[type="date"] { width: auto; }
 .lv .keys, .menu .line .keys { font-size: var(--size-label); color: var(--c-muted); }
 .lv .keys.warn { color: var(--f-remove); }   /* a refused value's warning, such as a week not in quarter hours */
-.lv-hist-btn { justify-self: start; font: inherit; font-size: 11.5px; background: none; border: 0; padding: 0; color: var(--c-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.lv-hist-btn { justify-self: start; font: inherit; font-size: var(--size-label); background: none; border: 0; padding: 0; color: var(--c-muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .lv-hist { list-style: none; margin: 0; padding: 0 0 0 2px; display: grid; gap: 3px; font-size: var(--size-small); color: var(--c-muted); }
 .split { display: grid; gap: 6px; }
 .split input[type="range"] { width: 100%; accent-color: var(--accent, var(--c-fg)); }
@@ -533,17 +534,17 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .cal-wrap { display: flex; flex-wrap: wrap; align-items: start; gap: 16px var(--cal-side-gap); }
 .cal-body { display: grid; gap: var(--cal-head-gap); width: calc(7 * var(--cal-cell) + 6 * var(--cal-gap)); }
 .cal-head { display: flex; align-items: center; gap: 6px; height: var(--cal-head-h); }
-.cal-title { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--size-ui); }
+.cal-title { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: var(--size-heading); }
 .cal-lock { display: grid; place-items: center; width: calc(var(--cal-lock) + 8px); height: calc(var(--cal-lock) + 8px); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
 .cal-lock:hover, .cal-lock.open { color: var(--c-fg); }
 /* The month's name away from today's month: plain until hovered, then underlined, as "Tidigare värden" is */
 .cal-home { font: inherit; padding: 0; background: none; border: 0; color: inherit; cursor: pointer; text-underline-offset: 3px; }
 .cal-home:hover { text-decoration: underline; }
 .cal-lock svg { width: var(--cal-lock); height: var(--cal-lock); }
-.cal-nav { font: inherit; font-size: 16px; line-height: 1; width: var(--cal-head-h); height: var(--cal-head-h); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
+.cal-nav { font: inherit; font-size: var(--size-heading); line-height: 1; width: var(--cal-head-h); height: var(--cal-head-h); padding: 0; background: none; border: 0; border-radius: var(--r-small); color: var(--c-muted); cursor: pointer; }
 .cal-nav:hover { color: var(--c-fg); }
 .cal-grid { display: grid; grid-template-columns: repeat(7, var(--cal-cell)); gap: var(--cal-gap); justify-content: start; }
-.cal-wd { font-size: 10.5px; height: var(--cal-wd-h); line-height: var(--cal-wd-h); color: var(--c-muted); text-align: center; }
+.cal-wd { font-size: var(--size-label); height: var(--cal-wd-h); line-height: var(--cal-wd-h); color: var(--c-muted); text-align: center; }
 .cal-day { font: inherit; font-size: var(--size-small); width: var(--cal-cell); height: var(--cal-cell); padding: 0; border: 1px solid var(--c-line); border-radius: var(--r-small); background: none; color: var(--c-fg); cursor: pointer; font-variant-numeric: tabular-nums; }
 .cal-day:disabled { opacity: var(--disabled-o); cursor: default; }
 .cal-day.today { font-weight: 700; }
@@ -582,7 +583,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .new-warn { justify-self: center; width: 0; display: flex; justify-content: center; white-space: nowrap; font-size: var(--name-warn-size); color: var(--f-remove); }
 /* "Arkiverade": folded shut under the profiles, opening as a profile row does; gone while nothing is archived */
 .arch { margin-top: var(--arch-gap); }
-.arch-head { display: flex; align-items: center; gap: 8px; width: 100%; font: inherit; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); font-weight: 600; text-align: left; padding: 4px 0; background: none; border: 0; color: var(--c-muted); cursor: pointer; }
+.arch-head { display: flex; align-items: center; gap: 8px; width: 100%; font: inherit; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); text-align: left; padding: 4px 0; background: none; border: 0; color: var(--c-muted); cursor: pointer; }
 .arch-head .chev { transition: transform var(--speed-fade) ease; }
 .arch.open .arch-head .chev { transform: rotate(90deg); }
 .arch.open > .prow-wrap { grid-template-rows: 1fr; }
@@ -646,7 +647,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
 /* Figures side: dark in every theme */
 .figures { background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; padding: 22px 26px 18px 30px; display: grid; gap: 18px; align-content: start; overflow-y: auto; }
-.flabel { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--f-muted); }
+.flabel { font-size: var(--size-label); letter-spacing: var(--heading-tracking); text-transform: uppercase; color: var(--f-muted); }
 .balance { display: grid; gap: 6px; }
 .balance .num { font-family: var(--display); font-stretch: var(--display-stretch); font-size: var(--size-balance); font-weight: var(--display-weight); letter-spacing: 0.02em; font-variant-numeric: tabular-nums; text-align: center; line-height: 1; }
 .balance svg { width: 100%; height: 48px; display: block; overflow: visible; }
@@ -693,7 +694,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-line { position: relative; height: var(--el-h); margin: 18px 6px 18px; touch-action: none; }
 /* The hairline, as the entries, runs on past the view's ends out to the card's edges, where the lane cuts it */
 .ed-line::before { content: ""; position: absolute; left: -100vw; right: -100vw; top: 50%; height: 1px; background: var(--f-line); }
-.ed-tick { position: absolute; bottom: -16px; transform: translateX(-50%); font-size: 10px; color: var(--f-muted); pointer-events: none; }
+.ed-tick { position: absolute; bottom: -16px; transform: translateX(-50%); font-size: var(--size-label); color: var(--f-muted); pointer-events: none; }
 .ed-tick::before { content: ""; position: absolute; left: 50%; top: -5px; width: 1px; height: 4px; background: var(--f-line); }
 .ed-other, .ed-seg { position: absolute; top: 50%; height: var(--el-bar); transform: translateY(-50%); border-radius: 3px; }
 .ed-other { background: repeating-linear-gradient(45deg, var(--f-line) 0 3px, transparent 3px 6px); pointer-events: none; }

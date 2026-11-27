@@ -217,7 +217,7 @@
   .note p {
     margin: 0;
     color: var(--menu-text-muted);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     line-height: var(--onboarding-note-line);
     text-wrap: pretty;
   }

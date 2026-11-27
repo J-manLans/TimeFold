@@ -98,7 +98,7 @@
   .copy {
     justify-self: center;
     color: var(--dashboard-text-muted);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     letter-spacing: var(--dashboard-label-tracking);
     text-transform: uppercase;
     animation: breathe var(--recovery-breath) ease-in-out infinite;

@@ -68,11 +68,17 @@ title.
 - The record is one JSON file
 - The app reaches each machine as an installer from a GitHub release
 
-### [Code](code.md)
+### Code (`code/`)
+
+**[Writing and testing](code/writing.md)**
 
 - Tests come first, from the owner's rules
 - Code style
+
+**[The look](code/look.md)**
+
 - Design tokens hold every value of the look
+- Shared looks are written once
 
 ### Recording (`recording/`)
 

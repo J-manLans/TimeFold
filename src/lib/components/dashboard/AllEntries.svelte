@@ -177,7 +177,7 @@
 
   .label {
     color: var(--dashboard-text-muted);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     letter-spacing: var(--dashboard-label-tracking);
     text-transform: uppercase;
   }

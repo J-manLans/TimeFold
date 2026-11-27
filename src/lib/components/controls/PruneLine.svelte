@@ -54,7 +54,7 @@
     margin: var(--prune-margin);
     padding: var(--prune-padding);
     color: var(--controls-text-muted);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
   }
 
   .words {
@@ -73,7 +73,7 @@
     background: none;
     color: var(--controls-text);
     font: inherit;
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     cursor: pointer;
   }
 

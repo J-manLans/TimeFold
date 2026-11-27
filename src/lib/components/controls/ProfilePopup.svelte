@@ -112,7 +112,7 @@
     margin: var(--popup-heading-margin);
     color: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
     font-size: var(--text-size-label);
-    letter-spacing: var(--heading-tracking);
+    letter-spacing: var(--caps-tracking);
     text-transform: uppercase;
   }
 

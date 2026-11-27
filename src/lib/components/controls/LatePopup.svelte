@@ -75,9 +75,9 @@
 
   h3 {
     margin: 0;
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     color: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
-    letter-spacing: var(--heading-tracking);
+    letter-spacing: var(--caps-tracking);
     text-transform: uppercase;
   }
 
@@ -92,7 +92,7 @@
   }
 
   .note {
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     color: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
   }
 

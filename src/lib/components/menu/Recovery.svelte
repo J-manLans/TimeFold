@@ -163,7 +163,7 @@
 
   .note {
     color: var(--menu-text-muted);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
   }
 
   .choices {

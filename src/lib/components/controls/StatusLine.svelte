@@ -33,7 +33,7 @@
     margin: 0;
     height: max(var(--status-height), var(--pie-size));
     line-height: var(--status-height);
-    font-size: var(--text-size-note);
+    font-size: var(--text-size-label);
     color: var(--controls-text-muted);
   }
 
