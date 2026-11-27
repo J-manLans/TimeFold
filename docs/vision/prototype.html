@@ -678,13 +678,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .edpop.peek .card { opacity: var(--ed-peek); }
 .app.still .edpop, .app.still .edpop .card { transition: none; }
 .edit { display: grid; gap: 10px; }
-.ed-head { display: flex; align-items: center; gap: 10px; font-size: var(--size-body); }
+.ed-head { display: flex; align-items: baseline; gap: 10px; font-size: var(--size-body); }
 .ed-head .spacer { flex: 1; }
-/* Both dropdowns wear the field look: see-through, the line, the small radius, a small button's padding, the chevron's room on the right */
-.ed-head select { appearance: none; font: inherit; letter-spacing: normal; text-align: center; background: transparent; color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 3px calc(16px + var(--ed-chevron)) 3px 8px; cursor: pointer; }
-/* The profile picker stays the system's own list; only its closed box wears "Välj orsak"'s chevron, drawn by the span around it */
-.ed-prof { position: relative; display: inline-block; }
-.ed-prof::after { content: ""; position: absolute; right: 8px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid var(--f-fg); border-bottom: 1.5px solid var(--f-fg); transform: translateY(-75%) rotate(45deg); pointer-events: none; }
+/* The profile picker: the dropdown at the head's size, always showing a profile; its list floats */
+.ed-prof .dd-pick { font-size: inherit; }
 .ed-times { font-size: var(--size-small); color: var(--f-muted); min-height: 1.3em; }
 .ed-times b { color: var(--f-fg); font-weight: 400; }
 /* The break after the time: the list's "paus" tag, here also its control, one per part; "Lägg till paus" with none,
@@ -742,19 +739,26 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-hlabel.lean-l { transform: translateX(calc(-100% + 2px)); }
 .ed-hlabel.lean-r { transform: translateX(-2px); }
 .ed-hlabel { position: absolute; top: -17px; transform: translateX(-50%); font-size: var(--size-label); color: var(--f-fg); white-space: nowrap; pointer-events: none; }
-.ed-reason { display: grid; justify-items: start; }
-.ed-pick { position: relative; font: inherit; font-size: var(--size-small); letter-spacing: normal; text-align: center; background: transparent; color: var(--f-muted); border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 3px calc(16px + var(--ed-chevron)) 3px 8px; cursor: pointer; }
-.ed-pick::after { content: ""; position: absolute; right: 8px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-75%) rotate(45deg); transition: transform var(--speed-ui) ease; }
-.ed-reason.open .ed-pick::after { transform: translateY(-25%) rotate(-135deg); }
-.ed-pick.chosen { color: var(--f-fg); }
+/* A dropdown, shared: the closed field, then its list. Unfolding (.dd), the list grows open in place and pushes what is
+   under it down; floating (.dd.float), it lies over what is under it, on a surface of its own, right under the field.
+   The lines are plain text, the hovered one filled, the chosen one greyed. Extras, such as the reason picker's pen
+   and "Annan orsak", are its own and sit on top. */
+.dd { position: relative; display: grid; justify-items: start; }
+.dd-pick { position: relative; font: inherit; font-size: var(--size-small); letter-spacing: normal; text-align: center; background: transparent; color: var(--f-muted); border: 1px solid var(--f-line); border-radius: var(--r-small); padding: 3px calc(16px + var(--ed-chevron)) 3px 8px; cursor: pointer; }
+.dd-pick::after { content: ""; position: absolute; right: 8px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-75%) rotate(45deg); transition: transform var(--speed-ui) ease; }
+.dd.open .dd-pick::after { transform: translateY(-25%) rotate(-135deg); }
+.dd-pick.chosen { color: var(--f-fg); }
 .ed-pick { box-sizing: content-box; max-width: calc(var(--ed-pick-max) + 1px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* The list grows open at --speed-ui, then its reasons fade in after the same time; closing, they fade out first, then
    it shrinks. Closed, nothing in it can be reached. */
-.ed-wrap { justify-self: stretch; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 0fr; transition: grid-template-rows var(--speed-ui) cubic-bezier(.2, .7, .2, 1) var(--speed-ui); }
-.ed-reason.open .ed-wrap { grid-template-rows: 1fr; transition-delay: 0s; }
-.ed-clip { min-height: 0; min-width: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: opacity var(--speed-ui) ease, visibility 0s linear var(--speed-ui); }
-.ed-reason.open .ed-clip { opacity: 1; visibility: visible; transition: opacity var(--speed-ui) ease var(--speed-ui), visibility 0s; }
-.app.still .ed-wrap, .app.still .ed-clip { transition: none; }
+.dd-wrap { justify-self: stretch; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 0fr; transition: grid-template-rows var(--speed-ui) cubic-bezier(.2, .7, .2, 1) var(--speed-ui); }
+.dd.open .dd-wrap { grid-template-rows: 1fr; transition-delay: 0s; }
+.dd-clip { min-height: 0; min-width: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: opacity var(--speed-ui) ease, visibility 0s linear var(--speed-ui); }
+.dd.open .dd-clip { opacity: 1; visibility: visible; transition: opacity var(--speed-ui) ease var(--speed-ui), visibility 0s; }
+.app.still .dd-wrap, .app.still .dd-clip { transition: none; }
+/* Floating: the list's own surface, a stand-in until the popups' frame is settled; it takes no room in the flow */
+.dd.float .dd-wrap { position: absolute; top: calc(100% + 4px); right: 0; z-index: 2; width: max-content; min-width: 100%; }
+.dd.float .dd-clip { background: var(--f-row); border: 1px solid var(--f-line); border-radius: var(--r-small); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); padding: 0 4px 4px; }
 /* "Annan orsak" is a field that looks like the other reasons: their text, and a faint underline saying it takes typing.
    The script sizes it to the text it shows: "Annan orsak" while empty, else the text, growing and shrinking as it is
    typed in, up to the popup's padding. At rest a longer text stops at --ed-pick-max with "…", as the picker does;
@@ -764,14 +768,14 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-list .other:focus { outline: none; border-bottom-color: var(--f-fg); }
 .ed-list .other:focus::placeholder { color: var(--f-muted); }
 /* One column no wider than the popup, so a long "Annan orsak" scrolls inside itself and never pushes the list aside */
-.ed-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; justify-items: start; padding-top: 6px; }
-.ed-list button { font: inherit; font-size: var(--size-small); background: none; border: 0; color: var(--f-fg); padding: var(--pad-small); border-radius: var(--r-tag); cursor: pointer; }
+.dd-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1px; justify-items: start; padding-top: 6px; }
+.dd-list button { font: inherit; font-size: var(--size-small); background: none; border: 0; color: var(--f-fg); padding: var(--pad-small); border-radius: var(--r-tag); cursor: pointer; }
 /* The chosen reason stays in its place, greyed, and a click on it does nothing; a typed one greyed the same, but
    clicked, it turns white to be edited */
-.ed-list button:disabled { opacity: var(--disabled-o); cursor: default; }
+.dd-list button:disabled { opacity: var(--disabled-o); cursor: default; }
 .ed-list .other.current:not(:focus) { opacity: var(--disabled-o); }
-.ed-list button:hover:not(:disabled) { background: var(--f-bg); }
-.ed-list { overflow-y: auto; }   /* its greatest height is set by the script, from --ed-list-rows */
+.dd-list button:hover:not(:disabled) { background: var(--f-bg); }
+.dd-list { overflow-y: auto; }   /* its greatest height is set by the script, from --ed-list-rows */
 /* A reason's line: the reason, and the pen that edits it, shown while the pointer is on the line */
 .ed-rrow { display: flex; align-items: center; gap: 2px; max-width: 100%; }
 .ed-list .ed-pen { display: grid; place-items: center; padding: 3px; color: var(--f-muted); opacity: 0; }
@@ -1076,12 +1080,12 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     <div class="edpop" id="edPop" hidden>
       <div class="card" role="dialog" aria-label="Ändra posten">
         <div class="edit" id="edit">
-          <div class="ed-head"><span id="edDay"></span><span class="spacer"></span><span class="ed-prof"><select id="edProf" aria-label="Profil"></select></span></div>
+          <div class="ed-head"><span id="edDay"></span><span class="spacer"></span><div class="dd ed-prof float" id="edProfDd"><button class="dd-pick chosen" id="edProf" type="button" aria-label="Profil"></button><div class="dd-wrap"><div class="dd-clip"><div class="dd-list" id="edProfList"></div></div></div></div></div>
           <div class="ed-times" id="edTimes"></div>
           <div class="ed-lane" id="edLane"><div class="ed-line" id="edLine"></div></div>
-          <div class="ed-reason">
-            <button class="ed-pick" id="edPick" type="button">Välj orsak</button>
-            <div class="ed-wrap"><div class="ed-clip"><div class="ed-list" id="edList"></div></div></div>
+          <div class="dd ed-reason">
+            <button class="dd-pick ed-pick" id="edPick" type="button">Välj orsak</button>
+            <div class="dd-wrap"><div class="dd-clip"><div class="dd-list ed-list" id="edList"></div></div></div>
           </div>
           <div class="ed-actions">
             <button type="button" id="edDel">Ta bort<span class="q">?</span></button><span class="spacer"></span>
@@ -1885,9 +1889,14 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function openEditUi(stacked) {
     clearUndo();
     var e = ed.e, day = ed.isNew ? new Date(ed.view.b) : e.start;
-    var sel = $("edProf"); clear(sel);
-    profiles.forEach(function (q) { if (q.archived && q.id !== e.profile) return; var o = document.createElement("option"); o.value = q.id; o.textContent = q.name; sel.appendChild(o); });
-    sel.value = e.profile;
+    var sel = $("edProfList"); clear(sel);
+    profiles.forEach(function (q) {
+      if (q.archived && q.id !== e.profile) return;
+      var b = document.createElement("button"); b.type = "button"; b.dataset.v = q.id; b.textContent = q.name;
+      b.addEventListener("click", function () { profOpen(false); pickProfile(this.dataset.v); });
+      sel.appendChild(b);
+    });
+    profOpen(false);
     $("edDay").textContent = DAYS_LONG[day.getDay()] + " " + day.getDate() + " " + MONTH_FULL[day.getMonth()];
     // Nothing to remove on an entry not yet written
     $("edDel").hidden = !!ed.isNew || !!ed.running;
@@ -2139,15 +2148,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     // Joined, its own time runs between the nearest joined neighbours, so what it took in reads as any join's
     if (ed.isNew && !ed.placing) { ed.o1 = ed.joinsL.length ? +ed.joinsL[0].end : ed.s; ed.o2 = ed.joinsR.length ? +ed.joinsR[0].start : ed.en; }
     // Another profile fills only a gap: once the handles no longer make one, the entry is its own profile again
-    if (ed.mid && !filling()) { ed.mid = null; $("edProf").value = ed.profile; }
+    if (ed.mid && !filling()) ed.mid = null;
     // A gap lives only while both handles are inward, or while another profile fills it; otherwise the default,
     // shortening, comes back, so an old gap never returns unasked
     if (!inward() && !filling() && !gapHolds()) { ed.mode = "shorten"; foldSplit(); }
     ed.running = !!ed.e.isRunning;    // The running entry's profile, while the entry touches it: greyed, its name saying why
     var touching = touchesLive();
-    $("edProf").querySelectorAll("option").forEach(function (o) {
-      var off = touching && o.value === ed.live.profile && o.value !== ed.profile;
-      o.disabled = off; o.textContent = prof(o.value).name + (off ? RUNNING_WORD : "");
+    // The picker shows what is in colour, its line greyed in the list as the chosen reason's is
+    var shown = ed.mid || ed.profile;
+    $("edProf").textContent = prof(shown).name;
+    $("edProfList").querySelectorAll("button").forEach(function (o) {
+      var v = o.dataset.v, off = touching && v === ed.live.profile && v !== ed.profile;
+      o.disabled = off || v === shown; o.textContent = prof(v).name + (off ? RUNNING_WORD : "");
     });
     var line = $("edLine"); clear(line);
     var a = ed.view.a, b = ed.view.b, pct = function (t) { return ((t - a) / (b - a) * 100) + "%"; };
@@ -2330,7 +2342,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
         // A switch the break cannot fit in is refused, and the tag says why, red until the next change
         ed.refused = !edFits();
         if (ed.refused) { ed.mode = was.mode; ed.split = was.split; ed.brk = was.brk; }
-        if (ed.mode === "shorten" && ed.mid) { ed.mid = null; $("edProf").value = ed.profile; }
+        if (ed.mode === "shorten" && ed.mid) ed.mid = null;
         drawEdit();
       }
       drag = null;
@@ -2381,17 +2393,20 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   }, true);
   // The picker names what is in colour: with a gap, the profile that fills it (the entry's own empties it again);
   // otherwise the whole entry's
-  $("edProf").addEventListener("change", function () {
+  function pickProfile(v) {
     ed.refused = false;
     var was = { profile: ed.profile, mid: ed.mid };
-    if ((inward() || ed.mid) && ed.mode === "gap") ed.mid = this.value === ed.profile ? null : this.value;
-    else { ed.profile = this.value; ed.mid = null; }
+    if ((inward() || ed.mid) && ed.mode === "gap") ed.mid = v === ed.profile ? null : v;
+    else { ed.profile = v; ed.mid = null; }
     // A profile the break cannot fit in is refused: the tag says why
-    if (!edFits()) { ed.profile = was.profile; ed.mid = was.mid; ed.refused = true; this.value = ed.mid || ed.profile; drawEdit(); return; }
+    if (!edFits()) { ed.profile = was.profile; ed.mid = was.mid; ed.refused = true; drawEdit(); return; }
     // Touching a neighbour of the profile picked, the entry takes it in; a switch never lets one go, so the whole
     // joined entry takes the profile picked
     absorbDocked(); settleView();
-  });
+  }
+  // The profile picker opens and closes its list as "Välj orsak" does; a profile clicked closes it
+  function profOpen(open) { $("edProfDd").classList.toggle("open", open); }
+  $("edProf").addEventListener("click", function () { profOpen(!$("edProfDd").classList.contains("open")); });
   // The tag sets its part's break, as the field under "Lägg till paus" does: Enter keeps it, and Esc or a click away
   // drops it, leaving it as it was; "Spara" is greyed while the field is open, so what it saves is what shows. Each part is saved as an entry of its own, with its own break, its length alone.
   $("edTimes").addEventListener("click", function (ev) {

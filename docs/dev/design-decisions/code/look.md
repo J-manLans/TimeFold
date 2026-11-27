@@ -45,7 +45,7 @@ differ, and an identical pair says it falsely. Times in milliseconds: the owner 
 
 ## Shared looks are written once (2026-11-27)
 
-**Built by:** Phase 5, the shared looks: the fields' shared behaviour and the popups' frame.
+**Built by:** Phase 5, the shared looks: the fields' shared behaviour, the dropdowns as one, and the popups' frame.
 
 **Decision:** a look more than one part of the screen wears is written once and worn, never copied into each component.
 It takes one of three forms, by what it brings:
@@ -77,9 +77,13 @@ It takes one of three forms, by what it brings:
   focus as its edge in the colour of where the profile on screen stands, in place of the ring. "Annan orsak"'s underline
   and the onboarding's lone fields keep their own look.
 - **Dropdowns:** a field you choose into, a closed control that opens a list to choose from ("Välj orsak", the edit's
-  profile picker) carries a chevron after its text, in its text's colour, which points up while its list is open where
-  the page can tell. A native `<select>` keeps the system's own list and wears only the closed look, its chevron drawn
-  by a wrapper; a list that holds more than choices, as the reasons' does, is built by the app.
+  profile picker), carries a chevron after its text, in its text's colour, which points up while its list is open. Every
+  dropdown is the app's own, one look written once: the closed field, then its list of plain lines, the hovered one
+  filled and the chosen one greyed, which grows open and then fades its lines in. A list either unfolds, growing in
+  place and pushing what is under it down, or floats, lying over what is under it right under the field, on the popups'
+  frame; each place is judged by eye. The reasons unfold at the edit popup's foot; the profile picker's list floats from
+  its head, the profile in colour greyed in it and a running one greyed with "· pågår". What a list holds beyond
+  choices, as the reasons' pen, rename and "Annan orsak", is that dropdown's own, on top of the shared look.
 - **No scrollbars:** no scrollbar shows anywhere; a part that can overflow scrolls without one. A bar takes width from
   what it scrolls, and its coming and going made the dashboard's rows re-flow back and forth as the window was resized.
 - **Surfaces:** each surface (the controls side, the dashboard, the menu, a popup) names itself with `data-surface` on
@@ -98,12 +102,17 @@ next. A field's own fill, and a ring around a field: the owner tried both agains
 panels and layout: a panel's padding would change with the set its text wears, and nesting compounds. The root at 62.5%:
 every text with no size of its own starts at 10px. Caps a size below the label: the owner likes them alike, and it saves
 a style. A weight of its own on a caps heading. A class per surface (`.tag-menu`): the surface's variables do it once.
+The native `<select>`'s list: the system paints it, brownish beside the app's colours on Linux and otherwise on Windows,
+and CSS cannot reach it. The profile picker's list unfolding: the owner tried both in the prototype, and floating looked
+best. A rule for which places float: there are two, each judged by eye, and a reason found after the choice only dressed
+it up.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
 
 **Cases:** the root at 125% grows every text, tag and small button, while panels, gaps and borders hold; a tag in the
 menu wears the menu's line, one in the edit popup the dashboard's; "Ändra" and the edit's "Avbryt" differ only in their
 surface's colours; every caps heading is 11px at 0.1em, in its surface's muted colour; "Välj orsak" and the edit's
-profile picker show the same chevron, and "Välj orsak"'s points up while its list is open. "25 %", "paus 30m" and "Lägg
-till paus" each open into a field of exactly their size; "Ändra" under a name and under a salary are the same width, and
-each field takes its place without moving anything.
+profile picker show the same chevron, each pointing up while its list is open; in a gap, picking another profile fills
+it and picking the entry's own empties it again. "25 %", "paus 30m" and "Lägg till paus" each open into a field of
+exactly their size; "Ändra" under a name and under a salary are the same width, and each field takes its place without
+moving anything.
