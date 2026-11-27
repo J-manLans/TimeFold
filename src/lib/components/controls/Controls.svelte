@@ -20,6 +20,9 @@
 
   // === State ===
 
+  /** The button block's width, which the main screen stacks the sides by */
+  let { blockWidth = $bindable(0) }: { blockWidth?: number } = $props()
+
   // The profile on screen's accent, for what is happening now: the start ring, the status mark and the undo's afterglow
   let profile = $derived(app.record?.profiles.find((p) => p.id === app.onScreen))
   let neon = $derived(profile ? neonColour(profile.hue) : undefined)
@@ -131,7 +134,7 @@
   <div class="top"></div>
 
   <div class="centre" inert={app.panel !== null || app.late !== null || app.profilesOpen}>
-    <div bind:this={block}>
+    <div bind:this={block} bind:clientWidth={blockWidth}>
       <ButtonBlock />
     </div>
     <StatusLine />
@@ -214,11 +217,10 @@
     --glow-strength: 0;
   }
 
-  /* A narrow window (App.svelte; CSS cannot read a token here): the menu button moves to the lower left corner, so
-     the top row goes and the bottom row keeps its room beside the prune line */
-  @media (max-width: 640px) {
-    .controls {
-      grid-template-rows: 0 1fr minmax(calc(var(--button-icon-size) + 2 * var(--menu-inset)), auto);
-    }
+  /* Stacked (App.svelte): the menu button moves to the lower left corner, so the bottom row keeps its room beside the
+     prune line, and the top row the same, so the middle sits evenly */
+  :global(:where(:root[data-stacked])) .controls {
+    --corner-room: calc(var(--button-icon-size) + 2 * var(--menu-inset));
+    grid-template-rows: var(--corner-room) 1fr minmax(var(--corner-room), auto);
   }
 </style>

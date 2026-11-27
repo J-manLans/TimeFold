@@ -11,6 +11,16 @@
   box-sizing: border-box;
 }
 
+/* No scrollbar shows anywhere: a part that can overflow scrolls without one, since a bar takes width from what it
+   scrolls and its coming and going makes the content re-flow */
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 /* The root: every rem in the app, and so every type set, follows it; at 100% it keeps the system's own text size */
 html {
   font-size: 100%;

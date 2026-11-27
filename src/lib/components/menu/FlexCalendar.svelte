@@ -309,16 +309,14 @@
     cursor: default;
   }
 
-  /* A narrow window (App.svelte; CSS cannot read a token here): the list sits under the calendar, straight after its
+  /* Stacked (App.svelte): the list sits under the calendar, straight after its
      last week */
-  @media (max-width: 640px) {
-    .calendar {
-      flex-direction: column;
-      gap: var(--calendar-head-gap);
-    }
+  :global(:where(:root[data-stacked])) .calendar {
+    flex-direction: column;
+    gap: var(--calendar-head-gap);
+  }
 
-    .ahead {
-      padding-top: 0;
-    }
+  :global(:where(:root[data-stacked])) .ahead {
+    padding-top: 0;
   }
 </style>

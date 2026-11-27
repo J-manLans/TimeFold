@@ -140,6 +140,8 @@ class AppState {
   editing = $state<Editing | null>(null)
   /** The entry a save from "Visa alla" left outlined there, until another row opens or the list closes */
   savedId = $state<string | null>(null)
+  /** Whether the sides stack, the dashboard over the controls ("A narrow window stacks the dashboard over the controls") */
+  stacked = $state(false)
 
   /** The theme in force on screen */
   shownTheme: ShownTheme = $derived(shownTheme(this.theme, this.systemDark))
@@ -486,6 +488,15 @@ class AppState {
   #applyMotion(motion: Motion): void {
     this.motion = motion
     document.documentElement.toggleAttribute('data-still', shownMotion(motion, this.systemStill) === 'off')
+  }
+
+  /**
+   * Shows the sides stacked or side by side: data-stacked on the page while they stack, which every part's stacked look
+   * keys on, in the same moment the state changes. Used by the main screen as the window or the button block resizes
+   */
+  showStacked(stacked: boolean): void {
+    this.stacked = stacked
+    document.documentElement.toggleAttribute('data-stacked', stacked)
   }
 
   /** Shows the main screen on `record`, on the running profile or the one kept from the last close. Used by `load` */

@@ -66,6 +66,7 @@
   --controls-text-size-small: var(--text-size-body); /* hints, the field's reading, small buttons */
   --controls-top-height: 64px; /* the row holding the menu button */
   --controls-gap: 14px; /* between the button block, the status line and the pause row */
+  --controls-block-room: 24px; /* the least room each side of the button block; with less, the sides stack */
 
   /* === Buttons === */
   /* Light theme: the dashboard's blue, a step deeper, so light text reads well on it */
@@ -164,7 +165,7 @@
   --dashboard-font-weight: 400;
   --dashboard-padding: 22px 26px 18px 30px;
   --dashboard-gap: 0px;
-  --dashboard-max-width: 440px; /* its width at launch, two fifths of the 1100 px window; the controls take the rest */
+  --dashboard-width: 440px; /* two fifths of the window's launch width; side by side its width, stacked its least, and so the window's least width (minWidth in tauri.conf.json) */
   --dashboard-spread: space-evenly; /* the figures up and down its height: center, space-between, space-around, space-evenly, start */
   --dashboard-inner-gap: 6px; /* inside a figure: the number and its bar, a label and its list */
   --divider-width: 1px; /* the line between the two sides, in --dashboard-line */
@@ -201,7 +202,7 @@
   --entry-columns: 7ch 13.5ch 2ch minmax(0, 1fr) auto; /* day, times ("21:30–07:00" and its "+1"), letter, tags, length */
   --entry-later-size: 0.72em; /* the "+1" after the end time of an entry that stops on a later day */
   --entry-later-gap: 2px;
-  --entry-cell-gap: 10px;
+  --entry-cell-gap: 8px;
   --entry-month-gap: 12px; /* in "Visa alla", above the line naming a new month */
   --entry-month-under: 2px; /* under it, before its first row */
   --entry-month-inset: 8px; /* in from the card's edge, as a row's text */

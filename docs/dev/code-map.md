@@ -20,8 +20,10 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
 ## The interface: `src/`
 
 - `main.ts`: the entry; the global styles are imported here and nowhere else.
-- `App.svelte`: the root component, the main screen, with the edit popup; it sets `--profile-state`, the colour of where
-  the profile on screen stands, which the profile letter and every focus ring wear.
+- `App.svelte`: the root component, the main screen, with the edit popup; it decides whether the sides stack, from the
+  window's width and the button block's (`app.showStacked`, which marks the page `data-stacked`); it sets
+  `--profile-state`, the colour of where the profile on screen stands, which the profile letter and every focus ring
+  wear.
 - `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
   problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
   the profile on screen and whether its popup is open, the menu's one value open for editing (`openValue`), the profile

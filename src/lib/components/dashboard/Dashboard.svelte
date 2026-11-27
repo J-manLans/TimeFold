@@ -123,18 +123,15 @@
     pointer-events: none;
   }
 
-  /* A narrow window stacks the dashboard over the controls, the line under it; CSS cannot read a token here */
-  @media (max-width: 640px) {
-    .dashboard {
-      order: -1;
-      min-height: 50vh;
-    }
+  /* Stacked (App.svelte), the dashboard sits over the controls, the line under it */
+  :global(:where(:root[data-stacked])) .dashboard {
+    order: -1;
+  }
 
-    .divider {
-      top: auto;
-      right: 0;
-      width: auto;
-      height: var(--divider-width);
-    }
+  :global(:where(:root[data-stacked])) .divider {
+    top: auto;
+    right: 0;
+    width: auto;
+    height: var(--divider-width);
   }
 </style>

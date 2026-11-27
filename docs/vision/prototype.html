@@ -25,6 +25,7 @@
   --btn-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.14);   /* was 5px 5px 20px 0.3; flatter: 0 1px 3px rgba(0, 0, 0, 0.08) */
   /* The button block */
   --start-w: 214px;  --start-h: 64px;  --pair-h: 34px;  --profile-w: 76px;  --block-gap: 8px;
+  --block-room: 24px;    /* the least room each side of the block; with less, the sides stack */
   /* The profile circle */
   --dot-size: 42px;      /* the raised disc */
   --dent: 6px;           /* how far the dent reaches around the disc */
@@ -162,7 +163,7 @@
   /* Focus */
   --focus-w: 2px;
   /* The narrow window ("Narrow window" in the sketch bar) */
-  --narrow-w: 400px;
+  --narrow-w: 440px;
   /* ======================================================================== */
 }
 @media (prefers-color-scheme: dark) {
@@ -269,9 +270,10 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
    The "Narrow window" box in the sketch bar sets .narrow; a narrow page sets it too. */
 .app.narrow { grid-template-columns: minmax(0, 1fr); height: auto; width: var(--narrow-w); margin-inline: auto; }
 .app.narrow .figures { order: -1; }
-/* Narrow, the menu button moves to the lower left corner: the top row goes, the panel grows from that corner, its
-   heading takes the top row, and the prune line keeps clear of the button */
-.app.narrow .top { height: 0; }
+/* Narrow, the menu button moves to the lower left corner: the bottom row keeps its room, and the top row the same, so
+   the middle sits evenly; the panel grows from that corner, its heading takes the top row, and the prune line keeps
+   clear of the button */
+.app.narrow .controls { grid-template-rows: 64px 1fr minmax(64px, auto); }
 .app.narrow .menu:not(.open) { clip-path: inset(calc(100% - 52px) calc(100% - 52px) 12px 12px round var(--r-small)); }
 .app.narrow .menu-toggle { top: auto; bottom: 12px; }
 .app.narrow .menu-head { margin-left: 0; }
@@ -363,6 +365,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .today-pie path.fresh { animation: pie-click var(--pie-flash) ease-out; }
 @keyframes pie-click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
 .app.still .today-pie path.fresh { animation: none; }
+/* Answered, the offer leaves and takes its room with it, narrow too */
+.app .controls .prune[hidden] { display: none; }
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .prune button { font: inherit; font-size: var(--size-label); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
 .prune .spacer { flex: 1; }
@@ -1762,11 +1766,11 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   function disarmPrune() { $("pruneYes").classList.remove("ask"); }
   $("pruneYes").addEventListener("click", function () {
     if (!this.classList.contains("ask")) { this.classList.add("ask"); return; }
-    disarmPrune(); toast("Rensar efter en kopia (skiss)"); $("prune").style.visibility = "hidden";
+    disarmPrune(); toast("Rensar efter en kopia (skiss)"); $("prune").hidden = true;
   });
   $("pruneYes").addEventListener("focusout", disarmPrune);
   document.addEventListener("pointerdown", function (ev) { if (!$("pruneYes").contains(ev.target)) disarmPrune(); });
-  $("pruneNo").addEventListener("click", function () { $("prune").style.visibility = "hidden"; });
+  $("pruneNo").addEventListener("click", function () { $("prune").hidden = true; });
   $("moreBtn").addEventListener("click", function () { openEntry(null); });
   // Opens the entries popup; with an entry, that row is marked and the entry opens on its line above the list.
   // Opens "Alla poster" with no entry; with one, the edit popup, on top of the list when a row of the list was clicked.
@@ -3445,11 +3449,18 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
       var c = stateColours(activeProfiles()[i].id); d.style.color = c.letter; d.style.borderColor = c.ring;
     });
   }
-  // Narrow: the box, or a page too narrow for the two sides
-  var narrowPage = window.matchMedia("(max-width: 760px)");
-  function setNarrow() { app.classList.toggle("narrow", $("simNarrow").checked || narrowPage.matches); }
+  // Narrow: the box, or a page where the controls, beside the dashboard, would be narrower than the button block with
+  // its room on both sides. Judged by the page, not by the layout it gives, so it never flips back and forth; side by
+  // side the controls take 3 of the box's 5 parts (.app's columns)
+  function setNarrow() {
+    var page = app.parentElement, pad = getComputedStyle(page);
+    var box = page.clientWidth - parseFloat(pad.paddingLeft) - parseFloat(pad.paddingRight);
+    var room = parseFloat(getComputedStyle(app).getPropertyValue("--block-room"));
+    var tight = box * 3 / 5 < app.querySelector(".block").offsetWidth + 2 * room;
+    app.classList.toggle("narrow", $("simNarrow").checked || tight);
+  }
   $("simNarrow").addEventListener("change", setNarrow);
-  narrowPage.addEventListener("change", setNarrow);
+  window.addEventListener("resize", setNarrow);
   setNarrow();
   scale = pickScale(Math.abs(balance));
   applyColours(); syncSim(); drawControls(); drawEntries(false); drawFigures();

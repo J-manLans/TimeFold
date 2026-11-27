@@ -6,9 +6,6 @@
   "Importera" is greyed out until Handover. "Använd kopian" saves the copy, and the panel closes as the menu closes.
 -->
 <script lang="ts" module>
-  /** The window width under which the sides stack, as App.svelte's media query has it; CSS cannot read a token there */
-  const NARROW = '(max-width: 640px)'
-
   /** The repo's releases page, where every version's installers are */
   const RELEASES = 'https://github.com/J-manLans/TimeFold/releases'
 
@@ -49,13 +46,10 @@
   // === State ===
 
   let main: ChoiceButton | undefined = $state()
-  /** Whether the window is narrow, where the dashboard sits on top instead of to the right */
-  let narrow = $state(matchMedia(NARROW).matches)
-
   let words = $derived.by(() => {
     if (app.recovery === 'newer') return NEWER
     if (app.recovery === 'bare') return BARE
-    const where = narrow ? 'ovanför' : 'till höger'
+    const where = app.stacked ? 'ovanför' : 'till höger'
     const day = app.copyDay ? dayInWords(app.copyDay) : ''
     return {
       ...COPY,
@@ -67,15 +61,6 @@
 
   onMount(() => {
     main?.focus()
-  })
-
-  $effect(() => {
-    const query = matchMedia(NARROW)
-    const follow = (): void => {
-      narrow = query.matches
-    }
-    query.addEventListener('change', follow)
-    return () => query.removeEventListener('change', follow)
   })
 
   // === Helpers ===

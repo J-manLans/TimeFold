@@ -80,6 +80,8 @@ It takes one of three forms, by what it brings:
   profile picker) carries a chevron after its text, in its text's colour, which points up while its list is open where
   the page can tell. A native `<select>` keeps the system's own list and wears only the closed look, its chevron drawn
   by a wrapper; a list that holds more than choices, as the reasons' does, is built by the app.
+- **No scrollbars:** no scrollbar shows anywhere; a part that can overflow scrolls without one. A bar takes width from
+  what it scrolls, and its coming and going made the dashboard's rows re-flow back and forth as the window was resized.
 - **Surfaces:** each surface (the controls side, the dashboard, the menu, a popup) names itself with `data-surface` on
   its root, and `base.css` gives each the same five variables from its tokens: `--surface-background`, `--surface-text`,
   `--surface-muted`, `--surface-line` and `--surface-button-line`. A shared look reads only these, so it fits wherever

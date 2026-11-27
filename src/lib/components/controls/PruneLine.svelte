@@ -96,16 +96,14 @@
     visibility: visible;
   }
 
-  /* A narrow window (App.svelte; CSS cannot read a token here): the menu button sits in the lower left corner, so the
+  /* Stacked (App.svelte): the menu button sits in the lower left corner, so the
      line starts right of it, its words wrapping over the left and its buttons stacked on the right */
-  @media (max-width: 640px) {
-    .prune {
-      flex-wrap: nowrap;
-      margin-left: calc(2 * var(--menu-inset) + var(--button-icon-size));
-    }
+  :global(:where(:root[data-stacked])) .prune {
+    flex-wrap: nowrap;
+    margin-left: calc(2 * var(--menu-inset) + var(--button-icon-size));
+  }
 
-    .buttons {
-      flex-direction: column;
-    }
+  :global(:where(:root[data-stacked])) .buttons {
+    flex-direction: column;
   }
 </style>
