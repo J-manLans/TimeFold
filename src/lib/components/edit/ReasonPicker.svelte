@@ -233,7 +233,7 @@
 </script>
 
 <div class="reason" class:open>
-  <button class="pick" class:chosen={picked !== null} type="button" onclick={toggle}>
+  <button class="pick dropdown" class:chosen={picked !== null} type="button" aria-expanded={open} onclick={toggle}>
     {picked === null ? 'Välj orsak' : picked === OTHER ? typed : picked}
   </button>
   <div class="grow">
@@ -310,6 +310,7 @@
     max-width: var(--edit-pick-max);
     overflow: hidden;
     padding: var(--edit-pick-padding);
+    padding-right: var(--dropdown-room);
     border: 1px solid var(--dashboard-line);
     border-radius: var(--radius-tag);
     background: var(--dashboard-background);

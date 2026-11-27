@@ -191,6 +191,36 @@ body {
   border-color: var(--profile-state, var(--surface-text));
 }
 
+/* A dropdown: a closed control that opens a list to choose from, marked by a chevron after its text, in its text's
+   colour. On a button it points up while aria-expanded says the list is open; a native select is wrapped in a
+   .dropdown span that draws it, the browser's own arrow gone. The control keeps --dropdown-room on its right for it */
+:where(.dropdown) {
+  position: relative;
+}
+
+:where(.dropdown)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: var(--dropdown-inset);
+  width: var(--dropdown-chevron);
+  height: var(--dropdown-chevron);
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-75%) rotate(45deg);
+  transition: transform var(--speed-ui) ease;
+  pointer-events: none;
+}
+
+:where(.dropdown[aria-expanded='true'])::after {
+  transform: translateY(-25%) rotate(-135deg);
+}
+
+:where(.dropdown > select) {
+  appearance: none;
+  cursor: pointer;
+}
+
 /* A heading in capitals: the label's size, tracked, in the surface's muted colour and weight */
 :where(.caps) {
   color: var(--surface-muted);

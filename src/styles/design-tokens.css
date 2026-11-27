@@ -30,6 +30,10 @@
   --tag-padding: 0.2em 0.45em;
   --button-small-padding: 0.25em 0.6em;
   --field-padding: var(--button-small-padding); /* the same as a small button's, so one swaps for the other in place */
+  /* A dropdown's chevron: its size, how far in from the edge it sits, and the room its control keeps for it */
+  --dropdown-chevron: 5px;
+  --dropdown-inset: 8px;
+  --dropdown-room: calc(2 * var(--dropdown-inset) + var(--dropdown-chevron));
 
   /* === Radii === */
   --radius-button: 5px; /* the button block, "Lägg till paus" */

@@ -45,7 +45,7 @@ differ, and an identical pair says it falsely. Times in milliseconds: the owner 
 
 ## Shared looks are written once (2026-11-27)
 
-**Built by:** Phase 5, the shared looks: the fields' shared behaviour, the dropdowns' chevron and the popups' frame.
+**Built by:** Phase 5, the shared looks: the fields' shared behaviour and the popups' frame.
 
 **Decision:** a look more than one part of the screen wears is written once and worn, never copied into each component.
 It takes one of three forms, by what it brings:

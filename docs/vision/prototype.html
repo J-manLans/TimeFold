@@ -675,7 +675,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .edit { display: grid; gap: 10px; }
 .ed-head { display: flex; align-items: center; gap: 10px; font-size: var(--size-body); }
 .ed-head .spacer { flex: 1; }
-.ed-head select { appearance: none; font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 2px calc(14px + var(--ed-chevron)) 2px 6px; cursor: pointer; }
+.ed-head select { appearance: none; font: inherit; background: var(--f-bg); color: var(--f-fg); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 2px calc(16px + var(--ed-chevron)) 2px 6px; cursor: pointer; }
 /* The profile picker stays the system's own list; only its closed box wears "Välj orsak"'s chevron, drawn by the span around it */
 .ed-prof { position: relative; display: inline-block; }
 .ed-prof::after { content: ""; position: absolute; right: 8px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid var(--f-fg); border-bottom: 1.5px solid var(--f-fg); transform: translateY(-75%) rotate(45deg); pointer-events: none; }
@@ -737,8 +737,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ed-hlabel.lean-r { transform: translateX(-2px); }
 .ed-hlabel { position: absolute; top: -17px; transform: translateX(-50%); font-size: var(--size-label); color: var(--f-fg); white-space: nowrap; pointer-events: none; }
 .ed-reason { display: grid; justify-items: start; }
-.ed-pick { position: relative; font: inherit; font-size: var(--size-small); background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 4px calc(18px + var(--ed-chevron)) 4px 10px; cursor: pointer; }
-.ed-pick::after { content: ""; position: absolute; right: 10px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-75%) rotate(45deg); transition: transform var(--speed-ui) ease; }
+.ed-pick { position: relative; font: inherit; font-size: var(--size-small); background: var(--f-bg); color: var(--f-muted); border: 1px solid var(--f-line); border-radius: var(--r-tag); padding: 4px calc(16px + var(--ed-chevron)) 4px 10px; cursor: pointer; }
+.ed-pick::after { content: ""; position: absolute; right: 8px; top: 50%; width: var(--ed-chevron); height: var(--ed-chevron); border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-75%) rotate(45deg); transition: transform var(--speed-ui) ease; }
 .ed-reason.open .ed-pick::after { transform: translateY(-25%) rotate(-135deg); }
 .ed-pick.chosen { color: var(--f-fg); }
 .ed-pick { box-sizing: content-box; max-width: var(--ed-pick-max); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

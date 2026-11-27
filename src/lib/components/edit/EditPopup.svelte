@@ -243,13 +243,15 @@
     <div class="card">
       <div class="head">
         <span>{day}</span>
-        <select aria-label="Profil" value={line.fill ?? line.profile} onchange={picked}>
-          {#each profiles as profile (profile.id)}
-            <option value={profile.id} disabled={profile.id === blocked}
-              >{profile.name}{profile.id === blocked ? ' · pågår' : ''}</option
-            >
-          {/each}
-        </select>
+        <span class="dropdown">
+          <select aria-label="Profil" value={line.fill ?? line.profile} onchange={picked}>
+            {#each profiles as profile (profile.id)}
+              <option value={profile.id} disabled={profile.id === blocked}
+                >{profile.name}{profile.id === blocked ? ' · pågår' : ''}</option
+              >
+            {/each}
+          </select>
+        </span>
       </div>
 
       <div class="words" bind:this={wordBox}>
@@ -353,6 +355,7 @@
 
   select {
     padding: var(--edit-picker-padding);
+    padding-right: var(--dropdown-room);
     border: 1px solid var(--dashboard-line);
     border-radius: var(--radius-tag);
     background: var(--dashboard-background);
