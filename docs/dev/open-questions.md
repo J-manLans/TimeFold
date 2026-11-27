@@ -6,13 +6,6 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 
 ## Phase 5: Handover
 
-### A tag in a row of text makes the row taller (2026-11-27)
-
-Tags have 0.2em above and below, which the owner chose; in the entry rows and the edit's times a tag is then taller than
-the line of text it sits in, and pushes the row taller. The agent's lean, as a rule: a tag never changes the height of
-the line it sits in, keeping its padding for looks with a negative margin of the same size above and below. **See:**
-"Shared looks are written once".
-
 ### The fields' shared behaviour: an attachment or a component (2026-11-27)
 
 Every field writes its own opening (focus, the text selected), Enter keeps, Esc or a click outside drops, and red while

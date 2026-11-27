@@ -4,6 +4,14 @@ Ideas that are not a problem now, one entry each, opening with **Returns when:**
 make it matter). Read at a docs sweep, when the owner asks about the subject, or when the owner says to. Problems in
 what is built go to `open-questions.md` instead.
 
+## The screen on a small display
+
+**Returns when:** the app is to fit a phone, or a window smaller than its least size.
+
+The text sets are in rem from the root, so one root font size scales all text and what follows it; on a small display
+the root could shrink so the screen fits, the way the owner has done on web pages, with the dashboard as a part that
+comes in sizes ("Shared looks are written once"). Taken in stages: first the stacked layout fits the desktop window.
+
 ## Corrected entries in the report
 
 **Returns when:** the Reports part is built.

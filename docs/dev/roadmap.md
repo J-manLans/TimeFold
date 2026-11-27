@@ -19,10 +19,18 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 5: Handover, the shared looks. First, the screen batch left uncommitted (the dashboard's one width, the window's
-least size from the tokens, the stacked screen fitting, no scrollbars): restart `npm start`, check it by eye, and commit
-it with its decisions. Then the two Phase 5 questions on the shared looks in `open-questions.md`, then the popups'
-frame, from **Settle first**.
+Phase 5: Handover, the shared looks. First, the stacked layout and its sizes, on top of the screen batch left
+uncommitted (side by side it works; commit it once the stacked layout is right):
+
+1. Stacked, the two sides scroll together as one page, not the dashboard alone; the page scrolls only once the window is
+   shorter than the sides' least heights.
+2. The window's least height shows the whole controls side, "Stoppa jobb" included, with some padding.
+3. The sides stack before the controls side is cut, so the switch follows from what the two sides need, not a fixed 640
+   px.
+4. A horizontal line appears while the stacked page scrolls: look before fixing.
+5. The select's brownish background in the edit popup.
+
+Then the fields' shared behaviour (`open-questions.md`), then the popups' frame, from **Settle first**.
 
 ## The phases
 
