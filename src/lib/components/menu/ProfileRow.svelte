@@ -136,7 +136,7 @@
         {#if removal !== null}
           <div class="last">
             <button
-              class="small"
+              class="button-small"
               class:remove={removal === 'delete'}
               class:asking
               type="button"
@@ -235,17 +235,6 @@
     gap: var(--menu-value-gap);
     padding: var(--menu-value-padding);
     margin-left: calc(var(--menu-label-width) + var(--menu-value-gap-inline));
-  }
-
-  .small {
-    padding: var(--menu-small-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--menu-text);
-    font: inherit;
-    font-size: var(--text-size-body);
-    cursor: pointer;
   }
 
   .q {

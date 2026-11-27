@@ -25,6 +25,11 @@
   --text-size-label: calc(11rem / 16); /* tags, quiet lines, notes, ticks, month and year lines, caps headings */
   --caps-tracking: 0.1em; /* headings in capitals */
 
+  /* === Spacing === */
+  /* Inside the shared looks, in em so each keeps its shape as its text grows */
+  --tag-padding: 0 0.45em;
+  --button-small-padding: 0.25em 0.6em;
+
   /* === Radii === */
   --radius-button: 5px; /* the button block, "Lägg till paus" */
   --radius-small: 6px; /* fields, small buttons, the warning label, menu controls, entry rows */
@@ -159,7 +164,6 @@
   --dashboard-text-muted: light-dark(#a9b8cf, #7b8592); /* the pay estimate, labels, tags */
   --dashboard-ink: light-dark(#b8c5d9, #7b8592); /* small marks: the bar's scale */
   --dashboard-font-weight: 400;
-  --dashboard-label-tracking: var(--caps-tracking);
   --dashboard-padding: 22px 26px 18px 30px;
   --dashboard-gap: 0px;
   --dashboard-max-width: 440px; /* its width at launch, two fifths of the 1100 px window; the controls take the rest */
@@ -206,8 +210,6 @@
   --entry-month-size: var(--text-size-label);
   --entry-month-weight: 700;
   --entry-tag-size: var(--text-size-label);
-  --entry-tag-padding: 0 5px;
-  --entry-tag-radius: var(--radius-tag);
   --entry-tag-gap: 4px; /* between a row's tags: its break and "e" */
   --entry-reason-lift: -4px; /* a reason under its row in "Visa alla", drawn up close to it */
   --entry-padding: 5px 8px;
@@ -251,8 +253,6 @@
   --theme-icon-size: 18px; /* the sun, moon or half circle on the theme disc */
   --theme-icon-stroke: 1.8;
   --motion-line-spread: 4.5px; /* the motion switch's speed lines, above and below the middle one, in Animerat */
-  --menu-section-size: var(--text-size-label);
-  --menu-section-tracking: var(--caps-tracking);
   --menu-tab-size: var(--text-size-body);
   --menu-history-size: var(--text-size-label); /* "Tidigare värden" */
   --menu-inset: 12px; /* where the folded menu button sits */
@@ -270,7 +270,6 @@
   --menu-value-gap-inline: 10px; /* between the label, the text, the field and its keys */
   --menu-value-row: 30px; /* each line's least height, so the row does not jump as "Ändra" turns into its field */
   --menu-note-gap: 14px; /* from a value to its quieter note, such as Heltid's day */
-  --menu-small-padding: 3px 8px; /* inside "Ändra", "Spara", "Avbryt" and the menu's other small buttons */
   --menu-field-width: 9ch;
   --menu-field-padding: 4px 8px;
   --menu-history-gap: 3px; /* between the earlier values */
@@ -450,7 +449,5 @@
   --edit-pen: 15px; /* the pen after a reason under the pointer, and "+" after "Annan orsak", drawn as the padlock */
   --edit-pen-padding: 3px;
   --edit-pen-gap: 2px; /* from a reason to its pen */
-  --edit-button-size: var(--text-size-body);
   --edit-button-gap: 8px;
-  --edit-button-padding: 4px 12px;
 }

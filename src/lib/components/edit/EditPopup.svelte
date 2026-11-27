@@ -294,13 +294,17 @@
 
       <div class="actions">
         {#if !line.isNew && !line.running}
-          <button class="remove" class:asking type="button" onclick={remove} onfocusout={() => (asking = false)}
-            >Ta bort<span class="question">?</span></button
+          <button
+            class="button-small remove"
+            class:asking
+            type="button"
+            onclick={remove}
+            onfocusout={() => (asking = false)}>Ta bort<span class="question">?</span></button
           >
         {/if}
         <span class="spacer"></span>
-        <button type="button" onclick={() => popup?.close()}>Avbryt</button>
-        <button class="save" type="button" disabled={!canSave(line, reason)} onclick={save}>Spara</button>
+        <button class="button-small" type="button" onclick={() => popup?.close()}>Avbryt</button>
+        <button class="button-small main" type="button" disabled={!canSave(line, reason)} onclick={save}>Spara</button>
       </div>
     </div>
   {/if}
@@ -362,22 +366,6 @@
 
   .tag {
     margin-left: var(--edit-tag-gap);
-    padding: var(--entry-tag-padding);
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--entry-tag-radius);
-    color: var(--dashboard-text);
-    font-size: var(--entry-tag-size);
-  }
-
-  button.tag {
-    background: none;
-    font-family: inherit;
-    cursor: pointer;
-  }
-
-  /* Every tag that can be clicked, "Lägg till paus" among them, lights its border under the pointer; a red one keeps its red */
-  button.tag:not(.warn):hover {
-    border-color: var(--dashboard-text);
   }
 
   /* The break's field, in the tag's place, the same shape as every length field */
@@ -400,23 +388,6 @@
 
   .spacer {
     flex: 1;
-  }
-
-  .actions button {
-    padding: var(--edit-button-padding);
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--dashboard-text);
-    font: inherit;
-    font-size: var(--edit-button-size);
-    cursor: pointer;
-  }
-
-  .actions .save {
-    border-color: var(--dashboard-text);
-    background: var(--dashboard-text);
-    color: var(--dashboard-background);
   }
 
   /* === States === */
@@ -454,7 +425,7 @@
   }
 
   /* "Ta bort" in removal red; asking, its "?" shows in the room it kept and a red border comes */
-  .actions .remove {
+  .remove {
     border-color: transparent;
     color: var(--edit-remove);
   }
@@ -463,16 +434,11 @@
     visibility: hidden;
   }
 
-  .actions .asking {
+  .asking {
     border-color: var(--edit-remove);
   }
 
   .asking .question {
     visibility: visible;
-  }
-
-  .actions .save:disabled {
-    opacity: var(--opacity-disabled);
-    cursor: default;
   }
 </style>

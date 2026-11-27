@@ -157,22 +157,7 @@
     color: var(--menu-text-muted);
   }
 
-  /* The percentage as a tag, and its field in the same border, drawn as an edit's "paus" tag */
-  .tag {
-    padding: var(--entry-tag-padding);
-    border: 1px solid var(--menu-line);
-    border-radius: var(--entry-tag-radius);
-    background: none;
-    color: var(--menu-text);
-    font: inherit;
-    font-size: var(--entry-tag-size);
-    font-variant-numeric: tabular-nums;
-  }
-
-  button.tag {
-    cursor: pointer;
-  }
-
+  /* The percentage's field, in the tag's border */
   .field {
     width: 5ch;
     box-sizing: content-box;
@@ -182,10 +167,6 @@
   }
 
   /* === States === */
-
-  button.tag:hover {
-    border-color: var(--menu-text);
-  }
 
   .field.warn {
     border-color: var(--edit-remove);

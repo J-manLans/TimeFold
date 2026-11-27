@@ -104,15 +104,6 @@
     font-size: var(--entry-tag-size);
   }
 
-  /* The added breaks: a label, which a click passes through to the row ("Time away is a gap or an added break") */
-  .tag {
-    padding: var(--entry-tag-padding);
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--entry-tag-radius);
-    color: var(--dashboard-text);
-    font-size: var(--entry-tag-size);
-  }
-
   .later {
     margin-left: var(--entry-later-gap);
     font-size: var(--entry-later-size);

@@ -111,6 +111,63 @@ body {
   cursor: default;
 }
 
+/* The shared looks ("Shared looks are written once"), each in the colours of the surface it sits on. Wrapped in
+   :where() so they weigh nothing: a component's own rule, such as a red warning, always wins over them */
+
+/* A tag: a small bordered label, its padding in em so it keeps its shape with its text. One that can be clicked lights
+   its border under the pointer */
+:where(.tag) {
+  padding: var(--tag-padding);
+  border: 1px solid var(--surface-line);
+  border-radius: var(--radius-tag);
+  background: none;
+  color: var(--surface-text);
+  font: inherit;
+  font-size: var(--text-size-label);
+  font-variant-numeric: tabular-nums;
+}
+
+:where(button.tag) {
+  cursor: pointer;
+}
+
+:where(button.tag:hover) {
+  border-color: var(--surface-text);
+}
+
+/* A small button: "Ändra", "Spara", "Avbryt". Its edge is the surface's button line, stronger than a divider, so it
+   reads as something to click; .main fills the main choice with the surface's text colour */
+:where(.button-small) {
+  padding: var(--button-small-padding);
+  border: 1px solid var(--surface-button-line);
+  border-radius: var(--radius-small);
+  background: none;
+  color: var(--surface-text);
+  font: inherit;
+  font-size: var(--text-size-body);
+  cursor: pointer;
+}
+
+:where(.button-small.main) {
+  border-color: var(--surface-text);
+  background: var(--surface-text);
+  color: var(--surface-background);
+}
+
+:where(.button-small:disabled) {
+  opacity: var(--opacity-disabled);
+  cursor: default;
+}
+
+/* A heading in capitals: the label's size, tracked, in the surface's muted colour and weight */
+:where(.caps) {
+  color: var(--surface-muted);
+  font-size: var(--text-size-label);
+  font-weight: inherit;
+  letter-spacing: var(--caps-tracking);
+  text-transform: uppercase;
+}
+
 /* How strong the pointer light is, 0 to 1, registered as a number so it can fade in and out (Controls.svelte) */
 @property --glow-strength {
   syntax: '<number>';

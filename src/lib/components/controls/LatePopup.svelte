@@ -37,7 +37,7 @@
 {#if words}
   <div class="scrim">
     <div class="popup" data-surface="popup" role="dialog" aria-modal="true" aria-labelledby="late-heading">
-      <h3 id="late-heading">{words.heading}</h3>
+      <h3 class="caps" id="late-heading">{words.heading}</h3>
       <p class="line">{words.line}</p>
       <p class="note">Glömde du stoppa? Tryck Stoppa och rätta posten i listan.</p>
       <div class="buttons">
@@ -75,10 +75,6 @@
 
   h3 {
     margin: 0;
-    font-size: var(--text-size-label);
-    color: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
-    letter-spacing: var(--caps-tracking);
-    text-transform: uppercase;
   }
 
   p {

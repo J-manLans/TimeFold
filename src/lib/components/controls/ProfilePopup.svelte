@@ -69,7 +69,7 @@
       aria-labelledby="profiles-heading"
       bind:this={list}
     >
-      <h3 id="profiles-heading">Profil</h3>
+      <h3 class="caps" id="profiles-heading">Profil</h3>
       {#if profiles.length < 2}
         <button type="button" onclick={() => app.askNewProfile()}>Skapa ny profil</button>
       {:else}
@@ -117,10 +117,6 @@
 
   h3 {
     margin: var(--popup-heading-margin);
-    color: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
-    font-size: var(--text-size-label);
-    letter-spacing: var(--caps-tracking);
-    text-transform: uppercase;
   }
 
   button {

@@ -173,7 +173,7 @@
   </div>
   <div class="act">
     {#if stage === 'locked'}
-      <button class="small" type="button" bind:this={change} onclick={open}>Ändra</button>
+      <button class="button-small" type="button" bind:this={change} onclick={open}>Ändra</button>
     {:else if stage === 'edit'}
       {#if field}
         <input
@@ -279,17 +279,6 @@
   /* Everything under the value lines up with it, past the label */
   .value > :not(.row) {
     margin-left: calc(var(--menu-label-width) + var(--menu-value-gap-inline));
-  }
-
-  .small {
-    padding: var(--menu-small-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--menu-text);
-    font: inherit;
-    font-size: var(--text-size-body);
-    cursor: pointer;
   }
 
   input {

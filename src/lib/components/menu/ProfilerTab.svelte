@@ -132,13 +132,18 @@
     </span>
     <span class="keys">Enter lägger till · Esc avbryter</span>
   {:else}
-    <button class="small" type="button" bind:this={newButton} onclick={openNew}>Ny profil</button>
+    <button class="button-small" type="button" bind:this={newButton} onclick={openNew}>Ny profil</button>
   {/if}
 </div>
 
 {#if archived.length > 0}
   <div class="archive" class:open={archiveOpen}>
-    <button class="archive-head" type="button" aria-expanded={archiveOpen} onclick={() => (archiveOpen = !archiveOpen)}>
+    <button
+      class="archive-head caps"
+      type="button"
+      aria-expanded={archiveOpen}
+      onclick={() => (archiveOpen = !archiveOpen)}
+    >
       Arkiverade ({archived.length})<span class="chevron" aria-hidden="true">›</span>
     </button>
     <div class="wrap" inert={!archiveOpen}>
@@ -205,17 +210,6 @@
     font-size: var(--text-size-label);
   }
 
-  .small {
-    padding: var(--menu-small-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--menu-text);
-    font: inherit;
-    font-size: var(--text-size-body);
-    cursor: pointer;
-  }
-
   .archive {
     margin-top: var(--menu-archived-gap);
   }
@@ -228,13 +222,8 @@
     padding: var(--menu-archive-head-padding);
     border: 0;
     background: none;
-    color: var(--menu-text-muted);
-    font: inherit;
-    font-size: var(--menu-section-size);
-    font-weight: var(--menu-heading-weight);
-    letter-spacing: var(--menu-section-tracking);
+    font-family: inherit;
     text-align: left;
-    text-transform: uppercase;
     cursor: pointer;
   }
 

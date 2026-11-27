@@ -106,7 +106,7 @@
     <span style:background={profile.base}></span>
     <span style:background={neonColour(profile.hue)}></span>
   </span>
-  <button class="small" type="button" bind:this={button} onclick={toggle}>Ändra</button>
+  <button class="button-small" type="button" bind:this={button} onclick={toggle}>Ändra</button>
 </div>
 
 {#if open}
@@ -171,17 +171,6 @@
     height: var(--picker-pair-swatch);
     border: 1px solid var(--button-line);
     border-radius: var(--radius-tag);
-  }
-
-  .small {
-    padding: var(--menu-small-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--menu-text);
-    font: inherit;
-    font-size: var(--text-size-body);
-    cursor: pointer;
   }
 
   /* Placed inside the menu by the script; the menu's frost makes it the box this is placed in */

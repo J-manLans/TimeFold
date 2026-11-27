@@ -37,7 +37,7 @@
 </script>
 
 <div class="entries">
-  <span class="label">Senaste</span>
+  <span class="caps">Senaste</span>
   <div class="room">
     <ol class="places" aria-hidden="true">
       {#each PLACES as place (place)}
@@ -63,13 +63,6 @@
   .entries {
     display: grid;
     gap: var(--dashboard-inner-gap);
-  }
-
-  .label {
-    color: var(--dashboard-text-muted);
-    font-size: var(--text-size-label);
-    letter-spacing: var(--dashboard-label-tracking);
-    text-transform: uppercase;
   }
 
   /* The blank rows and the list share one place, so the room is five rows high whatever the list holds */

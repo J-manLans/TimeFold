@@ -141,8 +141,8 @@
       <div class="act">
         <span>från</span>
         <input type="date" aria-label="Gäller från" bind:value={from} oninput={() => (refusal = '')} />
-        <button class="small" type="button" onclick={() => void keep()}>Spara</button>
-        <button class="small" type="button" onclick={drop}>Avbryt</button>
+        <button class="button-small" type="button" onclick={() => void keep()}>Spara</button>
+        <button class="button-small" type="button" onclick={drop}>Avbryt</button>
         {#if refusal}<span class="warn">{refusal}</span>{/if}
       </div>
     </div>
@@ -225,17 +225,6 @@
     background: var(--field-background);
     color: var(--menu-text);
     font: inherit;
-  }
-
-  .small {
-    padding: var(--menu-small-padding);
-    border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-small);
-    background: none;
-    color: var(--menu-text);
-    font: inherit;
-    font-size: var(--text-size-body);
-    cursor: pointer;
   }
 
   .warn {

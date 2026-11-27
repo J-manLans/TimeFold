@@ -69,7 +69,7 @@
   <div class="divider"></div>
   {#if app.recovery === 'copy' && app.copyDay !== null && !app.panel?.folded}
     <!-- While the copy is offered, the dashboard shows it ("A record that cannot be read offers the newest copy") -->
-    <span class="copy">Kopia · {dayLabel(app.copyDay)}</span>
+    <span class="copy caps">Kopia · {dayLabel(app.copyDay)}</span>
   {/if}
   {#if panel}
     <FlexBar {panel} />
@@ -98,10 +98,6 @@
   /* The copy's label, breathing into the colour of where the profile stands in it and back */
   .copy {
     justify-self: center;
-    color: var(--dashboard-text-muted);
-    font-size: var(--text-size-label);
-    letter-spacing: var(--dashboard-label-tracking);
-    text-transform: uppercase;
     animation: breathe var(--recovery-breath) ease-in-out infinite;
   }
 

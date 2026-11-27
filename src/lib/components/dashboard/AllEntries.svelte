@@ -82,7 +82,7 @@
   <!-- The edit popup stacked on it peeks only while the pointer rests on this card -->
   <div class="card" data-all-entries>
     <header>
-      <span class="label">Alla poster</span>
+      <span class="caps">Alla poster</span>
       <button class="more" type="button" onclick={() => popup?.close()}>Stäng</button>
     </header>
     <ol>
@@ -173,13 +173,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .label {
-    color: var(--dashboard-text-muted);
-    font-size: var(--text-size-label);
-    letter-spacing: var(--dashboard-label-tracking);
-    text-transform: uppercase;
   }
 
   ol {
