@@ -164,6 +164,7 @@
   --focus-w: 2px;
   /* The narrow window ("Narrow window" in the sketch bar) */
   --narrow-w: 440px;
+  --dash-w: 440px;       /* the dashboard's width side by side; the controls take the rest */
   /* ======================================================================== */
 }
 @media (prefers-color-scheme: dark) {
@@ -256,7 +257,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 
   font-family: var(--text-font); font-stretch: var(--text-stretch); font-weight: var(--text-weight); font-size: var(--size-body);
   text-transform: var(--text-case); letter-spacing: var(--text-tracking);
-  position: relative; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) var(--dash-w);
   height: 620px; border-radius: var(--r-panel); overflow: hidden; border: 1px solid var(--page-line);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
@@ -3450,13 +3451,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     });
   }
   // Narrow: the box, or a page where the controls, beside the dashboard, would be narrower than the button block with
-  // its room on both sides. Judged by the page, not by the layout it gives, so it never flips back and forth; side by
-  // side the controls take 3 of the box's 5 parts (.app's columns)
+  // its room on both sides. Judged by the page, not by the layout it gives, so it never flips back and forth
   function setNarrow() {
     var page = app.parentElement, pad = getComputedStyle(page);
     var box = page.clientWidth - parseFloat(pad.paddingLeft) - parseFloat(pad.paddingRight);
     var room = parseFloat(getComputedStyle(app).getPropertyValue("--block-room"));
-    var tight = box * 3 / 5 < app.querySelector(".block").offsetWidth + 2 * room;
+    var dash = parseFloat(getComputedStyle(app).getPropertyValue("--dash-w"));
+    var tight = box - dash < app.querySelector(".block").offsetWidth + 2 * room;
     app.classList.toggle("narrow", $("simNarrow").checked || tight);
   }
   $("simNarrow").addEventListener("change", setNarrow);
