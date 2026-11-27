@@ -350,7 +350,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .pair .plastic:disabled { opacity: var(--disabled-o); cursor: default; }
 .pause:disabled { opacity: var(--disabled-o); cursor: default; filter: none; transform: none; }
 .pause-field { position: relative; display: grid; place-items: center; height: 30px; }
-.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: var(--size-body); text-align: left; width: 72px; height: 28px; padding: var(--pad-small); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); }
+.pause-field input { font: inherit; text-transform: none; letter-spacing: 0.02em; font-size: var(--size-body); height: 30px; box-sizing: border-box; padding: var(--pad-small); border: 1px solid var(--c-btn-line); border-radius: var(--r-small); background: transparent; color: var(--c-fg); }
 .pause-field .reading { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 4px; font-size: var(--size-small); color: var(--c-muted); white-space: nowrap; pointer-events: none; }
 .pause-field button { font: inherit; font-size: var(--size-small); height: 28px; padding: 0 10px; border-radius: var(--r-small); }
 .status .live { color: var(--run, #e80003); }
@@ -833,6 +833,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 .app button:focus-visible, .app input:focus-visible { outline-width: var(--focus-w); outline-color: var(--state, #4b8bff); }
 /* A field shows its focus as its edge in that colour, in place of the ring; the onboarding's and "Annan orsak" keep their own */
 .app input:is([type="text"], [type="date"], :not([type])):not(.ob-lone):not(.other):focus-visible { outline: none; border-color: var(--state, #4b8bff); }
+/* A field's text is centred, where the words of the button or tag it replaced stood */
+.app input:is([type="text"], [type="date"], :not([type])):not(.ob-lone):not(.other) { text-align: center; }
 .app.still .menu, .app.still .menu .body, .app.still .menu.open .body, .app.still .menu-toggle span { transition: none; }
 .app.still .entries li.new, .app.still .zero { animation: none; }
 /* "KOPIA" holds still in the balance's colour, the pulse's strong end. */
@@ -1709,6 +1711,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
   // too long for the entry is refused: the field stays open, reading "för lång paus", until fixed or dropped.
   function lengthField(m) { return m >= 60 ? Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0") : m ? String(m) : ""; }
   $("pauseBtn").addEventListener("click", function () {
+    $("pauseInput").style.width = $("pauseBtn").getBoundingClientRect().width + "px";   // the field takes the button's place exactly
     $("pauseBtn").hidden = true; $("pauseField").hidden = false;
     var inp = $("pauseInput"); inp.value = lengthField(running ? running.brk || 0 : 0);
     $("pauseReading").textContent = inp.value ? lengthText(readLength(inp.value)) : "";

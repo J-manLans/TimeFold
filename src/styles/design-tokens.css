@@ -134,8 +134,6 @@
   --pause-text-size: var(--text-size-body);
   --pause-font-weight: 600;
   --pause-padding: 0 14px;
-  --field-height: 28px;
-  --pause-field-width: 72px;
   --pause-reading-gap: 4px; /* from the field down to how it reads what is typed */
   --undo-time: 15s; /* how long a click can be undone; the logic reads it from here */
   --undo-afterglow: 0.65; /* how strong the neon's afterglow is when the undo wakes; it fades to nothing */

@@ -1,6 +1,6 @@
 <!--
   "Lägg till paus" ("Time away is a gap or an added break"): a quiet button, greyed out unless the profile on screen
-  runs, whose length field opens in its place, text from the left ("Entering a length of time"). The field holds the
+  runs, whose length field opens in its place, at its size, the text centred ("Shared looks are written once"). The field holds the
   running entry's whole break: it opens on what is there so far, selected, so typing replaces it. A plain number is
   minutes, "1:20" hours and minutes; a keystroke that breaks the shape does not appear, and how the field reads what is
   typed shows just under it, so the field stays where it is. Enter, or a click away, sets the new total, a lower one
@@ -21,6 +21,8 @@
   let text = $state('')
   let refused = $state(false)
   let input: HTMLInputElement | undefined = $state()
+  /** The width of "Lägg till paus", which its field takes, so the field opens in the button's exact place */
+  let width = $state('')
   let minutes = $derived(readDuration(text, BREAK))
   let reading = $derived(refused ? 'för lång paus' : minutes === null ? '' : durationText(minutes))
 
@@ -34,7 +36,8 @@
   // === Helpers ===
 
   /** The button pressed: the field opens in its place on the break so far, selected, or empty with none */
-  async function openField(): Promise<void> {
+  async function openField(event: MouseEvent): Promise<void> {
+    width = `${(event.currentTarget as HTMLElement).getBoundingClientRect().width}px`
     text = app.record ? durationInField(breakSoFar(app.record, app.onScreen)) : ''
     open = true
     await tick()
@@ -84,6 +87,7 @@
   <div class="slot">
     <input
       class="field"
+      style:width
       bind:this={input}
       value={text}
       type="text"
@@ -113,8 +117,7 @@
   }
 
   input {
-    width: var(--pause-field-width);
-    height: var(--field-height);
+    height: var(--pause-height);
   }
 
   /* Under the field, out of the row's flow, so the field never moves as the reading comes and goes */

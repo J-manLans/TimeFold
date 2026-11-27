@@ -69,10 +69,11 @@ It takes one of three forms, by what it brings:
   says it does not scale.
 - **Fields:** a boxed field (`.field`) is see-through, edged in the surface's button line, at the small radius and the
   body set, with a small button's padding, so one swaps for the other in place. A field in a tag's place wears the tag
-  alone, unfilled, and opens at the width of the tag it replaces, keeping it while typed in. Every field shows its focus
-  as its edge in the colour of where the profile on screen stands, in place of the ring. In the menu, every "Ändra" that
-  turns into a field, "Ny profil" and the field each turns into are one size, wide enough for a name; "Ny profil"'s
-  field has no placeholder, only the caret. "Annan orsak"'s underline and the onboarding's lone fields keep their own
+  alone, unfilled. A field opens at the size of the button or tag it replaces and keeps it while typed in: a tag and
+  "Lägg till paus" are measured as they open, and in the menu the buttons and their fields share one size. A field's
+  text is centred, where the button's or tag's words stood. The menu's size is wide enough for a name; "Ny profil"'s
+  field has no placeholder, only the caret. Every field shows its focus as its edge in the colour of where the profile
+  on screen stands, in place of the ring. "Annan orsak"'s underline and the onboarding's lone fields keep their own
   look.
 - **Dropdowns:** a closed control that opens a list to choose from ("Välj orsak", the edit's profile picker) carries a
   chevron after its text, in its text's colour, which points up while its list is open where the page can tell. A native
