@@ -136,7 +136,8 @@ body {
 }
 
 /* A small button: "Ändra", "Spara", "Avbryt". Its edge is the surface's button line, stronger than a divider, so it
-   reads as something to click; .main fills the main choice with the surface's text colour */
+   reads as something to click, and lights under the pointer as a tag's does; .main fills the main choice with the
+   surface's text colour; .mini is the same button in the label's size, its padding following in em */
 :where(.button-small) {
   padding: var(--button-small-padding);
   border: 1px solid var(--surface-button-line);
@@ -152,6 +153,14 @@ body {
   border-color: var(--surface-text);
   background: var(--surface-text);
   color: var(--surface-background);
+}
+
+:where(.button-small:hover:enabled) {
+  border-color: var(--surface-text);
+}
+
+:where(.button-small.mini) {
+  font-size: var(--text-size-label);
 }
 
 :where(.button-small:disabled) {

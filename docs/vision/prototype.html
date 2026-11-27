@@ -363,7 +363,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 @keyframes pie-click { from { filter: brightness(1.9); } to { filter: brightness(1); } }
 .app.still .today-pie path.fresh { animation: none; }
 .prune { margin: 12px; padding: 9px 12px; border-top: 1px solid var(--c-line); font-size: var(--size-note); color: var(--c-muted); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.prune button { font: inherit; font-size: var(--size-small); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
+.prune button { font: inherit; font-size: var(--size-label); background: none; border: 1px solid var(--c-btn-line); color: var(--c-fg); border-radius: var(--r-small); padding: var(--pad-small); cursor: pointer; }
 .prune .spacer { flex: 1; }
 /* "Rensa" removes, as "Ta bort" does: red text, and a red border with "Rensa?" once clicked */
 #pruneYes { color: var(--c-remove); border-color: transparent; }
@@ -776,6 +776,8 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 #edSave { background: var(--f-fg); color: var(--f-bg); border-color: var(--f-fg); }
 #edSave:disabled { opacity: var(--disabled-o); cursor: default; }
 #edDel { color: var(--f-remove); border-color: transparent; }
+/* Every small button lights its edge under the pointer, as a tag does; the red ones keep theirs */
+.menu .small:hover:enabled, .prune button:not(#pruneYes):hover, .ed-actions button:not(#edDel):hover:enabled, .entries .more:hover:enabled { border-color: currentColor; }
 #edDel.ask { color: var(--f-remove); border-color: var(--f-remove); }
 .ed-hint { font-size: var(--size-small); color: var(--f-muted); margin: 0; }
 .entries li .reason { grid-column: 1 / -1; font-size: var(--size-label); color: var(--f-muted); margin-top: -4px; }

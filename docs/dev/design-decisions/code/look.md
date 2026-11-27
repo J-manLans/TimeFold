@@ -51,7 +51,8 @@ differ, and an identical pair says it falsely. Times in milliseconds: the owner 
 It takes one of three forms, by what it brings:
 
 - **A class** in `src/styles/base.css` for a look alone: `.plastic`, the flat button; `.tag`; `.button-small`, with
-  `.main` for the filled main choice ("Spara"); and `.caps`, a heading in capitals.
+  `.main` for the filled main choice ("Spara") and `.mini` in the label's size ("Rensa", "Inte nu"); and `.caps`, a
+  heading in capitals.
 - **An attachment** (`{@attach}`) for behaviour put on any element, such as `durationShape` on every length field.
 - **A component** when look, markup and behaviour come together: `Disc`, `ChoiceButton`, `TipLabel`, the fields and the
   popups' frame.

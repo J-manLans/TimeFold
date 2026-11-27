@@ -34,10 +34,16 @@
   {#if offering && offer}
     <span class="words">{pruneWords(offer.months)}</span>
     <span class="buttons">
-      <button class="button-small clear" class:asking type="button" onclick={clear} onfocusout={() => (asking = false)}>
+      <button
+        class="button-small mini clear"
+        class:asking
+        type="button"
+        onclick={clear}
+        onfocusout={() => (asking = false)}
+      >
         Rensa<span class="q">?</span>
       </button>
-      <button class="button-small" type="button" onclick={() => void app.pruneLaterOn()}>Inte nu</button>
+      <button class="button-small mini" type="button" onclick={() => void app.pruneLaterOn()}>Inte nu</button>
     </span>
   {/if}
 </footer>
