@@ -43,6 +43,15 @@ export function lineForGap(record: TimeRecord, gap: View, profile: string, now: 
 }
 
 /**
+ * The profiles the edit's profile picker offers: every one in use, and an archived one only as the entry's own, so the
+ * picker still names it; an archived profile is never picked onto an entry. Used by the edit popup: a janitor entry
+ * with development archived offers the janitor alone.
+ */
+export function pickableProfiles(profiles: Profile[], line: LineState): Profile[] {
+  return profiles.filter((p) => !p.archived || p.id === line.entry.profile)
+}
+
+/**
  * Whether the confirm can save: an entry placed, a reason given, and something changed, or on an entry already
  * written a reason alone. Used by "Spara", greyed out until it is true.
  * @param reason - the reason chosen or typed; empty for none

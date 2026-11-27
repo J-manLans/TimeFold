@@ -34,18 +34,20 @@ follows the profile as it is now: **"Arkivera"** while it has any hours (an entr
 running), **"Ta bort"** in the removal red while it has none, so the word turns to "Arkivera" with its first entry. Each
 asks once, as an entry's delete does: the word gets its "?" and a border, the removal red for "Ta bort", the plain text
 colour for "Arkivera", since an archive can be undone; the focus or a click going elsewhere disarms it. An archived
-profile leaves the switch list and the Profiler list but keeps its hours, colours, pay and history. A deleted one is
-gone for good. A profile that runs is neither: its "Arkivera" is refused with "Stoppa jobbet först" in the removal red
-under the button, until it is stopped. A profile removed while on screen hands the screen to the first active profile.
-Archived profiles sit in **"Arkiverade"** at the bottom of Profiler, under "Ny profil": a heading with their count,
-folded shut until clicked, opening and folding as a profile row does, absent while nothing is archived; each row in it
-is faded, opens like any profile row, and ends with **"Återställ"**, which brings the profile back at once, asking
-nothing, with its history whole and a stretch with no entries where it was archived. A name belongs to one profile,
-active or archived, compared without case or the spaces around it: in "Ny profil" a taken name is refused, the field
-kept open with a note centred under it in the note size and the removal red, as every refused value in the app, "Namnet
-finns redan" or "Namnet finns bland arkiverade", gone at the next key; a rename to a taken name is refused as any
-refused value in the menu is. A name's first letter turns into a capital as it is typed, in "Ny profil" and in a rename,
-the caret left where it was.
+profile leaves the switch list and the Profiler list but keeps its hours, colours, pay and history. The edit popup's
+profile picker never offers it: an entry of an archived profile still opens and is edited as any entry, its times, its
+break, its reason, or moved to a profile in use, the picker naming its own profile greyed as the chosen one, but no
+entry is moved onto an archived profile. A deleted one is gone for good. A profile that runs is neither: its "Arkivera"
+is refused with "Stoppa jobbet först" in the removal red under the button, until it is stopped. A profile removed while
+on screen hands the screen to the first active profile. Archived profiles sit in **"Arkiverade"** at the bottom of
+Profiler, under "Ny profil": a heading with their count, folded shut until clicked, opening and folding as a profile row
+does, absent while nothing is archived; each row in it is faded, opens like any profile row, and ends with
+**"Återställ"**, which brings the profile back at once, asking nothing, with its history whole and a stretch with no
+entries where it was archived. A name belongs to one profile, active or archived, compared without case or the spaces
+around it: in "Ny profil" a taken name is refused, the field kept open with a note centred under it in the note size and
+the removal red, as every refused value in the app, "Namnet finns redan" or "Namnet finns bland arkiverade", gone at the
+next key; a rename to a taken name is refused as any refused value in the menu is. A name's first letter turns into a
+capital as it is typed, in "Ny profil" and in a rename, the caret left where it was.
 
 **Why:** a profile's hours are its history: deleting one with hours would change past balances or ceilings, the pay
 estimate and reports already sent, or leave entries with no name or colour. A profile with no hours has nothing to keep,
@@ -59,7 +61,8 @@ hours but keeping its entries: the entries still need its name, colour and pay c
 name. Bringing a profile back by making it again under the same name: two profiles with one name, their hours counted
 apart and in different colours. Suggesting archived names as "Ny profil" is typed, to bring one back from there: the
 folded list already brings it back, and the refused name points to it. Archived profiles in the Profiler list, marked
-"arkiverad": they stay in sight long after they matter.
+"arkiverad": they stay in sight long after they matter. An archived profile's entries frozen until it is brought back:
+fixing an old entry's forgotten stop would need "Återställ", the edit and "Arkivera" again.
 
 **Revisit if:** archived profiles pile up enough that the folded list is hard to read.
 

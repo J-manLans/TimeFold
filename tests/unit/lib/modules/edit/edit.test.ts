@@ -7,6 +7,7 @@ import {
   deleteEntry,
   lineForEntry,
   lineForGap,
+  pickableProfiles,
   resultWords,
   savedEntryId,
   saveLine,
@@ -389,5 +390,24 @@ describe('the row a save leaves outlined in "Visa alla" is the saved entry', () 
     const saved = saveLine(r, placed, 'Glömd post')
 
     expect(saved.entries.find((e) => e.id === savedEntryId(r, saved, placed))?.start).toBe(at(THURSDAY, '12:15'))
+  })
+})
+
+describe("the profile picker offers the profiles in use, and an archived one only as the entry's own", () => {
+  const archived = (r: TimeRecord, id: string): TimeRecord => ({
+    ...r,
+    profiles: r.profiles.map((p) => (p.id === id ? { ...p, archived: true } : p)),
+  })
+
+  it('leaves out an archived development profile from a janitor entry', () => {
+    const r = archived(record(work('a', '08:00', '12:00')), DEVELOPMENT)
+
+    expect(pickableProfiles(r.profiles, open(r, 'a')).map((p) => p.id)).toEqual([JANITOR])
+  })
+
+  it('keeps an archived development profile on its own entry, beside the janitor in use', () => {
+    const r = archived(record(work('a', '08:00', '12:00', { profile: DEVELOPMENT })), DEVELOPMENT)
+
+    expect(pickableProfiles(r.profiles, open(r, 'a')).map((p) => p.id)).toEqual([JANITOR, DEVELOPMENT])
   })
 })

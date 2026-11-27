@@ -116,8 +116,7 @@ says; why the code is as it is lives in `design-decisions/`. Print the tree with
   the focus it moves in unless that was the keyboard (`ringOnOpen`); closing, it quiets the element the focus lands on
   (`popupClosed`) unless it was opened and closed with the keyboard (`ringAfterClose`). `field.ts`, the fields' one
   behaviour, the Svelte attachment on the pause field, the break's tag, the tax and "Ny profil" (`field`): the focus in
-  and the text selected, Enter keeps, Esc drops, leaving keeps or drops as the field says; and the width of what a field
-  replaces (`widthOf`).
+  and the text selected, Enter keeps, Esc or leaving drops; and the width of what a field replaces (`widthOf`).
 - `styles/design-tokens.css`: every value of the look ("Design tokens hold every value of the look"), the type sets
   among them; `styles/base.css`: the reset, the fonts, the root's text size that every type set follows, the body, the
   surfaces' five colours under each `data-surface` (the controls side, the dashboard and its two popups, the menu, the

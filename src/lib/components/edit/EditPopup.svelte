@@ -13,7 +13,7 @@
   import EditLine from './EditLine.svelte'
   import ReasonPicker from './ReasonPicker.svelte'
   import Dropdown from '$lib/components/shared/Dropdown.svelte'
-  import { canSave, lineForEntry, lineForGap, resultWords } from '$lib/modules/edit/edit'
+  import { canSave, lineForEntry, lineForGap, pickableProfiles, resultWords } from '$lib/modules/edit/edit'
   import { blockedProfile, pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
   import { durationShape } from '$lib/modules/shared/durationShape'
   import { field, widthOf } from '$lib/modules/shared/field'
@@ -46,6 +46,8 @@
   let picking = $state(false)
 
   let profiles = $derived(app.record?.profiles ?? [])
+  /** What the profile picker offers: the profiles in use, and an archived one only as the entry's own */
+  let pickable = $derived(line ? pickableProfiles(profiles, line) : [])
   let words = $derived(line ? resultWords(line, profiles) : [])
   /** The running entry's profile while the entry touches it, greyed in the picker with "· pågår" */
   let blocked = $derived(line ? blockedProfile(line) : null)
@@ -187,7 +189,7 @@
   /**
    * The field kept: that part's break set to what it reads, empty taking it away, and a divided entry's breaks set
    * where they stand; longer than the time the part keeps, it is refused, red, and stays open until fixed or dropped
-   * with Esc. Used by Enter and leaving the field
+   * with Esc. Used by Enter
    */
   function keepTag(): void {
     if (!line || tagAt === null) return
@@ -234,12 +236,12 @@
         <span>{day}</span>
         <Dropdown
           text={profiles.find((p) => p.id === shown)?.name ?? ''}
-          choices={profiles.map((p) => p.name)}
+          choices={pickable.map((p) => p.name)}
           chosen={true}
           float={true}
           bind:open={picking}
         >
-          {#each profiles as profile (profile.id)}
+          {#each pickable as profile (profile.id)}
             <button
               class="dropdown-choice"
               type="button"
@@ -270,7 +272,7 @@
                   value={tagText}
                   style:width={tagWidth}
                   {@attach durationShape(BREAK, typedTag)}
-                  {@attach field({ keep: keepTag, drop: () => (tagAt = null), away: 'keep' })}
+                  {@attach field({ keep: keepTag, drop: () => (tagAt = null) })}
                 />{:else if word.tag !== null && word.kind === 'grey'}<span class="tag still"
                   >paus {durationText(word.tag)}</span
                 >{:else if word.tag !== null}<button

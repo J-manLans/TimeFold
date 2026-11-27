@@ -3,8 +3,8 @@
   runs, whose length field opens in its place, at its size, the text centred ("Shared looks are written once"). The field holds the
   running entry's whole break: it opens on what is there so far, selected, so typing replaces it. A plain number is
   minutes, "1:20" hours and minutes; a keystroke that breaks the shape does not appear, and how the field reads what is
-  typed shows just under it, so the field stays where it is. Enter, or a click away, sets the new total, a lower one
-  taking time back; Esc closes the field. A total longer than its entry is refused, and the reading says so, the field
+  typed shows just under it, so the field stays where it is. Enter sets the new total, a lower one taking time back;
+  Esc or a click away closes the field as it was. A total longer than its entry is refused, and the reading says so, the field
   left open.
 -->
 <script lang="ts">
@@ -56,7 +56,7 @@
 
   /**
    * A whole length set as the total, and the field closes; one too long is refused, the field left open with the
-   * reading saying so. Nothing whole typed closes the field as it was. Used by Enter and leaving the field
+   * reading saying so. Nothing whole typed closes the field as it was. Used by Enter
    */
   async function keep(): Promise<void> {
     if (!open) return
@@ -83,7 +83,7 @@
       spellcheck="false"
       aria-label="Pausens längd, Enter lägger till, Esc avbryter"
       {@attach durationShape(BREAK, typed)}
-      {@attach field({ keep: () => void keep(), drop: close, away: 'keep' })}
+      {@attach field({ keep: () => void keep(), drop: close })}
     />
     <span class="reading" aria-live="polite">{reading}</span>
   </div>
