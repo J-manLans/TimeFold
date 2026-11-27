@@ -61,7 +61,7 @@ function open(r: TimeRecord, id: string, now = t('17:00')): LineState {
 
 /** A handle dragged to a time and let go. Used by most tests */
 function drag(line: LineState, grip: 'start' | 'end', to: number): LineState {
-  const held = grab(line, grip, grip === 'end' ? line.end : line.start)
+  const held = grab(line, grip)
   return held ? letGo(dragTo(line, held, to)) : line
 }
 
@@ -174,7 +174,7 @@ describe('joined entries are saved as one', () => {
     const stopped = drag(open(r, 'e1', t('11:00')), 'end', t('10:25'))
 
     expect(stopped.running).toBe(false)
-    expect(grab(stopped, 'end', stopped.end)).not.toBeNull()
+    expect(grab(stopped, 'end')).not.toBeNull()
     expect(rows(saveLine(r, stopped, 'Glömde stämpla ut'))).toEqual([
       'p1 08:00–10:20 edited: Glömde stämpla ut',
       'p1 10:25–… clicked',

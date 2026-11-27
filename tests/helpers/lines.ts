@@ -53,7 +53,7 @@ export const DAY_OF_SPANS: fc.Arbitrary<Span[]> = fc
 export const MOVE = fc.oneof(
   fc.record({
     kind: fc.constant('drag' as const),
-    grip: fc.constantFrom<Grip>('start', 'end', 'middle'),
+    grip: fc.constantFrom<Grip>('start', 'end'),
     to: fc.array(fc.double({ min: -0.2, max: 1.2, noNaN: true }), { minLength: 1, maxLength: 3 }),
   }),
   fc.record({
@@ -73,14 +73,13 @@ export const MOVE = fc.oneof(
 /** A move on the line */
 export type Move = typeof MOVE extends fc.Arbitrary<infer M> ? M : never
 
-/** A move done on the line, a drag grabbed where its grip is and let go at the end. Used by the properties */
+/** A move done on the line, a drag grabbed on its handle and let go at the end. Used by the properties */
 export function applyMove(line: LineState, move: Move): LineState {
   if (move.kind === 'step') return stepHandle(line, move.handle, move.by)
   if (move.kind === 'middle') return clickMiddle(line)
   if (move.kind === 'pick') return pickProfile(line, move.profile)
   if (move.kind === 'break') return setBreak(line, move.minutes, move.part) ?? line
-  const from = move.grip === 'end' ? line.end : move.grip === 'start' ? line.start : (line.start + line.end) / 2
-  const held = grab(line, move.grip, from)
+  const held = grab(line, move.grip)
   if (!held) return line
   let moved = line
   for (const share of move.to) moved = dragTo(moved, held, line.view.from + share * (line.view.to - line.view.from))

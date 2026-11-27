@@ -53,10 +53,9 @@ function live(from: string, now: string, profile = 'p1'): Span {
   return { id: 'live', profile, start: t(from), stop: t(now), breakMinutes: 0, running: true }
 }
 
-/** One drag: grabbed where the grip is (the middle at its centre), moved through each time, and let go. Used by the view's tests */
+/** One drag: grabbed on its handle, moved through each time, and let go. Used by the view's tests */
 function turn(state: LineState, grip: Grip, ...to: number[]): LineState {
-  const from = grip === 'end' ? state.end : grip === 'start' ? state.start : (state.start + state.end) / 2
-  const held = grab(state, grip, from)
+  const held = grab(state, grip)
   if (!held) return state
   let moved = state
   for (const time of to) moved = dragTo(moved, held, time)
@@ -85,7 +84,7 @@ function colours(state: LineState): string[] {
 describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () => {
   it("snaps to the entry's own end as it was too: 18:00–19:47, its end dragged from 19:45 on, lands on 19:45, 19:47, 19:50", () => {
     const line = drag(openLine(span('18:00', '19:47'), [], t('21:00')), 'end', t('19:45'))
-    const held = grab(line, 'end', line.end)
+    const held = grab(line, 'end')
     const at = (time: number): number => (held ? dragTo(line, held, time).end : 0)
 
     expect([at(t('19:45') + 20_000), at(t('19:46') + 40_000), at(t('19:49'))]).toEqual([
@@ -103,7 +102,7 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
 
   it("follows the pointer past the view's edge: 08:00–12:00, its end dragged to 16:00 in one drag, gives 16:00", () => {
     const line = openLine(span('08:00', '12:00'), [], t('17:00'))
-    const held = grab(line, 'end', line.end)
+    const held = grab(line, 'end')
     const moved = held && dragTo(line, held, t('16:00'))
 
     expect(t('16:00')).toBeGreaterThan(line.view.to)
@@ -130,8 +129,8 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
     expect(turn(line, 'end', t('12:00')).end).toBe(t('12:00'))
   })
 
-  it('moves the whole entry past the view in one drag: 08:00–09:00 by its middle to 14:30 gives 14:00–15:00', () => {
-    const moved = turn(openLine(span('08:00', '09:00'), [], t('17:00')), 'middle', t('14:30'))
+  it('moves an entry clear by its handles in two drags: 08:00–09:00, its end to 15:00, its start to 14:00', () => {
+    const moved = drag(drag(openLine(span('08:00', '09:00'), [], t('17:00')), 'end', t('15:00')), 'start', t('14:00'))
 
     expect(times(resultParts(moved))).toEqual(['14:00–15:00'])
   })
@@ -160,13 +159,6 @@ describe('a handle moves its end, snapped to 5 minutes, and stops at walls', () 
     const line = openLine(span('08:00', '12:00'), [], t('12:10'))
 
     expect(drag(line, 'end', t('13:00')).end).toBe(t('12:10'))
-  })
-
-  it('moves the whole entry by its middle: 30 minutes later gives 08:30–12:30', () => {
-    const line = openLine(span('08:00', '12:00'), [], t('17:00'))
-    const moved = turn(line, 'middle', t('10:30'))
-
-    expect(times(resultParts(moved))).toEqual(['08:30–12:30'])
   })
 
   it('crosses midnight freely: 22:00–23:30, its end dragged on to 00:30', () => {
@@ -214,7 +206,7 @@ function made(): LineState {
 describe('a gap is left only on purpose', () => {
   /** A drag held, not let go. Used to see the outline */
   function held(state: LineState, grip: Grip, to: number): LineState {
-    const grabbed = grab(state, grip, grip === 'end' ? state.end : state.start)
+    const grabbed = grab(state, grip)
     return grabbed ? dragTo(state, grabbed, to) : state
   }
 
@@ -605,12 +597,11 @@ describe('entries of a profile that touch are one', () => {
 })
 
 describe('a running entry is edited at its start', () => {
-  it('has no end handle and no middle to drag, and its start docks onto an earlier entry', () => {
+  it('has no end handle, and its start docks onto an earlier entry', () => {
     const running = openLine(span('13:00', '13:00'), [span('11:00', '12:30')], t('15:00'), true)
     const docked = drag(running, 'start', t('12:30'))
 
-    expect(grab(running, 'end', t('15:00'))).toBeNull()
-    expect(grab(running, 'middle', t('14:00'))).toBeNull()
+    expect(grab(running, 'end')).toBeNull()
     expect(running.end).toBe(t('15:00'))
     expect(docked.start).toBe(t('11:00'))
   })
@@ -624,15 +615,13 @@ describe('a running entry is edited at its start', () => {
     expect(drag(at703, 'end', t('08:00')).end).toBe(t('07:00'))
   })
 
-  it('stops the pill and a moved middle there too, and lets an entry of another profile touch it', () => {
+  it('stops the pill there too, and lets an entry of another profile touch it', () => {
     const line = openLine(span('08:00', '12:50'), [live('13:00', '15:00')], t('15:00'))
     let stepped = line
     for (let i = 0; i < 20; i++) stepped = stepHandle(stepped, 'end', 1)
-    const moved = turn(line, 'middle', t('10:25'), t('14:00'))
     const other = openLine(span('08:00', '12:50', { profile: 'p2' }), [live('13:00', '15:00')], t('15:00'))
 
     expect(stepped.end).toBe(t('12:55'))
-    expect(moved.end).toBe(t('12:55'))
     expect(drag(other, 'end', t('13:00')).end).toBe(t('13:00'))
   })
 
@@ -644,7 +633,7 @@ describe('a running entry is edited at its start', () => {
 
   it('lets an entry moved clear of its original dock back onto it with janitor work running after it', () => {
     const line = openLine(span('08:00', '10:00'), [live('13:00', '15:00')], t('15:00'))
-    const moved = turn(line, 'middle', t('09:00'), t('14:00'))
+    const moved = drag(drag(line, 'end', t('14:00')), 'start', t('11:00'))
     const back = drag(moved, 'start', t('10:00'))
 
     expect(moved.end).toBe(t('12:55'))
@@ -688,8 +677,8 @@ describe('a profile picked takes in the neighbours of that profile it touches', 
 
 describe('the original is outlined while an entry moved clear of it docks onto it', () => {
   it('outlines 08:00–10:00 while 11:00–13:00 holds its start at 10:00, and takes it back on let go', () => {
-    const moved = turn(openLine(span('08:00', '10:00'), [], t('17:00')), 'middle', t('09:00'), t('12:00'))
-    const held = grab(moved, 'start', moved.start)
+    const moved = drag(drag(openLine(span('08:00', '10:00'), [], t('17:00')), 'end', t('13:00')), 'start', t('11:00'))
+    const held = grab(moved, 'start')
     const holding = held ? dragTo(moved, held, t('10:00')) : moved
 
     expect(times([{ from: moved.start, to: moved.end }])).toEqual(['11:00–13:00'])

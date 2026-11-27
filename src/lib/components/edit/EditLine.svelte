@@ -2,8 +2,8 @@
   The entry line in the edit popup ("Editing an entry on its line"): the entry as a bar in its profile's colour, time
   added green and taken away red, other entries as blocked time, a handle at each end in the neon of the profile in
   colour, its time above it, and the scale under the line. A handle is dragged, snapped to 5 minutes, or clicked into a
-  pill whose − and + step a minute ("A clicked handle steps by the minute"); the bar is dragged to move the entry, and
-  with both handles inward its middle clicked to switch shortening and a gap ("A gap divides an entry"); while a let go
+  pill whose − and + step a minute ("A clicked handle steps by the minute"); only the handles move the entry, and
+  with both handles inward its middle is clicked to switch shortening and a gap ("A gap divides an entry"); while a let go
   would leave the gap, the part not dragged is outlined in the entry's colour. The view holds still while a handle is
   dragged, the handle following the pointer past its ends too, out of sight past the popup's edges; the entries and the
   hairline run on past the view out to the popup's edges, which cut them, so the popup never scrolls sideways. Let go,
@@ -163,7 +163,7 @@
     }
     const grip = (target.dataset.grip as Grip | undefined) ?? null
     const at = timeAt(event.clientX)
-    const drag = grip ? grab(line, grip, at) : null
+    const drag = grip ? grab(line, grip) : null
     press = { drag, grip, x: event.clientX, at, moved: false }
     if (drag) {
       box?.setPointerCapture(event.pointerId)
@@ -193,7 +193,7 @@
     closing = null
     original = null
     if (moved && drag) line = letGo(line)
-    else if (!moved && (grip === 'start' || grip === 'end')) openPill(grip)
+    else if (!moved && grip) openPill(grip)
     else if (!moved && !line.fill && isInward(line) && at > line.start && at < line.end) line = clickMiddle(line)
   }
 
@@ -289,7 +289,6 @@
         <div
           class="bar {piece.kind}"
           class:pick={middle && !line.fill && piece.kind === 'cut'}
-          data-grip={piece.kind === 'keep' && !line.running ? 'middle' : undefined}
           style:left={pct(Math.max(piece.from, reach.from))}
           style:width={span(piece.from, piece.to)}
         ></div>
@@ -453,11 +452,6 @@
 
   .keep {
     background: var(--own);
-  }
-
-  .keep[data-grip] {
-    cursor: grab;
-    pointer-events: auto;
   }
 
   .add {

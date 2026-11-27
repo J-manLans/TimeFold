@@ -83,13 +83,12 @@ export interface BreakSplit {
   set: boolean
 }
 
-/** Which part of the line a drag holds */
-export type Grip = 'start' | 'end' | 'middle'
+/** Which handle a drag holds; an entry moves only by its handles */
+export type Grip = 'start' | 'end'
 
-/** A drag under way: what it holds, where the handles were and the time first grabbed */
+/** A drag under way: the handle it holds and where the handles were */
 export interface Drag {
   grip: Grip
-  grabbedAt: number
   startWas: number
   endWas: number
 }
@@ -215,18 +214,17 @@ export function place(state: LineState, at: number): LineState {
 }
 
 /**
- * A drag begun on the line. Used by the line's pointer down: a handle, or the entry's own bar to move it whole. A
- * running entry has no end handle and its middle does not move.
+ * A drag begun on a handle. Used by the line's pointer down. A running entry has no end handle.
  * @returns null where nothing can be dragged
  */
-export function grab(state: LineState, grip: Grip, at: number): Drag | null {
+export function grab(state: LineState, grip: Grip): Drag | null {
   if (state.placing) return null
   if (state.running && grip !== 'start') return null
-  return { grip, grabbedAt: at, startWas: state.start, endWas: state.end }
+  return { grip, startWas: state.start, endWas: state.end }
 }
 
 /**
- * The handle (or the whole entry) dragged to the time under the pointer, snapped to 5 minutes of the clock, past the
+ * The handle dragged to the time under the pointer, snapped to 5 minutes of the clock, past the
  * view's ends too, the view holding still until let go. It stops at another entry, at the last 5-minute mark before a
  * running entry of its profile, at now, at its original when moved clear of it, and where the time kept could no longer
  * hold the break; dragged back to a joined neighbour's far end, it lets the neighbour go whole. A gap's edges
@@ -262,15 +260,9 @@ export function dragTo(state: LineState, drag: Drag, at: number): LineState {
   if (drag.grip === 'start') {
     const target = open && snap(at) > state.end ? state.end : snapNear(at, open ? [...own, state.end] : own)
     start = Math.max(Math.min(target, state.end - apart), Math.min(low, state.start))
-  } else if (drag.grip === 'end') {
+  } else {
     const target = open && snap(at) < state.start ? state.start : snapNear(at, open ? [...own, state.start] : own)
     end = Math.min(Math.max(target, state.start + apart), Math.max(high, state.end))
-  } else {
-    const shift = Math.round((at - drag.grabbedAt) / step) * step
-    // An entry already ending past its wall, closer to a running entry, keeps its end
-    const kept = Math.max(low - drag.startWas, Math.min(Math.max(high, drag.endWas) - drag.endWas, shift))
-    start = drag.startWas + kept
-    end = drag.endWas + kept
   }
   // Each try starts from the state before the move, so a gap is judged as a gap until the move is done
   const tried = (from: number, to: number): LineState => normalised({ ...state, refused: false, start: from, end: to })
