@@ -32,11 +32,6 @@ date: no past estimate is shown, so no history is read.
 
 **Revisit if:** the estimate is used for anything that has to be exact.
 
-**Cases:**
-
-- Rate 20 €/h, an entry of 3 h stopped: the estimate grows by 60 €; 30 min then cut from it: it falls by 10 €.
-- "Skatt och avgifter" given 100, or left empty, then Enter: refused, the field red and still open.
-
 ## Settings change from a date (2026-11-26)
 
 **Decision:** settings that counting depends on, such as janitor's expected hours and full time, are changed in a small
@@ -51,9 +46,3 @@ already settled with the boss; a contract change often starts on a date before t
 **Rejected:** one current value per setting: changing it would recount every past day.
 
 **Revisit if:** a setting ever needs to change the past on purpose.
-
-**Cases:**
-
-- Janitor set from 30 h to 25 h a week (6 h to 5 h a weekday) from 1 September: an August weekday with 6 h worked adds
-  0; a September one adds +1.
-- The same change entered on 10 September, dated 1 September: 1–9 September are recounted against 5.

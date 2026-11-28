@@ -30,11 +30,6 @@ calendar, and a period's edge would take hours from the wrong side.
 
 **Revisit if:** the employer counts late work on the day it began.
 
-**Cases:**
-
-- Tuesday 22:00 to Wednesday 01:00: Tuesday 2 h, Wednesday 1 h.
-- An entry of a profile without a balance, 31 March 23:00 to 1 April 01:00: 1 h in March's ceiling, 1 h in April's.
-
 ## Time is counted to the second and shown to the minute (2026-11-16)
 
 **Decision:** a click records the moment to the second, and the counting works in seconds; every figure the owner sees
@@ -49,11 +44,6 @@ five minutes by hand, so a minute's difference is well within what counts as the
 to a minute's truth for a match the owner does not need.
 
 **Revisit if:** a hand count's minute differences start to matter, say to the boss.
-
-**Cases:**
-
-- Clicked 07:58:40 to 11:30:10: counted 3:31:30, shown 3:32.
-- Four entries of 1:59:40 each: counted 7:58:40, shown 7:59, not 8:00.
 
 ## A day owes its expected hours only when work started on it (2026-11-14)
 
@@ -74,15 +64,6 @@ after midnight would charge the next day's expected hours, even a day of leave.
 
 **Revisit if:** the employer requires absences to be recorded by type.
 
-**Cases:**
-
-- Janitor, Friday 22:00 to Saturday 01:00: Saturday adds +1 (a weekend has no expected hours).
-- Janitor, Thursday 22:00 to Friday 01:00, Friday on leave: Friday adds +1, not 1 − 6.
-- Janitor, Sunday 22:00 to Monday 01:00, then Monday 11:00–17:00: Monday adds 1 + 6 − 6 = +1.
-- An empty weekday: adds nothing.
-- A flex day: −6.
-- A flex day still marked, 6 h worked on it: the day adds 6 − 6 = 0, as any workday.
-
 ## The app's month is the calendar month (2026-11-16)
 
 **Decision:** the app counts by the calendar month, the 1st to the last day, as the school counts the owner's hours
@@ -98,8 +79,3 @@ school's month proved to be the calendar month. A month start asked once at onbo
 for the report alone: its wheel would cover parts of two ceilings.
 
 **Revisit if:** the owner works where hours are counted from another day, or in weeks or terms.
-
-**Cases:**
-
-- 16 November: the month is 1–30 November.
-- 29 February 2028: the month is 1–29 February.

@@ -5,60 +5,41 @@ Type, colour, surfaces and buttons. Each decision follows the template in `../..
 ## The look: a fresh display face, mono text and soft buttons (2026-11-15)
 
 **Decision:** the app's look, from the owner's art direction references (kept locally, not in git) and settled on the
-prototype:
+prototype. Its values live in the code ("The look is a few scales, picked in each part").
 
-- **Type:** Bricolage Grotesque, bold and at its narrowest width (75%), for the big things: "Starta jobb", the profile
-  letter, the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in normal
-  case. The quiet lines, what runs, the offer to prune and the short messages after an action (such as "Rensar efter en
-  kopia"), share one small size (10.5 px) in the muted colour. Both fonts are bundled with the app from their
-  `@fontsource-variable` npm packages, so it needs no internet to show them.
-- **Colour:** flat fields with one hot accent, which the neon already is. Each theme colour is set once, with its light
-  and dark value side by side. The dashboard is near-black in the dark theme and slate blue in the light theme, each a
-  tinted family of panel, rows, lines and text ("The main screen has a controls side and a dashboard"). Contrast is
-  balanced across the themes, a little stronger in the light one, where faint lines read weaker at the same ratio, and
-  stronger still on its blue-tinted frost: in the menu, text stands at about 13.8:1 and quiet text 8.8:1 (light), lines
-  at about 1.95:1 (light) and 1.5:1 (dark) against the frost, and the borders of fields and small buttons at about 2.7:1
-  and 2.0:1, as measured on the prototype. Red means removal or a warning: time taken away on the entry line, "Ta bort"
-  and "Rensa", and a break tag in the edit at its limit. A button that removes is red text with no border; the first
-  click adds a red border and a question mark ("Ta bort?", "Rensa?"), the second removes, and a click or the focus going
-  elsewhere turns it back. The button keeps room for its "?" from the start, so it never changes width and nothing
-  beside it moves. The red is a coral `#ff7a70` on the light dashboard (4.2:1) and a deeper `#c8372d` on the light
-  controls side (4.7:1), `#f0605a` on both in dark. There is no other warning colour. A profile with red colours keeps
-  them: removal and warnings are told by their place, not their hue.
-- **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper, `#4f688e`,
-  with near-white text at 5.2:1, hovered `#40577b` at 6.8:1; in the dark theme a dark grey with light text; a little
-  bolder text on the smaller buttons), with no border and no shading: corners of 5 px and a soft, quiet shadow offset
-  down and to the right (2 by 3 px, 12 px blur, 14% black). Hovered, a little lighter; pressed, a faint shade from the
-  top. Small controls and fields have 6 px corners, panels and popups 12 px. Around them, the light theme's controls
-  side is in cool greys (the page `#f2f4f7`, quiet text `#556070` at 5.8:1), so it sits with the blue; fields are white
-  and the colour picker `#e6ecf4`. The profile popup takes the button colour, with the chosen or hovered profile a
-  lighter step (`#5f789e` in the light theme), as in the dark theme. No popup has a shadow, in either theme: the dimmed
-  layer behind each lifts it, and every popup is styled alike.
+- **Type:** Bricolage Grotesque, bold and at its narrowest width, for the big things: "Starta jobb", the profile letter,
+  the balance and the hours inside the ceiling wheel. JetBrains Mono for all other text on both sides, in normal case;
+  quiet lines and short messages after an action wear the label set in the muted colour. Both fonts are bundled from
+  their `@fontsource-variable` npm packages, so the app needs no internet to show them.
+- **Colour:** flat fields with one hot accent, which the neon already is. Each theme colour is set once, its light and
+  dark value side by side. The dashboard is near-black in the dark theme and slate blue in the light, each a tinted
+  family of panel, rows, lines and text ("The main screen has a controls side and a dashboard"). Contrast is balanced
+  across the themes, a little stronger in the light one, where faint lines read weaker at the same ratio, and stronger
+  still on its blue-tinted frost. Red means removal or a warning: time taken away on the entry line, "Ta bort" and
+  "Rensa", and a break tag at its limit; there is no other warning colour. A button that removes is red text with no
+  border; the first click adds a red border and a question mark ("Ta bort?", "Rensa?"), the second removes, and a click
+  or the focus going elsewhere turns it back. It keeps room for its "?" from the start, so nothing beside it moves. A
+  profile with red colours keeps them: removal and warnings are told by their place, not their hue.
+- **Buttons:** flat, in the theme's button colour (in the light theme the dashboard's blue, a step deeper; in the dark a
+  dark grey), with no border and no shading, small corners and one soft, quiet shadow down and to the right. Hovered, a
+  little lighter; pressed, a faint shade from the top. The light theme's controls side is in cool greys, so it sits with
+  the blue. The profile popup takes the button colour, the chosen or hovered profile a lighter step. No popup has a
+  shadow: the dimmed layer behind each lifts it, and every popup is styled alike.
 - **Profile circle:** a raised disc in the button's own colour, lit by a soft round glow toward its top, its letter in
-  the colour of where the profile stands ("Each profile carries its colours"; if a colour reads poorly on the button,
-  the owner changes it with the picker), trimmed to its capital so it sits dead centre, sitting in a soft dent 6 px wide
-  around it, after a CodePen pen (bthehuman, MIT); the dent is see-through in both themes, so it is always a soft shade
-  of the button's own colour, whatever that colour is. In the light theme its highlights and shadows are tinted blue,
-  not white or black, so they sit with the blue button. The glow has the same shape in both themes; only its colours
-  change. The theme button's disc is in the buttons' own colour too, with a light icon; it catches the pointer light
-  like the other discs.
-- **Motion:** every transition in the interface takes the same 0.2 seconds, one setting for all: hover and press, the
-  start button's ring and label, the status line, buttons waking and dimming, the menu, tabs and rows, the warning
-  label, the profile letter's colour, and a change of theme. A text that changes swaps at once. Animations that tell
-  something over longer, such as the numbers counting at stop or the undo's fade, keep their own length.
-- **Light:** a soft, matte light follows the pointer over the controls side: one light shared by all buttons, reaching
-  about 70 px from the pointer (far enough to flow across buttons, near enough that a button visibly lights up as the
-  pointer enters it), so it lies only on button surfaces and flows across them, faint and tinted (stronger on the light
-  theme's blue than on the dark grey), fading in and out with the pointer. The discs catch it too, at full strength,
-  except the profile disc, which catches 0.7 of it and so stays a little apart; on the undo disc it lies over the
-  coloured afterglow, under the arrow. While the menu is open, the light leaves the buttons under its frost, which it
-  would seem to shine through, and lies only on what is in the menu. The small text buttons in the menu ("Ändra", "OK",
-  "Ny profil", "Använd default", "Arkivera") stay plain, without the light: it marks the main controls and the discs,
-  the theme disc among them. A disabled button reacts to nothing: no light, no hover, no press; and every unavailable
-  button fades by the same amount (to 40%), so "Lägg till paus" and the undo match side by side.
-- **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning; none for decoration
-  alone.
-- In code, these values are named variables in one place, so the look is tuned there.
+  the colour of where the profile stands ("Each profile carries its colours"), trimmed to its capital so it sits dead
+  centre, in a soft see-through dent, after a CodePen pen (bthehuman, MIT), so the dent is always a shade of the
+  button's colour. In the light theme its highlights and shadows are tinted blue. The glow has one shape in both themes;
+  only its colours change. The theme button's disc is in the buttons' colour too, with a light icon.
+- **Motion:** every transition in the interface takes one short time, one setting for all. A text that changes swaps at
+  once. Animations that tell something over longer, such as the numbers counting at stop or the undo's fade, keep their
+  own length.
+- **Light:** a soft, matte light follows the pointer over the controls side, one light shared by all buttons, reaching
+  far enough to flow across them and near enough that a button visibly lights as the pointer enters it. It lies only on
+  button surfaces, faint and tinted, fading in and out with the pointer. The discs catch it too, the profile disc a
+  little less, so it stays a little apart; on the undo it lies over the afterglow, under the arrow. While the menu is
+  open, the light lies only on what is in the menu. The menu's small text buttons stay plain: the light marks the main
+  controls and the discs. A disabled button reacts to nothing, and every unavailable button fades by the same amount.
+- **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning.
 
 **Why:** the owner likes the references' printed, technical feel, with something fresher and more modern for the big
 type. A mono for the rest ties the controls to the dashboard. Flat buttons with one soft shadow keep the surfaces calm;
@@ -68,13 +49,13 @@ the indented disc gives the profile button a physical touch.
 Extra Condensed, Big Shoulders Display, Teko): too round. Tektur, condensed: square and technical, but not fresh enough
 for the big type; tried for all text, it was too much. Matte plastic buttons with grain, edge highlights and a deeper
 shadow: they looked like 1990s 3D. Shaded or glossy buttons. A white profile circle: the button's own colour reads
-better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the page
-(1.08:1, later 1.29:1); the blue ties the controls side to the dashboard. An outline around the profile letter: it
-looked silly. No light on the discs: it set them apart, but less naturally; the profile disc's weaker share keeps a
-little of both. A fine grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the
-blue one sits better with the other buttons. A top-down gradient on the disc in the light theme, beside the glow in the
-dark: the glow looks better, and one shape keeps the theme a matter of colours. Loading the fonts from Google Fonts: the
-app works offline. A changing text fading out, swapping and fading back in: the owner prefers the snappier change at
-once. A shadow under the popups: muddy in the dark theme, and popups share one look, so none has one.
+better. Decorative micro labels: they say nothing. Light grey buttons in the light theme: they barely stood off the
+page; the blue ties the controls side to the dashboard. An outline around the profile letter: it looked silly. No light
+on the discs: it set them apart, but less naturally; the profile disc's weaker share keeps a little of both. A fine
+grain over the panels: tried, it added nothing. A near-white theme disc in the light theme: the blue one sits better
+with the other buttons. A top-down gradient on the disc in the light theme, beside the glow in the dark: the glow looks
+better, and one shape keeps the theme a matter of colours. Loading the fonts from Google Fonts: the app works offline. A
+changing text fading out, swapping and fading back in: the owner prefers the snappier change at once. A shadow under the
+popups: muddy in the dark theme, and popups share one look, so none has one.
 
 **Revisit if:** the mono is hard to read at small sizes, or the pointer light repaints too slowly there.

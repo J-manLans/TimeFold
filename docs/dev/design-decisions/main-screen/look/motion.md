@@ -42,18 +42,3 @@ the start: it overrides a choice someone may have made on purpose. A note on a s
 step is enough. Pointing at the menu in words: the switch is hidden there during the onboarding.
 
 **Revisit if:** some motion has to stay with motion off, such as a signal that cannot be shown still.
-
-**Cases:**
-
-- System asks for reduced motion, the switch turned on: a stop makes the flex bar and the ceiling wheel count, and the
-  menu grows open.
-- System does not ask for reduced motion, the switch turned off: a stop makes the numbers jump to their new values, and
-  the menu opens at once.
-- The switch flipped with the app open: the next animation follows it, with no restart.
-- A first start with the app in Stilla, from a fresh settings file or one that chose Stilla, shows the note; one that
-  chose Animerat on a system with reduced motion shows none.
-- A first start on a system with reduced motion: the onboarding shows the note; the switch clicked there, the sentence
-  turns to "Animerat", a second click to "Stilla", the buttons above stay put, and the ending follows the state chosen.
-  On a system without it, no note.
-- The switch's label swapping between Animerat and Stilla: the theme button and the switch stay where they are.
-- A handover imported: the motion state stays as the machine had it.

@@ -22,12 +22,3 @@ for its own screen and room. "System" as a third state on the button, with a hal
 choice made once.
 
 **Revisit if:** the dashboard should follow the theme after all.
-
-**Cases:**
-
-- A fresh install on a dark system: the controls side is dark, and the button shows the moon.
-- The system turns light before the button is ever clicked: the app turns light, and the button shows the sun.
-- One click on a dark system: Ljust; the controls side is light and the dashboard slate blue, and the system turning
-  dark later changes nothing.
-- The theme changed while the tip or the undo's afterglow shows: both take the new theme's colours, and nothing
-  restarts.

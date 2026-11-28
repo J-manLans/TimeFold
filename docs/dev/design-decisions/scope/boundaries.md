@@ -79,12 +79,6 @@ without a word. Cutting mid-month: that month's report and ceiling would be spli
 
 **Revisit if:** the boss or payroll asks for months older than the window.
 
-**Cases:**
-
-- "Not now" on 3 February 2030: the line returns on 1 March 2030, offering two months.
-- "Rensa" clicked: it turns to "Rensa?" in a red border; a click elsewhere turns it back; clicked twice, the prune runs
-  after a copy.
-
 ## A plain window app (2026-11-14)
 
 **Decision:** the app is an ordinary window: the owner opens it, clicks, and minimises or closes it, and closing it

@@ -8,16 +8,16 @@ Each decision follows the template in `../../README.md`, and is cited by its tit
 **Decision:** the main screen is responsive to the window's size. Wide enough, the two sides sit side by side; below a
 set width, they stack, the dashboard on top and the controls side under it, each the window's full width. The window has
 a minimum size, small enough to stand as a strip beside another window. The sides stack once the controls side, beside
-the dashboard, would be narrower than the button block with its room on both sides (`--controls-block-room`, 24 px), so
-the switch follows the block's own size; judged by the window, not by the layout it gives, it never flips back and
-forth. The main screen measures the block and marks the page stacked, and each part's stacked look keys on that mark.
-Stacked, each side takes its own height and the two scroll together as one page, only once they no longer fit the
-window; neither scrolls inside itself. The dashboard fills the width and is never narrower than side by side. The window
-is at least the dashboard's width, 440 px, and 660 px tall, its height at launch, set in `tauri.conf.json`, so the
-window is made at that size before the page loads; the token for the dashboard's width points to it. In a narrow window
-the menu button sits in the controls side's lower left corner instead of the top left; the bottom row keeps its room,
-and the top row the same, so the button block, the status line and the pause row sit evenly between. The panel grows
-from that corner, and its heading takes the top row.
+the dashboard, would be narrower than the button block with its room on both sides (`--controls-block-room`), so the
+switch follows the block's own size; judged by the window, not by the layout it gives, it never flips back and forth.
+The main screen measures the block and marks the page stacked, and each part's stacked look keys on that mark. Stacked,
+each side takes its own height and the two scroll together as one page, only once they no longer fit the window; neither
+scrolls inside itself. The dashboard fills the width and is never narrower than side by side. The window is at least the
+dashboard's width and its height at launch, set in `tauri.conf.json`, so the window is made at that size before the page
+loads; the token for the dashboard's width points to it. In a narrow window the menu button sits in the controls side's
+lower left corner instead of the top left; the bottom row keeps its room, and the top row the same, so the button block,
+the status line and the pause row sit evenly between. The panel grows from that corner, and its heading takes the top
+row.
 
 **Why:** the owner keeps the app on a second screen, often squeezed beside another window: tall and thin, the screen's
 full height but little of its width. There it is mostly looked at, and the figures are what is looked at, so they come

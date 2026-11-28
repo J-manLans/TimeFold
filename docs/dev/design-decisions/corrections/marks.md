@@ -22,11 +22,6 @@ edit.
 
 **Revisit if:** the boss asks to see what an edit changed.
 
-**Cases:**
-
-- An edited entry with a 20 min break, in "Senaste": "paus 20min" and "e"; in "Visa alla" also "ändrad: Glömd paus".
-- A written entry in "Visa alla": "e", and "tillagd: …" under it.
-
 ## Every edit carries a reason (2026-11-26)
 
 **Decision:** an edit that changes an entry's time or its profile, on its line or by writing a forgotten entry by hand,
@@ -101,29 +96,3 @@ back.
 
 **Revisit if:** picking the same reason for several edits in a row becomes tedious, or near-identical free texts keep
 slipping past the count.
-
-**Cases:**
-
-- Enter in an empty "Annan orsak": no reason; the confirm stays greyed out.
-- "Hämtade nycklar hos rektorn" typed: the confirm lights at the first letter, and the underline grows with each letter
-  and shrinks with each one deleted; Enter shows it cut with "…" at the length of "Glömde stämpla ut".
-- That text, then "Fel profil" chosen and the list opened again: the slot shows the text; clicked, it opens with it.
-- Esc while typing: the text from before the click comes back, and the edit stays open.
-- A reason longer than the popup typed: only its own text scrolls left, the other reasons stay; Enter cuts it with "…"
-  at the length of "Glömde stämpla ut"; clicked again, it opens to the whole text.
-- "Möte" typed and kept: its underline is as long as "Möte".
-- "Fel profil" chosen and the list opened again: "Fel profil" is greyed in its place, and a click on it does nothing.
-- The pen on "Ärende", the text changed to "fel profil", Enter: refused, "Orsaken finns redan"; Esc: "Ärende" as it was.
-- The pen on "Glömd post", the text emptied, Enter: "Ta bort?" in red; Enter again: the reason is gone; a click outside
-  instead: "Glömd post" as it was.
-- The pen on the chosen reason, renamed: the picker shows the new name, still chosen.
-- Six reasons: the list shows all seven lines with "Annan orsak" and does not scroll; a seventh reason learned: it
-  scrolls, seven lines in view.
-- An edit undone: no reason is asked for.
-- An entry deleted: "Ta bort?", and no reason.
-- An entry moved from janitor work to the development group: the confirm waits for a reason, such as "Fel profil".
-- A break changed from 20 to 35 min in the edit: the confirm waits for a reason, such as "Glömd paus".
-- The starting list, opened: "Fel profil", "Glömd paus", "Glömd post", "Glömde stämpla in", "Glömde stämpla ut",
-  "Ärende", "Annan orsak".
-- A clicked entry given only "Stannade kvar och monterade barngrind hos Bantis": no "e"; "Visa alla" shows the text
-  alone.

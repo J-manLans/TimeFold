@@ -47,20 +47,6 @@ stopped entry from this control: it blurs whether work is running, and the entry
 **Revisit if:** the report needs breaks shown by time or kind, or nights with a break across a month's edge become
 common.
 
-**Cases:**
-
-- Nothing running on the profile on screen: "add break" is shown, greyed out.
-- A running, B on screen: "add break" is greyed out.
-- A 5 h break on an entry that has run 2 h: refused; the field reads "för lång paus".
-- The field open with "30" typed, "Stoppa jobb" pressed: the field closes, the 30 dropped, and the job stops with the
-  break it had.
-- The field open with "30" typed, a click elsewhere or Esc: the break stays as it was; Enter: it becomes 30 min.
-- Stop Tuesday 23:30, start Wednesday 00:15: the gap counts on neither day, with no special rule; Tuesday ends at 23:30,
-  Wednesday starts at 00:15.
-- 20 min of break so far, "Lägg till paus": the field opens on "20", selected; 30 typed and Enter: the break is 30 min.
-- Running since Monday 22:00, 20 min added Monday and raised to 45 on Tuesday, stopped Tuesday 03:00: one break of 45
-  min, all off Tuesday's 3 h, which leaves Monday 2 h and Tuesday 2 h 15.
-
 ## Entering a length of time (2026-11-14)
 
 **Decision:** a length of time, such as an added break, is typed into one field: a plain number is minutes ("45"), and
@@ -87,11 +73,3 @@ gesture meant two things in two places. "Stoppa jobb" keeping what is typed: the
 long capped at the most it can be: a typo would become a real break, with the entry counting nothing, unseen.
 
 **Revisit if:** typed lengths are often misread.
-
-**Cases:**
-
-- "45": 45 min.
-- "1:20": 80 min, shown as "1h 20min".
-- "5", "05" and "0:05": 5 min, shown as "5min".
-- "-5" or "1h": the sign and the letter do not appear. "1:205": the third minute digit does not appear. "1:7": the 7
-  does not appear.

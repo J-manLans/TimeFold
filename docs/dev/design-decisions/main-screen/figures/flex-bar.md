@@ -37,12 +37,3 @@ One fixed width cut off at its end: past it, the length means nothing. A scale a
 would always look full.
 
 **Revisit if:** the scale changes feel jumpy in daily use (a compressed far end, linear near 0, was the alternative).
-
-**Cases:**
-
-- Balance 0: the dimmed marker sits centred on the 0 line.
-- Balance −3:00: a bar to the left in Vaktmästare's base colour.
-- Balance +5:00: a bar to the right in Vaktmästare's neon.
-- Balance −3:00: the number in the base colour; the −10 h end mark and label in the base colour, the +10 h ones in the
-  neon, the other marks grey.
-- Utveckling on screen: the bar keeps Vaktmästare's colours.

@@ -38,12 +38,13 @@ state, progress, decisions or history here; each has its own home (see "Where th
 | `docs/dev/sketches/`                  | A look tried before it is decided, a page each; deleted once the code it previews is built                   |
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
-otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
-from it until the screen is built, then live in the code, where the owner tunes them ("The look is a few scales, picked
-in each part", in `design-decisions/`); it stays the reference for the look's intent and for screens not built yet, and
-goes once the finished app has been validated. A sketch, a quick try of one look, holds nothing the docs need: the
-decision it serves holds every number it settles, and it is deleted once the code it previews is built; `git log` keeps
-it.
+otherwise name the idea and ask. The prototype is the north star for the look beside the vision, never a model for how
+the app is built: the app uses the most robust tool or element for each job, whatever the prototype's markup does. A
+screen's values come from it until the screen is built, then live in the code, where the owner tunes them ("The look is
+a few scales, picked in each part", in `design-decisions/`); it stays the reference for the look's intent and for
+screens not built yet, and goes once the finished app has been validated. A sketch, a quick try of one look, holds
+nothing the docs need: the decision it serves holds every number it settles until the code holds them, and it is deleted
+once the code it previews is built; `git log` keeps it.
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 
@@ -99,7 +100,7 @@ Scaled to the task:
 | A concrete case is agreed, and its test waits    | the **Cases** line of the decision it mainly checks; written now, it goes straight into the test |
 | A case becomes a test                            | remove it from its decision's **Cases**                                                          |
 | Code for a roadmap step is written, tested, seen | a tag added to the step in the roadmap                                                           |
-| A roadmap step is seen everywhere it must work   | remove it from the roadmap; trim each **Built by** it built                                      |
+| A roadmap step is seen everywhere it must work   | remove it from the roadmap; trim each **Built by** it built, and those decisions' **Cases**      |
 | A phase is done                                  | its line under **Done** in the roadmap: its name, what it produced, its release                  |
 | A word is coined                                 | its part in `docs/dev/glossary/`, and its name in the index                                      |
 | A file is added, moved or renamed                | the code map, in the same change                                                                 |
@@ -188,6 +189,8 @@ Cite a decision by its title, "in `design-decisions/`", not by line or file.
   same kind, and fix the rule there too, or write it once where they all share it. If the fix needs an "except when…",
   or it is the second fix for the same problem, stop: undo the last attempt, ask what the behaviour is for, and look for
   a sentence with no exceptions. The owner's words describe what he saw, not the fix.
+- **Build with what is already there.** Before building a part, look for how the app already does the same kind of
+  thing, and for the platform's own element for it (a `<dialog>` for a popup), and use that.
 - **Docstrings say what a thing is and does,** and read correctly when the work is finished: no "for now", no "until
   phase N". Work still to do goes in a searchable `# TODO` or `# NOTE`.
 - **The docs sweep:** when the owner signals the session is ending ("see you tomorrow", "I need to think about this", a
@@ -212,8 +215,8 @@ Each mistake that once cost a wrong conclusion gets a one-line warning here.
 
 - **A changed or new decision touches every file that restates it.** After a change, search the docs for its old words
   before calling the batch done; before a new one restates a behaviour, find the decision that owns it and cite it.
-- **A look's values come from its decision and the prototype,** never from a draft in the chat: check the decision's
-  numbers and **Cases** before writing a colour, size or time into code.
+- **A look's values come from the prototype and its decision until the screen is built, then from the code,** never from
+  a draft in the chat: check them there before writing a colour, size or time.
 - **A claim goes into a commit message or a doc only after it was run.** Run the check first, then write what it showed;
   a cause not yet shown is written as a guess.
 - **The branch may have moved since the last look.** Other sessions push to it too: fetch and compare with GitHub before

@@ -65,23 +65,3 @@ is undone by dragging the neighbour off or by "Avbryt". An earlier entry docking
 ran on, its end handle gone, and moved clear of its original it could not dock back.
 
 **Revisit if:** joining is wanted between entries of different profiles.
-
-**Cases:**
-
-Walking:
-
-- A new entry walked right past 10:00–11:00 and then past 12:00–13:00: each is let go whole in turn, nearest first.
-- Walked past 10:00–11:00 and, in the same drag, back to its end and let go: taken in again.
-- 08:00–10:00 walked right to 13:00–14:00, its start dragged back left: it stops and docks at 10:00; let go, the entry
-  is 08:00–14:00, 10:00–13:00 green.
-
-Profiles, breaks and colours through a chain:
-
-- A new entry swallowing two janitor entries, 08:00–09:00 and 09:30–10:30, switched to "Utveckling", docked onto a
-  development entry 11:00–12:00 and saved: one development entry 08:00–12:00; janitor work loses 2 h, development gains
-  4 h, the gaps counted as development work.
-- The same, before saving, a handle dragged back past 08:00–09:00: it is whole again as janitor work, a wall to the
-  development entry.
-- Joined entries with breaks of 20 and 15 min, divided by a gap: the 35 min shared out as for any divided entry.
-- Through a chain: the joined pieces in the entry's colour, the stretches dragged across green, a trimmed piece red, a
-  thin line where two pieces touch.

@@ -81,24 +81,3 @@ one pushes the others down, and one is always open anyway. One long menu to scro
 right; the colour ring ties every profile to its figures instead.
 
 **Revisit if:** the menu needs more than three or four sections.
-
-**Cases:**
-
-- Menu opened: the Profiler tab shows.
-- Profiler scrolled down: the head and the tabs stay, and the content slides up to the tabs' line.
-- "Ny profil", "Städ", Enter: the profile is made and its row unfolds, and "Ny profil" is a button again. "Ny profil",
-  Esc: the button again, nothing made; an empty Enter: nothing happens.
-- A value open, then the menu closed and opened: the value is locked again, as it was.
-- A profile's name: "Ändra", a new name, Enter: saved at once, with no "Gäller från".
-- Split 30h | 8h 15min, the slider moved to 25h | 13h 15min: the numbers follow, and "från", today's date, "Spara" and
-  "Avbryt" fold open under it; the date set to 1 September, "Spara": from then on janitor owes 5 h a weekday, and the
-  row folds shut.
-- The slider moved, then "Avbryt", Esc or a click outside: the slider and its numbers go back to 30h | 8h 15min, and the
-  row folds shut.
-- Heltid "Ändra": the text "38h 15min / vecka" stays, and a field opens where "Ändra" was; 38:30, Enter: the field turns
-  into "38h 30min från" and today's date, and the text still reads 38h 15min; Enter: it reads 38h 30min.
-- "Ändra" on full time, a new value typed, Esc: full time is unchanged, and the menu stays open; Esc again: it closes.
-- The split's slider moved, then a click on the menu's empty space: the move is dropped.
-- After that change, "Tidigare värden (1)": 30h | 8h 15min until 31 August.
-- The split's slider moved, then "Ändra" on full time: the split's move is dropped; full time saved: the split shows the
-  new total, and nothing else changes.

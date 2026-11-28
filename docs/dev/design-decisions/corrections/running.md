@@ -29,7 +29,3 @@ a correction, a new start and a join. Its end editable too: it is now, and still
 it: the joined entry ran on, its end handle gone, the end it was opened to change. A switch onto its profile allowed and
 taken in: the same join through the picker. A gap of its own length kept before it: the 5-minute marks already give one,
 with no new number.
-
-**Cases:**
-
-- Opened: no "Ta bort".

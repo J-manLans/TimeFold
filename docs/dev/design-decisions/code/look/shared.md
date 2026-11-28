@@ -23,11 +23,11 @@ It takes one of three forms, by what it brings:
 - **A component** when look, markup and behaviour come together: `Disc`, `ChoiceButton`, `TipLabel`, the dropdown and
   the popups' frame.
 
-- **Type sets:** all text outside the figures wears one of four sets: heading (15px, weight 600), body (13px), label
-  (11px), and caps: the label's size in capitals, at 0.1em tracking and the surface's weight, in the surface's muted
-  colour. A part uses its set's size directly (`font-size: var(--text-size-label)`); no part has a text size of its own.
-  Display type (the start button, the balance, the wheel, the profile letter, the onboarding's name) wears the display
-  sizes; the figures' small labels wear the label set.
+- **Type sets:** all text outside the figures wears one of four sets: heading, body, label, and caps: the label's size
+  in capitals, at the widest tracking and the surface's weight, in the surface's muted colour. A part uses its set's
+  size directly (`font-size: var(--text-size-label)`); no part has a text size of its own. Display type (the start
+  button, the balance, the wheel, the profile letter, the onboarding's name) wears the display sizes; the figures' small
+  labels wear the label set.
 - **Units:** `px` for every value of the look: the scales, the type sets, borders, figures and layout. `em` only for
   letter-spacing, and for the whole inside of a part built to come in sizes, so it follows its own text. A tag's or a
   small button's padding is a spacing step like any other room. The whole app grows or shrinks by the webview's zoom
@@ -80,11 +80,11 @@ cut though it was a choice.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
 
-**Cases:** the root at 125% grows every text, tag and small button, while panels, gaps and borders hold; a tag in the
-menu wears the menu's line, one in the edit popup the dashboard's; "Ändra" and the edit's "Avbryt" differ only in their
-surface's colours; every caps heading is 11px at 0.1em, in its surface's muted colour; "Välj orsak" and the edit's
-profile picker show the same chevron, each pointing up while its list is open; "Välj orsak" sits in a field already as
-wide as "Glömde stämpla ut", and choosing it changes nothing in width; a reason renamed longer widens the field, up to
-the popup's room, past which it is cut; in a gap, picking another profile fills it and picking the entry's own empties
-it again. "25 %", "paus 30m" and "Lägg till paus" each open into a field of exactly their size; "Ändra" under a name and
-under a salary are the same width, and each field takes its place without moving anything.
+**Cases:** a tag in the menu wears the menu's line, one in the edit popup the dashboard's; "Ändra" and the edit's
+"Avbryt" differ only in their surface's colours; every caps heading is the label's size at the widest tracking, in its
+surface's muted colour; "Välj orsak" and the edit's profile picker show the same chevron, each pointing up while its
+list is open; "Välj orsak" sits in a field already as wide as "Glömde stämpla ut", and choosing it changes nothing in
+width; a reason renamed longer widens the field, up to the popup's room, past which it is cut; in a gap, picking another
+profile fills it and picking the entry's own empties it again. "25 %", "paus 30m" and "Lägg till paus" each open into a
+field of exactly their size; "Ändra" under a name and under a salary are the same width, and each field takes its place
+without moving anything.

@@ -1,163 +1,57 @@
 # Code map
 
-Where the code lives and the path a run takes through it. It names files and what to look for in them, not what the code
-says; why the code is as it is lives in `design-decisions/`. Print the tree with
+Where the code lives and the path a run takes through it: which folder to open, not what the code says. Most files open
+with a comment saying what they do; why the code is as it is lives in `design-decisions/`. Print the tree with
 `git ls-files -- src src-tauri tests ':!src-tauri/icons'`.
 
 ## A run, from the command to the screen
 
 1. `npm start` runs `tauri dev` with `src-tauri/tauri.dev.conf.json` laid over `tauri.conf.json`: its own identifier
-   gives dev a data folder of its own, so it never opens the installed app's record. Tauri's CLI first runs
-   `beforeDevCommand` from `src-tauri/tauri.conf.json`: `npm run dev`, Vite serving the interface on port 5173
-   (`vite.config.ts`).
-2. The CLI compiles the Rust half and starts it: `src-tauri/src/main.rs` calls `run()` in `src-tauri/src/lib.rs`, which
-   builds the Tauri app and opens the window from `tauri.conf.json`, pointed at `devUrl`.
-3. The window loads `index.html`, which holds only `#app` and loads `src/main.ts`.
-4. `src/main.ts` imports the styles and mounts `src/App.svelte` into `#app`.
+   gives dev a data folder of its own, so it never opens the installed app's record. Tauri first runs `npm run dev`,
+   Vite serving the interface on port 5173.
+2. Tauri compiles and starts the Rust half (`src-tauri/src/main.rs`, then `run()` in `lib.rs`), which opens the window
+   on Vite's page.
+3. `index.html` loads `src/main.ts`, which imports the styles and mounts `src/App.svelte`.
+4. `App.svelte` is the main screen. It reads and changes the app's state only through `app` in `lib/app.svelte.ts`,
+   whose actions apply the rules in `lib/modules/` and save through `lib/modules/shared/storage.ts`, the only file that
+   calls the Rust half.
 
-`npm run tauri build` does the same with Vite's built files in `dist/` instead of the server, and packages the app.
+`npm run tauri build` does the same with Vite's built files in `dist/`, and packages the app.
 
 ## The interface: `src/`
 
 - `main.ts`: the entry; the global styles are imported here and nowhere else.
-- `App.svelte`: the root component, the main screen, with the edit popup; it decides whether the sides stack, from the
-  window's width and the button block's (`app.showStacked`, which marks the page `data-stacked`); it sets
-  `--profile-state`, the colour of where the profile on screen stands, which the profile letter and every focus ring
-  wear.
-- `lib/app.svelte.ts`: the app's state while it runs, `app`: the record in memory, where the app is (loading, welcome,
-  problem, ready), the locked panel and how far its ending has got, and at recovery what is offered and the copy's day,
-  the profile on screen and whether its popup is open, the menu's one value open for editing (`openValue`), the profile
-  whose colour picker is open (`picking`), whose colours the wheel wears meanwhile, "Skapa ny profil" asking for the
-  menu, the last click and the machine's theme and motion; the edit popup's entry or gap (`editing`); its actions
-  `load`, `press`, `pickProfile`, `askNewProfile`, `setBreak`, `undo`, `stopLate`, `keepLate`, `openEdit`, `openGap`,
-  `closeEdit`, `saveEdit`, `deleteEdited`, `switchTheme`, `switchMotion`, `saveSettings`, a record changed in the menu,
-  and `takeAwayProfile`, a profile archived or deleted, change them through the rules and save them. The theme is shown
-  by setting `color-scheme` on the page, Stilla by setting `data-still` on it; scripts that time something read
-  `app.still`. Components read it and call its actions.
-- `lib/components/`: the Svelte components, a folder per part of the screen. `controls/`: `Controls.svelte`, the
-  controls side, placing `ButtonBlock` (start/stop with its tip naming the profile a press stops, export and import, the
-  profile button), `ProfilePopup.svelte` (the profiles in use to put on screen, or "Skapa ny profil" alone),
-  `StatusLine` with `TodayPie.svelte` right of its text, `PauseField` ("Lägg till paus" and its length field),
-  `UndoButton` with its `TipLabel`, `PruneLine` (the offer to prune, "Rensa" and "Inte nu"), the menu and
-  `LatePopup.svelte`, the popup for a running entry from an earlier day, and making the pointer light, which it also
-  sweeps once at the onboarding's end: it sets the light's place; a flat button catches it through `.plastic` in
-  `base.css`, and each disc paints `--pointer-light` itself. `menu/`: `Menu.svelte`, the menu button and the frosted
-  panel it grows into, with `ThemeButton`, `MotionButton.svelte` (the motion switch, also in the onboarding's note) and
-  the tab row: `ProfilerTab.svelte`, with `TaxRow.svelte` ("Efter skatt" and "Skatt och avgifter"), a
-  `ProfileRow.svelte` per profile (its circle and name, unfolding to `ColourField.svelte`, "Färg" with its pair and the
-  colour picker, its pay and "Arkivera", "Ta bort" or "Återställ"), "Ny profil" with its name field and "Arkiverade";
-  and Tid, holding Heltid in `LockedValue.svelte` (a value locked behind "Ändra", its field, "Gäller från" when it
-  changes the counting, a refusal in the keys' place, and "Tidigare värden"), `SplitSlider.svelte` (Fördelning, with the
-  date and buttons its first move folds open) and `FlexCalendar.svelte`, the flex-day calendar with its padlock and the
-  list of marked days beside it, and locked open around `Onboarding.svelte`, the first start's onboarding with its
-  ending's timeline, or `Recovery.svelte`, the screen for a record that cannot be read; both use `ChoiceButton.svelte`,
-  in `shared/`. `dashboard/`: `Dashboard.svelte`, the dashboard, laying out its figures, drawing the divider, and
-  handing them the panel's colour and the wheel's base; `FlexBar.svelte`, the balance and its bar;
-  `CeilingWheel.svelte`, the ceiling wheel with the pay estimate and the ceiling's trend; `RecentEntries.svelte`, the
-  five newest entries; `AllEntries.svelte`, "Visa alla" and its popup with its month lines and the gaps between its
-  rows; `EntryRow.svelte`, the row both lists share, which opens its entry in the edit popup. `edit/`:
-  `EditPopup.svelte`, the edit popup over "Senaste" or stacked on "Visa alla", its peek, the day and the profile picker
-  (a floating `Dropdown`), the result in words, the break's field, and "Ta bort", "Avbryt" and "Spara";
-  `EditLine.svelte`, the entry line drawn from the line's model, the pointer turned into its moves, the pill and the
-  view easing to its fit; `ReasonPicker.svelte`, the reasons in an unfolding `Dropdown`, each reason's pen that renames
-  or removes it, and "Annan orsak". `shared/`: what more than one part uses, such as `Disc.svelte`, the dented disc of
-  the profile, undo and theme buttons, `ChoiceButton.svelte`, the locked panel's and the popups' buttons with their tip,
-  and `Dropdown.svelte`, the closed field and its list, unfolding or floating, stopping at its lines, closing on Esc and
-  a click outside; its choices wear `.dropdown-choice` from `base.css`.
-- `lib/modules/`: the logic in TypeScript, a folder per part of the screen that uses it, as the components are, and
-  `shared/` for what more than one part uses; a module that gains a user in another part moves to `shared/`.
-  `controls/`: `clock.ts`, what a click on start/stop does to the record (`press`), the undo of the last click, an added
-  break among them (`undo`), and what the undo's label says (`clickLabel`); `breaks.ts`, the running entry's whole break
-  so far (`breakSoFar`) and a new total set on it, refused when nothing runs or it is longer than the entry
-  (`setBreak`); the entry running from an earlier day when the app opens (`runningSinceEarlierDay`), stopping it
-  whichever profile is on screen (`stopRunning`) and the popup's words (`lateWords`); `prune.ts`, the prune on offer
-  (`pruneOffer`) and its words (`pruneWords`), and the prune, freezing the balance and the trend as an opening at the
-  cut (`prune`); `today.ts`, today's pie, the slices filled and lapped (`todaySlices`), a running entry counted to now.
-  `dashboard/`: `figures.ts`, the flex bar's scale, reach and side, and the balance as text; `entries.ts`, the entry
-  lists' entries, a running one first and the stopped ones newest first (`listedEntries`), what a row says, its break
-  tag, its "e" and its reason among it, the month lines of "Visa alla" (`withMonthLines`) and the gap above each of its
-  rows (`gapsAbove`). `edit/`: `line.ts`, the entry line's rules as plain state and moves: opening an entry or a gap,
-  placing a new entry, dragging and stepping its handles against the walls (other entries, now, the break), shortening
-  and gaps, a gap filled by another profile, joining and walking, the break and its sharing, the colours of the line and
-  the view's fit; `edit.ts`, an entry of the record or a gap opened on the line (`lineForEntry`, `lineForGap`), whether
-  the confirm can save (`canSave`), the save (`saveLine`), which writes the line's result into the record with its marks
-  and reasons and makes one entry of a profile's entries left touching, the delete (`deleteEntry`), the result in words
-  (`resultWords`); `reasons.ts`, the reasons as the record keeps them: in their order (`reasonList`), matched as typed
-  texts are (`matchForm`), a typed text learned on its third writing (`learnReason`) or added at once (`addReason`),
-  renamed or removed under its pen (`renameReason`, `removeReason`); `scale.ts`, the labels under the line (`ticks`).
-  `menu/`: `flexDays.ts`, a click on a day of the calendar marking or unmarking it, weekends, days janitor work started
-  on (`workedDays`) and, while locked, days gone by refused (`toggleFlexDay`), the month it draws (`calendarMonth`,
-  `monthAfter`) and the list of marked days ahead (`daysAhead`); `workTime.ts`, full time and the split saved as weeks
-  from a date and refused when the janitor's hours would pass full time on any day (`saveFullTime`, `saveSplit`), pay
-  from a date (`savePay`), "Skatt och avgifter" (`saveTax`) and the date they open on (`firstOfNextMonth`), and a
-  setting as shown on a day, in force, coming and earlier (`valuesOn`); `settings.ts`, the machine's own settings (the
-  theme and the motion), their defaults, the check on reading each apart, the theme and the motion in force, and each
-  button's switch, the prune line's "Inte nu" (`pruneLater`), "Fortfarande igång" for the day (`lateKept`) and the
-  profile on screen at close (`onScreen`). `shared/`: `profiles.ts`, the profiles made (`addProfile`), renamed, archived
-  or deleted by whether they have hours (`removalOf`, `removeProfile`), brought back (`restoreProfile`), a name refused
-  when another profile has it (`nameRefusal`), and the profile the app opens on (`openingProfile`); `record.ts`, the
-  record's shape as types, the reasons and the tax a record starts with (`FIRST_REASONS`, `FIRST_TAX`), `readRecord`,
-  the check on opening that turns a file's text into a record or names what is wrong with it, upgrading an older version
-  first, `recoveryFor`, what a problem leads to, and `toTimestamp` and `nextId`, a moment and a new entry's id as the
-  record writes them; `colours.ts`, the colour rule from the prototype, a profile's base, dimmed and neon by role, a new
-  profile's hue at the largest gap (`largestGapHue`) and where it sits on the picker's strip (`stripOfHue`), the faded
-  colour, and black or white ink on a colour (`inkOn`); `counting.ts`, the balance (`balance` up to a day,
-  `balanceOnScreen` with the flex days ahead), each day's result, each entry's seconds by day less its added breaks,
-  expected hours charged on days work started or flex days, the app's month, each month's ceiling and its pieces, the
-  ceiling's trend and the month it counts from (`trendStart`), and the pay estimate, before or after tax (`payShown`),
-  worked out in seconds from the record, and a moment's time of day as shown (`timeOfDay`); `dates.ts`, days and months
-  in Swedish words ("måndag 16 november", "1 juli 2026", "1 dec", "mån 16", "november 2026"); `storage.ts`,
-  `loadRecord`, `saveRecord`, `copyRecord`, `newestCopy`, `loadSettings` and `saveSettings`, the only place that invokes
-  the Rust half; `copyRecord` adds the local date that names a day's copy; `timeInput.ts`, typed durations for the
-  onboarding's balance, a break's length and a week (`WEEK`), each keystroke checked against the field's shape
-  (`fitsShape`), which `durationShape.ts`, the Svelte attachment every length field wears, applies as it is typed, read
-  into minutes, and written back in words ("1h 20min") or into a field ("1:20"); `focusRing.ts`, the last input (a key
-  or a pointer) and the focus ring as a popup opens and closes: opening, each popup keeps how (`popupOpened`) and quiets
-  the focus it moves in unless that was the keyboard (`ringOnOpen`); closing, it quiets the element the focus lands on
-  (`popupClosed`) unless it was opened and closed with the keyboard (`ringAfterClose`). `field.ts`, the fields' one
-  behaviour, the Svelte attachment on the pause field, the break's tag, the tax and "Ny profil" (`field`): the focus in
-  and the text selected, Enter keeps, Esc or leaving drops; and the width of what a field replaces (`widthOf`).
+- `App.svelte`: the root, the main screen; it decides whether the sides stack.
+- `lib/app.svelte.ts`: the app's state while it runs (`app`) and every action that changes it.
+- `lib/components/`: the Svelte components, a folder per part of the screen: `controls/` (the controls side and its
+  popups), `menu/` (the menu, its tabs, the onboarding and the recovery screen), `dashboard/` (the figures and the entry
+  lists), `edit/` (the edit popup, its line and its reasons) and `shared/` (what more than one part wears, such as
+  `Disc`, `ChoiceButton` and `Dropdown`).
+- `lib/modules/`: the logic in TypeScript, in the same folders as the components that use it; a module that gains a user
+  in another part moves to `shared/`, where the record's shape and check (`record.ts`), the counting (`counting.ts`),
+  the colours (`colours.ts`) and the storage live.
 - `styles/design-tokens.css`: the look's scales, its colours, and the values several parts share or the code reads ("The
-  look is a few scales, picked in each part"); `styles/base.css`: the reset, the fonts, the body, the surfaces' five
-  colours under each `data-surface` (the controls side, the dashboard and its two popups, the menu, the profile and late
-  popups), the shared looks that read them (`.tag`, `.button-small` with `.main` filled and `.mini`, `.field` and its
-  focus edge, which a field in a tag's place shares, `.dropdown`'s chevron, `.caps`), every focus ring and the quiet one
-  (`data-quiet-focus`) after a popup closes, `.plastic`, the flat button every button block, pause and choice button
-  wears, with its pointer light, hover and press, the registered `--glow-strength` the pointer light fades by, and
-  Stilla: under `data-still` every transition, animation and delay is zero.
+  look is a few scales, picked in each part"); `styles/base.css`: the reset, the fonts, the body, the surfaces' colours
+  under each `data-surface`, the shared looks (`.tag`, `.button-small`, `.field`, `.dropdown`, `.caps`, `.plastic`),
+  every focus ring, and Stilla (`data-still`), which zeroes every transition.
 
 ## The tests: `tests/`
 
-- `unit/`, mirroring `src/` with one test file per source file; `integration/`, the hand-offs between parts; `helpers/`,
-  setup several test files share ("Code style"), such as `records.ts` with a sound record and `at` and `entry` for
-  building moments and entries, `lines.ts` with random days and moves for the edit's property tests, and `properties.ts`
-  with `RUNS`, how many cases every property test tries, which `FC_RUNS` raises (`FC_RUNS=50000 npm test`). Each starts
-  with its first file. Vitest finds every `*.test.ts`; Rust's tests sit beside their code.
+`unit/` mirrors `src/` with one test file per source file; `integration/` holds the hand-offs between parts; `helpers/`
+holds what several test files share, such as a sound record and `RUNS`, how many cases every property test tries
+(`FC_RUNS=50000 npm test` raises it). Rust's tests sit beside their code.
 
 ## The Rust half: `src-tauri/`
 
-- `src/main.rs`: starts the app; `src/lib.rs`: builds it in `run()`, where commands and plugins are registered, and
-  holds the commands the interface invokes: `load_record` and `save_record` (the safe save), `copy_record` (the day's
-  copy, at start) and `newest_copy`, and `load_settings` and `save_settings` (the safe save).
-- `src/disk.rs`: the file work, with no Tauri in it: reading a file, the safe save, the daily copies; its tests at the
-  bottom. The record, its `copies/` folder and `settings.json` live in the app's data folder.
-- `tauri.conf.json`: the app's name, its identifier (which names the folder the record lives in), the window, and the
-  commands that build the interface.
-- `tauri.dev.conf.json`: what `npm start` lays over `tauri.conf.json` for dev: only the identifier, so dev keeps its
-  record in a folder of its own.
-- `capabilities/`: what the interface may ask of the Rust half and its plugins, such as closing the window and opening
-  the releases page (the opener plugin).
-- `Cargo.toml`: the Rust half's packages; `icons/`: the app's and the installers' icons, made from `icons/icon.svg`, the
-  only one drawn by hand, with `npx tauri icon src-tauri/icons/icon.svg`.
+- `src/lib.rs`: builds the app and holds the commands the interface invokes; `src/disk.rs`: the file work (reading, the
+  safe save, the daily copies), with no Tauri in it. The record, its `copies/` folder and `settings.json` live in the
+  app's data folder, named by the identifier.
+- `tauri.conf.json`: the app's name, identifier and window; `tauri.dev.conf.json`: dev's own identifier;
+  `capabilities/`: what the interface may ask of the Rust half and its plugins.
+- `icons/`: made from `icons/icon.svg`, the only one drawn by hand, with `npx tauri icon src-tauri/icons/icon.svg`.
 
 ## Configuration at the root
 
-- `package.json`: the interface's packages and scripts (`dev`, `start`, `build`, `check`, `test`, `tidy`, `tauri`).
-- `.prettierrc` and `.prettierignore`: Prettier's few settings and what it skips; `eslint.config.js`: ESLint's rule
-  sets, with Prettier's switch-off and the globals for the webview and for Node.
-- `vite.config.ts`: the dev server Tauri loads, and the aliases `$lib` for `src/lib` and `$tests` for `tests` (also in
-  `tsconfig.app.json`); `svelte.config.js`; `tsconfig.json` with `tsconfig.app.json` (the interface) and
-  `tsconfig.node.json` (the config files).
-- `.github/workflows/release.yml`: the release build. A pushed version tag checks that the tag and the three versions
-  agree, then builds the Windows and Linux installers with Tauri's action onto a draft release
-  (`docs/dev/procedures/release.md`).
+`package.json` (the scripts), Prettier's and ESLint's config, `vite.config.ts` (the dev server, and the aliases `$lib`
+and `$tests`, also in `tsconfig.app.json`), `svelte.config.js` and the `tsconfig` files. `.github/workflows/release.yml`
+builds the installers from a pushed version tag (`docs/dev/procedures/release.md`).

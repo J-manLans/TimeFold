@@ -5,8 +5,6 @@ decision follows the template in `../../README.md`, and is cited by its title.
 
 ## The look is a few scales, picked in each part (2026-11-28)
 
-**Built by:** Handover, the look's scales.
-
 **Decision:** the look's shared values are design tokens, CSS custom properties in one file,
 `src/styles/design-tokens.css`, which `src/main.ts` imports once, beside `src/styles/base.css` (the reset, the fonts,
 the body and the shared looks). The file holds the scales, the colours, and the few values several parts must keep alike
@@ -15,15 +13,13 @@ or the code reads. Every other value lives in the style block of the part that u
 - **Scales, picked in each part:** room (every padding, margin and gap), corners, text sizes, weights, letter-spacing
   and line height are scales of a few steps. A part's style block picks a step directly (`padding: var(--spacing-md)`),
   so a part is tuned by opening it and changing its step, and the whole look by changing a step in the file.
-  - Room is steps of one base, `--spacing` (4px), named as clothes sizes: `--spacing-xxs` (2px), `-xs` (4), `-sm` (6),
-    `-md` (8), `-lg` (12), `-xl` (16), `-xxl` (24). A step is added at either end, such as `-xxxl`, when a part needs
-    one.
-  - Corners: `--radius-sm` (4px), `-md` (6), `-lg` (12), and `--radius-full` for discs and pills.
+  - Room is steps of one base, `--spacing`, named as clothes sizes, `--spacing-xxs` to `-xxl`. A step is added at either
+    end, such as `-xxxl`, when a part needs one.
+  - Corners: `--radius-sm` to `-lg`, and `--radius-full` for discs and pills.
   - Text: the type sets for all text ("Shared looks are written once"), and for the figures and the big buttons three
-    display sizes, `--text-size-display-sm` (26px, the profile letter), `-md` (36, "Starta jobb", the wheel's hours) and
-    `-lg` (46, the balance). Weights `--font-weight-normal` to `-bold`; letter-spacing `--tracking-wide` (0.025em),
-    `-wider` (0.05em, the controls side) and `-widest` (0.1em, caps); line height `--leading-none` (1) and
-    `--leading-normal` (1.5).
+    display sizes, `--text-size-display-sm` (the profile letter), `-md` ("Starta jobb", the wheel's hours) and `-lg`
+    (the balance). Weights `--font-weight-normal` to `-bold`; letter-spacing `--tracking-wide` to `-widest` (the
+    controls side wears `-wider`, caps `-widest`); line height `--leading-none` and `--leading-normal`.
   - The names follow Tailwind's where it has them (corners, weights, tracking, line height); room takes clothes sizes,
     which read as the owner tunes ("md to sm"). Only the names: the CSS stays hand-written ("Svelte with TypeScript for
     the interface").
@@ -50,11 +46,10 @@ or the code reads. Every other value lives in the style block of the part that u
   single value. While the look is tuned, a pair may hold the same value on both sides; once the design settles, such a
   pair is merged into one value. The profiles' colours are not tokens: the colour roles in "Code style" work them out.
   The balance profile's greys are tokens.
-- **Motion:** times are written in seconds. `--speed-ui: 0.2s` is every small transition's ("The look: a fresh display
-  face, mono text and soft buttons"); a longer animation that tells something has its own time, in its part, or in the
-  file when the code reads it, such as the peek's 0.3s ("The ceiling wheel"). The app's own Animerat or Stilla decides,
-  following the system's reduced-motion setting until the switch is first clicked ("Motion can be switched off in the
-  app").
+- **Motion:** times are written in seconds. `--speed-ui` is every small transition's ("The look: a fresh display face,
+  mono text and soft buttons"); a longer animation that tells something has its own time, in its part, or in the file
+  when the code reads it, such as the peek's ("The ceiling wheel"). The app's own Animerat or Stilla decides, following
+  the system's reduced-motion setting until the switch is first clicked ("Motion can be switched off in the app").
 
 **Why:** a few steps worn everywhere make the look one system: the same distance means the same thing on every screen,
 and one step changed moves everything that wears it. The owner tunes by looking at a part: its style block shows the

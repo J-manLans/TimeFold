@@ -21,8 +21,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 Phase 5: Handover, the shared looks, one at a time:
 
-1. The look's scales, seen and tuned in the app.
-2. The popups' frame, from **Settle first**: drawn in the prototype, then built.
+1. The popups' frame, from **Settle first**: drawn in the prototype, then built.
 
 ## The phases
 
@@ -44,16 +43,14 @@ question before an import replaces the record (`open-questions.md`), drawn in th
 shows a note); the info button and its popup, drawn in the prototype: where the button sits on the controls side, and
 the popup's one short line about the app.
 
-1. `[written]` The look's scales: room, corners, text, weights, tracking and line height as a few steps each part picks
-   directly, and each part's own values in its component ("The look is a few scales, picked in each part").
-2. The shared looks: each written once, as a class, an attachment or a component, and worn by every screen that shows
+1. The shared looks: each written once, as a class, an attachment or a component, and worn by every screen that shows
    it.
-3. The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app themselves.
-4. How the shared looks came to be needed, talked through, and the planned way to build them written into the docs and
+2. The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app themselves.
+3. How the shared looks came to be needed, talked through, and the planned way to build them written into the docs and
    the starter as how the app is built from now on.
-5. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
-6. The onboarding's "Importera": it reads a handover file and asks nothing more.
-7. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
+4. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
+5. The onboarding's "Importera": it reads a handover file and asks nothing more.
+6. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
    frame showing the app's version and one short line about what TimeFold is for. No about or help pages.
 
 **Done when:** a week worked on both machines, handed over each day, matches on both.

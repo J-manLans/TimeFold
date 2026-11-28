@@ -16,14 +16,12 @@ be selected and copied but not typed in. The picker is placed so it always fits 
   profile wears. The circle dragged along it is filled with the neon of where it sits, following the drag, with no
   border or ring, only a soft shadow, the same size and edge as the entry line's handles ("A clicked handle steps by the
   minute"); nothing else changes until the pointer is released. The strip is remembered with the profile.
-- **The base colour** is the hue muted: 55% of the chroma of the hue at its most vivid (full saturation and value), at a
-  lightness 40% of the way from that colour's own toward 0.70.
-- **The neon**, in OKLCH: the hue opposite the strip's colour (its hue plus 180°), at the lightness where that hue is
-  most vivid (the most chroma sRGB allows, sought between lightness 0.2 and 0.98), with all the chroma sRGB allows
-  there. It moves only when the strip moves.
-- **The dimmed colour** is the base mixed 70% toward the panel's background, in OKLab; when that leaves it within 0.15
-  lightness of the base, it sits 0.15 past the background instead, on the side away from the base, in the base's hue at
-  30% of its chroma, if that lands between lightness 0.05 and 0.98.
+- **The base colour** is the hue muted and drawn toward a soft middle lightness.
+- **The neon** is the opposite hue at its most vivid, in OKLCH. It moves only when the strip moves.
+- **The dimmed colour** is the base faded toward the panel it sits on, and kept a visible step from the base where the
+  fade would leave it too close.
+
+The rule's numbers live in `src/lib/modules/shared/colours.ts` and its tests.
 
 Dragging changes only the picker's preview. The app takes and keeps the colour when the pointer is released, with no
 button to confirm it; Esc, a click outside or scrolling the menu only closes the picker. While a profile's picker is
@@ -31,10 +29,9 @@ open, the ceiling wheel is that profile's, with its pieces lit, and returns to t
 closes; the balance profile's picker leaves the wheel grey, since its colours show on the flex bar. Colours change at
 once, not from a date, since no count depends on them, and they travel with the profile in the handover.
 
-No colour is asked for. The profile with the balance starts on the OKLCH hue 195°, a cyan: base `#7ed6d5`, neon
-`#fc0055`. A new profile's hue is the middle of the largest gap between the hues in use on the colour circle, each
-profile using two, its own and the opposite one its neon has (a random pick between gaps of equal size); its base and
-neon follow from it. The colours go to:
+No colour is asked for. The profile with the balance starts on a cyan. A new profile's hue is the middle of the largest
+gap between the hues in use on the colour circle, each profile using two, its own and the opposite one its neon has (a
+random pick between gaps of equal size); its base and neon follow from it. The colours go to:
 
 - what is happening now, in the neon of the profile it concerns: the ring around the start button, the status line's
   mark, the warning label, the undo's afterglow and the tip's edge;
@@ -87,30 +84,3 @@ the status mark following the balance: in a muted base the one signal seen from 
 
 **Revisit if:** the generated colours are often changed, two profiles' neons need telling apart, or a base off the rule
 is wanted, such as grey or a lighter shade.
-
-**Cases:**
-
-- The first start: the balance profile has hue 195°, base `#7ed6d5` and neon `#fc0055`, and no colour was asked for.
-- One profile at hue 195°: a new profile gets hue 105° (base `#d4ce78`, neon `#6400fd`) or 285° (base `#7368d4`, over
-  `#fdee00`).
-- Profiles at hues 195° and 285°: the hues in use are 15°, 105°, 195° and 285°, four gaps of 90°, so a third profile
-  gets 60°, 150°, 240° or 330°.
-- Neons by where the strip sits (0° red, 60° yellow, 120° green, 180° cyan, 240° blue, 300° magenta): `#00e4fd`,
-  `#740aff`, `#e400fe`, `#fc0056`, `#ffbf00`, `#00fe6c`.
-- Vaktmästare's row: two small swatches, `#7ed6d5` and `#fc0055`, whatever the balance, and "Ändra".
-- The picker opened for Vaktmästare: the rows show `#7ed6d5` and `#fc0055` with their swatches; typing in a code changes
-  nothing, and selecting it copies.
-- Vaktmästare on screen at −5:44: the profile letter and the focus rings in the base `#7ed6d5`; a job running: the start
-  button's ring in the neon `#fc0055`.
-- The balance crosses from 0:00 to +0:01: the letter and the focus rings turn `#fc0055`; in the menu, Vaktmästare's
-  circle shows its letter in `#fc0055` ringed in `#7ed6d5`, and back at 0:00 the letter in `#7ed6d5` ringed in
-  `#fc0055`.
-- Dragging along the strip from cyan to blue: the circle's fill follows, from `#fc0055` toward `#ffbf00`; nothing else
-  changes.
-- Dragging along the strip: the app's colours do not change until the pointer is released; then the base and the neon
-  both change.
-- A colour released twice in the picker, then Esc or a click outside: the last released colour stays.
-- Profile A on screen, B's picker opened: the wheel is in B's colours with B's pieces lit; the picker closed: the wheel
-  is A's again.
-- The balance profile's picker opened: the wheel stays grey, and the bar takes the released colour.
-- Utveckling made blue at work: after a handover it is blue at home too.

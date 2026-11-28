@@ -56,19 +56,6 @@ entry docked but not taken in, its handles on its own edges: it was a short drag
 entry ended where it touched while the colours said it was joined. A rule of its own for a gap filled between two
 entries of its profile: docking already joins them, as docking one onto the other would.
 
-**Cases:**
-
-- Newest entry Thursday 11:40–13:05, now 15:20: the "+" at the top opens the line on 13:05–15:20.
-- Janitor work running since 14:00 after 11:40–13:05: no "+" above it; the always-shown "+" sits between the two and
-  opens on 13:05–14:00.
-- The gap between 08:00–11:40 and 13:05–16:00, hovered: after a quarter second a line and "+" show; clicked, the line
-  opens on 11:40–13:05.
-
-- Start and stop clicked a few times in a row: entries of a few seconds, each reading 0:00, gaps of seconds between them
-  with no "+"; the always-shown "+" is the first gap below them with 5 minutes' room.
-- A new entry walked from 09:00 past a neighbour to 14:00–14:30: the view fits only 14:00–14:30.
-- Saved with "Glömd post": the row shows "e", and "Visa alla" "tillagd: Glömd post".
-
 ## An entry is deleted from its edit (2026-11-22)
 
 **Decision:** an entry is deleted with "Ta bort" in its edit popup. It asks once, "Ta bort?", in removal red, and the
@@ -79,8 +66,3 @@ elsewhere turns it back. A delete needs no reason ("Every edit carries a reason"
 "Rensa" guards a prune.
 
 **Rejected:** deleting from the row in the list: a stray click would remove an entry unseen.
-
-**Cases:**
-
-- "Ta bort" clicked once: "Ta bort?" in red; a click on the line: back to "Ta bort"; clicked twice: the entry is gone
-  and the balance follows.

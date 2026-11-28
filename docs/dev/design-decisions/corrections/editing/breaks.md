@@ -52,15 +52,3 @@ break: its length then disagreed with the list's, with nothing saying why. The b
 shortens the entry: it changed what was not touched; the handle stops instead. A brief flash of the tag at the limit:
 easy to miss mid-drag. The length beside the times, with the break after a minus ("4:12 − paus 20min"): it disagreed
 with the list's counted time, needed the minus to explain why, and vanished once the entry was divided.
-
-**Cases:**
-
-- "Glömd paus" chosen, "Lägg till paus" clicked: the field opens in the tag's border and "Spara" greys; 30, Enter: the
-  tag reads "paus 30min" and "Spara" lights.
-- 30 typed, then a press on the greyed "Spara": the break stays as it was, "Spara" stays greyed while the press is held
-  and lights once it is let go, and nothing is saved; a second press saves.
-- 30 typed, a click elsewhere in the edit, or Esc: the break stays as it was.
-
-- A tag opened, then Esc: nothing set, and the next drag still spills.
-
-- Tuesday 22:00 to Wednesday 00:45, its break raised in the edit from 3 min to 1 h: Wednesday 0, Tuesday 1:45.

@@ -56,11 +56,6 @@ hours were owed, and hide an over month behind a quiet one; it would make the ce
 **Revisit if:** another profile gets hours of its own to work, or the limits apply to all hours together in a way the
 ceiling does not show.
 
-**Cases:**
-
-- Heltid 38:16, or 38:10, then Enter: the field still open, the refusal in its place.
-- The split's slider moves 15 min a week per step.
-
 ## The ceiling's trend (2026-11-26)
 
 **Decision:** the ceiling's trend is the sum, over finished months, of each month's hours over or under its ceiling
@@ -85,8 +80,3 @@ start on a month's first day ("Settings change from a date").
 school year, from 1 August: a cut on a date when nothing about the work changes. Months in a row over the ceiling as the
 sign: +1 h and +20 h would read the same, and under would not show. The trend shown in the app with where it starts: the
 number alone is enough on screen; the report says it for the boss.
-
-**Cases:**
-
-- The trend at 0:00: it shows "0:00".
-- The report for March, the ceiling changed from 1 January: the trend through March, "sedan 1 jan".

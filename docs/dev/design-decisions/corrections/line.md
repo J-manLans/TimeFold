@@ -38,27 +38,16 @@ it was grabbed: growing a short entry took a let go per step. One stopped at the
 view the popup leaves about half a minute, so the handle could not move at all. Entries cut at the view's ends, with
 rounded or straight corners: drawn on to the popup's edges, the line reads more naturally.
 
-**Cases:**
-
-- A 10 min entry opened: a view of about 15 min, labelled every 5 min.
-
-- A view of 9 h: labels every 2 hours; of 5 days: one per day, "lör 21"; of 20 days: weeks, "v. 48".
-
-- A handle dragged past either end of the view: the popup never grows a sideways scrollbar.
-
-- A handle held and dragged out of the app's window: it follows the pointer, on Linux and Windows.
-
 ## A clicked handle steps by the minute (2026-11-22)
 
 **Decision:** a dragged handle snaps to 5 minutes of the clock, and to the entry's own start and end as it was where
 those are nearer, so it can always go back exactly: an end at 19:47 dragged from 19:45 lands on 19:45, 19:47, then
-19:50. Every dragged knob in the app, these handles and the colour picker's circle, is one size, 22 px, with no border
-or ring, only a soft shadow, and filled with a neon: the picker's the neon of where it sits, the handles the neon of the
-profile in colour, the new profile's in a filled gap. A handle clicked without moving grows into a pill about twice as
-wide, with a soft bounce: it overshoots a little and settles, its height swelling by a fifth and settling with it, over
-one and a half times the interface's speed (at once in Stilla); its bold − at its left end and + at its right fade in
-once it has mostly grown, black, or white where black on the neon would fall below 4.5:1 contrast (WCAG: luminance from
-linear RGB, then (lighter + 0.05) / (darker + 0.05)), which leaves white at about 4.6:1 or better, so the signs always
+19:50. Every dragged knob in the app, these handles and the colour picker's circle, is one size, with no border or ring,
+only a soft shadow, and filled with a neon: the picker's the neon of where it sits, the handles the neon of the profile
+in colour, the new profile's in a filled gap. A handle clicked without moving grows into a pill about twice as wide,
+with a soft bounce: it overshoots a little and settles, its height swelling by a fifth and settling with it, over one
+and a half times the interface's speed (at once in Stilla); its bold − at its left end and + at its right fade in once
+it has mostly grown, black, or white where black on the neon would fall below 4.5:1 contrast (WCAG), so the signs always
 read; and a strip in its middle is left to drag it by. each moving the handle one minute that way, its time label above
 following; the arrow keys do the same while it is open, and a held − or + repeats, faster the longer it is held.
 Dragging the pill, a click anywhere else, or Esc shrinks it back to a circle; that Esc does not close the edit. One pill
@@ -81,15 +70,3 @@ colour, or only the pill in neon: the two knobs are one thing and wear the same 
 the snap read as more coherent. Fading the label of the handle not being dragged: at rest both return and overlap again.
 "+1" above the handle and "−1" below it: above is the time label, and up and down mean nothing on a timeline. Typing a
 time, or the clock picker beside the line: a second way to set the same thing, away from the entry and its neighbours.
-
-**Cases:**
-
-- The "+" held down: one step, a pause, then steps coming faster.
-- A pill open, the other handle clicked: the first shrinks back, the second opens, both bouncing.
-- An open pill clicked again: nothing happens.
-- A profile whose neon is `#3d5afe`: black on it is 4.1:1, so its pill's signs are white, at 5.1:1; on `#00e4fd` they
-  are black, at 13.5:1.
-- Handles 10 min apart: "10:00" ends at the start handle, "10:10" starts at the end handle.
-- Shortened to 09:50–10:00, the end dragged left: it stops at 09:55. A gap 09:50–10:00, its right edge dragged left: it
-  meets 09:50 and the gap closes.
-- A pill open, Esc: the pill shrinks; Esc again: the edit closes.

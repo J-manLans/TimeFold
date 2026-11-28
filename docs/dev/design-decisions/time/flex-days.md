@@ -66,31 +66,3 @@ and each month's report lists its own.
 
 **Revisit if:** the boss asks to see days off ahead, or planned days pile up so far ahead that the bar stops being read
 as today's balance.
-
-**Cases:**
-
-- Today's month: its name is plain text. Two months ahead: the name underlines when hovered, and a click shows today's
-  month again, the padlock as it was.
-
-- Balance +4:37, a flex day on 11 December marked on 17 November: the bar shows −1:23 at once.
-- The same, nothing more worked before 11 December beyond expected hours: the balance stays −1:23 after it.
-- The same day clicked again in the calendar: the bar is back at +4:37, and the day is gone from the list.
-- Saturday in the calendar: greyed out; a click does nothing. Saturday 21 November marked by any other way: refused, so
-  a weekend is never a flex day.
-- Today with nothing worked: open; a click marks it and the bar drops 6 h. Today once a job has started: greyed out.
-- Tuesday, worked 6 h, the padlock open: greyed out; a click does nothing.
-- A record started fresh on Thursday 19 November, seen on 24 November with the padlock open: 18 November and earlier
-  greyed out; 19, 20 and 23 November clickable.
-- Yesterday, a weekday: greyed out; a click does nothing. Padlock opened, a click marks it and the bar drops 6 h; the
-  Profiler tab and back: locked again.
-- Days marked on 7 and 8 December 2026 and 19 March 2027, seen in November 2026: the list reads "dec 7 8", then "2027",
-  then "mar 19"; clicking 19 shows March 2027.
-- Expected hours changed from 6 to 5 from 1 December, the 11 December day already marked: it costs 5 h.
-- November's report, with the 11 December day marked: November's figures and lines do not include it; December's report
-  lists it.
-- A flex day on 25 November, November's report exported on 20 November: the day is not in it; exported on 1 December: it
-  is.
-- Three hours worked on a flex day: the day adds 3 − 6 = −3.
-- A flex day on 11 December, seen in November: filled in the base colour. Seen on 14 December, nothing worked on it: the
-  fill, greyed, and in full colour with the padlock open. Worked 3 h on it instead: the fill, greyed, padlock open or
-  not.

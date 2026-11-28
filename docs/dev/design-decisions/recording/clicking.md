@@ -28,16 +28,6 @@ show the warning: the click target would move under the pointer.
 
 **Revisit if:** the owner often needs two profiles running at once.
 
-**Cases:**
-
-- A running, B picked: A still runs, and nothing is recorded.
-- A running, start pressed on B at 13:00: A ends at 13:00, B starts at 13:00.
-- A on screen and running, stop pressed: A ends; nothing runs.
-- A running, B on screen, pointer enters the button: "stoppar A" shows at once by the pointer and follows it; the
-  pointer leaves: it goes.
-- "Starta jobb" and "Stoppa jobb": the button has the same size in both.
-- While an entry runs, the flex bar and the ceiling wheel do not change; at stop they include it.
-
 ## The app opens on the running profile, or the last one on screen (2026-11-16)
 
 **Decision:** the app opens on the profile whose entry is running. When nothing runs, it opens on the profile that was
@@ -53,13 +43,6 @@ profile it means a click to get back. Always the last one on screen, even while 
 shows what runs, but opening on the running profile is what the owner expects.
 
 **Revisit if:** opening on the running profile surprises more often than it helps.
-
-**Cases:**
-
-- A running at close, B on screen: it opens on A.
-- Nothing running, B on screen at close: it opens on B.
-- Nothing running, B on screen at close, B archived on the other machine and handed over: it opens on the first profile.
-- A first start: it opens on the first profile.
 
 ## The last click can be undone for a few seconds (2026-11-15)
 
@@ -94,18 +77,6 @@ runs, and pairs the two quiet controls.
 
 **Revisit if:** 15 seconds proves too short or too long in daily use.
 
-**Cases:**
-
-- Stop at 15:40, nothing done until 15:40:30: the undo button is faded again; the stop stays.
-- A 20 min break added, the undo pressed within 15 seconds: the break is gone, and the entry's time is as before; the
-  label read "Ångra: paus 20min".
-- A break of 20 set to 30, the undo pressed: the break is 20 again; the label read "Ångra: paus 20min → 30min".
-- Nothing clicked since the app opened: the undo button is faded.
-- Stop at 15:40, the window hidden at once and shown again at 15:41: the undo is faded and a press does nothing; the
-  undo's time is a deadline, not a timer the system may delay.
-- Stop at 15:40, the app closed and opened again at 15:40:05: the undo is faded; the last click lives only in the
-  running app, never in the record.
-
 ## A running entry from an earlier day asks (2026-11-27)
 
 **Decision:** nothing stops an entry by itself. During the day, the stop click is the only signal of when work ended.
@@ -139,12 +110,3 @@ unseen. A notice also when stopping an entry from an earlier day: it guards agai
 anyway.
 
 **Revisit if:** a forgotten entry, with the app left open overnight, slips through unnoticed.
-
-**Cases:**
-
-- Fortfarande igång on 17 November: the entry runs on; opening the app again that day asks nothing; still running on 18
-  November, it asks again.
-- App left open across midnight, clicked at 07:00: no popup.
-- The popup showing, Tab pressed again and again: the focus moves only between Stoppa and Fortfarande igång, never to
-  the dashboard or the menu button.
-- Another profile on screen (Profiles): Stoppa stops the running entry, and the profile on screen stays.

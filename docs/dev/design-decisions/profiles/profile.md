@@ -65,18 +65,3 @@ folded list already brings it back, and the refused name points to it. Archived 
 fixing an old entry's forgotten stop would need "Återställ", the edit and "Arkivera" again.
 
 **Revisit if:** archived profiles pile up enough that the folded list is hard to read.
-
-**Cases:**
-
-- Utveckling with hours: its row shows "Arkivera"; clicked, "Arkivera?"; clicked again, it leaves the list and
-  "Arkiverade (1)" appears under "Ny profil".
-- Utveckling running: "Arkivera" clicked shows "Stoppa jobbet först" under it, and nothing is archived; stopped,
-  "Arkivera" asks as usual.
-- A profile just made, no hours: "Ta bort" in red; clicked twice, it is gone, and nothing appears under "Arkiverade".
-- "Ta bort" clicked once, then a click elsewhere: back to "Ta bort", nothing removed.
-- A new profile with no hours, then an entry made in it: its row shows "Arkivera".
-- An archived Utveckling: "utveckling " typed in "Ny profil", Enter: refused, "Namnet finns bland arkiverade" under the
-  field; a key typed: the note goes.
-- "Återställ" on Utveckling: back in the list and the switch list, its hours as before; "Arkiverade" goes with its last
-  row.
-- "utveckling" typed: the field shows "Utveckling".
