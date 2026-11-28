@@ -77,6 +77,7 @@ body {
   --surface-text: var(--popup-text);
   --surface-muted: color-mix(in srgb, var(--popup-text) var(--popup-muted), transparent);
   --surface-line: var(--button-line);
+  --surface-button-line: var(--surface-muted); /* its line is too close to its colour to edge a button */
 }
 
 /* A flat button, as the prototype's .plastic: the theme's button surface. One that can be used catches the pointer
@@ -114,6 +115,21 @@ body {
 .plastic:is(:disabled, [aria-disabled='true']) {
   opacity: var(--opacity-disabled);
   cursor: default;
+}
+
+/* In a popup a flat button is outlined, as every button in a popup is ("Shared looks are written once"): no fill, no
+   light, no shadow; its edge is the surface's button line, lit to the text colour under the pointer */
+dialog .plastic,
+dialog .plastic:not(:disabled):not([aria-disabled='true']),
+dialog .plastic:not(:disabled):not([aria-disabled='true']):is(:hover, :active) {
+  border: 1px solid var(--surface-button-line);
+  background: none;
+  color: var(--surface-text);
+  box-shadow: none;
+}
+
+dialog .plastic:not(:disabled):not([aria-disabled='true']):hover {
+  border-color: var(--surface-text);
 }
 
 /* The shared looks ("Shared looks are written once"), each in the colours of the surface it sits on. Wrapped in

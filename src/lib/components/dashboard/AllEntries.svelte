@@ -3,7 +3,7 @@
   ("The main screen has a controls side and a dashboard"), with a quiet line naming each month and its year
   where the list crosses into it, and a gap above each row where a forgotten entry is written ("A forgotten entry is
   written in the gap where it belongs"). A row opens its entry in the edit popup, stacked on the list, and a gap's "+"
-  opens it on that gap. "Stäng", a click outside or Esc closes it, and the
+  opens it on that gap. A click outside or Esc closes it, and the
   focus goes back to "Visa alla". With no entry yet, "Visa alla" is greyed out: <AllEntries disabled={entries.length === 0} />
 -->
 <script lang="ts">
@@ -37,7 +37,7 @@
 
   // === Helpers ===
 
-  /** Closed by "Stäng", Esc or a click outside: the saved row's outline goes with it */
+  /** Closed by Esc or a click outside: the saved row's outline goes with it */
   function close(): void {
     open = false
     app.savedId = null
@@ -75,9 +75,6 @@
   bind:dialog={popup}
   data-all-entries
 >
-  {#snippet aside()}
-    <button class="button-small" type="button" onclick={close}>Stäng</button>
-  {/snippet}
   <ol>
     {#each items as item (item.kind === 'month' ? item.key : item.entry.id)}
       {#if item.kind === 'month'}

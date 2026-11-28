@@ -23,7 +23,7 @@ export function ringAfterClose(openedBy: Input, closedBy: Input): boolean {
 
 /**
  * Whether the first focus inside a popup shows its ring: only when it was opened with the keyboard, so a click, or the
- * app opening it by itself, leaves none. Used by `popupOpened`: "Visa alla" opened with Enter rings "Stäng"; clicked,
+ * app opening it by itself, leaves none. Used by `popupOpened`: "Visa alla" opened with Enter rings its first row; clicked,
  * it does not.
  */
 export function ringOnOpen(openedBy: Input): boolean {

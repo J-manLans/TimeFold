@@ -1,7 +1,7 @@
 <!--
   The popups' frame ("Shared looks are written once"): every popup is this native <dialog>, opened modal, so it lies on
   top, keeps the focus inside it and gives it back when it closes. One look for all: the surface's background and line,
-  the large corners, one padding, the caps heading at the top left with anything beside it, over the dialog's own light dim. It closes
+  the large corners, one padding, the caps heading at the top left, over the dialog's own dim. It closes
   on Esc or a click outside, a click begun outside too, unless it must be answered. A popup of one side sits centred on
   that side, its parent; the others on the window. Opened while `open` holds; closed by the user, it calls `onclose`:
   <Popup open={app.profilesOpen} heading="Profil" surface="popup" over="side" onclose={() => (app.profilesOpen = false)}>
@@ -24,7 +24,6 @@
     dismiss = true,
     onclose,
     dialog = $bindable(),
-    aside,
     children,
     class: extra = '',
     onpointerdown,
@@ -49,8 +48,6 @@
     onclose?: () => void
     /** The dialog itself, for a popup that looks at what the pointer is over */
     dialog?: HTMLDialogElement
-    /** What sits beside the heading, at the top right, such as "Stäng" */
-    aside?: Snippet
     children: Snippet
     class?: string
   } = $props()
@@ -128,10 +125,7 @@
 >
   <div class="frame">
     {#if heading}
-      <header>
-        <h3 class="caps">{heading}</h3>
-        {@render aside?.()}
-      </header>
+      <h3 class="caps">{heading}</h3>
     {/if}
     {@render children()}
   </div>
@@ -151,6 +145,11 @@
     color: var(--surface-text);
   }
 
+  /* The dialog's own dim, darkened: tune its last number, how much black (the browser's default is 0.1) */
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.4);
+  }
+
   /* Over its side: centred on the part of it in view, not on the window */
   .on-side {
     position: fixed;
@@ -167,14 +166,9 @@
     padding: var(--spacing-xl);
   }
 
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-md);
-  }
-
+  /* At the top left, whatever the body below does */
   h3 {
+    justify-self: start;
     margin: 0;
   }
 </style>

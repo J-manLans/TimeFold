@@ -635,8 +635,12 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* Profile popup: centred on the control side */
 .scrim { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 6; }
 .popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; }
-.late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; }
-.late h3 { margin: 0; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); }
+.late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; }
+/* Its two choices outlined, as every button in a popup is: no fill, no shadow, the edge lit under the pointer */
+.late .plastic { --c-btn: transparent; --c-hover: transparent; box-shadow: none; background-image: none; border: 1px solid var(--c-muted); }
+.late .plastic:not(:disabled):hover { border-color: var(--c-fg); }
+#lateScrim { background: rgba(0, 0, 0, 0.4); }
+.late h3 { justify-self: start; margin: 0; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); }
 .late p { margin: 0; max-width: var(--late-width); text-wrap: balance; }
 .late .late-line { font-size: var(--late-line); }
 .late .late-note { font-size: var(--size-note); color: var(--c-muted); }
