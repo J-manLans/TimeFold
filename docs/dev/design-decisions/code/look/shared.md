@@ -3,9 +3,7 @@
 The looks several parts wear, each written once: classes, attachments and components, the type sets, the fields, the
 dropdowns and the surfaces. Each decision follows the template in `../../README.md`, and is cited by its title.
 
-## Shared looks are written once (2026-11-27)
-
-**Built by:** Phase 5, the shared looks: the popups' frame.
+## Shared looks are written once (2026-11-28)
 
 **Decision:** a look more than one part of the screen wears is written once and worn, never copied into each component.
 It takes one of three forms, by what it brings:
@@ -64,10 +62,11 @@ It takes one of three forms, by what it brings:
   keeps the focus inside and gives it back as it closes. A popup on the controls side is the button colour; a popup on
   the dashboard is the dashboard's colour. Each has its surface's line, the large corners, one padding and the caps
   heading at the top left, over the dialog's own dim, darkened. Every button in a popup is outlined, in the surface's
-  button line, never filled. A popup closes on Esc or a click outside, a click begun outside too; none has a close
-  button. The popup for a running entry from an earlier day must be answered, so it ignores both, and centres its body
-  under the heading, since it is a question with two answers. A popup of one side (the profile popup, the late popup,
-  the info popup) sits centred on the part of that side in view; the others on the window.
+  button line, never filled, and catches no pointer light. A popup closes on Esc or a click outside, a click begun
+  outside too; none has a close button. The popup for a running entry from an earlier day must be answered, so it
+  ignores both, and centres its body under the heading, since it is a question with two answers. A popup of one side
+  (the profile popup, the late popup, the info popup) sits centred on the part of that side in view; the others on the
+  window.
 
 **Why:** a look copied into each part drifts, and aligning one to another took several tries: the tag was three copies,
 the small button five, identical. Nine text sizes half a pixel apart were not decisions, and three read better side by
@@ -93,12 +92,3 @@ hand-set 17 characters: it changed width as a choice was made, and a reason rena
 was a choice.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
-
-**Cases:** a tag in the menu wears the menu's line, one in the edit popup the dashboard's; "Ändra" and the edit's
-"Avbryt" differ only in their surface's colours; every caps heading is the label's size at the widest tracking, in its
-surface's muted colour; "Välj orsak" and the edit's profile picker show the same chevron, each pointing up while its
-list is open; "Välj orsak" sits in a field already as wide as "Glömde stämpla ut", and choosing it changes nothing in
-width; a reason renamed longer widens the field, up to the popup's room, past which it is cut; in a gap, picking another
-profile fills it and picking the entry's own empties it again. "25 %", "paus 30m" and "Lägg till paus" each open into a
-field of exactly their size; "Ändra" under a name and under a salary are the same width, and each field takes its place
-without moving anything.

@@ -19,9 +19,9 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 ## Next
 
-Phase 5: Handover, the shared looks, one at a time:
+Phase 5: Handover:
 
-1. The popups' frame: written; to be seen in the app.
+1. The flex bar's and the ceiling wheel's own pass, from **Settle first**, then the two as parts handed their figures.
 
 ## The phases
 
@@ -41,14 +41,12 @@ their figures from outside; the record moving between the work and home machines
 (`open-questions.md`), drawn in the prototype (its import button only shows a note); the info button and its popup,
 drawn in the prototype: where the button sits on the controls side, and the popup's one short line about the app.
 
-1. The shared looks: each written once, as a class, an attachment or a component, and worn by every screen that shows
-   it.
-2. The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app themselves.
-3. How the shared looks came to be needed, talked through, and the planned way to build them written into the docs and
+1. The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app themselves.
+2. How the shared looks came to be needed, talked through, and the planned way to build them written into the docs and
    the starter as how the app is built from now on.
-4. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
-5. The onboarding's "Importera": it reads a handover file and asks nothing more.
-6. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
+3. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
+4. The onboarding's "Importera": it reads a handover file and asks nothing more.
+5. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
    frame showing the app's version and one short line about what TimeFold is for. No about or help pages.
 
 **Done when:** a week worked on both machines, handed over each day, matches on both.

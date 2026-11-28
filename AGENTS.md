@@ -41,10 +41,11 @@ state, progress, decisions or history here; each has its own home (see "Where th
 otherwise name the idea and ask. The prototype is the north star for the look beside the vision, never a model for how
 the app is built: the app uses the most robust tool or element for each job, whatever the prototype's markup does. A
 screen's values come from it until the screen is built, then live in the code, where the owner tunes them ("The look is
-a few scales, picked in each part", in `design-decisions/`); it stays the reference for the look's intent and for
-screens not built yet, and goes once the finished app has been validated. A sketch, a quick try of one look, holds
-nothing the docs need: the decision it serves holds every number it settles until the code holds them, and it is deleted
-once the code it previews is built; `git log` keeps it.
+a few scales, picked in each part", in `design-decisions/`); it follows the app's look, not its numbers: when something
+visible changes in the app (a part added, removed or drawn another way), the prototype gets the same change, while exact
+values and the code's structure are patched in only when a design pass there needs them. It goes once the finished app
+has been validated. A sketch, a quick try of one look, holds nothing the docs need: the decision it serves holds every
+number it settles until the code holds them, and it is deleted once the code it previews is built; `git log` keeps it.
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 

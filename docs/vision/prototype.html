@@ -134,7 +134,6 @@
   /* The edit popup: an entry edited on its line, opened alone from "Senaste" or on top of "Alla poster" (EDIT_SNAP,
      EDIT_FILL, EDIT_NEW, EDIT_TICKS and STEP_DELAY in the script) */
   --peek-delay: 0.25s;  /* resting on the list behind before the edit fades, and on a gap in "Visa alla" before its "+" shows */
-  --ed-stack-dim: rgba(0, 0, 0, 0.25);  /* over "Alla poster": the extra dimming of the list behind the edit */
   --ed-peek: 0.2;       /* the pointer resting on the list behind: how much of the edit popup still shows (0 gone, 1 all) */
   --ed-width: 480px;    /* the edit popup's width, a little narrower than the list's 560px */
   --el-h: 34px;         /* the line's height, the handles' room */
@@ -198,7 +197,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
   --c-fg:        light-dark(#1f2227, #e4e6ea);
   --c-muted:     light-dark(#556070, #8f949d);   /* light: 5.8:1 on the page */
   --c-line:      light-dark(#d9dfe8, #2c2f35);
-  --c-scrim:     light-dark(rgba(20, 26, 36, 0.25), rgba(0, 0, 0, 0.45));
+  --c-scrim:     rgba(0, 0, 0, 0.4);   /* behind every popup, the edit stacked on "Alla poster" again */
   --c-remove:    light-dark(#c8372d, #f0605a);   /* removal red on this side: "Rensa"; light: 4.7:1 on the page */
   /* Buttons. Light theme: the dashboard's blue, a step deeper so light text reads well. */
   --c-btn:       light-dark(#4f688e, #2a2d33);   /* light: text 5.2:1 on it */
@@ -637,9 +636,9 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .popup { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 10px; min-width: 220px; display: grid; gap: 4px; }
 .late { --c-fg: var(--popup-fg); --c-muted: color-mix(in srgb, var(--popup-fg) 70%, transparent); --ob-choice-scale: var(--late-choice-scale); background: var(--popup-bg); color: var(--c-fg); border: 1px solid var(--c-btn-line); border-radius: var(--r-panel); padding: 16px; display: grid; gap: var(--late-gap); justify-items: center; text-align: center; }
 /* Its two choices outlined, as every button in a popup is: no fill, no shadow, the edge lit under the pointer */
-.late .plastic { --c-btn: transparent; --c-hover: transparent; box-shadow: none; background-image: none; border: 1px solid var(--c-muted); }
-.late .plastic:not(:disabled):hover { border-color: var(--c-fg); }
-#lateScrim { background: rgba(0, 0, 0, 0.4); }
+.controls .late .plastic, .controls .late .plastic:not(:disabled):not([aria-disabled="true"]):is(:hover, :active) { --c-btn: transparent; --c-hover: transparent; box-shadow: none; background-image: none; border: 1px solid var(--c-muted); }
+.controls .late .plastic:not(:disabled):not([aria-disabled="true"]):hover { border-color: var(--c-fg); }
+
 .late h3 { justify-self: start; margin: 0; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); }
 .late p { margin: 0; max-width: var(--late-width); text-wrap: balance; }
 .late .late-line { font-size: var(--late-line); }
@@ -669,13 +668,12 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 /* The estimate and the ceiling's trend side by side, both quiet, with no labels */
 .pay-row { display: flex; justify-content: center; align-items: baseline; gap: var(--trend-gap); }
 .pay { font-size: var(--size-ui); color: var(--f-muted); font-variant-numeric: tabular-nums; }
-.allpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 8; }
+.allpop { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 8; }
 .allpop .card, .edpop .card { width: min(560px, 92%); max-height: 80%; overflow: auto; background: var(--f-bg); color: var(--f-fg); font-family: var(--mono); font-stretch: normal; font-weight: 400; text-transform: none; letter-spacing: normal; border: 1px solid var(--f-line); border-radius: var(--r-panel); padding: 16px 18px; display: grid; gap: 10px; }
 .allpop .card header { display: flex; justify-content: space-between; align-items: center; }
 /* The edit popup: over the screen from "Senaste", over the list from "Alla poster". With the pointer resting on the list
    behind, the popup fades to --ed-peek and the extra dimming lifts, so the list reads through. */
-.edpop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.45); display: grid; place-items: center; z-index: 9; transition: background-color var(--speed-ui) ease; }
-.edpop.stacked { background: var(--ed-stack-dim); }
+.edpop { position: absolute; inset: 0; background: var(--c-scrim); display: grid; place-items: center; z-index: 9; transition: background-color var(--speed-ui) ease; }
 .edpop.stacked.peek { background: transparent; }
 .edpop .card { width: min(var(--ed-width), 88%); transition: opacity var(--speed-ui) ease; }
 .edpop.peek .card { opacity: var(--ed-peek); }
@@ -1080,9 +1078,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 
     <div class="allpop" id="allPop" hidden>
       <div class="card" role="dialog" aria-label="Alla poster">
-        <header><span class="flabel">Alla poster</span>
-          <button class="more" id="allClose" type="button">Stäng</button>
-        </header>
+        <header><span class="flabel">Alla poster</span></header>
         <p class="ed-hint" id="edHint">Klicka på en post för att ändra den på sin linje.</p>
         <div class="entries"><ol id="allList"></ol></div>
       </div>
@@ -2631,7 +2627,6 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
     bump(ed.e.profile, -dur(ed.e)); entries.splice(entries.indexOf(ed.e), 1);
     closeEdit(); refigure();
   });
-  $("allClose").addEventListener("click", function () { $("allPop").hidden = true; });
   $("allPop").addEventListener("click", function (e) { if (e.target === this) this.hidden = true; });
 
   // Menu
