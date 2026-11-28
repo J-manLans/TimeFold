@@ -35,6 +35,13 @@ eyes and hands, and leaving them out keeps it lean for that; the app adds what i
 - The owner tunes alone, so a knob must be easy to find: knobs are grouped by screen, and within a screen by the part
   they touch (the button, the bar, the popup), each group under its own banner, and each knob with a short comment
   naming what it changes. A knob the owner has to ask the agent to find is a knob in the wrong place.
+- **It sprawls while it searches, and is consolidated before the build.** While the look is being found, a value may sit
+  wherever it is quickest to tune. The prototype's last pass, before it is called done, gathers what repeats into a few
+  scales (room, corners, text, weights) and shared looks (the button, the tag, the field, the popup), snaps the values
+  to them, and is tuned by eye there, where a change costs a minute. The first build phase then starts from them, so the
+  code inherits a structure the owner has seen. A screen drawn later sprawls as freely, and joins the scales and shared
+  looks as it moves into the product. Why: for code, a second copy proves a shared piece; for the look, the finished
+  prototype is the proof, and copies that move over one at a time drift apart unseen.
 - A value that follows from others is worked out from them, not written twice.
 - Controls that exist only for trying the prototype (a toolbar, a theme switch) sit apart and are labelled as such.
 

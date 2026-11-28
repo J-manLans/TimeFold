@@ -21,8 +21,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 Phase 5: Handover:
 
-1. The flex bar and the ceiling wheel as parts handed their figures, and the dashboard's one list of parts: written; to
-   be seen in the app.
+1. Export and import of the record, from **Settle first**: the question before an import replaces the record, drawn in
+   the prototype, then built.
 
 ## The phases
 
@@ -42,13 +42,9 @@ their figures from outside; the record moving between the work and home machines
 import button only shows a note); the info button and its popup, drawn in the prototype: where the button sits on the
 controls side, and the popup's one short line about the app.
 
-1. `[written]` `[tests]` The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app
-   themselves; the pay estimate a part of its own; the dashboard draws its parts from one list.
-2. How the shared looks came to be needed, talked through, and the planned way to build them written into the docs and
-   the starter as how the app is built from now on.
-3. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
-4. The onboarding's "Importera": it reads a handover file and asks nothing more.
-5. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
+1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
+2. The onboarding's "Importera": it reads a handover file and asks nothing more.
+3. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
    frame showing the app's version and one short line about what TimeFold is for. No about or help pages.
 
 **Done when:** a week worked on both machines, handed over each day, matches on both.
