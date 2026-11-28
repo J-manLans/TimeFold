@@ -10,7 +10,7 @@
   import type { Snippet } from 'svelte'
   import type { HTMLDialogAttributes } from 'svelte/elements'
   import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
-  import { centreOn } from '$lib/modules/shared/popup'
+  import { visiblePart, type Insets } from '$lib/modules/shared/popup'
 
   // === Props ===
 
@@ -61,7 +61,7 @@
   let openedBy: Input = null
   /** Whether the press of a click began outside it, which alone closes it */
   let pressedOutside = false
-  let centre = $state<{ x: number; y: number } | null>(null)
+  let part = $state<Insets | null>(null)
 
   // === Logic ===
 
@@ -77,11 +77,11 @@
 
   // === Helpers ===
 
-  /** Over a side, its centre on the part of that side in view. Used as it opens and when the window resizes */
+  /** Over a side, the part of that side in view, which it centres in. Used as it opens and when the window resizes */
   function place(): void {
     const side = dialog?.parentElement
     if (over !== 'side' || !side) return
-    centre = centreOn(side.getBoundingClientRect(), { width: window.innerWidth, height: window.innerHeight })
+    part = visiblePart(side.getBoundingClientRect(), { width: window.innerWidth, height: window.innerHeight })
   }
 
   /** Esc: closes it, or for one that must be answered, does nothing */
@@ -114,9 +114,11 @@
 <dialog
   bind:this={dialog}
   class="popup {extra}"
-  class:on-side={centre !== null}
-  style:--x={centre ? `${centre.x}px` : undefined}
-  style:--y={centre ? `${centre.y}px` : undefined}
+  class:on-side={part !== null}
+  style:--top={part ? `${part.top}px` : undefined}
+  style:--left={part ? `${part.left}px` : undefined}
+  style:--right={part ? `${part.right}px` : undefined}
+  style:--bottom={part ? `${part.bottom}px` : undefined}
   style:width
   data-surface={surface}
   aria-label={heading ? undefined : label}
@@ -153,14 +155,10 @@
     background: rgb(0 0 0 / 0.4);
   }
 
-  /* Over its side: centred on the part of it in view, not on the window */
+  /* Over its side: centred by layout in the part of it in view, as a dialog centres on the window, so it lands on whole
+     pixels (a shift by half its size drew it between two, softening its text and lines) */
   .on-side {
-    position: fixed;
-    inset: auto;
-    top: var(--y);
-    left: var(--x);
-    margin: 0;
-    translate: -50% -50%;
+    inset: var(--top) var(--right) var(--bottom) var(--left);
   }
 
   .frame {

@@ -1,6 +1,7 @@
 /**
- * Where a popup that belongs to one side sits ("Shared looks are written once"): centred on the part of that side in
- * the window, so a stacked, scrolled page still shows it where its side is.
+ * Where a popup that belongs to one side sits ("Shared looks are written once"): centred in the part of that side in
+ * the window, so a stacked, scrolled page still shows it where its side is. The part is given as insets on whole
+ * pixels, and the popup centres itself inside them by layout, so it is never drawn between two pixels.
  */
 
 // ======================================
@@ -15,15 +16,24 @@ export interface Box {
   height: number
 }
 
+/** How far in from each edge of the window a box lies, in whole pixels */
+export interface Insets {
+  top: number
+  left: number
+  right: number
+  bottom: number
+}
+
 /**
- * The centre of the part of a box inside the window, or the window's own centre when none of it is in view. Used by
- * the popups' frame for a popup over a side: centreOn(controls side, window) is the point the popup centres on
+ * The part of a box inside the window, as insets from the window's edges on whole pixels, or the whole window when
+ * none of it is in view. Used by the popups' frame for a popup over a side: visiblePart(controls side, window) is the
+ * box the popup centres in
  */
-export function centreOn(box: Box, view: { width: number; height: number }): { x: number; y: number } {
-  const left = Math.max(box.left, 0)
-  const right = Math.min(box.left + box.width, view.width)
-  const top = Math.max(box.top, 0)
-  const bottom = Math.min(box.top + box.height, view.height)
-  if (right <= left || bottom <= top) return { x: view.width / 2, y: view.height / 2 }
-  return { x: (left + right) / 2, y: (top + bottom) / 2 }
+export function visiblePart(box: Box, view: { width: number; height: number }): Insets {
+  const left = Math.round(Math.max(box.left, 0))
+  const right = Math.round(Math.min(box.left + box.width, view.width))
+  const top = Math.round(Math.max(box.top, 0))
+  const bottom = Math.round(Math.min(box.top + box.height, view.height))
+  if (right <= left || bottom <= top) return { top: 0, left: 0, right: 0, bottom: 0 }
+  return { top, left, right: view.width - right, bottom: view.height - bottom }
 }
