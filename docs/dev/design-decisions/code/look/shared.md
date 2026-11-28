@@ -61,12 +61,12 @@ It takes one of three forms, by what it brings:
 - **The popups' frame:** every popup wears one frame, `Popup`, a native `<dialog>` opened modal, so it lies on top,
   keeps the focus inside and gives it back as it closes. A popup on the controls side is the button colour; a popup on
   the dashboard is the dashboard's colour. Each has its surface's line, the large corners, one padding and the caps
-  heading at the top left, over the dialog's own dim, darkened. Every button in a popup is outlined, in the surface's
-  button line, never filled, and catches no pointer light. A popup closes on Esc or a click outside, a click begun
-  outside too; none has a close button. The popup for a running entry from an earlier day must be answered, so it
-  ignores both, and centres its body under the heading, since it is a question with two answers. A popup of one side
-  (the profile popup, the late popup, the info popup) sits centred on the part of that side in view; the others on the
-  window.
+  heading at the top left (the late popup's centred), over the dialog's own dim, darkened. Every button in a popup is
+  outlined, in the surface's button line, never filled, and catches no pointer light. A popup closes on Esc or a click
+  outside, a click begun outside too; none has a close button. The popup for a running entry from an earlier day must be
+  answered, so it ignores both, and centres its heading and body, since it is a question with two answers. A popup of
+  one side (the profile popup, the late popup, the info popup) sits centred on the part of that side in view; the others
+  on the window.
 
 **Why:** a look copied into each part drifts, and aligning one to another took several tries: the tag was three copies,
 the small button five, identical. Nine text sizes half a pixel apart were not decisions, and three read better side by

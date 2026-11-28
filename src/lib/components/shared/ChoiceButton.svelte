@@ -74,6 +74,8 @@
     /* A parent's --choice-scale, or the locked panel's: "Starta nytt" and "Importera" against "Starta jobb" */
     --scale: var(--choice-scale, 0.8);
 
+    display: grid;
+    place-items: center;
     height: calc(var(--start-height) * var(--scale));
     padding: 0 calc(var(--spacing-xxl) * var(--scale));
   }
@@ -86,5 +88,7 @@
     letter-spacing: var(--tracking-wide);
     line-height: var(--leading-none);
     text-transform: uppercase;
+    /* Trimmed to its capitals, so they sit dead centre in any engine, as the profile letter does */
+    text-box: trim-both cap alphabetic;
   }
 </style>

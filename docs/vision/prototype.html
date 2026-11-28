@@ -413,7 +413,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .ob-step[data-step="choice"] { grid-template-columns: max-content max-content; justify-content: center; gap: var(--block-gap); width: auto; }
 /* The two choices: Starta jobb's height and font, each as wide as its words. */
 .ob-choice { height: calc(var(--start-h) * var(--ob-choice-scale)); width: max-content; padding: 0 calc(var(--ob-choice-pad) * var(--ob-choice-scale)); display: grid; place-content: center; justify-items: center; }
-.ob-choice .label { text-transform: uppercase; font-family: var(--display); font-stretch: var(--display-stretch);  font-size: calc(var(--size-start) * var(--ob-choice-scale)); font-weight: var(--display-weight); letter-spacing: 0.03em; line-height: 1; }
+.ob-choice .label { text-transform: uppercase; font-family: var(--display); font-stretch: var(--display-stretch);  font-size: calc(var(--size-start) * var(--ob-choice-scale)); font-weight: var(--display-weight); letter-spacing: 0.03em; line-height: 1; text-box: trim-both cap alphabetic; }
 /* Importera, greyed out until Handover, still takes the pointer and the focus, so its tip ("från fil") can show. */
 .ob-choice[aria-disabled="true"] { opacity: var(--disabled-o); cursor: default; }
 .ob-prompt { font-size: var(--ob-prompt); font-weight: 600; color: var(--c-fg); }
@@ -639,7 +639,7 @@ body { background: var(--page-bg); color: var(--page-fg); font-family: var(--ui)
 .controls .late .plastic, .controls .late .plastic:not(:disabled):not([aria-disabled="true"]):is(:hover, :active) { --c-btn: transparent; --c-hover: transparent; box-shadow: none; background-image: none; border: 1px solid var(--c-muted); }
 .controls .late .plastic:not(:disabled):not([aria-disabled="true"]):hover { border-color: var(--c-fg); }
 
-.late h3 { justify-self: start; margin: 0; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); }
+.late h3 { margin: 0; font-size: var(--size-label); text-transform: uppercase; letter-spacing: var(--heading-tracking); color: var(--c-muted); }
 .late p { margin: 0; max-width: var(--late-width); text-wrap: balance; }
 .late .late-line { font-size: var(--late-line); }
 .late .late-note { font-size: var(--size-note); color: var(--c-muted); }

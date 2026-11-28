@@ -23,7 +23,7 @@
   })
 </script>
 
-<Popup open={words !== null} heading={words?.heading} surface="popup" over="side" dismiss={false}>
+<Popup open={words !== null} heading={words?.heading} surface="popup" over="side" dismiss={false} centred>
   {#if words}
     <div class="body">
       <p class="line">{words.line}</p>

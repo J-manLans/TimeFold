@@ -1,7 +1,7 @@
 <!--
   The popups' frame ("Shared looks are written once"): every popup is this native <dialog>, opened modal, so it lies on
   top, keeps the focus inside it and gives it back when it closes. One look for all: the surface's background and line,
-  the large corners, one padding, the caps heading at the top left, over the dialog's own dim. It closes
+  the large corners, one padding, the caps heading at the top left, or centred for a question, over the dialog's own dim. It closes
   on Esc or a click outside, a click begun outside too, unless it must be answered. A popup of one side sits centred on
   that side, its parent; the others on the window. Opened while `open` holds; closed by the user, it calls `onclose`:
   <Popup open={app.profilesOpen} heading="Profil" surface="popup" over="side" onclose={() => (app.profilesOpen = false)}>
@@ -22,6 +22,7 @@
     over = 'window',
     width,
     dismiss = true,
+    centred = false,
     onclose,
     dialog = $bindable(),
     children,
@@ -44,6 +45,8 @@
     width?: string
     /** Whether Esc and a click outside close it; false for one that must be answered */
     dismiss?: boolean
+    /** Its heading centred over a centred body, for a question; at the top left otherwise */
+    centred?: boolean
     /** Closed by the user: Esc, a click outside, or a close inside it */
     onclose?: () => void
     /** The dialog itself, for a popup that looks at what the pointer is over */
@@ -125,7 +128,7 @@
 >
   <div class="frame">
     {#if heading}
-      <h3 class="caps">{heading}</h3>
+      <h3 class="caps" class:centred>{heading}</h3>
     {/if}
     {@render children()}
   </div>
@@ -170,5 +173,9 @@
   h3 {
     justify-self: start;
     margin: 0;
+  }
+
+  h3.centred {
+    justify-self: center;
   }
 </style>
