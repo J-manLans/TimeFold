@@ -1,15 +1,28 @@
 <!--
   The dashboard ("The main screen has a controls side and a dashboard"): the living side, a dark panel in both themes,
-  laying out its figures from the top: the balance with the flex bar, the ceiling wheel with the pay estimate, then the
-  recent entries; while a copy is offered at recovery, a breathing "KOPIA" label above them. A thin line divides it
+  laying out its parts from the top in the order of PARTS: the balance with the flex bar, the ceiling wheel with its
+  trend, the pay estimate, then the recent entries; while a copy is offered at recovery, a breathing "KOPIA" label
+  above them. It works out what each figure draws and hands it over, so no figure reads the app. A thin line divides it
   from the controls side; in a narrow window it stacks on top, the line under it. It gives its figures the panel's
   colour, which the dimmed colours are worked out against, and the wheel's base, which a new row lights in.
 -->
+<script lang="ts" module>
+  /**
+   * The dashboard's parts, top to bottom: their order here is their order on screen. A setup, or a choice in the menu,
+   * would one day write this list ("The app for the whole school", in codebase-ideas.md)
+   */
+  const PARTS = ['flex-bar', 'ceiling-wheel', 'pay-estimate', 'recent-entries'] as const
+</script>
+
 <script lang="ts">
   import { app } from '$lib/app.svelte'
+  import { flexBarFigures, payFigure, wheelFigures } from '$lib/modules/dashboard/figures'
+  import { colourRoles } from '$lib/modules/shared/colours'
+  import { localDay } from '$lib/modules/shared/counting'
   import { dayLabel } from '$lib/modules/shared/dates'
   import CeilingWheel from './CeilingWheel.svelte'
   import FlexBar from './FlexBar.svelte'
+  import PayEstimate from './PayEstimate.svelte'
   import RecentEntries from './RecentEntries.svelte'
 
   // === State ===
@@ -31,6 +44,13 @@
   let wheelBase = $derived(
     onScreen === undefined || onScreen.expectedMinutes !== undefined ? 'var(--wheel-balance)' : onScreen.base,
   )
+
+  // What each figure draws, worked out from the record. While a profile's colour picker is open, the wheel is that
+  // profile's ("Each profile carries its colours"). Each reads today afresh as the record changes, so a figure worked
+  // out after midnight counts the new day
+  let bar = $derived(app.record ? flexBarFigures(app.record, localDay(Date.now())) : null)
+  let wheel = $derived(app.record ? wheelFigures(app.record, localDay(Date.now()), app.picking ?? app.onScreen) : null)
+  let pay = $derived(app.record ? payFigure(app.record, localDay(Date.now())) : null)
 
   // === Logic ===
 
@@ -71,11 +91,17 @@
     <!-- While the copy is offered, the dashboard shows it ("A record that cannot be read offers the newest copy") -->
     <span class="copy caps">Kopia · {dayLabel(app.copyDay)}</span>
   {/if}
-  {#if panel}
-    <FlexBar {panel} />
-    <CeilingWheel {panel} />
-  {/if}
-  <RecentEntries />
+  {#each PARTS as part (part)}
+    {#if part === 'flex-bar' && bar && panel}
+      <FlexBar seconds={bar.seconds} colours={colourRoles(bar.profile, panel)} still={app.still} />
+    {:else if part === 'ceiling-wheel' && wheel && panel}
+      <CeilingWheel month={wheel.month} trend={wheel.trend} wearer={wheel.wearer} {panel} still={app.still} />
+    {:else if part === 'pay-estimate' && pay !== null}
+      <PayEstimate {pay} still={app.still} />
+    {:else if part === 'recent-entries'}
+      <RecentEntries />
+    {/if}
+  {/each}
 </section>
 
 <style>

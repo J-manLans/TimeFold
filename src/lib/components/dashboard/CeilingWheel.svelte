@@ -1,11 +1,13 @@
 <!--
-  The ceiling wheel ("The ceiling wheel"), with the pay estimate under it ("A pay estimate per profile") and the
-  ceiling's trend beside that ("The ceiling's trend"), both quiet, with no labels. A ring whose
+  The ceiling wheel ("The ceiling wheel"), with the ceiling's trend under it ("The ceiling's trend"), quiet, with no
+  label. A ring whose
   full lap is the month's ceiling: used hours fill it clockwise from 12 o'clock in the order they were worked, the
   profile on screen's pieces lit and the others' faded, the rest dimmed; hours over the ceiling lie on a second lap in
   the neon. Grey, one piece, while the balance profile is on screen. The used hours sit in the middle, "AV 42:00
   H" under them. With the pointer on the band, the over lap winds back so the first lap shows whole. The figures count
-  to a new value as the balance does; on opening they show at once. Drawn as the prototype draws it, on a 200 board.
+  to a new value as the balance does; on opening they show at once. Drawn as the prototype draws it, on a 200 board. It
+  reads nothing of the app: it draws the month, trend and colours it is handed, so the dashboard, or a report, places
+  it: <CeilingWheel month={w.month} trend={w.trend} wearer={w.wearer} {panel} still={app.still} />
 -->
 <script lang="ts" module>
   /**
@@ -34,41 +36,43 @@
   import { onMount, untrack } from 'svelte'
   import { Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
-  import { app } from '$lib/app.svelte'
   import { colourRoles, dimmed, faded } from '$lib/modules/shared/colours'
   import { balanceText } from '$lib/modules/dashboard/figures'
-  import { ceilingMonth, ceilingTrend, localDay, payShown, shownMinutes } from '$lib/modules/shared/counting'
+  import { shownMinutes, type CeilingMonth } from '$lib/modules/shared/counting'
+  import type { Profile } from '$lib/modules/shared/record'
 
   // === Props ===
 
   let {
+    month,
+    trend,
+    wearer,
     panel,
+    still,
   }: {
+    /** The month's ceiling, its pieces in the order worked, and the hours used */
+    month: CeilingMonth
+    /** The ceiling's trend, in seconds */
+    trend: number
+    /** The profile whose colours it wears and whose pieces it lights; null greys it, one piece */
+    wearer: Profile | null
     /** The dashboard's background as #rrggbb, which the dimmed and faded colours are worked out against */
     panel: string
+    /** Whether motion is off, so new figures and the peek show at once */
+    still: boolean
   } = $props()
 
   // === State ===
 
-  let today = $derived(localDay(Date.now()))
-  let month = $derived(app.record ? ceilingMonth(app.record, today) : { ceiling: 0, pieces: [], used: 0 })
-  let pay = $derived(app.record ? payShown(app.record, today) : 0)
-  let trend = $derived(app.record ? ceilingTrend(app.record, today) : 0)
-
-  // The wheel wears the profile on screen's colours, or the greys while that is the balance profile
-  // While a profile's colour picker is open, the wheel is that profile's ("Each profile carries its colours")
-  let wheelProfile = $derived(app.picking ?? app.onScreen)
-  let onScreen = $derived(app.record?.profiles.find((p) => p.id === wheelProfile))
-  let grey = $derived(onScreen === undefined || onScreen.expectedMinutes !== undefined)
+  let grey = $derived(wearer === null)
   let greys = $state<{ base: string; neon: string } | null>(null)
   let colours = $derived.by(() => {
-    if (grey) return greys ? { ...greys, dimmed: dimmed(greys.base, panel) } : null
-    return onScreen ? colourRoles(onScreen, panel) : null
+    if (wearer === null) return greys ? { ...greys, dimmed: dimmed(greys.base, panel) } : null
+    return colourRoles(wearer, panel)
   })
 
-  // What is drawn: the used hours and the pay on their way to their new values, and the peek, 0 to 1
+  // What is drawn: the used hours on their way to their new value, and the peek, 0 to 1
   const shownUsed = new Tween(0, { easing: cubicOut })
-  const shownPay = new Tween(0, { easing: cubicOut })
   const peek = new Tween(0, { easing: cubicOut })
   let peeking = $state(false)
   let motion = { count: 0, peek: 0 }
@@ -91,15 +95,13 @@
     }
   })
 
-  // New figures: the used hours and the pay count to them; the first show at once
+  // New used hours: they count to them; the first show at once
   let first = true
   $effect(() => {
     const used = month.used
-    const estimate = pay
     const duration = first ? 0 : untrack(() => moving(motion.count))
     first = false
     void shownUsed.set(used, { duration })
-    void shownPay.set(estimate, { duration })
   })
 
   // === Helpers ===
@@ -137,7 +139,7 @@
     for (const piece of month.pieces) {
       const from = at
       const to = Math.min(at + piece.seconds, top)
-      const lit = piece.profile === wheelProfile
+      const lit = piece.profile === wearer?.id
       at += piece.seconds
       if (to <= from) continue
       const last = runs[runs.length - 1]
@@ -167,7 +169,7 @@
    * Used for every Tween here
    */
   function moving(ms: number): number {
-    return app.still ? 0 : ms
+    return still ? 0 : ms
   }
 
   /** Seconds as hours and minutes with no sign. Used for the used hours and the ceiling: 42:00 */
@@ -218,10 +220,7 @@
       </text>
       <text class="label" x={BOARD.centre} y={BOARD.labelBaseline}>AV {hours(month.ceiling)} H</text>
     </svg>
-    <div class="pay">
-      <span>≈ {Math.round(shownPay.current).toLocaleString('sv-SE')} €</span>
-      <span>{balanceText(trend)}</span>
-    </div>
+    <span class="trend">{balanceText(trend)}</span>
   </div>
 {/if}
 
@@ -267,9 +266,7 @@
     text-anchor: middle;
   }
 
-  .pay {
-    display: flex;
-    gap: var(--spacing-lg);
+  .trend {
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;

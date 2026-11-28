@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { at, entry, RECORD } from '$tests/helpers/records'
-import { balanceText, barReach, barScale, barSide, standsOver } from '$lib/modules/dashboard/figures'
+import {
+  balanceText,
+  barReach,
+  barScale,
+  barSide,
+  flexBarFigures,
+  payFigure,
+  standsOver,
+  wheelFigures,
+} from '$lib/modules/dashboard/figures'
+import { balanceOnScreen, ceilingMonth, ceilingTrend, payShown } from '$lib/modules/shared/counting'
 import { type TimeRecord } from '$lib/modules/shared/record'
 
 // === Constants ===
@@ -71,5 +81,41 @@ describe('a profile stands over its line in plus, or past the ceiling; at 0 it d
     const day = '2026-11-20'
 
     expect([standsOver(standing(0, 43), 'p2', day), standsOver(standing(0, 41), 'p2', day)]).toEqual([true, false])
+  })
+})
+
+describe('the dashboard hands each figure what it draws, so no figure reads the app', () => {
+  const two: TimeRecord = {
+    ...RECORD,
+    profiles: [...RECORD.profiles, { id: 'p2', name: 'Utveckling', hue: 285, base: '#7368d4', flexDays: [] }],
+    entries: [entry(at('2026-11-16', '08:00'), at('2026-11-16', '10:00'), { profile: 'p2' })],
+  }
+
+  it('hands the flex bar the balance profile and its balance on screen', () => {
+    const bar = flexBarFigures(RECORD, '2026-11-17')
+    expect(bar?.profile.id).toBe('p1')
+    expect(bar?.seconds).toBe(balanceOnScreen(RECORD, 'p1', '2026-11-17'))
+  })
+
+  it('hands the flex bar nothing when no profile keeps a balance', () => {
+    const none = { ...RECORD, profiles: [{ ...RECORD.profiles[0], expectedMinutes: undefined }] }
+    expect(flexBarFigures(none, '2026-11-17')).toBeNull()
+  })
+
+  it('hands the wheel the month, its trend, and the profile on screen as the one it wears', () => {
+    const wheel = wheelFigures(two, '2026-11-17', 'p2')
+    expect(wheel.month).toEqual(ceilingMonth(two, '2026-11-17'))
+    expect(wheel.trend).toBe(ceilingTrend(two, '2026-11-17'))
+    expect(wheel.wearer?.id).toBe('p2')
+  })
+
+  it('hands the wheel no wearer, so it greys, while the balance profile is on screen', () => {
+    expect(wheelFigures(two, '2026-11-17', 'p1').wearer).toBeNull()
+  })
+
+  it('hands the pay estimate its amount, or nothing when no profile has pay', () => {
+    expect(payFigure(RECORD, '2026-11-17')).toBe(payShown(RECORD, '2026-11-17'))
+    const unpaid = { ...RECORD, profiles: RECORD.profiles.map((p) => ({ ...p, pay: undefined })) }
+    expect(payFigure(unpaid, '2026-11-17')).toBeNull()
   })
 })

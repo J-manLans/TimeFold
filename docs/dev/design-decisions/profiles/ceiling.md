@@ -63,11 +63,11 @@ ceiling does not show.
 ceiling following from both ("The other profiles share a ceiling"); with no change yet, from the first month in the app.
 A change takes effect in the month its date falls in: that month is the trend's first, counted as its wheel counts it,
 under the ceiling in force on each of its days. The month under way never counts, so the trend changes only when a month
-ends, never day by day. It shows on the main screen as a quiet number beside the pay estimate under the wheel, with no
-label, in the estimate's colour, written as the balance is: signed hours and minutes, "+7:30", "−3:45", and "0:00" at
-zero or after a change. It shows whatever profile is on screen, as the wheel does. The report shows it beside the
-month's wheel, up to and including that month, with where it starts ("sedan 1 aug"). It is never owed and moves nothing
-else: over says the other work needs more room than the split gives it, under says there is room for more.
+ends, never day by day. It belongs to the wheel in any setup, shown as a quiet number under it, with no label, in the
+muted colour, written as the balance is: signed hours and minutes, "+7:30", "−3:45", and "0:00" at zero or after a
+change. It shows whatever profile is on screen, as the wheel does. The report shows it beside the month's wheel, up to
+and including that month, with where it starts ("sedan 1 aug"). It is never owed and moves nothing else: over says the
+other work needs more room than the split gives it, under says there is room for more.
 
 **Why:** the talk with the boss is about the split, so the trend starts again when the split changes and says whether
 the split in force fits: after an adjustment, months that stay near 0:00 say it does. Counting from the start would keep

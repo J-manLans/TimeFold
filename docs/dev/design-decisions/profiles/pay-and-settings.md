@@ -9,14 +9,15 @@ this one. Each decision follows the template in `../README.md`, and is cited by 
 with no choice between them; each is a setting that changes from a date ("Settings change from a date"). A salary counts
 once per month whatever the hours; janitor work has one (such as 2 000 €), since its hours move the balance, not the
 pay. A rate counts the profile's hours that month. A profile with neither is left out. The estimate is the month's
-salaries plus its hours times rates ("The app's month is the calendar month"), shown as one number with no label under
-the ceiling wheel ("The main screen has a controls side and a dashboard"), before tax while "Efter skatt", one global
-checkbox in Profiler, unchecked by default, is unchecked, and after tax when it is checked, so seeing the pay after tax
-is a choice made on purpose: the estimate less "Skatt och avgifter", one global percentage beside it, 25% by default,
-standing for everything a payslip takes off, the tax card's withholding and the employee's contributions together (1 −
-net ÷ gross on one payslip), saved at once with no date or history, since only the current month's estimate is shown;
-the tax card's extra percentage above its yearly income limit is left out. It is updated when an entry stops or an added
-break changes a stopped entry, like the figures. It is for the owner only, and stays out of the report to the boss.
+salaries plus its hours times rates ("The app's month is the calendar month"), shown as one number with no label on its
+own line under the ceiling wheel ("The main screen has a controls side and a dashboard"), only when some profile has
+pay, since it belongs to no figure and not every setup pays, before tax while "Efter skatt", one global checkbox in
+Profiler, unchecked by default, is unchecked, and after tax when it is checked, so seeing the pay after tax is a choice
+made on purpose: the estimate less "Skatt och avgifter", one global percentage beside it, 25% by default, standing for
+everything a payslip takes off, the tax card's withholding and the employee's contributions together (1 − net ÷ gross on
+one payslip), saved at once with no date or history, since only the current month's estimate is shown; the tax card's
+extra percentage above its yearly income limit is left out. It is updated when an entry stops or an added break changes
+a stopped entry, like the figures. It is for the owner only, and stays out of the report to the boss.
 
 **Why:** the owner wants a rough idea of what the month is worth as it builds up, and pay can rise over time. The
 janitor job is salaried with flexible hours, so its pay is the base the other work sits on. It need not match payroll,

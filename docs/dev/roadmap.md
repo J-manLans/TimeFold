@@ -21,7 +21,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 Phase 5: Handover:
 
-1. The flex bar's and the ceiling wheel's own pass, from **Settle first**, then the two as parts handed their figures.
+1. The flex bar and the ceiling wheel as parts handed their figures, and the dashboard's one list of parts: written; to
+   be seen in the app.
 
 ## The phases
 
@@ -37,11 +38,12 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 **Produces:** the looks the screens share, each written once; the flex bar and the ceiling wheel as parts that take
 their figures from outside; the record moving between the work and home machines.
 
-**Settle first:** the flex bar's and the ceiling wheel's own pass; the question before an import replaces the record
-(`open-questions.md`), drawn in the prototype (its import button only shows a note); the info button and its popup,
-drawn in the prototype: where the button sits on the controls side, and the popup's one short line about the app.
+**Settle first:** the question before an import replaces the record (`open-questions.md`), drawn in the prototype (its
+import button only shows a note); the info button and its popup, drawn in the prototype: where the button sits on the
+controls side, and the popup's one short line about the app.
 
-1. The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app themselves.
+1. `[written]` `[tests]` The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app
+   themselves; the pay estimate a part of its own; the dashboard draws its parts from one list.
 2. How the shared looks came to be needed, talked through, and the planned way to build them written into the docs and
    the starter as how the app is built from now on.
 3. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.

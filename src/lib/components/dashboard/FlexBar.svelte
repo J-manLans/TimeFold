@@ -3,7 +3,9 @@
   in the balance profile's base colour and plus to the right in its neon; exactly 0 is a dimmed marker that
   slowly breathes. Ten marks a side run to the scale's end, whose mark and label wear that side's colour. The number
   and the bar count to a new balance together, and the scale grows or shrinks with a short animation; on opening, both
-  show at once. Drawn as the prototype draws it, on a 400 × 48 board.
+  show at once. Drawn as the prototype draws it, on a 400 × 48 board. It reads nothing of the app: it draws the
+  balance and colours it is handed, so the dashboard, or a report, places it:
+  <FlexBar seconds={bar.seconds} colours={colourRoles(bar.profile, panel)} still={app.still} />
 -->
 <script lang="ts" module>
   /**
@@ -34,26 +36,25 @@
   import { onMount, untrack } from 'svelte'
   import { Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
-  import { app } from '$lib/app.svelte'
-  import { colourRoles } from '$lib/modules/shared/colours'
-  import { balanceOnScreen, localDay } from '$lib/modules/shared/counting'
   import { balanceText, barReach, barScale, barSide } from '$lib/modules/dashboard/figures'
 
   // === Props ===
 
   let {
-    panel,
+    seconds,
+    colours: roles,
+    still,
   }: {
-    /** The dashboard's background as #rrggbb, which the dimmed marker is worked out against */
-    panel: string
+    /** The balance, in seconds */
+    seconds: number
+    /** The balance profile's colours: base for minus, neon for plus, dimmed for the marker at 0 */
+    colours: { base: string; neon: string; dimmed: string }
+    /** Whether motion is off, so a new balance shows at once */
+    still: boolean
   } = $props()
 
   // === State ===
 
-  // The balance profile is the one with expected hours; the bar always wears its colours
-  let profile = $derived(app.record?.profiles.find((p) => p.expectedMinutes !== undefined) ?? null)
-  let roles = $derived(profile ? colourRoles(profile, panel) : null)
-  let seconds = $derived(app.record && profile ? balanceOnScreen(app.record, profile.id, localDay(Date.now())) : 0)
   let scale = $state<number | null>(null)
 
   // What is drawn: the balance and the scale on their way to their new values
@@ -66,7 +67,7 @@
   let value = $derived(shown.current)
   let side = $derived(barSide(value))
   let reach = $derived(shownScale.current > 0 ? barReach(value, shownScale.current) * BOARD.half : 0)
-  let numberColour = $derived(side === 'minus' ? roles?.base : side === 'plus' ? roles?.neon : 'var(--dashboard-text)')
+  let numberColour = $derived(side === 'minus' ? roles.base : side === 'plus' ? roles.neon : 'var(--dashboard-text)')
   let top = $derived(BOARD.middle - thickness / 2)
 
   // === Logic ===
@@ -85,7 +86,7 @@
       seconds,
       untrack(() => scale),
     )
-    const opening = first || untrack(() => app.still)
+    const opening = first || untrack(() => still)
     first = false
     scale = next
     void shown.set(seconds, { duration: opening ? 0 : motion.count })
@@ -113,7 +114,7 @@
   }
 </script>
 
-{#if roles && thickness > 0}
+{#if thickness > 0}
   <div class="balance">
     <div class="number" style:color={numberColour}>{balanceText(value)}</div>
     <svg viewBox="0 0 {BOARD.width} {BOARD.height}" role="img" aria-label="Saldostapel">
