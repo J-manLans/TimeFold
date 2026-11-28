@@ -92,16 +92,16 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--menu-value-gap-inline);
+    gap: var(--spacing-2);
     min-height: var(--menu-value-row);
-    padding: var(--menu-value-padding);
+    padding: var(--spacing-2) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
   .check {
     display: inline-flex;
     align-items: center;
-    gap: var(--menu-check-gap);
+    gap: var(--spacing-2);
     cursor: pointer;
   }
 
@@ -133,7 +133,7 @@
   }
 
   .label {
-    margin-left: var(--menu-note-gap);
+    margin-left: var(--spacing-3);
     color: var(--menu-text-muted);
   }
 

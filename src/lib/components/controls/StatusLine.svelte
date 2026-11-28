@@ -29,7 +29,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--pie-gap);
+    gap: var(--spacing-2);
     margin: 0;
     height: max(var(--status-height), var(--pie-size));
     line-height: var(--status-height);

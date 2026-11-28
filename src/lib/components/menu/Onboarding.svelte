@@ -179,7 +179,7 @@
     grid-area: 1 / 1;
     display: grid;
     justify-items: center;
-    gap: var(--onboarding-gap);
+    gap: var(--spacing-3);
     width: min(var(--onboarding-width), 80%);
     opacity: 0;
     visibility: hidden;
@@ -191,7 +191,7 @@
   .choices {
     grid-template-columns: max-content max-content;
     justify-content: center;
-    gap: var(--block-gap);
+    gap: var(--spacing-2);
     width: auto;
   }
 
@@ -201,10 +201,10 @@
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    gap: var(--onboarding-note-gap);
+    gap: var(--spacing-3);
     width: 0;
     min-width: 100%;
-    margin-top: calc(var(--onboarding-note-space) - var(--block-gap));
+    margin-top: calc(var(--spacing-6) - var(--spacing-2));
   }
 
   /* The sentence and, once clicked, the switch's label share a cell; the sentence keeps its room, so nothing moves */

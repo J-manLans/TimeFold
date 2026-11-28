@@ -72,7 +72,7 @@
 
   .choice {
     height: calc(var(--start-height) * var(--choice-scale, var(--onboarding-choice-scale)));
-    padding: 0 calc(var(--onboarding-choice-padding) * var(--choice-scale, var(--onboarding-choice-scale)));
+    padding: 0 calc(var(--spacing-6) * var(--choice-scale, var(--onboarding-choice-scale)));
   }
 
   .label {

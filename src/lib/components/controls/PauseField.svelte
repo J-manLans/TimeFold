@@ -111,7 +111,7 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: var(--pause-reading-gap);
+    margin-top: var(--spacing-1);
     font-size: var(--text-size-body);
     color: var(--controls-text-muted);
     white-space: nowrap;
@@ -120,7 +120,7 @@
 
   .pause {
     height: var(--pause-height);
-    padding: var(--pause-padding);
+    padding: 0 var(--spacing-3);
     font-size: var(--text-size-body);
     font-weight: var(--font-weight-semibold);
   }

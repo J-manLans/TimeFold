@@ -155,8 +155,8 @@
 
   .card {
     display: grid;
-    gap: var(--all-entries-gap);
-    padding: var(--all-entries-padding);
+    gap: var(--spacing-2);
+    padding: var(--spacing-4) var(--spacing-4);
   }
 
   header {
@@ -167,7 +167,7 @@
 
   ol {
     display: grid;
-    gap: var(--entry-gap);
+    gap: var(--spacing-0-5);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -175,7 +175,7 @@
 
   /* A month's line: no row behind it, a little room above, the rows under it as in the recent list */
   .month {
-    padding: var(--entry-month-gap) var(--entry-month-inset) var(--entry-month-under);
+    padding: var(--spacing-3) var(--spacing-2) var(--spacing-0-5);
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-label);
     font-weight: var(--font-weight-bold);
@@ -189,11 +189,11 @@
      centre and a line on each side, hidden until it is hovered */
   .gap {
     display: flex;
-    gap: var(--insert-spacing);
+    gap: var(--spacing-1-5);
     align-items: center;
     height: var(--insert-hit);
-    margin: calc((var(--insert-rest) - var(--insert-hit)) / 2) 0;
-    padding: var(--insert-inset);
+    margin: calc((var(--spacing-0-5) - var(--insert-hit)) / 2) 0;
+    padding: 0 var(--spacing-2);
     cursor: pointer;
   }
 
@@ -223,7 +223,7 @@
 
   /* The always-shown "+" sits in a gap always open, so nothing moves around it */
   .gap.top {
-    height: calc(var(--insert-rest) + var(--insert-open));
+    height: calc(var(--spacing-0-5) + var(--insert-open));
     margin: 0;
   }
 

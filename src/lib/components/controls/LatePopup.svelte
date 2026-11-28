@@ -64,8 +64,8 @@
     --choice-scale: var(--late-choice-scale);
     display: grid;
     justify-items: center;
-    gap: var(--late-gap);
-    padding: var(--late-padding);
+    gap: var(--spacing-3);
+    padding: var(--spacing-4) var(--spacing-4);
     border: 1px solid var(--button-line);
     border-radius: var(--radius-xl);
     background: var(--popup-background);
@@ -94,6 +94,6 @@
 
   .buttons {
     display: flex;
-    gap: var(--block-gap);
+    gap: var(--spacing-2);
   }
 </style>

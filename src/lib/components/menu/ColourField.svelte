@@ -150,9 +150,9 @@
   .line {
     display: flex;
     align-items: center;
-    gap: var(--menu-value-gap-inline);
+    gap: var(--spacing-2);
     min-height: var(--menu-value-row);
-    padding: var(--menu-value-padding);
+    padding: var(--spacing-2) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
@@ -170,7 +170,7 @@
 
   .pair {
     display: inline-flex;
-    gap: var(--picker-pair-gap);
+    gap: var(--spacing-1);
   }
 
   .pair span {
@@ -185,9 +185,9 @@
     position: fixed;
     z-index: 20;
     display: grid;
-    gap: var(--picker-gap);
+    gap: var(--spacing-2);
     width: min-content;
-    padding: var(--picker-padding);
+    padding: var(--spacing-2);
     border: 1px solid var(--button-line);
     border-radius: var(--radius-md);
     background: var(--picker-background);
@@ -228,7 +228,7 @@
   .code {
     display: flex;
     align-items: center;
-    gap: var(--picker-pair-gap);
+    gap: var(--spacing-1);
   }
 
   .swatch {

@@ -62,7 +62,7 @@
 
   .entries {
     display: grid;
-    gap: var(--dashboard-inner-gap);
+    gap: var(--spacing-1-5);
   }
 
   /* The blank rows and the list share one place, so the room is five rows high whatever the list holds */
@@ -77,7 +77,7 @@
   ol {
     display: grid;
     align-content: start;
-    gap: var(--entry-gap);
+    gap: var(--spacing-0-5);
     margin: 0;
     padding: 0;
     list-style: none;

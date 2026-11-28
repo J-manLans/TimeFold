@@ -231,7 +231,7 @@
   .wheel {
     display: grid;
     justify-items: center;
-    gap: var(--dashboard-inner-gap);
+    gap: var(--spacing-1-5);
   }
 
   svg {
@@ -267,7 +267,7 @@
 
   .pay {
     display: flex;
-    gap: var(--trend-gap);
+    gap: var(--spacing-3);
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;

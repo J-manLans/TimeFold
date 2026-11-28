@@ -256,8 +256,8 @@
     background-color: var(--button-background);
     color: var(--menu-text);
     clip-path: inset(
-      var(--menu-inset) calc(100% - var(--menu-inset) - var(--button-icon-size))
-        calc(100% - var(--menu-inset) - var(--button-icon-size)) var(--menu-inset) round var(--radius-md)
+      var(--spacing-3) calc(100% - var(--spacing-3) - var(--button-icon-size))
+        calc(100% - var(--spacing-3) - var(--button-icon-size)) var(--spacing-3) round var(--radius-md)
     );
     transition: background-color var(--speed-ui) ease;
   }
@@ -271,8 +271,8 @@
   .toggle {
     transition: opacity var(--speed-ui) ease;
     position: absolute;
-    top: var(--menu-inset);
-    left: var(--menu-inset);
+    top: var(--spacing-3);
+    left: var(--spacing-3);
     z-index: 2;
     width: var(--button-icon-size);
     height: var(--button-icon-size);
@@ -316,7 +316,7 @@
     inset: 0;
     display: grid;
     grid-template-rows: auto auto minmax(0, 1fr);
-    padding: var(--menu-padding);
+    padding: var(--spacing-4) var(--spacing-4) var(--spacing-6);
     overflow: hidden;
     opacity: 0;
     transition: opacity var(--speed-ui) ease;
@@ -326,9 +326,9 @@
   .head {
     display: flex;
     align-items: center;
-    gap: var(--menu-head-gap);
+    gap: var(--spacing-2);
     min-height: var(--button-icon-size);
-    margin: 0 0 var(--menu-head-space) calc(var(--menu-inset) + var(--button-icon-size));
+    margin: 0 0 var(--spacing-1) calc(var(--spacing-3) + var(--button-icon-size));
   }
 
   h2 {
@@ -339,13 +339,13 @@
 
   .tabs {
     display: flex;
-    gap: var(--menu-tab-gap);
+    gap: var(--spacing-0-5);
     border-bottom: 1px solid var(--menu-line);
   }
 
   .tab {
     margin-bottom: -1px;
-    padding: var(--menu-tab-padding);
+    padding: var(--spacing-1-5) var(--spacing-2);
     border: 0;
     border-bottom: var(--menu-tab-line) solid transparent;
     background: none;
@@ -361,10 +361,10 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-content: start;
-    gap: var(--menu-panel-gap);
+    gap: var(--spacing-3);
     min-height: 0;
-    margin: 0 calc(-1 * var(--menu-panel-edge)) calc(-1 * var(--menu-panel-edge));
-    padding: var(--menu-gap) var(--menu-panel-edge) var(--menu-panel-edge);
+    margin: 0 calc(-1 * var(--spacing-1)) calc(-1 * var(--spacing-1));
+    padding: var(--spacing-4) var(--spacing-1) var(--spacing-1);
     overflow-y: auto;
     scrollbar-width: none;
     animation: tab-fade var(--menu-tab-fade) ease;
@@ -383,7 +383,7 @@
 
   section {
     display: grid;
-    gap: var(--menu-section-gap);
+    gap: var(--spacing-2);
   }
 
   .label {
@@ -447,14 +447,14 @@
      grows from there, and the heading takes the top row the button leaves */
   :global(:where(:root[data-stacked])) .menu {
     clip-path: inset(
-      calc(100% - var(--menu-inset) - var(--button-icon-size)) calc(100% - var(--menu-inset) - var(--button-icon-size))
-        var(--menu-inset) var(--menu-inset) round var(--radius-md)
+      calc(100% - var(--spacing-3) - var(--button-icon-size)) calc(100% - var(--spacing-3) - var(--button-icon-size))
+        var(--spacing-3) var(--spacing-3) round var(--radius-md)
     );
   }
 
   :global(:where(:root[data-stacked])) .toggle {
     top: auto;
-    bottom: var(--menu-inset);
+    bottom: var(--spacing-3);
   }
 
   :global(:where(:root[data-stacked])) .head {
@@ -462,6 +462,6 @@
   }
 
   :global(:where(:root[data-stacked])) .body {
-    padding-bottom: calc(var(--menu-inset) + var(--button-icon-size) + var(--menu-gap));
+    padding-bottom: calc(var(--spacing-3) + var(--button-icon-size) + var(--spacing-4));
   }
 </style>

@@ -85,8 +85,8 @@
     position: relative;
     display: grid;
     align-content: var(--dashboard-spread);
-    gap: var(--dashboard-gap);
-    padding: var(--dashboard-padding);
+    gap: 0;
+    padding: var(--spacing-6) var(--spacing-6) var(--spacing-4) var(--spacing-8);
     overflow-y: auto;
     background: var(--dashboard-background);
     color: var(--dashboard-text);

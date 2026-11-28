@@ -172,9 +172,9 @@
   .head {
     display: flex;
     align-items: center;
-    gap: var(--menu-value-gap-inline);
+    gap: var(--spacing-2);
     width: 100%;
-    padding: var(--menu-row-padding);
+    padding: var(--spacing-2) var(--spacing-2);
     border: 0;
     background: none;
     color: var(--menu-text);
@@ -226,15 +226,15 @@
   .body {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    padding: var(--menu-row-body-padding);
+    padding: var(--spacing-0-5) var(--spacing-3) var(--spacing-3);
   }
 
   .last {
     display: grid;
     justify-items: start;
-    gap: var(--menu-value-gap);
-    padding: var(--menu-value-padding);
-    margin-left: calc(var(--menu-label-width) + var(--menu-value-gap-inline));
+    gap: var(--spacing-1-5);
+    padding: var(--spacing-2) 0;
+    margin-left: calc(var(--menu-label-width) + var(--spacing-2));
   }
 
   .q {

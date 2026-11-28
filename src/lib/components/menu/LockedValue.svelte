@@ -233,8 +233,8 @@
   .value {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--menu-value-gap);
-    padding: var(--menu-value-padding);
+    gap: var(--spacing-1-5);
+    padding: var(--spacing-2) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
@@ -243,7 +243,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--menu-value-gap-inline);
+    gap: var(--spacing-2);
     min-height: var(--menu-value-row);
   }
 
@@ -281,13 +281,13 @@
   }
 
   .note {
-    margin-left: var(--menu-note-gap);
+    margin-left: var(--spacing-3);
     color: var(--menu-text-muted);
   }
 
   /* Everything under the value lines up with it, past the label */
   .value > :not(.row) {
-    margin-left: calc(var(--menu-label-width) + var(--menu-value-gap-inline));
+    margin-left: calc(var(--menu-label-width) + var(--spacing-2));
   }
 
   /* "Ändra" and its field are one size in every value, so the field takes the button's place exactly */
@@ -320,7 +320,7 @@
 
   ul {
     display: grid;
-    gap: var(--menu-history-gap);
+    gap: var(--spacing-0-5);
     margin: 0;
     padding: 0;
     list-style: none;

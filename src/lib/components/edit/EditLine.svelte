@@ -353,8 +353,8 @@
   /* The line's lane, out to the popup's edges through its side padding: it cuts what runs on sideways only, so the
      popup never scrolls sideways and may still grow in height */
   .lane {
-    margin-inline: calc(-1 * var(--all-entries-padding-inline));
-    padding-inline: var(--all-entries-padding-inline);
+    margin-inline: calc(-1 * var(--spacing-4));
+    padding-inline: var(--spacing-4);
     overflow-x: clip;
   }
 

@@ -34,7 +34,7 @@ body {
 /* Every focus ring, in the colour of where the profile on screen stands (App.svelte) */
 :focus-visible {
   outline: var(--focus-width) solid var(--profile-state, currentColor);
-  outline-offset: var(--focus-offset);
+  outline-offset: var(--spacing-0-5);
 }
 
 /* Where the focus lands when a popup closes, unless it was opened and closed with the keyboard: no ring until it
@@ -212,7 +212,7 @@ body {
   content: '';
   position: absolute;
   top: 50%;
-  right: var(--dropdown-inset);
+  right: var(--spacing-2);
   width: var(--dropdown-chevron);
   height: var(--dropdown-chevron);
   border-right: 1.5px solid currentColor;
@@ -232,7 +232,7 @@ body {
   min-width: 0;
   max-width: 100%;
   overflow: hidden;
-  padding: var(--dropdown-choice-padding);
+  padding: var(--spacing-0-5) var(--spacing-2);
   border: 0;
   border-radius: var(--radius-sm);
   background: none;

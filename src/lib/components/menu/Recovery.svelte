@@ -114,8 +114,8 @@
     display: grid;
     place-content: center;
     justify-items: center;
-    gap: var(--recovery-gap);
-    padding: 0 var(--menu-inset);
+    gap: var(--spacing-4);
+    padding: 0 var(--spacing-3);
     text-align: center;
     letter-spacing: normal;
   }
@@ -123,7 +123,7 @@
   .words {
     display: grid;
     justify-items: center;
-    gap: var(--block-gap);
+    gap: var(--spacing-2);
   }
 
   h2 {
@@ -154,6 +154,6 @@
   .choices {
     display: flex;
     justify-content: center;
-    gap: var(--block-gap);
+    gap: var(--spacing-2);
   }
 </style>

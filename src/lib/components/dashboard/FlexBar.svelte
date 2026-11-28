@@ -156,7 +156,7 @@
 
   .balance {
     display: grid;
-    gap: var(--dashboard-inner-gap);
+    gap: var(--spacing-1-5);
   }
 
   .number {

@@ -137,20 +137,20 @@
     display: flex;
     flex-wrap: wrap;
     align-items: start;
-    gap: var(--calendar-wrap-gap) var(--calendar-side-gap);
+    gap: var(--spacing-4) var(--spacing-6);
   }
 
   /* As wide as its seven days */
   .month {
     display: grid;
-    gap: var(--calendar-head-gap);
-    width: calc(7 * var(--calendar-cell) + 6 * var(--calendar-gap));
+    gap: var(--spacing-2);
+    width: calc(7 * var(--calendar-cell) + 6 * var(--spacing-1));
   }
 
   .head {
     display: flex;
     align-items: center;
-    gap: var(--calendar-nav-gap);
+    gap: var(--spacing-1-5);
     height: var(--calendar-head-height);
   }
 
@@ -174,7 +174,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--calendar-nav-gap);
+    gap: var(--spacing-1-5);
     font-size: var(--text-size-heading);
   }
 
@@ -195,8 +195,8 @@
   .lock {
     display: grid;
     place-items: center;
-    width: calc(var(--calendar-lock-size) + 2 * var(--calendar-lock-pad));
-    height: calc(var(--calendar-lock-size) + 2 * var(--calendar-lock-pad));
+    width: calc(var(--calendar-lock-size) + 2 * var(--spacing-1));
+    height: calc(var(--calendar-lock-size) + 2 * var(--spacing-1));
     padding: 0;
     border: 0;
     border-radius: var(--radius-md);
@@ -218,7 +218,7 @@
   .grid {
     display: grid;
     grid-template-columns: repeat(7, var(--calendar-cell));
-    gap: var(--calendar-gap);
+    gap: var(--spacing-1);
   }
 
   .weekday {
@@ -250,9 +250,9 @@
     min-width: var(--calendar-list-min-width);
     display: grid;
     align-content: start;
-    gap: var(--calendar-gap);
+    gap: var(--spacing-1);
     padding-top: calc(
-      var(--calendar-head-height) + var(--calendar-head-gap) + var(--calendar-weekday-height) + var(--calendar-gap)
+      var(--calendar-head-height) + var(--spacing-2) + var(--calendar-weekday-height) + var(--spacing-1)
     );
     color: var(--menu-text-muted);
     font-size: var(--text-size-body);
@@ -263,13 +263,13 @@
   .line {
     display: grid;
     grid-template-columns: var(--calendar-month-column) 1fr;
-    gap: var(--calendar-list-gap);
+    gap: var(--spacing-2);
   }
 
   .days {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--calendar-gap) var(--calendar-list-gap);
+    gap: var(--spacing-1) var(--spacing-2);
   }
 
   .year {
@@ -313,7 +313,7 @@
      last week */
   :global(:where(:root[data-stacked])) .calendar {
     flex-direction: column;
-    gap: var(--calendar-head-gap);
+    gap: var(--spacing-2);
   }
 
   :global(:where(:root[data-stacked])) .ahead {

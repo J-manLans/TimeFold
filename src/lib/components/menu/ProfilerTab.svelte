@@ -141,7 +141,7 @@
   .rows {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--menu-rows-gap);
+    gap: var(--spacing-1-5);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -152,12 +152,12 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--menu-value-gap-inline);
+    gap: var(--spacing-2);
   }
 
   .slot {
     display: inline-grid;
-    row-gap: var(--menu-name-warn-gap);
+    row-gap: var(--spacing-2);
   }
 
   /* "Ny profil" flips to its field at the same size, the size of every "Ändra" and its field */
@@ -183,15 +183,15 @@
   }
 
   .archive {
-    margin-top: var(--menu-archived-gap);
+    margin-top: var(--spacing-3);
   }
 
   .archive-head {
     display: flex;
     align-items: center;
-    gap: var(--menu-check-gap);
+    gap: var(--spacing-2);
     width: 100%;
-    padding: var(--menu-archive-head-padding);
+    padding: var(--spacing-1) 0;
     border: 0;
     background: none;
     font-family: inherit;
@@ -217,7 +217,7 @@
   }
 
   .archive .rows {
-    padding-top: var(--menu-rows-gap);
+    padding-top: var(--spacing-1-5);
   }
 
   /* === States === */

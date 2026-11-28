@@ -60,7 +60,7 @@
   }
 
   button {
-    padding: var(--menu-coming-padding);
+    padding: 0 var(--spacing-1);
     border: 1px solid transparent;
     border-radius: var(--radius-md);
     background: none;
@@ -70,7 +70,7 @@
   }
 
   .warn {
-    margin-left: var(--menu-note-gap);
+    margin-left: var(--spacing-3);
     color: var(--edit-remove);
     font-size: var(--text-size-label);
   }

@@ -168,14 +168,14 @@
     grid-template-columns: minmax(0, 1fr);
     gap: var(--dropdown-list-gap);
     justify-items: start;
-    padding-top: var(--dropdown-list-top);
+    padding-top: var(--spacing-1-5);
     overflow-y: auto;
   }
 
   /* Floating: out of the flow, right under the field and in line with its right edge, on its own surface */
   .float .grow {
     position: absolute;
-    top: calc(100% + var(--dropdown-float-gap));
+    top: calc(100% + var(--spacing-1));
     right: 0;
     z-index: 2;
     width: max-content;
@@ -183,7 +183,7 @@
   }
 
   .float .clip {
-    padding: var(--dropdown-float-padding);
+    padding: 0 var(--spacing-1) var(--spacing-1);
     border: 1px solid var(--surface-line);
     border-radius: var(--radius-md);
     background: var(--dropdown-float-background);

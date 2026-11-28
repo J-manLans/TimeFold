@@ -154,8 +154,8 @@
 
   .value {
     display: grid;
-    gap: var(--menu-value-gap);
-    padding: var(--menu-value-padding);
+    gap: var(--spacing-1-5);
+    padding: var(--spacing-2) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
@@ -164,7 +164,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--menu-value-gap-inline);
+    gap: var(--spacing-2);
     min-height: var(--menu-value-row);
   }
 
@@ -187,7 +187,7 @@
   }
 
   .value > :not(.row) {
-    margin-left: calc(var(--menu-label-width) + var(--menu-value-gap-inline));
+    margin-left: calc(var(--menu-label-width) + var(--spacing-2));
   }
 
   /* From the value's column to the panel's edge, never past it: stretched by the grid, its margin taken off */
@@ -203,7 +203,7 @@
   .grow {
     display: grid;
     grid-template-rows: 0fr;
-    margin-top: calc(-1 * var(--menu-value-gap));
+    margin-top: calc(-1 * var(--spacing-1-5));
     transition: grid-template-rows var(--speed-ui) var(--ease-grow);
   }
 
@@ -215,7 +215,7 @@
   }
 
   .act {
-    padding-top: var(--menu-value-gap);
+    padding-top: var(--spacing-1-5);
   }
 
   .warn {

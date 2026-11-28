@@ -106,9 +106,9 @@
   .popup {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--popup-gap);
+    gap: var(--spacing-1);
     min-width: var(--popup-min-width);
-    padding: var(--popup-padding);
+    padding: var(--spacing-2);
     border: 1px solid var(--button-line);
     border-radius: var(--radius-xl);
     background: var(--popup-background);
@@ -116,15 +116,15 @@
   }
 
   h3 {
-    margin: var(--popup-heading-margin);
+    margin: var(--spacing-1) var(--spacing-2) var(--spacing-1-5);
   }
 
   button {
     display: flex;
     align-items: center;
     min-width: 0;
-    gap: var(--popup-row-gap);
-    padding: var(--popup-row-padding);
+    gap: var(--spacing-2);
+    padding: var(--spacing-2);
     border: 0;
     border-radius: var(--radius-md);
     background: transparent;

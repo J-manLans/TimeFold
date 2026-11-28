@@ -37,7 +37,7 @@
       }
     if (anchor) {
       const box = anchor.getBoundingClientRect()
-      return { left: `${box.left}px`, top: `calc(${box.bottom}px + var(--tip-focus-gap))`, shift: '0' }
+      return { left: `${box.left}px`, top: `calc(${box.bottom}px + var(--spacing-1-5))`, shift: '0' }
     }
     return null
   })
@@ -70,7 +70,7 @@
   .label {
     position: fixed;
     z-index: 50;
-    padding: var(--tip-padding);
+    padding: var(--spacing-1) var(--spacing-2);
     border: var(--tip-border-width) solid var(--edge);
     border-radius: var(--radius-md);
     background: var(--tip-background);

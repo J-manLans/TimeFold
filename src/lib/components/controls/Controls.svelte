@@ -186,14 +186,14 @@
     display: grid;
     place-content: center;
     justify-items: center;
-    gap: var(--controls-gap);
+    gap: var(--spacing-3);
   }
 
   .pause-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--pause-row-gap);
+    gap: var(--spacing-2);
     height: var(--pause-row-height);
   }
 
@@ -220,7 +220,7 @@
   /* Stacked (App.svelte): the menu button moves to the lower left corner, so the bottom row keeps its room beside the
      prune line, and the top row the same, so the middle sits evenly */
   :global(:where(:root[data-stacked])) .controls {
-    --corner-room: calc(var(--button-icon-size) + 2 * var(--menu-inset));
+    --corner-room: calc(var(--button-icon-size) + 2 * var(--spacing-3));
     grid-template-rows: var(--corner-room) 1fr minmax(var(--corner-room), auto);
   }
 </style>

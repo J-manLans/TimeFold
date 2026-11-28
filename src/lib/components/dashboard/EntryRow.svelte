@@ -77,9 +77,9 @@
   li {
     display: grid;
     grid-template-columns: var(--entry-columns);
-    gap: var(--entry-cell-gap);
+    gap: var(--spacing-2);
     align-items: center;
-    padding: var(--entry-padding);
+    padding: var(--spacing-1) var(--spacing-2);
     border-radius: var(--radius-md);
     background: var(--dashboard-row);
     font-size: var(--text-size-body);
@@ -92,20 +92,20 @@
 
   .tags {
     display: flex;
-    gap: var(--entry-tag-gap);
+    gap: var(--spacing-1);
     justify-self: start;
   }
 
   /* Its reason, under the row in "Visa alla": "ändrad: Glömd paus" */
   .reason {
     grid-column: 1 / -1;
-    margin-top: var(--entry-reason-lift);
+    margin-top: calc(-1 * var(--spacing-1));
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-label);
   }
 
   .later {
-    margin-left: var(--entry-later-gap);
+    margin-left: var(--spacing-0-5);
     font-size: var(--entry-later-size);
     line-height: 0;
     color: var(--dashboard-text-muted);

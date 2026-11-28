@@ -46,18 +46,13 @@
   --text-size-label: 11px; /* tags, quiet lines, notes, ticks, month and year lines, caps headings */
   --caps-tracking: 0.1em; /* headings in capitals */
 
-  /* === Spacing === */
+  /* === Dimensions === */
   /* A dropdown's chevron: its size, how far in from the edge it sits, and the room its control keeps for it */
   --dropdown-chevron: 5px;
-  --dropdown-inset: 8px;
-  --dropdown-room: calc(2 * var(--dropdown-inset) + var(--dropdown-chevron));
+  --dropdown-room: calc(2 * var(--spacing-2) + var(--dropdown-chevron));
   /* A dropdown's list: its lines, and a floating list's surface, a stand-in until the popups' frame */
   --dropdown-list-gap: 1px;
-  --dropdown-list-top: 6px; /* above the list, under the closed field */
   --dropdown-list-rows: 7; /* the open list's greatest height in lines; past it, it scrolls */
-  --dropdown-choice-padding: 3px 8px;
-  --dropdown-float-gap: 4px; /* from the closed field down to a floating list */
-  --dropdown-float-padding: 0 4px 4px;
   --dropdown-float-background: var(--dashboard-row);
   --dropdown-float-shadow: 0 6px 18px rgb(0 0 0 / 0.3);
 
@@ -70,7 +65,6 @@
   --shadow-button: 2px 3px 12px 0 rgb(0 0 0 / 0.14);
   --opacity-disabled: 0.4; /* every unavailable button fades by this */
   --focus-width: 2px; /* in the colour of the profile on screen */
-  --focus-offset: 2px;
 
   /* ======================================
                     Controls
@@ -84,7 +78,6 @@
   --controls-font-weight: var(--font-weight-medium); /* the side's text */
   --controls-tracking: 0.06em;
   --controls-top-height: 64px; /* the row holding the menu button */
-  --controls-gap: 14px; /* between the button block, the status line and the pause row */
   --controls-block-room: 24px; /* the least room each side of the button block; with less, the sides stack */
 
   /* === Buttons === */
@@ -109,7 +102,6 @@
   --start-ring-width: 2px; /* in the profile's colour while it runs */
   --pair-height: 34px; /* "Exportera" and "Importera" */
   --profile-button-width: 76px;
-  --block-gap: 8px;
 
   /* === The discs: the profile button's, the undo's and the theme button's === */
   --disc-face: var(--button-background);
@@ -143,7 +135,6 @@
 
   /* === Controls: today's pie, right of the status text === */
   --pie-size: 40px;
-  --pie-gap: 10px; /* from the end of the status text */
   --pie-inner: 30; /* the ring's open middle, as a share of its radius, in % */
   --pie-slice-gap: 6; /* between slices, the same width all along their sides, in the pie's units (100 across) */
   --pie-border: 2.5; /* an empty slice's border, in the pie's units */
@@ -151,18 +142,12 @@
   --pie-flash: 1.2s; /* a slice clicking in lights and fades, as a new entry's row does */
   --pie-flash-brightness: 1.9; /* how bright it starts */
   --pause-row-height: 36px;
-  --pause-row-gap: 10px;
   --pause-height: 30px;
-  --pause-padding: 0 14px;
-  --pause-reading-gap: 4px; /* from the field down to how it reads what is typed */
   --undo-time: 15s; /* how long a click can be undone; the logic reads it from here */
   --undo-afterglow: 0.65; /* how strong the neon's afterglow is when the undo wakes; it fades to nothing */
 
   /* === The prune line === */
-  --prune-margin: 12px;
-  --prune-padding: 9px 12px;
   --prune-height: 40px; /* the prune line's room, kept when there is nothing to offer */
-  --prune-gap: 10px; /* between its words and its buttons, and between the buttons */
   --controls-remove: light-dark(#c8372d, #f0605a); /* removal red on this side: "Rensa"; light: 4.7:1 on the page */
 
   /* ======================================
@@ -178,11 +163,8 @@
   --dashboard-text-muted: light-dark(#a9b8cf, #7b8592); /* the pay estimate, labels, tags */
   --dashboard-ink: light-dark(#b8c5d9, #7b8592); /* small marks: the bar's scale */
   --dashboard-font-weight: var(--font-weight-normal); /* the side's text */
-  --dashboard-padding: 22px 26px 18px 30px;
-  --dashboard-gap: 0px;
   --dashboard-width: 440px; /* two fifths of the window's launch width; side by side its width, stacked its least, and so the window's least width (minWidth in tauri.conf.json) */
   --dashboard-spread: space-evenly; /* the figures up and down its height: center, space-between, space-around, space-evenly, start */
-  --dashboard-inner-gap: 6px; /* inside a figure: the number and its bar, a label and its list */
   --divider-width: 1px; /* the line between the two sides, in --dashboard-line */
 
   /* === The balance and the flex bar === */
@@ -211,18 +193,8 @@
   --wheel-peek: 0.3s; /* the over lap winding back */
 
   /* === The pay estimate and the entries === */
-  --trend-gap: 14px; /* from the pay estimate to the ceiling's trend beside it */
   --entry-columns: 7ch 13.5ch 2ch minmax(0, 1fr) auto; /* day, times ("21:30–07:00" and its "+1"), letter, tags, length */
   --entry-later-size: 0.72em; /* the "+1" after the end time of an entry that stops on a later day */
-  --entry-later-gap: 2px;
-  --entry-cell-gap: 8px;
-  --entry-month-gap: 12px; /* in "Visa alla", above the line naming a new month */
-  --entry-month-under: 2px; /* under it, before its first row */
-  --entry-month-inset: 8px; /* in from the card's edge, as a row's text */
-  --entry-tag-gap: 4px; /* between a row's tags: its break and "e" */
-  --entry-reason-lift: -4px; /* a reason under its row in "Visa alla", drawn up close to it */
-  --entry-padding: 5px 8px;
-  --entry-gap: 2px;
   --entry-hover: 10%; /* how much of the text colour lights a hovered row */
   --entry-flash: 1.2s; /* a new entry's row lights in the wheel's base colour and fades over this */
   --entry-flash-strength: 35%;
@@ -235,11 +207,9 @@
   --tip-background: rgb(13 16 20 / 0.78);
   --tip-text: #e6eaf0;
   --tip-blur: 3px;
-  --tip-padding: 4px 9px;
   --tip-border-width: 1px; /* in the colour of the profile it speaks of */
   --tip-offset-x: 17px; /* from the pointer to the tip's left edge */
   --tip-offset-y: 5px; /* up or down from centred on the pointer */
-  --tip-focus-gap: 6px; /* under a button with keyboard focus */
 
   /* === Controls: the menu === */
   /* The frost's last number is how solid it is */
@@ -249,64 +219,34 @@
   --menu-text-muted: light-dark(#333c4b, #8f949d); /* light: 8.8:1 on the frost */
   --menu-line: light-dark(#9aa6b8, #373a3c); /* light: 1.95:1 */
   --menu-button-line: light-dark(#7d8ba1, #4a4d4f); /* light: 2.7:1 */
-  --menu-head-gap: 10px; /* between "Meny", the theme button, its label, the motion switch and its label */
-  --menu-head-space: 4px; /* under the heading's row */
   --menu-toggle-line-width: 20px; /* the menu button's three lines, which cross when it is open */
   --menu-toggle-line-height: 2px;
   --menu-toggle-line-gap: 6px;
   --theme-icon-size: 18px; /* the sun, moon or half circle on the theme disc */
   --theme-icon-stroke: 1.8;
   --motion-line-spread: 4.5px; /* the motion switch's speed lines, above and below the middle one, in Animerat */
-  --menu-inset: 12px; /* where the folded menu button sits */
-  --menu-padding: 16px 18px 24px;
-  --menu-gap: 20px;
-  --menu-tab-padding: 7px 10px;
-  --menu-tab-gap: 2px; /* between the tabs */
   --menu-tab-line: 2px; /* under the selected tab, in the neon of the profile on screen */
-  --menu-panel-gap: 14px; /* between the parts of a tab */
-  --menu-section-gap: 10px; /* between a part's label and what it holds */
   --menu-label-width: 110px; /* a value's label: "Heltid", "Fördelning", "Flexledig" */
   /* A value locked behind "Ändra": its label and text, then "Ändra" and the field it turns into */
-  --menu-value-padding: 10px 0;
-  --menu-value-gap: 6px; /* between its lines */
-  --menu-value-gap-inline: 10px; /* between the label, the text, the field and its keys */
   --menu-value-row: 30px; /* each line's least height, so the row does not jump as "Ändra" turns into its field */
-  --menu-note-gap: 14px; /* from a value to its quieter note, such as Heltid's day */
-  --menu-history-gap: 3px; /* between the earlier values */
-  --menu-coming-padding: 0 4px; /* the "×" after a value saved for a later day */
   --menu-tab-fade: var(--speed-ui); /* a tab's content fading in */
-  --menu-panel-edge: 4px; /* room inside the panel's clip for focus rings at a tab's edges */
   --menu-check-size: 16px; /* "Efter skatt"'s box */
   /* Its mark when checked, a shape --menu-check-ink is painted through, on the profile's neon */
   --menu-check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23101318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --menu-check-mark-size: 100%;
   --menu-check-ink: #ffffff; /* the mark's colour on the neon */
-  --menu-check-gap: 8px; /* from the box to its words */
   /* A profile's row in Profiler, and "Arkiverade" under them */
-  --menu-row-padding: 8px 10px; /* its head */
-  --menu-row-body-padding: 2px 12px 12px; /* what it unfolds */
-  --menu-rows-gap: 6px; /* between the rows */
   --menu-archived-opacity: 0.55; /* an archived row's head */
-  --menu-archived-gap: 14px; /* from "Ny profil" down to "Arkiverade" */
-  --menu-name-warn-gap: 8px; /* from the name field down to a taken name's note */
   --menu-field-width: 11ch; /* every "Ändra", "Ny profil" and the field each turns into: "Vaktmästeri" fits */
-  --menu-archive-head-padding: 4px 0; /* "Arkiverade" and its count */
 
   /* === Controls: the flex-day calendar in the Tid tab === */
   --calendar-cell: 30px; /* each day's square */
-  --calendar-gap: 4px; /* between the days, and between the lines of the list */
   --calendar-head-height: 28px; /* the month and its arrows */
-  --calendar-head-gap: 8px; /* between the month and the weekday names */
   --calendar-weekday-height: 16px; /* with the two above, sets where the list's first line starts */
-  --calendar-side-gap: 24px; /* between the calendar and the list of marked days on its right */
-  --calendar-wrap-gap: 16px;
-  --calendar-nav-gap: 6px;
   --calendar-home-underline: 3px; /* the month's name underlined under the pointer, away from today's month */
   --calendar-marked-text: #10141a; /* a day's number on the base colour */
   --calendar-lock-size: 14px; /* the padlock beside the month name, which unlocks the days gone by */
-  --calendar-lock-pad: 4px;
   --calendar-lock-stroke: 2.2;
-  --calendar-list-gap: 8px; /* between a month's name and its days, and between the days */
   --calendar-list-min-width: 110px;
   --calendar-month-column: 3.5ch;
 
@@ -314,13 +254,9 @@
   --onboarding-panel: light-dark(rgb(208 216 230), rgb(26 28 32)); /* the frost's tint, made solid */
   --onboarding-name-size: 26px; /* the name as it is typed; the balance is typed at --balance-text-size */
   --onboarding-width: 320px; /* the most a prompt and its answer take */
-  --onboarding-gap: 14px; /* between a prompt, what is typed and how it is read */
   --onboarding-step-fade: 0.1s; /* a step fading out, then the next fading in after it: twice this in all */
-  --onboarding-note-space: 22px; /* above the motion note under "Starta nytt" and "Importera" */
-  --onboarding-note-gap: 12px; /* between the motion switch and the note's words */
   --onboarding-note-line: 1.5; /* the note's line height */
   --onboarding-choice-scale: 0.8; /* "Starta nytt" and "Importera" against "Starta jobb": height, text and sides */
-  --onboarding-choice-padding: 24px; /* each side of their words, before the scale */
   --onboarding-frost-in: 0.8s; /* after the name: the solid panel turning to frost, before it shrinks */
   --onboarding-sweep-delay: 0.2s; /* after the panel has shrunk, before the light sweeps across the button block */
   --onboarding-sweep: 1.2s; /* the pointer light crossing the button block, left to right */
@@ -333,14 +269,11 @@
   --onboarding-letter-fade: 0.6s; /* the letter fading in, the last thing; the screen takes input after */
 
   /* === Controls: a record that cannot be read, in the same locked panel === */
-  --recovery-gap: 18px; /* between the words, the buttons and the quiet note */
   --recovery-width: 34ch; /* the most the words and the note take before they wrap */
   --recovery-breath: 2.4s; /* the dashboard's "KOPIA" label breathing into the balance's colour and back */
 
   /* === Controls: the popup for a running entry from an earlier day === */
-  --late-gap: 12px; /* between the heading, the line, the note and the buttons */
   --late-width: 30ch; /* the most the words take before they wrap */
-  --late-padding: 16px 18px;
   --late-choice-scale: 0.42; /* "Stoppa" and "Fortfarande igång" against "Starta jobb", as the locked panel's choices */
 
   /* === Controls: the profile popup === */
@@ -351,47 +284,31 @@
   --popup-muted: 70%; /* how much of the text colour its quiet text keeps */
   --popup-min-width: 220px;
   --popup-max-width: 300px; /* a long profile name is cut with "…" past it */
-  --popup-padding: 10px;
-  --popup-gap: 4px; /* between the heading and the rows, and between the rows */
-  --popup-heading-margin: 4px 8px 6px; /* "Profil" over the rows */
-  --popup-row-padding: 8px;
-  --popup-row-gap: 10px; /* from a profile's circle to its name */
   /* A profile's small circle, in the popup and the Profiler rows: its letter and a ring in its two colours */
   --mini-disc-size: 22px;
   --mini-disc-ring: 2px;
 
   /* === Controls: the colour picker === */
   --picker-background: light-dark(#e6ecf4, #2a2d33);
-  --picker-padding: 10px;
-  --picker-gap: 10px; /* between the strip and the two codes */
   --picker-strip-height: 14px; /* the hue strip */
   --picker-swatch: 20px; /* the small swatch before each code */
   --picker-code-width: 9ch; /* the text inside a code field: its seven characters and room around them */
   --picker-pair-swatch: 18px; /* each of the pair a profile's row shows beside "Färg" */
-  --picker-pair-gap: 4px;
 
   /* === Dashboard: every entry ("Visa alla") === */
   --all-entries-scrim: rgb(0 0 0 / 0.45);
   --all-entries-width: 560px;
   --all-entries-share: 92%; /* of the window, when that is narrower */
   --all-entries-height: 80vh; /* the most it takes before it scrolls */
-  --all-entries-padding-block: 16px;
-  --all-entries-padding-inline: 18px; /* the edit's line runs on into it, out to the popup's edges */
-  --all-entries-padding: var(--all-entries-padding-block) var(--all-entries-padding-inline);
-  --all-entries-gap: 10px;
   /* The gaps between its rows, where a forgotten entry is written */
-  --insert-rest: 2px; /* a gap's own room between rows, as thin as the rows' spacing */
   --insert-hit: 10px; /* its hover strip, overlapping the rows a little so a thin gap is still easy to land on */
   --insert-open: 12px; /* how much more a gap opens while hovered, half upward and half downward (0: it stays) */
-  --insert-inset: 0 8px; /* the line's ends, in from the card's edge as a row's text */
-  --insert-spacing: 6px; /* between the "+" and the line on each side */
 
   /* === Dashboard: the edit popup, an entry edited on its line === */
   --edit-width: 480px; /* a little narrower than the list's 560px */
   --edit-share: 88%; /* of the window, when that is narrower */
   --edit-stack-dim: rgb(0 0 0 / 0.25); /* over "Alla poster": the extra dimming of the list behind the edit */
   --edit-peek: 0.2; /* the pointer resting on the list behind: how much of the edit still shows (0 gone, 1 all) */
-  --edit-tag-gap: 6px; /* between a part's times and its "paus" tag */
   /* The line */
   --edit-line-height: 34px; /* the handles' room */
   --edit-line-margin: 18px 6px; /* room above for the time labels and below for the scale */
@@ -415,10 +332,5 @@
   --edit-pill-breath: 1.2; /* as it grows its height swells to this share and settles (1: none) */
   --edit-sign-share: 0.7; /* each sign's room, of the knob */
   /* The reason and the buttons */
-  --edit-other-margin: 3px 0 3px 8px; /* "Annan orsak", in line with the reasons' text */
-  --edit-other-inset: 8px;
   --edit-pen: 15px; /* the pen after a reason under the pointer, and "+" after "Annan orsak", drawn as the padlock */
-  --edit-pen-padding: 3px;
-  --edit-pen-gap: 2px; /* from a reason to its pen */
-  --edit-button-gap: 8px;
 }

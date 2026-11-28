@@ -278,14 +278,14 @@
     display: grid;
     grid-template-columns: minmax(0, max-content) auto;
     align-items: center;
-    column-gap: var(--edit-pen-gap);
+    column-gap: var(--spacing-0-5);
     max-width: 100%;
   }
 
   .pen {
     display: grid;
     place-items: center;
-    padding: var(--edit-pen-padding);
+    padding: var(--spacing-0-5);
     border: 0;
     border-radius: var(--radius-sm);
     background: none;
@@ -318,7 +318,7 @@
 
   .refused {
     grid-column: 1 / -1;
-    margin-left: var(--edit-other-inset);
+    margin-left: var(--spacing-2);
     color: var(--edit-remove);
     font-size: var(--text-size-label);
   }
@@ -326,8 +326,8 @@
   /* "Annan orsak": looks like the other reasons, with a faint underline exactly as long as its text */
   .other {
     box-sizing: content-box;
-    max-width: calc(100% - var(--edit-other-inset));
-    margin: var(--edit-other-margin);
+    max-width: calc(100% - var(--spacing-2));
+    margin: var(--spacing-0-5) 0 var(--spacing-0-5) var(--spacing-2);
     padding: 0;
     border: 0;
     border-bottom: 1px solid var(--dashboard-line);

@@ -337,15 +337,15 @@
 
   .card {
     display: grid;
-    gap: var(--all-entries-gap);
-    padding: var(--all-entries-padding);
+    gap: var(--spacing-2);
+    padding: var(--spacing-4) var(--spacing-4);
   }
 
   .head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--all-entries-gap);
+    gap: var(--spacing-2);
     font-size: var(--text-size-body);
   }
 
@@ -360,12 +360,12 @@
   }
 
   .tag {
-    margin-left: var(--edit-tag-gap);
+    margin-left: var(--spacing-1-5);
   }
 
   .actions {
     display: flex;
-    gap: var(--edit-button-gap);
+    gap: var(--spacing-2);
   }
 
   .spacer {

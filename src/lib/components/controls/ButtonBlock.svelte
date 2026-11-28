@@ -79,7 +79,7 @@
     grid-template-areas:
       'start profile'
       'pair profile';
-    gap: var(--block-gap);
+    gap: var(--spacing-2);
   }
 
   .start {
@@ -100,7 +100,7 @@
     grid-area: pair;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--block-gap);
+    gap: var(--spacing-2);
   }
 
   .pair button {
