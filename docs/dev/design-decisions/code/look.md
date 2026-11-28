@@ -19,13 +19,14 @@ central.
   no longer fits beside the dashboard, not below 640 px; a dropdown is as wide as its widest choice, not 17 characters.
   A token is for what is chosen by eye: a colour, a step of a scale, a speed, a figure's size.
 
-- **Scales, used directly:** spacing, radii, font weights and text sizes are scales, named as Tailwind names them, and a
-  component uses the step itself, whether for padding, margin or gap. Spacing is steps of one base, `--spacing`, each
-  step a multiple of it (`--spacing-2` is twice the base, 8px at a 4px base), so the base is one knob for all room,
-  whatever its unit (`open-questions.md`); radii are `--radius-xs` to `--radius-xl`, with `--radius-full` for a pill or
-  a disc; weights are named (`--font-weight-semibold`); text keeps its type sets (`--text-size-body`). A part has a
-  token of its own only where no step says it and it is tuned apart: a figure's size, such as `--wheel-diameter`, or the
-  start button's. How many steps each scale has, and which step each part takes, are drawn in the prototype.
+- **Scales, used directly:** spacing, radii, font weights and text sizes are scales, named after Tailwind's classes and
+  theme (its names only; the CSS stays hand-written, "Svelte with TypeScript for the interface"), and a component uses
+  the step itself, whether for padding, margin or gap. Spacing is steps of one base, `--spacing`, each step a multiple
+  of it (`--spacing-2` is twice the base, 8 px at a 4 px base), in px like the rest of the look, so the base is one knob
+  for all room; radii are `--radius-xs` to `--radius-xl`, with `--radius-full` for a pill or a disc; weights are named
+  (`--font-weight-semibold`); text keeps its type sets (`--text-size-body`). A part has a token of its own only where no
+  step says it and it is tuned apart: a figure's size, such as `--wheel-diameter`, or the start button's. How many steps
+  each scale has, and which step each part takes, are drawn in the prototype.
 - **Colours are named by intent:** by surface and role, `--controls-bg`, `--dash-text`, never `--dark-grey`, since they
   change with the theme and the surface. A colour shared by several parts is one token; two that happen to be equal but
   mean different things are two.
@@ -57,7 +58,9 @@ place apart is rare, and a part that needs it changes its step. Scale steps name
 their pixels (`--space-8`): Tailwind's names are what the trade reads, and a step named by its pixels lies once the base
 changes. A component's own values in its style block: tuning the look would mean opening every component, and each value
 would need a call on shared or local. Every colour paired for both themes from the start: a pair says the themes differ,
-and an identical pair says it falsely. Times in milliseconds: the owner reads seconds.
+and an identical pair says it falsely. Times in milliseconds: the owner reads seconds. The scales in rem: rem follows a
+reader's text size in a browser, which a window app has none of, and the whole app grows or shrinks by the webview's
+zoom ("The app is zoomed as a whole"), which scales px too.
 
 **Revisit if:** the file grows past what is comfortable to tune in one place.
 

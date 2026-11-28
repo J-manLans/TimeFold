@@ -1,7 +1,7 @@
 # Main screen: a narrow window
 
-How the screen stacks in a narrow window, and the window's minimum size. Each decision follows the template in
-`../../README.md`, and is cited by its title.
+How the screen stacks in a narrow window, the window's minimum size, and how the whole app is made larger or smaller.
+Each decision follows the template in `../../README.md`, and is cited by its title.
 
 ## A narrow window stacks the dashboard over the controls (2026-11-18)
 
@@ -40,8 +40,30 @@ what is read. A minimum width that never lets the sides stack: the strip beside 
 Shrinking side by side instead of stacking: in a tall, thin window both sides would be cramped while the height went
 unused.
 
-**Revisit if:** the strip is used wider than the stacking width, or the app scales down for small screens, where the
-minimum size changes while it runs.
+**Revisit if:** the strip is used wider than the stacking width.
 
 - A narrow window: the menu button in the lower left corner, a row above the button block as tall as its row below;
   opened, the panel grows from that corner and "Meny" sits at the top left.
+
+## The app is zoomed as a whole (2026-11-28)
+
+**Built by:** nothing on the roadmap yet; it waits on a phase to take it.
+
+**Decision:** the whole app is made larger or smaller only by the webview's zoom (Tauri's `setZoom`), never by a root
+font size. Zoom changes how many screen pixels a CSS pixel takes and lays the page out again, so text and shapes are
+drawn sharp at the new size, px included, and the layout sees a wider or narrower window, which stacks the sides as a
+resize would. As it starts, the app picks a zoom that fits the screen; the owner changes it with Ctrl+/−, in steps
+inside a range, and the app keeps it between runs. Tauri's own zoom keys (`zoomHotkeysEnabled`) stay off, since they
+have no limits; the app catches the keys itself. The window's minimum size follows the zoom: the dashboard's width and
+the launch height times the factor. The steps and the range are picked when it is built, whole steps such as 90% or
+110%, where 1 px lines land cleanly.
+
+**Why:** someone on a small screen or with poor sight can make the app fit or grow, while the layout never meets
+extremes. Zoom scales everything at once, so the look stays in px, as it is tuned by eye, and no value has to remember
+to follow a root.
+
+**Rejected:** a root font size with every value in rem: on the web rem follows the reader's browser text size, which a
+window app has none of, and a value left in px would not follow. Free zoom with Tauri's own keys: the layout would have
+to hold at any size.
+
+**Revisit if:** `setZoom` does not run on WebKitGTK, or 1 px lines look soft at the chosen steps.

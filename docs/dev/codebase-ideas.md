@@ -4,18 +4,6 @@ Ideas that are not a problem now, one entry each, opening with **Returns when:**
 make it matter). Read at a docs sweep, when the owner asks about the subject, or when the owner says to. Problems in
 what is built go to `open-questions.md` instead.
 
-## The screen on a small display
-
-**Returns when:** the app is to fit a phone, or a window smaller than its least size.
-
-The text sets are in rem from the root, so one root font size scales all text and what follows it; on a small display
-the root could shrink so the screen fits, the way the owner has done on web pages, with the dashboard as a part that
-comes in sizes ("Shared looks are written once"). The other way: zoom the whole page, with CSS `zoom` or the webview's
-own, which scales `px` too and leaves px media queries working, since the zoomed page reports a smaller width; the
-agent's lean, since the app is tuned by eye in px and every px would otherwise turn to rem. Either way the window's
-least size, set in `tauri.conf.json`, would then change while the app runs ("A narrow window stacks the dashboard over
-the controls").
-
 ## Corrected entries in the report
 
 **Returns when:** the Reports part is built.

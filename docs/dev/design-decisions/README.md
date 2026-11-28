@@ -162,6 +162,7 @@ title.
 
 - [The main screen has a controls side and a dashboard](main-screen/layout/screen.md)
 - [A narrow window stacks the dashboard over the controls](main-screen/layout/narrow.md)
+- [The app is zoomed as a whole](main-screen/layout/narrow.md)
 - [The menu has tabs, with every value locked behind "Ändra"](main-screen/layout/menu.md)
 - [An info button shows the version](main-screen/layout/screen.md)
 

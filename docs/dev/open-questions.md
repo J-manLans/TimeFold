@@ -6,16 +6,6 @@ its answer goes to `design-decisions/`. A question half answered stays with what
 
 ## Phase 5: Handover
 
-### The unit of the spacing and radius scales: px or rem (2026-11-28)
-
-The scales are decided: spacing as steps of one base, radii and weights by Tailwind's names, used directly ("Design
-tokens hold every value of the look"). Their unit is not. rem, as Tailwind and the owner's own habit write it: one unit
-with the text, the root scaling text and room together. px, as the look is written now: tuned by eye in px, the root
-growing the text alone. Either way the base is one line, so the choice costs little to change later. Making the whole
-app larger for its user is a separate matter, best done by Tauri's webview zoom (`setZoom`, `zoomHotkeysEnabled`,
-Ctrl+/−), which scales px too ("The screen on a small display", in `codebase-ideas.md`). **See:** "Design tokens hold
-every value of the look", "Shared looks are written once".
-
 ### How the question before an import reads (2026-11-23)
 
 The import asks before it replaces the record, showing when the file was made and when this machine's data last changed
