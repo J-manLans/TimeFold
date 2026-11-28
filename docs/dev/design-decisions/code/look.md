@@ -3,7 +3,9 @@
 How the look is written: its values as tokens, and the looks parts share. Each decision follows the template in
 `../README.md`, and is cited by its title.
 
-## Design tokens hold every value of the look (2026-11-15)
+## Design tokens hold every value of the look (2026-11-28)
+
+**Built by:** Handover, for the scales.
 
 **Decision:** a design token is a named value standing for a design decision, written as a CSS custom property. Every
 raw value of the look (colour, font, size, spacing, radius, time, shadow) is a token in one file,
@@ -15,13 +17,18 @@ central.
 - **Only taste is a knob.** Before a value becomes a token, ask whether it can follow from what it sizes or sits beside;
   if it can, it is worked out from that, never written as a number. The sides stack when the button block with its room
   no longer fits beside the dashboard, not below 640 px; a dropdown is as wide as its widest choice, not 17 characters.
-  A token is for what is chosen by eye: a colour, a gap, a speed, a room.
+  A token is for what is chosen by eye: a colour, a step of a scale, a speed, a figure's size.
 
-- **Names** say the intent, not the value: `--color-background`, `--wheel-diameter`, `--speed-ui`, never `--dark-grey`
-  or `--size-200`. A value only one component uses is still a token, under that component. A decision shared by several
-  parts is one token; two values that happen to be equal but mean different things are two. Where parts play the same
-  role, such as small text or a heading in capitals, each part's token points at the role's shared one
-  (`--entry-tag-size: var(--text-size-label)`), so one knob moves them all and a part can still be tuned apart.
+- **Scales, used directly:** spacing, radii, font weights and text sizes are scales, named as Tailwind names them, and a
+  component uses the step itself, whether for padding, margin or gap. Spacing is steps of one base, `--spacing`, each
+  step a multiple of it (`--spacing-2` is twice the base, 8px at a 4px base), so the base is one knob for all room,
+  whatever its unit (`open-questions.md`); radii are `--radius-xs` to `--radius-xl`, with `--radius-full` for a pill or
+  a disc; weights are named (`--font-weight-semibold`); text keeps its type sets (`--text-size-body`). A part has a
+  token of its own only where no step says it and it is tuned apart: a figure's size, such as `--wheel-diameter`, or the
+  start button's. How many steps each scale has, and which step each part takes, are drawn in the prototype.
+- **Colours are named by intent:** by surface and role, `--controls-bg`, `--dash-text`, never `--dark-grey`, since they
+  change with the theme and the surface. A colour shared by several parts is one token; two that happen to be equal but
+  mean different things are two.
 - **Order:** the file runs Global, Controls (the controls side), Dashboard, then Overlays and popups, the popups grouped
   by the side that owns them, or Global. Inside each component, and in Global, values go in this order: colours,
   typography, dimensions, spacing, radii, motion, shadows and effects. The sections use the banners of "Code style".
@@ -38,13 +45,19 @@ central.
 
 **Why:** one file is the tuning panel for the whole look, as the prototype's knobs were, and the look is tuned far more
 often than a component is read; a token's name and go-to-definition make the second file cheap. Custom properties
-inherit through Svelte's scoped styles, so one import on `:root` reaches every component with no wiring. Names by intent
-survive a change of value. `light-dark()` keeps a theme's pair on one line with no second set of tokens, and the theme
-button is one property on one element. Tokens describe the design as it is, not hypothetical needs.
+inherit through Svelte's scoped styles, so one import on `:root` reaches every component with no wiring. A scale's step
+used directly is the shared vocabulary of the look: few values, the same distance meaning the same everywhere, and one
+step changed moves everything that wears it. Colours named by intent survive a change of value and of theme.
+`light-dark()` keeps a theme's pair on one line with no second set of tokens, and the theme button is one property on
+one element. Tokens describe the design as it is, not hypothetical needs.
 
-**Rejected:** a component's own values in its style block: tuning the look would mean opening every component, and each
-value would need a call on shared or local. Every colour paired for both themes from the start: a pair says the themes
-differ, and an identical pair says it falsely. Times in milliseconds: the owner reads seconds.
+**Rejected:** a token per part for every value, pointing at a shared one (`--row-gap: var(--space-row)`): ninety spacing
+tokens for six or seven distances, twenty values a pixel or two apart, and a second name to read for each; tuning one
+place apart is rare, and a part that needs it changes its step. Scale steps named by intent (tight, row, section), or by
+their pixels (`--space-8`): Tailwind's names are what the trade reads, and a step named by its pixels lies once the base
+changes. A component's own values in its style block: tuning the look would mean opening every component, and each value
+would need a call on shared or local. Every colour paired for both themes from the start: a pair says the themes differ,
+and an identical pair says it falsely. Times in milliseconds: the owner reads seconds.
 
 **Revisit if:** the file grows past what is comfortable to tune in one place.
 
@@ -70,9 +83,9 @@ It takes one of three forms, by what it brings:
 
 - **Type sets:** all text outside the figures wears one of four sets: heading (15px, weight 600), body (13px), label
   (11px), and caps: the label's size in capitals, at 0.1em tracking and the surface's weight, in the surface's muted
-  colour. A part's size token points at its set's (`--entry-tag-size: var(--text-size-label)`); no part has a text size
-  of its own. Display type (the start button, the balance, the wheel, the profile letter, the onboarding's name) keeps
-  its own sizes until the figures' own pass.
+  colour. A part uses its set's size directly (`font-size: var(--text-size-label)`); no part has a text size of its own.
+  Display type (the start button, the balance, the wheel, the profile letter, the onboarding's name) keeps its own sizes
+  until the figures' own pass.
 - **Units say what follows what:** `rem` for the three set sizes alone, from `html { font-size: 100% }`, written as the
   pixel value over 16 (`calc(13rem / 16)`), so the root is one knob for all text; `em` for what belongs to its text
   (tracking, a tag's or a small button's padding, gaps inside a line of text) and for the whole inside of a part built
