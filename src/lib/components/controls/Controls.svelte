@@ -212,6 +212,11 @@
     --glow-strength: 0;
   }
 
+  /* The light lies only on what can be clicked: while a popup is open, nothing behind it can, so it lies nowhere */
+  :global(:root:has(dialog[open])) .controls.lit {
+    --glow-strength: 0;
+  }
+
   /* Stilla: no pointer light, but on the motion switch (MotionButton.svelte) */
   :global(:root[data-still]) .controls.lit {
     --glow-strength: 0;

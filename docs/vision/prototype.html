@@ -878,6 +878,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #4b8bff; outline-
 @property --glow-a { syntax: "<number>"; inherits: true; initial-value: 0; }
 .controls { --mx: -999px; --my: -999px; transition: --glow-a var(--speed-ui) ease, background-color var(--speed-ui) ease, color var(--speed-ui) ease; }
 .controls.lit { --glow-a: 1; }
+/* The light lies only on what can be clicked: while a popup is open, nothing behind it can, so it lies nowhere */
+.app:has(.scrim:not([hidden]), .allpop:not([hidden]), .edpop:not([hidden])) .controls.lit { --glow-a: 0; }
 .controls .plastic:not(:disabled):not([aria-disabled="true"]) {
   background-image: radial-gradient(circle var(--glow-r) at var(--mx) var(--my),
     color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 100%), transparent), transparent);

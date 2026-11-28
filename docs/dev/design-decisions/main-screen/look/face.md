@@ -36,9 +36,10 @@ prototype. Its values live in the code ("The look is a few scales, picked in eac
 - **Light:** a soft, matte light follows the pointer over the controls side, one light shared by all buttons, reaching
   far enough to flow across them and near enough that a button visibly lights as the pointer enters it. It lies only on
   button surfaces, faint and tinted, fading in and out with the pointer. The discs catch it too, the profile disc a
-  little less, so it stays a little apart; on the undo it lies over the afterglow, under the arrow. While the menu is
-  open, the light lies only on what is in the menu. The menu's small text buttons stay plain: the light marks the main
-  controls and the discs. A disabled button reacts to nothing, and every unavailable button fades by the same amount.
+  little less, so it stays a little apart; on the undo it lies over the afterglow, under the arrow. The light lies only
+  on what can be clicked: while the menu is open, only on what is in the menu, and while a popup is open, nowhere. The
+  menu's small text buttons stay plain: the light marks the main controls and the discs. A disabled button reacts to
+  nothing, and every unavailable button fades by the same amount.
 - **Ornament:** micro labels, registration marks and barcode strips only where they carry meaning.
 
 **Why:** the owner likes the references' printed, technical feel, with something fresher and more modern for the big
