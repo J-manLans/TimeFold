@@ -80,9 +80,9 @@
     gap: var(--entry-cell-gap);
     align-items: center;
     padding: var(--entry-padding);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: var(--dashboard-row);
-    font-size: var(--entry-text-size);
+    font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;
   }
 
@@ -101,7 +101,7 @@
     grid-column: 1 / -1;
     margin-top: var(--entry-reason-lift);
     color: var(--dashboard-text-muted);
-    font-size: var(--entry-tag-size);
+    font-size: var(--text-size-label);
   }
 
   .later {

@@ -101,7 +101,7 @@
     height: var(--undo-button-size);
     padding: 0;
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: none;
     color: var(--button-text);
     cursor: pointer;
@@ -112,7 +112,7 @@
   .afterglow {
     position: absolute;
     inset: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: var(--profile-neon);
     opacity: 0;
     pointer-events: none;
@@ -122,7 +122,7 @@
   .light {
     position: absolute;
     inset: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background-image: var(--pointer-light);
     background-attachment: fixed;
     pointer-events: none;

@@ -175,7 +175,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--calendar-nav-gap);
-    font-size: var(--calendar-title-size);
+    font-size: var(--text-size-heading);
   }
 
   .nav {
@@ -183,11 +183,11 @@
     height: var(--calendar-head-height);
     padding: 0;
     border: 0;
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: none;
     color: var(--menu-text-muted);
     font: inherit;
-    font-size: var(--calendar-nav-size);
+    font-size: var(--text-size-heading);
     line-height: 1;
     cursor: pointer;
   }
@@ -199,7 +199,7 @@
     height: calc(var(--calendar-lock-size) + 2 * var(--calendar-lock-pad));
     padding: 0;
     border: 0;
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: none;
     color: var(--menu-text-muted);
     cursor: pointer;
@@ -225,7 +225,7 @@
     height: var(--calendar-weekday-height);
     line-height: var(--calendar-weekday-height);
     color: var(--menu-text-muted);
-    font-size: var(--calendar-weekday-size);
+    font-size: var(--text-size-label);
     text-align: center;
   }
 
@@ -234,11 +234,11 @@
     height: var(--calendar-cell);
     padding: 0;
     border: 1px solid var(--menu-line);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: none;
     color: var(--menu-text);
     font: inherit;
-    font-size: var(--calendar-day-size);
+    font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;
     letter-spacing: normal;
     cursor: pointer;
@@ -255,7 +255,7 @@
       var(--calendar-head-height) + var(--calendar-head-gap) + var(--calendar-weekday-height) + var(--calendar-gap)
     );
     color: var(--menu-text-muted);
-    font-size: var(--calendar-list-size);
+    font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;
     line-height: var(--calendar-cell);
   }
@@ -273,8 +273,8 @@
   }
 
   .year {
-    font-size: var(--calendar-year-size);
-    font-weight: var(--calendar-year-weight);
+    font-size: var(--text-size-label);
+    font-weight: var(--font-weight-bold);
   }
 
   .link {
@@ -295,7 +295,7 @@
   }
 
   .today {
-    font-weight: var(--calendar-today-weight);
+    font-weight: var(--font-weight-bold);
   }
 
   .marked {

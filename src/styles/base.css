@@ -21,11 +21,6 @@
   display: none;
 }
 
-/* The root: every rem in the app, and so every type set, follows it; at 100% it keeps the system's own text size */
-html {
-  font-size: 100%;
-}
-
 body {
   margin: 0;
   background: var(--controls-background);
@@ -89,7 +84,7 @@ body {
    wears the press shade on top of the light; a disabled one catches nothing. Its size and text are its own */
 .plastic {
   border: 0;
-  border-radius: var(--radius-button);
+  border-radius: var(--radius-sm);
   background-color: var(--button-background);
   background-attachment: fixed;
   color: var(--button-text);
@@ -127,9 +122,9 @@ body {
 /* A tag: a small bordered label, its padding in em so it keeps its shape with its text. One that can be clicked lights
    its border under the pointer */
 :where(.tag) {
-  padding: var(--tag-padding);
+  padding: var(--spacing-0-5) var(--spacing-1);
   border: 1px solid var(--surface-line);
-  border-radius: var(--radius-tag);
+  border-radius: var(--radius-sm);
   background: none;
   color: var(--surface-text);
   font: inherit;
@@ -149,9 +144,9 @@ body {
    reads as something to click, and lights under the pointer as a tag's does; .main fills the main choice with the
    surface's text colour; .mini is the same button in the label's size, its padding following in em */
 :where(.button-small) {
-  padding: var(--button-small-padding);
+  padding: var(--spacing-1) var(--spacing-2);
   border: 1px solid var(--surface-button-line);
-  border-radius: var(--radius-small);
+  border-radius: var(--radius-md);
   background: none;
   color: var(--surface-text);
   font: inherit;
@@ -182,9 +177,9 @@ body {
    tag's place wears .tag instead, with no fill. Either shows its focus as its edge in the colour of where the profile
    on screen stands, in place of the ring */
 :where(.field) {
-  padding: var(--field-padding);
+  padding: var(--spacing-1) var(--spacing-2);
   border: 1px solid var(--surface-button-line);
-  border-radius: var(--radius-small);
+  border-radius: var(--radius-md);
   background: none;
   color: var(--surface-text);
   font: inherit;
@@ -239,7 +234,7 @@ body {
   overflow: hidden;
   padding: var(--dropdown-choice-padding);
   border: 0;
-  border-radius: var(--radius-tag);
+  border-radius: var(--radius-sm);
   background: none;
   color: var(--surface-text);
   font: inherit;

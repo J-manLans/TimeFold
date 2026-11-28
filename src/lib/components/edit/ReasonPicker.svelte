@@ -287,7 +287,7 @@
     place-items: center;
     padding: var(--edit-pen-padding);
     border: 0;
-    border-radius: var(--radius-tag);
+    border-radius: var(--radius-sm);
     background: none;
     color: var(--dashboard-text-muted);
     cursor: pointer;
@@ -335,7 +335,7 @@
     background: none;
     color: var(--dashboard-text);
     font: inherit;
-    font-size: var(--edit-words-size);
+    font-size: var(--text-size-body);
     cursor: text;
   }
 

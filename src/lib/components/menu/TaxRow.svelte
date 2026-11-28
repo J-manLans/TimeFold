@@ -115,7 +115,7 @@
     height: var(--menu-check-size);
     margin: 0;
     border: 1px solid var(--menu-button-line);
-    border-radius: var(--radius-tag);
+    border-radius: var(--radius-sm);
     background: none;
     cursor: pointer;
     appearance: none;

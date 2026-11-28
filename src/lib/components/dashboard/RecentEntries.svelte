@@ -88,6 +88,6 @@
     justify-self: center;
     margin: 0;
     color: var(--dashboard-text-muted);
-    font-size: var(--entry-text-size);
+    font-size: var(--text-size-body);
   }
 </style>

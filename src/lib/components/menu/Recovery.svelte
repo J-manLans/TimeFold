@@ -129,8 +129,8 @@
   h2 {
     margin: 0;
     color: var(--menu-text);
-    font-size: var(--onboarding-prompt-size);
-    font-weight: var(--onboarding-prompt-weight);
+    font-size: var(--text-size-heading);
+    font-weight: var(--text-weight-heading);
   }
 
   .line,
@@ -143,7 +143,7 @@
 
   .line {
     color: var(--menu-text);
-    font-size: var(--recovery-line-size);
+    font-size: var(--text-size-body);
   }
 
   .note {

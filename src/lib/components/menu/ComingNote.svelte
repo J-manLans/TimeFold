@@ -62,7 +62,7 @@
   button {
     padding: var(--menu-coming-padding);
     border: 1px solid transparent;
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: none;
     color: var(--menu-text-muted);
     font: inherit;

@@ -110,7 +110,7 @@
     min-width: var(--popup-min-width);
     padding: var(--popup-padding);
     border: 1px solid var(--button-line);
-    border-radius: var(--radius-panel);
+    border-radius: var(--radius-xl);
     background: var(--popup-background);
     color: var(--popup-text);
   }
@@ -126,7 +126,7 @@
     gap: var(--popup-row-gap);
     padding: var(--popup-row-padding);
     border: 0;
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -153,9 +153,9 @@
     width: var(--mini-disc-size);
     height: var(--mini-disc-size);
     border: var(--mini-disc-ring) solid;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     font-size: var(--text-size-label);
-    font-weight: var(--mini-disc-weight);
+    font-weight: var(--font-weight-semibold);
     text-box: trim-both cap alphabetic;
   }
 

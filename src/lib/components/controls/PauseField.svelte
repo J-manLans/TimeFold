@@ -112,7 +112,7 @@
     left: 50%;
     transform: translateX(-50%);
     margin-top: var(--pause-reading-gap);
-    font-size: var(--controls-text-size-small);
+    font-size: var(--text-size-body);
     color: var(--controls-text-muted);
     white-space: nowrap;
     pointer-events: none;
@@ -121,8 +121,8 @@
   .pause {
     height: var(--pause-height);
     padding: var(--pause-padding);
-    font-size: var(--pause-text-size);
-    font-weight: var(--pause-font-weight);
+    font-size: var(--text-size-body);
+    font-weight: var(--font-weight-semibold);
   }
 
   /* === States === */

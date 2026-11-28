@@ -386,7 +386,7 @@
     bottom: var(--edit-tick-below);
     transform: translateX(-50%);
     color: var(--dashboard-text-muted);
-    font-size: var(--edit-tick-size);
+    font-size: var(--text-size-label);
     white-space: nowrap;
     pointer-events: none;
   }
@@ -406,7 +406,7 @@
     position: absolute;
     top: 50%;
     height: var(--edit-bar);
-    border-radius: var(--edit-bar-radius);
+    border-radius: var(--radius-sm);
     transform: translateY(-50%);
   }
 
@@ -509,7 +509,7 @@
     box-sizing: border-box;
     width: var(--knob);
     height: var(--knob);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     box-shadow: var(--knob-shadow);
     transform: translate(-50%, -50%);
     cursor: ew-resize;
@@ -531,8 +531,8 @@
     width: calc(var(--knob) * var(--edit-sign-share));
     height: 100%;
     color: var(--ink);
-    font-size: var(--edit-sign-size);
-    font-weight: 700;
+    font-size: var(--text-size-body);
+    font-weight: var(--font-weight-bold);
     line-height: 1;
     cursor: pointer;
   }
@@ -542,7 +542,7 @@
     top: var(--edit-label-above);
     transform: translateX(-50%);
     color: var(--dashboard-text);
-    font-size: var(--edit-label-size);
+    font-size: var(--text-size-label);
     white-space: nowrap;
     pointer-events: none;
   }

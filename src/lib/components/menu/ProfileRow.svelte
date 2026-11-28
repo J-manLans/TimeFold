@@ -166,7 +166,7 @@
   .row {
     min-width: 0;
     border: 1px solid var(--menu-line);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
   }
 
   .head {
@@ -189,9 +189,9 @@
     width: var(--mini-disc-size);
     height: var(--mini-disc-size);
     border: var(--mini-disc-ring) solid;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     font-size: var(--text-size-label);
-    font-weight: var(--mini-disc-weight);
+    font-weight: var(--font-weight-semibold);
     text-box: trim-both cap alphabetic;
   }
 

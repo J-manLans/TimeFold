@@ -37,7 +37,7 @@
     place-items: center;
     width: var(--size);
     height: var(--size);
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background-color: var(--disc-face);
     background-image: var(--disc-glow);
     box-shadow:
@@ -58,7 +58,7 @@
     position: absolute;
     inset: calc(-1 * var(--dent));
     z-index: -1;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     border-top: 1px solid var(--dent-edge);
     background: var(--dent-background);
     box-shadow:

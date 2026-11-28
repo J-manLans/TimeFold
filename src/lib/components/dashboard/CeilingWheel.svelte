@@ -269,7 +269,7 @@
     display: flex;
     gap: var(--trend-gap);
     color: var(--dashboard-text-muted);
-    font-size: var(--pay-text-size);
+    font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;
   }
 </style>

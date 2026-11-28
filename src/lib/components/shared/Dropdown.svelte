@@ -185,7 +185,7 @@
   .float .clip {
     padding: var(--dropdown-float-padding);
     border: 1px solid var(--surface-line);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: var(--dropdown-float-background);
     box-shadow: var(--dropdown-float-shadow);
   }

@@ -257,7 +257,7 @@
     color: var(--menu-text);
     clip-path: inset(
       var(--menu-inset) calc(100% - var(--menu-inset) - var(--button-icon-size))
-        calc(100% - var(--menu-inset) - var(--button-icon-size)) var(--menu-inset) round var(--radius-small)
+        calc(100% - var(--menu-inset) - var(--button-icon-size)) var(--menu-inset) round var(--radius-md)
     );
     transition: background-color var(--speed-ui) ease;
   }
@@ -278,7 +278,7 @@
     height: var(--button-icon-size);
     padding: 0;
     border: 0;
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: transparent;
     cursor: pointer;
   }
@@ -333,8 +333,8 @@
 
   h2 {
     margin: 0;
-    font-size: var(--menu-heading-size);
-    font-weight: var(--menu-heading-weight);
+    font-size: var(--text-size-heading);
+    font-weight: var(--text-weight-heading);
   }
 
   .tabs {
@@ -351,7 +351,7 @@
     background: none;
     color: var(--menu-text-muted);
     font: inherit;
-    font-size: var(--menu-tab-size);
+    font-size: var(--text-size-body);
     cursor: pointer;
   }
 
@@ -448,7 +448,7 @@
   :global(:where(:root[data-stacked])) .menu {
     clip-path: inset(
       calc(100% - var(--menu-inset) - var(--button-icon-size)) calc(100% - var(--menu-inset) - var(--button-icon-size))
-        var(--menu-inset) var(--menu-inset) round var(--radius-small)
+        var(--menu-inset) var(--menu-inset) round var(--radius-md)
     );
   }
 

@@ -144,7 +144,7 @@
     padding: 0;
     overflow: auto;
     border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-panel);
+    border-radius: var(--radius-xl);
     background: var(--dashboard-background);
     color: var(--dashboard-text);
   }
@@ -177,8 +177,8 @@
   .month {
     padding: var(--entry-month-gap) var(--entry-month-inset) var(--entry-month-under);
     color: var(--dashboard-text-muted);
-    font-size: var(--entry-month-size);
-    font-weight: var(--entry-month-weight);
+    font-size: var(--text-size-label);
+    font-weight: var(--font-weight-bold);
   }
 
   .month:first-child {
@@ -215,7 +215,7 @@
 
   .plus {
     color: var(--dashboard-text-muted);
-    font-size: var(--insert-plus-size);
+    font-size: var(--text-size-body);
     line-height: 1;
     opacity: 0;
     transition: opacity var(--speed-ui) ease;

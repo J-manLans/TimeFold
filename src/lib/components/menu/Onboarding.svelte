@@ -228,8 +228,8 @@
 
   .prompt {
     color: var(--menu-text);
-    font-size: var(--onboarding-prompt-size);
-    font-weight: var(--onboarding-prompt-weight);
+    font-size: var(--text-size-heading);
+    font-weight: var(--text-weight-heading);
     letter-spacing: normal;
   }
 
@@ -260,7 +260,7 @@
   .reading {
     min-height: 1.3em;
     color: var(--menu-text-muted);
-    font-size: var(--onboarding-reading-size);
+    font-size: var(--text-size-body);
     letter-spacing: normal;
   }
 

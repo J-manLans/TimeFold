@@ -324,7 +324,7 @@
     padding: 0;
     overflow: auto;
     border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-panel);
+    border-radius: var(--radius-xl);
     background: var(--dashboard-background);
     color: var(--dashboard-text);
     transition: opacity var(--speed-ui) ease;
@@ -346,13 +346,13 @@
     align-items: baseline;
     justify-content: space-between;
     gap: var(--all-entries-gap);
-    font-size: var(--edit-head-size);
+    font-size: var(--text-size-body);
   }
 
   .words {
     min-height: 1.3em;
     color: var(--dashboard-text-muted);
-    font-size: var(--edit-words-size);
+    font-size: var(--text-size-body);
   }
 
   b {

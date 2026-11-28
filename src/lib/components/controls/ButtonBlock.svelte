@@ -104,8 +104,8 @@
   }
 
   .pair button {
-    font-size: var(--pair-text-size);
-    font-weight: var(--pair-font-weight);
+    font-size: var(--text-size-body);
+    font-weight: var(--font-weight-semibold);
   }
 
   .profile {

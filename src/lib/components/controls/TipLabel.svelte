@@ -72,11 +72,11 @@
     z-index: 50;
     padding: var(--tip-padding);
     border: var(--tip-border-width) solid var(--edge);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: var(--tip-background);
     backdrop-filter: blur(var(--tip-blur));
     color: var(--tip-text);
-    font-size: var(--tip-text-size);
+    font-size: var(--text-size-body);
     white-space: nowrap;
     pointer-events: none;
     opacity: 0;

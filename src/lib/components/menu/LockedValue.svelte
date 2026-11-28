@@ -312,7 +312,7 @@
     background: none;
     color: var(--menu-text-muted);
     font: inherit;
-    font-size: var(--menu-history-size);
+    font-size: var(--text-size-label);
     text-decoration: underline;
     text-underline-offset: 3px;
     cursor: pointer;

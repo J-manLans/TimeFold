@@ -67,7 +67,7 @@
     gap: var(--late-gap);
     padding: var(--late-padding);
     border: 1px solid var(--button-line);
-    border-radius: var(--radius-panel);
+    border-radius: var(--radius-xl);
     background: var(--popup-background);
     color: var(--popup-text);
     text-align: center;
@@ -84,7 +84,7 @@
   }
 
   .line {
-    font-size: var(--late-line-size);
+    font-size: var(--text-size-body);
   }
 
   .note {

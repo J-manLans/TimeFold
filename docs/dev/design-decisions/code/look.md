@@ -26,7 +26,7 @@ central.
   for all room; radii are `--radius-xs` to `--radius-xl`, with `--radius-full` for a pill or a disc; weights are named
   (`--font-weight-semibold`); text keeps its type sets (`--text-size-body`). A part has a token of its own only where no
   step says it and it is tuned apart: a figure's size, such as `--wheel-diameter`, or the start button's. How many steps
-  each scale has, and which step each part takes, are drawn in the prototype.
+  each scale has, and which step each part takes, are tuned in the app, in `design-tokens.css`.
 - **Colours are named by intent:** by surface and role, `--controls-bg`, `--dash-text`, never `--dark-grey`, since they
   change with the theme and the surface. A colour shared by several parts is one token; two that happen to be equal but
   mean different things are two.
@@ -89,20 +89,19 @@ It takes one of three forms, by what it brings:
   colour. A part uses its set's size directly (`font-size: var(--text-size-label)`); no part has a text size of its own.
   Display type (the start button, the balance, the wheel, the profile letter, the onboarding's name) keeps its own sizes
   until the figures' own pass.
-- **Units say what follows what:** `rem` for the three set sizes alone, from `html { font-size: 100% }`, written as the
-  pixel value over 16 (`calc(13rem / 16)`), so the root is one knob for all text; `em` for what belongs to its text
-  (tracking, a tag's or a small button's padding, gaps inside a line of text) and for the whole inside of a part built
-  to come in sizes; `px` for everything else: borders, radii, panels, the gaps between parts and layout. A `px` value
-  says it does not scale.
-- **Fields:** a boxed field (`.field`) is see-through, edged in the surface's button line, at the small radius and the
-  body set, with a small button's padding, so one swaps for the other in place. A field in a tag's place wears the tag
-  alone, unfilled. A field opens at the size of the button or tag it replaces and keeps it while typed in: a tag and
-  "Lägg till paus" are measured as they open, and in the menu every "Ändra", the colour's too, "Ny profil" and their
-  fields share one size. A field's text is centred, where the button's or tag's words stood, at normal letter-spacing,
-  so a field's characters are exactly 1ch each. The colour's hex code, always seven characters, gets 9ch of room. The
-  menu's size is wide enough for a name; "Ny profil"'s field has no placeholder, only the caret. Every field shows its
-  focus as its edge in the colour of where the profile on screen stands, in place of the ring. "Annan orsak"'s underline
-  and the onboarding's lone fields keep their own look.
+- **Units:** `px` for every value of the look: the scales, the type sets, borders, figures and layout. `em` only for
+  letter-spacing, and for the whole inside of a part built to come in sizes, so it follows its own text. A tag's or a
+  small button's padding is a spacing step like any other room. The whole app grows or shrinks by the webview's zoom
+  ("The app is zoomed as a whole"), which scales `px`.
+- **Fields:** a boxed field (`.field`) is see-through, edged in the surface's button line, at `--radius-md` and the body
+  set, with a small button's padding, so one swaps for the other in place. A field in a tag's place wears the tag alone,
+  unfilled. A field opens at the size of the button or tag it replaces and keeps it while typed in: a tag and "Lägg till
+  paus" are measured as they open, and in the menu every "Ändra", the colour's too, "Ny profil" and their fields share
+  one size. A field's text is centred, where the button's or tag's words stood, at normal letter-spacing, so a field's
+  characters are exactly 1ch each. The colour's hex code, always seven characters, gets 9ch of room. The menu's size is
+  wide enough for a name; "Ny profil"'s field has no placeholder, only the caret. Every field shows its focus as its
+  edge in the colour of where the profile on screen stands, in place of the ring. "Annan orsak"'s underline and the
+  onboarding's lone fields keep their own look.
 - **Dropdowns:** a field you choose into, a closed control that opens a list to choose from ("Välj orsak", the edit's
   profile picker), carries a chevron after its text, in its text's colour, which points up while its list is open. Every
   dropdown is the app's own, one look written once: the closed field, as wide as its widest choice and never wider than
@@ -130,15 +129,15 @@ frost and a popup without a variant for each.
 **Rejected:** each component styling its own copy: see Why. A field sized to its content (`field-sizing`): it jumps as a
 tag opens, and the Linux webview may not support it. "Ändra" sized to its value: it changes size from one setting to the
 next. A field's own fill, and a ring around a field: the owner tried both against the edge and kept the edge. `em` for
-panels and layout: a panel's padding would change with the set its text wears, and nesting compounds. The root at 62.5%:
-every text with no size of its own starts at 10px. Caps a size below the label: the owner likes them alike, and it saves
-a style. A weight of its own on a caps heading. A `Field` component rendering the input: what surrounds each field
-differs too much, so every difference would become a prop or a snippet. A class per surface (`.tag-menu`): the surface's
-variables do it once. The native `<select>`'s list: the system paints it, brownish beside the app's colours on Linux and
-otherwise on Windows, and CSS cannot reach it. The profile picker's list unfolding: the owner tried both in the
-prototype, and floating looked best. A rule for which places float: there are two, each judged by eye, and a reason
-found after the choice only dressed it up. A closed field as wide as its chosen text, cut at a hand-set 17 characters:
-it changed width as a choice was made, and a reason renamed or added longer was cut though it was a choice.
+panels and layout: a panel's padding would change with the set its text wears, and nesting compounds. Caps a size below
+the label: the owner likes them alike, and it saves a style. A weight of its own on a caps heading. A `Field` component
+rendering the input: what surrounds each field differs too much, so every difference would become a prop or a snippet. A
+class per surface (`.tag-menu`): the surface's variables do it once. The native `<select>`'s list: the system paints it,
+brownish beside the app's colours on Linux and otherwise on Windows, and CSS cannot reach it. The profile picker's list
+unfolding: the owner tried both in the prototype, and floating looked best. A rule for which places float: there are
+two, each judged by eye, and a reason found after the choice only dressed it up. A closed field as wide as its chosen
+text, cut at a hand-set 17 characters: it changed width as a choice was made, and a reason renamed or added longer was
+cut though it was a choice.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
 

@@ -177,7 +177,7 @@
     width: var(--picker-pair-swatch);
     height: var(--picker-pair-swatch);
     border: 1px solid var(--button-line);
-    border-radius: var(--radius-tag);
+    border-radius: var(--radius-sm);
   }
 
   /* Placed inside the menu by the script; the menu's frost makes it the box this is placed in */
@@ -189,7 +189,7 @@
     width: min-content;
     padding: var(--picker-padding);
     border: 1px solid var(--button-line);
-    border-radius: var(--radius-small);
+    border-radius: var(--radius-md);
     background: var(--picker-background);
     color: var(--menu-text);
   }
@@ -209,7 +209,7 @@
     width: var(--knob);
     height: var(--knob);
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: var(--thumb);
     box-shadow: var(--knob-shadow);
     appearance: none;
@@ -220,7 +220,7 @@
     width: var(--knob);
     height: var(--knob);
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: var(--thumb);
     box-shadow: var(--knob-shadow);
   }
@@ -236,7 +236,7 @@
     width: var(--picker-swatch);
     height: var(--picker-swatch);
     border: 1px solid var(--button-line);
-    border-radius: var(--radius-tag);
+    border-radius: var(--radius-sm);
   }
 
   /* Room around the code's seven characters, so the picker has some presence */
