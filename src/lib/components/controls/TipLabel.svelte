@@ -29,15 +29,16 @@
   // Right of the pointer and centred on its height when it is over the button, else under the focused button, else
   // nowhere
   let place = $derived.by(() => {
+    // 17px right of the pointer, 5px down from centred on it
     if (point)
       return {
-        left: `calc(${point.x}px + var(--tip-offset-x))`,
-        top: `calc(${point.y}px + var(--tip-offset-y))`,
+        left: `calc(${point.x}px + 17px)`,
+        top: `calc(${point.y}px + 5px)`,
         shift: '-50%',
       }
     if (anchor) {
       const box = anchor.getBoundingClientRect()
-      return { left: `${box.left}px`, top: `calc(${box.bottom}px + var(--spacing-1-5))`, shift: '0' }
+      return { left: `${box.left}px`, top: `calc(${box.bottom}px + var(--spacing-sm))`, shift: '0' }
     }
     return null
   })
@@ -70,11 +71,11 @@
   .label {
     position: fixed;
     z-index: 50;
-    padding: var(--spacing-1) var(--spacing-2);
-    border: var(--tip-border-width) solid var(--edge);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: 1px solid var(--edge); /* in the colour of the profile it speaks of */
     border-radius: var(--radius-md);
     background: var(--tip-background);
-    backdrop-filter: blur(var(--tip-blur));
+    backdrop-filter: blur(3px); /* what is behind the tip, softened */
     color: var(--tip-text);
     font-size: var(--text-size-body);
     white-space: nowrap;

@@ -162,7 +162,7 @@
     position: relative;
     overflow: hidden;
     display: grid;
-    grid-template-rows: var(--controls-top-height) 1fr auto;
+    grid-template-rows: 64px 1fr auto; /* the row holding the menu button */
     background: var(--controls-background);
     color: var(--controls-text);
     --light-x: -999px;
@@ -186,15 +186,15 @@
     display: grid;
     place-content: center;
     justify-items: center;
-    gap: var(--spacing-3);
+    gap: var(--spacing-lg);
   }
 
   .pause-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-2);
-    height: var(--pause-row-height);
+    gap: var(--spacing-md);
+    height: 36px; /* the pause row's height */
   }
 
   /* === States === */
@@ -220,7 +220,7 @@
   /* Stacked (App.svelte): the menu button moves to the lower left corner, so the bottom row keeps its room beside the
      prune line, and the top row the same, so the middle sits evenly */
   :global(:where(:root[data-stacked])) .controls {
-    --corner-room: calc(var(--button-icon-size) + 2 * var(--spacing-3));
+    --corner-room: calc(var(--button-icon-size) + 2 * var(--spacing-lg));
     grid-template-rows: var(--corner-room) 1fr minmax(var(--corner-room), auto);
   }
 </style>

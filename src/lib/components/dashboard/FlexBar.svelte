@@ -156,30 +156,30 @@
 
   .balance {
     display: grid;
-    gap: var(--spacing-1-5);
+    gap: var(--spacing-sm);
   }
 
   .number {
     font-family: var(--font-display);
-    font-size: var(--balance-text-size);
+    font-size: var(--text-size-display-lg);
     font-stretch: var(--font-display-stretch);
     font-weight: var(--font-display-weight);
     font-variant-numeric: tabular-nums;
-    letter-spacing: var(--balance-tracking);
-    line-height: 1;
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-none);
     text-align: center;
   }
 
   svg {
     display: block;
     width: 100%;
-    height: var(--bar-height);
+    height: 48px; /* the bar with its scale */
     overflow: visible;
   }
 
   .zero-line {
     stroke: var(--bar-zero);
-    stroke-width: var(--bar-zero-width);
+    stroke-width: 1.5px;
   }
 
   .mark {
@@ -189,7 +189,7 @@
 
   .label {
     font-family: var(--font-text);
-    font-size: var(--bar-label-size);
+    font-size: var(--text-size-label);
     text-anchor: middle;
   }
 
@@ -199,7 +199,7 @@
   .zero {
     transform-box: fill-box;
     transform-origin: center;
-    animation: breathe var(--bar-zero-breath) ease-in-out infinite;
+    animation: breathe 3.2s ease-in-out infinite; /* the marker at exactly 0 widens and narrows over this */
   }
 
   @keyframes breathe {
@@ -209,7 +209,7 @@
     }
 
     50% {
-      transform: scaleX(var(--bar-zero-breath-width));
+      transform: scaleX(1.6); /* how wide it gets, against its rest */
     }
   }
 </style>

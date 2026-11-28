@@ -154,8 +154,8 @@
 
   .value {
     display: grid;
-    gap: var(--spacing-1-5);
-    padding: var(--spacing-2) 0;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
@@ -164,7 +164,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     min-height: var(--menu-value-row);
   }
 
@@ -187,7 +187,7 @@
   }
 
   .value > :not(.row) {
-    margin-left: calc(var(--menu-label-width) + var(--spacing-2));
+    margin-left: calc(var(--menu-label-width) + var(--spacing-md));
   }
 
   /* From the value's column to the panel's edge, never past it: stretched by the grid, its margin taken off */
@@ -203,7 +203,7 @@
   .grow {
     display: grid;
     grid-template-rows: 0fr;
-    margin-top: calc(-1 * var(--spacing-1-5));
+    margin-top: calc(-1 * var(--spacing-sm));
     transition: grid-template-rows var(--speed-ui) var(--ease-grow);
   }
 
@@ -215,7 +215,7 @@
   }
 
   .act {
-    padding-top: var(--spacing-1-5);
+    padding-top: var(--spacing-sm);
   }
 
   .warn {

@@ -75,10 +75,10 @@ title.
 - Tests come first, from the owner's rules
 - Code style
 
-**[The look](code/look.md)**
+**The look (`code/look/`)**
 
-- Design tokens hold every value of the look
-- Shared looks are written once
+- [The scales](code/look/scales.md): The look is a few scales, picked in each part
+- [Shared looks](code/look/shared.md): Shared looks are written once
 
 ### Recording (`recording/`)
 

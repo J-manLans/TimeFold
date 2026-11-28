@@ -233,8 +233,8 @@
   .value {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--spacing-1-5);
-    padding: var(--spacing-2) 0;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
@@ -243,7 +243,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     min-height: var(--menu-value-row);
   }
 
@@ -281,13 +281,13 @@
   }
 
   .note {
-    margin-left: var(--spacing-3);
+    margin-left: var(--spacing-lg);
     color: var(--menu-text-muted);
   }
 
   /* Everything under the value lines up with it, past the label */
   .value > :not(.row) {
-    margin-left: calc(var(--menu-label-width) + var(--spacing-2));
+    margin-left: calc(var(--menu-label-width) + var(--spacing-md));
   }
 
   /* "Ändra" and its field are one size in every value, so the field takes the button's place exactly */
@@ -314,13 +314,13 @@
     font: inherit;
     font-size: var(--text-size-label);
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 3px; /* as the calendar's month name */
     cursor: pointer;
   }
 
   ul {
     display: grid;
-    gap: var(--spacing-0-5);
+    gap: var(--spacing-xxs);
     margin: 0;
     padding: 0;
     list-style: none;

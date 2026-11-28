@@ -12,5 +12,5 @@ Entry, Entry line, Errand, Expected hours.
 Hue (a profile's), Lit, Locked panel, Month, Month line, Motion (Animerat, Stilla), Neon, Onboarding, Opening figures.
 
 **[P–Z](p-z.md):** Padlock, Pay estimate, Pay kind, Peek, Pointer light, Profile, Prototype, Prune, Reason (an edit's),
-Recovery screen, Release, Report, Settings file, Shared look, Sketch, Small deviations, Spill (a break's), Stacked,
-Standing (a profile's), Surface, Tip, Today's pie, Type set, Walk (an entry).
+Recovery screen, Release, Report, Scale (and step), Settings file, Shared look, Sketch, Small deviations, Spill (a
+break's), Stacked, Standing (a profile's), Surface, Tip, Today's pie, Type set, Walk (an entry).

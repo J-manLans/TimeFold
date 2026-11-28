@@ -1,68 +1,7 @@
-# Code: the look
+# Code: the look, its shared looks
 
-How the look is written: its values as tokens, and the looks parts share. Each decision follows the template in
-`../README.md`, and is cited by its title.
-
-## Design tokens hold every value of the look (2026-11-28)
-
-**Built by:** Handover, for the scales.
-
-**Decision:** a design token is a named value standing for a design decision, written as a CSS custom property. Every
-raw value of the look (colour, font, size, spacing, radius, time, shadow) is a token in one file,
-`src/styles/design-tokens.css`, which `src/main.ts` imports once, beside `src/styles/base.css` (the reset, the fonts and
-the body). Components never import it and use only `var(--…)`. Styles (selectors, layout, states) stay in each
-component, except the looks several parts share, written once ("Shared looks are written once"); the values are all
-central.
-
-- **Only taste is a knob.** Before a value becomes a token, ask whether it can follow from what it sizes or sits beside;
-  if it can, it is worked out from that, never written as a number. The sides stack when the button block with its room
-  no longer fits beside the dashboard, not below 640 px; a dropdown is as wide as its widest choice, not 17 characters.
-  A token is for what is chosen by eye: a colour, a step of a scale, a speed, a figure's size.
-
-- **Scales, used directly:** spacing, radii, font weights and text sizes are scales, named after Tailwind's classes and
-  theme (its names only; the CSS stays hand-written, "Svelte with TypeScript for the interface"), and a component uses
-  the step itself, whether for padding, margin or gap. Spacing is steps of one base, `--spacing`, each step a multiple
-  of it (`--spacing-2` is twice the base, 8 px at a 4 px base), in px like the rest of the look, so the base is one knob
-  for all room; radii are `--radius-xs` to `--radius-xl`, with `--radius-full` for a pill or a disc; weights are named
-  (`--font-weight-semibold`); text keeps its type sets (`--text-size-body`). A part has a token of its own only where no
-  step says it and it is tuned apart: a figure's size, such as `--wheel-diameter`, or the start button's. How many steps
-  each scale has, and which step each part takes, are tuned in the app, in `design-tokens.css`.
-- **Colours are named by intent:** by surface and role, `--controls-bg`, `--dash-text`, never `--dark-grey`, since they
-  change with the theme and the surface. A colour shared by several parts is one token; two that happen to be equal but
-  mean different things are two.
-- **Order:** the file runs Global, Controls (the controls side), Dashboard, then Overlays and popups, the popups grouped
-  by the side that owns them, or Global. Inside each component, and in Global, values go in this order: colours,
-  typography, dimensions, spacing, radii, motion, shadows and effects. The sections use the banners of "Code style".
-- **Theming:** `:root` sets `color-scheme: light dark`. A fresh install leaves it so, following the system; once the
-  theme button is clicked, "Ljust" and "Mörkt" set it to `light` or `dark` ("A light or dark theme, following the
-  system"). A value that differs between the themes is written once as `light-dark(light, dark)`; one that does not is a
-  single value. While the look is tuned, a pair may hold the same value on both sides; once the design settles, such a
-  pair is merged into one value. The profiles' colours are not tokens: the colour roles in "Code style" work them out.
-  The balance profile's greys are tokens.
-- **Motion:** times are written in seconds. `--speed-ui: 0.2s` is every small transition's ("The look: a fresh display
-  face, mono text and soft buttons"); a longer animation that tells something has its own token, such as the peek's 0.3s
-  ("The ceiling wheel"). The app's own Animerat or Stilla decides, following the system's reduced-motion setting until
-  the switch is first clicked ("Motion can be switched off in the app").
-
-**Why:** one file is the tuning panel for the whole look, as the prototype's knobs were, and the look is tuned far more
-often than a component is read; a token's name and go-to-definition make the second file cheap. Custom properties
-inherit through Svelte's scoped styles, so one import on `:root` reaches every component with no wiring. A scale's step
-used directly is the shared vocabulary of the look: few values, the same distance meaning the same everywhere, and one
-step changed moves everything that wears it. Colours named by intent survive a change of value and of theme.
-`light-dark()` keeps a theme's pair on one line with no second set of tokens, and the theme button is one property on
-one element. Tokens describe the design as it is, not hypothetical needs.
-
-**Rejected:** a token per part for every value, pointing at a shared one (`--row-gap: var(--space-row)`): ninety spacing
-tokens for six or seven distances, twenty values a pixel or two apart, and a second name to read for each; tuning one
-place apart is rare, and a part that needs it changes its step. Scale steps named by intent (tight, row, section), or by
-their pixels (`--space-8`): Tailwind's names are what the trade reads, and a step named by its pixels lies once the base
-changes. A component's own values in its style block: tuning the look would mean opening every component, and each value
-would need a call on shared or local. Every colour paired for both themes from the start: a pair says the themes differ,
-and an identical pair says it falsely. Times in milliseconds: the owner reads seconds. The scales in rem: rem follows a
-reader's text size in a browser, which a window app has none of, and the whole app grows or shrinks by the webview's
-zoom ("The app is zoomed as a whole"), which scales px too.
-
-**Revisit if:** the file grows past what is comfortable to tune in one place.
+The looks several parts wear, each written once: classes, attachments and components, the type sets, the fields, the
+dropdowns and the surfaces. Each decision follows the template in `../../README.md`, and is cited by its title.
 
 ## Shared looks are written once (2026-11-27)
 
@@ -87,8 +26,8 @@ It takes one of three forms, by what it brings:
 - **Type sets:** all text outside the figures wears one of four sets: heading (15px, weight 600), body (13px), label
   (11px), and caps: the label's size in capitals, at 0.1em tracking and the surface's weight, in the surface's muted
   colour. A part uses its set's size directly (`font-size: var(--text-size-label)`); no part has a text size of its own.
-  Display type (the start button, the balance, the wheel, the profile letter, the onboarding's name) keeps its own sizes
-  until the figures' own pass.
+  Display type (the start button, the balance, the wheel, the profile letter, the onboarding's name) wears the display
+  sizes; the figures' small labels wear the label set.
 - **Units:** `px` for every value of the look: the scales, the type sets, borders, figures and layout. `em` only for
   letter-spacing, and for the whole inside of a part built to come in sizes, so it follows its own text. A tag's or a
   small button's padding is a spacing step like any other room. The whole app grows or shrinks by the webview's zoom

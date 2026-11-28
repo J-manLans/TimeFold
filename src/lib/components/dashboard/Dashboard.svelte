@@ -82,11 +82,14 @@
   /* === Layout === */
 
   .dashboard {
+    --divider-width: 1px; /* the line between the two sides, in --dashboard-line */
+
     position: relative;
     display: grid;
-    align-content: var(--dashboard-spread);
+    /* the figures up and down its height: center, space-between, space-around, space-evenly, start */
+    align-content: space-evenly;
     gap: 0;
-    padding: var(--spacing-6) var(--spacing-6) var(--spacing-4) var(--spacing-8);
+    padding: var(--spacing-xxl) var(--spacing-xxl) var(--spacing-xl) var(--spacing-xxl);
     overflow-y: auto;
     background: var(--dashboard-background);
     color: var(--dashboard-text);
@@ -98,7 +101,8 @@
   /* The copy's label, breathing into the colour of where the profile stands in it and back */
   .copy {
     justify-self: center;
-    animation: breathe var(--recovery-breath) ease-in-out infinite;
+    /* the dashboard's "KOPIA" label breathing into the balance's colour and back */
+    animation: breathe 2.4s ease-in-out infinite;
   }
 
   /* Stilla: the label holds still in the colour it breathes into */

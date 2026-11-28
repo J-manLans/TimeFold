@@ -1,6 +1,6 @@
 <!--
   A choice in the menu's locked panel or a popup, in "Starta jobb"'s height and font scaled by --choice-scale (the
-  locked panel's --onboarding-choice-scale unless a parent sets it), as wide as its words: "Starta nytt", "Använd
+  locked panel's own unless a parent sets it), as wide as its words: "Starta nytt", "Använd
   kopian", "Stoppa". Greyed out, it still takes the pointer and the focus,
   so its tip can say why or what: <ChoiceButton label="Importera" greyed tip="från fil" />
 -->
@@ -71,17 +71,20 @@
   /* === Layout === */
 
   .choice {
-    height: calc(var(--start-height) * var(--choice-scale, var(--onboarding-choice-scale)));
-    padding: 0 calc(var(--spacing-6) * var(--choice-scale, var(--onboarding-choice-scale)));
+    /* A parent's --choice-scale, or the locked panel's: "Starta nytt" and "Importera" against "Starta jobb" */
+    --scale: var(--choice-scale, 0.8);
+
+    height: calc(var(--start-height) * var(--scale));
+    padding: 0 calc(var(--spacing-xxl) * var(--scale));
   }
 
   .label {
     font-family: var(--font-display);
-    font-size: calc(var(--start-text-size) * var(--choice-scale, var(--onboarding-choice-scale)));
+    font-size: calc(var(--text-size-display-md) * var(--scale));
     font-stretch: var(--font-display-stretch);
     font-weight: var(--font-display-weight);
-    letter-spacing: var(--start-tracking);
-    line-height: 1;
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-none);
     text-transform: uppercase;
   }
 </style>

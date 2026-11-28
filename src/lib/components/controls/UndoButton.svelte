@@ -95,10 +95,13 @@
   /* === Layout === */
 
   .undo {
+    --button-size: 36px;
+    --afterglow: 0.65; /* how strong the neon's afterglow is when the undo wakes; it fades to nothing */
+
     display: grid;
     place-items: center;
-    width: var(--undo-button-size);
-    height: var(--undo-button-size);
+    width: var(--button-size);
+    height: var(--button-size);
     padding: 0;
     border: 0;
     border-radius: var(--radius-full);
@@ -146,12 +149,12 @@
   /* Stilla: the afterglow holds at its strength for as long as the undo is live */
   :global(:root[data-still]) .afterglow.live {
     animation: none;
-    opacity: var(--undo-afterglow);
+    opacity: var(--afterglow);
   }
 
   @keyframes fade {
     from {
-      opacity: var(--undo-afterglow);
+      opacity: var(--afterglow);
     }
 
     to {

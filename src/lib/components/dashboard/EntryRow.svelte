@@ -76,10 +76,12 @@
 
   li {
     display: grid;
-    grid-template-columns: var(--entry-columns);
-    gap: var(--spacing-2);
+    grid-template-columns:
+      7ch 13.5ch 2ch minmax(0, 1fr)
+      auto; /* day, times ("21:30–07:00" and its "+1"), letter, tags, length */
+    gap: var(--spacing-md);
     align-items: center;
-    padding: var(--spacing-1) var(--spacing-2);
+    padding: var(--spacing-xs) var(--spacing-md);
     border-radius: var(--radius-md);
     background: var(--dashboard-row);
     font-size: var(--text-size-body);
@@ -92,21 +94,21 @@
 
   .tags {
     display: flex;
-    gap: var(--spacing-1);
+    gap: var(--spacing-xs);
     justify-self: start;
   }
 
   /* Its reason, under the row in "Visa alla": "ändrad: Glömd paus" */
   .reason {
     grid-column: 1 / -1;
-    margin-top: calc(-1 * var(--spacing-1));
+    margin-top: calc(-1 * var(--spacing-xs));
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-label);
   }
 
   .later {
-    margin-left: var(--spacing-0-5);
-    font-size: var(--entry-later-size);
+    margin-left: var(--spacing-xxs);
+    font-size: var(--text-size-label);
     line-height: 0;
     color: var(--dashboard-text-muted);
     vertical-align: super;
@@ -130,7 +132,8 @@
   li[role='button']:hover,
   li[role='button']:focus-visible {
     outline: none;
-    background: color-mix(in srgb, var(--dashboard-row), var(--dashboard-text) var(--entry-hover));
+    /* how much of the text colour lights a hovered row */
+    background: color-mix(in srgb, var(--dashboard-row), var(--dashboard-text) 10%);
   }
 
   .picked {
@@ -138,12 +141,12 @@
   }
 
   .fresh {
-    animation: flash var(--entry-flash) ease-out;
+    animation: flash 1.2s ease-out; /* a new entry's row lights in the wheel's base colour and fades over this */
   }
 
   @keyframes flash {
     from {
-      background: color-mix(in srgb, var(--wheel-base) var(--entry-flash-strength), var(--dashboard-row));
+      background: color-mix(in srgb, var(--wheel-base) 35%, var(--dashboard-row));
     }
 
     to {

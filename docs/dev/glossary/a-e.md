@@ -48,8 +48,8 @@ wheel, the pay estimate and the recent entries. What the owner reads.
 **Day total.** The time worked on one calendar day, midnight to midnight, minus added breaks. What a day adds to the
 balance, and what the day's result shows at stop.
 
-**Design token.** A named value of the look, such as a colour, size or time, kept in one file and used by name ("Design
-tokens hold every value of the look").
+**Design token.** A shared value of the look kept in one file, `design-tokens.css`, and used by name: a step of a
+**Scale**, a colour, or a value several parts keep alike ("The look is a few scales, picked in each part").
 
 **Dimmed colour.** A profile's base colour faded toward the panel it sits on: the unused part of a figure, such as the
 flex bar's track. Worked out, never picked ("Each profile carries its colours"). Not **Faded**.

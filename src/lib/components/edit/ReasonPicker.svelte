@@ -278,14 +278,14 @@
     display: grid;
     grid-template-columns: minmax(0, max-content) auto;
     align-items: center;
-    column-gap: var(--spacing-0-5);
+    column-gap: var(--spacing-xxs);
     max-width: 100%;
   }
 
   .pen {
     display: grid;
     place-items: center;
-    padding: var(--spacing-0-5);
+    padding: var(--spacing-xxs);
     border: 0;
     border-radius: var(--radius-sm);
     background: none;
@@ -295,8 +295,10 @@
   }
 
   .pen svg {
-    width: var(--edit-pen);
-    height: var(--edit-pen);
+    --pen-size: 15px; /* the pen after a reason under the pointer, and "+" after "Annan orsak", drawn as the padlock */
+
+    width: var(--pen-size);
+    height: var(--pen-size);
     fill: none;
     stroke: currentColor;
     stroke-width: var(--calendar-lock-stroke);
@@ -318,7 +320,7 @@
 
   .refused {
     grid-column: 1 / -1;
-    margin-left: var(--spacing-2);
+    margin-left: var(--spacing-md);
     color: var(--edit-remove);
     font-size: var(--text-size-label);
   }
@@ -326,8 +328,8 @@
   /* "Annan orsak": looks like the other reasons, with a faint underline exactly as long as its text */
   .other {
     box-sizing: content-box;
-    max-width: calc(100% - var(--spacing-2));
-    margin: var(--spacing-0-5) 0 var(--spacing-0-5) var(--spacing-2);
+    max-width: calc(100% - var(--spacing-md));
+    margin: var(--spacing-xxs) 0 var(--spacing-xxs) var(--spacing-md);
     padding: 0;
     border: 0;
     border-bottom: 1px solid var(--dashboard-line);

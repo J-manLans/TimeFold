@@ -55,10 +55,10 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--spacing-2);
-    height: var(--prune-height);
-    margin: var(--spacing-3);
-    padding: var(--spacing-2) var(--spacing-3);
+    gap: var(--spacing-md);
+    height: 40px; /* the prune line's room, kept when there is nothing to offer */
+    margin: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
     color: var(--controls-text-muted);
     font-size: var(--text-size-label);
   }
@@ -69,7 +69,7 @@
 
   .buttons {
     display: flex;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 
   /* "Rensa" removes, as "Ta bort" does: red words, and a red border with its "?" once clicked */
@@ -100,7 +100,7 @@
      line starts right of it, its words wrapping over the left and its buttons stacked on the right */
   :global(:where(:root[data-stacked])) .prune {
     flex-wrap: nowrap;
-    margin-left: calc(2 * var(--spacing-3) + var(--button-icon-size));
+    margin-left: calc(2 * var(--spacing-lg) + var(--button-icon-size));
   }
 
   :global(:where(:root[data-stacked])) .buttons {

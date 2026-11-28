@@ -134,7 +134,7 @@
   .empty {
     fill: none;
     stroke: var(--pie-base);
-    stroke-width: var(--pie-border);
+    stroke-width: 2.5; /* an empty slice's border, in the pie's units */
   }
 
   .base {
@@ -148,12 +148,12 @@
   /* === States === */
 
   .fresh {
-    animation: click var(--pie-flash) ease-out;
+    animation: click 1.2s ease-out; /* a slice clicking in lights and fades, as a new entry's row does */
   }
 
   @keyframes click {
     from {
-      filter: brightness(var(--pie-flash-brightness));
+      filter: brightness(1.9); /* how bright it starts */
     }
 
     to {

@@ -27,14 +27,14 @@ body {
   color: var(--controls-text);
   font-family: var(--font-text);
   font-size: var(--text-size-body);
-  font-weight: var(--controls-font-weight);
-  letter-spacing: var(--controls-tracking);
+  font-weight: var(--font-weight-medium); /* the side's text */
+  letter-spacing: var(--tracking-wider);
 }
 
 /* Every focus ring, in the colour of where the profile on screen stands (App.svelte) */
 :focus-visible {
-  outline: var(--focus-width) solid var(--profile-state, currentColor);
-  outline-offset: var(--spacing-0-5);
+  outline: 2px solid var(--profile-state, currentColor); /* in the colour of the profile on screen */
+  outline-offset: var(--spacing-xxs);
 }
 
 /* Where the focus lands when a popup closes, unless it was opened and closed with the keyboard: no ring until it
@@ -119,10 +119,9 @@ body {
 /* The shared looks ("Shared looks are written once"), each in the colours of the surface it sits on. Wrapped in
    :where() so they weigh nothing: a component's own rule, such as a red warning, always wins over them */
 
-/* A tag: a small bordered label, its padding in em so it keeps its shape with its text. One that can be clicked lights
-   its border under the pointer */
+/* A tag: a small bordered label. One that can be clicked lights its border under the pointer */
 :where(.tag) {
-  padding: var(--spacing-0-5) var(--spacing-1);
+  padding: var(--spacing-xxs) var(--spacing-xs);
   border: 1px solid var(--surface-line);
   border-radius: var(--radius-sm);
   background: none;
@@ -140,11 +139,15 @@ body {
   border-color: var(--surface-text);
 }
 
+/* A small button and a field share their padding, so one swaps for the other in place */
+:where(.button-small, .field) {
+  padding: var(--spacing-xs) var(--spacing-md);
+}
+
 /* A small button: "Ändra", "Spara", "Avbryt". Its edge is the surface's button line, stronger than a divider, so it
    reads as something to click, and lights under the pointer as a tag's does; .main fills the main choice with the
-   surface's text colour; .mini is the same button in the label's size, its padding following in em */
+   surface's text colour; .mini is the same button in the label's size, a step tighter */
 :where(.button-small) {
-  padding: var(--spacing-1) var(--spacing-2);
   border: 1px solid var(--surface-button-line);
   border-radius: var(--radius-md);
   background: none;
@@ -165,6 +168,7 @@ body {
 }
 
 :where(.button-small.mini) {
+  padding: var(--spacing-xxs) var(--spacing-sm);
   font-size: var(--text-size-label);
 }
 
@@ -177,7 +181,6 @@ body {
    tag's place wears .tag instead, with no fill. Either shows its focus as its edge in the colour of where the profile
    on screen stands, in place of the ring */
 :where(.field) {
-  padding: var(--spacing-1) var(--spacing-2);
   border: 1px solid var(--surface-button-line);
   border-radius: var(--radius-md);
   background: none;
@@ -204,7 +207,7 @@ body {
 }
 
 :where(.field.dropdown) {
-  padding-right: var(--dropdown-room);
+  padding-right: calc(2 * var(--spacing-md) + var(--dropdown-chevron));
   cursor: pointer;
 }
 
@@ -212,7 +215,7 @@ body {
   content: '';
   position: absolute;
   top: 50%;
-  right: var(--spacing-2);
+  right: var(--spacing-md);
   width: var(--dropdown-chevron);
   height: var(--dropdown-chevron);
   border-right: 1.5px solid currentColor;
@@ -232,7 +235,7 @@ body {
   min-width: 0;
   max-width: 100%;
   overflow: hidden;
-  padding: var(--spacing-0-5) var(--spacing-2);
+  padding: var(--spacing-xxs) var(--spacing-md);
   border: 0;
   border-radius: var(--radius-sm);
   background: none;
@@ -259,7 +262,7 @@ body {
   color: var(--surface-muted);
   font-size: var(--text-size-label);
   font-weight: inherit;
-  letter-spacing: var(--caps-tracking);
+  letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
 }
 

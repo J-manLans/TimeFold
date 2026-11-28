@@ -36,9 +36,9 @@ behaviour or meaning, the agent asks. A screen or state the prototype does not s
 design mode to be drawn, and the agent does not invent a look.
 
 Each batch with a screen ends with a short list of what to check by eye in the running app. Afterwards the owner goes by
-look and feel, and tunes values in `design-tokens.css` or asks the agent for anything bigger. Vibe mode ends when the
-phase or step it was started for is built; the review that follows is learning mode, tuning included ("While tuning,
-just change the code", in `AGENTS.md`), until the owner names another mode.
+look and feel, and tunes a part's steps in its component or a scale in `design-tokens.css`, or asks the agent for
+anything bigger. Vibe mode ends when the phase or step it was started for is built; the review that follows is learning
+mode, tuning included ("While tuning, just change the code", in `AGENTS.md`), until the owner names another mode.
 
 ## Pop-in mode
 

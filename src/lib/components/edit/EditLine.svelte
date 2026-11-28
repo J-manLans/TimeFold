@@ -353,15 +353,22 @@
   /* The line's lane, out to the popup's edges through its side padding: it cuts what runs on sideways only, so the
      popup never scrolls sideways and may still grow in height */
   .lane {
-    margin-inline: calc(-1 * var(--spacing-4));
-    padding-inline: var(--spacing-4);
+    --bar: 14px; /* the entry's bar, and the blocked time of other entries */
+    --stripe: 3px; /* the width of each stripe in time taken away and blocked time */
+    --tick-mark: 4px; /* the small mark above each label */
+    --lean-overlap: 2px; /* how far leaning labels still reach past their handles */
+    --now-inset: 2px; /* the now-line, short of the line's room at both ends */
+    --pill-time: calc(var(--speed-ui) * 1.5); /* a bounce needs a little longer than a plain ease to read */
+
+    margin-inline: calc(-1 * var(--spacing-xl));
+    padding-inline: var(--spacing-xl);
     overflow-x: clip;
   }
 
   .line {
     position: relative;
-    height: var(--edit-line-height);
-    margin: var(--edit-line-margin);
+    height: 34px; /* the handles' room */
+    margin: 18px 6px; /* room above for the time labels and below for the scale */
     touch-action: none;
     user-select: none;
   }
@@ -383,7 +390,7 @@
 
   .tick {
     position: absolute;
-    bottom: var(--edit-tick-below);
+    bottom: -16px; /* the scale's labels, under the line */
     transform: translateX(-50%);
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-label);
@@ -395,9 +402,9 @@
     content: '';
     position: absolute;
     left: 50%;
-    top: calc(-1px - var(--edit-tick-mark));
+    top: calc(-1px - var(--tick-mark));
     width: 1px;
-    height: var(--edit-tick-mark);
+    height: var(--tick-mark);
     background: var(--dashboard-line);
   }
 
@@ -405,7 +412,7 @@
   .bar {
     position: absolute;
     top: 50%;
-    height: var(--edit-bar);
+    height: var(--bar);
     border-radius: var(--radius-sm);
     transform: translateY(-50%);
   }
@@ -420,14 +427,15 @@
   .wall {
     background: repeating-linear-gradient(
       45deg,
-      var(--dashboard-line) 0 var(--edit-stripe),
-      transparent var(--edit-stripe) calc(var(--edit-stripe) * 2)
+      var(--dashboard-line) 0 var(--stripe),
+      transparent var(--stripe) calc(var(--stripe) * 2)
     );
     pointer-events: none;
   }
 
   .wall.same {
-    background: color-mix(in srgb, var(--wall) var(--edit-same), transparent);
+    /* how much of its colour a neighbour of the entry's profile shows */
+    background: color-mix(in srgb, var(--wall) 30%, transparent);
   }
 
   /* A docked neighbour or the original docked onto, and the part left when a gap is about to be left, outlined in the
@@ -445,8 +453,8 @@
 
   .now {
     position: absolute;
-    top: var(--edit-now-inset);
-    bottom: var(--edit-now-inset);
+    top: var(--now-inset);
+    bottom: var(--now-inset);
     width: 1px;
     background: var(--dashboard-text-muted);
     pointer-events: none;
@@ -469,16 +477,16 @@
   .cut {
     background: repeating-linear-gradient(
       45deg,
-      var(--edit-remove) 0 var(--edit-stripe),
-      color-mix(in srgb, var(--edit-remove) 30%, transparent) var(--edit-stripe) calc(var(--edit-stripe) * 2)
+      var(--edit-remove) 0 var(--stripe),
+      color-mix(in srgb, var(--edit-remove) 30%, transparent) var(--stripe) calc(var(--stripe) * 2)
     );
   }
 
   .grey {
     background: repeating-linear-gradient(
       45deg,
-      var(--dashboard-line) 0 var(--edit-stripe),
-      transparent var(--edit-stripe) calc(var(--edit-stripe) * 2)
+      var(--dashboard-line) 0 var(--stripe),
+      transparent var(--stripe) calc(var(--stripe) * 2)
     );
   }
 
@@ -491,7 +499,7 @@
     position: absolute;
     top: 50%;
     width: 1px;
-    height: var(--edit-bar);
+    height: var(--bar);
     transform: translate(-50%, -50%);
     background: var(--dashboard-background);
     pointer-events: none;
@@ -514,13 +522,14 @@
     transform: translate(-50%, -50%);
     cursor: ew-resize;
     touch-action: none;
-    transition: width var(--edit-pill-time) var(--edit-pill-ease);
+    /* overshoots a little and settles: a soft bounce (1: none) */
+    transition: width var(--pill-time) cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .handle::after {
     content: '';
     position: absolute;
-    inset: var(--knob-reach);
+    inset: -4px -8px; /* the knob's grip beyond its circle */
   }
 
   .sign {
@@ -528,18 +537,18 @@
     z-index: 1;
     display: grid;
     place-items: center;
-    width: calc(var(--knob) * var(--edit-sign-share));
+    width: calc(var(--knob) * 0.7); /* each sign's room, of the knob */
     height: 100%;
     color: var(--ink);
     font-size: var(--text-size-body);
     font-weight: var(--font-weight-bold);
-    line-height: 1;
+    line-height: var(--leading-none);
     cursor: pointer;
   }
 
   .label {
     position: absolute;
-    top: var(--edit-label-above);
+    top: -17px; /* a handle's time, above it */
     transform: translateX(-50%);
     color: var(--dashboard-text);
     font-size: var(--text-size-label);
@@ -558,25 +567,25 @@
      has mostly grown; dragging it, a click elsewhere or Esc shrinks it back */
   .pill {
     z-index: 2;
-    width: var(--edit-pill);
+    width: calc(var(--knob) * 2.1); /* a clicked handle grown into its pill, − and + at its ends */
     cursor: grab;
   }
 
   .fresh {
-    animation: breath var(--edit-pill-time) ease-out;
+    animation: breath var(--pill-time) ease-out;
   }
 
   .fresh .sign {
-    animation: signs var(--edit-pill-time) ease both;
+    animation: signs var(--pill-time) ease both;
   }
 
   /* Handles closer than their labels: the labels lean apart, so they never overlap */
   .lean-start {
-    transform: translateX(calc(-100% + var(--edit-lean-overlap)));
+    transform: translateX(calc(-100% + var(--lean-overlap)));
   }
 
   .lean-end {
-    transform: translateX(calc(-1 * var(--edit-lean-overlap)));
+    transform: translateX(calc(-1 * var(--lean-overlap)));
   }
 
   @keyframes breath {
@@ -586,7 +595,7 @@
     }
 
     40% {
-      height: calc(var(--knob) * var(--edit-pill-breath));
+      height: calc(var(--knob) * 1.2); /* as it grows its height swells to this share and settles (1: none) */
     }
   }
 

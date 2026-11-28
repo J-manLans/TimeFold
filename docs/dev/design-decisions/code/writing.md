@@ -64,14 +64,14 @@ already says its rule.
   (`=== Init ===`, `=== API ===`, `=== Global ===`). A Rust module's tests, at the bottom of its file, follow under a
   **Tests** banner. A Svelte component's script uses **Props**, **State**, **Logic** and **Helpers**, and its style
   **Layout** and **States**. A small file with one job needs no banner.
-- **CSS:** every raw value is a design token ("Design tokens hold every value of the look"); components use only
-  `var(--…)`. Inside a component, class names are short and plain (`.label`, `.dot`), since Svelte scopes each
-  component's styles; a shared look's global class is named for what it is (`.tag`, `.button-small`), so it never meets
-  a scoped one; states are shown with `class:` directives, `:disabled` and `aria-` attributes, not in class names.
-  **Colours by role:** one function takes a profile and the situation (the theme, the profile on screen, whether its
-  figure is past its line, the peek) and returns its colour roles: `base`, `dimmed`, `over`, `faded` and `number`; the
-  figures read them as CSS variables (`var(--wheel-number)`) and never pick a colour themselves. The balance profile's
-  greys are theme tokens.
+- **CSS:** a component picks the look's steps from the shared scales, and writes raw only a value no step fits and no
+  other part shares ("The look is a few scales, picked in each part"). Inside a component, class names are short and
+  plain (`.label`, `.dot`), since Svelte scopes each component's styles; a shared look's global class is named for what
+  it is (`.tag`, `.button-small`), so it never meets a scoped one; states are shown with `class:` directives,
+  `:disabled` and `aria-` attributes, not in class names. **Colours by role:** one function takes a profile and the
+  situation (the theme, the profile on screen, whether its figure is past its line, the peek) and returns its colour
+  roles: `base`, `dimmed`, `over`, `faded` and `number`; the figures read them as CSS variables (`var(--wheel-number)`)
+  and never pick a colour themselves. The balance profile's greys are theme tokens.
 - **Tests,** with Vitest for TypeScript and Rust's own tests for Rust ("Tests come first, from the owner's rules"):
   - as few tests as cover the behaviour: a test earns its place only if breaking the code it guards turns it red and no
     other test already does; no tests of the language or a library; asserts on one behaviour share one test;

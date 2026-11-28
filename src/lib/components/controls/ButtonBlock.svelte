@@ -61,7 +61,7 @@
   </div>
 
   <button class="profile plastic" type="button" aria-label="Byt profil" onclick={() => (app.profilesOpen = true)}>
-    <Disc size="var(--profile-disc-size)" dent="var(--profile-disc-dent)" light="var(--glow-profile-disc)">
+    <Disc size="42px" dent="6px" light="0.7">
       <span class="letter" class:waiting={app.phase === 'welcome' && app.panel !== null && !app.panel.letter}>
         {profile?.name.charAt(0).toUpperCase()}
       </span>
@@ -74,12 +74,12 @@
 
   .block {
     display: grid;
-    grid-template-columns: var(--start-width) var(--profile-button-width);
-    grid-template-rows: var(--start-height) var(--pair-height);
+    grid-template-columns: 214px 76px; /* "Starta jobb"'s width, the profile button's */
+    grid-template-rows: var(--start-height) 34px; /* "Exportera" and "Importera" */
     grid-template-areas:
       'start profile'
       'pair profile';
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 
   .start {
@@ -90,17 +90,17 @@
     font-family: var(--font-display);
     font-stretch: var(--font-display-stretch);
     font-weight: var(--font-display-weight);
-    font-size: var(--start-text-size);
-    letter-spacing: var(--start-tracking);
+    font-size: var(--text-size-display-md);
+    letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    line-height: 1;
+    line-height: var(--leading-none);
   }
 
   .pair {
     grid-area: pair;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 
   .pair button {
@@ -118,8 +118,8 @@
     font-family: var(--font-display);
     font-stretch: var(--font-display-stretch);
     font-weight: var(--font-display-weight);
-    font-size: var(--profile-letter-size);
-    line-height: 1;
+    font-size: var(--text-size-display-sm);
+    line-height: var(--leading-none);
     /* Trimmed to the capital, so centring the box centres the letter itself */
     text-box: trim-both cap alphabetic;
     color: var(--profile-state);
@@ -137,6 +137,6 @@
   }
 
   .start.running {
-    box-shadow: 0 0 0 var(--start-ring-width) var(--profile-neon);
+    box-shadow: 0 0 0 2px var(--profile-neon); /* in the profile's colour while it runs */
   }
 </style>

@@ -58,6 +58,8 @@
   /* === Layout === */
 
   .motion {
+    --line-spread: 4.5px; /* the motion switch's speed lines, above and below the middle one, in Animerat */
+
     display: grid;
     flex: none;
     place-items: center;
@@ -104,11 +106,11 @@
 
   /* Animerat: the lines spread out above and below, staggered */
   .moving .upper {
-    transform: translate(-1px, calc(-1 * var(--motion-line-spread)));
+    transform: translate(-1px, calc(-1 * var(--line-spread)));
   }
 
   .moving .lower {
-    transform: translate(2px, var(--motion-line-spread));
+    transform: translate(2px, var(--line-spread));
   }
 
   /* Stilla takes the pointer light off every other button; this disc keeps it, a hint of what Animerat brings */

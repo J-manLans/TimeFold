@@ -94,15 +94,21 @@
 <style>
   /* === Layout === */
 
+  .slot,
+  .pause {
+    /* Used more than once here */
+    --height: 30px;
+  }
+
   .slot {
     position: relative;
     display: grid;
     place-items: center;
-    height: var(--pause-height);
+    height: var(--height);
   }
 
   input {
-    height: var(--pause-height);
+    height: var(--height);
   }
 
   /* Under the field, out of the row's flow, so the field never moves as the reading comes and goes */
@@ -111,7 +117,7 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: var(--spacing-1);
+    margin-top: var(--spacing-xs);
     font-size: var(--text-size-body);
     color: var(--controls-text-muted);
     white-space: nowrap;
@@ -119,8 +125,8 @@
   }
 
   .pause {
-    height: var(--pause-height);
-    padding: 0 var(--spacing-3);
+    height: var(--height);
+    padding: 0 var(--spacing-lg);
     font-size: var(--text-size-body);
     font-weight: var(--font-weight-semibold);
   }

@@ -39,10 +39,11 @@ state, progress, decisions or history here; each has its own home (see "Where th
 
 `codebase-ideas.md` is read at a docs sweep, when the owner asks about an idea's subject, or when the owner says to;
 otherwise name the idea and ask. The prototype is the north star for the look beside the vision: a screen's values come
-from it until the screen is built, then live in `design-tokens.css`, where the owner tunes them; it stays the reference
-for the look's intent and for screens not built yet, and goes once the finished app has been validated. A sketch, a
-quick try of one look, holds nothing the docs need: the decision it serves holds every number it settles, and it is
-deleted once the code it previews is built; `git log` keeps it.
+from it until the screen is built, then live in the code, where the owner tunes them ("The look is a few scales, picked
+in each part", in `design-decisions/`); it stays the reference for the look's intent and for screens not built yet, and
+goes once the finished app has been validated. A sketch, a quick try of one look, holds nothing the docs need: the
+decision it serves holds every number it settles, and it is deleted once the code it previews is built; `git log` keeps
+it.
 
 `README.md` and `CONTRIBUTING.md`, when they exist, are for people outside the project.
 

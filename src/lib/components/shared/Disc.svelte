@@ -38,7 +38,7 @@
     width: var(--size);
     height: var(--size);
     border-radius: var(--radius-full);
-    background-color: var(--disc-face);
+    background-color: var(--button-background);
     background-image: var(--disc-glow);
     box-shadow:
       0 2px 5px var(--disc-drop),

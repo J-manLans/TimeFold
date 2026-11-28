@@ -138,13 +138,16 @@
   }
 
   dialog {
-    width: min(var(--all-entries-width), var(--all-entries-share));
+    --gap-hit: 10px; /* its hover strip, overlapping the rows a little so a thin gap is still easy to land on */
+    --gap-open: 12px; /* how much more a gap opens while hovered, half upward and half downward (0: it stays) */
+
+    width: min(560px, 92%); /* of the window, when that is narrower */
     max-width: none;
     max-height: var(--all-entries-height);
     padding: 0;
     overflow: auto;
     border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     background: var(--dashboard-background);
     color: var(--dashboard-text);
   }
@@ -155,8 +158,8 @@
 
   .card {
     display: grid;
-    gap: var(--spacing-2);
-    padding: var(--spacing-4) var(--spacing-4);
+    gap: var(--spacing-md);
+    padding: var(--spacing-xl) var(--spacing-xl);
   }
 
   header {
@@ -167,7 +170,7 @@
 
   ol {
     display: grid;
-    gap: var(--spacing-0-5);
+    gap: var(--spacing-xxs);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -175,7 +178,7 @@
 
   /* A month's line: no row behind it, a little room above, the rows under it as in the recent list */
   .month {
-    padding: var(--spacing-3) var(--spacing-2) var(--spacing-0-5);
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-xxs);
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-label);
     font-weight: var(--font-weight-bold);
@@ -189,11 +192,12 @@
      centre and a line on each side, hidden until it is hovered */
   .gap {
     display: flex;
-    gap: var(--spacing-1-5);
+    gap: var(--spacing-sm);
     align-items: center;
-    height: var(--insert-hit);
-    margin: calc((var(--spacing-0-5) - var(--insert-hit)) / 2) 0;
-    padding: 0 var(--spacing-2);
+    height: var(--gap-hit);
+    /* Its own room is the rows' gap, xxs; its hover strip overlaps the rows around it */
+    margin: calc((var(--spacing-xxs) - var(--gap-hit)) / 2) 0;
+    padding: 0 var(--spacing-md);
     cursor: pointer;
   }
 
@@ -216,14 +220,14 @@
   .plus {
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-body);
-    line-height: 1;
+    line-height: var(--leading-none);
     opacity: 0;
     transition: opacity var(--speed-ui) ease;
   }
 
   /* The always-shown "+" sits in a gap always open, so nothing moves around it */
   .gap.top {
-    height: calc(var(--spacing-0-5) + var(--insert-open));
+    height: calc(var(--spacing-xxs) + var(--gap-open));
     margin: 0;
   }
 
@@ -271,12 +275,12 @@
   }
 
   ol > :global(li:has(~ li.open:hover)) {
-    transform: translateY(calc(var(--insert-open) / -2));
+    transform: translateY(calc(var(--gap-open) / -2));
     transition-delay: var(--peek-delay);
   }
 
   ol > .gap.open:hover ~ :global(li) {
-    transform: translateY(calc(var(--insert-open) / 2));
+    transform: translateY(calc(var(--gap-open) / 2));
     transition-delay: var(--peek-delay);
   }
 </style>

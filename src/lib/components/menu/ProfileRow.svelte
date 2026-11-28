@@ -172,9 +172,9 @@
   .head {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     width: 100%;
-    padding: var(--spacing-2) var(--spacing-2);
+    padding: var(--spacing-md) var(--spacing-md);
     border: 0;
     background: none;
     color: var(--menu-text);
@@ -226,15 +226,15 @@
   .body {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    padding: var(--spacing-0-5) var(--spacing-3) var(--spacing-3);
+    padding: var(--spacing-xxs) var(--spacing-lg) var(--spacing-lg);
   }
 
   .last {
     display: grid;
     justify-items: start;
-    gap: var(--spacing-1-5);
-    padding: var(--spacing-2) 0;
-    margin-left: calc(var(--menu-label-width) + var(--spacing-2));
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) 0;
+    margin-left: calc(var(--menu-label-width) + var(--spacing-md));
   }
 
   .q {
@@ -261,7 +261,7 @@
   }
 
   .archived .head {
-    opacity: var(--menu-archived-opacity);
+    opacity: 0.55; /* an archived row's head */
   }
 
   /* Asking once: the word gets its "?" and a border; "Ta bort" in the removal red throughout */

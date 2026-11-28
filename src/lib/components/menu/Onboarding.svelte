@@ -168,6 +168,8 @@
   /* === Layout === */
 
   .onboarding {
+    --step-fade: 0.1s; /* a step fading out, then the next fading in after it: twice this in all */
+
     position: absolute;
     inset: 0;
     display: grid;
@@ -179,19 +181,19 @@
     grid-area: 1 / 1;
     display: grid;
     justify-items: center;
-    gap: var(--spacing-3);
-    width: min(var(--onboarding-width), 80%);
+    gap: var(--spacing-lg);
+    width: min(320px, 80%); /* the most a prompt and its answer take */
     opacity: 0;
     visibility: hidden;
     transition:
-      opacity var(--onboarding-step-fade) ease,
-      visibility 0s linear var(--onboarding-step-fade);
+      opacity var(--step-fade) ease,
+      visibility 0s linear var(--step-fade);
   }
 
   .choices {
     grid-template-columns: max-content max-content;
     justify-content: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     width: auto;
   }
 
@@ -201,10 +203,10 @@
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    gap: var(--spacing-3);
+    gap: var(--spacing-lg);
     width: 0;
     min-width: 100%;
-    margin-top: calc(var(--spacing-6) - var(--spacing-2));
+    margin-top: calc(var(--spacing-xxl) - var(--spacing-md));
   }
 
   /* The sentence and, once clicked, the switch's label share a cell; the sentence keeps its room, so nothing moves */
@@ -218,7 +220,7 @@
     margin: 0;
     color: var(--menu-text-muted);
     font-size: var(--text-size-label);
-    line-height: var(--onboarding-note-line);
+    line-height: var(--leading-normal);
     text-wrap: pretty;
   }
 
@@ -245,20 +247,20 @@
 
   .balance {
     font-family: var(--font-display);
-    font-size: var(--balance-text-size);
+    font-size: var(--text-size-display-lg);
     font-stretch: var(--font-display-stretch);
     font-weight: var(--font-display-weight);
     font-variant-numeric: tabular-nums;
-    line-height: 1.1;
+    line-height: var(--leading-none);
   }
 
   .name {
     font-family: var(--font-text);
-    font-size: var(--onboarding-name-size);
+    font-size: var(--text-size-display-sm);
   }
 
   .reading {
-    min-height: 1.3em;
+    min-height: 1.3em; /* a line's height, kept while empty */
     color: var(--menu-text-muted);
     font-size: var(--text-size-body);
     letter-spacing: normal;
@@ -286,7 +288,7 @@
     opacity: 1;
     visibility: visible;
     transition:
-      opacity var(--onboarding-step-fade) ease var(--onboarding-step-fade),
+      opacity var(--step-fade) ease var(--step-fade),
       visibility 0s;
   }
 

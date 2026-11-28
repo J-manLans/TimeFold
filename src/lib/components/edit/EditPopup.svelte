@@ -318,13 +318,13 @@
   /* === Layout === */
 
   dialog {
-    width: min(var(--edit-width), var(--edit-share));
+    width: min(480px, 88%); /* a little narrower than the list's 560px */
     max-width: none;
     max-height: var(--all-entries-height);
     padding: 0;
     overflow: auto;
     border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     background: var(--dashboard-background);
     color: var(--dashboard-text);
     transition: opacity var(--speed-ui) ease;
@@ -337,20 +337,20 @@
 
   .card {
     display: grid;
-    gap: var(--spacing-2);
-    padding: var(--spacing-4) var(--spacing-4);
+    gap: var(--spacing-md);
+    padding: var(--spacing-xl) var(--spacing-xl);
   }
 
   .head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     font-size: var(--text-size-body);
   }
 
   .words {
-    min-height: 1.3em;
+    min-height: 1.3em; /* a line's height, kept while empty */
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-body);
   }
@@ -360,12 +360,12 @@
   }
 
   .tag {
-    margin-left: var(--spacing-1-5);
+    margin-left: var(--spacing-sm);
   }
 
   .actions {
     display: flex;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 
   .spacer {
@@ -384,7 +384,7 @@
   }
 
   .peek {
-    opacity: var(--edit-peek);
+    opacity: 0.2; /* the pointer resting on the list behind: how much of the edit still shows (0 gone, 1 all) */
   }
 
   .changed {

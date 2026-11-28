@@ -231,13 +231,15 @@
   .wheel {
     display: grid;
     justify-items: center;
-    gap: var(--spacing-1-5);
+    gap: var(--spacing-sm);
   }
 
   svg {
+    --diameter: 200px;
+
     display: block;
-    width: var(--wheel-diameter);
-    height: var(--wheel-diameter);
+    width: var(--diameter);
+    height: var(--diameter);
   }
 
   circle {
@@ -251,7 +253,7 @@
 
   .number {
     font-family: var(--font-display);
-    font-size: var(--wheel-text-size);
+    font-size: var(--text-size-display-md);
     font-stretch: var(--font-display-stretch);
     font-weight: var(--font-display-weight);
     text-anchor: middle;
@@ -260,14 +262,14 @@
   .label {
     fill: var(--dashboard-ink);
     font-family: var(--font-text);
-    font-size: var(--wheel-label-size);
-    letter-spacing: var(--wheel-label-tracking);
+    font-size: var(--text-size-label);
+    letter-spacing: var(--tracking-widest);
     text-anchor: middle;
   }
 
   .pay {
     display: flex;
-    gap: var(--spacing-3);
+    gap: var(--spacing-lg);
     color: var(--dashboard-text-muted);
     font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;

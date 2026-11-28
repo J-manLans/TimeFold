@@ -26,13 +26,15 @@
 
   /* The text and today's pie are one row, centred together; it keeps the pie's room, so nothing moves when it shows */
   .status {
+    --row-height: 16px; /* kept even when empty */
+
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     margin: 0;
-    height: max(var(--status-height), var(--pie-size));
-    line-height: var(--status-height);
+    height: max(var(--row-height), var(--pie-size));
+    line-height: var(--row-height);
     font-size: var(--text-size-label);
     color: var(--controls-text-muted);
   }

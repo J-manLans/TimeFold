@@ -134,24 +134,29 @@
   /* === Layout === */
 
   .calendar {
+    --cell: 30px; /* each day's square */
+    --head-height: 28px; /* the month and its arrows */
+    --weekday-height: 16px; /* with the two above, sets where the list's first line starts */
+    --lock-size: 14px; /* the padlock beside the month name, which unlocks the days gone by */
+
     display: flex;
     flex-wrap: wrap;
     align-items: start;
-    gap: var(--spacing-4) var(--spacing-6);
+    gap: var(--spacing-xl) var(--spacing-xxl);
   }
 
   /* As wide as its seven days */
   .month {
     display: grid;
-    gap: var(--spacing-2);
-    width: calc(7 * var(--calendar-cell) + 6 * var(--spacing-1));
+    gap: var(--spacing-md);
+    width: calc(7 * var(--cell) + 6 * var(--spacing-xs));
   }
 
   .head {
     display: flex;
     align-items: center;
-    gap: var(--spacing-1-5);
-    height: var(--calendar-head-height);
+    gap: var(--spacing-sm);
+    height: var(--head-height);
   }
 
   /* The month's name away from today's month: plain until hovered, then underlined, as "Tidigare värden" is */
@@ -161,7 +166,7 @@
     background: none;
     color: inherit;
     font: inherit;
-    text-underline-offset: var(--calendar-home-underline);
+    text-underline-offset: 3px; /* the month's name underlined under the pointer, away from today's month */
     cursor: pointer;
   }
 
@@ -174,13 +179,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-1-5);
+    gap: var(--spacing-sm);
     font-size: var(--text-size-heading);
   }
 
   .nav {
-    width: var(--calendar-head-height);
-    height: var(--calendar-head-height);
+    width: var(--head-height);
+    height: var(--head-height);
     padding: 0;
     border: 0;
     border-radius: var(--radius-md);
@@ -188,15 +193,15 @@
     color: var(--menu-text-muted);
     font: inherit;
     font-size: var(--text-size-heading);
-    line-height: 1;
+    line-height: var(--leading-none);
     cursor: pointer;
   }
 
   .lock {
     display: grid;
     place-items: center;
-    width: calc(var(--calendar-lock-size) + 2 * var(--spacing-1));
-    height: calc(var(--calendar-lock-size) + 2 * var(--spacing-1));
+    width: calc(var(--lock-size) + 2 * var(--spacing-xs));
+    height: calc(var(--lock-size) + 2 * var(--spacing-xs));
     padding: 0;
     border: 0;
     border-radius: var(--radius-md);
@@ -206,8 +211,8 @@
   }
 
   .lock svg {
-    width: var(--calendar-lock-size);
-    height: var(--calendar-lock-size);
+    width: var(--lock-size);
+    height: var(--lock-size);
     fill: none;
     stroke: currentColor;
     stroke-width: var(--calendar-lock-stroke);
@@ -217,21 +222,21 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(7, var(--calendar-cell));
-    gap: var(--spacing-1);
+    grid-template-columns: repeat(7, var(--cell));
+    gap: var(--spacing-xs);
   }
 
   .weekday {
-    height: var(--calendar-weekday-height);
-    line-height: var(--calendar-weekday-height);
+    height: var(--weekday-height);
+    line-height: var(--weekday-height);
     color: var(--menu-text-muted);
     font-size: var(--text-size-label);
     text-align: center;
   }
 
   .day {
-    width: var(--calendar-cell);
-    height: var(--calendar-cell);
+    width: var(--cell);
+    height: var(--cell);
     padding: 0;
     border: 1px solid var(--menu-line);
     border-radius: var(--radius-md);
@@ -247,29 +252,27 @@
   /* Each line of the list, a wrapped one too, is a day's height with the days' gap, so it sits level with a week */
   .ahead {
     flex: 1;
-    min-width: var(--calendar-list-min-width);
+    min-width: 110px; /* the list of marked days, before it wraps under the month */
     display: grid;
     align-content: start;
-    gap: var(--spacing-1);
-    padding-top: calc(
-      var(--calendar-head-height) + var(--spacing-2) + var(--calendar-weekday-height) + var(--spacing-1)
-    );
+    gap: var(--spacing-xs);
+    padding-top: calc(var(--head-height) + var(--spacing-md) + var(--weekday-height) + var(--spacing-xs));
     color: var(--menu-text-muted);
     font-size: var(--text-size-body);
     font-variant-numeric: tabular-nums;
-    line-height: var(--calendar-cell);
+    line-height: var(--cell);
   }
 
   .line {
     display: grid;
-    grid-template-columns: var(--calendar-month-column) 1fr;
-    gap: var(--spacing-2);
+    grid-template-columns: 3.5ch 1fr;
+    gap: var(--spacing-md);
   }
 
   .days {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-1) var(--spacing-2);
+    gap: var(--spacing-xs) var(--spacing-md);
   }
 
   .year {
@@ -313,7 +316,7 @@
      last week */
   :global(:where(:root[data-stacked])) .calendar {
     flex-direction: column;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 
   :global(:where(:root[data-stacked])) .ahead {

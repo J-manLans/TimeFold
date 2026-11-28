@@ -106,25 +106,25 @@
   .popup {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--spacing-1);
-    min-width: var(--popup-min-width);
-    padding: var(--spacing-2);
+    gap: var(--spacing-xs);
+    min-width: 220px; /* wide enough for a name, before it is cut */
+    padding: var(--spacing-md);
     border: 1px solid var(--button-line);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     background: var(--popup-background);
     color: var(--popup-text);
   }
 
   h3 {
-    margin: var(--spacing-1) var(--spacing-2) var(--spacing-1-5);
+    margin: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
   }
 
   button {
     display: flex;
     align-items: center;
     min-width: 0;
-    gap: var(--spacing-2);
-    padding: var(--spacing-2);
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
     border: 0;
     border-radius: var(--radius-md);
     background: transparent;
@@ -143,7 +143,7 @@
   }
 
   .popup {
-    max-width: var(--popup-max-width);
+    max-width: 300px; /* a long profile name is cut with "…" past it */
   }
 
   .circle {

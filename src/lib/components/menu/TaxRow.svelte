@@ -92,16 +92,16 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     min-height: var(--menu-value-row);
-    padding: var(--spacing-2) 0;
+    padding: var(--spacing-md) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
   .check {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     cursor: pointer;
   }
 
@@ -109,10 +109,12 @@
      the menu's line; checked, filled with the neon of the profile on screen, its mark white, cut out of a square
      centred in it */
   .check input {
+    --box: 16px; /* "Efter skatt"'s box */
+
     display: grid;
     flex: none;
-    width: var(--menu-check-size);
-    height: var(--menu-check-size);
+    width: var(--box);
+    height: var(--box);
     margin: 0;
     border: 1px solid var(--menu-button-line);
     border-radius: var(--radius-sm);
@@ -129,11 +131,12 @@
   .check input:checked::after {
     content: '';
     background: var(--menu-check-ink);
-    mask: var(--menu-check-mark) center / var(--menu-check-mark-size) no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23101318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / 100% no-repeat;
   }
 
   .label {
-    margin-left: var(--spacing-3);
+    margin-left: var(--spacing-lg);
     color: var(--menu-text-muted);
   }
 

@@ -40,6 +40,10 @@ Linux on the repo's releases page ("The app reaches each machine as an installer
 
 **Report.** A period's record, exported from the app for the owner to send to their boss.
 
+**Scale.** A few steps of one kind of value that every part picks from: room (`--spacing-xxs` to `-xxl`, clothes sizes),
+corners, text sizes, weights, tracking and line height ("The look is a few scales, picked in each part"). A **step** is
+one of them, such as `--spacing-md`.
+
 **Settings file.** Each machine's own `settings.json` beside the record, holding what belongs to that computer: the
 theme and the motion; never in the record or the handover.
 

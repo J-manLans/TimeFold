@@ -61,13 +61,13 @@
   }
 
   .popup {
-    --choice-scale: var(--late-choice-scale);
+    --choice-scale: 0.42; /* "Stoppa" and "Fortfarande igång" against "Starta jobb", as the locked panel's choices */
     display: grid;
     justify-items: center;
-    gap: var(--spacing-3);
-    padding: var(--spacing-4) var(--spacing-4);
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl) var(--spacing-xl);
     border: 1px solid var(--button-line);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     background: var(--popup-background);
     color: var(--popup-text);
     text-align: center;
@@ -78,7 +78,7 @@
   }
 
   p {
-    max-width: var(--late-width);
+    max-width: 30ch; /* the most the words take before they wrap */
     margin: 0;
     text-wrap: balance;
   }
@@ -94,6 +94,6 @@
 
   .buttons {
     display: flex;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 </style>

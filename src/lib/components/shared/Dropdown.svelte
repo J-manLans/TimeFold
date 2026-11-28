@@ -166,16 +166,16 @@
   .list {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--dropdown-list-gap);
+    gap: 1px; /* a hairline between the list's lines */
     justify-items: start;
-    padding-top: var(--spacing-1-5);
+    padding-top: var(--spacing-sm);
     overflow-y: auto;
   }
 
   /* Floating: out of the flow, right under the field and in line with its right edge, on its own surface */
   .float .grow {
     position: absolute;
-    top: calc(100% + var(--spacing-1));
+    top: calc(100% + var(--spacing-xs));
     right: 0;
     z-index: 2;
     width: max-content;
@@ -183,10 +183,10 @@
   }
 
   .float .clip {
-    padding: 0 var(--spacing-1) var(--spacing-1);
+    padding: 0 var(--spacing-xs) var(--spacing-xs);
     border: 1px solid var(--surface-line);
     border-radius: var(--radius-md);
-    background: var(--dropdown-float-background);
+    background: var(--dashboard-row);
     box-shadow: var(--dropdown-float-shadow);
   }
 

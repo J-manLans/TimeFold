@@ -1,5 +1,6 @@
-/* Every value of the look, named by what it is for ("Design tokens hold every value of the look"). Components use
-   these through var(--…) and hold no raw values of their own. A value that differs between the themes is written as
+/* The look's shared values ("The look is a few scales, picked in each part"): the scales every part picks its steps from,
+   the colours by surface and role, and the few values several parts share or the code reads. A value only one part
+   needs lives in that part's style block. A value that differs between the themes is written as
    light-dark(light theme, dark theme); color-scheme on :root picks the side. */
 
 :root {
@@ -10,26 +11,44 @@
                      Global
   ====================================== */
 
-  /* === The scales ("Design tokens hold every value of the look") === */
-  /* Every room, padding, margin and gap, is a step of the spacing scale, named after Tailwind's: each step a multiple
-     of the base, so the base is one knob for all of it */
+  /* === The scales ("The look is a few scales, picked in each part") ===
+     Every part picks its steps from these, in its own style block: tune a part by changing its step there, or a step
+     here to move everything that wears it. A value no step fits, needed by one part, is written raw where it is used. */
+
+  /* Room: every padding, margin and gap. Each step is a multiple of the base, so the base moves all room at once */
   --spacing: 4px;
-  --spacing-0-5: calc(var(--spacing) * 0.5);
-  --spacing-1: var(--spacing);
-  --spacing-1-5: calc(var(--spacing) * 1.5);
-  --spacing-2: calc(var(--spacing) * 2);
-  --spacing-3: calc(var(--spacing) * 3);
-  --spacing-4: calc(var(--spacing) * 4);
-  --spacing-6: calc(var(--spacing) * 6);
-  --spacing-8: calc(var(--spacing) * 8);
+  --spacing-xxs: calc(var(--spacing) * 0.5); /* 2px */
+  --spacing-xs: var(--spacing); /* 4px */
+  --spacing-sm: calc(var(--spacing) * 1.5); /* 6px */
+  --spacing-md: calc(var(--spacing) * 2); /* 8px */
+  --spacing-lg: calc(var(--spacing) * 3); /* 12px */
+  --spacing-xl: calc(var(--spacing) * 4); /* 16px */
+  --spacing-xxl: calc(var(--spacing) * 6); /* 24px */
+
+  /* Corners */
   --radius-sm: 4px; /* tags, marks, swatches, the button block, the edit's bar */
   --radius-md: 6px; /* fields, small buttons, menu controls, entry rows */
-  --radius-xl: 12px; /* popups and cards */
+  --radius-lg: 12px; /* popups and cards */
   --radius-full: 9999px; /* discs and pills */
+
+  /* Text: the type sets ("Shared looks are written once") for all text outside the figures, and the display sizes for
+     the figures and the big buttons. Caps is the label's size in capitals, at the widest tracking */
+  --text-size-label: 11px; /* tags, quiet lines, notes, ticks, the figures' small labels, caps headings */
+  --text-size-body: 13px; /* every text that names no size of its own: rows, values, buttons, popups */
+  --text-size-heading: 15px; /* the menu's heading, the calendar's month, the onboarding's prompts */
+  --text-weight-heading: var(--font-weight-semibold);
+  --text-size-display-sm: 26px; /* the profile letter, the name typed at the onboarding */
+  --text-size-display-md: 36px; /* "Starta jobb", the wheel's hours */
+  --text-size-display-lg: 46px; /* the balance */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  --tracking-wide: 0.025em; /* the balance, "Starta jobb" */
+  --tracking-wider: 0.05em; /* all text on the controls side */
+  --tracking-widest: 0.1em; /* caps */
+  --leading-none: 1; /* one line that sits tight in its box */
+  --leading-normal: 1.5; /* text that runs over several lines */
 
   /* === Typography === */
   /* The big things: "Starta jobb", the profile letter, the balance, the wheel's hours */
@@ -38,22 +57,11 @@
   --font-display-weight: var(--font-weight-bold);
   /* All other text, on both sides */
   --font-text: 'JetBrains Mono Variable', 'Cascadia Mono', 'DejaVu Sans Mono', ui-monospace, monospace;
-  /* The type sets ("Shared looks are written once"): every text outside the figures wears one; a part uses its set
-     directly. Caps is the label's size in capitals */
-  --text-size-heading: 15px; /* the menu's heading, the calendar's month, the onboarding's prompts */
-  --text-weight-heading: var(--font-weight-semibold);
-  --text-size-body: 13px; /* every text that names no size of its own: rows, values, buttons, popups */
-  --text-size-label: 11px; /* tags, quiet lines, notes, ticks, month and year lines, caps headings */
-  --caps-tracking: 0.1em; /* headings in capitals */
 
   /* === Dimensions === */
-  /* A dropdown's chevron: its size, how far in from the edge it sits, and the room its control keeps for it */
+  /* A dropdown's chevron, and its list: how many lines it shows before it scrolls, and a floating list's shadow */
   --dropdown-chevron: 5px;
-  --dropdown-room: calc(2 * var(--spacing-2) + var(--dropdown-chevron));
-  /* A dropdown's list: its lines, and a floating list's surface, a stand-in until the popups' frame */
-  --dropdown-list-gap: 1px;
   --dropdown-list-rows: 7; /* the open list's greatest height in lines; past it, it scrolls */
-  --dropdown-float-background: var(--dashboard-row);
   --dropdown-float-shadow: 0 6px 18px rgb(0 0 0 / 0.3);
 
   /* === Motion === */
@@ -64,7 +72,6 @@
   /* === Shadows and effects === */
   --shadow-button: 2px 3px 12px 0 rgb(0 0 0 / 0.14);
   --opacity-disabled: 0.4; /* every unavailable button fades by this */
-  --focus-width: 2px; /* in the colour of the profile on screen */
 
   /* ======================================
                     Controls
@@ -75,9 +82,6 @@
   --controls-text: light-dark(#1f2227, #e4e6ea);
   --controls-text-muted: light-dark(#556070, #8f949d); /* light: 5.8:1 on the background */
   --controls-line: light-dark(#d9dfe8, #2c2f35);
-  --controls-font-weight: var(--font-weight-medium); /* the side's text */
-  --controls-tracking: 0.06em;
-  --controls-top-height: 64px; /* the row holding the menu button */
   --controls-block-room: 24px; /* the least room each side of the button block; with less, the sides stack */
 
   /* === Buttons === */
@@ -92,19 +96,11 @@
   /* === The pointer light === */
   --glow-colour: light-dark(rgb(225 235 252 / 0.2), rgb(255 255 255 / 0.08));
   --glow-reach: 70px;
-  --glow-profile-disc: 0.7; /* the profile disc catches this share of it; the other discs all of it */
 
   /* === The button block === */
-  --start-width: 214px;
   --start-height: 64px;
-  --start-text-size: 38px;
-  --start-tracking: 0.03em;
-  --start-ring-width: 2px; /* in the profile's colour while it runs */
-  --pair-height: 34px; /* "Exportera" and "Importera" */
-  --profile-button-width: 76px;
 
   /* === The discs: the profile button's, the undo's and the theme button's === */
-  --disc-face: var(--button-background);
   --disc-glow: radial-gradient(
     circle at 50% 25%,
     light-dark(rgb(190 210 240 / 0.35), rgb(255 255 255 / 0.12)) 0%,
@@ -123,31 +119,17 @@
   --dent-edge: light-dark(rgb(10 25 55 / 0.3), rgb(0 0 0 / 0.18));
   --dent-shade: light-dark(rgb(10 25 55 / 0.35), rgb(0 0 0 / 0.25));
   --dent-lip: light-dark(rgb(190 210 240 / 0.35), rgb(255 255 255 / 0.08)); /* light: a blue sheen, not white */
-  --profile-disc-size: 42px;
-  --profile-disc-dent: 6px;
-  --profile-letter-size: 26px;
   --small-disc-size: 26px; /* the disc drawn inside the undo and theme buttons */
   --small-disc-dent: 4px;
-  --undo-button-size: 36px;
-
-  /* === The status line, the pause row and the undo === */
-  --status-height: 16px; /* kept even when empty */
 
   /* === Controls: today's pie, right of the status text === */
   --pie-size: 40px;
   --pie-inner: 30; /* the ring's open middle, as a share of its radius, in % */
   --pie-slice-gap: 6; /* between slices, the same width all along their sides, in the pie's units (100 across) */
-  --pie-border: 2.5; /* an empty slice's border, in the pie's units */
   --pie-parts: 3; /* the slice filling at the end of a lap grows in this many parts: thirds */
-  --pie-flash: 1.2s; /* a slice clicking in lights and fades, as a new entry's row does */
-  --pie-flash-brightness: 1.9; /* how bright it starts */
-  --pause-row-height: 36px;
-  --pause-height: 30px;
   --undo-time: 15s; /* how long a click can be undone; the logic reads it from here */
-  --undo-afterglow: 0.65; /* how strong the neon's afterglow is when the undo wakes; it fades to nothing */
 
   /* === The prune line === */
-  --prune-height: 40px; /* the prune line's room, kept when there is nothing to offer */
   --controls-remove: light-dark(#c8372d, #f0605a); /* removal red on this side: "Rensa"; light: 4.7:1 on the page */
 
   /* ======================================
@@ -164,40 +146,20 @@
   --dashboard-ink: light-dark(#b8c5d9, #7b8592); /* small marks: the bar's scale */
   --dashboard-font-weight: var(--font-weight-normal); /* the side's text */
   --dashboard-width: 440px; /* two fifths of the window's launch width; side by side its width, stacked its least, and so the window's least width (minWidth in tauri.conf.json) */
-  --dashboard-spread: space-evenly; /* the figures up and down its height: center, space-between, space-around, space-evenly, start */
-  --divider-width: 1px; /* the line between the two sides, in --dashboard-line */
 
   /* === The balance and the flex bar === */
-  --balance-text-size: 46px;
-  --balance-tracking: 0.02em;
-  --bar-height: 48px;
   --bar-share: 0.5; /* the bar's thickness, as a share of the wheel's band */
   --bar-zero: light-dark(#e6ecf5, #c9d1db); /* the 0 line */
-  --bar-zero-width: 1.5px;
-  --bar-zero-breath: 3.2s; /* the marker at exactly 0 widens and narrows over this */
-  --bar-zero-breath-width: 1.6; /* how wide it gets, against its rest */
-  --bar-label-size: 9px; /* the scale's end labels, "−20 h" and "+20 h" */
   --balance-count: 0.9s; /* the balance and its bar counting to a new value */
   --bar-scale-change: 0.5s; /* the scale growing or shrinking */
 
   /* === The ceiling wheel === */
-  --wheel-diameter: 200px;
   --wheel-band: 28px; /* of the 200 */
-  --wheel-text-size: 34px;
-  --wheel-label-size: 10px; /* "AV 42:00 H" under the number */
-  --wheel-label-tracking: 1.5px;
   --wheel-tick: light-dark(#6a82a8, #2c3440);
   /* While the balance profile is on screen: a grey wheel, light grey past the ceiling */
   --wheel-balance: #9aa3ae;
   --wheel-balance-over: #e2e6eb;
   --wheel-peek: 0.3s; /* the over lap winding back */
-
-  /* === The pay estimate and the entries === */
-  --entry-columns: 7ch 13.5ch 2ch minmax(0, 1fr) auto; /* day, times ("21:30–07:00" and its "+1"), letter, tags, length */
-  --entry-later-size: 0.72em; /* the "+1" after the end time of an entry that stops on a later day */
-  --entry-hover: 10%; /* how much of the text colour lights a hovered row */
-  --entry-flash: 1.2s; /* a new entry's row lights in the wheel's base colour and fades over this */
-  --entry-flash-strength: 35%;
 
   /* ======================================
               Overlays and popups
@@ -206,57 +168,27 @@
   /* === Controls: the warning label === */
   --tip-background: rgb(13 16 20 / 0.78);
   --tip-text: #e6eaf0;
-  --tip-blur: 3px;
-  --tip-border-width: 1px; /* in the colour of the profile it speaks of */
-  --tip-offset-x: 17px; /* from the pointer to the tip's left edge */
-  --tip-offset-y: 5px; /* up or down from centred on the pointer */
 
   /* === Controls: the menu === */
   /* The frost's last number is how solid it is */
   --menu-frost: light-dark(rgb(208 216 230 / 0.55), rgb(26 28 32 / 0.5));
-  --menu-blur: 12px; /* the controls side behind the open menu */
   --menu-text: light-dark(#141a24, #e4e6ea); /* light: 13.8:1 on the frost */
   --menu-text-muted: light-dark(#333c4b, #8f949d); /* light: 8.8:1 on the frost */
   --menu-line: light-dark(#9aa6b8, #373a3c); /* light: 1.95:1 */
   --menu-button-line: light-dark(#7d8ba1, #4a4d4f); /* light: 2.7:1 */
-  --menu-toggle-line-width: 20px; /* the menu button's three lines, which cross when it is open */
-  --menu-toggle-line-height: 2px;
-  --menu-toggle-line-gap: 6px;
   --theme-icon-size: 18px; /* the sun, moon or half circle on the theme disc */
   --theme-icon-stroke: 1.8;
-  --motion-line-spread: 4.5px; /* the motion switch's speed lines, above and below the middle one, in Animerat */
-  --menu-tab-line: 2px; /* under the selected tab, in the neon of the profile on screen */
   --menu-label-width: 110px; /* a value's label: "Heltid", "Fördelning", "Flexledig" */
-  /* A value locked behind "Ändra": its label and text, then "Ändra" and the field it turns into */
   --menu-value-row: 30px; /* each line's least height, so the row does not jump as "Ändra" turns into its field */
-  --menu-tab-fade: var(--speed-ui); /* a tab's content fading in */
-  --menu-check-size: 16px; /* "Efter skatt"'s box */
-  /* Its mark when checked, a shape --menu-check-ink is painted through, on the profile's neon */
-  --menu-check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23101318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  --menu-check-mark-size: 100%;
-  --menu-check-ink: #ffffff; /* the mark's colour on the neon */
-  /* A profile's row in Profiler, and "Arkiverade" under them */
-  --menu-archived-opacity: 0.55; /* an archived row's head */
+  --menu-check-ink: #ffffff; /* "Efter skatt"'s mark when checked, on the profile's neon */
   --menu-field-width: 11ch; /* every "Ändra", "Ny profil" and the field each turns into: "Vaktmästeri" fits */
 
   /* === Controls: the flex-day calendar in the Tid tab === */
-  --calendar-cell: 30px; /* each day's square */
-  --calendar-head-height: 28px; /* the month and its arrows */
-  --calendar-weekday-height: 16px; /* with the two above, sets where the list's first line starts */
-  --calendar-home-underline: 3px; /* the month's name underlined under the pointer, away from today's month */
   --calendar-marked-text: #10141a; /* a day's number on the base colour */
-  --calendar-lock-size: 14px; /* the padlock beside the month name, which unlocks the days gone by */
   --calendar-lock-stroke: 2.2;
-  --calendar-list-min-width: 110px;
-  --calendar-month-column: 3.5ch;
 
   /* === Controls: the onboarding, the menu's panel locked open at the first start === */
   --onboarding-panel: light-dark(rgb(208 216 230), rgb(26 28 32)); /* the frost's tint, made solid */
-  --onboarding-name-size: 26px; /* the name as it is typed; the balance is typed at --balance-text-size */
-  --onboarding-width: 320px; /* the most a prompt and its answer take */
-  --onboarding-step-fade: 0.1s; /* a step fading out, then the next fading in after it: twice this in all */
-  --onboarding-note-line: 1.5; /* the note's line height */
-  --onboarding-choice-scale: 0.8; /* "Starta nytt" and "Importera" against "Starta jobb": height, text and sides */
   --onboarding-frost-in: 0.8s; /* after the name: the solid panel turning to frost, before it shrinks */
   --onboarding-sweep-delay: 0.2s; /* after the panel has shrunk, before the light sweeps across the button block */
   --onboarding-sweep: 1.2s; /* the pointer light crossing the button block, left to right */
@@ -268,69 +200,28 @@
   --onboarding-letter-delay: -0.6s; /* after the light is gone, before the letter fades in; negative overlaps */
   --onboarding-letter-fade: 0.6s; /* the letter fading in, the last thing; the screen takes input after */
 
-  /* === Controls: a record that cannot be read, in the same locked panel === */
-  --recovery-width: 34ch; /* the most the words and the note take before they wrap */
-  --recovery-breath: 2.4s; /* the dashboard's "KOPIA" label breathing into the balance's colour and back */
-
-  /* === Controls: the popup for a running entry from an earlier day === */
-  --late-width: 30ch; /* the most the words take before they wrap */
-  --late-choice-scale: 0.42; /* "Stoppa" and "Fortfarande igång" against "Starta jobb", as the locked panel's choices */
-
   /* === Controls: the profile popup === */
   --scrim: light-dark(rgb(20 26 36 / 0.25), rgb(0 0 0 / 0.45));
   --popup-background: var(--button-background);
   --popup-text: var(--button-text);
   --popup-pick: light-dark(#5f789e, #343840); /* the chosen or hovered profile, a lighter step */
   --popup-muted: 70%; /* how much of the text colour its quiet text keeps */
-  --popup-min-width: 220px;
-  --popup-max-width: 300px; /* a long profile name is cut with "…" past it */
   /* A profile's small circle, in the popup and the Profiler rows: its letter and a ring in its two colours */
   --mini-disc-size: 22px;
   --mini-disc-ring: 2px;
 
   /* === Controls: the colour picker === */
   --picker-background: light-dark(#e6ecf4, #2a2d33);
-  --picker-strip-height: 14px; /* the hue strip */
-  --picker-swatch: 20px; /* the small swatch before each code */
-  --picker-code-width: 9ch; /* the text inside a code field: its seven characters and room around them */
-  --picker-pair-swatch: 18px; /* each of the pair a profile's row shows beside "Färg" */
 
   /* === Dashboard: every entry ("Visa alla") === */
   --all-entries-scrim: rgb(0 0 0 / 0.45);
-  --all-entries-width: 560px;
-  --all-entries-share: 92%; /* of the window, when that is narrower */
   --all-entries-height: 80vh; /* the most it takes before it scrolls */
-  /* The gaps between its rows, where a forgotten entry is written */
-  --insert-hit: 10px; /* its hover strip, overlapping the rows a little so a thin gap is still easy to land on */
-  --insert-open: 12px; /* how much more a gap opens while hovered, half upward and half downward (0: it stays) */
 
   /* === Dashboard: the edit popup, an entry edited on its line === */
-  --edit-width: 480px; /* a little narrower than the list's 560px */
-  --edit-share: 88%; /* of the window, when that is narrower */
   --edit-stack-dim: rgb(0 0 0 / 0.25); /* over "Alla poster": the extra dimming of the list behind the edit */
-  --edit-peek: 0.2; /* the pointer resting on the list behind: how much of the edit still shows (0 gone, 1 all) */
-  /* The line */
-  --edit-line-height: 34px; /* the handles' room */
-  --edit-line-margin: 18px 6px; /* room above for the time labels and below for the scale */
-  --edit-bar: 14px; /* the entry's bar, and the blocked time of other entries */
-  --edit-stripe: 3px; /* the width of each stripe in time taken away and blocked time */
   --edit-add: light-dark(#4cc47a, #3fb96f); /* time added, green */
   --edit-remove: light-dark(#ff7a70, #f0605a); /* removal red: time taken away, "Ta bort"; light: 4.2:1 on the panel */
-  --edit-same: 30%; /* how much of its colour a neighbour of the entry's profile shows */
-  --edit-tick-mark: 4px; /* the small mark above each label */
-  --edit-tick-below: -16px; /* the scale's labels, under the line */
-  --edit-label-above: -17px;
-  --edit-lean-overlap: 2px; /* how far leaning labels still reach past their handles */
-  --edit-now-inset: 2px; /* the now-line, short of the line's room at both ends */
   /* The handles: every dragged knob in the app is this one */
   --knob: 22px;
   --knob-shadow: 0 1px 3px rgb(0 0 0 / 0.4); /* its only edge: no border or ring */
-  --knob-reach: -4px -8px; /* the knob's grip beyond its circle */
-  --edit-pill: calc(var(--knob) * 2.1); /* a clicked handle grown into its pill, − and + at its ends */
-  --edit-pill-ease: cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoots a little and settles: a soft bounce (1: none) */
-  --edit-pill-time: calc(var(--speed-ui) * 1.5); /* a bounce needs a little longer than a plain ease to read */
-  --edit-pill-breath: 1.2; /* as it grows its height swells to this share and settles (1: none) */
-  --edit-sign-share: 0.7; /* each sign's room, of the knob */
-  /* The reason and the buttons */
-  --edit-pen: 15px; /* the pen after a reason under the pointer, and "+" after "Annan orsak", drawn as the padlock */
 }

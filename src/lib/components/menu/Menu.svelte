@@ -256,8 +256,8 @@
     background-color: var(--button-background);
     color: var(--menu-text);
     clip-path: inset(
-      var(--spacing-3) calc(100% - var(--spacing-3) - var(--button-icon-size))
-        calc(100% - var(--spacing-3) - var(--button-icon-size)) var(--spacing-3) round var(--radius-md)
+      var(--spacing-lg) calc(100% - var(--spacing-lg) - var(--button-icon-size))
+        calc(100% - var(--spacing-lg) - var(--button-icon-size)) var(--spacing-lg) round var(--radius-md)
     );
     transition: background-color var(--speed-ui) ease;
   }
@@ -269,10 +269,14 @@
   }
 
   .toggle {
+    --line-width: 20px; /* the menu button's three lines, which cross when it is open */
+    --line-height: 2px;
+    --line-gap: 6px;
+
     transition: opacity var(--speed-ui) ease;
     position: absolute;
-    top: var(--spacing-3);
-    left: var(--spacing-3);
+    top: var(--spacing-lg);
+    left: var(--spacing-lg);
     z-index: 2;
     width: var(--button-icon-size);
     height: var(--button-icon-size);
@@ -286,10 +290,10 @@
   /* The three lines, centred in the button, a line gap apart */
   .toggle span {
     position: absolute;
-    left: calc((var(--button-icon-size) - var(--menu-toggle-line-width)) / 2);
-    width: var(--menu-toggle-line-width);
-    height: var(--menu-toggle-line-height);
-    border-radius: calc(var(--menu-toggle-line-height) / 2);
+    left: calc((var(--button-icon-size) - var(--line-width)) / 2);
+    width: var(--line-width);
+    height: var(--line-height);
+    border-radius: calc(var(--line-height) / 2);
     background: var(--button-text);
     transition:
       transform var(--speed-ui) ease,
@@ -298,15 +302,15 @@
   }
 
   .toggle span:nth-child(1) {
-    top: calc(50% - var(--menu-toggle-line-height) / 2 - var(--menu-toggle-line-gap));
+    top: calc(50% - var(--line-height) / 2 - var(--line-gap));
   }
 
   .toggle span:nth-child(2) {
-    top: calc(50% - var(--menu-toggle-line-height) / 2);
+    top: calc(50% - var(--line-height) / 2);
   }
 
   .toggle span:nth-child(3) {
-    top: calc(50% - var(--menu-toggle-line-height) / 2 + var(--menu-toggle-line-gap));
+    top: calc(50% - var(--line-height) / 2 + var(--line-gap));
   }
 
   /* The head and the tabs stay put; only the tab's content scrolls, up to the tabs' line, so nothing passes under the
@@ -316,7 +320,7 @@
     inset: 0;
     display: grid;
     grid-template-rows: auto auto minmax(0, 1fr);
-    padding: var(--spacing-4) var(--spacing-4) var(--spacing-6);
+    padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-xxl);
     overflow: hidden;
     opacity: 0;
     transition: opacity var(--speed-ui) ease;
@@ -326,9 +330,9 @@
   .head {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     min-height: var(--button-icon-size);
-    margin: 0 0 var(--spacing-1) calc(var(--spacing-3) + var(--button-icon-size));
+    margin: 0 0 var(--spacing-xs) calc(var(--spacing-lg) + var(--button-icon-size));
   }
 
   h2 {
@@ -339,15 +343,15 @@
 
   .tabs {
     display: flex;
-    gap: var(--spacing-0-5);
+    gap: var(--spacing-xxs);
     border-bottom: 1px solid var(--menu-line);
   }
 
   .tab {
-    margin-bottom: -1px;
-    padding: var(--spacing-1-5) var(--spacing-2);
+    margin-bottom: -1px; /* the selected tab's line lies on the row's border */
+    padding: var(--spacing-sm) var(--spacing-md);
     border: 0;
-    border-bottom: var(--menu-tab-line) solid transparent;
+    border-bottom: 2px solid transparent; /* under the selected tab, in the neon of the profile on screen */
     background: none;
     color: var(--menu-text-muted);
     font: inherit;
@@ -361,13 +365,13 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-content: start;
-    gap: var(--spacing-3);
+    gap: var(--spacing-lg);
     min-height: 0;
-    margin: 0 calc(-1 * var(--spacing-1)) calc(-1 * var(--spacing-1));
-    padding: var(--spacing-4) var(--spacing-1) var(--spacing-1);
+    margin: 0 calc(-1 * var(--spacing-xs)) calc(-1 * var(--spacing-xs));
+    padding: var(--spacing-xl) var(--spacing-xs) var(--spacing-xs);
     overflow-y: auto;
     scrollbar-width: none;
-    animation: tab-fade var(--menu-tab-fade) ease;
+    animation: tab-fade var(--speed-ui) ease; /* a tab's content fading in */
   }
 
   /* It scrolls with the wheel, the touchpad and the keys, with no bar drawn */
@@ -383,7 +387,7 @@
 
   section {
     display: grid;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 
   .label {
@@ -401,7 +405,7 @@
   .menu.open {
     clip-path: inset(0 round 0);
     background-color: var(--menu-frost);
-    backdrop-filter: blur(var(--menu-blur));
+    backdrop-filter: blur(12px); /* the controls side behind the open menu */
   }
 
   /* Open, the lines turn into a cross in the menu's text colour */
@@ -410,7 +414,7 @@
   }
 
   .open .toggle span:nth-child(1) {
-    transform: translateY(var(--menu-toggle-line-gap)) rotate(45deg);
+    transform: translateY(var(--line-gap)) rotate(45deg);
   }
 
   .open .toggle span:nth-child(2) {
@@ -418,7 +422,7 @@
   }
 
   .open .toggle span:nth-child(3) {
-    transform: translateY(calc(-1 * var(--menu-toggle-line-gap))) rotate(-45deg);
+    transform: translateY(calc(-1 * var(--line-gap))) rotate(-45deg);
   }
 
   /* The onboarding: solid while its prompts show, so nothing behind is blurred again at every blink of the caret */
@@ -447,14 +451,14 @@
      grows from there, and the heading takes the top row the button leaves */
   :global(:where(:root[data-stacked])) .menu {
     clip-path: inset(
-      calc(100% - var(--spacing-3) - var(--button-icon-size)) calc(100% - var(--spacing-3) - var(--button-icon-size))
-        var(--spacing-3) var(--spacing-3) round var(--radius-md)
+      calc(100% - var(--spacing-lg) - var(--button-icon-size)) calc(100% - var(--spacing-lg) - var(--button-icon-size))
+        var(--spacing-lg) var(--spacing-lg) round var(--radius-md)
     );
   }
 
   :global(:where(:root[data-stacked])) .toggle {
     top: auto;
-    bottom: var(--spacing-3);
+    bottom: var(--spacing-lg);
   }
 
   :global(:where(:root[data-stacked])) .head {
@@ -462,6 +466,6 @@
   }
 
   :global(:where(:root[data-stacked])) .body {
-    padding-bottom: calc(var(--spacing-3) + var(--button-icon-size) + var(--spacing-4));
+    padding-bottom: calc(var(--spacing-lg) + var(--button-icon-size) + var(--spacing-xl));
   }
 </style>

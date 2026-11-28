@@ -44,8 +44,8 @@ question before an import replaces the record (`open-questions.md`), drawn in th
 shows a note); the info button and its popup, drawn in the prototype: where the button sits on the controls side, and
 the popup's one short line about the app.
 
-1. `[written]` The look's scales: spacing, radii and font weights as a few steps, and the type sets, each used directly
-   by the parts ("Design tokens hold every value of the look").
+1. `[written]` The look's scales: room, corners, text, weights, tracking and line height as a few steps each part picks
+   directly, and each part's own values in its component ("The look is a few scales, picked in each part").
 2. The shared looks: each written once, as a class, an attachment or a component, and worn by every screen that shows
    it.
 3. The flex bar and the ceiling wheel as parts handed their figures, reading nothing of the app themselves.

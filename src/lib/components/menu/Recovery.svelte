@@ -114,8 +114,8 @@
     display: grid;
     place-content: center;
     justify-items: center;
-    gap: var(--spacing-4);
-    padding: 0 var(--spacing-3);
+    gap: var(--spacing-xl);
+    padding: 0 var(--spacing-lg);
     text-align: center;
     letter-spacing: normal;
   }
@@ -123,7 +123,7 @@
   .words {
     display: grid;
     justify-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 
   h2 {
@@ -135,9 +135,9 @@
 
   .line,
   .note {
-    max-width: var(--recovery-width);
+    max-width: 34ch; /* the most the words and the note take before they wrap */
     margin: 0;
-    line-height: 1.45;
+    line-height: var(--leading-normal);
     text-wrap: balance;
   }
 
@@ -154,6 +154,6 @@
   .choices {
     display: flex;
     justify-content: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
   }
 </style>

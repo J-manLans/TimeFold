@@ -150,9 +150,9 @@
   .line {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     min-height: var(--menu-value-row);
-    padding: var(--spacing-2) 0;
+    padding: var(--spacing-md) 0;
     border-bottom: 1px dashed var(--menu-line);
   }
 
@@ -170,12 +170,14 @@
 
   .pair {
     display: inline-flex;
-    gap: var(--spacing-1);
+    gap: var(--spacing-xs);
   }
 
   .pair span {
-    width: var(--picker-pair-swatch);
-    height: var(--picker-pair-swatch);
+    --swatch: 18px; /* each of the pair a profile's row shows beside "Färg" */
+
+    width: var(--swatch);
+    height: var(--swatch);
     border: 1px solid var(--button-line);
     border-radius: var(--radius-sm);
   }
@@ -185,9 +187,9 @@
     position: fixed;
     z-index: 20;
     display: grid;
-    gap: var(--spacing-2);
+    gap: var(--spacing-md);
     width: min-content;
-    padding: var(--spacing-2);
+    padding: var(--spacing-md);
     border: 1px solid var(--button-line);
     border-radius: var(--radius-md);
     background: var(--picker-background);
@@ -195,11 +197,13 @@
   }
 
   .hue {
+    --strip-height: 14px; /* the hue strip */
+
     width: 100%;
     min-width: 0;
-    height: var(--picker-strip-height);
+    height: var(--strip-height);
     margin: 0;
-    border-radius: calc(var(--picker-strip-height) / 2);
+    border-radius: calc(var(--strip-height) / 2);
     background: var(--strip);
     appearance: none;
   }
@@ -228,13 +232,15 @@
   .code {
     display: flex;
     align-items: center;
-    gap: var(--spacing-1);
+    gap: var(--spacing-xs);
   }
 
   .swatch {
+    --swatch: 20px; /* the small swatch before each code */
+
     flex: none;
-    width: var(--picker-swatch);
-    height: var(--picker-swatch);
+    width: var(--swatch);
+    height: var(--swatch);
     border: 1px solid var(--button-line);
     border-radius: var(--radius-sm);
   }
@@ -242,6 +248,6 @@
   /* Room around the code's seven characters, so the picker has some presence */
   .code input {
     box-sizing: content-box;
-    width: var(--picker-code-width);
+    width: 9ch; /* the text inside a code field: its seven characters and room around them */
   }
 </style>
