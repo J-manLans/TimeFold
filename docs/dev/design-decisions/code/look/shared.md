@@ -61,31 +61,35 @@ It takes one of three forms, by what it brings:
   it sits. What can be clicked has the stronger button line; a surface with none of its own uses its line.
 
 - **The popups' frame:** every popup wears one frame, `Popup`, a native `<dialog>` opened modal, so it lies on top,
-  keeps the focus inside and gives it back as it closes. One look: its surface's background and line, the large corners,
-  one padding, the caps heading at the top left with anything beside it, over one scrim. It closes on Esc or a click
-  outside, a click begun outside too; one that must be answered, the popup for a running entry from an earlier day,
-  ignores both. A popup of one side (the profile popup, the late popup, the info popup) sits centred on the part of that
-  side in view; the others on the window. Only "Alla poster" has "Stäng": it is the largest popup, it scrolls, and a
-  visible way out helps there, where simplicity favours the others. **Why:** a look copied into each part drifts, and
-  aligning one to another took several tries: the tag was three copies, the small button five, identical. Nine text
-  sizes half a pixel apart were not decisions, and three read better side by side. A unit tells the reader what moves
-  when something else changes. Surface names let one class fit the dashboard, the frost and a popup without a variant
-  for each.
+  keeps the focus inside and gives it back as it closes. One look: the colours of the side it belongs to (the controls
+  side's popups its button colour, the dashboard's its panel), so its colour tells where it belongs; that surface's
+  line, the large corners, one padding, the caps heading at the top left with anything beside it, over the dialog's own
+  light dim, which is enough to set it apart. It closes on Esc or a click outside, a click begun outside too; one that
+  must be answered, the popup for a running entry from an earlier day, ignores both. A popup of one side (the profile
+  popup, the late popup, the info popup) sits centred on the part of that side in view; the others on the window. Only
+  "Alla poster" has "Stäng": it is the largest popup, it scrolls, and a visible way out helps there, where simplicity
+  favours the others.
+
+**Why:** a look copied into each part drifts, and aligning one to another took several tries: the tag was three copies,
+the small button five, identical. Nine text sizes half a pixel apart were not decisions, and three read better side by
+side. A unit tells the reader what moves when something else changes. Surface names let one class fit the dashboard, the
+frost and a popup without a variant for each.
 
 **Rejected:** each component styling its own copy: see Why. Popups as plain boxes over a scrim, with Esc, the click
-outside and the focus written by hand: the `<dialog>` does it all. Two scrims, a light one for the controls side: it
-barely showed over the dark dashboard. "Stäng" on every popup: the small ones close plainly. A field sized to its
-content (`field-sizing`): it jumps as a tag opens, and the Linux webview may not support it. "Ändra" sized to its value:
-it changes size from one setting to the next. A field's own fill, and a ring around a field: the owner tried both
-against the edge and kept the edge. `em` for panels and layout: a panel's padding would change with the set its text
-wears, and nesting compounds. Caps a size below the label: the owner likes them alike, and it saves a style. A weight of
-its own on a caps heading. A `Field` component rendering the input: what surrounds each field differs too much, so every
-difference would become a prop or a snippet. A class per surface (`.tag-menu`): the surface's variables do it once. The
-native `<select>`'s list: the system paints it, brownish beside the app's colours on Linux and otherwise on Windows, and
-CSS cannot reach it. The profile picker's list unfolding: the owner tried both in the prototype, and floating looked
-best. A rule for which places float: there are two, each judged by eye, and a reason found after the choice only dressed
-it up. A closed field as wide as its chosen text, cut at a hand-set 17 characters: it changed width as a choice was
-made, and a reason renamed or added longer was cut though it was a choice.
+outside and the focus written by hand: the `<dialog>` does it all. A scrim of our own over the dialog's dim: it darkened
+the buttons behind until a popup in their colour looked lighter than them. One colour for every popup: the side's colour
+tells where a popup belongs. "Stäng" on every popup: the small ones close plainly. A field sized to its content
+(`field-sizing`): it jumps as a tag opens, and the Linux webview may not support it. "Ändra" sized to its value: it
+changes size from one setting to the next. A field's own fill, and a ring around a field: the owner tried both against
+the edge and kept the edge. `em` for panels and layout: a panel's padding would change with the set its text wears, and
+nesting compounds. Caps a size below the label: the owner likes them alike, and it saves a style. A weight of its own on
+a caps heading. A `Field` component rendering the input: what surrounds each field differs too much, so every difference
+would become a prop or a snippet. A class per surface (`.tag-menu`): the surface's variables do it once. The native
+`<select>`'s list: the system paints it, brownish beside the app's colours on Linux and otherwise on Windows, and CSS
+cannot reach it. The profile picker's list unfolding: the owner tried both in the prototype, and floating looked best. A
+rule for which places float: there are two, each judged by eye, and a reason found after the choice only dressed it up.
+A closed field as wide as its chosen text, cut at a hand-set 17 characters: it changed width as a choice was made, and a
+reason renamed or added longer was cut though it was a choice.
 
 **Revisit if:** a part needs a size between two sets more than once, or a surface needs a sixth variable.
 

@@ -72,7 +72,6 @@
   /* === Shadows and effects === */
   --shadow-button: 2px 3px 12px 0 rgb(0 0 0 / 0.14);
   --opacity-disabled: 0.4; /* every unavailable button fades by this */
-  --scrim: rgb(0 0 0 / 0.45); /* behind every popup */
 
   /* ======================================
                     Controls
@@ -214,7 +213,6 @@
   --picker-background: light-dark(#e6ecf4, #2a2d33);
 
   /* === Dashboard: the edit popup, an entry edited on its line === */
-  --edit-stack-dim: rgb(0 0 0 / 0.25); /* over "Alla poster": the extra dimming of the list behind the edit */
   --edit-add: light-dark(#4cc47a, #3fb96f); /* time added, green */
   --edit-remove: light-dark(#ff7a70, #f0605a); /* removal red: time taken away, "Ta bort"; light: 4.2:1 on the panel */
   /* The handles: every dragged knob in the app is this one */

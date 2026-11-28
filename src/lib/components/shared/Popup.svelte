@@ -1,7 +1,7 @@
 <!--
   The popups' frame ("Shared looks are written once"): every popup is this native <dialog>, opened modal, so it lies on
   top, keeps the focus inside it and gives it back when it closes. One look for all: the surface's background and line,
-  the large corners, one padding, the caps heading at the top left with anything beside it, over one scrim. It closes
+  the large corners, one padding, the caps heading at the top left with anything beside it, over the dialog's own light dim. It closes
   on Esc or a click outside, a click begun outside too, unless it must be answered. A popup of one side sits centred on
   that side, its parent; the others on the window. Opened while `open` holds; closed by the user, it calls `onclose`:
   <Popup open={app.profilesOpen} heading="Profil" surface="popup" over="side" onclose={() => (app.profilesOpen = false)}>
@@ -149,10 +149,6 @@
     border-radius: var(--radius-lg);
     background: var(--surface-background);
     color: var(--surface-text);
-  }
-
-  dialog::backdrop {
-    background: var(--scrim);
   }
 
   /* Over its side: centred on the part of it in view, not on the window */

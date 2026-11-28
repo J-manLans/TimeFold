@@ -207,7 +207,7 @@
   label="Ändra posten"
   surface="dashboard"
   width="min(480px, 88%)"
-  class="edit {app.editing?.stacked ? 'stacked' : ''} {peek ? 'peek' : ''}"
+  class="edit {peek ? 'peek' : ''}"
   onclose={cancel}
   onpointermove={moved}
   onpointerleave={rest}
@@ -348,11 +348,7 @@
 
   /* === States === */
 
-  /* Over "Alla poster", a lighter dimming of its own; peeking, the dimming lifts and the edit fades */
-  :global(dialog.edit.stacked)::backdrop {
-    background: var(--edit-stack-dim);
-  }
-
+  /* Peeking, the dim lifts and the edit fades */
   :global(dialog.edit.peek)::backdrop {
     background: transparent;
   }
