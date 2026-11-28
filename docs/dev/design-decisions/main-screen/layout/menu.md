@@ -27,8 +27,10 @@ theme button ("A light or dark theme, following the system").
   slider that splits the week between janitor's expected hours and the ceiling, in quarter hours, with the week's
   numbers as its value ("30h | 8h 15min"), following the slider as it moves, and no day, since Heltid shows it; and
   "Flexledig", labelled as they are, the calendar where flex days are marked ("A flex day can be marked ahead, and the
-  screen counts it at once"). Nothing else: the tab says what each value means by its numbers. The reasons an edit can
-  be given are kept in the edit's own list, not in the menu ("Every edit carries a reason").
+  screen counts it at once"); and "Rensa historik äldre än tre år automatiskt", a checkbox drawn as "Efter skatt" is, on
+  by default and with no "Ändra" ("Old history is pruned past three years"). Nothing else: the tab says what each value
+  means by its numbers. The reasons an edit can be given are kept in the edit's own list, not in the menu ("Every edit
+  carries a reason").
 
 Every value is locked: its label, then its text, with "Ändra" under the text. "Ändra" turns into the value's field in
 its own place, and the text above stays as it was, so the old value reads while the new one is typed; the text changes

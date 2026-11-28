@@ -51,7 +51,7 @@ title.
 - One user, offline, on the owner's machines
 - Handover between machines
 - The app is in Swedish
-- Old history is pruned on request
+- Old history is pruned past three years
 - A plain window app
 - What the app does
 

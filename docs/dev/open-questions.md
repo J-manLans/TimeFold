@@ -4,18 +4,6 @@ What is not decided, grouped under the phase that needs the answer, so a phase's
 entry: what is known, the options, the date raised, and **See:** the decisions it touches. An answered question leaves;
 its answer goes to `design-decisions/`. A question half answered stays with what is left of it.
 
-## Phase 5: Handover
-
-### How the question before an import reads (2026-11-23)
-
-The import asks before it replaces the record, showing when the file was made and when this machine's data last changed
-("Handover between machines"), with "Ersätt" and "Avbryt". A draft of the text: "Importen ersätter allt på den här
-datorn.", then "Filen skapades: mån 23 nov, 18:42" and "Den här datorn ändrades senast: mån 23 nov, 17:10". Not
-"rapport", which is the month's PDF. Open: whether the dates are coloured, such as the base colour for a date that is
-fine and the neon, or a warning colour, for the newer one. The record holds neither date yet: the export writes its own
-time into the file, since a file's time on disk changes when it is mailed or downloaded, and the record needs a time of
-its last change. **See:** "Handover between machines", "The record is one JSON file".
-
 ## Phase 6: Reports
 
 ### Where the report is made from (2026-11-16)

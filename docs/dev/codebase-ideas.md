@@ -15,16 +15,24 @@ page. Not vital: the reason already tells the boss a time was set afterwards, an
 
 ## Merging two machines' records at import
 
-**Returns when:** the owner loses hours by clicking on one machine without importing first ("Handover between machines",
-in `design-decisions/`).
+**Returns when:** the owner often picks rows on both sides of an import for the same day, or wants a handover with no
+look at all ("Handover between machines", in `design-decisions/`).
 
-An import that adds instead of replacing: every entry in the file that overlaps no local entry is added, which covers
-both the newer entries and those worked on the other machine in the local record's gaps; an entry with the same id that
-was edited on the other machine replaces the local one. Done properly it needs more than the entries: ids unique across
-machines (today's `e1`, `e2` and `p1` collide, so the record's shape changes, with an upgrade), the deleted ids carried
-in the file so an entry swallowed by docking on one machine does not come back from the other, a time on each change so
-an entry edited on both machines has a newest, and the same for profiles, settings, flex days and opening figures. Too
-big to slip into Handover, whose import replaces everything after asking.
+The import already merges by hand: it lists what the file adds and what only this machine has, compared by content, and
+the owner ticks what to keep, pairs choosing between clashing rows; new ids are random, so kept rows never collide. An
+automatic merge would make those picks itself, which needs what the ticks leave to the owner: the deleted ids carried in
+the file, so an entry deleted on one machine does not come back from the other; a time on each change, so a row changed
+on both machines has a newest; and the same for the profiles' colours, the reason list and the archived mark, which
+today simply follow the file.
+
+## Restoring a copy from the menu
+
+**Returns when:** the owner needs a copy back from a record that still reads, such as after a bad import.
+
+The app offers a copy only when the record cannot be read ("A record that cannot be read offers the newest copy", in
+`design-decisions/`). The import saves a copy before replacing ("Handover between machines"), but after a bad pick the
+record reads fine, so getting the copy back means closing the app and copying the file from `copies/` over
+`record.json`. A menu entry could list the copies by day and put one back, asking first.
 
 ## A tray icon, with autostart
 

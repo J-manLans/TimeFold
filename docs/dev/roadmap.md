@@ -21,8 +21,8 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 Phase 5: Handover:
 
-1. Export and import of the record, from **Settle first**: the question before an import replaces the record, drawn in
-   the prototype, then built.
+1. Export and import of the record, from **Settle first**: the import's popup, its two lists, ticks and pairs, and
+   "Exporterad" on the export button, drawn in the prototype, then built.
 
 ## The phases
 
@@ -36,15 +36,19 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 ### Phase 5: Handover
 
 **Produces:** the looks the screens share, each written once; the flex bar and the ceiling wheel as parts that take
-their figures from outside; the record moving between the work and home machines.
+their figures from outside; the record moving between the work and home machines; old history pruned on its own.
 
-**Settle first:** the question before an import replaces the record (`open-questions.md`), drawn in the prototype (its
-import button only shows a note); the info button and its popup, drawn in the prototype: where the button sits on the
-controls side, and the popup's one short line about the app.
+**Settle first:** the import's popup ("Handover between machines"), drawn in the prototype (its import button only shows
+a note), with "Exporterad" on the export button tuned there; the checkbox for the automatic prune in the menu's Tid tab,
+drawn there; the info button and its popup, drawn in the prototype: where the button sits on the controls side, and the
+popup's one short line about the app.
 
-1. Export and import of the record, asking before it replaces anything; the profiles' colours travel, the theme stays.
-2. The onboarding's "Importera": it reads a handover file and asks nothing more.
-3. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
+1. Export and import of the record, asking before it replaces anything: what the file adds and what only this machine
+   has, compared by content from the later opening day, each row ticked to keep, a copy saved before replacing.
+2. Random ids for new entries and profiles.
+3. The onboarding's "Importera": it reads a handover file and asks nothing more.
+4. The automatic prune, on by default, one month per start at most, never within three years of the newest entry.
+5. An info button on the controls side, a small circled "i" as an SVG icon, that opens a small popup in the popups'
    frame showing the app's version and one short line about what TimeFold is for. No about or help pages.
 
 **Done when:** a week worked on both machines, handed over each day, matches on both.
