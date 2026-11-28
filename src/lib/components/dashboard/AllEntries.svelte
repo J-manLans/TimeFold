@@ -1,17 +1,17 @@
 <!--
-  "Visa alla" and the popup it opens: a running entry first, then every stopped entry, newest first, in a card centred on the window over a dark
-  scrim ("The main screen has a controls side and a dashboard"), with a quiet line naming each month and its year
+  "Visa alla" and the popup it opens: a running entry first, then every stopped entry, newest first, in the popups' frame centred on the window
+  ("The main screen has a controls side and a dashboard"), with a quiet line naming each month and its year
   where the list crosses into it, and a gap above each row where a forgotten entry is written ("A forgotten entry is
   written in the gap where it belongs"). A row opens its entry in the edit popup, stacked on the list, and a gap's "+"
-  opens it on that gap. "Stäng", a click on the scrim or Esc closes it, and the
+  opens it on that gap. "Stäng", a click outside or Esc closes it, and the
   focus goes back to "Visa alla". With no entry yet, "Visa alla" is greyed out: <AllEntries disabled={entries.length === 0} />
 -->
 <script lang="ts">
   import { tick } from 'svelte'
   import { app } from '$lib/app.svelte'
-  import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
   import { gapsAbove, listedEntries, withMonthLines, type Gap } from '$lib/modules/dashboard/entries'
   import EntryRow from './EntryRow.svelte'
+  import Popup from '$lib/components/shared/Popup.svelte'
 
   // === Props ===
 
@@ -26,8 +26,6 @@
 
   let popup: HTMLDialogElement | undefined = $state()
   let open = $state(false)
-  /** How the popup was opened, a key or a pointer, for the focus ring when it closes */
-  let openedBy: Input = null
   let entries = $derived(open && app.record ? listedEntries(app.record) : [])
   let stopped = $derived(entries.filter((e) => e.stop !== null))
   let items = $derived(withMonthLines(entries))
@@ -39,18 +37,10 @@
 
   // === Helpers ===
 
-  /** Opens the popup over everything, its focus inside it. Used by "Visa alla" */
-  function show(): void {
-    open = true
-    openedBy = popupOpened()
-    popup?.showModal()
-  }
-
-  /** The popup closed: the focus back on "Visa alla", its ring only after a keyboard open and close */
-  function closed(): void {
+  /** Closed by "Stäng", Esc or a click outside: the saved row's outline goes with it */
+  function close(): void {
     open = false
     app.savedId = null
-    popupClosed(openedBy)
   }
 
   // After a save from the list, the saved row, outlined, is scrolled into view if it is out of it, and only then
@@ -68,67 +58,69 @@
     const upToNow = stopped.length > 0 && gap.from === Date.parse(stopped[0].stop ?? '') && !app.running
     app.openGap({ from: gap.from, to: upToNow ? Date.now() : gap.to })
   }
-
-  /** A click on the scrim, outside the card, closes the popup. Used by the popup's click */
-  function closeOutside(event: MouseEvent): void {
-    if (event.target === popup) popup?.close()
-  }
 </script>
 
 <!-- It keeps an open menu open, so closing the popup comes back to it -->
-<button class="button-small more" type="button" data-keeps-menu {disabled} onclick={show}>Visa alla</button>
+<button class="button-small more" type="button" data-keeps-menu {disabled} onclick={() => (open = true)}>
+  Visa alla
+</button>
 
-<dialog bind:this={popup} data-surface="dashboard" aria-label="Alla poster" onclick={closeOutside} onclose={closed}>
-  <!-- The edit popup stacked on it peeks only while the pointer rests on this card -->
-  <div class="card" data-all-entries>
-    <header>
-      <span class="caps">Alla poster</span>
-      <button class="button-small more" type="button" onclick={() => popup?.close()}>Stäng</button>
-    </header>
-    <ol>
-      {#each items as item (item.kind === 'month' ? item.key : item.entry.id)}
-        {#if item.kind === 'month'}
-          <li class="month">{item.label}</li>
+<!-- The edit popup stacked on it peeks only while the pointer rests on this card -->
+<Popup
+  {open}
+  heading="Alla poster"
+  surface="dashboard"
+  width="min(560px, 92%)"
+  onclose={close}
+  bind:dialog={popup}
+  data-all-entries
+>
+  {#snippet aside()}
+    <button class="button-small" type="button" onclick={close}>Stäng</button>
+  {/snippet}
+  <ol>
+    {#each items as item (item.kind === 'month' ? item.key : item.entry.id)}
+      {#if item.kind === 'month'}
+        <li class="month">{item.label}</li>
+      {:else}
+        {@const gap = gaps[item.entry.id] as Gap | undefined}
+        {#if !gap}
+          <!-- A running entry heads the list, with nothing to write above it -->
+        {:else if gap.kind === 'shut'}
+          <li class="gap shut" aria-hidden="true">
+            <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
+          </li>
         {:else}
-          {@const gap = gaps[item.entry.id] as Gap | undefined}
-          {#if !gap}
-            <!-- A running entry heads the list, with nothing to write above it -->
-          {:else if gap.kind === 'shut'}
-            <li class="gap shut" aria-hidden="true">
-              <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
-            </li>
-          {:else}
-            <!-- Each gap stays an item of the list, as its hover's sibling rules need -->
-            <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
-            <li
-              class="gap"
-              class:top={gap.kind === 'top'}
-              class:open={gap.kind === 'open'}
-              role="button"
-              tabindex="0"
-              aria-label="Lägg till en glömd post här"
-              onclick={() => writeIn(gap)}
-              onkeydown={(event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault()
-                  writeIn(gap)
-                }
-              }}
-            >
-              <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
-            </li>
-          {/if}
-          <EntryRow
-            entry={item.entry}
-            picked={app.editing ? app.editing.entryId === item.entry.id : app.savedId === item.entry.id}
-            withReason
-            onpick={() => app.openEdit(item.entry.id, true)}
-          />
+          <!-- Each gap stays an item of the list, as its hover's sibling rules need -->
+          <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+          <li
+            class="gap"
+            class:top={gap.kind === 'top'}
+            class:open={gap.kind === 'open'}
+            role="button"
+            tabindex="0"
+            aria-label="Lägg till en glömd post här"
+            onclick={() => writeIn(gap)}
+            onkeydown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault()
+                writeIn(gap)
+              }
+            }}
+          >
+            <span class="rule left"></span><span class="plus">+</span><span class="rule right"></span>
+          </li>
         {/if}
-      {/each}
-    </ol>
-  </div>
-</dialog>
+        <EntryRow
+          entry={item.entry}
+          picked={app.editing ? app.editing.entryId === item.entry.id : app.savedId === item.entry.id}
+          withReason
+          onpick={() => app.openEdit(item.entry.id, true)}
+        />
+      {/if}
+    {/each}
+  </ol>
+</Popup>
 
 <style>
   /* === Layout === */
@@ -137,38 +129,10 @@
     justify-self: start;
   }
 
-  dialog {
+  ol {
     --gap-hit: 10px; /* its hover strip, overlapping the rows a little so a thin gap is still easy to land on */
     --gap-open: 12px; /* how much more a gap opens while hovered, half upward and half downward (0: it stays) */
 
-    width: min(560px, 92%); /* of the window, when that is narrower */
-    max-width: none;
-    max-height: var(--all-entries-height);
-    padding: 0;
-    overflow: auto;
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-lg);
-    background: var(--dashboard-background);
-    color: var(--dashboard-text);
-  }
-
-  dialog::backdrop {
-    background: var(--all-entries-scrim);
-  }
-
-  .card {
-    display: grid;
-    gap: var(--spacing-md);
-    padding: var(--spacing-xl) var(--spacing-xl);
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  ol {
     display: grid;
     gap: var(--spacing-xxs);
     margin: 0;

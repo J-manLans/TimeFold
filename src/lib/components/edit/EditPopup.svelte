@@ -1,6 +1,6 @@
 <!--
   The edit popup ("Editing an entry on its line"): an entry chosen from a list, or a gap of "Visa alla" for a
-  forgotten entry, edited on its line in a popup of its own, centred. From "Senaste" it sits over the dimmed screen;
+  forgotten entry, edited on its line in the popups' frame, centred. From "Senaste" it sits over the dimmed screen;
   from "Visa alla" on top of the list, which dims a little further. Resting the pointer on the list behind is a peek:
   after a moment the edit fades and the extra dimming lifts. Under the day and the profile, the result reads in words;
   under the line, the reason; "Spara" waits for one. A part's "paus" tag, or "Lägg till paus" with none ("+ paus" where
@@ -17,7 +17,7 @@
   import { blockedProfile, pickProfile, setBreak, type LineState } from '$lib/modules/edit/line'
   import { durationShape } from '$lib/modules/shared/durationShape'
   import { field, widthOf } from '$lib/modules/shared/field'
-  import { popupClosed, popupOpened, type Input } from '$lib/modules/shared/focusRing'
+  import Popup from '$lib/components/shared/Popup.svelte'
   import { localDay } from '$lib/modules/shared/counting'
   import { dayInWords } from '$lib/modules/shared/dates'
   import { BREAK, durationInField, durationText, readDuration } from '$lib/modules/shared/timeInput'
@@ -30,16 +30,12 @@
   let reason = $state('')
   let peek = $state(false)
   let peeking: ReturnType<typeof setTimeout> | null = null
-  /** Whether the last press began outside the card, so only a click begun there closes the popup */
-  let pressedOutside = false
   /** The break's field, open where its tag was clicked: which part's, what it holds, and whether it was refused */
   let tagAt = $state<number | null>(null)
   let tagText = $state('')
   let tagRefused = $state(false)
   /** The width of the tag the field replaced, which the field keeps while it is typed in */
   let tagWidth = $state('')
-  /** How the popup was opened, a key or a pointer, for the focus ring when it closes */
-  let openedBy: Input = null
   /** "Ta bort" asking "Ta bort?", after its first click */
   let asking = $state(false)
   /** Whether the profile picker's list is open */
@@ -79,13 +75,9 @@
         peek = false
         tagAt = null
         asking = false
-        if (line && !popup.open) {
-          openedBy = popupOpened()
-          popup.showModal()
-        }
       } else {
         line = null
-        if (popup?.open) popup.close()
+        rest()
       }
     })
   })
@@ -127,9 +119,8 @@
     peek = false
   }
 
-  /** A press: whether it began outside the card; anywhere but on "Ta bort" turns its question back */
+  /** A press anywhere but on "Ta bort" turns its question back */
   function pressed(event: PointerEvent): void {
-    pressedOutside = event.target === popup
     if (!(event.target as HTMLElement).closest('.remove')) asking = false
   }
 
@@ -139,17 +130,10 @@
     else asking = true
   }
 
-  /** A click outside the card, begun there too, cancels the edit, as any popup closes */
-  function clicked(event: MouseEvent): void {
-    if (event.target === popup && pressedOutside) popup?.close()
-    pressedOutside = false
-  }
-
-  /** The popup closed, by any way: the edit is over. Used by the dialog's close */
-  function closed(): void {
+  /** Cancelled by Esc, a click outside or "Avbryt": the edit is over, nothing saved */
+  function cancel(): void {
     rest()
-    if (app.editing) app.closeEdit()
-    popupClosed(openedBy)
+    app.closeEdit()
   }
 
   /** A profile picked: it fills a gap, or moves the whole entry, and the list closes */
@@ -218,17 +202,17 @@
   }
 </script>
 
-<dialog
-  bind:this={popup}
-  aria-label="Ändra posten"
-  data-surface="dashboard"
-  class:stacked={app.editing?.stacked}
-  class:peek
+<Popup
+  open={line !== null}
+  label="Ändra posten"
+  surface="dashboard"
+  width="min(480px, 88%)"
+  class="edit {app.editing?.stacked ? 'stacked' : ''} {peek ? 'peek' : ''}"
+  onclose={cancel}
   onpointermove={moved}
   onpointerleave={rest}
   onpointerdown={pressed}
-  onclick={clicked}
-  onclose={closed}
+  bind:dialog={popup}
 >
   {#if line}
     <div class="card">
@@ -307,38 +291,28 @@
           >
         {/if}
         <span class="spacer"></span>
-        <button class="button-small" type="button" onclick={() => popup?.close()}>Avbryt</button>
+        <button class="button-small" type="button" onclick={cancel}>Avbryt</button>
         <button class="button-small main" type="button" disabled={!canSave(line, reason)} onclick={save}>Spara</button>
       </div>
     </div>
   {/if}
-</dialog>
+</Popup>
 
 <style>
   /* === Layout === */
 
-  dialog {
-    width: min(480px, 88%); /* a little narrower than the list's 560px */
-    max-width: none;
-    max-height: var(--all-entries-height);
-    padding: 0;
-    overflow: auto;
-    border: 1px solid var(--dashboard-line);
-    border-radius: var(--radius-lg);
-    background: var(--dashboard-background);
-    color: var(--dashboard-text);
+  /* The frame fades for a peek, its scrim with it */
+  :global(dialog.edit) {
     transition: opacity var(--speed-ui) ease;
   }
 
-  dialog::backdrop {
-    background: var(--all-entries-scrim);
+  :global(dialog.edit)::backdrop {
     transition: background-color var(--speed-ui) ease;
   }
 
   .card {
     display: grid;
     gap: var(--spacing-md);
-    padding: var(--spacing-xl) var(--spacing-xl);
   }
 
   .head {
@@ -375,15 +349,15 @@
   /* === States === */
 
   /* Over "Alla poster", a lighter dimming of its own; peeking, the dimming lifts and the edit fades */
-  .stacked::backdrop {
+  :global(dialog.edit.stacked)::backdrop {
     background: var(--edit-stack-dim);
   }
 
-  .peek::backdrop {
+  :global(dialog.edit.peek)::backdrop {
     background: transparent;
   }
 
-  .peek {
+  :global(dialog.edit.peek) {
     opacity: 0.2; /* the pointer resting on the list behind: how much of the edit still shows (0 gone, 1 all) */
   }
 

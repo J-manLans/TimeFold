@@ -21,7 +21,7 @@ after the step names more. A phase whose steps are gone and whose **Done when** 
 
 Phase 5: Handover, the shared looks, one at a time:
 
-1. The popups' frame, from **Settle first**: drawn in the prototype, then built.
+1. The popups' frame: written; to be seen in the app.
 
 ## The phases
 
@@ -37,11 +37,9 @@ and tests animation on Linux early ("Tauri, desktop on Windows and Linux").
 **Produces:** the looks the screens share, each written once; the flex bar and the ceiling wheel as parts that take
 their figures from outside; the record moving between the work and home machines.
 
-**Settle first:** the shared looks: the type sets, the tag, the small buttons, the headings in capitals, the fields and
-the popups' frame, and how each reads the surface it sits on; the flex bar's and the ceiling wheel's own pass; the
-question before an import replaces the record (`open-questions.md`), drawn in the prototype (its import button only
-shows a note); the info button and its popup, drawn in the prototype: where the button sits on the controls side, and
-the popup's one short line about the app.
+**Settle first:** the flex bar's and the ceiling wheel's own pass; the question before an import replaces the record
+(`open-questions.md`), drawn in the prototype (its import button only shows a note); the info button and its popup,
+drawn in the prototype: where the button sits on the controls side, and the popup's one short line about the app.
 
 1. The shared looks: each written once, as a class, an attachment or a component, and worn by every screen that shows
    it.

@@ -26,7 +26,7 @@ with a comment saying what they do; why the code is as it is lives in `design-de
 - `lib/components/`: the Svelte components, a folder per part of the screen: `controls/` (the controls side and its
   popups), `menu/` (the menu, its tabs, the onboarding and the recovery screen), `dashboard/` (the figures and the entry
   lists), `edit/` (the edit popup, its line and its reasons) and `shared/` (what more than one part wears, such as
-  `Disc`, `ChoiceButton` and `Dropdown`).
+  `Popup`, the popups' frame, `Disc`, `ChoiceButton` and `Dropdown`).
 - `lib/modules/`: the logic in TypeScript, in the same folders as the components that use it; a module that gains a user
   in another part moves to `shared/`, where the record's shape and check (`record.ts`), the counting (`counting.ts`),
   the colours (`colours.ts`) and the storage live.

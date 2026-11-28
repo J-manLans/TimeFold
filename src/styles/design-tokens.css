@@ -72,6 +72,7 @@
   /* === Shadows and effects === */
   --shadow-button: 2px 3px 12px 0 rgb(0 0 0 / 0.14);
   --opacity-disabled: 0.4; /* every unavailable button fades by this */
+  --scrim: rgb(0 0 0 / 0.45); /* behind every popup */
 
   /* ======================================
                     Controls
@@ -201,7 +202,6 @@
   --onboarding-letter-fade: 0.6s; /* the letter fading in, the last thing; the screen takes input after */
 
   /* === Controls: the profile popup === */
-  --scrim: light-dark(rgb(20 26 36 / 0.25), rgb(0 0 0 / 0.45));
   --popup-background: var(--button-background);
   --popup-text: var(--button-text);
   --popup-pick: light-dark(#5f789e, #343840); /* the chosen or hovered profile, a lighter step */
@@ -212,10 +212,6 @@
 
   /* === Controls: the colour picker === */
   --picker-background: light-dark(#e6ecf4, #2a2d33);
-
-  /* === Dashboard: every entry ("Visa alla") === */
-  --all-entries-scrim: rgb(0 0 0 / 0.45);
-  --all-entries-height: 80vh; /* the most it takes before it scrolls */
 
   /* === Dashboard: the edit popup, an entry edited on its line === */
   --edit-stack-dim: rgb(0 0 0 / 0.25); /* over "Alla poster": the extra dimming of the list behind the edit */
